@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-05 23:46 ET
+Last updated: 2026-09-06 00:51 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -310,9 +310,11 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-034 poison-record isolation is earned locally and awaiting Git publication. Scheduler reconciliation now persists state transitions without arbitrary output-path reads and isolates record-local failures so queue drain remains reachable.
+A-035 active/terminal partition is earned locally and awaiting Git publication. Hot execution state is now structurally separable from durable terminal history.
 
-A-035 active/terminal partition is blocked until remote readback. The structural goal is hot-path cost bounded by active work, while terminal history and legacy-flat compatibility remain durable/readable.
+New law earned by the incident: **QUALIFICATION MUST NOT MUTATE AMBIENT OPERATOR STATE.** Test/runtime boot surfaces that can migrate or mutate durable stores require pre-import isolated roots in qualification harnesses.
+
+A-036 retention/deletion is still unearned and SHALL NOT be inferred from the partition.
 
 ## Current quality/search posture
 

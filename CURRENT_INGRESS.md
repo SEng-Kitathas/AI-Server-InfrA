@@ -89,32 +89,39 @@ Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/
 
 ## Verified base and current candidate
 
-Last remote-verified Git base before A-034:
-- commit `2eeebd9182fdbf8e02241f4edd1b482a6862caa7`;
-- tree `9a2b9009fe5f645f83375b5bdd06e09d0d474577`;
-- A-033 admission hotpath current; full suite 264 GREEN.
+Last remote-verified Git base before A-035:
+- commit `07b83f12409e50c37942d517c6ac4bd812dbf203`;
+- tree `b9327b495f13775266f346ae3253e0c15b9905ae`;
+- A-034 poison-record scheduler isolation current;
+- full suite 269 GREEN.
 
-Current A-034 candidate:
-- poison repro before: 5/5 tick aborts, drain 0/5, poison RUNNING;
-- after: 5/5 clean, drain 5/5, poison FAILED/supervision_lost;
-- record-local reconcile telemetry is typed; output excerpts deferred to explicit bounded output read;
-- execution 24/24 PASS; full suite 269 GREEN.
+Current A-035 candidate:
+- execution metadata partitioned into active vs terminal while direct identity/history/replay/restart compatibility remains explicit;
+- 58 active jobs produce 58 hot record loads with 0, 500, or 5,000 terminal records;
+- focused execution/partition cluster 34/34 PASS;
+- isolated complete V30 suite 279 GREEN;
+- ambient real partition dirs 0 before -> 0 after isolated qualification;
+- execution SHA `11d888186db1f365ca76aada5512f9fcef420c93c2ec0b0976e9dcfd8c8e2a40`.
 
-Resolve current Git identity dynamically; this snapshot does not prove whether A-034 has been pushed.
+Critical scar: an earlier qualification pass unintentionally migrated 1,158 real terminal records; all were exactly restored before promotion and the suite now establishes isolated runtime roots pre-import. See Current/Doctrine/Trace/DTS and `reports/V30_A035_ACTIVE_TERMINAL_PARTITION.md`.
+
+Resolve current Git identity dynamically; this snapshot does not prove whether A-035 has been pushed.
 
 ## Current handoff-candidate qualification
 
-A-034 engineering qualification before mirror refresh: execution **24 / 24 PASS**; complete suite **269 GREEN**.
+A-035 engineering qualification before mirror refresh:
+- execution/partition **34 / 34 PASS**;
+- isolated complete suite **279 GREEN**;
+- ambient operator stores unchanged after isolated rerun (**0 -> 0 partition directories**).
 
-The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/execution/full-suite gate follows this qualification update, with no repo mutation before commit.
+The refreshed handoff regression passed **6 / 6**. A final exact-candidate isolated handoff/execution/full-suite gate and ambient side-effect readback follow this qualification update, with no repo mutation before commit.
 
-## Active engineering frontier after A-034 publication
+## Active engineering frontier after A-035 publication
 
-1. Publish/remote-read A-034.
-2. A-035 derive active/terminal execution-store partition so hot scans depend on active work rather than lifetime history.
-3. Preserve direct status/replay/history and legacy-flat compatibility during partition migration.
-4. A-036 retention/bounded drain follows separately.
-5. Serving/PID/multi-receiver audits remain independent.
+1. Publish/remote-read A-035 under per-step Git cadence.
+2. A-036 derive terminal retention and bounded-drain policy; do not infer deletion policy merely because terminal history is now off the hot path.
+3. Keep all-history indexing, WSGI serving model, legacy PID reuse, and multi-receiver admission ownership as separate evidence-driven seams.
+4. Preserve the A-035 ambient-state qualification incident as a permanent anti-regression scar.
 
 ## Release/live ceiling
 

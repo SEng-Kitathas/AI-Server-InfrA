@@ -1,24 +1,27 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-05 23:46 ET
+Last updated: 2026-09-06 00:51 ET
 
 ## Immediate — current frontier
 
-Completed A-034 engineering:
-- [x] reproduced five-tick poison starvation on current V30;
-- [x] removed supervision-loss log tailing from scheduler transition;
-- [x] isolated per-record reconciliation errors with typed telemetry;
-- [x] hostile integration/currentness tests **5/5 PASS**;
-- [x] current execution cluster **24/24 PASS**;
-- [x] full V30 suite **269 GREEN**.
+Completed A-035 engineering:
+- [x] complete execution-store access census;
+- [x] active/terminal/legacy resolution embodied;
+- [x] atomic active->terminal transition + crash repair;
+- [x] direct status/replay/history compatibility retained;
+- [x] late-mounted project migration currentness tested;
+- [x] 0/500/5000 terminal-history hot scans remain 58 loads;
+- [x] unintended ambient migration detected, exactly recovered, and suite isolation repaired;
+- [x] execution/partition cluster 34/34 PASS;
+- [x] full isolated V30 suite 279 GREEN.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-034 to Git | per-step publication law | remote/local exact |
-| P0 | Then derive A-035 active/terminal store partition | flat lifetime scan remains dominant off-lock cost | hot iterators scan active set only with durable history/read compatibility |
-| P1 | Preserve direct status/replay/history compatibility | partition cannot orphan terminal records | job resolution works across active/terminal/legacy |
-| P1 | Keep retention/bounded drain separate | storage lifecycle after partition semantics | own discriminator/push |
+| P0 | Publish A-035 to Git | per-step publication law | remote/local exact and recovery mirror current |
+| P1 | Then A-036 derive terminal retention + drain bounding | partition makes lifecycle policy possible without hot-scan coupling | explicit retention thresholds/currentness/backpressure + hostile tests |
+| P1 | Keep all-history list optimization separate unless evidence demands | terminal history is intentionally durable | no premature index/DB |
+| P1 | Serving/PID/multi-receiver audits remain separate | distinct authority/process identity risks | individual discriminators |
 
 ## Near-term all-plane audit
 

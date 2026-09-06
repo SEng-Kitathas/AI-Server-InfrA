@@ -122,6 +122,8 @@ EXECUTION_DRAIN_BATCH = EXECUTION_CONFIG.drain_batch
 EXECUTION_SCHEDULER_INTERVAL_SECONDS = EXECUTION_CONFIG.scheduler_interval_seconds
 _SCHEDULER_THREAD: threading.Thread | None = None
 _SCHEDULER_STOP = threading.Event()
+_EXECUTION_STORE_LAYOUT_LOCK = threading.RLock()
+_EXECUTION_STORE_LAYOUT_READY_ROOTS: set[str] = set()
 
 
 @dataclass(frozen=True)
@@ -264,14 +266,51 @@ def _jobs_dir(project_id: str) -> Path:
     return execution_log_dir
 
 
+def _active_jobs_dir(project_id: str) -> Path:
+    path = _jobs_dir(project_id) / "active"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def _terminal_jobs_dir(project_id: str) -> Path:
+    path = _jobs_dir(project_id) / "terminal"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
 def _job_dir(project_id: str, job_id: str) -> Path:
+    # Output/worker-control payloads remain in the historical per-job directory.
+    # A-035 partitions the hot metadata records, not potentially large output trees.
     job_dir = _jobs_dir(project_id) / job_id
     job_dir.mkdir(parents=True, exist_ok=True)
     return job_dir
 
 
-def _job_path(project_id: str, job_id: str) -> Path:
+def _active_job_path(project_id: str, job_id: str) -> Path:
+    return _active_jobs_dir(project_id) / f"{job_id}.json"
+
+
+def _terminal_job_path(project_id: str, job_id: str) -> Path:
+    return _terminal_jobs_dir(project_id) / f"{job_id}.json"
+
+
+def _legacy_job_path(project_id: str, job_id: str) -> Path:
     return _jobs_dir(project_id) / f"{job_id}.json"
+
+
+def _job_path_candidates(project_id: str, job_id: str) -> tuple[Path, Path, Path]:
+    return (
+        _active_job_path(project_id, job_id),
+        _terminal_job_path(project_id, job_id),
+        _legacy_job_path(project_id, job_id),
+    )
+
+
+def _job_path(project_id: str, job_id: str) -> Path:
+    for path in _job_path_candidates(project_id, job_id):
+        if path.exists():
+            return path
+    return _active_job_path(project_id, job_id)
 
 
 def _read_job(project_id: str, job_id: str) -> ExecutionJobRecord:
@@ -281,9 +320,40 @@ def _read_job(project_id: str, job_id: str) -> ExecutionJobRecord:
     return ExecutionJobRecord.from_dict(safe_json_loads(p.read_text(encoding="utf-8")))
 
 
+def _job_payload_status(payload: JsonObject) -> str:
+    return str(payload.get("status") or "").upper()
+
+
 def _write_job(project_id: str, job_id: str, job: ExecutionJobRecord | JsonObject) -> None:
     payload = job.to_dict() if isinstance(job, ExecutionJobRecord) else job
-    save_json_atomic(_job_path(project_id, job_id), payload)
+    status = _job_payload_status(payload)
+    active_path = _active_job_path(project_id, job_id)
+    terminal_path = _terminal_job_path(project_id, job_id)
+    legacy_path = _legacy_job_path(project_id, job_id)
+
+    if status in JOB_TERMINAL_STATUSES:
+        if terminal_path.exists():
+            save_json_atomic(terminal_path, payload)
+            return
+        source = active_path if active_path.exists() else legacy_path if legacy_path.exists() else None
+        if source is not None:
+            # Persist the terminal payload at the current canonical inode/path first, then
+            # atomically move that completed record across same-filesystem directories.
+            save_json_atomic(source, payload)
+            os.replace(source, terminal_path)
+            return
+        save_json_atomic(terminal_path, payload)
+        return
+
+    if active_path.exists():
+        save_json_atomic(active_path, payload)
+        return
+    source = terminal_path if terminal_path.exists() else legacy_path if legacy_path.exists() else None
+    if source is not None:
+        save_json_atomic(source, payload)
+        os.replace(source, active_path)
+        return
+    save_json_atomic(active_path, payload)
 
 
 def _resolve_cwd(project_id: str, cwd_path: str | None) -> Path:
@@ -557,17 +627,93 @@ def _pid_alive(pid: Any) -> bool:
     return True
 
 
-def _iter_job_files(project_id: str | None = None) -> Any:
-    if project_id:
-        yield from _jobs_dir(project_id).glob("*.json")
-        return
+def _project_execution_dirs() -> Any:
     if not PROJECTS_ROOT.exists():
         return
     for project_dir in PROJECTS_ROOT.iterdir():
         jobs_dir = project_dir / "system" / "logs" / "execution"
-        if not jobs_dir.exists():
+        if jobs_dir.exists():
+            yield project_dir.name, jobs_dir
+
+
+def _iter_job_files(project_id: str | None = None) -> Any:
+    """Hot-path iterator: active execution records only."""
+    if project_id:
+        yield from _active_jobs_dir(project_id).glob("*.json")
+        return
+    for pid, _jobs_dir_path in _project_execution_dirs() or ():
+        yield from _active_jobs_dir(pid).glob("*.json")
+
+
+def _iter_all_job_files(project_id: str) -> Any:
+    """History iterator: active + terminal + any unmigrated legacy records."""
+    seen_names: set[str] = set()
+    for directory in (_active_jobs_dir(project_id), _terminal_jobs_dir(project_id)):
+        for path in directory.glob("*.json"):
+            if path.name in seen_names:
+                continue
+            seen_names.add(path.name)
+            yield path
+    for path in _jobs_dir(project_id).glob("*.json"):
+        if path.name == "idempotency.json" or path.name in seen_names:
             continue
-        yield from jobs_dir.glob("*.json")
+        seen_names.add(path.name)
+        yield path
+
+
+def _legacy_record_target(project_id: str, path: Path) -> Path:
+    job, error = _load_job_file(path)
+    if error or not job or not str(job.job_id or "").strip():
+        # Corrupt/unclassifiable records remain visible to hot readiness after migration.
+        return _active_jobs_dir(project_id) / path.name
+    status = str(job.status or "").upper()
+    return (
+        _terminal_jobs_dir(project_id) / path.name
+        if status in JOB_TERMINAL_STATUSES
+        else _active_jobs_dir(project_id) / path.name
+    )
+
+
+def _move_partition_record(source: Path, target: Path) -> None:
+    if source == target:
+        return
+    if target.exists():
+        if source.read_bytes() == target.read_bytes():
+            source.unlink()
+            return
+        raise RuntimeError(f"execution store migration conflict: {source} -> {target}")
+    os.replace(source, target)
+
+
+def _repair_partition_directory(project_id: str) -> None:
+    active_dir = _active_jobs_dir(project_id)
+    terminal_dir = _terminal_jobs_dir(project_id)
+    for path in list(active_dir.glob("*.json")):
+        job, error = _load_job_file(path)
+        if not error and job and str(job.status or "").upper() in JOB_TERMINAL_STATUSES:
+            _move_partition_record(path, terminal_dir / path.name)
+    for path in list(terminal_dir.glob("*.json")):
+        job, error = _load_job_file(path)
+        if not error and job and str(job.status or "").upper() not in JOB_TERMINAL_STATUSES:
+            _move_partition_record(path, active_dir / path.name)
+
+
+def _ensure_execution_store_layout() -> None:
+    # Readiness is tracked per execution-store root so a project mounted after boot can
+    # be migrated on a later pre-admission check without rescanning ready histories.
+    with _EXECUTION_STORE_LAYOUT_LOCK:
+        for project_id, jobs_dir in _project_execution_dirs() or ():
+            store_key = str(jobs_dir.resolve())
+            if store_key in _EXECUTION_STORE_LAYOUT_READY_ROOTS:
+                continue
+            _active_jobs_dir(project_id)
+            _terminal_jobs_dir(project_id)
+            _repair_partition_directory(project_id)
+            for path in list(jobs_dir.glob("*.json")):
+                if path.name == "idempotency.json":
+                    continue
+                _move_partition_record(path, _legacy_record_target(project_id, path))
+            _EXECUTION_STORE_LAYOUT_READY_ROOTS.add(store_key)
 
 
 def _load_job_file(path: Path) -> tuple[ExecutionJobRecord | None, str | None]:
@@ -1318,8 +1464,10 @@ def submit_execution_job(
         replay_of=replay_of,
         default_idempotency_key=default_idempotency_key,
     )
+    # Direct/programmatic callers may bypass create_app(); scheduler startup performs
+    # the one-time store migration before admission, never while admission is held.
+    _ensure_scheduler_started()
     with _ADMISSION_LOCK:
-        _ensure_scheduler_started()
         return _submit_job_locked(payload, replay_of)
 
 
@@ -1736,6 +1884,9 @@ atexit.register(_shutdown_scheduler)
 
 def _ensure_scheduler_started() -> None:
     global _SCHEDULER_THREAD
+    # Keep the migration gate before the fast thread check so later-mounted legacy
+    # projects are normalized before any subsequent submission is admitted.
+    _ensure_execution_store_layout()
     if _SCHEDULER_THREAD and _SCHEDULER_THREAD.is_alive():
         return
     _SCHEDULER_STOP.clear()
@@ -1860,7 +2011,7 @@ def _list_payload(list_request: ExecutionListRequest) -> JsonObject:
     jobs: list[ExecutionJobRecord] = []
     corrupt_job_files: list[CorruptJobFileRecord] = []
     job_files = sorted(
-        _jobs_dir(project_id).glob("*.json"), key=lambda path: path.stat().st_mtime, reverse=True
+        _iter_all_job_files(project_id), key=lambda path: path.stat().st_mtime, reverse=True
     )
     for path in job_files[:limit] if limit is not None else job_files:
         job, error = _load_job_file(path)

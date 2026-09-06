@@ -1,26 +1,38 @@
-# Git Handoff Qualification — A-034 Publication Candidate
+# Git Handoff Qualification — A-035 Publication Candidate
 
-Date: 2026-09-05
-Status: QUALIFIED FOR GIT COMMIT/PUSH
+Date: 2026-09-06
+Status: QUALIFIED FOR GIT COMMIT/PUSH — FINAL NO-MUTATION GATE FOLLOWS
 
 ## Current step
-A-034 poison-record scheduler isolation / deferred output reads.
+A-035 active/terminal execution-store partition + qualification-isolation hardening.
 
-## Qualification
-- poison isolation + current execution cluster: **24 / 24 PASS**
+## Qualification so far
+- execution/partition focused cluster: **34 / 34 PASS**
 - refreshed Git handoff regression: **6 / 6 PASS**
-- complete V30 suite before mirror refresh: **269 collected tests GREEN**
-- execution SHA `6c3dda46a004ca88f24839b6ad769c12e235b1f679ae0654c1ba9ae5c95c058c`
-- control-plane model SHA `1ac32417682c6638728c1a9c5523f0781a81256c13cc55810a68b7af0ebded0e`
-- A-034 test SHA `ced3b110ad52c56b2f58ea611cd79230440d5e0d2fc7eeadd7945950ff144484`.
+- isolated complete V30 suite before mirror refresh: **279 collected tests GREEN**
+- ambient real partition directories before/after isolated qualification: **0 -> 0**
+- execution SHA `11d888186db1f365ca76aada5512f9fcef420c93c2ec0b0976e9dcfd8c8e2a40`
+- A-035 test SHA `28b3b667a7332690bb251d01f0a73e7344a434e3d41870dfdf82dc0980be01c7`
+- pytest isolation SHA `43d8b6b940b19a88932197f54d13fa2b677642eaa46ca28c20381cb342714ab7`.
 
-Before repair: five poison ticks all aborted and drain was never reached. After repair: five ticks all clean, drain reached each time, poison persisted FAILED/supervision_lost.
+## Structural discriminator
+With 58 active jobs, terminal history 0 / 500 / 5,000 produced queued-discovery and running-census loads of 58 / 58 / 58. Terminal history no longer affects hot-record load count.
+
+## Recovery scar
+A prior qualification pass unintentionally migrated 1,158 real terminal records into 94 test-created partition directories. Promotion was blocked; all 1,158 records were restored with exact hashes, all 94 directories removed, and zero conflicts/remnants/hash failures. Suite-wide pre-import root isolation now prevents ambient mutation.
+
+Recovery manifest SHA:
+`fafb83d8674be0d37c5625d8dd1a863368b49a7bde20bce6e5bd4cf471e313a7`.
 
 ## Publication boundary
-Last remote base: `2eeebd9182fdbf8e02241f4edd1b482a6862caa7`.
-A final exact-candidate handoff + execution + full-suite gate follows with no repo mutation before commit.
+Last remote-verified base:
+`07b83f12409e50c37942d517c6ac4bd812dbf203`
+Tree `b9327b495f13775266f346ae3253e0c15b9905ae`.
+
+A final exact-candidate isolated handoff + execution/partition + full-suite gate and ambient side-effect readback follow this file/manifest update. No repo mutation may occur after those tests before commit.
 
 ## Claim ceiling
-A-034 fixes poison starvation / supervision-loss output I/O only. Active/terminal storage remains A-035.
+A-035 earns active/terminal metadata partitioning and O(active) hot enumeration after migration. It does not earn retention/deletion, bounded default drain batch, all-history indexing, multi-receiver admission ownership, PID-reuse repair, WSGI serving change, or live V30 promotion.
 
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`
+`CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`

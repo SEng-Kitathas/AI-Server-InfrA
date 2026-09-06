@@ -78,10 +78,11 @@ class ExecutionSchedulerPoisonIsolationTests(unittest.TestCase):
                 er,
                 "_job_failure_excerpt",
                 side_effect=AssertionError("scheduler reconciliation must not tail output logs"),
-            ):
+            ), patch.object(er, "_EXECUTION_STORE_LAYOUT_READY_ROOTS", set()):
+                er._ensure_execution_store_layout()
                 er._scheduler_tick()
+                persisted = er._read_job("p1", "aaa_poison").to_dict()
 
-            persisted = json.loads(poison_path.read_text(encoding="utf-8"))
             self.assertEqual(persisted["status"], "FAILED")
             self.assertEqual(persisted["stage"], "supervision_lost")
             self.assertEqual(persisted["failure_digest"]["failure_kind"], "SUPERVISION_LOST")

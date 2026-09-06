@@ -290,3 +290,61 @@ A-034 fixes poison-record starvation and removes supervision-loss output reads f
 - public serving model.
 
 A-035 active/terminal partition remains the next structural discriminator after A-034 Git publication.
+
+
+## A-035 — flat lifetime execution history remained on the scheduler hot path
+
+Status: **FIXED / QUALIFIED IN V30 WORKING TREE / GIT PUBLICATION PENDING**
+
+A-033 removed repeated capacity rescans under `_ADMISSION_LOCK`, but Windows measurement still showed ~2.226 s queued-candidate discovery with 500 terminal history records. A-035 separated hot active metadata from terminal history.
+
+Earned layout:
+- `execution/active/<job>.json` for active lifecycle records;
+- `execution/terminal/<job>.json` for terminal durable history;
+- legacy flat `<job>.json` remains direct-read/migration fallback;
+- `idempotency.json` remains at execution root;
+- per-job stdout/stderr/worker-control directories remain unchanged.
+
+Hot iterator now scans active only. All-history list merges active + terminal + remaining legacy. Direct identity resolves active -> terminal -> legacy.
+
+Terminal transition persists the terminal payload at its current source then uses same-filesystem `os.replace(source, terminal_path)`. Startup repair handles a crash-stranded terminal-status record in active.
+
+Legacy migration is explicit scheduler-start mutation, conflict-refusing, corruption-visible, and readiness is tracked per execution-store root so later-mounted projects can be normalized without rescanning ready histories.
+
+Structural discriminator with constant 58 active jobs:
+- 0 terminal: queued/running scans load 58 / 58 records;
+- 500 terminal: 58 / 58;
+- 5,000 terminal: 58 / 58.
+
+Post-warm Windows timings were ~7–8 ms per hot scan independent of terminal history.
+
+### Test-isolation hostile scar
+Initial full-suite qualification inherited the operator's real `PCMMAD_PROJECTS_ROOT` and startup migration moved 1,158 real terminal records into test-created partition directories. A-035 was immediately blocked from promotion.
+
+Recovery manifest SHA:
+`fafb83d8674be0d37c5625d8dd1a863368b49a7bde20bce6e5bd4cf471e313a7`
+
+Recovery result:
+- 1,158 / 1,158 records restored to original flat paths;
+- 94 / 94 test-created active/terminal directories removed;
+- 0 conflicts;
+- 0 source remnants;
+- 0 target hash failures.
+
+Suite-wide pre-import isolation was added in `tests/conftest.py`, assigning temporary PCMMAD project/system/sandbox/temp roots. Real ambient partition directories were verified **0 before -> 0 after** isolated focused + full suites.
+
+Detailed qualification:
+`reports/V30_A035_ACTIVE_TERMINAL_PARTITION.md`.
+
+Verification:
+- execution/partition cluster: **34/34 PASS**;
+- complete isolated V30 suite: **279 collected tests GREEN**;
+- existing conditional Windows symlink-privilege skip only.
+
+Current identities:
+- execution_routes.py `11d888186db1f365ca76aada5512f9fcef420c93c2ec0b0976e9dcfd8c8e2a40`
+- A-035 test `28b3b667a7332690bb251d01f0a73e7344a434e3d41870dfdf82dc0980be01c7`
+- A-034 currentness test `673b5b227584d5da3552f2b34249fbe9756ef3da2f36fce67b01c8736e67e272`
+- pytest isolation `43d8b6b940b19a88932197f54d13fa2b677642eaa46ca28c20381cb342714ab7`.
+
+Claim ceiling: no retention/deletion, no multi-receiver admission fix, no legacy PID fix, no WSGI serving change, no live V30 promotion.

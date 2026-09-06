@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-05 23:46 ET
+Last updated: 2026-09-06 00:51 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,38 +263,46 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-034 poison-record scheduler isolation is **EARNED for current V30 working-tree scope** and pending mandatory Git publication.
+A-035 active/terminal execution-store partition is **EARNED for current V30 working-tree scope** and pending mandatory Git publication.
 
-Current-V30 reproduction before mutation:
-- one dead RUNNING record with empty stdout/stderr paths + three healthy queued records;
-- five consecutive scheduler ticks: **5/5 abort** on Windows `PermissionError` for `.`;
-- queue drain reached 0/5; poison persisted RUNNING.
+Earned storage semantics:
+- hot metadata: `execution/active/<job>.json`;
+- durable history: `execution/terminal/<job>.json`;
+- legacy flat records remain direct-read/migration fallback;
+- `idempotency.json` remains at execution root;
+- per-job output/worker-control directories remain unchanged;
+- direct identity resolves active -> terminal -> legacy;
+- `/execution/list` merges all-history; scheduler/capacity/queued/readiness enumerate active only;
+- terminal transition persists terminal payload then same-filesystem `os.replace(source, terminal)`;
+- startup repair handles crash-stranded records;
+- migration refuses conflicting bytes and keeps corrupt/unclassifiable records hot-visible;
+- migration readiness is per execution-store root, so later-mounted legacy projects can be normalized.
 
-Earned A-034 behavior:
-- supervision-lost transition no longer opens output paths; failure digest records empty excerpt fields + `excerpt_capture=deferred_to_output_read`;
-- explicit bounded `/project/execution/output` remains the read path;
-- `_scheduler_tick` isolates per-record reconciliation exceptions and always reaches drain;
-- typed scheduler telemetry exposes cumulative/current reconcile errors, bounded last error, and timestamp;
-- readiness degrades only when the current tick has reconcile errors while preserving historical diagnostics.
-
-Post-fix exact poison repro:
-- **5/5 ticks clean**; drain reached 5/5; poison persisted `FAILED / supervision_lost`;
-- no reconcile error required for the now-valid transition.
+Structural discriminator with constant 58 active jobs:
+- terminal history 0 / 500 / 5,000;
+- queued-discovery loads **58 / 58 / 58**;
+- running-census loads **58 / 58 / 58**;
+- post-warm Windows scans ~7–8 ms independent of terminal history.
 
 Verification:
-- current execution cluster **24/24 PASS**;
-- complete V30 suite **269 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- `execution_routes.py` SHA `6c3dda46a004ca88f24839b6ad769c12e235b1f679ae0654c1ba9ae5c95c058c`;
-- `control_plane_models.py` SHA `1ac32417682c6638728c1a9c5523f0781a81256c13cc55810a68b7af0ebded0e`;
-- A-034 test SHA `ced3b110ad52c56b2f58ea611cd79230440d5e0d2fc7eeadd7945950ff144484`.
+- isolated execution/partition cluster **34/34 PASS**;
+- isolated complete V30 suite **279 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- `execution_routes.py` SHA `11d888186db1f365ca76aada5512f9fcef420c93c2ec0b0976e9dcfd8c8e2a40`;
+- A-035 test SHA `28b3b667a7332690bb251d01f0a73e7344a434e3d41870dfdf82dc0980be01c7`;
+- pytest isolation SHA `43d8b6b940b19a88932197f54d13fa2b677642eaa46ca28c20381cb342714ab7`.
 
-Hostile evaluator scar: first focused run was 23/24 because fixture filename `aaa_poison.json` contained `job_id=poison`; Runtime correctly persisted canonical `poison.json`. Test identity was repaired; Runtime was not weakened.
+Critical recovery scar:
+- first full-suite qualification inherited the operator's real `PCMMAD_PROJECTS_ROOT` and migrated 1,158 real terminal records into 94 test-created partition directories;
+- A-035 promotion was blocked immediately;
+- exact recovery plan SHA `fafb83d8674be0d37c5625d8dd1a863368b49a7bde20bce6e5bd4cf471e313a7`;
+- 1,158/1,158 records restored, 94/94 directories removed, 0 conflicts, 0 source remnants, 0 hash failures;
+- suite-wide pre-import temp-root isolation added; ambient real partition dirs verified **0 before -> 0 after** isolated focused+full reruns.
 
 Immediate sequence:
-1. refresh Git handoff mirror;
-2. final handoff/execution/full-suite gate;
-3. commit/push/remote-read A-034;
-4. only then begin A-035 active/terminal execution-store partition derivation.
+1. refresh Git handoff mirror to A-035;
+2. final exact-candidate handoff/execution/full-suite + ambient side-effect gate;
+3. commit/push/remote-read A-035;
+4. only then open A-036 retention/bounded-drain policy.
 
 ## Remaining major seams
 

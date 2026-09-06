@@ -2423,3 +2423,164 @@ Current hashes:
 ### CLAIM CEILING / NEXT
 A-034 fixes poison-record starvation and supervision-loss critical-path output I/O only.
 A-035 active/terminal partition remains next after A-034 Git remote readback. Retention/bounded drain/serving/PID/multi-receiver remain separate.
+
+
+### A-034 Git publication complete
+
+A-034 poison-record scheduler isolation was committed and remotely verified before A-035 began.
+
+Commit:
+`07b83f12409e50c37942d517c6ac4bd812dbf203`
+
+Tree:
+`b9327b495f13775266f346ae3253e0c15b9905ae`.
+
+Subject:
+`Isolate execution scheduler poison records`.
+
+Push:
+`2eeebd9..07b83f1  main -> main`.
+
+Remote/local `main` matched exactly and branch was clean after push.
+
+Publication qualification:
+- final handoff + execution focused gate 30/30 PASS;
+- complete V30 suite 269 GREEN.
+
+Disposition:
+**A-034 EARNED + GIT REMOTE-VERIFIED.**
+
+Active Frontier advances to A-035 active/terminal execution-store partition. Retention remains explicitly deferred to A-036.
+
+
+---
+
+## Phase 46 — A-035 active/terminal execution-store partition + qualification isolation recovery
+
+### STRUCTURAL TARGET
+A-033 removed per-candidate capacity rescans, but a 500-history Windows case still spent ~2.226 s in off-lock queued-candidate discovery. The remaining defect was flat durable metadata: scheduler/capacity/readiness hot scans scaled with lifetime history.
+
+Earned law:
+**HOT STATE AND HISTORICAL STATE MAY SHARE IDENTITY BUT NEED NOT SHARE ENUMERATION COST.**
+
+### ACCESS CENSUS
+Execution-store access was classified before mutation:
+- HOT-ACTIVE: scheduler reconciliation, queued discovery, running/queue capacity, readiness;
+- ALL-HISTORY: `/execution/list`;
+- DIRECT-IDENTITY: status, output, terminate, replay, registration-by-job, idempotency replay lookup;
+- LIFECYCLE MUTATION: centralized `_write_job`.
+
+### EMBODIMENT
+Per project durable metadata is now partitioned as:
+- `execution/active/<job_id>.json` for active lifecycle state;
+- `execution/terminal/<job_id>.json` for terminal durable history;
+- root `<job_id>.json` as legacy-flat compatibility/migration fallback only;
+- root `idempotency.json` remains unmigrated;
+- per-job stdout/stderr/worker-control directories remain where they were.
+
+Direct identity resolves active -> terminal -> legacy without mutating.
+Hot `_iter_job_files()` enumerates active only.
+History `_iter_all_job_files()` merges active + terminal + remaining legacy and excludes the idempotency ledger.
+
+Terminal transition:
+1. persist terminal payload at current active/legacy source with atomic JSON write;
+2. same-filesystem `os.replace(source, terminal_path)`.
+
+Startup repair moves crash-stranded terminal-status records in active to terminal, and active-status records stranded in terminal back to active.
+
+Legacy migration:
+- valid terminal -> terminal;
+- valid nonterminal -> active;
+- corrupt/unclassifiable -> active so readiness still sees corruption;
+- conflicting different-byte canonical/legacy record -> refuse migration;
+- byte-identical redundant source may be removed;
+- readiness tracked per execution-store root so later-mounted projects can be migrated on a future pre-admission scheduler-start check.
+
+Scheduler/layout startup runs before `_ADMISSION_LOCK`; migration is not an admission-lock critical section.
+
+### HOSTILE TESTS / CURRENTNESS SCARS
+Added `tests/test_execution_active_terminal_partition.py`.
+
+The qualification campaign caught several evaluator/startup-currentness defects and repaired them without rolling back Runtime semantics:
+- wrong request-model import in the new test;
+- A-034 poison fixture initially bypassed the new startup layout contract;
+- poison test asserted deprecated physical flat path instead of direct identity;
+- direct identity assertion occurred after patched temp-root context exited;
+- cross-project locking test exposed migration placement that combined patched `get_project_root` with ambient `PROJECTS_ROOT`, producing a cross-drive E:->C: move attempt.
+
+The startup contract was corrected and tests advanced to the identity/layout contract.
+
+### CRITICAL QUALIFICATION SIDE-EFFECT INCIDENT
+The first full-suite qualification after startup migration inherited the operator's real `PCMMAD_PROJECTS_ROOT` and migrated real execution records under `E:\new pc\AI_Pushes_Sandbox\projects`.
+
+A-035 promotion was immediately blocked.
+
+Observed unintended mutation:
+- approx 2026-09-06 00:39-00:42 ET;
+- 94 test-created active/terminal directories;
+- 1,158 records moved, all terminal;
+- 0 active moved records;
+- 0 root-name conflicts;
+- 3,853,013 bytes.
+
+Exact recovery plan was frozen and registered:
+`notes/maintenance/A035_TEST_ISOLATION_RECOVERY_PLAN.json`
+SHA `fafb83d8674be0d37c5625d8dd1a863368b49a7bde20bce6e5bd4cf471e313a7`.
+
+Recovery result:
+- 1,158/1,158 records restored with exact hashes;
+- 94/94 test-created partition directories removed;
+- 0 nonempty leftovers;
+- 0 source remnants;
+- 0 target hash failures;
+- 0 conflicts.
+
+New doctrine law:
+**QUALIFICATION MUST NOT MUTATE AMBIENT OPERATOR STATE.**
+
+Test-harness repair:
+`tests/conftest.py` now establishes temporary `PCMMAD_PROJECTS_ROOT`, `PCMMAD_SYSTEM_ROOT`, `PCMMAD_SANDBOX_ROOT`, and `PCMMAD_TEMP_ROOT` before test-module imports, then removes the isolated runtime root at session end.
+
+Ambient real partition directories were verified 0 before and 0 after the isolated focused + full suites.
+
+### STRUCTURAL DISCRIMINATOR
+Constant active set:
+- 8 RUNNING
+- 50 QUEUED
+- 58 active total.
+
+Terminal history varied 0 -> 500 -> 5,000.
+
+Queued-discovery loads:
+**58 -> 58 -> 58**.
+
+Running-census loads:
+**58 -> 58 -> 58**.
+
+Post-warm Windows times remained ~7-8 ms per hot scan independent of terminal history.
+
+Disposition:
+Hot scan complexity is now O(active jobs) after migration rather than O(lifetime jobs).
+
+### VERIFICATION
+Final isolated execution/partition cluster:
+**34/34 PASS**.
+
+Final isolated complete V30 suite:
+**279 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities before Git publication:
+- execution_routes.py `11d888186db1f365ca76aada5512f9fcef420c93c2ec0b0976e9dcfd8c8e2a40`
+- A-035 test `28b3b667a7332690bb251d01f0a73e7344a434e3d41870dfdf82dc0980be01c7`
+- A-034 currentness test `673b5b227584d5da3552f2b34249fbe9756ef3da2f36fce67b01c8736e67e272`
+- pytest isolation `43d8b6b940b19a88932197f54d13fa2b677642eaa46ca28c20381cb342714ab7`.
+
+Detailed report:
+`reports/V30_A035_ACTIVE_TERMINAL_PARTITION.md`.
+
+### CLAIM CEILING / NEXT
+A-035 earns active/terminal metadata partitioning and active-set-bounded hot scans.
+
+It does NOT earn terminal retention/deletion, bounded default drain batch, all-history indexing, multi-receiver admission ownership, legacy PID reuse repair, WSGI serving change, or live V30 promotion.
+
+A-036 retention/bounded-drain policy remains blocked until A-035 Git commit/push/remote-readback completes.

@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-05 23:46 ET
+Last updated: 2026-09-06 00:51 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-034 poison isolation earned; Git publication next
+- Current mode: BUILD-COMMIT / PROMOTION — A-035 active/terminal partition earned after recovery/isolation hardening; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-034 scheduler poison isolation, remote-read it, then derive A-035 active/terminal execution-store partition.
+- Dominant objective: publish A-035 active-set-bounded execution storage with recovery scar intact; then derive A-036 retention/bounded-drain policy.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -113,36 +113,37 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-034 and remote-read exact head;
-2. A-035 active/terminal execution-store partition;
-3. A-036 retention/bounded drain;
-4. serving/PID/multi-receiver ownership audits remain separate.
+1. P0 publish A-035 and remote-read exact head;
+2. A-036 retention/bounded-drain policy only after publication;
+3. serving model, PID reuse, multi-receiver admission remain separate.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. refresh Git handoff mirror to A-034;
-2. run handoff + execution + full exact-candidate gates;
-3. commit/push/remote-read A-034;
-4. then inspect every job-path reader/writer before A-035 partition design.
+1. refresh repo handoff mirror to A-035;
+2. final isolated handoff/execution/full-suite gate;
+3. verify ambient real partition dirs remain zero after final gate;
+4. commit/push/remote-read A-035;
+5. update outer Git receipt;
+6. then A-036.
 
 ## Last 10 Turn Reinforcement Window
-1. ASSISTANT: A-033 remote-verified at `2eeebd9`; A-034 activated.
-2. ASSISTANT: current call chain confirmed supervision-loss log tail before durable write and no per-record isolation.
-3. ASSISTANT: five-tick temp-store repro: 5/5 PermissionError aborts, drain 0/5, poison RUNNING. DEFECT.
-4. ASSISTANT: explicit bounded output route confirmed; scheduler need not tail logs.
-5. ASSISTANT: typed telemetry contract derived; no fake quarantine terminology.
-6. ASSISTANT: A-034 Runtime mutation written with CRLF preserved.
-7. ASSISTANT: first focused run 23/24; fixture identity mismatch localized, Runtime not weakened.
-8. ASSISTANT: corrected fixture; execution cluster 24/24 PASS.
-9. ASSISTANT: post-fix five-tick repro 5/5 clean, drain 5/5, poison durable FAILED.
-10. ASSISTANT: full V30 suite 269 GREEN; A-034 entering Git publication.
+1. A-034 remote-verified at `07b83f1`; A-035 access census opened.
+2. Centralized read/write/iterator model enabled active/terminal design without identity API rewrite.
+3. Initial A-035 implementation + hostile tests written.
+4. Focused tests exposed startup/test-currentness issues; repaired without reverting partition semantics.
+5. Full suite reached 279 GREEN, but side-effect audit found real operator stores had been migrated. CRITICAL RECOVERY.
+6. Exact recovery plan frozen: 1,158 files / 3,853,013 bytes / SHA `fafb83d8...13a7`.
+7. Recovery restored 1,158/1,158 files, removed 94/94 dirs, 0 conflicts/remnants/hash failures.
+8. Added pre-import pytest temp-root isolation; real partition dirs 0 before rerun.
+9. Isolated focused 34/34 + full 279 GREEN; real partition dirs remained 0 after. VERIFIED.
+10. 0/500/5000 terminal benchmark held hot loads at 58/58/58; A-035 entering Git publication.
 
 ## Delta Since Previous Shadow
-- A-034 poison starvation reproduced and repaired locally.
-- full suite advances 264 -> 269 GREEN.
-- supervision-lost scheduling transition is now independent of output-path reads.
-- record-local reconciliation errors cannot suppress queue drain.
-- A-035 remains blocked until A-034 remote readback.
+- A-035 active/terminal partition is locally earned.
+- hot scheduler/capacity scan complexity is now O(active), independent of terminal history.
+- qualification isolation defect was caught before promotion and fully recovered.
+- new explicit test-isolation law entered doctrine/revisit/trace.
+- A-036 remains blocked until A-035 remote readback.

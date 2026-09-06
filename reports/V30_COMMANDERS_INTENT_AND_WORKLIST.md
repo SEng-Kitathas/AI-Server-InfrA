@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-05 23:46 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-06 00:51 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -643,18 +643,18 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-034 poison-record scheduler isolation is earned locally:
-- before: 5/5 scheduler tick aborts, 0/5 drains, poison stayed RUNNING;
-- after: 5/5 clean, 5/5 drains, poison durable FAILED / supervision_lost;
-- supervision-loss transition defers output excerpt capture to bounded output read;
-- per-record reconcile errors are typed/observable and cannot suppress queue drain;
-- execution cluster 24/24 PASS; full suite 269 GREEN.
+A-035 active/terminal partition is earned locally:
+- active metadata and terminal history are physically separated while identity/history/replay/restart remain compatible;
+- terminal transitions are same-filesystem atomic; legacy migration is conflict-refusing and crash-repairable;
+- 0/500/5000 terminal-history discriminator keeps hot scans at 58 active record loads;
+- execution/partition cluster 34/34 PASS; full isolated suite 279 GREEN;
+- first qualification accidentally migrated 1,158 real records, all were exactly restored, and suite-wide pre-import root isolation now proves ambient partition dirs 0 before/after.
 
 Immediate sequence:
-1. publish A-034 to Git and remote-read;
-2. then A-035 derive active/terminal durable layout with direct status/replay/history compatibility and legacy-flat migration;
-3. retention/bounded drain later;
-4. serving/PID/multi-receiver audits remain separate.
+1. publish A-035 and remote-read exact head;
+2. only then A-036 derive retention/bounded-drain policy;
+3. keep all-history indexing, serving model, PID reuse, and multi-receiver admission separate;
+4. preserve the A-035 test-isolation recovery scar as a permanent anti-regression.
 
 ---
 
