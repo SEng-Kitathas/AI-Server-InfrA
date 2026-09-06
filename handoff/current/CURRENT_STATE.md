@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-06 16:45 ET
+Last updated: 2026-09-06 17:22 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,38 +263,42 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-038 deterministic execution lifecycle simulation/replay on-ramp is **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
+A-039 legacy non-worker PID reuse identity binding is **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
 
-A-038 embodiment:
-- `tools/hostile/execution_lifecycle_sim.py`;
-- real current execution store/admission/reconciliation code remains under test;
-- virtualized boundaries: seeded action schedule, wall clock, process spawn/liveness/generation;
-- failures carry `A038_REPLAY_SEED=<seed>` plus deterministic JSON trace;
-- explicit scheduler variants: `current` and historical vulnerable `pre_a034`.
+Defect/witness:
+- A-038 deterministic schedule showed recycled PID-generation aliases could remain legacy `RUNNING` because bare PID liveness was treated as process identity;
+- fixed vulnerable/current probe now proves `pid_only` leaves target active RUNNING while current identity binding moves the same target terminal FAILED.
+
+A-039 survivor:
+- `ExecutionJobRecord.pid_creation_time_100ns` for legacy identity witness compatibility;
+- reuse existing Windows `process_creation_time_100ns()` helper;
+- legacy identity states: `same_process`, `dead`, `creation_time_mismatch`, `identity_unverifiable`;
+- reconciliation/readiness refuse to promote mismatch/unverifiable identity to SAME_PROCESS;
+- supervision-loss digest records expected/observed creation-time evidence;
+- capacity accounting is deliberately conservative: alive unverifiable historical records consume capacity until reconciliation, preserving A-033 anti-overadmission without granting identity authority;
+- worker-capsule/Job Object semantics remain unchanged.
 
 Qualification:
-- current survivor campaign: **100/100 seeds × 40 actions PASS**;
-- bounded vulnerable-reference search rediscovers pre-A-034 at **seed 0**;
-- seed-0 vulnerable failure envelope/trace replayed twice **byte-for-byte identical**;
-- same seed/current scheduler PASS while exercising 3 injected reconcile-fault ticks + 2 PID recycle events;
-- focused execution/simulation cluster **39/39 PASS**;
-- complete V30 suite **289 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- simulator SHA `98990c6024a3ab9defbbc1220e640f139490b2bdd54ae5a7048b0d85a3a8221a`;
-- A-038 test SHA `c61e0f6e6fc51f8d4fb8427c2438eb2cd44bd272eee2db4724c99f8758fb57ee`;
-- report `reports/V30_A038_DETERMINISTIC_EXECUTION_LIFECYCLE_SIM_DERIVATION.md`.
+- fixed PID-reuse vulnerable/current probe replays byte-identically;
+- current 100-seed x 40-step campaign: **100/100 PASS**, 203 PID recycle actions;
+- 34 alias observations at random endpoints reduce to **0 after one clean final scheduler tick across all 100 seeds**;
+- current-host live legacy RUNNING census: **0**;
+- focused A-039/execution/sim cluster: **29/29 PASS**;
+- complete V30 suite: **297 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
 
-Mechanism promoted:
-**SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL.**
-Replay law:
-**A FAILURE SEED + DETERMINISTIC TRACE IS A STRONGER RECEIPT THAN AN UNREPLAYABLE FLAKE.**
+Current identities:
+- `control_plane_models.py` SHA `d70e890854965f73b4fbeaa61bd8a25b7a414ca386683fee10af0457083bd2ee`;
+- `execution_routes.py` SHA `1f19988d2d86ce1dedeef51578a46a6d6b17405e689b8285b09be2464d62c15b`;
+- simulator SHA `d13b8288b1f734ed868198605c2e87ed315b308e0b3d9c834c2b9a7200d39834`;
+- A-039 regression SHA `4346fa6c67dfbabe651fd17518cd6dcf8f441f2f27fa09c3298248e815a0106e`;
+- derivation report `reports/V30_A039_LEGACY_PID_IDENTITY_BINDING_DERIVATION.md`.
 
-Claim ceiling:
-A-038 is a bounded on-ramp, not exhaustive model checking/FoundationDB-scale simulation. Filesystem durability/reordering, real kernel Job Objects, whole-process receiver restart, arbitrary thread interleavings, disk fault schedules, network transport and every clock boundary are not yet virtualized.
-
-New mechanically exposed current seam:
-seed 0/current production performed two PID recycle events and ended with `job-00003` + `job-00007` still active RUNNING while listed in `pid_alias_jobs`. Current non-worker reconciliation still uses bare `_pid_alive(job.pid)`; worker-capsule ownership separately records `worker_creation_time_100ns`.
-
-Active Frontier becomes **A-039 legacy non-worker PID reuse identity binding** after A-038 Git publication. The repair must bind legacy RUNNING liveness to process identity (PID + creation-time witness or equivalent), preserve worker-capsule semantics, and fail safely when identity cannot be proven. Informer/watch remains behind this correctness seam.
+Immediate sequence:
+1. refresh Git recovery mirror to A-039;
+2. exact-candidate handoff + focused/full suite gate;
+3. commit/push/remote-read A-039;
+4. post-push continuity reconciliation;
+5. only then open **A-040 execution active-store informer/watch + slow resync**.
 
 ## Remaining major seams
 

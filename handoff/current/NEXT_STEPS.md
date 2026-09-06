@@ -1,28 +1,26 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-06 16:45 ET
+Last updated: 2026-09-06 17:22 ET
 
 ## Immediate — current frontier
 
-Completed A-038 engineering:
-- [x] bounded seeded lifecycle simulator built over real execution store/scheduler helpers;
-- [x] current 100-seed × 40-step campaign green;
-- [x] pre-A-034 scar mechanically rediscovered at seed 0;
-- [x] exact failing trace replayed byte-identically;
-- [x] same seed/current survivor green;
-- [x] focused execution/sim cluster 39/39 PASS;
-- [x] full suite 289 GREEN;
-- [x] PID recycle seam surfaced as explicit current discriminator.
+A-039 engineering complete locally:
+- [x] bind legacy process identity to creation-time witness where available;
+- [x] preserve worker-capsule/Job Object semantics;
+- [x] split identity authority from conservative capacity accounting;
+- [x] deterministic vulnerable/current PID-reuse proof;
+- [x] 100x40 current campaign green; one clean final tick leaves zero aliases;
+- [x] focused **29/29 PASS**; full suite **297 GREEN**;
+- [x] current-host live legacy RUNNING census = 0.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-038 to Git | per-step publication law | commit/push/remote exact; outer Git receipt advanced |
-| P0 | A-039 reproduce/bind legacy non-worker process identity | seed-0 simulation mechanically shows recycled PID aliases survive as RUNNING | non-worker liveness requires PID+creation-time (or equivalent identity witness), recycled PID cannot consume capacity or remain falsely supervised |
-| P0 | Add A-039 schedule regression to simulator | correctness repair should become replay-protected | vulnerable identity model fails/repaired model passes a fixed seed or direct deterministic schedule |
-| P1 | Informer/watch + slow active resync | performance raid follows correctness | edge-driven steady state + periodic full correctness backstop |
-| P1 | CT/Merkle receipts | close protocol cryptographic-history ceiling | cheap inclusion/consistency proof |
-| P1 | Idempotency + Job Object resource envelope | remaining small high-value correctness/resource raids | replay-safe mutators + process/memory bounds |
+| P0 | Publish A-039 to Git | per-step publication law | commit/push/remote exact; outer receipt advanced |
+| P0 | A-040 inspect active-store change-notification options | informer raid should preserve level-triggered correctness and avoid new truth plane | current Windows/native watcher semantics, overflow/failure behavior, restart/resync contract mapped |
+| P0 | Derive watch + slow-resync survivor | steady state O(changes), periodic full active scan backstop | watcher cache remains derived; resync repairs drift; failure degrades to level-triggered correctness |
+| P1 | CT/Merkle protocol receipts after A-040 | raid order / cheap proof-carrying append consistency | separate step after informer publication |
+| P1 | Idempotency + Job Object resource envelope | high-value small raids | separate discriminators/pushes |
 
 ## Near-term all-plane audit
 

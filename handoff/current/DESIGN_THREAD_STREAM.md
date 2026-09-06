@@ -3009,3 +3009,173 @@ A-038 is a bounded on-ramp, not exhaustive formal model checking/FoundationDB-sc
 A-038 is technically earned and awaiting mandatory Git publication.
 
 After remote publication, Active Frontier becomes **A-039 legacy non-worker PID reuse identity binding**, ahead of informer/watch performance work.
+
+
+### A-038 Git publication complete
+
+A-038 deterministic execution lifecycle simulation/replay on-ramp was committed and remotely verified before A-039 began.
+
+Commit:
+`cb2b4ee2c54c2aab02fa29b8feca6c40c666148e`
+
+Tree:
+`74bfe0f70a998bb4ee7953b60169dbe7d119d54d`.
+
+Subject:
+`Add deterministic execution lifecycle replay harness`.
+
+Push:
+`59b4b5e..cb2b4ee  main -> main`.
+
+Remote/local `main` matched exactly and branch was clean after push.
+
+Publication qualification:
+- final handoff + execution/simulation gate 45/45 PASS;
+- complete V30 suite 289 GREEN;
+- current 100-seed × 40-step survivor campaign green;
+- vulnerable pre-A034 seed0 rediscovered and exact failure trace replayed.
+
+Disposition:
+**A-038 EARNED + GIT REMOTE-VERIFIED.**
+
+Active Frontier advances to **A-039 legacy non-worker PID reuse identity binding**. The deterministic seed0 witness shows recycled PID-generation aliases can remain active RUNNING under bare PID liveness; informer/watch remains behind this correctness repair.
+
+
+---
+
+## Phase 50 — A-039 legacy non-worker PID identity binding
+
+### RE-ENTRY / RECOVERY
+A user `poke`/`proceed` arrived after an earlier thread boundary that appeared to stop at unqualified A-037 work. Direct recovery inspection found the project had already advanced:
+- A-037 remote-current at `59b4b5e5d6339127e50e052827f27bc94a14c832`;
+- A-038 remote-current at `cb2b4ee2c54c2aab02fa29b8feca6c40c666148e` / tree `74bfe0f70a998bb4ee7953b60169dbe7d119d54d`;
+- current full-suite baseline 289 GREEN;
+- Active Frontier A-039 legacy non-worker PID reuse identity binding.
+
+No completed A-037/A-038 work was replayed.
+
+The bounded project-file read route returned one server-side HTTP 500 during recovery; direct local execution-plane inspection succeeded. No mutation occurred from the failed read.
+
+### EXISTING A-039 CANDIDATE
+Repo contained an uncommitted three-file candidate:
+- `control_plane_models.py`: optional `pid_creation_time_100ns` on `ExecutionJobRecord`;
+- `execution_routes.py`: legacy identity classifier + creation-time integration;
+- `execution_lifecycle_sim.py`: vulnerable/current legacy identity variants and fixed PID-reuse probe.
+
+Candidate prequalification hashes were preserved under:
+`baseline/pcmmad_receiver/_v30_backups/AUDIT_A039_PID_IDENTITY/`.
+
+### PRODUCTION PATH AUDIT
+Current `_spawn_job()` always writes a worker request/token and uses worker-capsule semantics. On Windows it records actual `worker_pid` and `worker_creation_time_100ns` through the existing Job Object helper, then clears `job.pid`.
+
+Therefore `pid_creation_time_100ns` is correctly scoped as a legacy/recovery witness rather than a replacement for current worker authority.
+
+Current persisted project census found **0** live legacy non-worker `RUNNING + pid + no worker_token` records.
+
+### FIXED DETERMINISTIC PID-REUSE DISCRIMINATOR
+The fixed schedule queues one legacy job, starts it, recycles the same PID to a new simulated process generation, then ticks reconciliation.
+
+`legacy_identity_variant=pid_only`:
+- target remains active RUNNING;
+- target absent from terminal;
+- target listed in `pid_alias_jobs`.
+
+`legacy_identity_variant=current`:
+- target absent from active;
+- target terminal FAILED;
+- alias list empty.
+
+Both variants replay byte-identically across repeated runs.
+
+### IDENTITY MODEL
+Promoted law:
+**PID_ALIVE != SAME_PROCESS**.
+
+Identity states:
+- `same_process`;
+- `dead`;
+- `creation_time_mismatch`;
+- `identity_unverifiable`.
+
+Creation time reuses existing `windows_job_object.process_creation_time_100ns()`.
+
+Scheduler reconciliation/readiness refuse to TOFU-adopt an unverifiable PID or treat a mismatched creation time as the original process.
+
+Failure digest carries expected/observed creation-time evidence and identity state.
+
+### AUTHORITY VS CAPACITY SCAR
+The first focused A-039 qualification exposed an important interaction with A-033.
+
+If alive-but-unverifiable historical PID records are treated as absent from capacity before reconciliation, a submit path can over-admit while the original legacy process may still exist.
+
+A-039 therefore distinguishes:
+**IDENTITY_AUTHORITY != CONSERVATIVE_CAPACITY_ACCOUNTING**.
+
+Current survivor:
+- SAME_PROCESS consumes capacity;
+- MISMATCH/DEAD do not;
+- alive UNVERIFIABLE consumes capacity conservatively until reconciliation, but never gains SAME_PROCESS authority.
+
+This preserves anti-overadmission while still failing safe on identity authority.
+
+### SIMULATOR INVARIANT CORRECTION
+A-038 simulator originally counted `RUNNING + PID alive` as owned concurrency.
+Seed 8 showed why that became wrong under A-039: a recycled foreign process can keep the stale record textually RUNNING for one injected-fault tick while no longer representing PCMMAD-owned process identity.
+
+Simulator concurrency invariant now counts identity-valid legacy ownership, while `pid_alias_jobs` remains separately observable.
+A clean tick now requires dead/recycled/unverifiable legacy RUNNING identities to reconcile.
+
+### HOSTILE REGRESSION
+Added:
+`tests/test_execution_legacy_pid_identity.py`.
+
+It proves:
+- record witness round-trip;
+- classifier states;
+- real active->terminal durable transition on mismatch with identity receipt;
+- no-witness fail-safe without TOFU;
+- conservative capacity for unverifiable alive history but exclusion of mismatch;
+- same-process legacy record stays RUNNING and becomes unsupervised;
+- readiness flags mismatch/unverifiable identity, not same-process;
+- deterministic vulnerable/current PID-reuse comparison.
+
+Evaluator scars preserved:
+1. old A-033 partial mocks lacked new fields; helper made migration-tolerant rather than rewriting old tests;
+2. simulator raw-status concurrency invariant was too strong after identity binding; corrected to ownership identity;
+3. new readiness test patched `_iter_all_job_files` but production readiness uses `_iter_job_files(None)`; test corrected;
+4. new capacity test initially expected no-witness alive history to vanish from capacity; A-033 exposed over-admission risk and the architecture was corrected instead.
+
+### CAMPAIGN PRESSURE
+Current identity semantics, seeds 0..99 x 40 steps:
+- 100/100 PASS;
+- 203 PID recycle actions.
+
+Random schedules can end immediately after recycle before another level-triggered scheduler tick:
+- alias observations at random endpoints: 34.
+
+After one explicit clean final tick across the same 100 seeds:
+- aliases remaining: **0**.
+
+Claim ceiling:
+**PID_RECYCLE_EDGE != INSTANTANEOUS_RECONCILIATION**.
+
+Informer/watch may later reduce detection latency; correctness remains level-triggered.
+
+### VERIFICATION
+Focused A-039/execution/simulation cluster:
+**29/29 PASS**.
+
+Complete V30 suite:
+**297 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities:
+- control model `d70e890854965f73b4fbeaa61bd8a25b7a414ca386683fee10af0457083bd2ee`;
+- execution routes `1f19988d2d86ce1dedeef51578a46a6d6b17405e689b8285b09be2464d62c15b`;
+- simulator `d13b8288b1f734ed868198605c2e87ed315b308e0b3d9c834c2b9a7200d39834`;
+- A-039 regression `4346fa6c67dfbabe651fd17518cd6dcf8f441f2f27fa09c3298248e815a0106e`;
+- report `reports/V30_A039_LEGACY_PID_IDENTITY_BINDING_DERIVATION.md`.
+
+### CURRENT DISPOSITION
+A-039 is technically earned and awaiting mandatory Git publication.
+
+A-040 execution active-store informer/watch + slow resync is blocked until A-039 remote readback.

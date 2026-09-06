@@ -1,38 +1,41 @@
-# Git Handoff Qualification — A-038 Publication Candidate
+# Git Handoff Qualification — A-039 Publication Candidate
 
 Date: 2026-09-06
 Status: QUALIFIED FOR GIT COMMIT/PUSH
 
 ## Current step
-A-038 deterministic execution lifecycle simulation / replay on-ramp.
+A-039 legacy non-worker PID reuse identity binding.
 
 ## Qualification
-- current survivor campaign: **100 / 100 seeds × 40 actions PASS**
-- historical `pre_a034` scar discovered at seed 0
-- vulnerable seed-0 failure envelope/trace replayed byte-identically twice
-- same seed/current scheduler PASS with 3 injected reconcile faults + 2 PID recycle events
-- focused execution/simulation cluster: **39 / 39 PASS**
-- refreshed Git handoff regression: **6 / 6 PASS**
-- complete V30 suite before mirror refresh: **289 collected tests GREEN**
-- simulator SHA `98990c6024a3ab9defbbc1220e640f139490b2bdd54ae5a7048b0d85a3a8221a`
-- A-038 test SHA `c61e0f6e6fc51f8d4fb8427c2438eb2cd44bd272eee2db4724c99f8758fb57ee`
-- report SHA `5df52c77981f3b77ede86997df82eefcbd1005d2ebfa5eee6630fcec20ae2f1a`.
+- fixed vulnerable/current PID-reuse probe: vulnerable target RUNNING; current target terminal FAILED;
+- vulnerable and current fixed probes replay byte-identically;
+- current 100-seed x 40-step campaign: **100 / 100 PASS**, 203 PID recycle actions;
+- after one clean final tick across all 100 seeds: **0 PID aliases**;
+- current-host live legacy non-worker RUNNING census: **0**;
+- focused A-039/execution/simulation cluster: **29 / 29 PASS**;
+- refreshed Git handoff regression: **6 / 6 PASS**;
+- complete V30 suite before mirror refresh: **297 collected tests GREEN**.
 
-## Method promotion
-`SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL`.
+Current identities:
+- control-plane model `d70e890854965f73b4fbeaa61bd8a25b7a414ca386683fee10af0457083bd2ee`;
+- execution routes `1f19988d2d86ce1dedeef51578a46a6d6b17405e689b8285b09be2464d62c15b`;
+- simulator `d13b8288b1f734ed868198605c2e87ed315b308e0b3d9c834c2b9a7200d39834`;
+- A-039 test `4346fa6c67dfbabe651fd17518cd6dcf8f441f2f27fa09c3298248e815a0106e`.
 
-`A FAILURE SEED + DETERMINISTIC TRACE IS A STRONGER RECEIPT THAN AN UNREPLAYABLE FLAKE`.
+## Identity contract
+`PID_ALIVE != SAME_PROCESS`.
 
-## Next correctness discriminator
-A-038 seed 0 exposes two recycled-PID aliases still active RUNNING in current legacy non-worker supervision. A-039 process-identity binding follows after publication.
+Unverifiable alive legacy history is not granted SAME_PROCESS authority; it consumes capacity conservatively until reconciliation to preserve anti-overadmission.
 
 ## Publication boundary
 Last remote-verified base:
-`59b4b5e5d6339127e50e052827f27bc94a14c832`.
+`cb2b4ee2c54c2aab02fa29b8feca6c40c666148e`.
 
-A final exact-candidate handoff + execution/simulation + complete-suite gate follows this file/manifest update with no repo mutation before commit.
+A final exact-candidate handoff + focused + full-suite gate follows this file/manifest update, with no repo mutation before commit.
 
 ## Claim ceiling
-A-038 is bounded seeded search, not exhaustive formal verification. It does not virtualize full filesystem durability, real kernel Job Objects, whole-process receiver restart, arbitrary thread interleavings, disk faults, transport, or every timing boundary.
+A-039 does not create watcher semantics, Job Object resource caps, executable/command/service identity, or multi-receiver admission authority. Worker-capsule/Job Object process ownership remains unchanged.
+
+Git publication is incomplete until commit, push, and independent remote-head readback succeed.
 
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`

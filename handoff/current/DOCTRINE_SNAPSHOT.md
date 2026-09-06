@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-06 16:45 ET
+Last updated: 2026-09-06 17:22 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -187,6 +187,7 @@ Key laws/scars:
 - TOOL SUCCESS != TASK SUCCESS
 - submitted != started != running != completed != registered != promoted
 - current process PID != stable ownership identity
+- PID_ALIVE != SAME_PROCESS
 - SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL
 - FAILURE_SEED + DETERMINISTIC_TRACE > UNREPLAYABLE_FLAKE as a verification receipt
 - DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD — steady-state mutation should extend a verified fold/checkpoint/cache when lawful; full rebuild remains recovery/audit backstop
@@ -315,17 +316,16 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-038 is technically earned and awaiting Git publication. Hostile execution testing now has a bounded executable schedule-search/replay mechanism: current survivor schedules remain green, while a vulnerable pre-A-034 reference is rediscovered by seed and exactly replayed.
+A-039 legacy PID identity binding is technically earned locally and awaiting Git publication.
 
-Active method law:
-**SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL.**
+Load-bearing identity law:
+**PID_ALIVE != SAME_PROCESS**.
 
-Replay law:
-**A FAILURE SEED + DETERMINISTIC TRACE IS A STRONGER RECEIPT THAN AN UNREPLAYABLE FLAKE.**
+Companion distinction:
+**IDENTITY_AUTHORITY != CONSERVATIVE_CAPACITY_ACCOUNTING**.
+An alive but unverifiable historical PID may consume capacity until reconciliation without being granted SAME_PROCESS authority.
 
-Do not overclaim: seeded randomized schedules are not exhaustive formal verification.
-
-The mechanism exposed a stronger next correctness seam than informer optimization: legacy non-worker PID reuse remains identity-unsafe. A-039 shall pressure that after A-038 remote readback.
+A-040 informer/watch remains blocked until A-039 remote readback. Its survivor must keep watcher/cache state derived and retain slow level-triggered resync as correctness authority.
 
 ## Current quality/search posture
 

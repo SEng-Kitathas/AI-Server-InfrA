@@ -627,6 +627,65 @@ def _pid_alive(pid: Any) -> bool:
     return True
 
 
+LEGACY_PROCESS_IDENTITY_SAME = "same_process"
+LEGACY_PROCESS_IDENTITY_DEAD = "dead"
+LEGACY_PROCESS_IDENTITY_MISMATCH = "creation_time_mismatch"
+LEGACY_PROCESS_IDENTITY_UNVERIFIABLE = "identity_unverifiable"
+
+
+def _process_creation_time_100ns(pid: Any) -> int | None:
+    try:
+        pid_int = int(pid)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    if pid_int <= 0 or _wjo is None:
+        return None
+    try:
+        return int(_wjo.process_creation_time_100ns(pid_int))
+    except (OSError, RuntimeError, ValueError, TypeError):
+        return None
+
+
+def _legacy_process_identity_state(
+    job: ExecutionJobRecord,
+) -> tuple[str, int | None]:
+    """Classify legacy non-worker RUNNING identity without PID-only trust.
+
+    Historical records lacking a creation-time witness are intentionally not TOFU-adopted.
+    An alive recycled PID is not authority to claim the original process still exists.
+    """
+    if not _pid_alive(job.pid):
+        return LEGACY_PROCESS_IDENTITY_DEAD, None
+    expected = getattr(job, "pid_creation_time_100ns", None)
+    if expected is None:
+        return LEGACY_PROCESS_IDENTITY_UNVERIFIABLE, _process_creation_time_100ns(job.pid)
+    observed = _process_creation_time_100ns(job.pid)
+    if observed is None:
+        return LEGACY_PROCESS_IDENTITY_UNVERIFIABLE, None
+    if int(observed) != int(expected):
+        return LEGACY_PROCESS_IDENTITY_MISMATCH, int(observed)
+    return LEGACY_PROCESS_IDENTITY_SAME, int(observed)
+
+
+def _durable_running_consumes_capacity(job: ExecutionJobRecord) -> bool:
+    """Conservative capacity accounting is distinct from process-identity authority.
+
+    A live legacy PID with unverifiable historical identity still consumes capacity until
+    reconciliation explicitly resolves the record.  This prevents over-admission without
+    promoting that PID to SAME_PROCESS.  Dead/mismatched identities do not consume a slot.
+    """
+    if job.status != JOB_STATUS_RUNNING:
+        return False
+    if getattr(job, "worker_token", None):
+        # Worker-capsule semantics are intentionally unchanged in A-039.
+        return _pid_alive(job.pid)
+    state, _observed = _legacy_process_identity_state(job)
+    return state in {
+        LEGACY_PROCESS_IDENTITY_SAME,
+        LEGACY_PROCESS_IDENTITY_UNVERIFIABLE,
+    }
+
+
 def _project_execution_dirs() -> Any:
     if not PROJECTS_ROOT.exists():
         return
@@ -739,9 +798,7 @@ def _effective_running_count(project_id: str | None = None) -> int:
         job_id = job.job_id
         if not job_id or job_id in seen:
             continue
-        if job.status != "RUNNING":
-            continue
-        if _pid_alive(job.pid):
+        if _durable_running_consumes_capacity(job):
             count += 1
     return count
 
@@ -806,8 +863,14 @@ def _readiness_scan_jobs() -> (
         project_id = job.project_id.strip()
         if project_id and project_id not in per_project:
             per_project[project_id] = _capacity_snapshot(project_id)
-        if job.status == JOB_STATUS_RUNNING and not _pid_alive(job.pid):
-            unsupervised_jobs.append(str(job.job_id))
+        if job.status == JOB_STATUS_RUNNING:
+            if job.worker_token:
+                identity_alive = _pid_alive(job.pid)
+            else:
+                identity_state, _observed = _legacy_process_identity_state(job)
+                identity_alive = identity_state == LEGACY_PROCESS_IDENTITY_SAME
+            if not identity_alive:
+                unsupervised_jobs.append(str(job.job_id))
         age = _readiness_queue_age(job, now_epoch)
         oldest_queued_age_seconds = _max_optional_age(oldest_queued_age_seconds, age)
     return per_project, corrupt_job_files, unsupervised_jobs, oldest_queued_age_seconds
@@ -1498,7 +1561,7 @@ def _running_census() -> tuple[int, dict[str, int]]:
         if not job_id:
             continue
         managed = job_id in managed_alive
-        durable_alive = job.status == JOB_STATUS_RUNNING and _pid_alive(job.pid)
+        durable_alive = _durable_running_consumes_capacity(job)
         if not managed and not durable_alive:
             continue
 
@@ -1598,7 +1661,12 @@ def _job_failure_excerpt(job: ExecutionJobRecord) -> tuple[str, str]:
 
 
 def _mark_supervision_lost(
-    project_id: str, job_id: str, job: ExecutionJobRecord
+    project_id: str,
+    job_id: str,
+    job: ExecutionJobRecord,
+    *,
+    legacy_identity_state: str | None = None,
+    observed_creation_time_100ns: int | None = None,
 ) -> ExecutionJobRecord:
     _set_job_status(job, JOB_STATUS_FAILED, "supervision_lost")
     job.finished_at = job.finished_at or utc_now()
@@ -1606,6 +1674,13 @@ def _mark_supervision_lost(
     # Reconciliation is a scheduler state transition, not an output-read operation.
     # Do not open operator-controlled stdout/stderr paths while admission is held.
     # Bounded output retrieval remains available through the explicit read path.
+    identity_extra: dict[str, Any] = {}
+    if legacy_identity_state is not None:
+        identity_extra = {
+            "legacy_process_identity_state": legacy_identity_state,
+            "expected_creation_time_100ns": job.pid_creation_time_100ns,
+            "observed_creation_time_100ns": observed_creation_time_100ns,
+        }
     job.failure_digest = _failure_digest(
         job,
         "SUPERVISION_LOST",
@@ -1613,9 +1688,25 @@ def _mark_supervision_lost(
         stderr_excerpt="",
         stdout_excerpt="",
         excerpt_capture="deferred_to_output_read",
+        **identity_extra,
     )
     _write_job(project_id, job_id, job)
     return job
+
+
+def _finalize_legacy_identity(
+    project_id: str, job_id: str, job: ExecutionJobRecord
+) -> ExecutionJobRecord:
+    state, observed = _legacy_process_identity_state(job)
+    if state == LEGACY_PROCESS_IDENTITY_SAME:
+        return _mark_job_unsupervised(project_id, job_id, job)
+    return _mark_supervision_lost(
+        project_id,
+        job_id,
+        job,
+        legacy_identity_state=state,
+        observed_creation_time_100ns=observed,
+    )
 
 
 def _mark_timeout_failure(
@@ -1782,9 +1873,7 @@ def _finalize_without_process(
         return _read_job(project_id, job_id)
     if job.status != JOB_STATUS_RUNNING:
         return job
-    if _pid_alive(job.pid):
-        return _mark_job_unsupervised(project_id, job_id, job)
-    return _mark_supervision_lost(project_id, job_id, job)
+    return _finalize_legacy_identity(project_id, job_id, job)
 
 
 def _finalize_running_process(
@@ -1825,11 +1914,18 @@ def _reconcile_job_locked(job: ExecutionJobRecord) -> None:
         return
     if job.status != JOB_STATUS_RUNNING:
         return
-    if _pid_alive(job.pid):
+    state, observed = _legacy_process_identity_state(job)
+    if state == LEGACY_PROCESS_IDENTITY_SAME:
         if job.supervision_state != "unsupervised":
             _mark_job_unsupervised(project_id, job_id, job)
         return
-    _mark_supervision_lost(project_id, job_id, job)
+    _mark_supervision_lost(
+        project_id,
+        job_id,
+        job,
+        legacy_identity_state=state,
+        observed_creation_time_100ns=observed,
+    )
     _scheduler_stat_inc("jobs_failed")
     _scheduler_stat_inc("jobs_reconciled")
 

@@ -1,13 +1,13 @@
 {
   "authority_ceiling": "commit-bound recovery mirror; not live Runtime/project-store authority; fresh consequence-bearing readback required before mutation",
-  "created_at": "2026-09-06T16:48:00-04:00",
-  "current_handoff_candidate_test_state": "A-038 execution/sim 39/39 + handoff 6/6 PASS; full suite 289 GREEN before mirror refresh; final exact-candidate rerun follows",
-  "current_step": "A-038 deterministic execution lifecycle simulation / replay on-ramp",
+  "created_at": "2026-09-06T17:25:00-04:00",
+  "current_handoff_candidate_test_state": "A-039 focused 29/29 + handoff 6/6 PASS; full suite 297 GREEN before mirror refresh; final exact-candidate rerun follows",
+  "current_step": "A-039 legacy non-worker PID reuse identity binding",
   "files": {
     "COMMANDERS_INTENT_CURRENT.md": {
-      "bytes": 33959,
+      "bytes": 33950,
       "role": "intent",
-      "sha256": "dee3e285bc415edcf565d51b572b037c61285369acdbe81937c4424bf5e1d1d0",
+      "sha256": "f0981c20ef2a090b50623b39c7f9c70aae694eb8f6a95f1d3bbe887e2e67c963",
       "source_project_path": "checkpoints/COMMANDERS_INTENT_CURRENT.md"
     },
     "CURRENT_CANONICAL_SOP_POINTER.md": {
@@ -17,34 +17,34 @@
       "source_project_path": "state/doctrine_snapshot/CURRENT_CANONICAL_SOP_POINTER.md"
     },
     "CURRENT_STATE.md": {
-      "bytes": 23141,
+      "bytes": 23035,
       "role": "frontier",
-      "sha256": "8c320cad3d2e82f9975d077cf1a83f36e47a106e604aada5036230eefd963328",
+      "sha256": "49aecffbf51e83f4a7296f9f55bf8fe564f5b7c8579fd4088fd84af3722ff99f",
       "source_project_path": "state/current/CURRENT_STATE.md"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 131693,
+      "bytes": 139251,
       "role": "history_chronology",
-      "sha256": "45795b6e04514bb40002ac832adc6e36c77be9af542ffbdca5ffc18159b28bdf",
+      "sha256": "8a8788f62350cb32f5b21b64af912e5f20bc9ea277a8c2c275b9feda9c87b49b",
       "source_project_path": "continuity/design_thread_stream/DESIGN_THREAD_STREAM.md"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 18795,
+      "bytes": 18628,
       "role": "constraints",
-      "sha256": "51f1c8cbb5081f8a8b642965a1fc574434fb0001b1c1e9c11d4ee40f2d840594",
+      "sha256": "dcb1deeb252cfe1d4424e92561dd8e5049e1a13d5a5ff2d2526359bfb5a67c62",
       "source_project_path": "state/doctrine_snapshot/DOCTRINE_SNAPSHOT.md"
     },
     "GIT_PUBLICATION_BASE.md": {
-      "bytes": 750,
+      "bytes": 743,
       "role": "publication_base",
-      "sha256": "7a4f04810d011c0225b41ea2d86e9a70bc0f0f3a22333e2e86e33a1b56051ad8",
+      "sha256": "9ec0bbdb212aa2107d4a4ff3e495c4ce4718ac1e560af551b440f77cf0bce0c0",
       "source_project_path": "checkpoints/GIT_PUBLICATION_CURRENT.md"
     },
     "HANDOFF_QUALIFICATION.md": {
-      "bytes": 1879,
-      "claim_ceiling": "A-038 qualified for Git publication; final no-mutation gate + remote readback pending",
+      "bytes": 1943,
+      "claim_ceiling": "A-039 qualified for Git publication; final no-mutation gate + remote readback pending",
       "role": "handoff_qualification",
-      "sha256": "f5b95e5dac451a423545f3e8e036ef4b87aa420d8d3485d5e41d9ca31d5bea22",
+      "sha256": "c581f1759c7b82b9a2f8adc57917916c1152c3183a84431e567cb601b42a41ad",
       "source_project_path": null
     },
     "ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md": {
@@ -60,9 +60,9 @@
       "source_project_path": "state/doctrine_snapshot/ICF_CS_CLAIM_CEILING.md"
     },
     "ICF_CS_CURRENT.md": {
-      "bytes": 6435,
+      "bytes": 6395,
       "role": "current_ingress",
-      "sha256": "5f48412abbb55def177be4d735071b6d7b29706ade426d47c58a1574e8582105",
+      "sha256": "8cb9421aea896e0eaa5390b84670830e2039ae0aada107c8c416981490cb1c56",
       "source_project_path": "checkpoints/ICF_CS_CURRENT.md"
     },
     "ICF_CS_V1_0_MACHINE.json": {
@@ -78,21 +78,21 @@
       "source_project_path": "state/doctrine_snapshot/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 10839,
+      "bytes": 10594,
       "role": "history_active",
-      "sha256": "7783fe6d4ce388a2a20f6c7080f818001116f7b342522defe64f9f55f29410e6",
+      "sha256": "840bd122da385c757fb357dae0876234db3a588534e2f6d9abb452571c95b644",
       "source_project_path": "continuity/live_shadow/LIVE_SHADOW.md"
     },
     "NEXT_STEPS.md": {
-      "bytes": 10467,
+      "bytes": 10279,
       "role": "frontier",
-      "sha256": "45460dd5f9f3e6e6ebb89d1cfff16f6e17e31d22661db670d4f9263bd7eae9b8",
+      "sha256": "a0a30441d72dbd74bc4df51cd8f60638f324e7371039b0e525b528cd29e579d9",
       "source_project_path": "state/next_steps/NEXT_STEPS.md"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 25002,
+      "bytes": 25021,
       "role": "constraints",
-      "sha256": "17c69dca4cbe4a0216b426e70b24e0b7c72bdad452e4c461d28d4aadd48cd08e",
+      "sha256": "f7d0189c361f7030f652e8812c071ea8a656d9ef8d8a526ba011327a7f75af5a",
       "source_project_path": "state/revisit_ledger/REVISIT_LEDGER.md"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
@@ -109,15 +109,15 @@
       "source_project_path": null
     },
     "TRACE_MATRIX.md": {
-      "bytes": 32991,
+      "bytes": 33684,
       "role": "constraints_trace",
-      "sha256": "f5727beaa540a7bb3e521ca432ce211e615b2505be97c2599ae983cf6995f8f5",
+      "sha256": "91e582db009a5cb97bde67621e43e6fb85ae825140f46ee8148054cc1747b533",
       "source_project_path": "state/trace_matrix/TRACE_MATRIX.md"
     }
   },
-  "pre_handoff_git_base": "59b4b5e5d6339127e50e052827f27bc94a14c832",
-  "pre_handoff_test_state": "284 collected tests GREEN; one conditional Windows symlink-privilege skip",
-  "pre_handoff_tree": "46077507f1023d913048fa23e0fee2701a7e82c1",
+  "pre_handoff_git_base": "cb2b4ee2c54c2aab02fa29b8feca6c40c666148e",
+  "pre_handoff_test_state": "289 collected tests GREEN; one conditional Windows symlink-privilege skip",
+  "pre_handoff_tree": "74bfe0f70a998bb4ee7953b60169dbe7d119d54d",
   "project_id": "PCMMAD_RECEIVER_LAB",
   "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
   "schema": "pcmmad.git-handoff-snapshot.v1"

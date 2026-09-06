@@ -57,6 +57,7 @@ class DeterministicExecutionLifecycleSim:
         global_limit: int = 2,
         project_limit: int = 1,
         scheduler_variant: str = "current",
+        legacy_identity_variant: str = "current",
     ):
         self.seed = int(seed)
         self.rng = random.Random(self.seed)
@@ -64,7 +65,10 @@ class DeterministicExecutionLifecycleSim:
         self.project_limit = int(project_limit)
         if scheduler_variant not in {"current", "pre_a034"}:
             raise ValueError("scheduler_variant must be current or pre_a034")
+        if legacy_identity_variant not in {"current", "pid_only"}:
+            raise ValueError("legacy_identity_variant must be current or pid_only")
         self.scheduler_variant = scheduler_variant
+        self.legacy_identity_variant = legacy_identity_variant
         self.clock = VirtualClock()
         self.trace: list[Json] = []
         self.job_counter = 0
@@ -106,6 +110,19 @@ class DeterministicExecutionLifecycleSim:
         self._stack.enter_context(patch.object(er, "EXECUTION_DRAIN_BATCH", None))
         self._stack.enter_context(patch.object(er, "utc_now", side_effect=self.clock.now))
         self._stack.enter_context(patch.object(er, "_pid_alive", side_effect=self._pid_alive))
+        self._stack.enter_context(
+            patch.object(
+                er, "_process_creation_time_100ns", side_effect=self._process_creation_time_100ns
+            )
+        )
+        if self.legacy_identity_variant == "pid_only":
+            self._stack.enter_context(
+                patch.object(
+                    er,
+                    "_legacy_process_identity_state",
+                    side_effect=self._pid_only_identity_state,
+                )
+            )
         self._stack.enter_context(patch.object(er, "_spawn_job", side_effect=self._fake_spawn))
         self._stack.enter_context(patch.object(er, "_iter_job_files", side_effect=self._sorted_hot_iter))
         self._stack.enter_context(patch.object(er, "_drain_queue", side_effect=self._observed_drain))
@@ -154,6 +171,22 @@ class DeterministicExecutionLifecycleSim:
         except (TypeError, ValueError):
             return False
 
+    def _process_creation_time_100ns(self, pid: int | None) -> int | None:
+        if pid is None:
+            return None
+        try:
+            return self.pid_generation.get(int(pid))
+        except (TypeError, ValueError):
+            return None
+
+    def _pid_only_identity_state(
+        self, job: ExecutionJobRecord
+    ) -> tuple[str, int | None]:
+        observed = self._process_creation_time_100ns(job.pid)
+        if not self._pid_alive(job.pid):
+            return er.LEGACY_PROCESS_IDENTITY_DEAD, observed
+        return er.LEGACY_PROCESS_IDENTITY_SAME, observed
+
     def _fake_spawn(self, job: ExecutionJobRecord) -> ExecutionJobRecord:
         pid = self.next_pid
         self.next_pid += 1
@@ -162,6 +195,7 @@ class DeterministicExecutionLifecycleSim:
         self.job_process_identity[job.job_id] = (pid, generation)
         er._set_job_status(job, er.JOB_STATUS_RUNNING, "runtime")
         job.pid = pid
+        job.pid_creation_time_100ns = generation
         job.started_at = self.clock.now()
         job.supervision_state = "simulated_process"
         return job
@@ -233,6 +267,7 @@ class DeterministicExecutionLifecycleSim:
             "pid_alias_jobs": sorted(aliases),
             "drain_calls": self.drain_calls,
             "scheduler_variant": self.scheduler_variant,
+            "legacy_identity_variant": self.legacy_identity_variant,
             "pid_recycles": self.pid_recycles,
             "telemetry": {
                 "jobs_reconcile_errors": er._scheduler_snapshot().get("jobs_reconcile_errors"),
@@ -269,7 +304,17 @@ class DeterministicExecutionLifecycleSim:
         for job in terminal:
             if job.status not in er.JOB_TERMINAL_STATUSES:
                 self._fail(f"active status stranded in terminal store: {job.job_id}:{job.status}")
-        running = [j for j in active if j.status == er.JOB_STATUS_RUNNING and self._pid_alive(j.pid)]
+        running = [
+            j
+            for j in active
+            if j.status == er.JOB_STATUS_RUNNING
+            and (
+                self._pid_alive(j.pid)
+                if getattr(j, "worker_token", None)
+                else er._legacy_process_identity_state(j)[0]
+                == er.LEGACY_PROCESS_IDENTITY_SAME
+            )
+        ]
         if len(running) > self.global_limit:
             self._fail(f"global running limit exceeded: {len(running)} > {self.global_limit}")
         for project_id in self.PROJECTS:
@@ -344,16 +389,18 @@ class DeterministicExecutionLifecycleSim:
         er._scheduler_tick()
         if self.drain_calls <= before:
             self._fail("scheduler tick failed to reach drain")
-        # On a clean tick, every dead non-worker RUNNING record should be reconciled.
+        # On a clean tick, every invalid legacy non-worker RUNNING identity
+        # (dead, recycled, or otherwise unverifiable) should be reconciled.
         stranded = [
             job.job_id
             for job in self._active_records()
             if job.status == er.JOB_STATUS_RUNNING
-            and not job.worker_token
-            and not self._pid_alive(job.pid)
+            and not getattr(job, "worker_token", None)
+            and er._legacy_process_identity_state(job)[0]
+            != er.LEGACY_PROCESS_IDENTITY_SAME
         ]
         if stranded:
-            self._fail(f"dead RUNNING jobs survived clean tick: {stranded}")
+            self._fail(f"invalid legacy RUNNING identities survived clean tick: {stranded}")
         self._record_trace("tick")
 
     def action_tick_reconcile_fault(self) -> bool:
@@ -451,6 +498,7 @@ class DeterministicExecutionLifecycleSim:
             "seed": self.seed,
             "steps": int(steps),
             "scheduler_variant": self.scheduler_variant,
+            "legacy_identity_variant": self.legacy_identity_variant,
             "trace": self.trace,
             "final_state": self._state_summary(),
             "reconcile_faults": self.reconcile_faults,
@@ -464,11 +512,44 @@ def run_seed(
     steps: int = 40,
     *,
     scheduler_variant: str = "current",
+    legacy_identity_variant: str = "current",
 ) -> Json:
     with DeterministicExecutionLifecycleSim(
-        seed, scheduler_variant=scheduler_variant
+        seed,
+        scheduler_variant=scheduler_variant,
+        legacy_identity_variant=legacy_identity_variant,
     ) as sim:
         return sim.run(steps)
+
+
+def run_pid_reuse_probe(*, legacy_identity_variant: str) -> Json:
+    """Execute one fixed legacy PID-reuse schedule for vulnerable/current comparison."""
+    with DeterministicExecutionLifecycleSim(
+        0, legacy_identity_variant=legacy_identity_variant
+    ) as sim:
+        sim.action_queue("p1")
+        sim.action_tick()
+        running_before = [
+            job.job_id
+            for job in sim._active_records()
+            if job.status == er.JOB_STATUS_RUNNING
+        ]
+        if len(running_before) != 1:
+            sim._fail(f"PID reuse probe expected one RUNNING job, got {running_before}")
+        target = running_before[0]
+        if not sim.action_recycle_pid():
+            sim._fail("PID reuse probe could not recycle target process")
+        sim.action_tick()
+        active_after = {job.job_id: job.status for job in sim._active_records()}
+        terminal_after = {job.job_id: job.status for job in sim._terminal_records()}
+        return {
+            "legacy_identity_variant": legacy_identity_variant,
+            "target_job_id": target,
+            "target_active_after": active_after.get(target),
+            "target_terminal_after": terminal_after.get(target),
+            "trace": sim.trace,
+            "final_state": sim._state_summary(),
+        }
 
 
 def discover_failure(
@@ -498,10 +579,16 @@ def main() -> int:
     parser.add_argument(
         "--scheduler-variant", choices=("current", "pre_a034"), default="current"
     )
+    parser.add_argument(
+        "--legacy-identity-variant", choices=("current", "pid_only"), default="current"
+    )
     args = parser.parse_args()
     try:
         result = run_seed(
-            args.seed, args.steps, scheduler_variant=args.scheduler_variant
+            args.seed,
+            args.steps,
+            scheduler_variant=args.scheduler_variant,
+            legacy_identity_variant=args.legacy_identity_variant,
         )
     except SimulationInvariantError as exc:
         print(str(exc))

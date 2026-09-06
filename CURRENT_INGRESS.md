@@ -89,37 +89,37 @@ Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/
 
 ## Verified base and current candidate
 
-Last remote-verified Git base before A-038:
-- commit `59b4b5e5d6339127e50e052827f27bc94a14c832`;
-- tree `46077507f1023d913048fa23e0fee2701a7e82c1`;
-- A-037 protocol incremental fold/recovery current;
-- full suite 284 GREEN.
+Last remote-verified Git base before A-039:
+- commit `cb2b4ee2c54c2aab02fa29b8feca6c40c666148e`;
+- tree `74bfe0f70a998bb4ee7953b60169dbe7d119d54d`;
+- A-038 deterministic execution lifecycle replay current;
+- full suite 289 GREEN.
 
-Current A-038 candidate:
-- bounded seeded schedule/replay harness over real execution helpers;
-- current 100x40 campaign green;
-- pre-A034 mechanically rediscovered at seed0 and exact failure replayed;
-- same seed current survivor green;
-- focused 39/39 PASS; full suite 289 GREEN;
-- current PID-reuse alias witness promotes A-039 correctness seam ahead of informer optimization.
+Current A-039 candidate:
+- legacy non-worker PID liveness is bound to process creation-time identity where available;
+- mismatch/dead do not masquerade as owned RUNNING processes;
+- alive unverifiable history remains conservative capacity but no SAME_PROCESS authority;
+- fixed vulnerable/current PID-reuse probe proves the repair;
+- focused 29/29 PASS; full suite 297 GREEN;
+- worker capsule/Job Object semantics unchanged.
 
-Resolve current Git identity dynamically; this snapshot does not prove whether A-038 has been pushed.
+Resolve current Git identity dynamically; this snapshot does not prove whether A-039 has been pushed.
 
 ## Current handoff-candidate qualification
 
-A-038 qualification before mirror refresh:
-- execution/simulation cluster **39 / 39 PASS**;
-- complete V30 suite **289 GREEN**.
+A-039 engineering qualification before mirror refresh:
+- focused identity/execution/simulation cluster **29 / 29 PASS**;
+- complete V30 suite **297 GREEN**.
 
-The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/execution-simulation/full-suite gate follows this qualification update, with no repo mutation before commit.
+The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/A-039-focused/full-suite gate follows this qualification update, with no repo mutation before commit.
 
-## Active engineering frontier after A-038 publication
+## Active engineering frontier after A-039 publication
 
-1. A-039 legacy non-worker PID reuse identity binding + deterministic recycle regression.
-2. Execution informer watch/cache + slow full resync.
+1. A-040 execution active-store informer/watch + slow full resync.
+2. Watcher/cache state must remain derived; level-triggered resync is correctness backstop.
 3. CT/Merkle proof-carrying protocol receipts.
 4. Lab/protocol idempotency and Windows Job Object resource limits.
-5. Remaining raids only after current-tree discriminators.
+5. Remaining raid mechanisms require current-tree discriminators.
 6. Final schema redesign remains locked last.
 
 ## Release/live ceiling

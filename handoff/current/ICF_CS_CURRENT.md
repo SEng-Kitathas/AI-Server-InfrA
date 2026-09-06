@@ -147,7 +147,7 @@ Git-contained ICF-CS recovery mirror publication is COMPLETE:
 - remote `CURRENT_INGRESS.md` readback PASS;
 - handoff focused 6/6 PASS; full suite 251 GREEN.
 
-Active Frontier: A-038 deterministic execution lifecycle simulation/replay is technically earned (focused 39/39; full 289 GREEN) and must be Git-published/remote-read before A-039 legacy non-worker PID reuse identity binding. Seed 0 is the replayable current discriminator; informer/watch remains behind this correctness seam.
+Active Frontier: A-039 legacy non-worker PID identity binding is technically earned (focused 29/29; full 297 GREEN; fixed vulnerable/current PID-reuse proof; 100x40 current campaign green) and must be Git-published/remote-read before A-040 execution informer/watch + slow resync begins.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 

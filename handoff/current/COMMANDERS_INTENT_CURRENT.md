@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-06 16:45 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-06 17:22 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -647,26 +647,25 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-038 deterministic execution lifecycle simulation/replay is technically earned locally:
-- real current execution store/admission/reconciliation helpers under seeded virtual clock/process schedule;
-- current 100 seeds × 40 steps PASS;
-- historical pre-A034 reference mechanically rediscovered at seed 0;
-- exact vulnerable failure trace replayed byte-identically twice;
-- same seed/current scheduler passes while exercising 3 reconcile faults + 2 PID recycle events;
-- focused execution/sim cluster 39/39 PASS; full suite 289 GREEN.
+A-039 legacy non-worker PID identity binding is technically earned locally with full suite **297 GREEN**.
 
-A-038 is bounded on-ramp, not exhaustive formal verification.
-
-The simulator also makes the next correctness seam executable: current seed 0 ends with two recycled-PID aliases (`job-00003`, `job-00007`) still active RUNNING because legacy non-worker reconciliation uses bare PID liveness. Worker-capsule ownership already carries creation-time identity.
+Locked A-039 direction:
+- **PID_ALIVE != SAME_PROCESS**;
+- legacy identity uses PID + creation-time witness where available;
+- mismatch/dead are not counted as owned capacity and reconcile terminal;
+- unverifiable identity is never TOFU-promoted to SAME_PROCESS; alive unverifiable history consumes capacity conservatively until reconciliation to preserve anti-overadmission;
+- worker-capsule/Job Object creation-time authority remains unchanged;
+- fixed deterministic `pid_only` vulnerable specimen remains RUNNING after recycle while current survivor becomes terminal FAILED;
+- 100x40 current campaign green; one clean final tick leaves zero aliases across all 100 seeds;
+- current host has zero live legacy non-worker RUNNING records.
 
 Immediate sequence:
-1. publish A-038 and remote-read;
-2. A-039 bind legacy non-worker RUNNING records to process identity (PID + creation time or equivalent) and add deterministic PID-reuse regression;
-3. only then informer/watch + slow resync;
-4. then CT/Merkle proof receipts;
-5. idempotency + Job Object resource limits;
-6. remaining raids evidence-ranked;
-7. final schema redesign remains locked last.
+1. publish A-039 and remote-read exact head;
+2. **A-040 execution active-store informer/watch + slow resync**: watch is derived edge accelerator only, never truth authority; slow level-triggered active-store resync remains correctness backstop;
+3. CT/Merkle protocol receipts;
+4. idempotency + Windows Job Object resource limits;
+5. remaining raid mechanisms evidence-ranked;
+6. final schema redesign remains locked last.
 
 ---
 

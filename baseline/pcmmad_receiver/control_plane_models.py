@@ -387,6 +387,7 @@ def _job_record_tail_args(mapped: JsonObject) -> JsonObject:
         "env_allowlist": _env_allowlist(mapped),
         "queue_position": _as_optional_int(mapped.get("queue_position")),
         "pid": _as_optional_int(mapped.get("pid")),
+        "pid_creation_time_100ns": _as_optional_int(mapped.get("pid_creation_time_100ns")),
         "worker_pid": _as_optional_int(mapped.get("worker_pid")),
         "worker_launcher_pid": _as_optional_int(mapped.get("worker_launcher_pid")),
         "worker_token": _as_optional_str(mapped.get("worker_token")),
@@ -451,6 +452,7 @@ class ExecutionJobRecord:
     env_allowlist: dict[str, str] = field(default_factory=dict)
     queue_position: int | None = None
     pid: int | None = None
+    pid_creation_time_100ns: int | None = None
     worker_pid: int | None = None
     worker_launcher_pid: int | None = None
     worker_token: str | None = None
