@@ -1440,3 +1440,49 @@ Claim ceiling:
 
 Next discriminator:
 compact Action projection for `/lab/results/get` currently advertises only historical `summary_only` while native Runtime supports `auto|full|metadata|preview|range`; classify and qualify separately in the next Git step.
+
+
+## A-032 — Compact Actions result-handle request hid native bounded retrieval modes
+Severity: P1 agent-context / adapter-result parity defect
+Status: FIXED AND QUALIFIED in V30 working tree
+
+Observed:
+- native `/lab/results/get` supports `mode=auto|full|metadata|preview|range`;
+- native range supports `offset_bytes` and bounded `length_bytes`;
+- native preview supports bounded `preview_chars`;
+- native constants are `RESULT_INLINE_SAFE_BYTES=12000`, `RESULT_RANGE_MAX_BYTES=65536`, `RESULT_PREVIEW_MAX_CHARS=4000`;
+- compact OpenAPI `ResultHandleRequest` exposed only `project_id`, `handle`, and historical `summary_only`;
+- because the request schema is closed (`additionalProperties=false`), constrained Action clients could not lawfully ask for metadata-only identity, exact byte slices, preview sizing, or explicit `full` versus `auto`.
+
+Classification:
+**FIX-NOW** — native bounded result mechanisms already exist and are load-bearing under the bounded-model-context/attention doctrine. Hiding them is semantic adapter loss, not harmless documentation compression.
+
+Embodiment:
+- compact `ResultHandleRequest.mode` now exposes exact native modes: `auto`, `full`, `metadata`, `preview`, `range`; default `auto`;
+- `offset_bytes`: minimum 0, default 0;
+- `length_bytes`: minimum 1, maximum 65536, default 32768;
+- `preview_chars`: minimum 200, maximum 4000, default 1200;
+- historical `summary_only` remains accepted and is explicitly documented as a preview alias;
+- operation description directs constrained clients toward auto/metadata/preview/range for bounded model context and makes full retrieval explicit opt-in;
+- compact operation count remains 30;
+- no native Runtime route/result semantics changed.
+
+Hostile regression:
+`tests/test_compact_schema_result_bounded_parity.py`
+
+It binds OpenAPI request bounds/defaults directly to native result constants and verifies the exact mode set, compatibility alias, closed request shape, bounded-context description, and 30-operation ceiling.
+
+Verification:
+- focused result/adapter/handoff cluster: **36/36 PASS**;
+- complete V30 suite: **260 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities:
+- compact schema SHA-256 `25be4cbd0ab4b5a0be10e1e087857537656a712f33308de12e3a462a7186bf6c`;
+- A-032 test SHA-256 `00056925c09ad0aa6b3c526e69d119964d2b13d79cf9680c678b59154d406d92`.
+
+Lossiness ceiling:
+- mode-dependent 200 response remains permissively typed as object. **ACCEPTABLE CURRENT COMPATIBILITY**: the request now preserves the bounded choice, native receipts preserve content identity/mode metadata, and strongly modeling every result variant would prematurely harden the inherited schema without a demonstrated client blocker.
+- explicit full mode remains available by deliberate caller choice; safe `auto` remains default.
+
+Next discriminator after Git publication:
+continue remaining OpenAPI/imported-action parity from the matrix rather than broad schema cleanup.

@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-05 22:36 ET
+Last updated: 2026-09-05 22:58 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,28 +263,28 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-031 compact OpenAPI capability-family effective-approval parity is **EARNED for current V30 working-tree scope**.
+A-032 compact result-handle bounded retrieval parity is **EARNED for current V30 working-tree scope** and pending this step's mandatory Git publication.
 
 Fresh evidence:
-- native registry **100 tools / 16 families**;
-- compact `CapabilityFamilyCard` now exactly represents native closed family-card keys, including `effective_approval_required_tools`;
-- declared approval count can differ materially from effective policy count (browser 6 declared / 12 effective), so the field is authority-significant;
-- compact compatibility surface remains exactly **30 operations**;
-- focused A-031 parity/authority cluster **32/32 PASS**;
-- complete V30 suite **254 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- compact schema SHA `2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`.
+- compact `/lab/results/get` request now exposes native `auto|full|metadata|preview|range`;
+- native range controls projected exactly: offset min/default 0, length min 1/default 32768/max 65536;
+- preview controls projected: min 200/default 1200/max 4000;
+- historical `summary_only=true` remains a documented preview alias;
+- `auto` remains bounded default and `full` explicit opt-in;
+- compact operation count remains 30;
+- focused result/adapter/currentness/handoff cluster **36/36 PASS**;
+- complete V30 suite **260 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- compact schema SHA `25be4cbd0ab4b5a0be10e1e087857537656a712f33308de12e3a462a7186bf6c`.
 
-A-031 classification:
-- closed family-card omission = **FIX-NOW → EARNED**;
-- permissive `/lab/tools.tools[]` native cards = **ACCEPTABLE CURRENT COMPATIBILITY** because wire semantics are preserved while validation/documentation remain intentionally loose; strongly typing the evolving tool-card catalog stays deferred unless a concrete client failure appears.
+Lossiness disposition:
+- hidden request-side bounded modes = **FIX-NOW -> EARNED**;
+- mode-dependent 200 response remains a permissive object = **ACCEPTABLE CURRENT COMPATIBILITY** because bounded choice/content identity are preserved and no concrete client requires a frozen response hierarchy.
 
-This A-031 state is being published under the user-mandated per-step Git cadence. Resolve current Git head dynamically from the repo; the last already-remote-verified base before this step was `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`.
-
-Exact next engineering discriminator after publication:
-1. compact `/lab/results/get` Actions request advertises only historical `summary_only`;
-2. native Runtime supports `auto|full|metadata|preview|range`, byte offsets/length and preview sizing;
-3. classify whether that adapter loss violates bounded result/attention law;
-4. do not mutate that surface until A-031 commit/push/remote-readback completes.
+Immediate sequence:
+1. refresh Git handoff mirror;
+2. qualify exact publication candidate;
+3. commit/push/remote-read A-032;
+4. only after publication, census remaining adapter-lossiness and select A-033 from evidence.
 
 ## Remaining major seams
 

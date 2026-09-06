@@ -2091,3 +2091,103 @@ Current byte-preserved publishable schema SHA:
 The earlier hash remains in chronology as a rejected pre-publication candidate; current authority surfaces were corrected to the CRLF-preserved hash rather than rewriting history.
 
 This reinforces the source-lineage law: semantic equivalence does not erase byte identity when manifests/Git lineage are intentionally byte-sensitive.
+
+
+### A-031 Git publication complete
+
+Final publishable A-031 candidate used the CRLF-preserved schema bytes.
+
+Final qualification before commit:
+- focused projection/A-031/handoff cluster **20/20 PASS**;
+- complete V30 suite **254 collected tests GREEN**;
+- compact operation count 30;
+- schema SHA `2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`.
+
+Git commit:
+`02b6ef1224a7ced2abab3cbd3e61235727842249`
+
+Tree:
+`6720a4ac13c41fe90c6ca70cb5a85e07fd612f0c`.
+
+Subject:
+`Fix compact capability-family effective approval parity`.
+
+Push:
+`cc2802f..02b6ef1  main -> main`.
+
+Independent readback:
+- local HEAD = remote `refs/heads/main` = `02b6ef1224a7ced2abab3cbd3e61235727842249`;
+- branch clean against `origin/main`.
+
+Disposition:
+**A-031 EARNED + GIT REMOTE-VERIFIED.**
+
+Next isolated adapter-lossiness discriminator:
+A-032 compact `/lab/results/get` request projection versus native bounded `auto|full|metadata|preview|range` modes.
+
+
+---
+
+## Phase 43 — A-032 compact Actions bounded result-handle parity
+
+### FRONTIER ENTRY
+A-031 was already remote-verified at `02b6ef1224a7ced2abab3cbd3e61235727842249` before this seam began.
+
+### EXACT LOSSINESS READBACK
+Native `/lab/results/get` supports:
+- `mode=auto|full|metadata|preview|range`;
+- historical `summary_only=true` as preview alias;
+- `offset_bytes` for range reads;
+- `length_bytes` default 32768, capped by `RESULT_RANGE_MAX_BYTES=65536`;
+- `preview_chars` default 1200, clamped 200..`RESULT_PREVIEW_MAX_CHARS=4000`;
+- auto mode returns preview for stored results larger than `RESULT_INLINE_SAFE_BYTES=12000`;
+- metadata mode avoids payload materialization;
+- explicit full mode is caller opt-in.
+
+Compact Actions `ResultHandleRequest` was closed (`additionalProperties=false`) and exposed only:
+- project_id;
+- handle;
+- summary_only.
+
+A constrained Action client therefore could not lawfully request metadata-only identity, exact byte slices, preview size, or explicit full-vs-auto behavior even though the Runtime already supported them.
+
+Classification:
+**FIX-NOW** — semantic adapter loss intersecting bounded model context/result doctrine.
+
+### EMBODIMENT
+Surgically updated the existing CRLF compact schema:
+- added exact mode enum `auto|full|metadata|preview|range`, default `auto`;
+- added `offset_bytes` min/default 0;
+- added `length_bytes` min 1 / default 32768 / max 65536;
+- added `preview_chars` min 200 / default 1200 / max 4000;
+- retained `summary_only` and documented it as historical preview alias;
+- operation description now tells constrained clients to prefer bounded modes and treats full as explicit opt-in;
+- operation count remains exactly 30.
+
+No native route/result behavior changed.
+
+Current schema SHA:
+`25be4cbd0ab4b5a0be10e1e087857537656a712f33308de12e3a462a7186bf6c`.
+
+### HOSTILE REGRESSION
+Added:
+`tests/test_compact_schema_result_bounded_parity.py`
+SHA `00056925c09ad0aa6b3c526e69d119964d2b13d79cf9680c678b59154d406d92`.
+
+The regression binds Action mode/range/preview controls to current native constants and protects the historical alias plus 30-operation ceiling.
+
+### VERIFICATION
+Focused native result + compact adapter + currentness + handoff cluster:
+**36/36 PASS**.
+
+Complete V30 suite:
+**260 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Projection matrix and compatibility contract advanced through A-032.
+
+### LOSSINESS CEILING
+Mode-dependent 200 response remains permissively typed as object.
+Disposition: **ACCEPTABLE CURRENT COMPATIBILITY / DEFERRED STRONG TYPING** because request bounded choice and native result identity/hash/mode truth are preserved while no concrete client requires a frozen polymorphic response hierarchy.
+
+### CURRENT STATE
+A-032 is technically/continuity-earned and awaiting this step's mandatory Git commit/push/remote-readback before any A-033 implementation begins.

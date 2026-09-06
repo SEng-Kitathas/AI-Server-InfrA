@@ -1,24 +1,24 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-05 22:36 ET
+Last updated: 2026-09-05 22:58 ET
 
 ## Immediate — current frontier
 
 Completed this step:
-- [x] A-031 classified closed OpenAPI family authority omission as FIX-NOW.
-- [x] `effective_approval_required_tools` added to closed `CapabilityFamilyCard` response schema.
-- [x] exact native-vs-schema family key parity regression added.
-- [x] focused A-031 cluster **32/32 PASS**.
-- [x] full V30 suite **254 GREEN**.
-- [x] compact operation count preserved at 30.
+- [x] A-032 bounded result-handle Actions loss classified FIX-NOW.
+- [x] exact native mode/range/preview controls projected into closed compact request schema.
+- [x] historical `summary_only` retained as compatibility alias.
+- [x] mode-dependent response strong typing explicitly deferred as acceptable current representation lossiness.
+- [x] focused cluster **36/36 PASS**.
+- [x] full V30 suite **260 GREEN**.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-031 to Git and remote-read | user requires Git after every earned step | commit/push succeeds, origin/main exact, outer publication receipt advanced |
-| P1 | Classify compact result-handle retrieval lossiness | Actions exposes `summary_only`; Runtime has bounded metadata/preview/range modes | ACCEPTABLE / DEFERRED / FIX-NOW disposition supported by exact route/schema evidence |
-| P1 | Continue adapter-lossiness ledger one seam at a time | avoid giant schema cleanup disguised as audit | each step separately qualified and pushed |
-| P1 | Keep final schema redesign locked | compatibility corrections are not ontology redesign | no broad schema rewrite before convergence |
+| P0 | Publish A-032 to Git | per-step publication law | commit/push/remote readback exact |
+| P1 | Re-census remaining adapter lossiness after A-032 | avoid stale matrix assumptions | next mismatch has exact evidence and disposition |
+| P1 | Select A-033 from highest-value actual mismatch | continue narrow earned increments | next isolated seam named after remote A-032 readback |
+| P1 | Keep final schema redesign locked | compatibility parity != ontology redesign | no broad rewrite |
 
 ## Near-term all-plane audit
 

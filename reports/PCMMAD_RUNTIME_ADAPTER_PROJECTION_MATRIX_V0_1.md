@@ -1,6 +1,6 @@
 # PCMMAD Runtime Adapter Projection Matrix v0.1
 
-Status: CURRENT CANDIDATE SHARED CONTRACT / runtime-audit derived / reconciled through A-031
+Status: CURRENT CANDIDATE SHARED CONTRACT / runtime-audit derived / reconciled through A-032
 Purpose: meeting surface between audited Laboratory Runtime semantics and OBE/Skill/MCP projection work. This does NOT freeze final adapter vocabulary.
 
 ## Governing laws
@@ -28,7 +28,7 @@ Purpose: meeting surface between audited Laboratory Runtime semantics and OBE/Sk
 | Process identity | Runtime ownership subsystem (evolving) | PID, launcher PID, worker PID, creation time, Job Object membership | process inspect/control via native capability | execution/control routes | process/service topology | presentation may omit internals; ownership identity must remain exact | ephemeral/live | high authority for control | mutation-specific | identity/readback receipt | creation time + owner epoch/fingerprint target | no |
 | Service | Runtime supervisor/control (partial) | receiver restart controller, HUD operator plane | service resolve/status/restart candidate | control tools | service constellation | summary allowed; target identity zero-loss | live | target-bound approval desired | restart key/receipt where applicable | health/process/listener convergence receipt | current generation/receipt | no |
 | Approval | Runtime policy/authority subsystem | target/argument/contract-bound short-lived single-use approval challenge + separate authority envelope; legacy inline path transitional only | approval handle/object | separate `authority` envelope | approval modal/inbox | zero semantic loss | expiring/consumable | canonical authority | n/a | approval challenge/receipt | args/target/capability contract digest + expiry/consumption | no |
-| Result | Native result store | result handles, stored batch/background payloads, bounded auto/metadata/preview/range/explicit-full retrieval | `results.get/preview/range` candidate | `/lab/results/get` bounded retrieval modes | result viewer | representation/range allowed; content identity exact | persistent/bounded | inherited/scoped | n/a | handle/hash/size/preview/range | immutable content hash + metadata | no |
+| Result | Native result store | result handles, stored batch/background payloads, bounded auto/metadata/preview/range/explicit-full retrieval | `results.get/preview/range` candidate | `/lab/results/get` request exposes exact auto/full/metadata/preview/range controls; response variants permissive | result viewer | request bounded-choice zero-loss; response representation may remain permissive; content identity exact | persistent/bounded | inherited/scoped | n/a | handle/hash/size/preview/range | immutable content hash + metadata | no |
 | Artifact | Project artifact registry | manifests, registration, hashes | artifact resolve/read/seal candidate | artifact/project routes | artifact browser | zero identity/hash loss | persistent | scoped mutation | operation-specific | exact hash/manifest | sealed lineage/currentness | no |
 | Transfer | Transfer plane | tickets/chunks/finalize/hash | capability discovery/invoke or transfer typed subset | transfer HTTP routes | transfer status | chunking representation allowed; ticket/hash/offset semantics exact | staged/expiring | mutation approval | offset/hash semantics | transfer receipt/hash | ticket expiry/currentness | no |
 | Continuity | Continuity subsystem | current/next/doctrine/revisit/trace/live-shadow/design-thread surfaces | bootstrap/read/update candidate | project/file/native tools | continuity wing | summaries allowed; source identity/currentness exact | persistent/append where applicable | project-scoped mutation | append/update-specific | exact source artifact readback | hash/revision/currentness | no |
@@ -81,7 +81,14 @@ The eventual schema should expose these existing compositional bones rather than
 ### A-031 adapter-lossiness disposition
 - **FIX-NOW / EARNED:** closed compact `CapabilityFamilyCard` omitted native `effective_approval_required_tools`, making the declared OpenAPI response shape contradict native serialization and hide effective policy count. Fixed/qualified without expanding the 30-operation surface.
 - **ACCEPTABLE CURRENT COMPATIBILITY:** `/lab/tools.tools[]` remains permissive (`additionalProperties=true`) so native tool cards cross the wire without truncation; this is validation/documentation lossiness, not semantic wire loss. Strongly typing the entire evolving capability card is deferred until final schema campaign unless a concrete client failure appears.
-- **NEXT UNCLASSIFIED:** compact `/lab/results/get` request still exposes historical `summary_only` while native Runtime has bounded `auto|full|metadata|preview|range`; evaluate next because it intersects the bounded-agent-attention/result law.
+- **A-032 FIX-NOW / EARNED:** compact `/lab/results/get` now exposes native bounded `auto|full|metadata|preview|range` request controls; historical `summary_only` remains a preview alias. Mode-dependent response typing stays permissive as acceptable legacy representation lossiness.
+
+
+### A-032 adapter-lossiness disposition
+- **FIX-NOW / EARNED:** closed Actions request previously hid native metadata/preview/range controls, preventing constrained clients from selecting decision-grade bounded reads.
+- **ZERO-LOSS REQUIREMENT:** retrieval mode choice and native range/preview bounds are now projected exactly.
+- **ACCEPTABLE CURRENT COMPATIBILITY:** the legacy OpenAPI 200 response remains a permissive object because result shapes vary by selected mode; native mode/content hash/size/result identity remain authority and no concrete client requires a frozen `oneOf` response hierarchy now.
+- Full retrieval remains explicit opt-in; `auto` remains safe default.
 
 ## Current open reconciliation items before interface promotion
 Earned and removed from the open list: full effect classification, bound approval authority, bounded result preview/range, plugin transactional lifecycle/currentness, and native availability/currentness core.

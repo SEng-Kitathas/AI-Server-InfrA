@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-05 22:41 ET
+Last updated: 2026-09-05 22:58 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-031 qualified after stale-evaluator repair; Git publication next
+- Current mode: BUILD-COMMIT / PROMOTION — A-032 bounded-result parity earned; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-031 family effective-approval OpenAPI parity after final 20/20 focused + 254 full GREEN; then classify bounded result-handle Actions lossiness.
+- Dominant objective: push A-032 bounded result-handle Actions parity, remote-read it, then re-census adapter lossiness for A-033.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -29,10 +29,8 @@ Last updated: 2026-09-05 22:41 ET
 
 ### Git publication truth
 - exact Git root: `V30_WORKING/PCMMAD_receiver`; branch `main`; remote `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`.
-- current local/remote HEAD `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`; tree `b93f7973a3c29c6f6ddfcbc88df9405e0c61d095`; upstream clean.
-- `CURRENT_INGRESS.md` and `handoff/current/` are now remotely published and remote object readback passed.
-- final handoff regression 6/6 PASS; complete V30 suite 251 GREEN on published source candidate bytes.
-- handoff is a commit-bound recovery mirror, not a second live authority.
+- current local/remote HEAD `02b6ef1224a7ced2abab3cbd3e61235727842249`; tree `6720a4ac13c41fe90c6ca70cb5a85e07fd612f0c`; upstream clean after A-031 push.
+- A-031 family effective-approval parity is current Git source truth.
 - `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`; live Desktop receiver remains separate.
 
 ### Current runtime/test truth
@@ -115,10 +113,10 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-031 and remote-read exact head;
-2. next classify `/lab/results/get` Actions lossiness (`summary_only` vs native auto/full/metadata/preview/range);
-3. continue adapter mismatches one earned/pushed step at a time;
-4. rank next Runtime seam only after remaining lossiness is classified;
+1. P0 publish A-032 and remote-read exact head;
+2. re-census remaining OpenAPI/imported-action/runtime-surface lossiness;
+3. choose A-033 only from exact remaining mismatch evidence;
+4. continue one earned/pushed seam at a time;
 5. final schema remains last-stage.
 
 ### Tooling seam
@@ -126,27 +124,26 @@ Root-level ranking/cache-currentness defect is **closed in V30 current scope**. 
 
 ## Immediate Next Step
 
-1. refresh Git handoff mirror to A-031 qualified state;
-2. run handoff regression on refreshed snapshot;
-3. commit A-031 intended delta only;
-4. push `main` and remote-read head;
-5. update outer Git receipt;
-6. only then begin bounded-result Actions parity.
+1. refresh repo handoff mirror to A-032;
+2. run handoff + full exact-candidate gates;
+3. commit/push A-032 and remote-read;
+4. update outer Git receipt;
+5. then run remaining adapter-lossiness census for A-033.
 
 ## Last 10 Turn Reinforcement Window
-1. ASSISTANT: A-031 closed family authority-schema mismatch implemented; 30 ops preserved.
-2. ASSISTANT: focused compact/effect/authority cluster 32/32 PASS. VERIFIED.
-3. ASSISTANT: full suite 254 GREEN on A-031 engineering bytes. VERIFIED.
-4. ASSISTANT: audit/projection matrix updated; bounded result retrieval isolated as next separate seam.
-5. ASSISTANT: Current/Next/Doctrine/Revisit/Trace/Live/ICF/Commander registered to A-031; DTS appended. STATE CHANGE.
-6. ASSISTANT: Git recovery mirror refreshed to A-031 qualified state; handoff regression 6/6 PASS.
-7. ASSISTANT: first final exact-candidate full-suite gate FAILED two stale projection-currentness assertions pinned to A-030. HOSTILE FAILURE.
-8. ASSISTANT: failure localized as evaluator/currentness staleness; matrix was not rolled back and A-030 HUD assertions were retained.
-9. ASSISTANT: projection-currentness regression advanced to A-031 and strengthened with effective-approval/FIX-NOW witnesses. REPAIR.
-10. ASSISTANT: post-repair focused cluster 20/20 PASS and full suite 254 GREEN. A-031 is pending Git publication only. VERIFIED.
+1. ASSISTANT: A-031 post-push continuity registered; A-032 activated.
+2. ASSISTANT: exact native result route read showed auto/full/metadata/preview/range + range/preview bounds.
+3. ASSISTANT: compact closed ResultHandleRequest proved limited to historical summary_only. DEFECT.
+4. ASSISTANT: classified A-032 FIX-NOW under bounded context/result law.
+5. ASSISTANT: surgical CRLF A-032 request/operation patch applied; 30 ops preserved. BUILD.
+6. ASSISTANT: added result bounded parity regression bound to native constants.
+7. ASSISTANT: focused native/result/adapter cluster 36/36 PASS. VERIFIED.
+8. ASSISTANT: full suite 260 GREEN. VERIFIED.
+9. ASSISTANT: compatibility contract + projection matrix advanced to A-032; response strong typing classified acceptable current lossiness.
+10. ASSISTANT: post-promotion focused 36/36 + full 260 GREEN; entering publication. STATE CHANGE.
 
 ## Delta Since Previous Shadow
-- final qualification caught and repaired stale A-030 evaluator expectations rather than weakening current A-031 truth.
-- focused final cluster 20/20 PASS; full suite 254 GREEN.
-- projection-currentness test now binds to A-031 while preserving A-030 HUD laws.
-- no next implementation seam begins until A-031 is pushed and remote-read.
+- A-032 bounded result request parity earned locally.
+- full suite advances 254 -> 260 GREEN.
+- request bounded modes are now zero-loss; polymorphic response typing remains acceptable/deferred.
+- mandatory Git publication precedes A-033 selection.

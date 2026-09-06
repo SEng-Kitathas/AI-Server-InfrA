@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-05 22:36 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-05 22:58 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -598,7 +598,7 @@ Before promotion:
 - [~] control/restart/HUD audit: approval/Host/process-ownership + A-030 availability/core-readiness slices earned; broader service constellation/visual/operator surfaces remain open.
 - [~] transfer authority/scope/currentness/integrity hostile slice qualified; immutable export snapshot semantics remain unearned and final release promotion pressure remains.
 - [x] browser optional-vs-core HUD readiness split qualified under A-030; browser remains an optional provider/plane.
-- [~] schema/runtime/policy/imported-action parity audit: bound-authority + MCP availability + HUD availability/readiness + **A-031 compact family effective-approval response parity earned**; bounded result-handle Actions parity is next.
+- [~] schema/runtime/policy/imported-action parity audit: bound-authority + MCP/HUD availability + A-031 family effective-approval + **A-032 bounded result-handle request parity earned**; remaining adapter lossiness requires re-census after publication.
 - [x] continuity/rehydration ranking + cache-currentness audit: **ICF-CS v1.0 embodied**, transient noise excluded, all authority roles seeded, cache source-currentness validated, full suite green 209.
 
 ### Capability/runtime maturation
@@ -643,17 +643,18 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-031 compact capability-family effective-approval parity is earned locally:
-- closed native/OpenAPI family key parity exact across 16 families;
-- compact operation count 30;
-- focused 32/32 PASS; full suite 254 GREEN;
-- schema SHA `2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`.
+A-032 bounded result-handle request parity is earned locally:
+- exact auto/full/metadata/preview/range Action modes;
+- native range/preview caps projected; historical summary_only retained as alias;
+- compact operations 30;
+- focused 36/36 PASS; full suite 260 GREEN;
+- schema SHA `25be4cbd0ab4b5a0be10e1e087857537656a712f33308de12e3a462a7186bf6c`.
 
 Immediate sequence:
-1. publish A-031 to Git and remote-read exact head under the user-mandated per-step cadence;
-2. then classify compact `/lab/results/get` Actions lossiness against native `auto|full|metadata|preview|range`;
-3. continue one adapter seam per qualified/pushed step;
-4. after lossiness ledger converges, rank next Runtime seam;
+1. publish A-032 to Git and remote-read exact head;
+2. then re-census remaining OpenAPI/imported-action/runtime-surface lossiness;
+3. choose A-033 from the highest-value real mismatch;
+4. continue one independently qualified/pushed step at a time;
 5. final schema redesign remains locked deferred.
 
 ---

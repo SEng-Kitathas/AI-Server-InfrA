@@ -3315,9 +3315,42 @@
           "handle": {
             "type": "string"
           },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "full",
+              "metadata",
+              "preview",
+              "range"
+            ],
+            "default": "auto",
+            "description": "Bounded retrieval mode. auto returns full only when safely inline; otherwise preview. Use metadata for identity only, preview for bounded summary, range for exact byte slices, or full explicitly."
+          },
+          "offset_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Byte offset used when mode=range."
+          },
+          "length_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65536,
+            "default": 32768,
+            "description": "Requested byte length when mode=range; server hard-cap is 65536 bytes."
+          },
+          "preview_chars": {
+            "type": "integer",
+            "minimum": 200,
+            "maximum": 4000,
+            "default": 1200,
+            "description": "Preview character budget when mode=preview or auto selects preview."
+          },
           "summary_only": {
             "type": "boolean",
-            "default": false
+            "default": false,
+            "description": "Historical compatibility alias. true forces preview mode; prefer mode=preview for new clients."
           }
         },
         "required": [
@@ -4571,7 +4604,8 @@
     "/lab/results/get": {
       "post": {
         "operationId": "labGetResultHandle",
-        "summary": "Fetch a previously stored oversized result by handle",
+        "summary": "Fetch stored result metadata, preview, byte range, auto-bounded content, or explicit full payload",
+        "description": "Prefer auto/metadata/preview/range for bounded model context. full is explicit opt-in. Historical summary_only=true remains an alias for preview.",
         "requestBody": {
           "required": true,
           "content": {

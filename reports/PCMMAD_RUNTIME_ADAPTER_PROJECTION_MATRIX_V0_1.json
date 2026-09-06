@@ -108,9 +108,10 @@
     {
       "id": "result",
       "authority": "native_result_store",
-      "adapter_lossiness": "preview_range_allowed_content_identity_exact",
+      "adapter_lossiness": "request_bounded_choice_zero_loss_response_representation_permissive_content_identity_exact",
       "durable_adapter_truth": false,
-      "native_evidence": "bounded_auto_metadata_preview_range_explicit_full_result_retrieval"
+      "native_evidence": "bounded_auto_metadata_preview_range_explicit_full_result_retrieval",
+      "openapi_projection": "request exposes auto/full/metadata/preview/range with native range/preview bounds; mode-dependent response remains permissive"
     },
     {
       "id": "artifact",
@@ -224,7 +225,7 @@
     "live V30 promotion/restart/CSC/package qualification",
     "final schema redesign after whole-runtime convergence"
   ],
-  "reconciled_through": "A-031",
+  "reconciled_through": "A-032",
   "adapter_lossiness_classification": [
     {
       "audit_id": "A-031",
@@ -232,7 +233,14 @@
       "classification": "FIX_NOW_EARNED",
       "reason": "closed schema omitted emitted authority-significant effective_approval_required_tools",
       "verification": "32/32 focused; 254 full-suite green; 30 operations preserved"
+    },
+    {
+      "audit_id": "A-032",
+      "surface": "openapi.ResultHandleRequest",
+      "classification": "FIX_NOW_EARNED",
+      "reason": "closed Actions request hid native metadata/preview/range bounded retrieval controls",
+      "verification": "36/36 focused; 260 full-suite green; 30 operations preserved"
     }
   ],
-  "next_adapter_lossiness_discriminator": "OpenAPI /lab/results/get request vs native auto|full|metadata|preview|range bounded retrieval"
+  "next_adapter_lossiness_discriminator": "remaining OpenAPI/imported-action/runtime-surface parity after A-032; select from exact matrix/schema census, not cosmetic typing"
 }

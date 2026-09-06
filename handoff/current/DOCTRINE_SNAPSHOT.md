@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-05 22:36 ET
+Last updated: 2026-09-05 22:58 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -310,11 +310,9 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-031 is earned locally: compact closed capability-family schema now preserves effective approval policy count and full suite is 254 GREEN.
+A-032 request-side bounded result parity is earned locally: 36/36 focused and 260 full-suite GREEN.
 
-Immediate challenge is **publication of A-031 under per-step Git cadence**. After remote readback, next adapter-lossiness discriminator is bounded result-handle retrieval: legacy Actions `summary_only` versus native metadata/preview/range modes.
-
-Do not broaden this into final schema redesign.
+Immediate challenge is its mandatory Git publication/readback. Response-shape strong typing remains intentionally deferred as acceptable legacy representation lossiness. After remote readback, re-census remaining adapter mismatches before selecting A-033.
 
 ## Current quality/search posture
 

@@ -89,40 +89,36 @@ Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/
 
 ## Verified base and current candidate
 
-Last remote-verified Git base before the current A-031 publication step:
-- commit `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`;
-- tree `b93f7973a3c29c6f6ddfcbc88df9405e0c61d095`;
-- V30 registry 100 tools / 16 families;
-- full suite 251 collected tests GREEN with one conditional Windows symlink-privilege skip.
+Last remote-verified Git base before A-032:
+- commit `02b6ef1224a7ced2abab3cbd3e61235727842249`;
+- tree `6720a4ac13c41fe90c6ca70cb5a85e07fd612f0c`;
+- A-031 compact family effective-approval parity current.
 
-Current A-031 candidate carried by this recovery snapshot:
-- compact capability-family schema now preserves native `effective_approval_required_tools`;
-- focused A-031 cluster 32/32 PASS;
-- full V30 suite 254 collected tests GREEN;
-- compact action surface remains exactly 30 operations;
-- schema SHA `2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`.
+Current A-032 candidate:
+- compact `/lab/results/get` exposes native auto/full/metadata/preview/range request choice;
+- native range/preview bounds projected exactly;
+- historical `summary_only` retained as preview alias;
+- focused cluster 36/36 PASS; full suite 260 GREEN;
+- schema SHA `25be4cbd0ab4b5a0be10e1e087857537656a712f33308de12e3a462a7186bf6c`;
+- compact surface remains 30 operations.
 
-Resolve the **current** repository commit dynamically with Git and verify it against origin. The snapshot itself does not prove whether this candidate has been pushed.
+Resolve current Git identity dynamically; this snapshot does not prove whether A-032 has been pushed.
 
 ## Current handoff-candidate qualification
 
-A-031 current candidate evidence:
-- engineering compact-schema/effect/authority cluster: **32 / 32 PASS**;
-- refreshed Git handoff regression: **6 / 6 PASS**;
-- final projection-currentness/A-031/handoff cluster after stale-evaluator repair: **20 / 20 PASS**;
-- complete V30 suite: **254 collected tests GREEN**;
-- one existing conditional Windows symlink-privilege skip.
+A-032 engineering qualification before mirror refresh:
+- focused result/adapter/currentness/handoff cluster **36 / 36 PASS**;
+- complete V30 suite **260 GREEN**.
 
-The first final full-suite attempt caught stale test expectations pinned to A-030; the evaluator was advanced to A-031 without removing A-030 HUD invariants. See `handoff/current/HANDOFF_QUALIFICATION.md` and the DTS tail.
+The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/full-suite gate follows the qualification/manifest update, with no repo mutation before commit.
 
-## Active engineering frontier after A-031 publication
+## Active engineering frontier after A-032 publication
 
-1. Verify/publish A-031 under current per-step Git cadence and remote-read the exact head.
-2. Next isolated discriminator: compact `/lab/results/get` request exposes historical `summary_only`, while native Runtime supports `auto|full|metadata|preview|range` plus byte range and preview controls.
-3. Continue adapter-lossiness classification one separately qualified/pushed seam at a time.
-4. After adapter ledger converges, rank the next genuinely-open Runtime seam.
-5. Keep visual HUD work downstream of operational truth hardening.
-6. Keep final schema research/redesign locked until whole-runtime convergence / explicit final trigger.
+1. Publish/remote-read A-032 under per-step Git cadence.
+2. Re-census remaining adapter lossiness from exact current schema/matrix after publication.
+3. Select A-033 from the highest-value remaining real mismatch; do not perform broad schema cleanup.
+4. Continue one independently qualified/pushed seam at a time.
+5. Final schema redesign remains locked until whole-runtime convergence / explicit final trigger.
 
 ## Release/live ceiling
 

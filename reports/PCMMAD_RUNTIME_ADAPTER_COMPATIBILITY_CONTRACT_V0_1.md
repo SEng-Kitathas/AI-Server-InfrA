@@ -279,6 +279,15 @@ Results SHOULD support bounded retrieval rather than unconditional context mater
 - artifact linkage
 - currentness/immutability metadata
 
+Current earned V30 compact-Action projection (A-032):
+- `/lab/results/get` exposes `auto|full|metadata|preview|range`;
+- auto remains bounded by native inline-safe policy;
+- metadata avoids payload materialization;
+- preview and byte-range controls expose native bounds;
+- historical `summary_only=true` remains a preview compatibility alias;
+- explicit full retrieval is opt-in;
+- response variants remain permissively represented in the legacy OpenAPI adapter while native result identity/hash/mode truth stays authoritative.
+
 ### `batch.invoke` semantics
 Batch MUST explicitly state:
 - ordering

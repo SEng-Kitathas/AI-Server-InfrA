@@ -19,7 +19,7 @@ class RuntimeAdapterProjectionCurrentnessTests(unittest.TestCase):
         cls.compat = COMPAT_MD.read_text(encoding="utf-8")
 
     def test_machine_matrix_is_reconciled_through_current_adapter_slice(self) -> None:
-        self.assertEqual(self.matrix["reconciled_through"], "A-031")
+        self.assertEqual(self.matrix["reconciled_through"], "A-032")
         self.assertEqual(self.matrix["status"], "current_candidate_shared_contract")
         laws = set(self.matrix["laws"])
         self.assertIn("REGISTRATION != CAPABILITY_AVAILABILITY != TARGET_HEALTH.", laws)
@@ -56,10 +56,12 @@ class RuntimeAdapterProjectionCurrentnessTests(unittest.TestCase):
         self.assertIn("never by a hidden catalog-wide scan", self.compat)
         self.assertIn("discarded when the native `contract_digest` changes", self.compat)
         self.assertIn("optional/degraded presentation, not a false core failure", self.compat)
-        self.assertIn("reconciled through A-031", self.matrix_md)
+        self.assertIn("reconciled through A-032", self.matrix_md)
         self.assertIn("explicit selected-tool currentness", self.matrix_md)
         self.assertIn("effective_approval_required_tools", self.matrix_md)
         self.assertIn("FIX-NOW / EARNED", self.matrix_md)
+        self.assertIn("A-032 FIX-NOW / EARNED", self.matrix_md)
+        self.assertIn("auto/full/metadata/preview/range", self.matrix_md)
 
 
 if __name__ == "__main__":
