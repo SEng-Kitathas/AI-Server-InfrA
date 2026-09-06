@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-05 23:31 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-05 23:46 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -643,20 +643,18 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-033 admission hotpath is earned locally:
-- current defect reproduced at 49 walks / 2,940 file loads for 12 queued at saturation;
-- one-pass managed-aware census reduces same case to 2 walks / 120 loads;
-- 500-history Windows admission-lock hold 0.049s after candidate discovery;
-- execution cluster 19/19 PASS; full suite 264 GREEN;
-- `execution_routes.py` SHA `2cea76cd1b24291f1ef5d929fedbf02f6102b3bc0e2927cedc5db2a367d0a02e`.
+A-034 poison-record scheduler isolation is earned locally:
+- before: 5/5 scheduler tick aborts, 0/5 drains, poison stayed RUNNING;
+- after: 5/5 clean, 5/5 drains, poison durable FAILED / supervision_lost;
+- supervision-loss transition defers output excerpt capture to bounded output read;
+- per-record reconcile errors are typed/observable and cannot suppress queue drain;
+- execution cluster 24/24 PASS; full suite 269 GREEN.
 
 Immediate sequence:
-1. publish A-033 to Git and remote-read exact head;
-2. then A-034 reproduce/isolate poison-record scheduler starvation;
-3. then A-035 active/terminal partition to remove lifetime history from hot scans;
-4. retention/bounded drain after partition semantics;
-5. serving/PID/multi-receiver audits remain separate;
-6. per-step continuity + Git cadence remains binding.
+1. publish A-034 to Git and remote-read;
+2. then A-035 derive active/terminal durable layout with direct status/replay/history compatibility and legacy-flat migration;
+3. retention/bounded drain later;
+4. serving/PID/multi-receiver audits remain separate.
 
 ---
 

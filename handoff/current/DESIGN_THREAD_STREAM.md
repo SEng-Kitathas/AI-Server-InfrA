@@ -2337,3 +2337,89 @@ Still open:
 - serving model, legacy PID identity, multi-receiver admission ownership.
 
 A-034 mutation is blocked until A-033 Git commit/push/remote-readback completes.
+
+
+### A-033 Git publication complete
+
+A-033 admission read-amplification repair was committed and remotely verified before A-034 began.
+
+Commit:
+`2eeebd9182fdbf8e02241f4edd1b482a6862caa7`
+
+Tree:
+`9a2b9009fe5f645f83375b5bdd06e09d0d474577`.
+
+Subject:
+`Fix execution admission read amplification`.
+
+Push:
+`a3d8419..2eeebd9  main -> main`.
+
+Remote/local `main` matched exactly and the branch was clean after push.
+
+Publication qualification:
+- final handoff + execution focused gate 25/25 PASS;
+- complete V30 suite 264 GREEN;
+- execution SHA `2cea76cd1b24291f1ef5d929fedbf02f6102b3bc0e2927cedc5db2a367d0a02e`.
+
+Disposition:
+**A-033 EARNED + GIT REMOTE-VERIFIED.**
+
+Active Frontier advances to A-034 poison-record scheduler starvation / critical-path failure excerpt I/O.
+
+
+---
+
+## Phase 45 — A-034 poison-record scheduler isolation / deferred output reads
+
+### CURRENT-V30 REPRODUCTION
+One dead RUNNING record with empty stdout/stderr paths and three healthy QUEUED records was placed first in a real temp execution store.
+
+Five consecutive scheduler ticks before repair:
+- 5/5 aborted on Windows `PermissionError` for `.`;
+- queue drain reached 0/5;
+- poison record persisted RUNNING;
+- queued records remained queued.
+
+This independently reproduced the user's Linux starvation mechanism with the Windows-specific filesystem exception.
+
+### ROOT CAUSE
+`_mark_supervision_lost` changed the in-memory record to FAILED, then called `_job_failure_excerpt` before persistence. Empty output path became `Path("") == "."`; arbitrary filesystem read failed; durable FAILED transition never happened. `_scheduler_tick` had no record-local isolation, so the outer scheduler loop retried the same poison every tick before queue drain.
+
+### DERIVATION / EMBODIMENT
+- supervision-loss reconciliation is now filesystem-independent;
+- failure digest persists with empty stdout/stderr excerpts and `excerpt_capture=deferred_to_output_read`;
+- explicit bounded `/project/execution/output` remains the output-read surface;
+- `_scheduler_tick` isolates record-local reconciliation exceptions, continues, and always reaches drain;
+- SchedulerTelemetry adds cumulative `jobs_reconcile_errors`, current `last_tick_reconcile_errors`, bounded `last_reconcile_error`, and timestamp;
+- readiness degrades on current-tick reconcile errors and recovers after later clean ticks while retaining historical diagnostic text.
+
+No fake quarantine claim is made because records are not moved to a quarantine store.
+
+### HOSTILE REGRESSION
+Added `tests/test_execution_scheduler_poison_isolation.py`.
+
+First focused run: 23/24 PASS. The failing fixture wrote `aaa_poison.json` containing job_id `poison`; Runtime correctly persisted canonical `poison.json` while the test reread the stale alias filename. Fixture identity was corrected; Runtime code was not weakened.
+
+Post-correction execution cluster: 24/24 PASS.
+
+### POST-FIX EXACT REPRO
+Five ticks:
+- 5/5 completed cleanly;
+- drain reached 5/5;
+- poison persisted FAILED / supervision_lost;
+- failure digest carries `excerpt_capture=deferred_to_output_read`.
+
+Queued records remained QUEUED only because the hostile repro intentionally used a no-op drain sentinel.
+
+### VERIFICATION
+Complete V30 suite: **269 collected tests GREEN** with the existing conditional Windows symlink-privilege skip only.
+
+Current hashes:
+- execution_routes.py `6c3dda46a004ca88f24839b6ad769c12e235b1f679ae0654c1ba9ae5c95c058c`
+- control_plane_models.py `1ac32417682c6638728c1a9c5523f0781a81256c13cc55810a68b7af0ebded0e`
+- A-034 test `ced3b110ad52c56b2f58ea611cd79230440d5e0d2fc7eeadd7945950ff144484`.
+
+### CLAIM CEILING / NEXT
+A-034 fixes poison-record starvation and supervision-loss critical-path output I/O only.
+A-035 active/terminal partition remains next after A-034 Git remote readback. Retention/bounded drain/serving/PID/multi-receiver remain separate.

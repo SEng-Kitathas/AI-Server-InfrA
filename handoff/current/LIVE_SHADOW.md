@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-05 23:31 ET
+Last updated: 2026-09-05 23:46 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-033 admission hotpath earned; Git publication next
+- Current mode: BUILD-COMMIT / PROMOTION — A-034 poison isolation earned; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-033 one-census admission fix, remote-read it, then reproduce A-034 poison-record scheduler starvation.
+- Dominant objective: publish A-034 scheduler poison isolation, remote-read it, then derive A-035 active/terminal execution-store partition.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -113,38 +113,36 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-033 and remote-read exact head;
-2. A-034 poison-record scheduler starvation reproduce/fix/push;
-3. A-035 active/terminal execution store partition from lifetime-scan evidence;
-4. A-036 retention/bounded drain;
-5. separate serving/PID/multi-receiver ownership audits.
+1. P0 publish A-034 and remote-read exact head;
+2. A-035 active/terminal execution-store partition;
+3. A-036 retention/bounded drain;
+4. serving/PID/multi-receiver ownership audits remain separate.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. refresh Git recovery mirror to registered A-033 state;
-2. run handoff + execution/full exact-candidate gates;
-3. commit/push A-033 and remote-read;
-4. update outer Git receipt;
-5. only then execute poison-record repro for A-034.
+1. refresh Git handoff mirror to A-034;
+2. run handoff + execution + full exact-candidate gates;
+3. commit/push/remote-read A-034;
+4. then inspect every job-path reader/writer before A-035 partition design.
 
 ## Last 10 Turn Reinforcement Window
-1. ASSISTANT: A-032 post-push continuity reconciled to `a3d8419`; execution teardown admitted as provisional evidence.
-2. ASSISTANT: current code inspection confirmed four-scan `_capacity_snapshot`, per-candidate `_can_start_now`, unbounded drain, 0.25s scheduler.
-3. ASSISTANT: current synthetic repro proved 49 walks / 2,940 loads / 0.554s / 0 starts for 60 records. DEFECT EARNED.
-4. ASSISTANT: lock-order audit found admission→running ordering already established; no reverse nested path.
-5. ASSISTANT: derived managed-aware one-pass census rather than copying donor file-only census.
-6. ASSISTANT: A-033 implementation written with CRLF preserved; no poison-record changes bundled.
-7. ASSISTANT: hostile regression added for 2-walk saturation, local global budget, cross-project project-limit progress, managed-process semantics.
-8. ASSISTANT: current execution cluster 19/19 PASS.
-9. ASSISTANT: post-fix repro 2 walks / 120 loads; 500-history admission lock 0.049s, discovery remains 2.226s off-lock.
-10. ASSISTANT: full V30 suite 264 GREEN; A-033 entering mandatory Git publication.
+1. ASSISTANT: A-033 remote-verified at `2eeebd9`; A-034 activated.
+2. ASSISTANT: current call chain confirmed supervision-loss log tail before durable write and no per-record isolation.
+3. ASSISTANT: five-tick temp-store repro: 5/5 PermissionError aborts, drain 0/5, poison RUNNING. DEFECT.
+4. ASSISTANT: explicit bounded output route confirmed; scheduler need not tail logs.
+5. ASSISTANT: typed telemetry contract derived; no fake quarantine terminology.
+6. ASSISTANT: A-034 Runtime mutation written with CRLF preserved.
+7. ASSISTANT: first focused run 23/24; fixture identity mismatch localized, Runtime not weakened.
+8. ASSISTANT: corrected fixture; execution cluster 24/24 PASS.
+9. ASSISTANT: post-fix five-tick repro 5/5 clean, drain 5/5, poison durable FAILED.
+10. ASSISTANT: full V30 suite 269 GREEN; A-034 entering Git publication.
 
 ## Delta Since Previous Shadow
-- A-033 admission read amplification reproduced and fixed locally.
-- full suite advances 260 -> 264 GREEN.
-- global admission lock no longer repeats lifetime-tree capacity scans per queued candidate.
-- remaining lifetime discovery is explicitly not fixed and strengthens A-035.
-- A-034 cannot begin until A-033 Git readback.
+- A-034 poison starvation reproduced and repaired locally.
+- full suite advances 264 -> 269 GREEN.
+- supervision-lost scheduling transition is now independent of output-path reads.
+- record-local reconciliation errors cannot suppress queue drain.
+- A-035 remains blocked until A-034 remote readback.

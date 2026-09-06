@@ -147,7 +147,7 @@ Git-contained ICF-CS recovery mirror publication is COMPLETE:
 - remote `CURRENT_INGRESS.md` readback PASS;
 - handoff focused 6/6 PASS; full suite 251 GREEN.
 
-Active Frontier: A-033 admission hotpath is locally earned (execution 19/19; full 264 GREEN) and must be Git-published/remote-read before A-034 poison-record scheduler isolation begins.
+Active Frontier: A-034 poison-record scheduler isolation is locally earned (execution 24/24; full 269 GREEN) and must be Git-published/remote-read before A-035 active/terminal partition begins.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 

@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-05 23:31 ET
+Last updated: 2026-09-05 23:46 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,47 +263,38 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-033 execution admission hotpath is **EARNED for current V30 working-tree scope** and pending this step's mandatory Git publication.
+A-034 poison-record scheduler isolation is **EARNED for current V30 working-tree scope** and pending mandatory Git publication.
 
-Current-V30 defect reproduction before mutation:
-- 40 terminal + 8 RUNNING + 12 QUEUED; global concurrency saturated;
-- 0 jobs started;
-- 12 `_capacity_snapshot` / 12 `_can_start_now` calls;
-- **49 job-tree walks / 2,940 job-file loads**;
-- 0.554 s on operator Windows host, already > 0.25 s scheduler interval.
+Current-V30 reproduction before mutation:
+- one dead RUNNING record with empty stdout/stderr paths + three healthy queued records;
+- five consecutive scheduler ticks: **5/5 abort** on Windows `PermissionError` for `.`;
+- queue drain reached 0/5; poison persisted RUNNING.
 
-Earned A-033 behavior:
-- one `_running_census()` per drain;
-- live managed `_RUNNING` semantics preserved;
-- one durable capacity pass, independent global/per-project dedup;
-- local budget increments on successful starts;
-- global exhaustion `break`, project exhaustion `continue`;
-- no per-candidate `_can_start_now` / `_capacity_snapshot`.
+Earned A-034 behavior:
+- supervision-lost transition no longer opens output paths; failure digest records empty excerpt fields + `excerpt_capture=deferred_to_output_read`;
+- explicit bounded `/project/execution/output` remains the read path;
+- `_scheduler_tick` isolates per-record reconciliation exceptions and always reaches drain;
+- typed scheduler telemetry exposes cumulative/current reconcile errors, bounded last error, and timestamp;
+- readiness degrades only when the current tick has reconcile errors while preserving historical diagnostics.
 
-Post-fix same 60-record case:
-- **2 walks / 120 loads**;
-- 0 capacity calls; 0 queued-record reads at saturation;
-- 0.231 s; 0 starts.
-
-500-history/50-queued Windows case:
-- candidate discovery 2.226 s outside admission lock;
-- admission-lock hold **0.049 s**;
-- 0 starts.
+Post-fix exact poison repro:
+- **5/5 ticks clean**; drain reached 5/5; poison persisted `FAILED / supervision_lost`;
+- no reconcile error required for the now-valid transition.
 
 Verification:
-- current execution cluster **19/19 PASS**;
-- complete V30 suite **264 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- `execution_routes.py` SHA `2cea76cd1b24291f1ef5d929fedbf02f6102b3bc0e2927cedc5db2a367d0a02e`;
-- A-033 regression SHA `fd2ed0b73c413d88dc8083797d623504da5bca435b7a0063c9d1d8b1ba56efb8`.
+- current execution cluster **24/24 PASS**;
+- complete V30 suite **269 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- `execution_routes.py` SHA `6c3dda46a004ca88f24839b6ad769c12e235b1f679ae0654c1ba9ae5c95c058c`;
+- `control_plane_models.py` SHA `1ac32417682c6638728c1a9c5523f0781a81256c13cc55810a68b7af0ebded0e`;
+- A-034 test SHA `ced3b110ad52c56b2f58ea611cd79230440d5e0d2fc7eeadd7945950ff144484`.
 
-Important non-claim: the remaining flat lifetime-tree candidate discovery/census cost is **not fixed** and is direct Windows evidence for A-035.
+Hostile evaluator scar: first focused run was 23/24 because fixture filename `aaa_poison.json` contained `job_id=poison`; Runtime correctly persisted canonical `poison.json`. Test identity was repaired; Runtime was not weakened.
 
 Immediate sequence:
-1. refresh Git handoff mirror to A-033;
-2. exact-candidate handoff + full-suite gate;
-3. commit/push/remote-read A-033;
-4. only then open A-034 poison-record scheduler starvation;
-5. A-035 active/terminal partition follows separate reproduction/derivation.
+1. refresh Git handoff mirror;
+2. final handoff/execution/full-suite gate;
+3. commit/push/remote-read A-034;
+4. only then begin A-035 active/terminal execution-store partition derivation.
 
 ## Remaining major seams
 

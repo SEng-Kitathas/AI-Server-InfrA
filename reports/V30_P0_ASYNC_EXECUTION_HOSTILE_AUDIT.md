@@ -191,3 +191,102 @@ A-033 fixes repeated capacity rescans under admission. It does **not** fix:
 - WSGI serving model.
 
 Those remain separately pressure-tested seams.
+
+
+## A-034 — poison execution record can abort every scheduler tick before queue drain
+
+Status: **FIXED / QUALIFIED IN V30 WORKING TREE / PENDING THIS STEP GIT PUBLICATION**
+
+### Current-V30 reproduction before mutation
+A real temp-store poison record was created with:
+- status `RUNNING`;
+- dead PID;
+- empty `stdout_path` / `stderr_path`;
+- three healthy `QUEUED` records behind it.
+
+`_drain_queue` was replaced with a no-op sentinel to avoid launching user work during the hostile repro.
+
+Five consecutive `_scheduler_tick()` calls on the operator Windows host:
+- **5/5 aborted**;
+- exception: `PermissionError: [Errno 13] Permission denied: '.'`;
+- drain reached: **0/5**;
+- poison durable status remained `RUNNING`;
+- all healthy records remained `QUEUED`.
+
+This independently reproduces the external Linux `IsADirectoryError` mechanism with the Windows-specific exception type.
+
+### Root cause
+Legacy non-worker RUNNING reconciliation followed:
+`_scheduler_tick -> _reconcile_job_locked -> _mark_supervision_lost -> _job_failure_excerpt -> _tail_text(Path(""))`.
+
+`Path("")` resolves to `.`. `_mark_supervision_lost` changed the in-memory job to FAILED but attempted arbitrary log reads **before** `_write_job`, so the exception prevented the terminal transition from becoming durable. The scheduler loop caught the outer exception and retried the same poison record next tick, suppressing `_drain_queue` indefinitely.
+
+### Derivation / embodiment
+A scheduler reconciliation transition must not depend on arbitrary operator-controlled output filesystem paths.
+
+A-034 therefore makes two narrow changes:
+1. `_mark_supervision_lost` persists a deterministic `SUPERVISION_LOST` failure digest without opening stdout/stderr. It carries empty excerpt fields plus `excerpt_capture="deferred_to_output_read"`. The existing bounded `/project/execution/output` path remains the explicit read surface for output windows/ranges.
+2. `_scheduler_tick` isolates reconciliation exceptions per record, records bounded typed telemetry, continues reconciling later records, and **always reaches queue drain**.
+
+Typed `SchedulerTelemetry` additions:
+- `jobs_reconcile_errors`
+- `last_tick_reconcile_errors`
+- `last_reconcile_error`
+- `last_reconcile_error_at`.
+
+Readiness degrades when the **current tick** has reconcile errors. Historical `last_reconcile_error` remains visible for diagnosis without leaving readiness permanently degraded after later clean ticks.
+
+No record is described as quarantined because A-034 does not move it to a separate store.
+
+Backups:
+- `baseline/pcmmad_receiver/_v30_backups/AUDIT_A034_POISON_ISOLATION/execution_routes.py`
+- `baseline/pcmmad_receiver/_v30_backups/AUDIT_A034_POISON_ISOLATION/control_plane_models.py`.
+
+### Hostile regression
+Added:
+`tests/test_execution_scheduler_poison_isolation.py`.
+
+It proves:
+1. a real empty-log-path poison record transitions to durable FAILED and does not suppress drain;
+2. `_mark_supervision_lost` cannot invoke `_job_failure_excerpt`;
+3. an arbitrary first-record reconciliation exception does not suppress a healthy second record or queue drain;
+4. telemetry records cumulative + current-tick reconcile error state and bounded last error;
+5. a later clean tick resets current error count while retaining historical diagnostics;
+6. readiness degrades on current-tick reconcile errors and recovers when a later tick is clean.
+
+### Hostile evaluator scar
+The first focused run was 23/24 PASS. The failing integration fixture wrote `aaa_poison.json` containing `job_id="poison"`; Runtime correctly persisted the canonical terminal record to `poison.json`, while the test reread the stale alias filename and incorrectly concluded status remained RUNNING.
+
+The fixture identity was corrected. Runtime code was not weakened.
+
+### Post-fix exact poison repro
+Five consecutive ticks:
+- **5/5 completed cleanly**;
+- drain reached **5/5**;
+- poison durable status `FAILED`;
+- stage `supervision_lost`;
+- failure digest `excerpt_capture=deferred_to_output_read`;
+- current-tick reconcile errors 0 for this now-valid transition.
+
+Queued records remained QUEUED only because the hostile repro intentionally used a no-op drain sentinel; the invariant under test is that drain is reached.
+
+### Verification
+- current execution cluster: **24/24 PASS**;
+- complete V30 suite: **269 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities:
+- `execution_routes.py` SHA-256 `6c3dda46a004ca88f24839b6ad769c12e235b1f679ae0654c1ba9ae5c95c058c`
+- `control_plane_models.py` SHA-256 `1ac32417682c6638728c1a9c5523f0781a81256c13cc55810a68b7af0ebded0e`
+- A-034 test SHA-256 `ced3b110ad52c56b2f58ea611cd79230440d5e0d2fc7eeadd7945950ff144484`.
+
+### Claim ceiling
+A-034 fixes poison-record starvation and removes supervision-loss output reads from scheduler reconciliation. It does **not** fix:
+- lifetime-tree scan cost;
+- active/terminal durable layout;
+- retention;
+- drain batch default;
+- legacy PID reuse;
+- process-local multi-receiver admission ownership;
+- public serving model.
+
+A-035 active/terminal partition remains the next structural discriminator after A-034 Git publication.

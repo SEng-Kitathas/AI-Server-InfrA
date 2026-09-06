@@ -114,6 +114,10 @@ class SchedulerTelemetry(DictSerializable):
     jobs_failed: int = 0
     jobs_timed_out: int = 0
     jobs_reconciled: int = 0
+    jobs_reconcile_errors: int = 0
+    last_tick_reconcile_errors: int = 0
+    last_reconcile_error: str | None = None
+    last_reconcile_error_at: str | None = None
     scheduler_startups: int = 0
 
     def inc(self, name: str, amount: int = 1) -> None:

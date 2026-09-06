@@ -690,7 +690,14 @@ def execution_readiness() -> JsonObject:
     global_snapshot = _readiness_global_snapshot(oldest_age)
     telemetry = SchedulerTelemetry(**_scheduler_snapshot())
     status = (
-        "degraded" if corrupt_job_files or unsupervised_jobs or telemetry.last_error else "online"
+        "degraded"
+        if (
+            corrupt_job_files
+            or unsupervised_jobs
+            or telemetry.last_error
+            or telemetry.last_tick_reconcile_errors
+        )
+        else "online"
     )
     return ExecutionReadinessEnvelope(
         status=status,
@@ -1448,13 +1455,16 @@ def _mark_supervision_lost(
     _set_job_status(job, JOB_STATUS_FAILED, "supervision_lost")
     job.finished_at = job.finished_at or utc_now()
     job.duration_ms = _compute_duration_ms(job)
-    stderr_excerpt, stdout_excerpt = _job_failure_excerpt(job)
+    # Reconciliation is a scheduler state transition, not an output-read operation.
+    # Do not open operator-controlled stdout/stderr paths while admission is held.
+    # Bounded output retrieval remains available through the explicit read path.
     job.failure_digest = _failure_digest(
         job,
         "SUPERVISION_LOST",
         retryable=True,
-        stderr_excerpt=stderr_excerpt,
-        stdout_excerpt=stdout_excerpt,
+        stderr_excerpt="",
+        stdout_excerpt="",
+        excerpt_capture="deferred_to_output_read",
     )
     _write_job(project_id, job_id, job)
     return job
@@ -1679,12 +1689,24 @@ def _reconcile_job_locked(job: ExecutionJobRecord) -> None:
 def _scheduler_tick() -> None:
     # Whole-tree discovery and file reads must never monopolize admission for every project.
     paths = list(_iter_job_files(None))
+    reconcile_errors = 0
     for path in paths:
         job, _error = _load_job_file(path)
         if not job:
             continue
         with _ADMISSION_LOCK:
-            _reconcile_job_locked(job)
+            try:
+                _reconcile_job_locked(job)
+            except (OSError, RuntimeError, ValueError, TypeError, KeyError, UnicodeError) as exc:
+                # One unreconcilable durable record must not suppress the queue drain.
+                reconcile_errors += 1
+                _scheduler_stat_inc("jobs_reconcile_errors")
+                _scheduler_stat_set(
+                    "last_reconcile_error",
+                    f"{path.name}: {type(exc).__name__}: {exc}"[:500],
+                )
+                _scheduler_stat_set("last_reconcile_error_at", utc_now())
+    _scheduler_stat_set("last_tick_reconcile_errors", reconcile_errors)
     started = _drain_queue(None)
     if started:
         _scheduler_stat_inc("jobs_started", len(started))
