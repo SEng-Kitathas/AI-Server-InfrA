@@ -141,7 +141,13 @@ Current Git evidence before this handoff snapshot mutation:
 - working tree clean;
 - complete V30 suite 245 collected tests GREEN.
 
-Immediate Frontier: create and push a repo-contained ICF-CS recovery mirror containing current state/shadow/intent/constraints plus the Runtime↔OBE/Skills boundary. After publication/readback, resume remaining OpenAPI/imported-action/runtime-surface lossiness classification and next-seam selection.
+Git-contained ICF-CS recovery mirror publication is COMPLETE:
+- commit/local/remote `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`;
+- tree `b93f7973a3c29c6f6ddfcbc88df9405e0c61d095`;
+- remote `CURRENT_INGRESS.md` readback PASS;
+- handoff focused 6/6 PASS; full suite 251 GREEN.
+
+Active Frontier: A-031 family authority parity is locally earned (32/32 focused; 254 full-suite GREEN) and must be Git-published/remote-read before the next isolated discriminator: compact result-handle bounded retrieval parity.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 

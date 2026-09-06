@@ -1856,3 +1856,238 @@ Queues/jobs/research/browser/build/download/archive work must provide bounded, d
 Create a Git-contained `handoff/current/` snapshot with exact current ICF/state/shadow/Commander surfaces, source-hash manifest, a repo-root `CURRENT_INGRESS.md`, and an explicit Runtime↔OBE/Skills architecture handoff. Then commit, push, remote-read the new head, and update outer Git publication receipt.
 
 The Git handoff snapshot is commit-bound recovery evidence. It does not become a second durable Runtime/project-store authority.
+
+
+---
+
+## Phase 41 — Git-contained ICF/Runtime↔Skills handoff sealed, pushed, and remotely verified
+
+### HANDOFF QUALIFICATION
+Repository handoff artifacts were materialized under:
+- root `CURRENT_INGRESS.md`
+- `handoff/current/`
+- hostile regression `tests/test_git_handoff_current.py`.
+
+The first hostile regression rejected one wording mismatch in the placement-law witness. The document was strengthened to carry the explicit canonical short form `MECHANISM LIVES WHERE STATE LIVES`; the test was not weakened.
+
+Final handoff qualification on exact candidate bytes:
+- focused handoff regression **6/6 PASS**;
+- complete V30 suite **251 collected tests GREEN**;
+- one existing conditional Windows symlink-privilege skip;
+- basic secret-like scan over new ingress/handoff/Commander delta: no hits;
+- byte-wise real trailing-space/tab scan: zero issues;
+- snapshot manifest hashes declared members.
+
+### GIT COMMIT / PUSH
+Staged delta was restricted to:
+- updated `reports/V30_COMMANDERS_INTENT_AND_WORKLIST.md`;
+- new repo-root `CURRENT_INGRESS.md`;
+- new `handoff/current/*` recovery bundle;
+- new `tests/test_git_handoff_current.py`.
+
+No unintended code/runtime/cache files were staged.
+
+Committed:
+`cc2802f6d0a0ea24fe036aad9bdb6abfde925566`
+
+Subject:
+`Seal ICF-CS Git handoff and Runtime-Skills boundary`
+
+Commit delta:
+- 21 files
+- 4,997 insertions
+- 4 deletions.
+
+Pushed successfully:
+`f63f31f..cc2802f  main -> main`.
+
+### REMOTE READBACK
+Independent readback after push:
+- local HEAD `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`
+- remote `refs/heads/main` exact same SHA
+- tree `b93f7973a3c29c6f6ddfcbc88df9405e0c61d095`
+- branch/upstream clean
+- remote `origin/main:CURRENT_INGRESS.md` opened successfully and carried expected recovery-pointer authority ceiling / `INTENT IS A CONSTRAINT, NOT A CEILING` ingress.
+
+Disposition:
+**GIT HANDOFF PUBLICATION COMPLETE / REMOTE-VERIFIED.**
+
+### HANDOFF CONTENT
+The repository now carries a commit-bound cold-start recovery surface containing:
+- Current State
+- Next Steps
+- Doctrine Snapshot
+- Revisit Ledger
+- Trace Matrix
+- Live Shadow
+- complete current Design Thread Stream snapshot
+- ICF current ingress
+- Commander’s Intent
+- canonical SOP pointer
+- exact qualified ICF-CS standard/machine contract/claim ceiling
+- ICF qualification receipt
+- source-hash snapshot manifest
+- Git publication base receipt
+- explicit Runtime↔OBE/Skills duality handoff
+- handoff qualification receipt.
+
+The root ingress directs a fresh thread to perform dynamic Git/local/runtime readback before mutation.
+
+### RUNTIME↔OBE/SKILLS DUALITY
+Git handoff explicitly preserves:
+- PCMMAD = methodology
+- Runtime = durable truth/state/capability
+- adapters = projections only
+- OBE/Skills = reusable AI/operator intelligence/composition judgment
+- model = replaceable co-processor
+- Project Chat = replaceable interaction surface
+- no second Skill-side PCMMAD ontology
+- final OBE↔Runtime vocabulary waits for audited-successor reconciliation
+- `TRANSPORT IS NOT ARCHITECTURE AUTHORITY`
+- `MECHANISM LIVES WHERE STATE LIVES`
+- `EMERGENT CAPABILITY IS ALLOWED. EMERGENT AUTHORITY IS NOT`
+- `LONG-RUNNING WORK SHALL NOT REQUIRE LONG-RUNNING MODEL ATTENTION`.
+
+Candidate Skill portfolio/mechanism-quarry sections are explicitly marked research/candidate rather than Runtime authority.
+
+### AUTHORITY CEILING
+`GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
+
+`GIT_HANDOFF_SNAPSHOT != LIVE_PROJECT_STATE_PROOF`.
+
+The handoff is durable recovery evidence. Fresh canonical local/runtime/Git readback remains required before consequential mutation.
+
+### FRONTIER AFTER PUBLICATION
+Resume remaining adapter-lossiness classification (especially OpenAPI/imported-action/runtime-surface currentness/typing), classify mismatches ACCEPTABLE / DEFERRED / FIX-NOW, then select the next genuinely-open Runtime seam by evidence.
+
+Final schema redesign remains locked until whole-runtime convergence / explicit final trigger.
+
+
+---
+
+## Phase 42 — A-031 compact capability-family effective-approval parity
+
+### USER CADENCE
+User explicitly required continuous work until thread saturation with Git push after **every earned step**.
+
+Operational cadence now binding for this thread:
+`EARN STEP -> UPDATE CONTINUITY -> QUALIFY -> COMMIT -> PUSH -> REMOTE READBACK -> NEXT STEP`.
+
+### REHYDRATION SCAR
+Generic root rehydrate selected stale `.pcmmad_sync_runs` excerpts and reported no Live Shadow/DTS in that call.
+Those excerpts were rejected as current authority. Fresh direct reads of Current/Next/Live/ICF/Commander/projection surfaces restored the qualified current state.
+
+### ADAPTER LOSSINESS CENSUS
+Native tool cards expose 17 top-level fields. Current compact OpenAPI intentionally keeps `/lab/tools.tools[]` permissive (`additionalProperties=true`) so evolving native cards cross the wire without truncation.
+
+A stronger contradiction was found in the closed `CapabilityFamilyCard` response schema:
+- native family cards serialize `effective_approval_required_tools`;
+- compact schema used `additionalProperties=false` but omitted that field;
+- all 16 families emit it;
+- browser family proved semantic significance: 6 declared approval-required tools versus 12 effective approval-required tools.
+
+Classification:
+**FIX-NOW**. This was not acceptable compression because the schema contradicted actual emitted response shape and hid authority-significant policy truth.
+
+### EMBODIMENT
+Compact `CapabilityFamilyCard` now declares/requires:
+`effective_approval_required_tools: integer >= 0`.
+
+Description states that effective policy can derive approval from mutation/danger rules beyond declared `approval_required` metadata.
+
+No Runtime behavior/policy changed.
+Compact compatibility surface remains exactly 30 operations.
+
+Backup:
+`baseline/pcmmad_receiver/_v30_backups/AUDIT_A031_FAMILY_AUTHORITY_PARITY/pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json`.
+
+### HOSTILE REGRESSION
+Added:
+`tests/test_compact_schema_family_authority_parity.py`.
+
+It proves:
+- closed family schema key set exactly equals native serialized family-card keys across all 16 families;
+- effective approval count is required/non-negative;
+- effective count is never below declared count;
+- at least one real family differs;
+- compact operation count remains 30.
+
+### VERIFICATION
+Focused compact schema/effect/bound-authority cluster:
+**32/32 PASS**.
+
+Complete V30 suite:
+**254 collected tests GREEN** with the existing conditional Windows symlink-privilege skip only.
+
+Current schema SHA:
+`b069f594eec05a85331cb8b551625de430fb43b30820c580a19317751270db20`.
+
+A-031 test SHA:
+`b8f80b96a8dd3e0ceeefb591bd6fcf0542cd2bde99f0b456a46e63c9aa5f6942`.
+
+### LOSSINESS DISPOSITION
+- closed family-card effective-approval omission: **FIX-NOW -> EARNED**;
+- permissive `/lab/tools.tools[]` capability cards: **ACCEPTABLE CURRENT COMPATIBILITY** — wire semantics preserved; strong validation/docs deferred unless concrete client failure or final schema campaign justifies it.
+
+### NEXT DISCRIMINATOR — NOT YET MUTATED
+Compact Action `/lab/results/get` advertises only historical `summary_only` while native Runtime supports:
+`auto | full | metadata | preview | range`
+plus byte offset/length and preview sizing.
+
+This is isolated as the next adapter-lossiness step because it may violate bounded-result / bounded-model-attention law.
+
+No result-handle adapter mutation begins until A-031 is committed, pushed, and remote-read back.
+
+
+### A-031 final qualification scar — stale projection-currentness regression
+
+During the final exact-candidate gate, handoff regression passed 6/6 but the complete suite rejected the candidate because `test_runtime_adapter_projection_currentness.py` still hard-coded `reconciled_through == A-030` and expected the human matrix phrase `reconciled through A-030`.
+
+Failure classification:
+**EVALUATOR/CURRENTNESS STALENESS**, not A-031 Runtime/schema failure.
+
+The projection matrix had lawfully advanced to A-031, while the regression remained pinned to the prior A-030 frontier.
+
+Repair discipline:
+- did **not** roll the matrix back;
+- did **not** weaken/remove A-030 HUD currentness assertions;
+- updated the regression to require `reconciled_through == A-031`;
+- retained A-030 availability/HUD authority checks;
+- added explicit A-031 witnesses for `effective_approval_required_tools` and `FIX-NOW / EARNED` classification.
+
+Post-repair focused currentness/A-031/handoff cluster:
+**20/20 PASS**.
+
+Post-repair complete V30 suite:
+**254 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Projection-currentness test SHA:
+`7149a057715d7a15feb761cdd60fb1369f8140afbf7a730fb34ac9850783e5e9`.
+
+This scar reinforces:
+`STALE_GREEN != CURRENT_EVIDENCE` and `EVALUATOR_EXPECTATION != CURRENT_AUTHORITY`.
+
+A-031 remains pending only Git commit/push/remote-readback before the next adapter seam begins.
+
+
+### A-031 byte-preservation correction — schema hash lineage
+
+The initial A-031 schema mutation was semantically correct but had been written with LF line endings, causing a noisy 9,214-line Git diff under the repository's deliberate `* -text` byte-preservation policy.
+
+The exact-delta audit rejected that publication candidate before Git.
+
+Repair:
+- restored the compact schema from exact `HEAD` bytes;
+- re-applied only the A-031 `effective_approval_required_tools` property + required-token against the original CRLF formatting;
+- preserved the existing 30-operation surface;
+- no Runtime semantics changed.
+
+Historical LF-normalized candidate SHA:
+`b069f594eec05a85331cb8b551625de430fb43b30820c580a19317751270db20`.
+
+Current byte-preserved publishable schema SHA:
+`2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`.
+
+The earlier hash remains in chronology as a rejected pre-publication candidate; current authority surfaces were corrected to the CRLF-preserved hash rather than rewriting history.
+
+This reinforces the source-lineage law: semantic equivalence does not erase byte identity when manifests/Git lineage are intentionally byte-sensitive.

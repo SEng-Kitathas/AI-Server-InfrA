@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-05 22:13 ET
+Last updated: 2026-09-05 22:41 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — Git cold-start handoff publication
+- Current mode: BUILD-COMMIT / PROMOTION — A-031 qualified after stale-evaluator repair; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: seal and push a Git-contained ICF-CS handoff snapshot covering current Runtime state plus Runtime↔OBE/Skills duality; then resume adapter-lossiness classification.
+- Dominant objective: publish A-031 family effective-approval OpenAPI parity after final 20/20 focused + 254 full GREEN; then classify bounded result-handle Actions lossiness.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -29,12 +29,11 @@ Last updated: 2026-09-05 22:13 ET
 
 ### Git publication truth
 - exact Git root: `V30_WORKING/PCMMAD_receiver`; branch `main`; remote `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`.
-- fresh pre-handoff local/remote HEAD `f63f31f7f2ae89f9253d21609a1d431df29e0a69`; tree `6dbdc6fa9a42531ae0252b634cfd3f8e0d749ba3`; upstream clean.
-- `f63f31f` includes A-030 projection-currentness reconciliation; fresh full suite 245 GREEN on those bytes.
-- generated backups/runtime state excluded; byte normalization disabled.
-- current user directive: add repo-contained ICF-CS recovery snapshot and push it.
+- current local/remote HEAD `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`; tree `b93f7973a3c29c6f6ddfcbc88df9405e0c61d095`; upstream clean.
+- `CURRENT_INGRESS.md` and `handoff/current/` are now remotely published and remote object readback passed.
+- final handoff regression 6/6 PASS; complete V30 suite 251 GREEN on published source candidate bytes.
+- handoff is a commit-bound recovery mirror, not a second live authority.
 - `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`; live Desktop receiver remains separate.
-- Git handoff snapshot is a commit-bound recovery mirror, not a second live authority.
 
 ### Current runtime/test truth
 - live server: online at last health readback, scheduler alive, 16 families, family counts sum to 96 tools, compact frontend 30 actions.
@@ -116,40 +115,38 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0: build repo-contained ICF-CS handoff snapshot from repaired outer continuity;
-2. P0: make Runtime↔OBE/Skills duality and convergence contract directly discoverable at repo ingress;
-3. P0: commit/push/remote-read new handoff head;
-4. then complete remaining OpenAPI/imported-action/runtime-surface lossiness classification;
-5. choose next Runtime seam from process/service identity, async final qualification, semantic executor, node/resource model, live V30 promotion;
-6. keep visual HUD campaign downstream of operational truth; final schema remains last-stage.
+1. P0 publish A-031 and remote-read exact head;
+2. next classify `/lab/results/get` Actions lossiness (`summary_only` vs native auto/full/metadata/preview/range);
+3. continue adapter mismatches one earned/pushed step at a time;
+4. rank next Runtime seam only after remaining lossiness is classified;
+5. final schema remains last-stage.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. repair stale Git-publication continuity to `f63f31f`;
-2. copy current ICF authority/state/shadow surfaces into repo `handoff/current/` with source-hash manifest;
-3. add repo-root `CURRENT_INGRESS.md` and Runtime↔OBE/Skills handoff contract;
-4. commit/push and verify remote head;
-5. update outer Git publication receipt with final head;
-6. resume adapter-lossiness classification.
+1. refresh Git handoff mirror to A-031 qualified state;
+2. run handoff regression on refreshed snapshot;
+3. commit A-031 intended delta only;
+4. push `main` and remote-read head;
+5. update outer Git receipt;
+6. only then begin bounded-result Actions parity.
 
 ## Last 10 Turn Reinforcement Window
-1. ASSISTANT: A-030 HUD availability/readiness presentation qualified and then projection-currentness reconciliation committed. STATE CHANGE.
-2. ASSISTANT: repository `main` advanced through `f63f31f` and was pushed to GitHub. STATE CHANGE / PUBLICATION.
-3. USER: supplied the GitHub URL again, reported thread-full inference failure, and required immediate Git verification/push plus complete new-thread state/Runtime↔Skills duality coverage. STATE CHANGE / HANDOFF REQUIREMENT.
-4. ASSISTANT: recovery treated copied tail as hint, not authority, and inspected local project state.
-5. ASSISTANT: machine evidence proved A-028 closed, A-029/A-030 also earned, repo root correct, origin correct, and local/remote HEAD already exact at `f63f31f`.
-6. ASSISTANT: fresh full V30 suite on published bytes passed: 245 collected, one conditional Windows symlink skip. VERIFIED.
-7. ASSISTANT: repo cold-start audit found Commander/adapter/projection documents present but outer ICF continuity surfaces were not Git-contained. SEAM FOUND.
-8. ASSISTANT: ICF audit found outer Current/Next/Live/Git publication receipt still described A-030 publication as pending despite remote `f63f31f`. CONFLICT.
-9. ASSISTANT: conflict localized; current plan is repair outer continuity before copying any snapshot.
-10. ASSISTANT: Git handoff snapshot is defined as commit-bound recovery mirror, not a second live truth plane. DECISION.
+1. ASSISTANT: A-031 closed family authority-schema mismatch implemented; 30 ops preserved.
+2. ASSISTANT: focused compact/effect/authority cluster 32/32 PASS. VERIFIED.
+3. ASSISTANT: full suite 254 GREEN on A-031 engineering bytes. VERIFIED.
+4. ASSISTANT: audit/projection matrix updated; bounded result retrieval isolated as next separate seam.
+5. ASSISTANT: Current/Next/Doctrine/Revisit/Trace/Live/ICF/Commander registered to A-031; DTS appended. STATE CHANGE.
+6. ASSISTANT: Git recovery mirror refreshed to A-031 qualified state; handoff regression 6/6 PASS.
+7. ASSISTANT: first final exact-candidate full-suite gate FAILED two stale projection-currentness assertions pinned to A-030. HOSTILE FAILURE.
+8. ASSISTANT: failure localized as evaluator/currentness staleness; matrix was not rolled back and A-030 HUD assertions were retained.
+9. ASSISTANT: projection-currentness regression advanced to A-031 and strengthened with effective-approval/FIX-NOW witnesses. REPAIR.
+10. ASSISTANT: post-repair focused cluster 20/20 PASS and full suite 254 GREEN. A-031 is pending Git publication only. VERIFIED.
 
 ## Delta Since Previous Shadow
-- Git reality advanced beyond stale continuity: `f63f31f`, clean remote-exact, 245 GREEN.
-- A-030 publication is no longer pending.
-- user requires Git-contained cold-start state because thread is saturated.
-- new immediate task: seal/push ICF snapshot + Runtime↔OBE/Skills contract.
-- snapshot is recovery mirror only; local/runtime readback remains authority.
+- final qualification caught and repaired stale A-030 evaluator expectations rather than weakening current A-031 truth.
+- focused final cluster 20/20 PASS; full suite 254 GREEN.
+- projection-currentness test now binds to A-031 while preserving A-030 HUD laws.
+- no next implementation seam begins until A-031 is pushed and remote-read.

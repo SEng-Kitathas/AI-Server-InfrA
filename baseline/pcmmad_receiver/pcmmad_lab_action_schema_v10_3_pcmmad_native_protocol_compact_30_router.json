@@ -3399,6 +3399,11 @@
           "approval_required_tools": {
             "type": "integer"
           },
+          "effective_approval_required_tools": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Count of family tools whose effective runtime policy requires approval, including requirements derived from mutation/danger policy rather than only declared approval_required metadata."
+          },
           "danger_tiers": {
             "type": "array",
             "items": {
@@ -3417,6 +3422,7 @@
           "tool_count",
           "mutating_tools",
           "approval_required_tools",
+          "effective_approval_required_tools",
           "danger_tiers",
           "tags"
         ],

@@ -1,25 +1,24 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-05 22:13 ET
+Last updated: 2026-09-05 22:36 ET
 
 ## Immediate — current frontier
 
-Completed:
-- [x] A-030 HUD availability/core-vs-optional presentation parity earned.
-- [x] A-030 projection-currentness reconciliation committed and pushed.
-- [x] fresh local/remote readback exact at `f63f31f7f2ae89f9253d21609a1d431df29e0a69`.
-- [x] fresh full V30 suite **245 GREEN** on current published bytes.
+Completed this step:
+- [x] A-031 classified closed OpenAPI family authority omission as FIX-NOW.
+- [x] `effective_approval_required_tools` added to closed `CapabilityFamilyCard` response schema.
+- [x] exact native-vs-schema family key parity regression added.
+- [x] focused A-031 cluster **32/32 PASS**.
+- [x] full V30 suite **254 GREEN**.
+- [x] compact operation count preserved at 30.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Build Git-contained ICF-CS recovery snapshot | thread is saturated; Git must preserve enough state for clean re-entry without outer-store dependence | Current/Next/Doctrine/Revisit/Trace/Live/DTS/ICF/Commander snapshot + manifest + repo ingress exist |
-| P0 | Make Runtime↔OBE/Skills duality explicit in repo ingress | avoid parallel ontologies across server/Skill threads | methodology/runtime/adapters/OBE/model/chat boundaries + reconciliation rules are directly discoverable |
-| P0 | Commit/push handoff snapshot and remote-read head | publication must survive thread rollover | clean `main`, origin exact, receipt updated |
-| P1 | Complete remaining adapter-lossiness classification | native truth is richer than some permissive projections | every remaining mismatch marked acceptable/deferred/fix-now with authority/currentness rationale |
-| P1 | Rank next Runtime seam from evidence | avoid stale checklist/inertia | next target selected from process/service identity, async final qualification, semantic executor, node/resource, live promotion |
-| P1 | Keep visual HUD redesign downstream | operational currentness is not final design campaign | no premature Liquid-Aero/HoloFont/three-wing polish |
-| P1 | Keep final schema redesign locked | projection lossiness is evidence, not redesign trigger | no ontology rewrite before convergence |
+| P0 | Publish A-031 to Git and remote-read | user requires Git after every earned step | commit/push succeeds, origin/main exact, outer publication receipt advanced |
+| P1 | Classify compact result-handle retrieval lossiness | Actions exposes `summary_only`; Runtime has bounded metadata/preview/range modes | ACCEPTABLE / DEFERRED / FIX-NOW disposition supported by exact route/schema evidence |
+| P1 | Continue adapter-lossiness ledger one seam at a time | avoid giant schema cleanup disguised as audit | each step separately qualified and pushed |
+| P1 | Keep final schema redesign locked | compatibility corrections are not ontology redesign | no broad schema rewrite before convergence |
 
 ## Near-term all-plane audit
 

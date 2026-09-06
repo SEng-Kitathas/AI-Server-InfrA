@@ -1391,3 +1391,52 @@ Claim ceilings:
 
 Next frontier:
 repair remaining adapter currentness loss at the compact OpenAPI/runtime-surface evidence boundary, then re-rank Runtime hardening seams.
+
+
+## A-031 — Compact OpenAPI closed capability-family schema omitted effective approval policy count
+Severity: P1 adapter-authority / response-schema parity defect
+Status: FIXED AND QUALIFIED in V30 working tree
+
+Observed during post-handoff adapter-lossiness classification:
+- native `CapabilityFamilyCard` serializes seven fields, including `effective_approval_required_tools`;
+- compact OpenAPI `CapabilityFamilyCard` used `additionalProperties=false` but declared only six fields and omitted `effective_approval_required_tools`;
+- `/lab/tools` / capability-router family projections therefore had a closed response schema that contradicted current native serialization;
+- the omitted value is semantically load-bearing: declared `approval_required_tools` can be lower than effective policy requirements derived from mutation/danger policy (for example browser family declared=6, effective=12).
+
+Classification:
+**FIX-NOW** — this is not acceptable compatibility compression because the closed schema rejected an actually emitted, authority-significant field.
+
+Embodiment:
+- compact `CapabilityFamilyCard` now declares and requires `effective_approval_required_tools` as non-negative integer;
+- description explicitly states that effective policy includes approval derived from mutation/danger policy, not only declared metadata;
+- compact operation count remains exactly 30;
+- no Runtime behavior or policy semantics changed.
+
+Backup:
+`baseline/pcmmad_receiver/_v30_backups/AUDIT_A031_FAMILY_AUTHORITY_PARITY/pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json`
+
+Hostile regression:
+`tests/test_compact_schema_family_authority_parity.py`
+
+It verifies:
+- closed OpenAPI family schema key set exactly equals native serialized family-card key set for all 16 families;
+- `effective_approval_required_tools` is required and non-negative;
+- effective approval count is never below declared approval count;
+- at least one real family differs, proving the field is not redundant;
+- compact compatibility surface remains exactly 30 operations.
+
+Verification:
+- focused compact-schema/effect/bound-authority cluster: **32/32 PASS**;
+- complete V30 suite: **254 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities:
+- compact schema SHA-256 `2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`
+- A-031 test SHA-256 `b8f80b96a8dd3e0ceeefb591bd6fcf0542cd2bde99f0b456a46e63c9aa5f6942`.
+
+Claim ceiling:
+- this fixes one closed response-schema contradiction; it does not strongly type the entire native tool-card catalog in OpenAPI;
+- permissive `/lab/tools.tools[]` capability cards remain wire-preserving but validation/documentation-lossy and are still classified separately;
+- final schema redesign remains locked deferred.
+
+Next discriminator:
+compact Action projection for `/lab/results/get` currently advertises only historical `summary_only` while native Runtime supports `auto|full|metadata|preview|range`; classify and qualify separately in the next Git step.

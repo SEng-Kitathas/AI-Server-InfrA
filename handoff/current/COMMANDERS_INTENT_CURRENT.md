@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-05 22:13 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-05 22:36 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -598,7 +598,7 @@ Before promotion:
 - [~] control/restart/HUD audit: approval/Host/process-ownership + A-030 availability/core-readiness slices earned; broader service constellation/visual/operator surfaces remain open.
 - [~] transfer authority/scope/currentness/integrity hostile slice qualified; immutable export snapshot semantics remain unearned and final release promotion pressure remains.
 - [x] browser optional-vs-core HUD readiness split qualified under A-030; browser remains an optional provider/plane.
-- [~] schema/runtime/policy/imported-action parity audit: **bound-authority compact adapter + MCP availability + HUD availability/readiness presentation slices earned**; remaining OpenAPI/imported-action/runtime-surface currentness classification remains open.
+- [~] schema/runtime/policy/imported-action parity audit: bound-authority + MCP availability + HUD availability/readiness + **A-031 compact family effective-approval response parity earned**; bounded result-handle Actions parity is next.
 - [x] continuity/rehydration ranking + cache-currentness audit: **ICF-CS v1.0 embodied**, transient noise excluded, all authority roles seeded, cache source-currentness validated, full suite green 209.
 
 ### Capability/runtime maturation
@@ -643,26 +643,17 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-Fresh current evidence:
-- V30 native registry **100 tools / 16 families**;
-- native effect + availability + bound authority + result range + plugin currentness earned;
-- MCP availability parity earned;
-- HUD dynamic availability/core-vs-optional presentation earned;
-- final HUD+projection currentness cluster **32/32 PASS**;
-- full V30 suite **245 GREEN**;
-- Git `main` local/remote exact at `f63f31f7f2ae89f9253d21609a1d431df29e0a69` before the current handoff mutation.
+A-031 compact capability-family effective-approval parity is earned locally:
+- closed native/OpenAPI family key parity exact across 16 families;
+- compact operation count 30;
+- focused 32/32 PASS; full suite 254 GREEN;
+- schema SHA `2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`.
 
-Immediate user-directed publication frontier:
-1. create a Git-contained ICF-CS handoff snapshot so a new thread can recover without relying on this saturated chat or outer local store;
-2. make the PCMMAD methodology / Laboratory Runtime / OBE+Skills / adapter / model / Project Chat separation explicit and point to the shared Runtime Adapter Compatibility Contract + Projection Matrix;
-3. preserve the rule that the Git snapshot is a recovery mirror, not a second live authority;
-4. commit/push/remote-read the handoff.
-
-Then resume engineering frontier:
-1. complete remaining OpenAPI/imported-action/runtime-surface lossiness classification and label acceptable/deferred/fix-now;
-2. rank next genuinely-open Runtime seam from process/service identity, async final qualification, semantic executor, node/resource maturation, live V30 promotion;
-3. maintain Git commit/push/remote-readback cadence after each earned delta;
-4. visual HUD embodiment remains later;
+Immediate sequence:
+1. publish A-031 to Git and remote-read exact head under the user-mandated per-step cadence;
+2. then classify compact `/lab/results/get` Actions lossiness against native `auto|full|metadata|preview|range`;
+3. continue one adapter seam per qualified/pushed step;
+4. after lossiness ledger converges, rank next Runtime seam;
 5. final schema redesign remains locked deferred.
 
 ---

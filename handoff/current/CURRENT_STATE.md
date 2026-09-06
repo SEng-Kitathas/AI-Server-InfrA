@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-05 22:13 ET
+Last updated: 2026-09-05 22:36 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,26 +263,28 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-030 HUD availability/core-vs-optional presentation parity and its projection-currentness reconciliation are **EARNED and remotely published** for current V30 scope.
+A-031 compact OpenAPI capability-family effective-approval parity is **EARNED for current V30 working-tree scope**.
 
 Fresh evidence:
-- **100 native tools / 16 families**;
-- final HUD+projection currentness cluster **32/32 PASS**;
-- complete V30 suite **245 collected tests GREEN**;
-- Git local/remote `main` exact at `f63f31f7f2ae89f9253d21609a1d431df29e0a69`, tree `6dbdc6fa9a42531ae0252b634cfd3f8e0d749ba3`, clean before this handoff mutation.
+- native registry **100 tools / 16 families**;
+- compact `CapabilityFamilyCard` now exactly represents native closed family-card keys, including `effective_approval_required_tools`;
+- declared approval count can differ materially from effective policy count (browser 6 declared / 12 effective), so the field is authority-significant;
+- compact compatibility surface remains exactly **30 operations**;
+- focused A-031 parity/authority cluster **32/32 PASS**;
+- complete V30 suite **254 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- compact schema SHA `2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`.
 
-Immediate user-directed handoff/promotion action:
-1. build a repo-contained ICF-CS cold-start snapshot from the repaired Current/Next/Doctrine/Revisit/Trace/Live Shadow/DTS/ICF/Commander surfaces;
-2. include an explicit Runtime <-> OBE/Skills architecture boundary and cross-thread convergence contract;
-3. qualify the snapshot manifest/read order;
-4. commit, push to `origin/main`, and remote-read the new head;
-5. update outer Git publication receipt after push.
+A-031 classification:
+- closed family-card omission = **FIX-NOW → EARNED**;
+- permissive `/lab/tools.tools[]` native cards = **ACCEPTABLE CURRENT COMPATIBILITY** because wire semantics are preserved while validation/documentation remain intentionally loose; strongly typing the evolving tool-card catalog stays deferred unless a concrete client failure appears.
 
-After handoff publication, resume the engineering Frontier:
-1. complete remaining **adapter-lossiness classification** (especially permissive OpenAPI/action typing and any residual HUD/native control projection gaps), marking each mismatch acceptable/deferred/fix-now;
-2. choose the next genuinely-open Runtime seam by evidence among process/service identity, async malformed/race/final qualification, semantic executor restoration, node/resource maturation, and live V30 promotion;
-3. keep visual Liquid-Aero/HoloFont/three-wing embodiment downstream of operational truth hardening;
-4. keep final schema redesign locked deferred.
+This A-031 state is being published under the user-mandated per-step Git cadence. Resolve current Git head dynamically from the repo; the last already-remote-verified base before this step was `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`.
+
+Exact next engineering discriminator after publication:
+1. compact `/lab/results/get` Actions request advertises only historical `summary_only`;
+2. native Runtime supports `auto|full|metadata|preview|range`, byte offsets/length and preview sizing;
+3. classify whether that adapter loss violates bounded result/attention law;
+4. do not mutate that surface until A-031 commit/push/remote-readback completes.
 
 ## Remaining major seams
 

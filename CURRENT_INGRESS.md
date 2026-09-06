@@ -87,42 +87,42 @@ The Skill thread must target the shared Runtime adapter/projection contracts rat
 
 Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/browser/build/download/archive/model work should provide small decision-grade progress receipts and store bulk output behind handles/ranges.
 
-## Verified pre-handoff baseline
+## Verified base and current candidate
 
-Immediately before creation of this Git handoff mutation:
-- Git local/remote `main` were exact at `f63f31f7f2ae89f9253d21609a1d431df29e0a69`;
-- tree `6dbdc6fa9a42531ae0252b634cfd3f8e0d749ba3`;
-- working tree clean;
+Last remote-verified Git base before the current A-031 publication step:
+- commit `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`;
+- tree `b93f7973a3c29c6f6ddfcbc88df9405e0c61d095`;
 - V30 registry 100 tools / 16 families;
-- full suite 245 collected tests GREEN with one existing conditional Windows symlink-privilege skip;
-- A-028 availability/currentness, A-029 MCP availability projection, A-030 HUD availability/readiness, and A-030 projection-currentness reconciliation were earned/published.
+- full suite 251 collected tests GREEN with one conditional Windows symlink-privilege skip.
 
-Because this file and `handoff/current/` are a later mutation, the pre-handoff SHA is historical context only. Resolve the **current** repository commit dynamically with Git and verify it against origin.
+Current A-031 candidate carried by this recovery snapshot:
+- compact capability-family schema now preserves native `effective_approval_required_tools`;
+- focused A-031 cluster 32/32 PASS;
+- full V30 suite 254 collected tests GREEN;
+- compact action surface remains exactly 30 operations;
+- schema SHA `2d845dce9312a1a86a1217059a5dc046d435fb4f66540f703a92d4609b37a4ce`.
+
+Resolve the **current** repository commit dynamically with Git and verify it against origin. The snapshot itself does not prove whether this candidate has been pushed.
 
 ## Current handoff-candidate qualification
 
-After materializing the repo recovery bundle and its hostile handoff regression:
-- `tests/test_git_handoff_current.py`: **6 / 6 PASS**;
-- complete V30 suite: **251 collected tests GREEN**;
-- one existing conditional Windows symlink-privilege skip;
-- basic secret-like scan over the new handoff/ingress/Commander delta: no hits.
+A-031 current candidate evidence:
+- engineering compact-schema/effect/authority cluster: **32 / 32 PASS**;
+- refreshed Git handoff regression: **6 / 6 PASS**;
+- final projection-currentness/A-031/handoff cluster after stale-evaluator repair: **20 / 20 PASS**;
+- complete V30 suite: **254 collected tests GREEN**;
+- one existing conditional Windows symlink-privilege skip.
 
-See `handoff/current/HANDOFF_QUALIFICATION.md`.
+The first final full-suite attempt caught stale test expectations pinned to A-030; the evaluator was advanced to A-031 without removing A-030 HUD invariants. See `handoff/current/HANDOFF_QUALIFICATION.md` and the DTS tail.
 
-These are pre-commit candidate facts until Git commit/push/remote-readback completes.
+## Active engineering frontier after A-031 publication
 
-## Active engineering frontier after handoff publication
-
-1. Complete remaining OpenAPI/imported-action/runtime-surface adapter-lossiness classification; mark each mismatch ACCEPTABLE / DEFERRED / FIX-NOW.
-2. Rank the next genuinely-open Runtime seam by evidence among:
-   - process/service identity;
-   - async malformed/stale/race/final qualification;
-   - semantic executor restoration;
-   - node/resource maturation;
-   - live V30 promotion.
-3. Keep visual Liquid-Aero/HoloFont/three-wing HUD embodiment downstream of operational truth hardening.
-4. Keep final schema research/redesign **locked until whole-runtime convergence / explicit final trigger**.
-5. Maintain Git commit -> push -> remote-readback and ICF continuity after every earned load-bearing delta.
+1. Verify/publish A-031 under current per-step Git cadence and remote-read the exact head.
+2. Next isolated discriminator: compact `/lab/results/get` request exposes historical `summary_only`, while native Runtime supports `auto|full|metadata|preview|range` plus byte range and preview controls.
+3. Continue adapter-lossiness classification one separately qualified/pushed seam at a time.
+4. After adapter ledger converges, rank the next genuinely-open Runtime seam.
+5. Keep visual HUD work downstream of operational truth hardening.
+6. Keep final schema research/redesign locked until whole-runtime convergence / explicit final trigger.
 
 ## Release/live ceiling
 

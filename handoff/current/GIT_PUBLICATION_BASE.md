@@ -1,8 +1,8 @@
 # PCMMAD Receiver V30 — Git Publication Receipt
 
-Date: 2026-09-05 22:13 ET
-Status: VERIFIED REMOTE PUBLICATION — CURRENT PRE-HANDOFF BASE THROUGH A-030 RECONCILIATION
-Scope: source/evidence publication only; **NOT live Runtime deployment/promotion**.
+Date: 2026-09-05 22:24 ET
+Status: VERIFIED REMOTE PUBLICATION — CURRENT THROUGH GIT-CONTAINED ICF/OBE HANDOFF
+Scope: source/evidence/recovery publication only; **NOT live Runtime deployment/promotion**.
 
 ## Repository authority
 Local Git root:
@@ -14,41 +14,62 @@ Remote:
 Branch/upstream:
 `main` / `origin/main`
 
-## Current verified pre-handoff head
+## Current published head
 Commit:
-`f63f31f7f2ae89f9253d21609a1d431df29e0a69`
+`cc2802f6d0a0ea24fe036aad9bdb6abfde925566`
 
 Tree:
-`6dbdc6fa9a42531ae0252b634cfd3f8e0d749ba3`
+`b93f7973a3c29c6f6ddfcbc88df9405e0c61d095`
 
 Subject:
-`Reconcile A-030 projection currentness`
+`Seal ICF-CS Git handoff and Runtime-Skills boundary`
 
-This commit follows:
-- A-028 availability/currentness publication `2d6549f01327c7b3250cc863d64cc3eca18417e3`;
-- A-029 MCP availability publication `e777bd4fdcd2ec942f2269903bf8129b53cf33cd`;
-- A-030 HUD availability publication `7aee592978aafe9d1dc14cffefa4bf95516b271a`;
-- A-030 projection-currentness reconciliation `f63f31f7f2ae89f9253d21609a1d431df29e0a69`.
+Delta:
+- 21 files
+- 4,997 insertions / 4 deletions
+- root `CURRENT_INGRESS.md`
+- `handoff/current/` ICF/state/shadow/Commander recovery bundle + source-hash manifest
+- explicit `RUNTIME_OBE_SKILLS_DUALITY.md`
+- hostile `test_git_handoff_current.py`
+- current Commander handoff rule.
 
-Fresh qualification/readback before current handoff mutation:
-- complete V30 suite: **245 collected tests GREEN**;
-- local HEAD = remote `refs/heads/main` = `f63f31f7f2ae89f9253d21609a1d431df29e0a69`;
-- working tree clean;
-- tree = `6dbdc6fa9a42531ae0252b634cfd3f8e0d749ba3`.
+## Qualification
+- handoff regression: **6/6 PASS**
+- complete V30 suite: **251 collected tests GREEN**
+- one existing conditional Windows symlink-privilege skip
+- secret-like scan over new ingress/handoff/Commander delta: no hits
+- byte-wise real trailing space/tab scan: 0 issues
+- handoff manifest hashes its declared snapshot members
+- Runtime↔OBE/Skills authority boundaries checked by test.
 
-## Current handoff mutation boundary
-The user explicitly requires a Git-contained ICF-CS recovery snapshot and complete Runtime↔OBE/Skills handoff because the chat thread is saturated.
+## Remote verification
+Push result:
+`f63f31f..cc2802f  main -> main`
 
-That handoff snapshot is the next intended commit. Therefore this receipt records the exact published **base before the handoff snapshot mutation**. After the handoff commit/push, this receipt must be advanced to the new remote head.
+Independent remote readback:
+`cc2802f6d0a0ea24fe036aad9bdb6abfde925566 refs/heads/main`
 
-## Publication hygiene
-Repository excludes local/non-source surfaces including `.worker_selftest/`, `.pcmmad_sync_runs/`, `.pytest_cache/`, `**/_v30_backups/`, `*.bak.*`, and `operator_hud/runtime/`.
+Local HEAD:
+`cc2802f6d0a0ea24fe036aad9bdb6abfde925566`
 
-`.gitattributes` retains `* -text` so Git does not normalize byte-sensitive source/manifests.
+Remote/local identity: PASS.
+
+Remote object readback:
+`origin/main:CURRENT_INGRESS.md` opened successfully and begins with the expected PCMMAD Receiver V30 CURRENT INGRESS / recovery-pointer authority ceiling.
+
+Working-tree status after push:
+`main...origin/main` with no source delta.
+
+## Publication history
+- A-028: `2d6549f01327c7b3250cc863d64cc3eca18417e3`
+- A-029: `e777bd4fdcd2ec942f2269903bf8129b53cf33cd`
+- A-030 HUD: `7aee592978aafe9d1dc14cffefa4bf95516b271a`
+- A-030 projection reconciliation: `f63f31f7f2ae89f9253d21609a1d431df29e0a69`
+- ICF/OBE Git handoff: `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`
 
 ## Authority ceiling
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`
 
 `GIT_HANDOFF_SNAPSHOT != LIVE_PROJECT_STATE_PROOF`
 
-The GitHub repository is durable source/publication lineage and recovery evidence. It does not imply the live Desktop receiver/HUD/services are running V30 or that commit-bound snapshots outrank fresher canonical local/runtime state.
+The repository is durable source/publication/recovery lineage. The Git handoff snapshot is intentionally commit-bound and may age. A fresh thread must dynamically verify Git/local/runtime state before consequential mutation.

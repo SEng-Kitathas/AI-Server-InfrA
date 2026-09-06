@@ -55,6 +55,14 @@
       "hud_projection": "native card preserved; static availability rendered; explicit selected-tool native availability probe; ephemeral probe discarded on contract-digest change"
     },
     {
+      "id": "capability_family",
+      "authority": "native_registry_projection",
+      "adapter_lossiness": "summary_allowed_effective_authority_count_exact",
+      "durable_adapter_truth": false,
+      "native_evidence": "16_family_cards_declared_and_effective_approval_counts",
+      "openapi_projection": "closed CapabilityFamilyCard includes effective_approval_required_tools after A-031"
+    },
+    {
       "id": "project",
       "authority": "runtime_project_state",
       "adapter_lossiness": "identity_zero_loss",
@@ -216,5 +224,15 @@
     "live V30 promotion/restart/CSC/package qualification",
     "final schema redesign after whole-runtime convergence"
   ],
-  "reconciled_through": "A-030"
+  "reconciled_through": "A-031",
+  "adapter_lossiness_classification": [
+    {
+      "audit_id": "A-031",
+      "surface": "openapi.CapabilityFamilyCard",
+      "classification": "FIX_NOW_EARNED",
+      "reason": "closed schema omitted emitted authority-significant effective_approval_required_tools",
+      "verification": "32/32 focused; 254 full-suite green; 30 operations preserved"
+    }
+  ],
+  "next_adapter_lossiness_discriminator": "OpenAPI /lab/results/get request vs native auto|full|metadata|preview|range bounded retrieval"
 }
