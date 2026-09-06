@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-06 07:12 ET
+Last updated: 2026-09-06 09:18 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,34 +263,61 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-036 post-partition execution lifecycle boundedness is **DERIVED / NO EXECUTION-CODE MUTATION EARNED** and pending this audit step's mandatory Git publication.
+A-037 protocol-store incremental fold/recovery backstop is **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
 
-A-036 outcomes:
-- terminal retention = **DEFER / policy-only**, because A-035 already removed terminal history from scheduler/capacity hot scans;
-- default drain = **NO DEFECT** under current global concurrency 8: candidate populations 100/1,000/10,000 all started/read exactly 8 when capacity empty and 0 when saturated;
-- configured per-project-full traversal remains linear in candidate count but 10,000 skipped candidates took ~0.776 ms and only one job-file read; no bespoke patch earned;
-- `/execution/list(limit=20)` = **REAL BOUNDED-MATERIALIZATION DEFECT**: 100/1,000/10,000 history candidates caused 100/1,000/10,000 `stat()` calls before only 20 records were loaded. This is handed forward to the incremental-derived-state raid rather than patched with an O(history) heap/sort variant.
+Pre-fix public `record_continuity` current-V30 cost:
+- depth 100 -> 11.3 ms, 3 full ledger reads, 300 parsed events, 201 folds;
+- 1,000 -> 48.2 ms, 3 reads, 3,000 parsed, 2,001 folds;
+- 4,000 -> 167.8 ms, 3 reads, 12,000 parsed, 8,001 folds.
 
-New cross-domain evidence packet `CROSS DOMAIN RAIDS.md` was read in full and preserved by receipt at `reports/hostile_inputs/CROSS_DOMAIN_RAIDS_2026-09-06_RECEIPT.md` (source bytes 20,441; SHA `dcdafb71cd5a5a66b18139b4cada42dd131fa7a1eb1e01ff117afa5acf310027`).
+Earned A-037 survivor:
+- `events.jsonl` remains authoritative append-only ledger;
+- append -> flush -> fsync durability boundary unchanged;
+- healthy in-process mutation extends a previously verified in-memory `ProtocolSnapshot` by exactly one event;
+- warm path performs zero full reads/verifies/rebuilds and exactly one fold;
+- ledger size/mtime/ctime fingerprint changes invalidate the fast cache and force full verify+fold before mutation;
+- post-fsync projection/checkpoint failure invalidates cache so the next mutation rebuilds from durable ledger;
+- `state.json` is explicitly a periodic/recovery derived checkpoint (genesis + every 128 events), may lag ledger, and is never authority;
+- cache loss/restart deliberately performs one full verify+fold because A-037 has no persistent cryptographic proof yet.
 
-Independent current-V30 protocol-store reproduction confirms the same implementation disease in a second subsystem:
-- 100 events -> 10.421 ms append; 201 events verified; 101 folded;
-- 1,000 -> 26.411 ms; 2,001 verified; 1,001 folded;
-- 4,000 -> 81.705 ms; 8,001 verified; 4,001 folded.
+Warm public mutation benchmark:
+- depth 100 -> 2.111 ms;
+- 1,000 -> 2.367 ms;
+- 4,000 -> 3.007 ms.
 
-Promoted hostile audit lens:
-**DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**.
-Meaning: when steady-state mutation can lawfully extend previously verified derived state, extend the fold/checkpoint/cache; full reconstruction/full verification remain recovery/audit backstops.
-Companion anti-overreach: **INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**.
+Checkpoint boundary cost is explicit/periodic:
+- seq 128 -> 2.956 ms / 20,307-byte projection;
+- seq 1,024 -> 6.778 ms / 161,004 bytes;
+- seq 4,096 -> 17.917 ms / 646,380 bytes.
+
+20k discriminator:
+- cold recovery full verify+fold ~273.342 ms;
+- immediately following warm append ~12.252 ms;
+- authoritative ledger verifies clean at 20,001 events.
+
+Hostile recovery/currentness proofs:
+- ordinary external ledger tamper invalidates cache, forces verification, refuses append;
+- durable append + injected projection failure leaves event in ledger, invalidates cache, then next mutation performs exactly one full rebuild and continues at sequence 3;
+- simulated restart/cache loss performs one full rebuild before append;
+- checkpoint cadence regression proves writes only at genesis/128 in bounded test.
+
+Verification:
+- protocol cluster **18/18 PASS**;
+- complete V30 suite **284 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- protocol source SHA `c7defa22e8fa37922ab20f5a6207553e8b1eae92aa86be2c77e8d728feb9ec0e`;
+- A-037 test SHA `bd1c4ada05bbac4ef3e1d48574833c6c3c2bb4074d4e36e3251eb5357596ef89`;
+- native protocol contract SHA `83fc8bf6fef0bc359914ec357cece777ded26846a90fec9d6419f9e7ec2f80df`.
+
+Security/currentness ceiling:
+**A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF**.
+A sufficiently privileged adversary that rewrites historical bytes while perfectly preserving/restoring the filesystem fingerprint is outside A-037's cheap fast-path proof. CT/Merkle proof-carrying history remains a later raid.
 
 Immediate sequence:
-1. publish A-036 audit/raid intake to Git and remote-read;
-2. A-037 derive/embody protocol-store incremental snapshot + verified-head/checkpoint semantics from current ledger invariants;
-3. then deterministic simulation/state-machine on-ramp before larger scheduler concurrency changes;
-4. informer watch/cache + slow resync on A-035 active store;
-5. Merkle proof-carrying protocol receipts after ledger checkpoint/head semantics stabilize;
-6. small high-value raids: lab/protocol idempotency and Windows Job Object resource limits;
-7. remaining raid candidates stay provisional until current-tree discriminators.
+1. refresh Git handoff mirror to A-037;
+2. final handoff + protocol + full-suite gate;
+3. commit/push/remote-read A-037;
+4. only then begin **A-038 deterministic execution lifecycle simulation/state-machine on-ramp**;
+5. informer/cache, Merkle receipts, idempotency/Job Object limits remain later evidence-ranked raids.
 
 ## Remaining major seams
 

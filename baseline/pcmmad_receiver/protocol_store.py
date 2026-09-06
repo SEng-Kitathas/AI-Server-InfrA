@@ -48,6 +48,17 @@ from shared_core import (
 _SAFE_ID = re.compile(r"^[A-Za-z0-9._:-]{1,160}$")
 _LOCKS_GUARD = threading.RLock()
 _PROJECT_LOCKS: dict[str, threading.RLock] = {}
+_SNAPSHOT_CACHE_GUARD = threading.RLock()
+PROTOCOL_SNAPSHOT_CHECKPOINT_INTERVAL = 128
+
+
+@dataclass
+class _SnapshotCacheEntry:
+    snapshot: ProtocolSnapshot
+    ledger_fingerprint: tuple[int, int, int]
+
+
+_SNAPSHOT_CACHE: dict[str, _SnapshotCacheEntry] = {}
 
 PROTOCOL_METHOD_VERSION = "2.0"
 PROTOCOL_BUILD_METABOLISM = (
@@ -166,6 +177,76 @@ def _parse_event(raw: object, *, line_number: int) -> ProtocolEvent:
         )
     except (KeyError, TypeError, ValueError) as exc:
         raise ProtocolLedgerError(f"ledger line {line_number} is malformed: {exc}") from exc
+
+
+def _snapshot_cache_key(project_id: str) -> str:
+    return str(_paths(project_id).events.resolve())
+
+
+def _ledger_fingerprint(path: Path) -> tuple[int, int, int]:
+    stat = path.stat()
+    return (int(stat.st_size), int(stat.st_mtime_ns), int(stat.st_ctime_ns))
+
+
+def _invalidate_snapshot_cache(project_id: str) -> None:
+    key = _snapshot_cache_key(project_id)
+    with _SNAPSHOT_CACHE_GUARD:
+        _SNAPSHOT_CACHE.pop(key, None)
+
+
+def _cache_snapshot(project_id: str, snapshot: ProtocolSnapshot) -> ProtocolSnapshot:
+    paths = _paths(project_id)
+    if not paths.events.is_file():
+        return snapshot
+    entry = _SnapshotCacheEntry(
+        snapshot=snapshot, ledger_fingerprint=_ledger_fingerprint(paths.events)
+    )
+    with _SNAPSHOT_CACHE_GUARD:
+        _SNAPSHOT_CACHE[_snapshot_cache_key(project_id)] = entry
+    return snapshot
+
+
+def _cached_snapshot_if_current(project_id: str) -> ProtocolSnapshot | None:
+    paths = _paths(project_id)
+    if not paths.events.is_file():
+        _invalidate_snapshot_cache(project_id)
+        return None
+    key = _snapshot_cache_key(project_id)
+    with _SNAPSHOT_CACHE_GUARD:
+        entry = _SNAPSHOT_CACHE.get(key)
+    if entry is None:
+        return None
+    try:
+        current = _ledger_fingerprint(paths.events)
+    except OSError:
+        _invalidate_snapshot_cache(project_id)
+        return None
+    if current != entry.ledger_fingerprint:
+        _invalidate_snapshot_cache(project_id)
+        return None
+    return entry.snapshot
+
+
+def _load_verified_snapshot_locked(project_id: str) -> ProtocolSnapshot:
+    """Use a current verified fold or rebuild the authoritative ledger once.
+
+    The healthy mutation path extends the in-memory fold.  A cache miss, restart,
+    or external ledger fingerprint change falls back to the existing full hash-chain
+    verification and fold before another append is allowed.
+    """
+    cached = _cached_snapshot_if_current(project_id)
+    if cached is not None:
+        return cached
+    paths = _paths(project_id)
+    if not paths.events.is_file():
+        return ProtocolSnapshot(project_id=project_id)
+    snapshot = build_snapshot(project_id)
+    _write_snapshot(project_id, snapshot)
+    return _cache_snapshot(project_id, snapshot)
+
+
+def _checkpoint_due(sequence: int) -> bool:
+    return sequence == 1 or sequence % PROTOCOL_SNAPSHOT_CHECKPOINT_INTERVAL == 0
 
 
 def read_events(project_id: str) -> list[ProtocolEvent]:
@@ -289,17 +370,20 @@ def _append_event_locked(
     payload: dict[str, Any],
     *,
     actor: str,
+    snapshot: ProtocolSnapshot | None = None,
 ) -> ProtocolEvent:
     paths = _paths(project_id)
     paths.root.mkdir(parents=True, exist_ok=True)
-    events = read_events(project_id)
-    verification = verify_events(project_id, events)
-    if not verification["ok"]:
-        raise ProtocolLedgerError(
-            f"refusing append to invalid ledger: {verification['failures']}"
-        )
-    sequence = len(events) + 1
-    previous_hash = events[-1].event_hash if events else None
+
+    if snapshot is None:
+        snapshot = _load_verified_snapshot_locked(project_id)
+    elif paths.events.is_file():
+        cached = _cached_snapshot_if_current(project_id)
+        if cached is not snapshot:
+            snapshot = _load_verified_snapshot_locked(project_id)
+
+    sequence = int(snapshot.event_count) + 1
+    previous_hash = snapshot.head_hash
     body = _event_body(
         sequence=sequence,
         event_id=str(uuid.uuid4()),
@@ -321,15 +405,26 @@ def _append_event_locked(
         previous_hash=previous_hash,
         event_hash=_canonical_event_hash(body),
     )
-    # The append and fsync are one durability boundary. The derived snapshot is
-    # published only after the authoritative ledger record is durable.
+
+    # Authoritative durability boundary is unchanged: append then flush+fsync.
     with paths.events.open("a", encoding="utf-8", newline="\n") as handle:
         handle.write(render_jsonl_boundary(event.to_dict()) + "\n")
         handle.flush()
         os.fsync(handle.fileno())
-    events.append(event)
-    snapshot = build_snapshot(project_id, events)
-    _write_snapshot(project_id, snapshot)
+
+    try:
+        # Healthy steady state is one fold step, not a history rebuild.
+        _apply_event(snapshot, event)
+        _cache_snapshot(project_id, snapshot)
+        # state.json is rebuildable derived state. Publish periodic checkpoints
+        # rather than rewriting a history-sized projection on every WAL append.
+        if _checkpoint_due(event.sequence):
+            _write_snapshot(project_id, snapshot)
+    except Exception:
+        # The ledger append may already be durable.  Never leave cache claiming
+        # currentness after a projection/checkpoint failure; recovery must rebuild.
+        _invalidate_snapshot_cache(project_id)
+        raise
     return event
 
 
@@ -349,8 +444,8 @@ def ensure_protocol(
         RuntimeMode, initial_mode, "initial_mode"
     )
     with _lock_for(project_id):
-        events = read_events(project_id)
-        if not events:
+        snapshot = _load_verified_snapshot_locked(project_id)
+        if snapshot.event_count == 0:
             _append_event_locked(
                 project_id,
                 ProtocolEventKind.GENESIS,
@@ -363,8 +458,9 @@ def ensure_protocol(
                     "primary_axiom": PROTOCOL_PRIMARY_AXIOM,
                 },
                 actor=actor,
+                snapshot=snapshot,
             )
-        return build_snapshot(project_id)
+        return snapshot
 
 
 def protocol_is_initialized(project_id: str) -> bool:
@@ -518,6 +614,7 @@ def transition_mode(
                 "reason": _required_text(reason, "reason"),
             },
             actor=actor,
+            snapshot=snapshot,
         )
 
 
@@ -547,6 +644,7 @@ def set_objective(
                 "supersedes_objective_id": prior.get("objective_id") if prior else None,
             },
             actor=actor,
+            snapshot=snapshot,
         )
 
 
@@ -581,6 +679,7 @@ def record_constraint(
                 "revision": int(prior.get("revision", 0)) + 1 if prior else 1,
             },
             actor=actor,
+            snapshot=snapshot,
         )
 
 
@@ -646,6 +745,7 @@ def record_claim(
                 "revision": int(prior.get("revision", 0)) + 1 if prior else 1,
             },
             actor=actor,
+            snapshot=snapshot,
         )
 
 
@@ -710,6 +810,7 @@ def register_artifact(
                 "revision": int(prior.get("revision", 0)) + 1 if prior else 1,
             },
             actor=actor,
+            snapshot=snapshot,
         )
 
 
@@ -801,6 +902,7 @@ def record_promotion(
                 "rigor_level": snapshot.rigor_level.value,
             },
             actor=actor,
+            snapshot=snapshot,
         )
 
 
@@ -855,6 +957,7 @@ def record_waiver(
                 "revision": int(prior.get("revision", 0)) + 1 if prior else 1,
             },
             actor=actor,
+            snapshot=snapshot,
         )
 
 
@@ -866,5 +969,7 @@ def _append_protocol_event(
     actor: str,
 ) -> ProtocolEvent:
     with _lock_for(project_id):
-        ensure_protocol(project_id, actor=actor)
-        return _append_event_locked(project_id, event_kind, payload, actor=actor)
+        snapshot = ensure_protocol(project_id, actor=actor)
+        return _append_event_locked(
+            project_id, event_kind, payload, actor=actor, snapshot=snapshot
+        )

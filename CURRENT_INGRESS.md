@@ -89,35 +89,38 @@ Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/
 
 ## Verified base and current candidate
 
-Last remote-verified Git base before A-036:
-- commit `9bb925137bf9dfa2b33f13f2df078d52710947ca`;
-- tree `a459d735fec7d5759c61411fba56a523ed9a99e9`;
-- A-035 active/terminal execution metadata partition current;
+Last remote-verified Git base before A-037:
+- commit `45ea334608f475bbd8658345edade3d256027e8f`;
+- tree `220f0e04308b05b7603b529a3ecff24c1a4d6441`;
+- A-036 lifecycle boundedness + raid intake current;
 - full suite 279 GREEN.
 
-Current A-036 candidate is audit/derivation only:
-- retention deferred as policy-only;
-- default drain classified bounded under current finite global limit;
-- `/execution/list(limit=N)` O(history) metadata work confirmed and handed to incremental-state raid;
-- current protocol-store full parse/double-verify/full-fold append cost independently reproduced;
-- `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD` promoted with full-recovery anti-overreach;
-- no Runtime execution code mutation in this step.
+Current A-037 candidate:
+- protocol healthy mutation extends one verified fold and avoids full-history read/verify/rebuild;
+- authoritative JSONL/fsync boundary preserved;
+- restart/cache loss/external fingerprint change retains full verify/fold recovery;
+- state.json is periodic derived checkpoint, may lag ledger, never authority;
+- protocol 18/18 PASS; full suite 284 GREEN;
+- security ceiling `A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF`.
 
-Resolve current Git identity dynamically; this snapshot does not prove whether A-036 has been pushed.
+Resolve current Git identity dynamically; this snapshot does not prove whether A-037 has been pushed.
 
 ## Current handoff-candidate qualification
 
-A-036 is a no-Runtime-code derivation candidate. The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/full-suite gate follows this qualification update, with no repo mutation before commit.
+A-037 qualification before mirror refresh:
+- protocol cluster **18 / 18 PASS**;
+- complete V30 suite **284 GREEN**.
 
-## Active engineering frontier after A-036 publication
+The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/protocol/full-suite gate follows this qualification update, with no repo mutation before commit.
 
-1. A-037 protocol-store incremental fold + verified-head/checkpoint while retaining full rebuild/verify recovery.
-2. Deterministic simulation/state-machine on-ramp for schedule failures.
-3. Execution informer watch/cache + slow full resync over A-035 active store.
-4. Certificate Transparency-style proof-carrying protocol receipts after head/checkpoint semantics stabilize.
-5. Lab/protocol idempotency and Windows Job Object resource limits as small high-value raids.
-6. Remaining raid mechanisms require current-tree discriminators.
-7. Final schema redesign remains locked last.
+## Active engineering frontier after A-037 publication
+
+1. A-038 deterministic execution lifecycle simulation/state-machine on-ramp with replayable seeds.
+2. Execution informer watch/cache + slow full resync over A-035 active store.
+3. CT/Merkle proof-carrying protocol receipts to close A-037's cryptographic-history ceiling.
+4. Lab/protocol idempotency and Windows Job Object resource limits.
+5. Remaining raids only after current-tree discriminators.
+6. Final schema redesign remains locked last.
 
 ## Release/live ceiling
 

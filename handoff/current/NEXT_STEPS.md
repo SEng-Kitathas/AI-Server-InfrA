@@ -1,27 +1,27 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-06 07:12 ET
+Last updated: 2026-09-06 09:18 ET
 
 ## Immediate — current frontier
 
-A-036 derivation complete:
-- [x] retention re-derived as policy-only/deferred after A-035;
-- [x] default drain start/read work proven bounded by finite global concurrency;
-- [x] per-project-full traversal measured and not material enough for bespoke repair;
-- [x] `/execution/list(limit=N)` proven to sort/stat O(history) before slicing; defect handed to incremental-state raid;
-- [x] `protocol_store` independently reproduced full-history parse + double verify + full fold on every append;
-- [x] `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD` promoted as active hostile audit lens with full-recovery anti-overreach.
+Completed A-037 engineering:
+- [x] mapped protocol authority/recovery/currentness contract before mutation;
+- [x] proved warm mutation uses zero full reads/verifies/rebuilds and exactly one fold;
+- [x] ordinary external tamper invalidates cache and refuses append;
+- [x] durable append + projection failure recovers by full ledger rebuild;
+- [x] restart/cache loss preserves full verify+fold backstop;
+- [x] periodic checkpoint semantics + contract wording qualified;
+- [x] protocol cluster **18/18 PASS**;
+- [x] complete V30 suite **284 GREEN**.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-036 audit + raid intake | per-step Git law | commit/push/remote exact |
-| P0 | A-037 protocol-store incremental fold/checkpoint | independently reproduced linear mutation cost in second subsystem | steady append extends verified head/snapshot without full-history parse/verify/fold; recovery full rebuild retained |
-| P0 | Deterministic simulation/state-machine on-ramp | schedule bugs should become CI-searchable mechanism, not artisanal discovery | seeded lifecycle/fault exploration with replayable failure seed |
-| P1 | Execution informer watch/cache + slow resync | A-035 bounds resync set but 0.25s full active scan still pays level cost at edge rate | steady state O(changes), slow full correctness backstop |
-| P1 | Merkle proof-carrying protocol receipts | append-only claims need cheap inclusion/consistency proof | receipt independently proves inclusion/current append extension without full ledger read |
-| P1 | Lab/protocol idempotency | response-loss scar is mechanized only on execution submit today | replay-safe duplicate request semantics on mutating dispatch/batch/protocol append |
-| P1 | Windows Job Object resource envelope | ownership primitive already exists but memory/process caps unused | model-authored subprocess tree bounded by explicit resource contract |
+| P0 | Publish A-037 to Git | per-step publication law | commit/push/remote exact; outer Git receipt advanced |
+| P0 | A-038 deterministic lifecycle simulation/state-machine on-ramp | scheduler/restart/PID bugs live in schedules, not isolated functions | seeded state machine/fault schedule produces replayable traces and can rediscover at least one known scar |
+| P1 | Informer/watch + slow resync over execution `active/` | keep level-triggered correctness while steady state reacts to changes | edge-driven steady state + bounded periodic full active resync |
+| P1 | CT/Merkle proof-carrying protocol receipts | A-037 fast witness is not cryptographic history proof | cheap inclusion/append-consistency proof survives restart without trusting sidecar |
+| P1 | Lab/protocol idempotency + Job Object resource limits | small high-value raids already structurally supported | replay-safe mutation + explicit process/memory tree bounds |
 
 ## Near-term all-plane audit
 

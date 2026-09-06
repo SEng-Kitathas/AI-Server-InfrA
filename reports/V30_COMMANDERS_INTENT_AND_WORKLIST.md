@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-06 07:12 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-06 09:18 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -196,6 +196,7 @@ Scars to preserve:
 - submitted/start/completed/registered must not be conflated.
 - **DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**: where steady-state mutation can lawfully extend previously verified derived state, extend it rather than paying full recovery cost every mutation;
 - **INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**: full reconstruction/full verification remain explicit recovery/audit backstops.
+- **A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF**: filesystem metadata can cheaply witness ordinary in-process currentness but does not replace Merkle/CT-grade proof of arbitrary historical integrity.
 
 ---
 
@@ -645,28 +646,27 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-036 post-A-035 lifecycle boundedness is derivationally complete:
-- retention no longer justified as scheduler-performance repair; defer to explicit storage/privacy policy;
-- default finite global concurrency already bounds drain starts/reads;
-- project-full candidate traversal observed but not material enough for bespoke patch;
-- `/execution/list(limit=N)` still stats/sorts O(history) before slicing and is a real bounded-materialization defect handed to incremental-state machinery.
+A-037 protocol incremental fold/recovery backstop is technically earned locally:
+- authoritative JSONL + append/flush/fsync unchanged;
+- warm mutations advance one verified fold step and avoid full read/verify/rebuild;
+- 100/1k/4k warm public mutation = 2.111/2.367/3.007ms;
+- ordinary external ledger change invalidates fast cache and forces full verification;
+- durable append followed by projection failure recovers from ledger on next mutation;
+- restart/cache loss intentionally full-verifies/folds once;
+- state.json is periodic derived checkpoint at genesis/every 128, may lag, never authority;
+- protocol 18/18 PASS; full suite 284 GREEN.
 
-The cross-domain raid packet has been read in full and independently pressure-tested. Current `protocol_store` is the second verified subsystem to pay full-rebuild cost in steady state: full JSONL parse, full chain verification, append+fsync, second full verification, full snapshot fold on every event.
-
-Load-bearing engineering direction now includes:
-**DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**
-paired with
-**INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**.
+Claim ceiling:
+`A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF`. A privileged adversary preserving/restoring filesystem fingerprint is not solved by A-037; CT/Merkle remains later.
 
 Immediate sequence:
-1. publish A-036 audit/raid intake and remote-read;
-2. A-037 protocol-store incremental fold/checkpoint while preserving full rebuild/verify recovery path;
-3. deterministic simulation/state-machine on-ramp;
-4. informer watch/cache + slow resync over A-035 active store;
-5. Merkle inclusion/consistency proof receipts after ledger checkpoint semantics stabilize;
-6. lab/protocol idempotency and Windows Job Object resource limits as small high-value raids;
-7. remaining R6/R8/R9/R10/R11/R12/R13 candidates only after current-tree discrimination;
-8. final schema redesign remains locked last.
+1. publish A-037 and remote-read;
+2. A-038 deterministic execution lifecycle simulation/state-machine on-ramp;
+3. informer watch/cache + slow resync;
+4. Merkle proof-carrying protocol receipts;
+5. lab/protocol idempotency and Windows Job Object limits;
+6. remaining raids evidence-ranked;
+7. final schema redesign remains locked last.
 
 ---
 

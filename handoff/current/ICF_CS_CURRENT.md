@@ -147,7 +147,7 @@ Git-contained ICF-CS recovery mirror publication is COMPLETE:
 - remote `CURRENT_INGRESS.md` readback PASS;
 - handoff focused 6/6 PASS; full suite 251 GREEN.
 
-Active Frontier: A-036 post-partition lifecycle boundedness is derived with no execution-code mutation earned; retention is deferred, default drain is bounded, all-history list O(history) materialization is handed to the incremental-state raid, and A-037 protocol-store fold/checkpoint begins only after A-036 Git readback.
+Active Frontier: A-037 protocol incremental fold/recovery backstop is technically earned (protocol 18/18; full 284 GREEN) and must be Git-published/remote-read before A-038 deterministic lifecycle simulation begins. Fast filesystem currentness witness is explicitly not cryptographic history proof.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 

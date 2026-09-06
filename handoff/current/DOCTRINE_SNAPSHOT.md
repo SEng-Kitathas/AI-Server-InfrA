@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-06 07:12 ET
+Last updated: 2026-09-06 09:18 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -189,6 +189,7 @@ Key laws/scars:
 - current process PID != stable ownership identity
 - DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD — steady-state mutation should extend a verified fold/checkpoint/cache when lawful; full rebuild remains recovery/audit backstop
 - INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH
+- A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF
 - file access != process ownership
 - shared immutable artifact != shared runtime ownership
 - research plane != continuity/write authority
@@ -312,17 +313,13 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-036 is derivationally complete and awaiting Git publication. The post-A-035 reality falsified retention-as-performance-necessity and showed default drain starts already bounded, but confirmed `/execution/list(limit=N)` still performs O(history) stat/sort materialization.
+A-037 is technically earned and awaiting Git publication. It is the second-system embodiment of `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD`: healthy protocol mutations advance one verified fold step while full hash-chain verify/fold remains restart/cache-loss/external-change recovery.
 
-More importantly, current `protocol_store` independently reproduced the same full-rebuild steady-state cost model seen in execution. The active raid lens is now:
+The integrity ceiling is load-bearing:
+**A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF**.
+Filesystem fingerprint currentness is sufficient for the current local fast-path threat model but is not a CT/Merkle proof against a privileged adversary preserving metadata.
 
-**DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**
-
-Use it narrowly: extend previously verified derived state on steady-state mutation when lawful; keep full reconstruction/verification as explicit recovery/audit paths.
-
-**INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**.
-
-A-037 protocol-store fold/checkpoint is the first embodiment target after A-036 remote readback.
+A-038 deterministic schedule simulation is next only after A-037 remote readback.
 
 ## Current quality/search posture
 

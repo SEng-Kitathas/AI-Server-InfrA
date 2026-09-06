@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-06 07:12 ET
+Last updated: 2026-09-06 09:18 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: CHECKPOINT / PROMOTION — A-036 derived; raid intake/scar promotion awaiting Git publication
+- Current mode: BUILD-COMMIT / PROMOTION — A-037 technically earned; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-036 audit/raid intake, then A-037 protocol-store incremental fold/checkpoint.
+- Dominant objective: publish A-037 protocol incremental fold/recovery backstop, remote-read it, then open A-038 deterministic lifecycle simulation.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -113,40 +113,40 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-036 audit/raid intake;
-2. A-037 protocol-store incremental fold + verified-head/checkpoint;
-3. deterministic simulation/state-machine on-ramp;
-4. informer watch/cache + slow resync;
-5. Merkle proof-carrying protocol receipts;
-6. lab/protocol idempotency + Windows Job Object resource limits;
-7. remaining raids only after current-tree discriminators.
+1. P0 publish A-037 and remote-read exact head;
+2. A-038 deterministic execution lifecycle simulation/state-machine on-ramp;
+3. informer watch/cache + slow active resync;
+4. CT/Merkle protocol receipts;
+5. idempotency + Job Object resource limits;
+6. remaining raids evidence-ranked.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. register A-036 continuity + scar promotion;
-2. refresh Git handoff mirror;
-3. final handoff/full-suite gate;
-4. commit/push/remote-read A-036;
-5. inspect snapshot/currentness/recovery contracts before A-037 mutation.
+1. refresh Git handoff mirror to registered A-037 state;
+2. run handoff + protocol + full exact-candidate gates;
+3. commit/push/remote-read A-037;
+4. reconcile outer Git receipt;
+5. only then inspect existing Hypothesis/test-state machinery for A-038.
 
 ## Last 10 Turn Reinforcement Window
-1. A-035 was found already remote-current at `9bb9251`; no replay of completed A-034/A-035 work.
-2. USER supplied full cross-domain raid packet and independent protocol-store benchmark, proposing fold-not-rebuild scar. NEW EVIDENCE.
-3. ASSISTANT read entire 13-raid attachment and hashed it exactly.
-4. Current tree structurally confirmed protocol full-history append, lab idempotency gaps, unused Job Object resource fields.
-5. Protocol benchmark fixture first failed on stale lowercase rigor enum; no Runtime mutation. EVALUATOR SCAR.
-6. Canonical enum readback repaired benchmark.
-7. Current Windows protocol benchmark reproduced linear append and full parse/double verify/full fold. DEFECT EARNED.
-8. A-036 pressure showed retention no longer performance-required and default drain already bounded by global=8.
-9. `/execution/list(limit=20)` proved N history stat/sort work before 20 loads. DEFECT / HANDOFF.
-10. A-036 report + full raid receipt written; systemic fold-not-rebuild lens entering continuity/Git publication.
+1. USER: proceed from A-037 written/unqualified boundary.
+2. ASSISTANT: exact outer/Git/source readback confirmed A-036 remote and only protocol_store.py modified.
+3. ASSISTANT: protocol_store compile PASS.
+4. ASSISTANT: hostile micro-probe proved warm zero-rebuild path, tamper refusal, and durable-append recovery; harness `.ok` assumption failed after those proofs. EVALUATOR SCAR.
+5. ASSISTANT: corrected dict result; checkpoint harness then used stale `.state` path field. EVALUATOR SCAR.
+6. ASSISTANT: exact `.snapshot` field readback; checkpoint cadence writes [1,128], ledger verifies.
+7. ASSISTANT: existing protocol suite 13/13 PASS; permanent A-037 hostile regression added.
+8. ASSISTANT: first permanent run 17/18 due stale `errors` vs current `failures`; test corrected, Runtime unchanged; then 18/18 PASS.
+9. ASSISTANT: warm benchmarks flatten to 2.111/2.367/3.007ms; checkpoint spikes explicit; 20k cold recovery ~273ms / warm ~12ms.
+10. ASSISTANT: complete V30 suite 284 GREEN; A-037 report/claim ceiling persisted; entering Git publication.
 
 ## Delta Since Previous Shadow
-- A-036 closes as derivation/no execution-code mutation.
-- retention deferred; default drain classified bounded; all-history list cost defect confirmed.
-- protocol store independently proves second full-rebuild steady-state disease.
-- `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD` promoted as load-bearing hostile audit lens with full-recovery anti-overreach.
-- A-037 protocol fold/checkpoint becomes next after Git.
+- A-037 moves from written/unqualified to technically earned.
+- full suite advances 279 -> 284 GREEN.
+- protocol healthy mutation now embodies fold-not-rebuild with explicit full-recovery fallback.
+- state.json is documented periodic derived checkpoint, not current authority.
+- fast filesystem fingerprint witness explicitly does not claim cryptographic history proof.
+- A-038 is blocked until A-037 Git remote readback.

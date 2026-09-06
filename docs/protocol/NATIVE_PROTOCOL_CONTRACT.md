@@ -7,9 +7,15 @@ The receiver now embodies the canonical PCMMAD state classes instead of leaving 
 ## Authoritative body and sidecar
 
 - `projects/<project_id>/system/protocol/events.jsonl` is the append-only authoritative ledger.
-- `projects/<project_id>/system/protocol/state.json` is a replaceable derived projection.
+- `projects/<project_id>/system/protocol/state.json` is a replaceable derived checkpoint projection, not authority. It may lag the ledger between periodic checkpoints.
 - Every event contains a sequence, project identity, previous hash, canonical event hash, actor, timestamp, kind, and typed payload.
-- A snapshot is published only after the ledger append has been flushed and fsynced.
+- The authoritative durability boundary remains append -> flush -> fsync. A checkpoint is published only after that ledger boundary succeeds.
+- Healthy in-process mutations extend a previously verified in-memory fold by one event instead of rebuilding history.
+- Cache loss/restart or an observed external ledger fingerprint change forces full hash-chain verification + full fold before another mutation may extend the ledger.
+- The current checkpoint cadence is every 128 events plus genesis. Checkpoint cadence is an implementation detail, not a client-visible authority contract.
+- Protocol read/verify/status APIs continue to derive truth from the authoritative ledger; clients SHALL NOT infer ledger currentness from `state.json`.
+
+**Cost/currentness law:** `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD`, paired with `INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH`.
 
 ## State classes
 

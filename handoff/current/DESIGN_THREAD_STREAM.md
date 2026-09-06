@@ -2723,3 +2723,137 @@ Current raid ordering after A-036 publication:
 Final schema redesign remains locked last.
 
 A-037 mutation is blocked until A-036 Git commit/push/remote-readback completes.
+
+
+### A-036 Git publication complete
+
+A-036 lifecycle boundedness re-derivation + cross-domain raid intake was committed and remotely verified before A-037 mutation began.
+
+Commit:
+`45ea334608f475bbd8658345edade3d256027e8f`
+
+Tree:
+`220f0e04308b05b7603b529a3ecff24c1a4d6441`.
+
+Subject:
+`Record execution boundedness and fold-not-rebuild raid`.
+
+Push:
+`9bb9251..45ea334  main -> main`.
+
+Remote/local `main` matched exactly and branch was clean after push.
+
+Qualification:
+- refreshed/final Git handoff 6/6 PASS;
+- complete V30 suite 279 GREEN;
+- no Runtime Python source mutation in A-036.
+
+Disposition:
+**A-036 EARNED + GIT REMOTE-VERIFIED.**
+
+Load-bearing raid direction now carries into A-037:
+- `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD`;
+- `INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH`.
+
+Active Frontier advances to A-037 protocol-store incremental fold + verified-head/checkpoint. The survivor must preserve authoritative JSONL, append+fsync durability, corruption detection, deterministic crash-gap repair, and explicit full verify/rebuild recovery. Idempotency, Merkle proof receipts, and final schema work remain separate unless required by the minimal survivor.
+
+
+---
+
+## Phase 48 — A-037 protocol-store incremental fold / recovery backstop
+
+### INGRESS
+A-036 was already Git-current at `45ea334608f475bbd8658345edade3d256027e8f`; A-037 resumed from one unqualified `protocol_store.py` candidate at SHA `c7defa22e8fa37922ab20f5a6207553e8b1eae92aa86be2c77e8d728feb9ec0e`.
+
+No other repo mutation existed on re-entry.
+
+### PRE-FIX COST
+Current-V30 public protocol mutation was worse than the isolated append helper because `ensure_protocol()` repeated full history work before append.
+
+`record_continuity` before A-037:
+- 100 events: 11.3 ms / 3 full ledger reads / 300 parsed / 201 fold applications;
+- 1,000: 48.2 ms / 3 reads / 3,000 parsed / 2,001 folds;
+- 4,000: 167.8 ms / 3 reads / 12,000 parsed / 8,001 folds.
+
+### DERIVED SURVIVOR
+Authority remains:
+- `events.jsonl` authoritative append-only ledger;
+- append -> flush -> fsync durability boundary;
+- `state.json` replaceable derived projection only.
+
+Healthy steady state:
+- per-ledger verified in-memory ProtocolSnapshot cache;
+- cached currentness witnessed by authoritative ledger `(size, mtime_ns, ctime_ns)` fingerprint;
+- every mutation derives sequence/head from verified fold;
+- appends/fsyncs one event;
+- applies exactly one `_apply_event` fold step;
+- advances cache fingerprint;
+- publishes derived checkpoint only at genesis / every 128 events.
+
+Recovery:
+- cache loss/restart, observed ledger change, or post-fsync fold/checkpoint failure invalidates fast authority;
+- next mutation executes existing full verify + full fold and republishes projection before append is permitted.
+
+`state.json` is documented as potentially lagging between checkpoints and SHALL NOT be used by clients as ledger currentness authority.
+
+### HOSTILE QUALIFICATION
+Temporary probes proved:
+- warm mutation: 0 full reads / 0 verifies / 0 rebuilds / exactly 1 fold / no sequence-2 checkpoint;
+- external ledger tamper invalidates fast cache, full verification refuses append, ledger length unchanged;
+- injected projection failure after durable fsync leaves event in JSONL, invalidates cache, and next mutation performs one full rebuild then continues at sequence 3;
+- checkpoint cadence writes exactly [1, 128] in bounded test;
+- full ledger verification remains clean after recovery/checkpoint sequences.
+
+Permanent regression:
+`tests/test_protocol_incremental_fold.py`.
+
+Evaluator scars during qualification:
+- stale lowercase rigor `standard` rejected; current enum read back and fixture fixed;
+- nonexistent continuity kind `CHECKPOINT` rejected; current `MAINTENANCE` used;
+- harness assumed verify result object `.ok`; current contract is dict;
+- permanent test assumed `errors`; current contract uses `failures`;
+- harness assumed ProtocolPaths `.state`; current field is `.snapshot`.
+
+None caused Runtime weakening.
+
+Existing protocol suite plus A-037 regression:
+**18/18 PASS**.
+
+### POST-FIX PERFORMANCE
+Warm public mutation:
+- depth 100 -> 2.111 ms;
+- depth 1,000 -> 2.367 ms;
+- depth 4,000 -> 3.007 ms.
+
+Each warm point used 0 full reads/verifies/rebuilds and exactly 1 fold.
+
+Periodic checkpoint boundary:
+- seq 128 -> 2.956 ms / 20,307 bytes;
+- seq 1,024 -> 6.778 ms / 161,004 bytes;
+- seq 4,096 -> 17.917 ms / 646,380 bytes.
+
+20k discriminator:
+- cold recovery full verify/fold ~273.342 ms;
+- following warm mutation ~12.252 ms;
+- authoritative ledger verifies clean at 20,001 events.
+
+Complete V30 suite:
+**284 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities:
+- `protocol_store.py` `c7defa22e8fa37922ab20f5a6207553e8b1eae92aa86be2c77e8d728feb9ec0e`;
+- A-037 test `bd1c4ada05bbac4ef3e1d48574833c6c3c2bb4074d4e36e3251eb5357596ef89`;
+- native protocol contract `83fc8bf6fef0bc359914ec357cece777ded26846a90fec9d6419f9e7ec2f80df`;
+- report `reports/V30_A037_PROTOCOL_INCREMENTAL_FOLD_DERIVATION.md`.
+
+### SECURITY / CURRENTNESS CEILING
+A-037's filesystem fingerprint is a cheap in-process currentness witness for ordinary external changes, not a cryptographic historical proof.
+
+**A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF**.
+
+A sufficiently privileged adversary that rewrites historical bytes while perfectly preserving/restoring fingerprint metadata is not solved here. Persistent cheap inclusion/append-consistency proof remains the later CT/Merkle raid.
+
+### CURRENT DISPOSITION
+A-037 is technically earned and awaiting mandatory Git commit/push/remote readback.
+
+A-038 deterministic execution lifecycle simulation/state-machine mutation is blocked until A-037 remote publication succeeds.
