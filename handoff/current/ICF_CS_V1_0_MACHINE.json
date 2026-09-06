@@ -1,0 +1,58 @@
+{
+  "authority_ceiling": "continuity/process control only; no product/domain/architecture/legal/regulatory/scientific-result authority created by inclusion",
+  "classes": {
+    "constraints": "load-bearing decisions, authority ceilings, sequencing laws, scars, and anti-regressions not casually reopened",
+    "frontier": "what is verified/earned, provisional, blocked, deferred, and next right now",
+    "history": "chronological/forensic lineage; recoverable but not automatic current authority",
+    "intent": "what the project is ultimately trying to become and what success means"
+  },
+  "cold_start": "CURRENT STATE -> ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> LIVE READBACK BEFORE MUTATION",
+  "conflict": "CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME",
+  "core_law": "DIRECTION != CONSTRAINTS != FRONTIER != HISTORY",
+  "date": "2026-09-05",
+  "discoverability": {
+    "current_ingress_required": true,
+    "pointer_is_navigation_not_proof": true,
+    "version_specific_obsolete_sop_pin_forbidden": true
+  },
+  "evaluation_data_requirements": [
+    "provenance",
+    "scope",
+    "authority_class",
+    "currentness_basis",
+    "expected_label_source_when_applicable",
+    "supersession_or_deprecation_state_when_known"
+  ],
+  "history_role": "distinct chronological/forensic lineage; recoverable but not automatic current authority",
+  "live_classes": [
+    "intent",
+    "constraints",
+    "frontier"
+  ],
+  "non_equivalences": [
+    "HISTORICAL_HANDOFF != CURRENT_INGRESS",
+    "DONOR != AUTHORITY",
+    "RECENT_TIMESTAMP != CURRENT_AUTHORITY",
+    "STALE_GREEN != CURRENT_EVIDENCE",
+    "CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF",
+    "EXPECTED_LABEL != PROMPT_CONTENT",
+    "BENCHMARK_ITEM != DOCTRINE_AUTHORITY",
+    "FORMAT_FAILURE != SEMANTIC_FAILURE",
+    "SEMANTIC_AGREEMENT != AUTHORITY_FIDELITY",
+    "AUTHORIZED_GOVERNING_INTENT != FACTUAL_TRUTH",
+    "CONTINUITY_MAP != CURRENT_STATE_EVIDENCE",
+    "REMEMBERED_SUMMARY != SOURCE_CONTACT",
+    "SUMMARY_FIDELITY != SOURCE_COMPLETENESS"
+  ],
+  "parent": {
+    "mutation_rule": "exact sealed parent remains unchanged",
+    "package": "RAHL_ENGINEERING_CANONICAL_SOP_R4_4_2026-09-04.zip",
+    "sha256": "04f3e94efe8c901cc83a12a9c8531be8a9bb350728b8f9eba53db0fd082b3bbc"
+  },
+  "schema": "rahl.sop.icf-cs.v1",
+  "scope": "project-agnostic/thread-agnostic continuity, rehydration, current-ingress, and continuity-adjacent evaluation-data hygiene",
+  "short_name": "ICF-CS",
+  "standard_name": "Intent\u2013Constraint\u2013Frontier Continuity Standard",
+  "status": "ACTIVE_BINDING_ADDITIVE_DOCTRINE_IF_QUALIFIED",
+  "version": "1.0"
+}
