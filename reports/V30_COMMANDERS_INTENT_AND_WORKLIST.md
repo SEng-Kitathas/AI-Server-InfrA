@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-05 20:31 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-05 20:39 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -598,7 +598,7 @@ Before promotion:
 - [ ] control/restart/HUD full-plane audit.
 - [~] transfer authority/scope/currentness/integrity hostile slice qualified; immutable export snapshot semantics remain unearned and final release promotion pressure remains.
 - [ ] browser degraded/optional semantics final pass.
-- [~] schema/runtime/policy/imported-action parity audit: **bound-authority compact adapter + MCP availability slices earned**; HUD presentation and permissive OpenAPI typing lossiness remain open.
+- [~] schema/runtime/policy/imported-action parity audit: **bound-authority compact adapter + MCP availability + HUD availability/readiness presentation slices earned**; permissive OpenAPI/action typing lossiness classification remains open.
 - [x] continuity/rehydration ranking + cache-currentness audit: **ICF-CS v1.0 embodied**, transient noise excluded, all authority roles seeded, cache source-currentness validated, full suite green 209.
 
 ### Capability/runtime maturation
@@ -646,16 +646,17 @@ Before promotion:
 Fresh current evidence:
 - V30 native registry **100 tools / 16 families**;
 - native effect + availability + bound authority + result range + plugin currentness earned;
-- MCP manifest preserves native availability contracts without probes;
-- focused A-029 parity cluster **27/27 PASS**;
-- full V30 suite **233 GREEN**.
+- MCP availability parity earned;
+- HUD dynamic availability/core-vs-optional presentation earned;
+- strengthened focused HUD/currentness cluster **41/41 PASS**;
+- full V30 suite **241 GREEN**.
 
 Current ordered frontier:
-1. HUD presentation parity for dynamic capability availability and core-vs-optional health;
-2. classify remaining permissive OpenAPI/action validation lossiness without final-schema redesign;
-3. rank next genuinely-open Runtime seam from process/service identity, async final qualification, semantic executor, node/resource maturation, live V30 promotion;
-4. maintain Git commit/push/remote-readback cadence after each earned delta;
-5. keep final schema redesign locked deferred.
+1. complete remaining adapter-lossiness classification, especially permissive OpenAPI/action typing, and label acceptable/deferred/fix-now;
+2. rank next genuinely-open Runtime seam from process/service identity, async final qualification, semantic executor, node/resource maturation, live V30 promotion;
+3. maintain Git commit/push/remote-readback cadence after each earned delta;
+4. visual HUD embodiment remains later;
+5. final schema redesign remains locked deferred.
 
 ---
 

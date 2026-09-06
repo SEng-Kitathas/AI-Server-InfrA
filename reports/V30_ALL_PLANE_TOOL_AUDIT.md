@@ -1241,3 +1241,153 @@ Claim ceilings / intentional lossiness:
 
 Next frontier:
 continue parity reconciliation at the presentation/control boundary: HUD dynamic availability/core-vs-optional health semantics and remaining adapter projections, then rank the next genuinely open Runtime seam. Do not reopen already-earned effect/approval/result/plugin/availability mechanisms.
+
+## A-030 — HUD presented registered capability/service state without native dynamic availability/currentness distinction
+Severity: P1 operator-plane projection/currentness defect
+Status: FIXED AND QUALIFIED in V30 working tree
+
+Observed after A-029:
+- HUD `/api/tools` already forwarded native `/lab/tools` cards without truncating the new availability contract;
+- UI badges/tool detail still rendered mutation/approval/danger only, so dynamic `unknown` / explicit provider-check semantics were invisible to the operator;
+- global HUD readiness treated browser bridge health as part of the old all-systems-good aggregate, risking optional browser outage being perceived as control-plane failure;
+- no native Runtime truth defect was present; this was a presentation/projection problem;
+- a concurrent working-tree HUD candidate had already begun addressing the seam, so it was inspected as controlled evidence rather than duplicated.
+
+Derived presentation laws:
+- HUD transport may preserve Runtime availability verbatim, but **presentation parity is separate from transport parity**;
+- catalog loading SHALL remain probe-free;
+- dynamic availability SHALL be checked only by explicit operator action through native `lab.capabilities.availability`;
+- HUD MAY retain explicit probe evidence only as ephemeral UI/session state;
+- ephemeral availability evidence MUST be bound to the capability `contract_digest` that produced it;
+- stale selected tool/card state MUST be rebound to the newest native catalog card after catalog refresh;
+- a scoped/default provider result SHALL NOT automatically disable dispatch when explicit arguments/overrides could change outcome;
+- optional provider degradation SHALL NOT collapse core Runtime/HUD readiness.
+
+Embodiment:
+
+### Core-vs-optional readiness presentation
+`operator_hud/server.py` now emits an explicit `readiness` projection:
+- required/core presentation inputs: HUD process, Receiver reachability, forensic journal;
+- optional presentation input: browser bridge;
+- `core_ready` is independent of browser bridge availability;
+- `optional_degraded` names optional outages;
+- browser bridge card explicitly marks `required_for_core=false`;
+- readiness basis is `hud_presentation_over_live_upstream_evidence`.
+
+The browser bridge can therefore be shown DOWN while the overall operator plane reads `CORE READY · OPTIONAL DEGRADED` rather than `CONTROL PLANE DOWN`.
+
+Claim ceiling: this readiness object is a live HUD presentation aggregate over upstream observations. It is not persisted as a second Runtime truth and does not replace native capability availability/currentness.
+
+### Native availability presentation
+`operator_hud/static/app.js` / `index.html` / `style.css` now:
+- render static native availability mode/status alongside existing mutation/approval/danger badges;
+- show a `NATIVE AVAILABILITY` detail surface for the selected tool;
+- expose `Check current availability` only when the native card says `mode=dynamic` and `probe_supported=true`;
+- perform a one-tool explicit call through HUD dispatch to native `lab.capabilities.availability` with `tool_names:[selected.name]`;
+- never issue a catalog-wide availability scan during `loadTools()` or filtering;
+- store returned probe rows only in in-memory `state.availabilityChecks`;
+- do not rewrite native card availability with probe results;
+- do not turn an unavailable scoped/default probe into a blanket dispatch prohibition.
+
+### Anti-stale currentness hardening
+Initial concurrent candidate keyed ephemeral probe rows only by tool name. Source inspection identified a stale-currentness seam: a previous probe could remain visible after the capability contract changed.
+
+Corrected behavior:
+- `currentAvailabilityCheck(t)` compares probe-row `contract_digest` with current native card `contract_digest`;
+- missing/mismatched digests discard the ephemeral row rather than presenting stale currentness;
+- `loadTools()` rebinds `state.selected` by capability name to the fresh native card after catalog refresh;
+- selected card category/name/description/badges/availability are refreshed from the new card;
+- if the capability disappears from the catalog, selected detail is cleared and its ephemeral availability evidence is removed.
+
+Hostile regression:
+`tests/test_hud_availability_presentation.py`
+
+It proves:
+- optional browser outage leaves core ready;
+- Receiver outage defeats core readiness even if browser is independently up;
+- `/api/tools` preserves native availability verbatim;
+- frontend invokes only selected-tool native availability probe and never scans all tools;
+- optional browser degradation is labeled separately from core failure;
+- dynamic probe result remains ephemeral UI state rather than rewriting native card truth;
+- stale probe evidence is rejected when contract digest changes;
+- catalog refresh rebinds the selected tool to the fresh native card.
+
+Qualification:
+- initial concurrent HUD candidate + existing HUD security/process cluster: **26/26 PASS**;
+- strengthened HUD/native availability/MCP cluster after anti-stale fixes: **41/41 PASS**;
+- complete V30 suite on current HUD bytes: **241 collected tests GREEN**, with only the existing conditional Windows symlink-privilege skip.
+
+Current identities:
+- `operator_hud/server.py` SHA-256 `a0dadde4418c23eb24477103038069e7332ec28da54400cad2c1e079f2ee6301`
+- `operator_hud/static/app.js` SHA-256 `c5775e0869ec3867929c3a7fdacadb2604ae87b64acefb84e117b02bc7fd5213`
+- `operator_hud/static/index.html` SHA-256 `edc4b4d27867a65fb2451ccba3321c296de4c4fbd90d5441583f35236cc52965`
+- `operator_hud/static/style.css` SHA-256 `baa0948a220d3889ece508be9d24bb9eacc538128b919259b1b5554779beb9d0`
+- `tests/test_hud_availability_presentation.py` SHA-256 `c9fd6fd4a1301c8d8e391ec2c712912024f7589420e7590e667d58765faaadab`.
+
+Claim ceilings / intentional separation:
+- HUD readiness is presentation over live observations, not durable Runtime authority;
+- browser bridge direct health observation remains an operator diagnostic surface; canonical capability availability remains the native Runtime contract/provider mechanism;
+- selected availability checks are explicit, bounded, and ephemeral; no background availability polling or durable cache was added;
+- semantic default-runtime `unavailable` does not imply explicit runtime/path overrides cannot succeed;
+- this is operational/currentness presentation hardening, **not** the final Liquid-Aero/HoloFont/three-wing visual embodiment campaign;
+- live Desktop receiver/HUD remain unpromoted from V30 source.
+
+Next frontier:
+complete remaining adapter-lossiness classification, then rank the next genuinely open Runtime seam. Candidate high-value seams remain process/service identity, async malformed/race/final qualification, semantic executor restoration, node/resource maturation, and live V30 promotion. Final schema redesign remains locked deferred.
+
+## A-030 — HUD availability/currentness presentation and optional-plane readiness were semantically lossy
+Severity: P1 operator-plane projection/currentness
+Status: FIXED AND QUALIFIED in V30 working tree
+
+Observed after A-029:
+- HUD `/api/tools` already forwarded full native cards, including availability; transport parity was intact;
+- the UI did not render resident/dynamic availability or expose the explicit native currentness probe, so operators could not distinguish registered from executable-now state;
+- HUD global status required browser bridge health for the nominal state even though browser is an optional plane; this violated the established `BROWSER_PLANE_DOWN != HUD_UNQUALIFIED` direction;
+- any HUD-side availability cache would be dangerous if it survived a native contract change.
+
+Embodiment:
+- HUD service status now emits a presentation-only `readiness` object separating required core (`hud`, `receiver`, forensic `journal`) from optional `browser_bridge`;
+- browser-down with core healthy => `ready_optional_degraded`, rendered as `CORE READY · OPTIONAL DEGRADED`;
+- receiver-down remains core-not-ready even if browser is healthy;
+- `/api/tools` continues to preserve native availability verbatim;
+- Tool Explorer renders native availability mode/status in badges/detail;
+- dynamic capabilities expose an explicit `Check current availability` control;
+- that action invokes native `lab.capabilities.availability` for exactly `[selected_tool]`; no hidden catalog-wide scan;
+- returned currentness is stored only in ephemeral `state.availabilityChecks`; native cards are never rewritten;
+- cached HUD probe receipt is accepted only while its `contract_digest` matches the fresh native card; catalog refresh rebinds the selected tool to the fresh card and deletes stale probe state if the tool disappears.
+
+Authority boundary:
+`HUD PRESENTATION != RUNTIME AVAILABILITY AUTHORITY`
+
+`OPTIONAL PLANE DOWN != CORE UNREADY`
+
+Qualification:
+- `node --check operator_hud/static/app.js`: PASS;
+- complete HUD family: **28/28 PASS** (`availability`, bound approval, Host guard, process ownership);
+- intermediate full V30 suite on HUD code bytes: **241 collected tests GREEN**; after adding persistent projection-currentness regression and correcting the stale machine-matrix open item, final full V30 suite: **245 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities before projection-doc reconciliation:
+- `operator_hud/server.py` SHA-256 `a0dadde4418c23eb24477103038069e7332ec28da54400cad2c1e079f2ee6301`
+- `operator_hud/static/app.js` SHA-256 `c5775e0869ec3867929c3a7fdacadb2604ae87b64acefb84e117b02bc7fd5213`
+- `operator_hud/static/index.html` SHA-256 `edc4b4d27867a65fb2451ccba3321c296de4c4fbd90d5441583f35236cc52965`
+- `operator_hud/static/style.css` SHA-256 `baa0948a220d3889ece508be9d24bb9eacc538128b919259b1b5554779beb9d0`
+- `tests/test_hud_availability_presentation.py` SHA-256 `c9fd6fd4a1301c8d8e391ec2c712912024f7589420e7590e667d58765faaadab`
+- `tests/test_runtime_adapter_projection_currentness.py` SHA-256 `3af36e0137009f7cddf6c48b42552cc42df450105bac75eee74d70f3ad619dff`
+- projection matrix JSON SHA-256 `6308ee8c866e4a93029fd1486eeaa37deccb7a1714aaccf7df2ead2cc7e12528`
+- projection matrix MD SHA-256 `8ed073382944d945bfc09063f56c24283395e27b59b140e6599168435674ccd0`
+- compatibility contract SHA-256 `c38ecbbb48d23318d76559483d07e1ab004406cb9f4b88baa8d0797ec624187d`
+
+Projection-contract regression:
+- first 32-test HUD+projection run rejected one stale machine-matrix umbrella (`remaining MCP/OpenAPI/HUD/imported-action parity`);
+- the matrix was corrected to the actual open seam `remaining OpenAPI/imported-action/runtime-surface parity`;
+- rerun: **32/32 PASS**.
+
+Claim ceilings:
+- this qualifies HUD presentation/currentness behavior, not live V30 deployment;
+- direct browser-bridge status is optional-plane presentation evidence, not a replacement for native capability availability;
+- dynamic capability currentness remains native explicit probe truth; HUD stores it only ephemerally;
+- HUD visual-design modernization remains broader/open; this slice does not claim final Aero-Glass/HoloFont cockpit embodiment;
+- final schema redesign remains deferred.
+
+Next frontier:
+repair remaining adapter currentness loss at the compact OpenAPI/runtime-surface evidence boundary, then re-rank Runtime hardening seams.

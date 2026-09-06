@@ -38,7 +38,7 @@
       <div id="receiverState" class="service-state">checking</div><div id="receiverDetail" class="service-detail">127.0.0.1:5000</div>
     </article>
     <article class="service-card" id="bridgeCard">
-      <div class="service-head"><span>Browser Bridge</span><span id="bridgeLamp" class="lamp unknown"></span></div>
+      <div class="service-head"><span>Browser Bridge · Optional</span><span id="bridgeLamp" class="lamp unknown"></span></div>
       <div id="bridgeState" class="service-state">checking</div><div id="bridgeDetail" class="service-detail">127.0.0.1:4471</div>
     </article>
     <article class="service-card">
@@ -125,6 +125,11 @@
       <div id="toolEmpty" class="empty-note">Select a live tool. This is the expert/raw surface, not the primary operator interface.</div>
       <div id="toolDetail" class="hidden">
         <div class="panel-head"><div><div id="toolCategory" class="eyebrow"></div><h2 id="toolName"></h2><div id="toolDescription" class="muted"></div></div><div id="toolBadges"></div></div>
+        <div id="availabilityPanel" class="availability-panel">
+          <div><span class="eyebrow">NATIVE AVAILABILITY</span> <strong id="toolAvailabilityState">unknown</strong></div>
+          <div id="toolAvailabilityDetail" class="hint">Select a tool to inspect its Runtime availability contract.</div>
+          <button id="checkAvailabilityBtn" class="secondary hidden">Check current availability</button>
+        </div>
         <div id="schemaForm"></div>
         <details><summary>Raw JSON payload</summary><textarea id="rawPayload" spellcheck="false">{}</textarea></details>
         <div class="dispatch-row"><button id="syncFormBtn" class="secondary">Form → JSON</button><button id="dispatchBtn" class="primary">Dispatch</button></div>
@@ -155,6 +160,6 @@
   </div>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script src="/static/app.js?v=ops-hud-20260905-bound-approval"></script>
+<script src="/static/app.js?v=ops-hud-20260905-availability-v1"></script>
 </body>
 </html>

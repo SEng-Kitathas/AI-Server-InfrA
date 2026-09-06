@@ -198,6 +198,29 @@ def no_cache(resp):
 def index(): return send_from_directory(STATIC, "index.html")
 
 
+def _readiness_payload(*, receiver_ok: bool, browser_bridge_ok: bool, journal_ok: bool) -> dict[str, Any]:
+    required = {"hud": True, "receiver": bool(receiver_ok), "journal": bool(journal_ok)}
+    optional = {"browser_bridge": bool(browser_bridge_ok)}
+    core_ready = all(required.values())
+    optional_degraded = [name for name, ok in optional.items() if not ok]
+    if core_ready and not optional_degraded:
+        status = "ready"
+    elif core_ready:
+        status = "ready_optional_degraded"
+    elif any(required.values()):
+        status = "degraded"
+    else:
+        status = "down"
+    return {
+        "status": status,
+        "core_ready": core_ready,
+        "required": required,
+        "optional": optional,
+        "optional_degraded": optional_degraded,
+        "basis": "hud_presentation_over_live_upstream_evidence",
+    }
+
+
 @app.get("/api/status")
 def api_status():
     t0=time.time()
@@ -216,13 +239,19 @@ def api_status():
     with EVENT_LOCK:
         events=list(EVENTS)[:40]
     journal = {**JOURNAL_STATE, "path": str(JOURNAL_PATH), "memory_rows": len(EVENTS)}
+    readiness = _readiness_payload(
+        receiver_ok=receiver_ok,
+        browser_bridge_ok=bridge_ok,
+        journal_ok=bool(journal.get("ok")),
+    )
     return jsonify({
         "ok": True,
         "checked_at": time.time(),
         "latency_ms": round((time.time()-t0)*1000,1),
         "hud": {"ok": True, "host": HUD_HOST, "port": HUD_PORT, "api_key_exposed_to_browser": False},
         "receiver": {"ok": receiver_ok, "http_status": receiver_code, "tool_count": receiver_data.get("count") if receiver_ok else None, "error": None if receiver_ok else receiver_data},
-        "browser_bridge": {"ok": bridge_ok, "http_status": bridge_code, "detail": bridge_data},
+        "browser_bridge": {"ok": bridge_ok, "http_status": bridge_code, "detail": bridge_data, "required_for_core": False},
+        "readiness": readiness,
         "browser_sessions": sessions,
         "journal": journal,
         "events": events,
