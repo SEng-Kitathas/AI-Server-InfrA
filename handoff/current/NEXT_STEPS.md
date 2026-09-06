@@ -1,27 +1,28 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-06 09:18 ET
+Last updated: 2026-09-06 16:45 ET
 
 ## Immediate — current frontier
 
-Completed A-037 engineering:
-- [x] mapped protocol authority/recovery/currentness contract before mutation;
-- [x] proved warm mutation uses zero full reads/verifies/rebuilds and exactly one fold;
-- [x] ordinary external tamper invalidates cache and refuses append;
-- [x] durable append + projection failure recovers by full ledger rebuild;
-- [x] restart/cache loss preserves full verify+fold backstop;
-- [x] periodic checkpoint semantics + contract wording qualified;
-- [x] protocol cluster **18/18 PASS**;
-- [x] complete V30 suite **284 GREEN**.
+Completed A-038 engineering:
+- [x] bounded seeded lifecycle simulator built over real execution store/scheduler helpers;
+- [x] current 100-seed × 40-step campaign green;
+- [x] pre-A-034 scar mechanically rediscovered at seed 0;
+- [x] exact failing trace replayed byte-identically;
+- [x] same seed/current survivor green;
+- [x] focused execution/sim cluster 39/39 PASS;
+- [x] full suite 289 GREEN;
+- [x] PID recycle seam surfaced as explicit current discriminator.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-037 to Git | per-step publication law | commit/push/remote exact; outer Git receipt advanced |
-| P0 | A-038 deterministic lifecycle simulation/state-machine on-ramp | scheduler/restart/PID bugs live in schedules, not isolated functions | seeded state machine/fault schedule produces replayable traces and can rediscover at least one known scar |
-| P1 | Informer/watch + slow resync over execution `active/` | keep level-triggered correctness while steady state reacts to changes | edge-driven steady state + bounded periodic full active resync |
-| P1 | CT/Merkle proof-carrying protocol receipts | A-037 fast witness is not cryptographic history proof | cheap inclusion/append-consistency proof survives restart without trusting sidecar |
-| P1 | Lab/protocol idempotency + Job Object resource limits | small high-value raids already structurally supported | replay-safe mutation + explicit process/memory tree bounds |
+| P0 | Publish A-038 to Git | per-step publication law | commit/push/remote exact; outer Git receipt advanced |
+| P0 | A-039 reproduce/bind legacy non-worker process identity | seed-0 simulation mechanically shows recycled PID aliases survive as RUNNING | non-worker liveness requires PID+creation-time (or equivalent identity witness), recycled PID cannot consume capacity or remain falsely supervised |
+| P0 | Add A-039 schedule regression to simulator | correctness repair should become replay-protected | vulnerable identity model fails/repaired model passes a fixed seed or direct deterministic schedule |
+| P1 | Informer/watch + slow active resync | performance raid follows correctness | edge-driven steady state + periodic full correctness backstop |
+| P1 | CT/Merkle receipts | close protocol cryptographic-history ceiling | cheap inclusion/consistency proof |
+| P1 | Idempotency + Job Object resource envelope | remaining small high-value correctness/resource raids | replay-safe mutators + process/memory bounds |
 
 ## Near-term all-plane audit
 

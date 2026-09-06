@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-06 09:18 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-06 16:45 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -186,6 +186,7 @@ Locked:
 - subordinate worker/runner processes may actuate one job but are not a second scheduler;
 - restart-safe process control must survive receiver process loss;
 - PID alone is not stable ownership identity;
+- schedule-level failure surfaces SHOULD gain seeded/replayable schedule tests where practical; a failure seed + deterministic trace is stronger evidence than an unreplayable flake;
 - process identity should converge toward PID + creation time + executable/command fingerprint + runtime owner + job/service/node identity where justified;
 - named Windows Job Object existence alone was disproven as durable ownership; the current survivor uses a runner-held handle/handshake composition.
 
@@ -646,25 +647,24 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-037 protocol incremental fold/recovery backstop is technically earned locally:
-- authoritative JSONL + append/flush/fsync unchanged;
-- warm mutations advance one verified fold step and avoid full read/verify/rebuild;
-- 100/1k/4k warm public mutation = 2.111/2.367/3.007ms;
-- ordinary external ledger change invalidates fast cache and forces full verification;
-- durable append followed by projection failure recovers from ledger on next mutation;
-- restart/cache loss intentionally full-verifies/folds once;
-- state.json is periodic derived checkpoint at genesis/every 128, may lag, never authority;
-- protocol 18/18 PASS; full suite 284 GREEN.
+A-038 deterministic execution lifecycle simulation/replay is technically earned locally:
+- real current execution store/admission/reconciliation helpers under seeded virtual clock/process schedule;
+- current 100 seeds × 40 steps PASS;
+- historical pre-A034 reference mechanically rediscovered at seed 0;
+- exact vulnerable failure trace replayed byte-identically twice;
+- same seed/current scheduler passes while exercising 3 reconcile faults + 2 PID recycle events;
+- focused execution/sim cluster 39/39 PASS; full suite 289 GREEN.
 
-Claim ceiling:
-`A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF`. A privileged adversary preserving/restoring filesystem fingerprint is not solved by A-037; CT/Merkle remains later.
+A-038 is bounded on-ramp, not exhaustive formal verification.
+
+The simulator also makes the next correctness seam executable: current seed 0 ends with two recycled-PID aliases (`job-00003`, `job-00007`) still active RUNNING because legacy non-worker reconciliation uses bare PID liveness. Worker-capsule ownership already carries creation-time identity.
 
 Immediate sequence:
-1. publish A-037 and remote-read;
-2. A-038 deterministic execution lifecycle simulation/state-machine on-ramp;
-3. informer watch/cache + slow resync;
-4. Merkle proof-carrying protocol receipts;
-5. lab/protocol idempotency and Windows Job Object limits;
+1. publish A-038 and remote-read;
+2. A-039 bind legacy non-worker RUNNING records to process identity (PID + creation time or equivalent) and add deterministic PID-reuse regression;
+3. only then informer/watch + slow resync;
+4. then CT/Merkle proof receipts;
+5. idempotency + Job Object resource limits;
 6. remaining raids evidence-ranked;
 7. final schema redesign remains locked last.
 

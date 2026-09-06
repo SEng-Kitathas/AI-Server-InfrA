@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-06 09:18 ET
+Last updated: 2026-09-06 16:45 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-037 technically earned; Git publication next
+- Current mode: BUILD-COMMIT / PROMOTION — A-038 technically earned; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-037 protocol incremental fold/recovery backstop, remote-read it, then open A-038 deterministic lifecycle simulation.
+- Dominant objective: publish A-038 deterministic lifecycle simulation/replay on-ramp, then A-039 legacy PID reuse identity binding.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -113,8 +113,8 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-037 and remote-read exact head;
-2. A-038 deterministic execution lifecycle simulation/state-machine on-ramp;
+1. P0 publish A-038 and remote-read exact head;
+2. A-039 legacy non-worker PID reuse identity binding;
 3. informer watch/cache + slow active resync;
 4. CT/Merkle protocol receipts;
 5. idempotency + Job Object resource limits;
@@ -125,28 +125,27 @@ Root-level ranking/cache-currentness defect is **closed in V30 current scope**. 
 
 ## Immediate Next Step
 
-1. refresh Git handoff mirror to registered A-037 state;
-2. run handoff + protocol + full exact-candidate gates;
-3. commit/push/remote-read A-037;
+1. refresh Git handoff mirror to registered A-038 state;
+2. run handoff + execution/sim + full exact-candidate gates;
+3. commit/push/remote-read A-038;
 4. reconcile outer Git receipt;
-5. only then inspect existing Hypothesis/test-state machinery for A-038.
+5. only then inspect Windows process creation-time helpers / legacy execution record fields for A-039.
 
 ## Last 10 Turn Reinforcement Window
-1. USER: proceed from A-037 written/unqualified boundary.
-2. ASSISTANT: exact outer/Git/source readback confirmed A-036 remote and only protocol_store.py modified.
-3. ASSISTANT: protocol_store compile PASS.
-4. ASSISTANT: hostile micro-probe proved warm zero-rebuild path, tamper refusal, and durable-append recovery; harness `.ok` assumption failed after those proofs. EVALUATOR SCAR.
-5. ASSISTANT: corrected dict result; checkpoint harness then used stale `.state` path field. EVALUATOR SCAR.
-6. ASSISTANT: exact `.snapshot` field readback; checkpoint cadence writes [1,128], ledger verifies.
-7. ASSISTANT: existing protocol suite 13/13 PASS; permanent A-037 hostile regression added.
-8. ASSISTANT: first permanent run 17/18 due stale `errors` vs current `failures`; test corrected, Runtime unchanged; then 18/18 PASS.
-9. ASSISTANT: warm benchmarks flatten to 2.111/2.367/3.007ms; checkpoint spikes explicit; 20k cold recovery ~273ms / warm ~12ms.
-10. ASSISTANT: complete V30 suite 284 GREEN; A-037 report/claim ceiling persisted; entering Git publication.
+1. USER: proceed from A-037 publication boundary.
+2. ASSISTANT: exact readback showed A-037 already remote-current `59b4b5e`; only untracked `tools/hostile/execution_lifecycle_sim.py` existed.
+3. ASSISTANT: linear read found seeded real-runtime simulator but no explicit rediscovery proof; PID recycle observable only.
+4. ASSISTANT: initial POSIX-heredoc-in-PowerShell campaign command failed before simulator execution; rerun via server Python. EVALUATOR SCAR.
+5. ASSISTANT: 100/100 current seeds x40 PASS.
+6. ASSISTANT: simulator strengthened with `pre_a034` reference, action exception seed+trace envelopes, deterministic discovery helper, PID recycle counter.
+7. ASSISTANT: bounded search rediscovered pre-A034 at seed0; exact failure replay twice; same seed current PASS with 3 reconcile faults + 2 PID recycles.
+8. ASSISTANT: seed0 current final state exposed two recycled-PID alias RUNNING jobs. NEW CURRENT DISCRIMINATOR.
+9. ASSISTANT: first focused selection used stale A035 filename; no collection; corrected inventory. First real run 38/39 due overstrong final-tick telemetry assertion; test corrected, Runtime/sim unchanged.
+10. ASSISTANT: focused execution/sim 39/39 PASS; complete V30 suite 289 GREEN; A-038 report persisted; entering Git publication.
 
 ## Delta Since Previous Shadow
-- A-037 moves from written/unqualified to technically earned.
-- full suite advances 279 -> 284 GREEN.
-- protocol healthy mutation now embodies fold-not-rebuild with explicit full-recovery fallback.
-- state.json is documented periodic derived checkpoint, not current authority.
-- fast filesystem fingerprint witness explicitly does not claim cryptographic history proof.
-- A-038 is blocked until A-037 Git remote readback.
+- A-038 moves from unverified tool candidate to technically earned schedule-search/replay mechanism.
+- full suite advances 284 -> 289 GREEN.
+- pre-A034 can now be mechanically rediscovered/replayed by seed while current survivor passes same schedule.
+- legacy PID reuse is no longer merely a prose concern; seed0 produces a replayable current witness.
+- A-039 PID identity binding outranks informer optimization after A-038 Git publication.

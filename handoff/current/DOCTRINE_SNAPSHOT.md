@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-06 09:18 ET
+Last updated: 2026-09-06 16:45 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -187,6 +187,8 @@ Key laws/scars:
 - TOOL SUCCESS != TASK SUCCESS
 - submitted != started != running != completed != registered != promoted
 - current process PID != stable ownership identity
+- SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL
+- FAILURE_SEED + DETERMINISTIC_TRACE > UNREPLAYABLE_FLAKE as a verification receipt
 - DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD — steady-state mutation should extend a verified fold/checkpoint/cache when lawful; full rebuild remains recovery/audit backstop
 - INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH
 - A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF
@@ -313,13 +315,17 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-037 is technically earned and awaiting Git publication. It is the second-system embodiment of `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD`: healthy protocol mutations advance one verified fold step while full hash-chain verify/fold remains restart/cache-loss/external-change recovery.
+A-038 is technically earned and awaiting Git publication. Hostile execution testing now has a bounded executable schedule-search/replay mechanism: current survivor schedules remain green, while a vulnerable pre-A-034 reference is rediscovered by seed and exactly replayed.
 
-The integrity ceiling is load-bearing:
-**A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF**.
-Filesystem fingerprint currentness is sufficient for the current local fast-path threat model but is not a CT/Merkle proof against a privileged adversary preserving metadata.
+Active method law:
+**SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL.**
 
-A-038 deterministic schedule simulation is next only after A-037 remote readback.
+Replay law:
+**A FAILURE SEED + DETERMINISTIC TRACE IS A STRONGER RECEIPT THAN AN UNREPLAYABLE FLAKE.**
+
+Do not overclaim: seeded randomized schedules are not exhaustive formal verification.
+
+The mechanism exposed a stronger next correctness seam than informer optimization: legacy non-worker PID reuse remains identity-unsafe. A-039 shall pressure that after A-038 remote readback.
 
 ## Current quality/search posture
 

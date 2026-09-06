@@ -1,34 +1,38 @@
-# Git Handoff Qualification — A-037 Publication Candidate
+# Git Handoff Qualification — A-038 Publication Candidate
 
 Date: 2026-09-06
 Status: QUALIFIED FOR GIT COMMIT/PUSH
 
 ## Current step
-A-037 protocol-store incremental fold / recovery backstop.
+A-038 deterministic execution lifecycle simulation / replay on-ramp.
 
 ## Qualification
-- A-037 + existing protocol cluster: **18 / 18 PASS**
+- current survivor campaign: **100 / 100 seeds × 40 actions PASS**
+- historical `pre_a034` scar discovered at seed 0
+- vulnerable seed-0 failure envelope/trace replayed byte-identically twice
+- same seed/current scheduler PASS with 3 injected reconcile faults + 2 PID recycle events
+- focused execution/simulation cluster: **39 / 39 PASS**
 - refreshed Git handoff regression: **6 / 6 PASS**
-- complete V30 suite before mirror refresh: **284 collected tests GREEN**
-- protocol source SHA `c7defa22e8fa37922ab20f5a6207553e8b1eae92aa86be2c77e8d728feb9ec0e`
-- A-037 test SHA `bd1c4ada05bbac4ef3e1d48574833c6c3c2bb4074d4e36e3251eb5357596ef89`
-- native protocol contract SHA `83fc8bf6fef0bc359914ec357cece777ded26846a90fec9d6419f9e7ec2f80df`.
+- complete V30 suite before mirror refresh: **289 collected tests GREEN**
+- simulator SHA `98990c6024a3ab9defbbc1220e640f139490b2bdd54ae5a7048b0d85a3a8221a`
+- A-038 test SHA `c61e0f6e6fc51f8d4fb8427c2438eb2cd44bd272eee2db4724c99f8758fb57ee`
+- report SHA `5df52c77981f3b77ede86997df82eefcbd1005d2ebfa5eee6630fcec20ae2f1a`.
 
-## Earned behavior
-Healthy in-process protocol mutation extends one previously verified fold and preserves JSONL append/flush/fsync authority. Cache loss/restart/external fingerprint change or post-fsync projection failure forces full verified rebuild. `state.json` is periodic derived checkpoint, not authority.
+## Method promotion
+`SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL`.
 
-Warm benchmark: 100/1k/4k history -> 2.111/2.367/3.007 ms with zero full read/verify/rebuild and exactly one fold.
+`A FAILURE SEED + DETERMINISTIC TRACE IS A STRONGER RECEIPT THAN AN UNREPLAYABLE FLAKE`.
 
-## Security/currentness ceiling
-`A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF`.
-Cheap filesystem currentness is not Merkle/CT-grade proof against privileged historical rewrite with perfectly preserved/restored metadata.
+## Next correctness discriminator
+A-038 seed 0 exposes two recycled-PID aliases still active RUNNING in current legacy non-worker supervision. A-039 process-identity binding follows after publication.
 
 ## Publication boundary
-Last remote base: `45ea334608f475bbd8658345edade3d256027e8f`.
+Last remote-verified base:
+`59b4b5e5d6339127e50e052827f27bc94a14c832`.
 
-A final exact-candidate handoff + protocol + full-suite gate follows this file/manifest update with no repo mutation before commit.
+A final exact-candidate handoff + execution/simulation + complete-suite gate follows this file/manifest update with no repo mutation before commit.
 
 ## Claim ceiling
-A-037 does not remove cold full-history recovery, add Merkle proofs/idempotency/informer/simulation, or promote live Runtime.
+A-038 is bounded seeded search, not exhaustive formal verification. It does not virtualize full filesystem durability, real kernel Job Objects, whole-process receiver restart, arbitrary thread interleavings, disk faults, transport, or every timing boundary.
 
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`

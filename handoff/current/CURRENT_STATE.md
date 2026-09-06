@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-06 09:18 ET
+Last updated: 2026-09-06 16:45 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,61 +263,38 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-037 protocol-store incremental fold/recovery backstop is **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
+A-038 deterministic execution lifecycle simulation/replay on-ramp is **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
 
-Pre-fix public `record_continuity` current-V30 cost:
-- depth 100 -> 11.3 ms, 3 full ledger reads, 300 parsed events, 201 folds;
-- 1,000 -> 48.2 ms, 3 reads, 3,000 parsed, 2,001 folds;
-- 4,000 -> 167.8 ms, 3 reads, 12,000 parsed, 8,001 folds.
+A-038 embodiment:
+- `tools/hostile/execution_lifecycle_sim.py`;
+- real current execution store/admission/reconciliation code remains under test;
+- virtualized boundaries: seeded action schedule, wall clock, process spawn/liveness/generation;
+- failures carry `A038_REPLAY_SEED=<seed>` plus deterministic JSON trace;
+- explicit scheduler variants: `current` and historical vulnerable `pre_a034`.
 
-Earned A-037 survivor:
-- `events.jsonl` remains authoritative append-only ledger;
-- append -> flush -> fsync durability boundary unchanged;
-- healthy in-process mutation extends a previously verified in-memory `ProtocolSnapshot` by exactly one event;
-- warm path performs zero full reads/verifies/rebuilds and exactly one fold;
-- ledger size/mtime/ctime fingerprint changes invalidate the fast cache and force full verify+fold before mutation;
-- post-fsync projection/checkpoint failure invalidates cache so the next mutation rebuilds from durable ledger;
-- `state.json` is explicitly a periodic/recovery derived checkpoint (genesis + every 128 events), may lag ledger, and is never authority;
-- cache loss/restart deliberately performs one full verify+fold because A-037 has no persistent cryptographic proof yet.
+Qualification:
+- current survivor campaign: **100/100 seeds × 40 actions PASS**;
+- bounded vulnerable-reference search rediscovers pre-A-034 at **seed 0**;
+- seed-0 vulnerable failure envelope/trace replayed twice **byte-for-byte identical**;
+- same seed/current scheduler PASS while exercising 3 injected reconcile-fault ticks + 2 PID recycle events;
+- focused execution/simulation cluster **39/39 PASS**;
+- complete V30 suite **289 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- simulator SHA `98990c6024a3ab9defbbc1220e640f139490b2bdd54ae5a7048b0d85a3a8221a`;
+- A-038 test SHA `c61e0f6e6fc51f8d4fb8427c2438eb2cd44bd272eee2db4724c99f8758fb57ee`;
+- report `reports/V30_A038_DETERMINISTIC_EXECUTION_LIFECYCLE_SIM_DERIVATION.md`.
 
-Warm public mutation benchmark:
-- depth 100 -> 2.111 ms;
-- 1,000 -> 2.367 ms;
-- 4,000 -> 3.007 ms.
+Mechanism promoted:
+**SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL.**
+Replay law:
+**A FAILURE SEED + DETERMINISTIC TRACE IS A STRONGER RECEIPT THAN AN UNREPLAYABLE FLAKE.**
 
-Checkpoint boundary cost is explicit/periodic:
-- seq 128 -> 2.956 ms / 20,307-byte projection;
-- seq 1,024 -> 6.778 ms / 161,004 bytes;
-- seq 4,096 -> 17.917 ms / 646,380 bytes.
+Claim ceiling:
+A-038 is a bounded on-ramp, not exhaustive model checking/FoundationDB-scale simulation. Filesystem durability/reordering, real kernel Job Objects, whole-process receiver restart, arbitrary thread interleavings, disk fault schedules, network transport and every clock boundary are not yet virtualized.
 
-20k discriminator:
-- cold recovery full verify+fold ~273.342 ms;
-- immediately following warm append ~12.252 ms;
-- authoritative ledger verifies clean at 20,001 events.
+New mechanically exposed current seam:
+seed 0/current production performed two PID recycle events and ended with `job-00003` + `job-00007` still active RUNNING while listed in `pid_alias_jobs`. Current non-worker reconciliation still uses bare `_pid_alive(job.pid)`; worker-capsule ownership separately records `worker_creation_time_100ns`.
 
-Hostile recovery/currentness proofs:
-- ordinary external ledger tamper invalidates cache, forces verification, refuses append;
-- durable append + injected projection failure leaves event in ledger, invalidates cache, then next mutation performs exactly one full rebuild and continues at sequence 3;
-- simulated restart/cache loss performs one full rebuild before append;
-- checkpoint cadence regression proves writes only at genesis/128 in bounded test.
-
-Verification:
-- protocol cluster **18/18 PASS**;
-- complete V30 suite **284 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- protocol source SHA `c7defa22e8fa37922ab20f5a6207553e8b1eae92aa86be2c77e8d728feb9ec0e`;
-- A-037 test SHA `bd1c4ada05bbac4ef3e1d48574833c6c3c2bb4074d4e36e3251eb5357596ef89`;
-- native protocol contract SHA `83fc8bf6fef0bc359914ec357cece777ded26846a90fec9d6419f9e7ec2f80df`.
-
-Security/currentness ceiling:
-**A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF**.
-A sufficiently privileged adversary that rewrites historical bytes while perfectly preserving/restoring the filesystem fingerprint is outside A-037's cheap fast-path proof. CT/Merkle proof-carrying history remains a later raid.
-
-Immediate sequence:
-1. refresh Git handoff mirror to A-037;
-2. final handoff + protocol + full-suite gate;
-3. commit/push/remote-read A-037;
-4. only then begin **A-038 deterministic execution lifecycle simulation/state-machine on-ramp**;
-5. informer/cache, Merkle receipts, idempotency/Job Object limits remain later evidence-ranked raids.
+Active Frontier becomes **A-039 legacy non-worker PID reuse identity binding** after A-038 Git publication. The repair must bind legacy RUNNING liveness to process identity (PID + creation-time witness or equivalent), preserve worker-capsule semantics, and fail safely when identity cannot be proven. Informer/watch remains behind this correctness seam.
 
 ## Remaining major seams
 

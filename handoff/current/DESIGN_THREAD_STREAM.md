@@ -2857,3 +2857,155 @@ A sufficiently privileged adversary that rewrites historical bytes while perfect
 A-037 is technically earned and awaiting mandatory Git commit/push/remote readback.
 
 A-038 deterministic execution lifecycle simulation/state-machine mutation is blocked until A-037 remote publication succeeds.
+
+
+### A-037 Git publication complete
+
+A-037 protocol incremental fold / recovery backstop was committed and remotely verified before A-038 began.
+
+Commit:
+`59b4b5e5d6339127e50e052827f27bc94a14c832`
+
+Tree:
+`46077507f1023d913048fa23e0fee2701a7e82c1`.
+
+Subject:
+`Make protocol mutation an incremental verified fold`.
+
+Push:
+`45ea334..59b4b5e  main -> main`.
+
+Remote/local main matched exactly and branch was clean after push.
+
+Final publication qualification:
+- focused protocol + handoff gate 24/24 PASS;
+- complete V30 suite 284 GREEN;
+- protocol source SHA `c7defa22e8fa37922ab20f5a6207553e8b1eae92aa86be2c77e8d728feb9ec0e`.
+
+Disposition:
+**A-037 EARNED + GIT REMOTE-VERIFIED.**
+
+Active Frontier advances to A-038 deterministic execution lifecycle simulation/state-machine on-ramp. The first survivor shall be bounded, seeded, replayable, and capable of rediscovering/protecting against at least one earned schedule-level scar before any broader virtual-OS expansion.
+
+
+---
+
+## Phase 49 — A-038 deterministic execution lifecycle simulation / replay on-ramp
+
+### RE-ENTRY
+A-037 was already remote-current at `59b4b5e5d6339127e50e052827f27bc94a14c832` / tree `46077507f1023d913048fa23e0fee2701a7e82c1` with 284 GREEN.
+
+The only repo drift was one untracked candidate:
+`tools/hostile/execution_lifecycle_sim.py`
+original candidate SHA `1b3437ae21c5d2a86617190cf427acc3fdc5d089e69384d25786da166b106fb2`.
+
+### INITIAL CANDIDATE AUDIT
+The candidate had good bones:
+- real execution store/admission/reconciliation helpers under test;
+- virtual clock + simulated process liveness/generation;
+- seeded `random.Random(seed)` action selection;
+- active/terminal/concurrency invariants;
+- injected reconcile/spawn faults;
+- trace and replay seed on invariant failure;
+- PID recycle actions recorded.
+
+But it did not yet prove it could mechanically rediscover an earned historical scar. PID alias state was observable but not asserted.
+
+### FIRST CURRENT CAMPAIGN
+A shell harness attempt used POSIX heredoc syntax inside PowerShell and failed before simulator execution. No repo mutation or simulator result occurred.
+
+Rerun through server Python executor:
+- current scheduler variant;
+- seeds 0..99;
+- 40 actions per seed.
+
+Result:
+**100/100 seeds PASS** with no structural invariant failure.
+
+### STRENGTHENED SURVIVOR
+The simulator was extended to support explicit scheduler variants:
+- `current`;
+- `pre_a034` historical vulnerable-reference specimen.
+
+The pre-A-034 specimen keeps current Runtime store/admission/reconciliation helpers but intentionally removes per-record reconciliation exception isolation so one exception aborts before drain.
+
+Unexpected scheduled-action exceptions now become `SimulationInvariantError` containing:
+- `A038_REPLAY_SEED=<seed>`;
+- exact deterministic JSON trace;
+- scheduled action + exception type/message.
+
+Action selection now carries stable names, and PID recycle events increment explicit coverage counters.
+
+Strengthened simulator SHA:
+`98990c6024a3ab9defbbc1220e640f139490b2bdd54ae5a7048b0d85a3a8221a`.
+
+### MECHANICAL REDISCOVERY OF A-034
+Bounded search against `pre_a034` found the first failure at **seed 0**.
+
+Discovered schedule prefix:
+1. `dead_running:p2` -> dead RUNNING job `job-00001` / pid 10000;
+2. `tick_reconcile_fault` injects `PermissionError("A038 injected reconcile fault")`;
+3. vulnerable scheduler lets it escape before drain;
+4. trace records `drain_calls=0` and exact state.
+
+The same seed was replayed twice against `pre_a034` and produced an **exact byte-for-byte identical failure envelope/trace**.
+
+The same seed/current scheduler completed successfully while exercising:
+- 3 injected reconcile-fault ticks;
+- 2 PID recycle events;
+- drain reached 11 times in the observed 40-step run.
+
+### CURRENT PID-REUSE WITNESS
+The same current seed-0 run ended with two simulated PID-generation aliases still active RUNNING:
+- `job-00003`;
+- `job-00007`.
+
+The simulator records them in `pid_alias_jobs` because current simulated PID generation differs from the generation originally assigned to the job.
+
+Current non-worker reconciliation still uses bare `_pid_alive(job.pid)`; worker-capsule ownership separately records `worker_creation_time_100ns`.
+
+Disposition:
+**REAL CURRENT DISCRIMINATOR / NOT FIXED IN A-038.**
+A-039 will pressure legacy non-worker PID identity after A-038 publication.
+
+### PERMANENT REGRESSION
+Added:
+`tests/test_execution_lifecycle_sim.py`.
+
+It proves:
+- same current seed returns byte-identical structured result;
+- bounded search rediscovers pre-A034 at seed 0;
+- seed-0 vulnerable failure replays exactly twice;
+- same seed/current survivor passes and typed cumulative reconcile telemetry equals injected fault count;
+- 10-seed bounded current campaign preserves active/terminal disjointness;
+- unknown scheduler variants are rejected.
+
+Evaluator scars:
+- first focused pytest invocation named stale `test_execution_store_partition.py`; current file is `test_execution_active_terminal_partition.py`; no tests collected in failed invocation;
+- first real focused run was 38/39 because test incorrectly required final `last_tick_reconcile_errors == 0`; seed 0 may legitimately end on an injected fault tick. Test was corrected to compare cumulative telemetry to injected fault count. Runtime/simulator were not weakened.
+
+### VERIFICATION
+Focused execution/simulation cluster:
+**39/39 PASS**.
+
+Complete V30 suite:
+**289 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities:
+- simulator `98990c6024a3ab9defbbc1220e640f139490b2bdd54ae5a7048b0d85a3a8221a`;
+- A-038 test `c61e0f6e6fc51f8d4fb8427c2438eb2cd44bd272eee2db4724c99f8758fb57ee`;
+- report `reports/V30_A038_DETERMINISTIC_EXECUTION_LIFECYCLE_SIM_DERIVATION.md` SHA `5df52c77981f3b77ede86997df82eefcbd1005d2ebfa5eee6630fcec20ae2f1a`.
+
+### METHOD PROMOTION / CLAIM CEILING
+Promoted mechanism law:
+**SCHEDULE_FAILURES_REQUIRE_SCHEDULE-LEVEL TESTS WHERE PRACTICAL.**
+
+Replay law:
+**A FAILURE SEED + DETERMINISTIC TRACE IS A STRONGER RECEIPT THAN AN UNREPLAYABLE FLAKE.**
+
+A-038 is a bounded on-ramp, not exhaustive formal model checking/FoundationDB-scale simulation. It does not yet virtualize filesystem durability, real Job Object semantics, whole receiver process restart, arbitrary thread interleavings, disk faults, network transport, or every scheduler timing boundary.
+
+### CURRENT DISPOSITION
+A-038 is technically earned and awaiting mandatory Git publication.
+
+After remote publication, Active Frontier becomes **A-039 legacy non-worker PID reuse identity binding**, ahead of informer/watch performance work.

@@ -147,7 +147,7 @@ Git-contained ICF-CS recovery mirror publication is COMPLETE:
 - remote `CURRENT_INGRESS.md` readback PASS;
 - handoff focused 6/6 PASS; full suite 251 GREEN.
 
-Active Frontier: A-037 protocol incremental fold/recovery backstop is technically earned (protocol 18/18; full 284 GREEN) and must be Git-published/remote-read before A-038 deterministic lifecycle simulation begins. Fast filesystem currentness witness is explicitly not cryptographic history proof.
+Active Frontier: A-038 deterministic execution lifecycle simulation/replay is technically earned (focused 39/39; full 289 GREEN) and must be Git-published/remote-read before A-039 legacy non-worker PID reuse identity binding. Seed 0 is the replayable current discriminator; informer/watch remains behind this correctness seam.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 
