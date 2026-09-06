@@ -1165,3 +1165,79 @@ Claim ceilings:
 
 Next frontier:
 reconcile remaining schema/runtime/policy/imported-adapter parity and identify which dynamic dependency/service families genuinely need first-class availability providers next, without turning native discovery into a health scan or beginning the locked final schema redesign.
+
+## A-029 — MCP manifest dropped native capability availability/currentness semantics
+Severity: P1 adapter projection / agent-discovery parity defect
+Status: FIXED AND QUALIFIED in V30 working tree
+
+Observed after A-028:
+- native ToolSpec cards now expose probe-free availability contracts and explicit bounded currentness providers;
+- `contract_digest` already includes static availability semantics;
+- `/lab/tools` returned the full native card including availability;
+- HUD `/api/tools` transparently forwards `/lab/tools`, so HUD transport did not truncate availability;
+- compact OpenAPI `/lab/tools` response uses permissive tool objects (`additionalProperties=true`), so wire values were not rejected/truncated even though the schema does not enumerate every native field;
+- `_mcp_manifest_tool_card()` manually selected native contract fields but omitted `availability` entirely;
+- therefore MCP discovery could see capability identity/schema/effects/authority while losing the critical distinction `REGISTRATION != CAPABILITY_AVAILABILITY != TARGET_HEALTH`.
+
+Embodiment:
+- MCP manifest cards now preserve native `availability` verbatim;
+- manifest construction remains probe-free: dynamic providers are not executed while listing/manifesting;
+- dynamic browser cards therefore advertise `mode=dynamic`, `status=unknown`, `available=null`, provider `browser_bridge` until an explicit bounded currentness read;
+- semantic search advertises provider `semantic.monster.default_runtime` and preserves the explicit per-call override scope ceiling;
+- resident cards continue to advertise handler dispatchability rather than target-health success.
+
+Regression updates:
+`tests/test_mcp_manifest_contract.py`
+
+Added proof that:
+- availability is present in MCP contract-currentness cards;
+- dynamic browser availability is preserved exactly from native card to MCP card;
+- semantic default-runtime provider/scope survives projection;
+- HTTP `/lab/mcp/manifest` exposes dynamic availability without manufacturing a current probe result;
+- existing manifest digest/schema/effective-authority guarantees remain intact.
+
+Focused qualification:
+- MCP manifest contract
+- native availability contract
+- compact schema authority parity
+- capability effect completion
+
+Result: **27/27 PASS**.
+
+Complete V30 suite on current bytes:
+- **233 collected tests GREEN**
+- only the existing conditional Windows symlink-privilege skip.
+
+Projection-contract reconciliation:
+Updated:
+- `reports/PCMMAD_RUNTIME_ADAPTER_PROJECTION_MATRIX_V0_1.md`
+- `reports/PCMMAD_RUNTIME_ADAPTER_PROJECTION_MATRIX_V0_1.json`
+- `reports/PCMMAD_RUNTIME_ADAPTER_COMPATIBILITY_CONTRACT_V0_1.md`
+
+The candidate contract now reflects current earned truth:
+- 100 native tools;
+- effect classification complete;
+- bound approval authority embodied;
+- bounded result preview/range embodied;
+- plugin transactional lifecycle/currentness embodied;
+- native availability/currentness core embodied;
+- MCP manifest preserves availability;
+- completed items removed from the open reconciliation list;
+- final schema redesign remains explicitly deferred.
+
+Current identities:
+- `lab_routes.py` SHA-256 `f7a499bf62205cf8e001c044b028cd8bbf38aa5873c6cac7e0ae66d3e9263720`
+- `tests/test_mcp_manifest_contract.py` SHA-256 `4444bd610ffcfc6f3464905ab254e769fa6d5169f2db199e4aa81bd41e1f4842`
+- projection matrix MD SHA-256 `ffe6ad179303290f64d72c921c0bc3b21f015a95bdacf07f99d46788ddf7177a`
+- projection matrix JSON SHA-256 `599c336dfa441243d6c6968b750b0f2631cabc3e63102040b66a03e5048d182a`
+- compatibility contract SHA-256 `c3f45ec3d57ab46eefffb6bcce937659227ac59a6b8ac75932e9886179b13dfb`.
+
+Claim ceilings / intentional lossiness:
+- MCP manifest now preserves static availability contract, but current dynamic provider results remain explicit probe results rather than cached manifest truth;
+- HUD receives availability fields through `/api/tools` but current UI does not yet render/probe them; presentation parity remains open, transport parity is earned;
+- compact OpenAPI `/lab/tools` is permissive enough to carry richer native cards but does not strongly enumerate the availability object. This is validation/documentation lossiness, not current wire truncation; do not use it as a pretext for final schema redesign;
+- adapter-local durable availability state remains forbidden;
+- live receiver remains V29-derived/unpromoted.
+
+Next frontier:
+continue parity reconciliation at the presentation/control boundary: HUD dynamic availability/core-vs-optional health semantics and remaining adapter projections, then rank the next genuinely open Runtime seam. Do not reopen already-earned effect/approval/result/plugin/availability mechanisms.

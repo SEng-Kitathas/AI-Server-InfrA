@@ -1,13 +1,15 @@
 {
   "contract_id": "PCMMAD_RUNTIME_ADAPTER_PROJECTION_MATRIX_V0_1",
-  "status": "candidate_shared_contract",
+  "status": "current_candidate_shared_contract",
   "claim_ceiling": "runtime-audit grounded; does not freeze final MCP vocabulary, OBE interface, or schema ontology",
   "laws": [
     "AXIOM-01: INTENT IS A CONSTRAINT, NOT A CEILING.",
     "TRANSPORT IS NOT ARCHITECTURE AUTHORITY.",
     "LONG-RUNNING WORK SHALL NOT REQUIRE LONG-RUNNING MODEL ATTENTION.",
     "RETURN DECISION INFORMATION EARLY; STORE BULK WORK LOCALLY.",
-    "ADAPTER-LOCAL DURABLE TRUTH THAT CANNOT RECONCILE TO A NATIVE RUNTIME OBJECT IS AN ARCHITECTURE SMELL."
+    "ADAPTER-LOCAL DURABLE TRUTH THAT CANNOT RECONCILE TO A NATIVE RUNTIME OBJECT IS AN ARCHITECTURE SMELL.",
+    "REGISTRATION != CAPABILITY_AVAILABILITY != TARGET_HEALTH.",
+    "GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION."
   ],
   "native_model_direction": {
     "style": "holonic_ecs_like",
@@ -18,31 +20,167 @@
     "holon": "whole from below; component from above"
   },
   "concepts": [
-    {"id":"runtime.identity","authority":"runtime","adapter_lossiness":"representation_only","durable_adapter_truth":false},
-    {"id":"runtime.health","authority":"runtime","adapter_lossiness":"summary_allowed_truth_exact","durable_adapter_truth":false},
-    {"id":"runtime.constitutional_seed","authority":"runtime","adapter_lossiness":"zero_semantic_loss","durable_adapter_truth":false},
-    {"id":"capability","authority":"native_registry","adapter_lossiness":"filtering_only_semantics_exact","durable_adapter_truth":false,"currentness":["capability_version","schema_version","schema_hash","contract_digest"]},
-    {"id":"project","authority":"runtime_project_state","adapter_lossiness":"identity_zero_loss","durable_adapter_truth":false},
-    {"id":"job","authority":"canonical_scheduler","adapter_lossiness":"compact_status_allowed_lifecycle_exact","durable_adapter_truth":false},
-    {"id":"job.progress","authority":"canonical_scheduler_and_receipts","adapter_lossiness":"decision_grade_summary_required","durable_adapter_truth":false},
-    {"id":"queue","authority":"canonical_scheduler","adapter_lossiness":"summary_allowed_admission_exact","durable_adapter_truth":false},
-    {"id":"process_identity","authority":"runtime_ownership","adapter_lossiness":"presentation_may_omit_identity_must_remain_exact","durable_adapter_truth":false},
-    {"id":"service","authority":"runtime_supervision","adapter_lossiness":"summary_allowed_target_exact","durable_adapter_truth":false},
-    {"id":"approval","authority":"runtime_policy_authority","adapter_lossiness":"zero_semantic_loss","durable_adapter_truth":false},
-    {"id":"result","authority":"native_result_store","adapter_lossiness":"preview_range_allowed_content_identity_exact","durable_adapter_truth":false},
-    {"id":"artifact","authority":"artifact_registry","adapter_lossiness":"identity_hash_zero_loss","durable_adapter_truth":false},
-    {"id":"transfer","authority":"transfer_plane","adapter_lossiness":"chunk_representation_allowed_ticket_hash_offset_exact","durable_adapter_truth":false},
-    {"id":"continuity","authority":"continuity_subsystem","adapter_lossiness":"summary_allowed_source_currentness_exact","durable_adapter_truth":false},
-    {"id":"node","authority":"runtime_topology","adapter_lossiness":"summary_allowed","durable_adapter_truth":false},
-    {"id":"mount_scope","authority":"runtime_configuration_and_guards","adapter_lossiness":"display_lossiness_allowed_scope_exact","durable_adapter_truth":false},
-    {"id":"browser_session","authority":"browser_runtime","adapter_lossiness":"interaction_representation_allowed_session_exact","durable_adapter_truth":false},
-    {"id":"research_result","authority":"research_plane","adapter_lossiness":"summarization_encouraged_provenance_exact","durable_adapter_truth":false},
-    {"id":"semantic_retriever","authority":"semantic_plane","adapter_lossiness":"no_fake_availability","durable_adapter_truth":false},
-    {"id":"plugin_contributor","authority":"plugin_loader_and_registry","adapter_lossiness":"loader_internals_optional","durable_adapter_truth":false},
-    {"id":"sop_ingestion","authority":"runtime_sop_subsystem","adapter_lossiness":"gate_semantics_zero_loss","durable_adapter_truth":false},
-    {"id":"protocol_state","authority":"append_only_protocol_plane","adapter_lossiness":"summary_allowed_order_identity_exact","durable_adapter_truth":false},
-    {"id":"hud_layout","authority":"adapter_local","adapter_lossiness":"arbitrary_presentation","durable_adapter_truth":true},
-    {"id":"transport_session","authority":"adapter_local","adapter_lossiness":"transport_defined","durable_adapter_truth":true}
+    {
+      "id": "runtime.identity",
+      "authority": "runtime",
+      "adapter_lossiness": "representation_only",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "runtime.health",
+      "authority": "runtime",
+      "adapter_lossiness": "summary_allowed_truth_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "runtime.constitutional_seed",
+      "authority": "runtime",
+      "adapter_lossiness": "zero_semantic_loss",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "capability",
+      "authority": "native_registry",
+      "adapter_lossiness": "filtering_only_semantics_exact",
+      "durable_adapter_truth": false,
+      "currentness": [
+        "capability_version",
+        "schema_version",
+        "schema_hash",
+        "contract_digest",
+        "availability_contract"
+      ],
+      "native_evidence": "100_tool_registry_effects_complete_availability_core_earned"
+    },
+    {
+      "id": "project",
+      "authority": "runtime_project_state",
+      "adapter_lossiness": "identity_zero_loss",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "job",
+      "authority": "canonical_scheduler",
+      "adapter_lossiness": "compact_status_allowed_lifecycle_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "job.progress",
+      "authority": "canonical_scheduler_and_receipts",
+      "adapter_lossiness": "decision_grade_summary_required",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "queue",
+      "authority": "canonical_scheduler",
+      "adapter_lossiness": "summary_allowed_admission_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "process_identity",
+      "authority": "runtime_ownership",
+      "adapter_lossiness": "presentation_may_omit_identity_must_remain_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "service",
+      "authority": "runtime_supervision",
+      "adapter_lossiness": "summary_allowed_target_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "approval",
+      "authority": "runtime_policy_authority",
+      "adapter_lossiness": "zero_semantic_loss",
+      "durable_adapter_truth": false,
+      "native_evidence": "bound_single_use_target_argument_contract_challenge_authority"
+    },
+    {
+      "id": "result",
+      "authority": "native_result_store",
+      "adapter_lossiness": "preview_range_allowed_content_identity_exact",
+      "durable_adapter_truth": false,
+      "native_evidence": "bounded_auto_metadata_preview_range_explicit_full_result_retrieval"
+    },
+    {
+      "id": "artifact",
+      "authority": "artifact_registry",
+      "adapter_lossiness": "identity_hash_zero_loss",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "transfer",
+      "authority": "transfer_plane",
+      "adapter_lossiness": "chunk_representation_allowed_ticket_hash_offset_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "continuity",
+      "authority": "continuity_subsystem",
+      "adapter_lossiness": "summary_allowed_source_currentness_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "node",
+      "authority": "runtime_topology",
+      "adapter_lossiness": "summary_allowed",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "mount_scope",
+      "authority": "runtime_configuration_and_guards",
+      "adapter_lossiness": "display_lossiness_allowed_scope_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "browser_session",
+      "authority": "browser_runtime",
+      "adapter_lossiness": "interaction_representation_allowed_session_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "research_result",
+      "authority": "research_plane",
+      "adapter_lossiness": "summarization_encouraged_provenance_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "semantic_retriever",
+      "authority": "semantic_plane",
+      "adapter_lossiness": "no_fake_availability",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "plugin_contributor",
+      "authority": "plugin_loader_and_registry",
+      "adapter_lossiness": "loader_internals_optional",
+      "durable_adapter_truth": false,
+      "native_evidence": "transactional_reload_collision_rollback_source_currentness_generation_digest"
+    },
+    {
+      "id": "sop_ingestion",
+      "authority": "runtime_sop_subsystem",
+      "adapter_lossiness": "gate_semantics_zero_loss",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "protocol_state",
+      "authority": "append_only_protocol_plane",
+      "adapter_lossiness": "summary_allowed_order_identity_exact",
+      "durable_adapter_truth": false
+    },
+    {
+      "id": "hud_layout",
+      "authority": "adapter_local",
+      "adapter_lossiness": "arbitrary_presentation",
+      "durable_adapter_truth": true
+    },
+    {
+      "id": "transport_session",
+      "authority": "adapter_local",
+      "adapter_lossiness": "transport_defined",
+      "durable_adapter_truth": true
+    }
   ],
   "minimum_capability_contract": [
     "capability_id",
@@ -67,15 +205,15 @@
     "deprecation_supersession"
   ],
   "open_reconciliation": [
-    "full tool side-effect/effective-authority classification",
-    "target-bound approval object/handle",
-    "result preview/range",
-    "process identity object completion",
-    "capability availability/currentness normalization",
-    "plugin lifecycle/version semantics",
+    "process identity and service/node ownership normalization",
     "node/resource model maturation",
-    "research/semantic long-run projection",
-    "HUD core-vs-optional health semantics",
-    "OBE candidate reconciliation against audited successor runtime"
-  ]
+    "research/semantic long-run projection and qualified semantic executor",
+    "HUD presentation of core-vs-optional health and dynamic availability",
+    "remaining MCP/OpenAPI/HUD/imported-action parity",
+    "async malformed/stale/race/final release qualification",
+    "OBE candidate reconciliation against audited successor runtime",
+    "live V30 promotion/restart/CSC/package qualification",
+    "final schema redesign after whole-runtime convergence"
+  ],
+  "reconciled_through": "A-029"
 }

@@ -374,6 +374,7 @@ def _mcp_manifest_tool_card(tool: JsonRecord) -> JsonRecord:
         "schema_version": tool.get("schema_version"),
         "schema_hash": tool.get("schema_hash"),
         "contract_digest": tool.get("contract_digest"),
+        "availability": tool.get("availability", {}),
         "input_schema": tool.get("input_schema", {"type": "object"}),
         "output_schema": tool.get("output_schema", {"type": "object"}),
     }

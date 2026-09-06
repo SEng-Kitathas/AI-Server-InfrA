@@ -191,12 +191,16 @@ Native capability descriptors SHOULD carry:
 - capability_version
 - schema_version
 - schema_hash / contract_digest
-- availability revision/currentness marker where useful
+- probe-free availability contract plus explicit bounded availability/currentness read for dynamic providers
 - deprecation/supersession identity
 
 Client-side remembered schemas SHALL NOT silently outrank current runtime contracts.
 
+Current earned V30 rule: `REGISTRATION != CAPABILITY_AVAILABILITY != TARGET_HEALTH`. MCP manifest cards preserve the native availability contract without executing providers; explicit currentness comes from bounded native availability probes.
+
 ### Approval is a native authority object, not a boolean
+Current V30 embodiment: target/argument/contract-bound, short-lived, integrity-checked, single-use approval challenges are now native Runtime authority; adapters pass the separate authority envelope rather than manufacturing boolean approval. Legacy inline approval is transitional compatibility only.
+
 Approval SHALL be modeled as an expiring, target-bound runtime object/handle where the operation warrants durable authority semantics.
 
 An approval object SHOULD bind at least:

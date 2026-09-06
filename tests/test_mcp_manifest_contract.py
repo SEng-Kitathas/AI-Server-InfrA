@@ -29,6 +29,7 @@ class McpManifestContractTests(unittest.TestCase):
             "schema_version",
             "schema_hash",
             "contract_digest",
+            "availability",
             "effective_approval_required",
             "side_effect_class",
             "input_schema",
@@ -37,6 +38,26 @@ class McpManifestContractTests(unittest.TestCase):
             self.assertIn(key, card)
         self.assertTrue(card["effective_approval_required"])
         self.assertEqual(card["side_effect_class"], "mutation")
+
+
+    def test_manifest_preserves_dynamic_availability_contract_without_claiming_current_probe_result(self) -> None:
+        source = {tool["name"]: tool for tool in list_tools()}
+        browser = lab_routes._mcp_manifest_tool_card(source["browser.health"])
+        semantic = lab_routes._mcp_manifest_tool_card(source["semantic.monster.search"])
+
+        self.assertEqual(browser["availability"], source["browser.health"]["availability"])
+        self.assertEqual(browser["availability"]["mode"], "dynamic")
+        self.assertEqual(browser["availability"]["status"], "unknown")
+        self.assertIsNone(browser["availability"]["available"])
+        self.assertEqual(browser["availability"]["provider_id"], "browser_bridge")
+
+        self.assertEqual(semantic["availability"], source["semantic.monster.search"]["availability"])
+        self.assertEqual(semantic["availability"]["mode"], "dynamic")
+        self.assertEqual(
+            semantic["availability"]["provider_id"],
+            "semantic.monster.default_runtime",
+        )
+        self.assertIn("per-call explicit", semantic["availability"]["scope"])
 
     def test_http_manifest_exposes_digest_and_full_contract_cards(self) -> None:
         app = Flask(__name__)
@@ -51,6 +72,12 @@ class McpManifestContractTests(unittest.TestCase):
         self.assertTrue(restart["effective_approval_required"])
         self.assertEqual(len(restart["schema_hash"]), 64)
         self.assertEqual(len(restart["contract_digest"]), 64)
+        self.assertEqual(restart["availability"]["mode"], "resident")
+
+        browser = next(row for row in payload["tools"] if row["name"] == "browser.health")
+        self.assertEqual(browser["availability"]["mode"], "dynamic")
+        self.assertEqual(browser["availability"]["provider_id"], "browser_bridge")
+        self.assertEqual(browser["availability"]["status"], "unknown")
 
 
 if __name__ == "__main__":
