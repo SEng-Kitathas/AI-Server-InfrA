@@ -1,0 +1,15 @@
+{
+  "created_at_utc": "2026-07-29T21:15:22.951381+00:00",
+  "release": "PCMMAD Receiver V28 PDVER Recovery Refactor",
+  "source_archive": "PCMMAD_receiver(2).zip",
+  "source_archive_sha256": "b4d8a284a0acc9ef37aa115d2be4e4b67550730d80555e06771bc41c820564a3",
+  "entry_count": 2856,
+  "uncompressed_bytes": 80496165,
+  "authority_rule": "source archive retained immutable; promoted live tree is a derived artifact",
+  "excluded_machine_artifacts": [
+    ".venv",
+    "__pycache__",
+    "*.pyc",
+    "PCMMAD_LOCAL_ENV.cmd"
+  ]
+}

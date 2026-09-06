@@ -1,0 +1,2 @@
+# Preserve exact project bytes; manifests and lineage hashes are byte-sensitive.
+* -text

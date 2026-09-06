@@ -1,0 +1,28 @@
+
+# Reproducible machine-local state
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pcmmad_gate_runtime*/
+
+# Runtime output and secrets
+PCMMAD_LOCAL_ENV.cmd
+pcmmad_lab_action_schema_ACTIVE.json
+browser_screenshots/*
+browser_bridge_logs/*
+!browser_screenshots/.gitkeep
+!browser_bridge_logs/.gitkeep
+
+# Local state/data are mounted, not embedded in the release
+*.log
+
+# Local audit/self-test scratch; Git history is the durable publication lineage
+.worker_selftest/
+baseline/pcmmad_receiver/_v30_backups/
+.pcmmad_sync_runs/
+
+# Local mutation backups and runtime journals are not publication source
+**/_v30_backups/
+*.bak.*
+operator_hud/runtime/

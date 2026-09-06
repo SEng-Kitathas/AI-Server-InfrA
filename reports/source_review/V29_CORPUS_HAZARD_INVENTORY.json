@@ -1,0 +1,192 @@
+{
+  "original": {
+    "stats": {
+      "files": 2724,
+      "bytes": 84146135,
+      "text_files": 1594,
+      "absolute_path_files": 187,
+      "credential_candidate_files": 10,
+      "todo_stub_files": 188
+    },
+    "samples": {
+      "absolute_windows_path": [
+        "reports/RESTART_SCRIPT_SECOND_LIVE_PROBE_REPORT.json",
+        "reports/LAUNCHER_AND_RESTART_FULL_CSC_AUDIT_VERIFICATION.json",
+        "reports/POST_RESTART_CANONICAL_UPPERCASE_STATE_VERIFY.json",
+        "reports/INITIAL_EXTRACTION_MANIFEST.json",
+        "reports/POST_MANUAL_RENAME_VERIFY.json",
+        "reports/RECEIVER_SECURITY_BOUNDARY_GATE_REPORT.json",
+        "reports/RESTART_SCRIPT_SECOND_LIVE_TRIGGER_REPORT.json",
+        "reports/TIMED_RESTART_RECEIVER_NGROK_SCRIPT_PARSE_FIX_REPORT.json",
+        "reports/RESTART_SCRIPT_LIVE_TRIGGER_REPORT.json",
+        "reports/RESTART_SCRIPT_LIVE_PROBE_REPORT.json",
+        "reports/FINALIZER_PDVER_ALL_SURFACES_VERIFICATION.json",
+        "reports/CANONICAL_UPPERCASE_POST_REMEDIATION_VERIFY.json",
+        "reports/UNIVERSAL_CSC_DOCTRINE_COVERAGE.json",
+        "reports/UNIVERSAL_CSC_TRACE_MATRIX.json",
+        "reports/FINALIZER_PDVER_FINAL_VERIFICATION.json"
+      ],
+      "api_key_assignment": [
+        "PCMMAD_LOCAL_ENV.example.cmd",
+        "PCMMAD_LOCAL_ENV.cmd",
+        "reports/DESKTOP_LAUNCHER_NGROK_UPDATE_REPORT.json",
+        "tools/csc_native/receiver_launcher_script_audit_gate.py",
+        "extracted/all_receiver_archives/09_pcmmad_receiver_project_bundle_v2/README_SETUP.txt",
+        "extracted/all_receiver_archives/16_pcmmad_receiver_full_bundle_complete/README_SETUP.txt",
+        "extracted/all_receiver_archives/02_pcmmad_receiver_full_bundle_complete/README_SETUP.txt",
+        "extracted/all_receiver_archives/03_pcmmad_receiver/pcmmad_receiver/server docs/README_SETUP.txt",
+        "extracted/all_receiver_archives/07_pcmmad_receiver/pcmmad_receiver/server docs/README_SETUP.txt",
+        "extracted/all_receiver_archives/13_PCMMAD_RECEIVER_GEN2_CAPABILITY_ROUTER_V14_SCHEMA_FIXED/pcmmad_receiver/server docs/README_SETUP.txt"
+      ],
+      "todo_stub": [
+        "reports/UNIVERSAL_CSC_DOCTRINE_COVERAGE.json",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/typing_extensions.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/blinker/base.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/werkzeug/_reloader.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/werkzeug/_internal.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/werkzeug/http.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/flask/sessions.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/flask/views.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/urllib3/connection.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/urllib3/_collections.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/urllib3/_request_methods.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/urllib3/exceptions.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/urllib3/connectionpool.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/urllib3/_base_connection.py",
+        "baseline/pcmmad_receiver/.venv/Lib/site-packages/urllib3/response.py"
+      ]
+    }
+  },
+  "v28": {
+    "stats": {
+      "files": 1444,
+      "bytes": 36762716,
+      "text_files": 902,
+      "absolute_path_files": 135,
+      "credential_candidate_files": 2,
+      "todo_stub_files": 144
+    },
+    "samples": {
+      "absolute_windows_path": [
+        "WINDOWS_FIRST_BOOT.md",
+        "README.md",
+        "tests/test_server_hardening.py",
+        "data/verify_local_env_readback.cmd",
+        "baseline/pcmmad_receiver/lab_tools_semantic.py",
+        "docs/universal_invariants/UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+        "docs/universal_invariants/UNIVERSAL_INVARIANT_MANIFEST.json",
+        "data/csc_runs/auto_finalize_2026-05-09T03-53-43Z/CSC_EVENT_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-09T03-53-43Z/CSC_SOP_AVAILABILITY_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-09T03-53-43Z/GUIDE_QUALITY_AUDIT.json",
+        "data/csc_runs/auto_finalize_2026-05-09T03-53-43Z/PDVER_HARDENING_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-08T19-10-12Z/CSC_EVENT_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-08T19-10-12Z/CSC_SOP_AVAILABILITY_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-08T19-10-12Z/GUIDE_QUALITY_AUDIT.json",
+        "data/csc_runs/auto_finalize_2026-05-08T19-10-12Z/PDVER_HARDENING_REPORT.json"
+      ],
+      "api_key_assignment": [
+        "RESTART_RECEIVER_AND_NGROK.ps1",
+        "tools/csc_native/receiver_launcher_script_audit_gate.py"
+      ],
+      "todo_stub": [
+        "tools/csc_native/pdver_lab_hardening_cycle.py",
+        "tools/csc_native/codex_unified_loc_compliance_audit.py",
+        "docs/csc_sop/03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+        "docs/ergo_sop/02_ERGO_UNIFIED_CODE_STYLE_GUIDE_SOP.md",
+        "docs/ergo_sop/03_IMPORTED_CODE_STYLE_SOURCE_CTO_2026-04-28.md",
+        "docs/external_guides/GEMINI_GUIDES_EVALUATION_RUBRIC.json",
+        "docs/universal_invariants/CODEX_UNIFIED_LOC_AUDIT_RULESET.md",
+        "docs/ergo_foundations/CODEX_OMEGA_BIBLE.md",
+        "data/csc_v28/CSC_EVENT_REPORT.json",
+        "data/csc_v28/PDVER_HARDENING_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-09T03-53-43Z/CSC_EVENT_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-09T03-53-43Z/PDVER_HARDENING_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-08T19-10-12Z/CSC_EVENT_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-08T19-10-12Z/PDVER_HARDENING_REPORT.json",
+        "data/csc_runs/auto_finalize_2026-05-08T15-31-01Z/CSC_EVENT_REPORT.json"
+      ]
+    }
+  },
+  "forge": {
+    "stats": {
+      "files": 14,
+      "bytes": 263344,
+      "text_files": 14,
+      "absolute_path_files": 2,
+      "credential_candidate_files": 0,
+      "todo_stub_files": 1
+    },
+    "samples": {
+      "absolute_windows_path": [
+        "00_INDEX/FORGE_STANDARDS_READING_ORDER_AND_AUTHORITY_MAP_2026-04-11.md",
+        "00_INDEX/FORGE_DOCS_FOLDER_INDEX_2026-04-11.md"
+      ],
+      "api_key_assignment": [],
+      "todo_stub": [
+        "01_FOUNDATIONS/CODEX_OMEGA_BIBLE.md"
+      ]
+    }
+  },
+  "csc": {
+    "stats": {
+      "files": 3781,
+      "bytes": 103309497,
+      "text_files": 3556,
+      "absolute_path_files": 1352,
+      "credential_candidate_files": 14,
+      "todo_stub_files": 612
+    },
+    "samples": {
+      "absolute_windows_path": [
+        "csc/CSC_EVENT_REPORT.json",
+        "csc/CSC_TRI_DOCTRINE_AUTHORITY_REPORT.json",
+        "csc/CSC_SOP_AVAILABILITY_REPORT.json",
+        "e drive csc/UNIVERSAL_CSC_FINAL_TOOL_PASS4_RESEARCH_SYNTHESIS.md",
+        "e drive csc/CSC_EVENT_REPORT.json",
+        "e drive csc/UNIVERSAL_CSC_PASS5_FAST_PATH_ONLY_ALL_DRIVES_LEDGER.json",
+        "e drive csc/LAUNCHER_AND_RESTART_FULL_CSC_AUDIT_VERIFICATION.json",
+        "e drive csc/TQ2_CSC_SOP_ADOPTION_2026-04-16.json",
+        "e drive csc/UNIVERSAL_CSC_PASS7_FINAL_ENFORCEMENT_DELTA_SYNTHESIS.json",
+        "e drive csc/FULL_SERVER_FILES_CSC_AUDIT_SURFACES_REPORT.json",
+        "e drive csc/tq2_csc_doctrine_detector.py",
+        "e drive csc/UNIVERSAL_CSC_PDVER_FINALIZER_PASS3_SPEC.md",
+        "e drive csc/CSC_TRI_DOCTRINE_AUTHORITY_REPORT.json",
+        "e drive csc/CONSTRAINT_SURFACE_DISCOVERY_PASS4_CSC_ADJACENCY.json",
+        "e drive csc/UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md"
+      ],
+      "api_key_assignment": [
+        "e drive csc/UNIVERSAL_CSC_PROOF_RUN_AFTER_PRECISION_PATCH.json",
+        "e drive csc alternate/UNIVERSAL_CSC_PROOF_RUN_AFTER_PRECISION_PATCH.json",
+        "e drive csc alternate/csc_native/receiver_launcher_script_audit_gate.py",
+        "e drive csc alternate/launcher_csc_compliance_patch_20260508T121410/START_RECEIVER_AND_NGROK.cmd",
+        "e drive csc alternate/launcher_csc_compliance_patch_20260508T121410/launch_pcmmad_receiver.bat",
+        "e drive csc alternate/launcher_csc_compliance_patch_20260508T121410/START_RECEIVER.cmd",
+        "e drive csc alternate/launcher_csc_compliance_patch_20260508T121410/RESTART_RECEIVER_AND_NGROK.ps1",
+        "e drive csc alternate/launcher_csc_ngrok_kill_boundary_patch_20260508T121435/RESTART_RECEIVER_AND_NGROK.ps1",
+        "e drive csc/csc_native/receiver_launcher_script_audit_gate.py",
+        "e drive csc/launcher_csc_compliance_patch_20260508T121410/START_RECEIVER_AND_NGROK.cmd",
+        "e drive csc/launcher_csc_compliance_patch_20260508T121410/launch_pcmmad_receiver.bat",
+        "e drive csc/launcher_csc_compliance_patch_20260508T121410/START_RECEIVER.cmd",
+        "e drive csc/launcher_csc_compliance_patch_20260508T121410/RESTART_RECEIVER_AND_NGROK.ps1",
+        "e drive csc/launcher_csc_ngrok_kill_boundary_patch_20260508T121435/RESTART_RECEIVER_AND_NGROK.ps1"
+      ],
+      "todo_stub": [
+        "csc/03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+        "e drive csc/UNIVERSAL_CSC_FINAL_TOOL_PASS4_RESEARCH_SYNTHESIS.md",
+        "e drive csc/tq2_csc_doctrine_detector.py",
+        "e drive csc/UNIVERSAL_CSC_DOCTRINE_COVERAGE.json",
+        "e drive csc/DESKTOP_SERVER_FILES_CSC_AUDIT_SURFACES_REPORT.json",
+        "e drive csc/UNIVERSAL_CSC_PASS6_DEEP_EXTRACT_SYNTHESIS.json",
+        "e drive csc/UNIVERSAL_CSC_PASS3_REQUIREMENT_EXTRACTION_AND_SPEC.json",
+        "e drive csc/UNIVERSAL_CSC_PASS4_RESEARCH_SYNTHESIS_AND_TOOL_DELTAS.json",
+        "e drive csc/03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+        "e drive csc/final_run_csc_py_candidates.json",
+        "e drive csc alternate/UNIVERSAL_CSC_FINAL_TOOL_PASS4_RESEARCH_SYNTHESIS.md",
+        "e drive csc alternate/CSC_EVENT_REPORT.json",
+        "e drive csc alternate/tq2_csc_doctrine_detector.py",
+        "e drive csc alternate/UNIVERSAL_CSC_DOCTRINE_COVERAGE.json",
+        "e drive csc alternate/DESKTOP_SERVER_FILES_CSC_AUDIT_SURFACES_REPORT.json"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "report_id": "CSC_TRI_DOCTRINE_AUTHORITY_REPORT_2026-04-15",
+  "authorities": [
+    {
+      "authority_id": "receiver_project",
+      "title": "PCMMAD Receiver V29 project bindings",
+      "source_kind": "local_doctrine",
+      "source_ref": "docs/receiver_doctrine/00_RECEIVER_PROJECT_BINDINGS.md"
+    },
+    {
+      "authority_id": "receiver_sop",
+      "title": "Receiver ingress and evaluation SOP",
+      "source_kind": "local_sop",
+      "source_ref": "docs/receiver_sop/01_RECEIVER_INGRESS_AND_EVALUATION_SOP.md"
+    },
+    {
+      "authority_id": "omega_local",
+      "title": "CODEX OMEGA v2.0",
+      "source_kind": "local_doctrine",
+      "source_ref": "docs/ergo_foundations/CODEX_OMEGA_BIBLE.md"
+    },
+    {
+      "authority_id": "unified_local",
+      "title": "UNIFIED CODE STANDARDS DOCTRINE v1.2",
+      "source_kind": "local_doctrine",
+      "source_ref": "docs/ergo_foundations/UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md"
+    },
+    {
+      "authority_id": "csc_sop",
+      "title": "CSC SOP set",
+      "source_kind": "local_sop",
+      "source_ref": "docs/csc_sop/"
+    }
+  ],
+  "note": "CSC adopts Omega, Unified Code Doctrine, and the repaired PCMMAD archive as simultaneous authority layers."
+}

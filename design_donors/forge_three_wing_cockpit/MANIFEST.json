@@ -1,0 +1,38 @@
+[
+  {
+    "source": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\pcmmad-forge-audit\\release_validation\\qualification_1b8f6bd_final\\forge_hud.html",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\forge_three_wing_cockpit\\forge_hud.html",
+    "bytes": 43084,
+    "sha256": "4be12d7c00f670fafafa3deaaada4ac9496ddc10e2a4ada72fda8249178feba4"
+  },
+  {
+    "source": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\pcmmad-forge-audit\\release_validation\\qualification_1b8f6bd_final\\forge_hud_server.py",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\forge_three_wing_cockpit\\forge_hud_server.py",
+    "bytes": 20018,
+    "sha256": "5fbc565ecf564e3831cfd708cad9f3c68db6b43ffbdf7e5d4bee175835744f73"
+  },
+  {
+    "source": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\pcmmad-forge-audit\\release_validation\\qualification_1b8f6bd_final\\README.md",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\forge_three_wing_cockpit\\README.md",
+    "bytes": 13174,
+    "sha256": "3769aeac13806d0ad7267bedd043566ff33754643bf04b33711ddea539589175"
+  },
+  {
+    "source": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\pcmmad-forge-audit\\release_validation\\qualification_1b8f6bd_final\\singularity_works\\hud.py",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\forge_three_wing_cockpit\\singularity_works\\hud.py",
+    "bytes": 56618,
+    "sha256": "fca2a8ea0f0cbf79ac14608d8bc56aef40f0b8b98682f4964b38fd15fded80f2"
+  },
+  {
+    "source": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\pcmmad-forge-audit\\release_validation\\qualification_1b8f6bd_final\\singularity_works\\cockpit.py",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\forge_three_wing_cockpit\\singularity_works\\cockpit.py",
+    "bytes": 1373,
+    "sha256": "6619fc935d664ebaa66c1adb016d7f0efbcb82c382dffa67d367640731f34d90"
+  },
+  {
+    "source": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\pcmmad-forge-audit\\release_validation\\qualification_1b8f6bd_final\\singularity_works\\cockpit_runtime.py",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\forge_three_wing_cockpit\\singularity_works\\cockpit_runtime.py",
+    "bytes": 19530,
+    "sha256": "2c7ab7cdf7f3a3f3f4e4f86983b618e3ca7a85db22849531e004372f8f27ea9d"
+  }
+]

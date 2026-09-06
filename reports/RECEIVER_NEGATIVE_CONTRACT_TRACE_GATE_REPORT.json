@@ -1,0 +1,451 @@
+{
+  "created_at_utc": "2026-07-29T23:18:29.650314+00:00",
+  "gate_name": "receiver_negative_contract_trace",
+  "approach": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "levels": {
+    "nano": "individual probe",
+    "micro": "route family / boundary class",
+    "meso": "gate matrix",
+    "macro": "claim gate"
+  },
+  "clean": true,
+  "probe_count": 17,
+  "failure_count": 0,
+  "unexpected_500_count": 0,
+  "failures": [],
+  "unexpected_500": [],
+  "results": [
+    {
+      "name": "missing auth health",
+      "route": "/health",
+      "method": "GET",
+      "category": "auth",
+      "status": 401,
+      "expected_statuses": [
+        401,
+        403
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "UNAUTHORIZED",
+      "body_sample": {
+        "error_code": "UNAUTHORIZED",
+        "message": "Invalid or missing API key",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.643642+00:00"
+      }
+    },
+    {
+      "name": "bad auth health",
+      "route": "/health",
+      "method": "GET",
+      "category": "auth",
+      "status": 401,
+      "expected_statuses": [
+        401,
+        403
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "UNAUTHORIZED",
+      "body_sample": {
+        "error_code": "UNAUTHORIZED",
+        "message": "Invalid or missing API key",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.644082+00:00"
+      }
+    },
+    {
+      "name": "missing body init",
+      "route": "/project/init",
+      "method": "POST",
+      "category": "malformed",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "json_object": false,
+      "ok_field": null,
+      "error_code": null,
+      "body_sample": "<!doctype html>\n<html lang=en>\n<title>400 Bad Request</title>\n<h1>Bad Request</h1>\n<p>The browser (or proxy) sent a request that this server could not understand.</p>\n"
+    },
+    {
+      "name": "wrong project id type",
+      "route": "/project/info",
+      "method": "POST",
+      "category": "type",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "PROJECT_INFO_FAILED",
+      "body_sample": {
+        "error_code": "PROJECT_INFO_FAILED",
+        "message": "expected string or bytes-like object, got 'int'",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.644939+00:00"
+      }
+    },
+    {
+      "name": "unknown project info",
+      "route": "/project/info",
+      "method": "POST",
+      "category": "not_found",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "exists": false,
+        "ledger_exists": false,
+        "manifest_exists": false,
+        "ok": true,
+        "project_id": "route_trace_missing_project",
+        "project_root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_missing_project"
+      }
+    },
+    {
+      "name": "read missing path",
+      "route": "/project/files/read",
+      "method": "POST",
+      "category": "not_found",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "file not found",
+        "ok": false
+      }
+    },
+    {
+      "name": "read traversal",
+      "route": "/project/files/read",
+      "method": "POST",
+      "category": "security",
+      "status": 404,
+      "expected_statuses": [
+        400,
+        403,
+        404
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "file not found",
+        "ok": false
+      }
+    },
+    {
+      "name": "empty content write is explicit",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "boundary",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/x.txt",
+        "bytes": 0,
+        "bytes_written": 0,
+        "created": true,
+        "ok": true,
+        "path": "reports/x.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "time": "2026-07-29T23:18:29.647721+00:00"
+      }
+    },
+    {
+      "name": "search missing query",
+      "route": "/project/files/search",
+      "method": "POST",
+      "category": "malformed",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "CONTEXT_ERROR",
+      "body_sample": {
+        "error_code": "CONTEXT_ERROR",
+        "message": "query is required",
+        "ok": false
+      }
+    },
+    {
+      "name": "run missing command",
+      "route": "/run",
+      "method": "POST",
+      "category": "malformed",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "command must be a non-empty string array",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.648321+00:00"
+      }
+    },
+    {
+      "name": "run python missing code",
+      "route": "/run/python",
+      "method": "POST",
+      "category": "malformed",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "code is required",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.648540+00:00"
+      }
+    },
+    {
+      "name": "execution submit missing command",
+      "route": "/project/execution/submit",
+      "method": "POST",
+      "category": "malformed",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "command must be a non-empty string array",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.648781+00:00"
+      }
+    },
+    {
+      "name": "zip missing path",
+      "route": "/zip/read",
+      "method": "POST",
+      "category": "malformed",
+      "status": 400,
+      "expected_statuses": [
+        400,
+        404
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "zip_path is required",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.648995+00:00"
+      }
+    },
+    {
+      "name": "archive inspect missing",
+      "route": "/project/archives/inspect",
+      "method": "POST",
+      "category": "not_found",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "archive file not found",
+        "ok": false
+      }
+    },
+    {
+      "name": "lab missing tool",
+      "route": "/lab/dispatch",
+      "method": "POST",
+      "category": "malformed",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "tool_name is required",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.649748+00:00"
+      }
+    },
+    {
+      "name": "lab unknown tool",
+      "route": "/lab/dispatch",
+      "method": "POST",
+      "category": "not_found",
+      "status": 404,
+      "expected_statuses": [
+        400,
+        404
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "UNKNOWN_TOOL",
+      "body_sample": {
+        "available_tools": [
+          "browser.click",
+          "browser.content",
+          "browser.evaluate",
+          "browser.fill",
+          "browser.health",
+          "browser.navigate",
+          "browser.pages.close",
+          "browser.pages.list",
+          "browser.pages.new",
+          "browser.pages.select",
+          "browser.press",
+          "browser.screenshot",
+          "browser.session.attach",
+          "browser.session.start",
+          "browser.session.stop",
+          "browser.sessions.list",
+          "doctrine.invariants.read",
+          "doctrine.invariants.search",
+          "doctrine.invariants.status",
+          "execution.output",
+          "execution.run",
+          "execution.status",
+          "execution.submit",
+          "execution.terminate",
+          "execution.wait",
+          "fs.glob",
+          "fs.grep",
+          "fs.move",
+          "fs.read",
+          "fs.tree",
+          "fs.write",
+          "git.clean",
+          "git.commit",
+          "git.diff",
+          "git.reset_hard",
+          "git.status",
+          "lab.andon.pull",
+          "lab.apoptosis.trigger",
+          "lab.health",
+          "lab.reflexion.append",
+          "lab.reflexion.read",
+          "lab.session.end",
+          "lab.session.get",
+          "lab.session.note",
+          "lab.session.start",
+          "lab.tools.reload",
+          "procedure.browser.prompt_capture",
+          "project.archives.extract",
+          "project.archives.inspect",
+          "project.archives.list",
+          "project.context.rehydrate",
+          "project.files.list",
+          "project.files.read",
+          "project.files.read_many",
+          "project.files.search",
+          "project.files.write",
+          "project.models.inspect",
+          "project.models.list",
+          "protocol.artifact.register",
+          "protocol.claim.record",
+          "protocol.constraint.record",
+          "protocol.continuity.record",
+          "protocol.guard.check",
+          "protocol.initialize",
+          "protocol.ledger.verify",
+          "protocol.mode.transition",
+          "protocol.objective.set",
+          "protocol.promotion.record",
+          "protocol.status",
+          "protocol.waiver.record",
+          "python.run",
+          "research.arxiv.paper",
+          "research.arxiv.search",
+          "research.hunt",
+          "semantic.monster.health",
+          "semantic.monster.search",
+          "sop.guard.check",
+          "sop.ingest.ack_chunk",
+          "sop.ingest.complete_file",
+          "sop.ingest.next_chunk",
+          "sop.ingest.reset",
+          "sop.ingest.status",
+          "sop.package.inspect",
+          "sop.package.register",
+          "verify.gates",
+          "web.fetch",
+          "zip.read"
+        ],
+        "error_code": "UNKNOWN_TOOL",
+        "message": "Unknown tool: missing.tool",
+        "ok": false,
+        "time": "2026-07-29T23:18:29.650019+00:00"
+      }
+    },
+    {
+      "name": "research empty hunt",
+      "route": "/research/hunt",
+      "method": "POST",
+      "category": "malformed",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "topic is required",
+        "ok": false
+      }
+    }
+  ]
+}

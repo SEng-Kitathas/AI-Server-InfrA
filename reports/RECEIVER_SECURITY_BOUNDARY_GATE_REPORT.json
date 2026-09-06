@@ -1,0 +1,200 @@
+{
+  "created_at_utc": "2026-07-29T23:18:32.389720+00:00",
+  "gate_name": "receiver_security_boundary",
+  "approach": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "levels": {
+    "nano": "individual probe",
+    "micro": "route family / boundary class",
+    "meso": "gate matrix",
+    "macro": "claim gate"
+  },
+  "clean": true,
+  "probe_count": 6,
+  "failure_count": 0,
+  "unexpected_500_count": 0,
+  "failures": [],
+  "unexpected_500": [],
+  "results": [
+    {
+      "name": "absolute path read",
+      "route": "/project/files/read",
+      "method": "POST",
+      "category": "path_boundary",
+      "status": 400,
+      "expected_statuses": [
+        400,
+        403
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BAD_PATH",
+      "body_sample": {
+        "error_code": "BAD_PATH",
+        "message": "resolved path escapes allowed roots",
+        "ok": false
+      }
+    },
+    {
+      "name": "dotdot write",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "path_boundary",
+      "status": 400,
+      "expected_statuses": [
+        400,
+        403
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "path escapes project root",
+        "ok": false,
+        "time": "2026-07-29T23:18:31.298568+00:00"
+      }
+    },
+    {
+      "name": "archive slip extract contained",
+      "route": "/project/archives/extract",
+      "method": "POST",
+      "category": "archive_boundary",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "destination_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/extracted",
+        "extracted_count": 0,
+        "ok": true,
+        "partial": true,
+        "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/slip.zip",
+        "warnings": [
+          {
+            "kind": "extract_skip",
+            "message": "entry escaped destination",
+            "path": "../slip.txt"
+          }
+        ]
+      }
+    },
+    {
+      "name": "shell metachar run arg",
+      "route": "/run",
+      "method": "POST",
+      "category": "command_boundary",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "command": [
+          "python",
+          "-c",
+          "import sys; sys.stdout.write('safe')"
+        ],
+        "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate",
+        "duration_ms": 518,
+        "ok": true,
+        "return_code": 0,
+        "status": "COMPLETED",
+        "stderr": "",
+        "stderr_bytes": 0,
+        "stderr_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/.pcmmad_sync_runs/sync-1ec30f60c792.stderr.log",
+        "stderr_truncated": false,
+        "stderr_window": {
+          "file_size": 0,
+          "mode": "all",
+          "requested_bytes": null,
+          "returned_bytes": 0
+        },
+        "stdout": "safe",
+        "stdout_bytes": 4,
+        "stdout_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/.pcmmad_sync_runs/sync-1ec30f60c792.stdout.log",
+        "stdout_truncated": false,
+        "stdout_window": {
+          "file_size": 4,
+          "mode": "tail",
+          "requested_bytes": 10000,
+          "returned_bytes": 4
+        }
+      }
+    },
+    {
+      "name": "oversize small stdout cap",
+      "route": "/run/python",
+      "method": "POST",
+      "category": "resource_boundary",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "command": [
+          "/opt/pyvenv/bin/python",
+          "/tmp/tmpwloztbhc.py"
+        ],
+        "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate",
+        "duration_ms": 568,
+        "ok": true,
+        "return_code": 0,
+        "status": "COMPLETED",
+        "stderr": "",
+        "stderr_bytes": 0,
+        "stderr_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/.pcmmad_sync_runs/sync-e3986debb030.stderr.log",
+        "stderr_truncated": false,
+        "stderr_window": {
+          "file_size": 0,
+          "mode": "all",
+          "requested_bytes": null,
+          "returned_bytes": 0
+        },
+        "stdout": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "stdout_bytes": 1000,
+        "stdout_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/.pcmmad_sync_runs/sync-e3986debb030.stdout.log",
+        "stdout_truncated": false,
+        "stdout_window": {
+          "file_size": 1000,
+          "mode": "tail",
+          "requested_bytes": 1024,
+          "returned_bytes": 1000
+        }
+      }
+    },
+    {
+      "name": "invalid zip bytes",
+      "route": "/zip/read",
+      "method": "POST",
+      "category": "archive_boundary",
+      "status": 404,
+      "expected_statuses": [
+        400,
+        404
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "zip file not found",
+        "ok": false,
+        "time": "2026-07-29T23:18:32.389589+00:00"
+      }
+    }
+  ]
+}

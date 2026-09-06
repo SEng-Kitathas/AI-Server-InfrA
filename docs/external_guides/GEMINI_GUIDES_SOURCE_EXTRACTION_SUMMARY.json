@@ -1,0 +1,77 @@
+{
+  "created_at_utc": "2026-05-06T01:23:13.027761+00:00",
+  "bridge_note": "The full Code Quality .mht replaced the earlier content-incomplete shell capture. Rubric is project-local and separate from CSC LOC doctrine.",
+  "sources": [
+    {
+      "filename": "Code Style Best Practices Guide - Google Gemini.mht",
+      "sha256": "db06b65081179d41c105464ed81cb17a21342d1386e865050ff7fe1d2899065d",
+      "bytes": 1572611,
+      "extraction_status": "substantive_body_extracted",
+      "derived_themes": [
+        "consistency first",
+        "clarity over brevity naming",
+        "visual scannability",
+        "comments explain why",
+        "avoid magic values",
+        "typed boundaries",
+        "fallibility modeling",
+        "Rust unsafe fencing",
+        "layered tests",
+        "dependency audit"
+      ]
+    },
+    {
+      "filename": "Code Quality_ An Exhaustive Breakdown - Google Gemini (2).mht",
+      "sha256": "2d316db532c4ed009c6103fd4150bf7cce8ae980e3d2dceb792da6da18fd7172",
+      "bytes": 1602390,
+      "extraction_status": "substantive_body_extracted_full_replacement",
+      "derived_themes": [
+        "readability semantics",
+        "naming conventions",
+        "magic values",
+        "comment quality",
+        "formatting",
+        "modularity",
+        "DRY",
+        "coupling cohesion",
+        "cyclomatic complexity",
+        "algorithmic complexity",
+        "resource management",
+        "redundancy",
+        "error handling",
+        "input validation",
+        "security hygiene",
+        "edge case coverage",
+        "test coverage",
+        "test quality",
+        "API documentation",
+        "portability",
+        "semantic density",
+        "domain fidelity",
+        "logic traceability",
+        "functional orthogonality",
+        "type-state sovereignty",
+        "spatial rhythm",
+        "dependency health"
+      ]
+    },
+    {
+      "filename": "Codebase Hygiene_ What Not To Do - Google Gemini (1).mht",
+      "sha256": "6582c7f7b7a40ca14100189c5f4d935053d3eed92271f4b1f390f9fac25ed886",
+      "bytes": 1482936,
+      "extraction_status": "substantive_body_extracted",
+      "derived_themes": [
+        "avoid big bang refactors",
+        "avoid cargo-cult abstractions",
+        "avoid vague primitives",
+        "avoid pyramid of doom",
+        "do not leak representation",
+        "avoid over-generic internals",
+        "avoid sync mutex across await",
+        "document unsafe proof obligations",
+        "atomic cleanup",
+        "known-good state"
+      ]
+    }
+  ]
+}

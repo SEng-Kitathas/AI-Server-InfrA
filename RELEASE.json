@@ -1,0 +1,37 @@
+{
+  "name": "PCMMAD Receiver",
+  "release": "V29 Native Protocol Release Candidate",
+  "version": "29.0.0-rc1-native-protocol",
+  "schema_version": "10.3.0",
+  "python_target": "3.12",
+  "authority": {
+    "product": "PCMMAD Receiver",
+    "surviving_specimen": "PCMMAD_receiver(2).zip",
+    "surviving_specimen_sha256": "b4d8a284a0acc9ef37aa115d2be4e4b67550730d80555e06771bc41c820564a3",
+    "parity_anchor": "PCMMAD Receiver V28 PDVER Refactor",
+    "normative_standard": "docs/ergo_foundations/UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+    "normative_standard_sha256": "6d5355d7c0e893a7af0de3cf20d7ac97f5c3a7126f285999b742322b2bb62532",
+    "pcmmad_runtime_doctrine": "docs/pcmmad_doctrine/PCMMAD_CANONICAL_RUNTIME_SPECIFICATION.md",
+    "reference_doctrine_archive_sha256": "c241e679bc6a35cc3800644c5b0fb4be61a982ce2bd016c38d08b8aaed20da14",
+    "deferred_csc_dump_sha256": "a0a907d4e1de95ff454fc3af8d1e66e5b3b361d0ce429742377264a265a4d8ec"
+  },
+  "preservation_contract": {
+    "runtime_routes_minimum": 49,
+    "v28_server_native_tools_retained": 75,
+    "protocol_tools_added": 12,
+    "registered_tools_minimum": 87,
+    "custom_gpt_operations": 30
+  },
+  "compatibility": {
+    "custom_gpt_schema_surface": "unchanged operation budget",
+    "protocol_initialization": "opt-in per project",
+    "protocol_policy_default": "advisory",
+    "strict_mode_available": true
+  },
+  "host_bound_verification": [
+    "Windows PowerShell",
+    "live D:/E: mounts",
+    "ngrok tunnel",
+    "real Custom GPT callback"
+  ]
+}

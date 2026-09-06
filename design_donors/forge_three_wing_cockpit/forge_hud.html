@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Singularity Works — Forge Cockpit</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════
+   DESIGN TOKENS  (Liquid-Aero canonical)
+═══════════════════════════════════════════════════ */
+:root {
+  --bg-void:    #030108;
+  --bg-solid:   #05030A;
+  --glass-dark: rgba(16,8,26,.76);
+  --glass-mid:  rgba(26,16,40,.58);
+  --glass-lite: rgba(37,24,56,.42);
+  --glass-border: rgba(255,255,255,.08);
+  --glass-hi:   rgba(255,255,255,.13);
+  --acc:        #7C3AED;
+  --acc-glow:   #A78BFA;
+  --acc-dim:    #5B21B6;
+  --acc-surf:   rgba(124,58,237,.14);
+  --txt:        #F0EAFF;
+  --txt2:       #C0B9E5;
+  --txt3:       #8B7FA8;
+  --r:          #EF4444;
+  --y:          #F59E0B;
+  --g:          #10B981;
+  --p:          #8B5CF6;
+  --blur: 22px;
+  --rad: 14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg-void);
+  font-family:'Inter',system-ui,sans-serif;color:var(--txt);user-select:none;}
+
+/* ── Holofont ── */
+.hf{color:var(--txt);text-shadow:0 2px 4px rgba(0,0,0,.45),0 4px 8px rgba(0,0,0,.2);
+    filter:drop-shadow(0 0 1px rgba(240,234,255,.22));}
+.hf-bright{color:var(--txt);text-shadow:0 2px 6px rgba(0,0,0,.55),
+    0 0 14px rgba(124,58,237,.4),0 0 28px rgba(124,58,237,.18);}
+.hf-code{font-family:'JetBrains Mono',monospace;color:var(--acc-glow);
+    text-shadow:0 2px 4px rgba(0,0,0,.5),0 0 8px rgba(167,139,250,.28);}
+
+/* ── Neural substrate ── */
+#stars{position:fixed;inset:0;z-index:0;}
+.vfx{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 38%,transparent 32%,rgba(3,1,8,.8) 100%);}
+.scans{position:fixed;inset:0;z-index:2;pointer-events:none;
+    background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(0,0,0,.07) 3px);
+    opacity:.35;}
+
+/* ── Glass surface ── */
+.glass{background:var(--glass-mid);backdrop-filter:blur(var(--blur));
+    -webkit-backdrop-filter:blur(var(--blur));border:1px solid var(--glass-border);
+    border-radius:var(--rad);box-shadow:0 8px 32px rgba(0,0,0,.45),
+    inset 0 1px 0 var(--glass-hi),inset 0 -1px 0 rgba(0,0,0,.25);
+    position:relative;overflow:hidden;}
+.glass::before{content:'';position:absolute;inset:-1px;z-index:-1;border-radius:inherit;
+    background:linear-gradient(135deg,rgba(124,58,237,0) 0%,rgba(124,58,237,.22) 45%,
+    rgba(167,139,250,.18) 58%,rgba(124,58,237,0) 100%);
+    mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    mask-composite:exclude;-webkit-mask-composite:xor;opacity:.48;pointer-events:none;}
+.glass-dk{background:var(--glass-dark);}
+
+/* ── Cognitive Corona (ALCI §7) ── */
+.c-t1{box-shadow:0 0 24px 3px rgba(74,58,140,.22),inset 0 0 12px 1px rgba(74,58,140,.1);}
+.c-t2{box-shadow:0 0 24px 3px rgba(140,122,58,.28),inset 0 0 12px 1px rgba(140,122,58,.12);
+    animation:caution 2s ease-in-out infinite;}
+.c-t3{box-shadow:0 0 0 1.5px rgba(140,74,58,.75);}
+.c-t4{box-shadow:0 0 0 2px rgba(140,42,42,.9),0 0 0 5px rgba(140,42,42,.3);}
+@keyframes caution{0%,100%{box-shadow:0 0 20px 2px rgba(140,122,58,.25),inset 0 0 10px 1px rgba(140,122,58,.1);}
+    50%{box-shadow:0 0 32px 6px rgba(140,122,58,.35),inset 0 0 18px 2px rgba(140,122,58,.15);}}
+
+/* ── Respiration ── */
+body{transition:filter .9s ease;}
+body.proc{filter:brightness(.68) saturate(.75);}
+body.bloom{filter:brightness(1.18) saturate(1.35);}
+#stars{transition:opacity .9s ease;}
+body.proc #stars{opacity:.35;}
+
+/* ══════════════════════════════════════════════════
+   COCKPIT LAYOUT
+══════════════════════════════════════════════════ */
+#cockpit{position:relative;z-index:10;width:100%;height:100%;
+    display:grid;
+    grid-template-columns:260px 1fr 280px;
+    grid-template-rows:50px 1fr 108px;
+    gap:9px;padding:9px;}
+
+/* Top bar */
+#topbar{grid-column:1/-1;grid-row:1;display:flex;align-items:center;
+    gap:14px;padding:0 16px;height:50px;}
+.brand{display:flex;align-items:center;gap:10px;}
+.orb{width:28px;height:28px;border-radius:50%;
+    background:linear-gradient(135deg,var(--acc),var(--acc-glow));
+    box-shadow:0 0 16px var(--acc);display:flex;align-items:center;
+    justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+.brand-name{font-size:13px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;}
+.brand-ver{font-size:10px;color:var(--txt3);letter-spacing:.8px;}
+.pdots{display:flex;gap:5px;align-items:center;}
+.pdot{width:7px;height:7px;border-radius:50%;background:rgba(167,139,250,.22);
+    transition:background .25s,box-shadow .25s;}
+.pdot.on{background:var(--acc-glow);box-shadow:0 0 6px var(--acc-glow);}
+.top-chips{display:flex;align-items:center;gap:20px;margin-left:auto;}
+.chip{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;
+    background:var(--acc-surf);border:1px solid rgba(124,58,237,.28);font-size:10px;}
+.chip-lbl{color:var(--txt3);text-transform:uppercase;letter-spacing:.4px;}
+.chip-val{font-family:'JetBrains Mono',monospace;font-size:10px;}
+.chip-val.g{color:var(--g);}
+.chip-val.y{color:var(--y);}
+.chip-val.r{color:var(--r);}
+.chip-val.p{color:var(--p);}
+.abadge{padding:4px 13px;border-radius:20px;font-size:11px;font-weight:600;
+    letter-spacing:1px;text-transform:uppercase;border:1px solid transparent;}
+.abadge.g{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.4);color:var(--g);}
+.abadge.y{background:rgba(245,158,11,.14);border-color:rgba(245,158,11,.38);color:var(--y);}
+.abadge.r{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.38);color:var(--r);}
+#clk{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--txt3);min-width:68px;text-align:right;}
+
+/* ── Left wing ── */
+#lwing{grid-column:1;grid-row:2;display:flex;flex-direction:column;gap:9px;overflow:hidden;
+    transform:perspective(1100px) rotateY(7deg);transform-origin:right center;}
+
+/* ── Center ── */
+#center{grid-column:2;grid-row:2;display:flex;flex-direction:column;overflow:hidden;}
+.cent-hdr{padding:10px 14px 0;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.cent-title{font-size:11px;font-weight:600;letter-spacing:1.2px;
+    text-transform:uppercase;color:var(--txt2);}
+#file-name{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--acc-glow);
+    background:var(--acc-surf);padding:2px 8px;border-radius:6px;max-width:300px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* ── File viewer (top half of center) ── */
+#file-viewer{flex:1;overflow:hidden;display:flex;flex-direction:column;
+    min-height:0;position:relative;}
+#code-view{flex:1;overflow-y:auto;padding:12px 14px;font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;line-height:1.7;color:var(--txt2);white-space:pre;min-height:0;}
+#code-view::-webkit-scrollbar{width:3px;}
+#code-view::-webkit-scrollbar-thumb{background:var(--acc-dim);border-radius:2px;}
+.code-line{display:flex;gap:10px;padding:1px 4px;border-radius:4px;
+    transition:background .15s;}
+.line-num{color:var(--txt3);min-width:28px;text-align:right;flex-shrink:0;font-size:10.5px;}
+.line-code{flex:1;overflow:hidden;}
+.line-ann{display:flex;align-items:center;gap:4px;margin-left:8px;
+    padding:1px 6px;border-radius:4px;font-size:9.5px;white-space:nowrap;flex-shrink:0;}
+.ann-red{background:rgba(239,68,68,.13);border:1px solid rgba(239,68,68,.3);color:var(--r);}
+.ann-yellow{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:var(--y);}
+.ann-purple{background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.3);color:var(--p);}
+.ann-green{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:var(--g);}
+.code-line.taint-red{background:rgba(239,68,68,.07);}
+.code-line.taint-yellow{background:rgba(245,158,11,.06);}
+.code-line.taint-purple{background:rgba(139,92,246,.08);}
+/* Divider between file view and event stream */
+.cent-divider{height:1px;background:rgba(167,139,250,.12);flex-shrink:0;margin:0 14px;}
+/* ── Event stream (bottom half of center) ── */
+#event-stream{height:180px;overflow-y:auto;padding:8px 14px;display:flex;
+    flex-direction:column;gap:3px;flex-shrink:0;}
+#event-stream::-webkit-scrollbar{width:3px;}
+#event-stream::-webkit-scrollbar-thumb{background:var(--acc-dim);border-radius:2px;}
+.evt{display:flex;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;
+    padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+.evt-ts{color:var(--txt3);flex-shrink:0;min-width:52px;}
+.evt-kind{flex-shrink:0;min-width:90px;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:.5px;padding:0 4px;border-radius:4px;}
+.ek-forge_start,.ek-gate_phase{background:rgba(124,58,237,.15);color:var(--acc-glow);}
+.ek-gate_done{background:rgba(16,185,129,.12);color:var(--g);}
+.ek-lbe_phase,.ek-lbe_done{background:rgba(239,68,68,.12);color:var(--r);}
+.ek-blueprint_ready{background:rgba(245,158,11,.12);color:var(--y);}
+.ek-starmap_ready{background:rgba(139,92,246,.15);color:var(--p);}
+.ek-forge_done{background:rgba(16,185,129,.18);color:var(--g);}
+.ek-file_change{background:rgba(124,58,237,.1);color:var(--txt2);}
+.ek-watcher_start{background:rgba(16,185,129,.1);color:var(--g);}
+.ek-monitor_fail,.ek-error{background:rgba(239,68,68,.18);color:var(--r);}
+.ek-warn{background:rgba(245,158,11,.14);color:var(--y);}
+.evt-msg{color:var(--txt2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ── Right wing ── */
+#rwing{grid-column:3;grid-row:2;display:flex;flex-direction:column;gap:9px;overflow:hidden;
+    transform:perspective(1100px) rotateY(-7deg);transform-origin:left center;}
+
+/* ── Bottom dock (Smart Canvas) ── */
+#dock{grid-column:1/-1;grid-row:3;display:flex;flex-direction:column;gap:7px;
+    padding:8px 12px;}
+.dock-row{display:flex;gap:9px;align-items:flex-start;}
+#code-in{flex:1;min-height:38px;max-height:68px;resize:none;
+    background:rgba(10,6,18,.65);border:1px solid rgba(124,58,237,.32);
+    border-radius:10px;padding:8px 12px;font-family:'JetBrains Mono',monospace;
+    font-size:11px;color:var(--txt);outline:none;
+    transition:border-color .2s,box-shadow .2s;}
+#code-in:focus{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc-surf);}
+#code-in::placeholder{color:var(--txt3);}
+#req-in{width:260px;min-height:38px;resize:none;
+    background:rgba(10,6,18,.6);border:1px solid rgba(124,58,237,.2);
+    border-radius:10px;padding:8px 12px;font-family:'Inter',sans-serif;font-size:11px;
+    color:var(--txt2);outline:none;}
+#proj-in{width:220px;min-height:38px;resize:none;
+    background:rgba(10,6,18,.6);border:1px solid rgba(124,58,237,.18);
+    border-radius:10px;padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--txt3);outline:none;}
+.btn{padding:9px 20px;border-radius:10px;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--acc),var(--acc-dim));
+    color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:.4px;white-space:nowrap;
+    box-shadow:0 4px 16px rgba(124,58,237,.38);
+    transition:transform .12s,box-shadow .12s,opacity .18s;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.5);}
+.btn:active{transform:translateY(0);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.btn-sm{padding:6px 12px;font-size:11px;}
+#verdict{font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 10px;
+    border-radius:8px;border-left:3px solid transparent;
+    transition:all .35s ease;color:var(--txt3);white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;}
+
+/* ── Panel sections ── */
+.psect{flex:1;display:flex;flex-direction:column;padding:9px;gap:5px;
+    overflow:hidden;min-height:0;}
+.psect.fixed{flex:0;}
+.stitle{font-size:9.5px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;
+    color:var(--txt3);border-bottom:1px solid rgba(255,255,255,.06);
+    padding-bottom:4px;flex-shrink:0;display:flex;justify-content:space-between;align-items:center;}
+.stitle-badge{font-size:9px;padding:1px 6px;border-radius:8px;
+    background:rgba(124,58,237,.15);color:var(--acc-glow);}
+
+/* ── Gate list ── */
+.glist{overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:2px;}
+.glist::-webkit-scrollbar{width:2px;}
+.glist::-webkit-scrollbar-thumb{background:var(--acc-dim);border-radius:2px;}
+.grow{display:flex;align-items:center;gap:6px;padding:3px 6px;border-radius:5px;
+    font-size:9.5px;background:rgba(255,255,255,.02);border:1px solid transparent;
+    transition:background .12s;}
+.grow.fail{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.22);}
+.grow.warn{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.18);}
+.gdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.gdot.fail{background:var(--r);box-shadow:0 0 4px var(--r);}
+.gdot.warn{background:var(--y);}
+.gdot.pass{background:var(--g);}
+.gid{flex:1;color:var(--txt2);white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis;font-family:'JetBrains Mono',monospace;font-size:9px;}
+.gsum{font-size:9px;color:var(--txt3);text-align:right;padding:3px 5px;flex-shrink:0;}
+
+/* ── Blob list ── */
+.blist{overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:4px;}
+.blist::-webkit-scrollbar{width:2px;}
+.bcard{padding:6px 8px;border-radius:7px;border-left:3px solid transparent;
+    background:rgba(16,8,26,.55);cursor:default;
+    transition:background .12s;}
+.bcard.red{border-left-color:var(--r);}
+.bcard.yellow{border-left-color:var(--y);}
+.bcard.green{border-left-color:var(--g);}
+.bcard.purple{border-left-color:var(--p);}
+.bcard-top{display:flex;align-items:center;gap:7px;}
+.bid{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--txt3);}
+.brisk{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;}
+.bverdict{font-size:9.5px;color:var(--txt2);margin-top:2px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bmr{font-size:9px;color:var(--y);margin-top:3px;}
+
+/* ── StarMap metrics ── */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;flex-shrink:0;}
+.mcell{padding:7px;border-radius:7px;background:rgba(10,6,18,.55);
+    border:1px solid rgba(255,255,255,.05);}
+.mlbl{font-size:9px;text-transform:uppercase;letter-spacing:.9px;color:var(--txt3);}
+.mval{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;margin-top:2px;}
+.tier-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;
+    border-radius:20px;font-size:11px;font-weight:600;letter-spacing:1px;
+    text-transform:uppercase;margin-top:6px;}
+.T1{background:rgba(74,58,140,.2);color:var(--acc-glow);border:1px solid rgba(74,58,140,.5);}
+.T2{background:rgba(140,122,58,.2);color:var(--y);border:1px solid rgba(140,122,58,.4);}
+.T3{background:rgba(140,74,58,.2);color:#FB923C;border:1px solid rgba(140,74,58,.4);}
+.T4{background:rgba(140,42,42,.2);color:var(--r);border:1px solid rgba(140,42,42,.5);}
+
+/* ── Obligation rows ── */
+.obl{display:flex;align-items:center;gap:6px;padding:4px 7px;border-radius:6px;
+    font-size:9.5px;background:rgba(139,92,246,.07);
+    border:1px solid rgba(139,92,246,.18);}
+.odot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.odot.fail{background:var(--p);box-shadow:0 0 4px var(--p);}
+.odot.pass{background:var(--g);}
+.olbl{flex:1;color:var(--txt2);font-family:'JetBrains Mono',monospace;
+    font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ── Commit log ── */
+.clog{overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:3px;}
+.clog::-webkit-scrollbar{width:2px;}
+.clog::-webkit-scrollbar-thumb{background:var(--acc-dim);border-radius:2px;}
+.centry{display:flex;align-items:center;gap:7px;padding:4px 7px;border-radius:6px;
+    font-size:9.5px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);}
+.centry:first-child{background:rgba(124,58,237,.08);}
+.cts{color:var(--txt3);font-family:'JetBrains Mono',monospace;font-size:9px;flex-shrink:0;}
+.cfile{color:var(--txt2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    font-family:'JetBrains Mono',monospace;}
+.cass{font-size:9px;padding:1px 5px;border-radius:5px;flex-shrink:0;}
+.cass.g{background:rgba(16,185,129,.15);color:var(--g);}
+.cass.r{background:rgba(239,68,68,.15);color:var(--r);}
+.cass.y{background:rgba(245,158,11,.14);color:var(--y);}
+
+/* ── Empty state ── */
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:6px;color:var(--txt3);font-size:11px;}
+.eicon{font-size:24px;opacity:.35;}
+
+/* ── Connection indicator ── */
+#conn{position:fixed;bottom:8px;right:12px;z-index:100;
+    display:flex;align-items:center;gap:5px;
+    padding:3px 9px;border-radius:12px;font-size:9px;
+    background:rgba(10,6,18,.85);border:1px solid rgba(255,255,255,.06);}
+.conn-dot{width:6px;height:6px;border-radius:50%;}
+.conn-dot.ok{background:var(--g);box-shadow:0 0 5px var(--g);}
+.conn-dot.err{background:var(--r);}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="vfx"></div>
+<div class="scans"></div>
+<div id="conn"><div class="conn-dot err" id="conn-dot"></div><span id="conn-lbl">disconnected</span></div>
+
+<div id="cockpit">
+
+<!-- ── TOP BAR ─────────────────────────────────────────── -->
+<div id="topbar" class="glass glass-dk">
+  <div class="brand">
+    <div class="orb hf-bright">S</div>
+    <div>
+      <div class="brand-name hf">Singularity Works</div>
+      <div class="brand-ver">Forge Cockpit v1.29</div>
+    </div>
+  </div>
+
+  <div class="pdots" id="pdots">
+    <div class="pdot" title="Gate fabric"></div>
+    <div class="pdot" title="Escalation"></div>
+    <div class="pdot" title="LBE Pilot"></div>
+    <div class="pdot" title="Universal"></div>
+    <div class="pdot" title="Blueprint"></div>
+    <div class="pdot" title="StarMap"></div>
+    <div class="pdot" title="Complete"></div>
+  </div>
+
+  <div class="top-chips">
+    <div class="chip">
+      <span class="chip-lbl">assurance</span>
+      <span class="chip-val" id="cv-assurance">—</span>
+    </div>
+    <div class="chip">
+      <span class="chip-lbl">λ₂</span>
+      <span class="chip-val" id="cv-fiedler">—</span>
+    </div>
+    <div class="chip">
+      <span class="chip-lbl">tier</span>
+      <span class="chip-val" id="cv-tier">—</span>
+    </div>
+    <div class="chip">
+      <span class="chip-lbl">blobs</span>
+      <span class="chip-val" id="cv-blobs">—</span>
+    </div>
+    <div class="abadge" id="abadge">IDLE</div>
+  </div>
+  <div id="clk">00:00:00</div>
+</div>
+
+<!-- ── LEFT WING ────────────────────────────────────────── -->
+<div id="lwing">
+  <div class="glass psect" style="flex:1.3;" id="gate-panel">
+    <div class="stitle">Gate Results<span class="stitle-badge" id="gate-badge">—</span></div>
+    <div class="glist" id="gate-list">
+      <div class="empty"><div class="eicon">◈</div>No analysis</div>
+    </div>
+  </div>
+  <div class="glass psect" style="flex:1;" id="blob-panel">
+    <div class="stitle">LBE Blobs<span class="stitle-badge" id="blob-badge">0</span></div>
+    <div class="blist" id="blob-list">
+      <div class="empty"><div class="eicon">◉</div>No blobs</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CENTER ────────────────────────────────────────────── -->
+<div id="center" class="glass">
+  <div class="cent-hdr">
+    <div class="cent-title hf">Active File</div>
+    <div id="file-name" class="hf-code">no file loaded</div>
+    <div style="margin-left:auto;font-size:10px;color:var(--txt3);" id="flow-stats"></div>
+  </div>
+
+  <!-- File viewer — READ ONLY, annotated by forge -->
+  <div id="file-viewer">
+    <div id="code-view">
+      <div class="empty" style="height:100%;justify-content:center;">
+        <div class="eicon">⬡</div>
+        <div>Submit code or set project directory to begin</div>
+        <div style="font-size:10px;margin-top:4px;">Ctrl+Enter in Smart Canvas to analyze</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cent-divider"></div>
+
+  <!-- MCP Event stream -->
+  <div id="event-stream">
+    <!-- populated by WebSocket -->
+  </div>
+</div>
+
+<!-- ── RIGHT WING ───────────────────────────────────────── -->
+<div id="rwing">
+  <div class="glass psect fixed" id="sm-panel">
+    <div class="stitle">StarMap Topology</div>
+    <div class="mgrid">
+      <div class="mcell"><div class="mlbl">Fiedler λ₂</div>
+        <div class="mval" id="sm-fiedler" style="color:var(--txt3)">—</div></div>
+      <div class="mcell"><div class="mlbl">Integrity</div>
+        <div class="mval" id="sm-integrity" style="color:var(--txt3)">—</div></div>
+      <div class="mcell"><div class="mlbl">Interference</div>
+        <div class="mval" id="sm-interf" style="color:var(--txt3)">—</div></div>
+      <div class="mcell"><div class="mlbl">Curvature</div>
+        <div class="mval" id="sm-curve" style="color:var(--txt3)">—</div></div>
+    </div>
+    <div class="tier-badge" id="tier-badge">—</div>
+  </div>
+
+  <div class="glass psect fixed" id="obl-panel" style="max-height:140px;">
+    <div class="stitle">Obligations</div>
+    <div id="obl-list" style="display:flex;flex-direction:column;gap:3px;overflow-y:auto;">
+      <div class="empty" style="min-height:30px;"><div style="font-size:10px;">Clean</div></div>
+    </div>
+  </div>
+
+  <div class="glass psect" style="flex:1;" id="clog-panel">
+    <div class="stitle">Commit Log</div>
+    <div class="clog" id="clog">
+      <div class="empty"><div class="eicon">↑</div>No commits yet</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BOTTOM DOCK (Smart Canvas) ───────────────────────── -->
+<div id="dock" class="glass glass-dk">
+  <div class="dock-row">
+    <textarea id="code-in" placeholder="Paste code… or set project dir below. Ctrl+Enter to analyze." rows="2" spellcheck="false"></textarea>
+    <textarea id="req-in" rows="2" spellcheck="false">Security analysis — no injection, no trust violations.</textarea>
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <button class="btn" id="analyze-btn" onclick="runAnalysis()">▶ Analyze</button>
+      <button class="btn btn-sm" id="clear-btn" onclick="clearEvents()" style="background:rgba(124,58,237,.2);box-shadow:none;">✕ Clear</button>
+    </div>
+  </div>
+  <div class="dock-row" style="align-items:center;gap:9px;">
+    <input id="proj-in" type="text" placeholder="Project directory: /path/to/project" spellcheck="false"
+           style="width:320px;background:rgba(10,6,18,.6);border:1px solid rgba(124,58,237,.18);
+                  border-radius:8px;padding:5px 10px;font-family:'JetBrains Mono',monospace;
+                  font-size:10px;color:var(--txt2);outline:none;"/>
+    <button class="btn btn-sm" onclick="setProject()">Watch Dir</button>
+    <div id="verdict" class="hf-code">Ready — submit code or watch a project directory</div>
+  </div>
+</div>
+
+</div><!-- /cockpit -->
+
+<script>
+/* ══════════════════════════════════════════════════
+   NEURAL SUBSTRATE — WebGL starfield
+══════════════════════════════════════════════════ */
+const SC = document.getElementById('stars');
+const CX = SC.getContext('2d');
+let ST = [], ST2 = 0, RESP = 'rest';
+function initStars(){
+  SC.width = innerWidth; SC.height = innerHeight;
+  ST = Array.from({length:130},()=>({
+    x:Math.random()*SC.width, y:Math.random()*SC.height,
+    r:Math.random()*1.2+.28, a:Math.random()*.48+.08,
+    sp:Math.random()*.14+.04, ph:Math.random()*Math.PI*2,
+    col:Math.random()>.68?'#A78BFA':'#F0EAFF'
+  }));
+}
+function drawStars(){
+  requestAnimationFrame(drawStars);
+  CX.clearRect(0,0,SC.width,SC.height);
+  const lum = RESP==='proc'?.32:RESP==='bloom'?1.45:1;
+  ST2 += .007*(RESP==='proc'?.28:RESP==='bloom'?1.9:1);
+  ST.forEach(s=>{
+    const a=(s.a+.14*Math.sin(ST2*s.sp+s.ph))*lum;
+    CX.beginPath(); CX.arc(s.x,s.y,s.r,0,Math.PI*2);
+    CX.fillStyle=s.col+Math.floor(Math.max(0,Math.min(255,a*255))).toString(16).padStart(2,'0');
+    CX.fill();
+  });
+  [[.15,.2,'#7C3AED',280],[.85,.72,'#5B21B6',230],[.5,.38,'#A78BFA',190]].forEach(([rx,ry,c,sz])=>{
+    const p=(.055+.038*Math.sin(ST2*.35+rx*9))*lum;
+    const g=CX.createRadialGradient(rx*SC.width,ry*SC.height,0,rx*SC.width,ry*SC.height,sz);
+    g.addColorStop(0,c+Math.floor(p*255).toString(16).padStart(2,'0'));
+    g.addColorStop(1,'transparent');
+    CX.beginPath(); CX.arc(rx*SC.width,ry*SC.height,sz,0,Math.PI*2);
+    CX.fillStyle=g; CX.fill();
+  });
+}
+addEventListener('resize',initStars); initStars(); drawStars();
+
+/* ── Clock ── */
+setInterval(()=>document.getElementById('clk').textContent=
+  new Date().toLocaleTimeString('en-US',{hour12:false}),1000);
+
+/* ── Respiration ── */
+function setResp(s){
+  RESP=s; document.body.className=s==='proc'?'proc':s==='bloom'?'bloom':'';
+}
+function bloom(){setResp('bloom');setTimeout(()=>setResp('rest'),1800);}
+
+/* ── Phase dots ── */
+function setPDots(n){
+  document.querySelectorAll('.pdot').forEach((d,i)=>d.classList.toggle('on',i<n));
+}
+
+/* ══════════════════════════════════════════════════
+   SOCKET.IO
+══════════════════════════════════════════════════ */
+const API = 'http://localhost:5173';
+const socket = io(API, {transports:['websocket','polling']});
+
+socket.on('connect',()=>{
+  document.getElementById('conn-dot').className='conn-dot ok';
+  document.getElementById('conn-lbl').textContent='connected';
+  pushEvt({ts:ts(),kind:'watcher_start',msg:'HUD connected to Forge server'});
+});
+socket.on('disconnect',()=>{
+  document.getElementById('conn-dot').className='conn-dot err';
+  document.getElementById('conn-lbl').textContent='disconnected';
+});
+
+socket.on('forge_event', evt=>{ pushEvt(evt); handleEvt(evt); });
+socket.on('file_analyzed', data=>{ renderResult(data.result, data.path); });
+socket.on('project_state', data=>{ updateProjectState(data); });
+socket.on('commit_log_update', entry=>{ prependCommit(entry); });
+socket.on('events_cleared', ()=>{ document.getElementById('event-stream').innerHTML=''; });
+
+function handleEvt(evt){
+  const k = evt.kind||'';
+  if(k==='forge_start'){setResp('proc');setPDots(1);}
+  else if(k==='gate_phase'){setPDots(2);}
+  else if(k==='gate_done'){setPDots(3);}
+  else if(k==='lbe_phase'){setPDots(4);}
+  else if(k==='lbe_done'){setPDots(5);}
+  else if(k==='blueprint_ready'){setPDots(5);}
+  else if(k==='starmap_ready'){setPDots(6);}
+  else if(k==='forge_done'){setPDots(7);bloom();}
+}
+
+/* ══════════════════════════════════════════════════
+   EVENT STREAM
+══════════════════════════════════════════════════ */
+function ts(){return new Date().toLocaleTimeString('en-US',{hour12:false});}
+function pushEvt(evt){
+  const es = document.getElementById('event-stream');
+  const kind = evt.kind||'log';
+  const row = document.createElement('div');
+  row.className='evt';
+  row.innerHTML=`<span class="evt-ts">${evt.ts||ts()}</span>`+
+    `<span class="evt-kind ek-${kind}">${kind}</span>`+
+    `<span class="evt-msg">${evt.msg||''}</span>`;
+  es.appendChild(row);
+  // Limit to 200 rows
+  while(es.children.length>200) es.removeChild(es.firstChild);
+  es.scrollTop=es.scrollHeight;
+}
+
+/* ══════════════════════════════════════════════════
+   FILE VIEWER — read-only annotated code
+══════════════════════════════════════════════════ */
+function renderCode(code, annotations){
+  const view = document.getElementById('code-view');
+  if(!code){view.innerHTML='<div class="empty" style="height:100%;justify-content:center;"><div class="eicon">⬡</div><div>No active file</div></div>';return;}
+  const lines = code.split('\n');
+  view.innerHTML = '';
+  lines.forEach((raw,i)=>{
+    const ln = i+1;
+    const ann = annotations.filter(a=>a.line===ln||a.line===0);
+    const hasRed    = ann.some(a=>a.color==='red');
+    const hasYellow = ann.some(a=>a.color==='yellow');
+    const hasPurple = ann.some(a=>a.color==='purple');
+    const taintClass = hasRed?'taint-red':hasYellow?'taint-yellow':hasPurple?'taint-purple':'';
+    const row = document.createElement('div');
+    row.className='code-line '+taintClass;
+    const esc = raw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    let annHTML = '';
+    ann.forEach(a=>{
+      const cls = `ann-${a.color}`;
+      annHTML += `<span class="line-ann ${cls}">${a.icon||''} ${a.label}</span>`;
+    });
+    row.innerHTML=`<span class="line-num hf">${ln}</span><span class="line-code hf-code">${esc}</span>${annHTML}`;
+    view.appendChild(row);
+  });
+}
+
+function buildAnnotations(result, code){
+  if(!result||!code) return [];
+  const anns = [];
+  const lines = code.split('\n');
+  const gates = result.gate_results||[];
+
+  // Annotate lines from gate findings
+  gates.filter(g=>g.status!=='pass').forEach(g=>{
+    (g.findings||[]).forEach(f=>{
+      const ln = f.line||0;
+      if(ln>0 && ln<=lines.length){
+        anns.push({
+          line:ln,
+          color:g.status==='fail'?'red':'yellow',
+          icon:g.status==='fail'?'⚑':'⚠',
+          label:g.gate_id.split(':').slice(-1)[0].slice(0,25),
+        });
+      }
+    });
+  });
+
+  // Annotate from LBE blobs
+  const blobs = (result.lbe_result||{}).blobs||[];
+  blobs.forEach(b=>{
+    const sink = ((result.lbe_blueprint||{}).flows||[]).find(f=>f.blob_id===b.blob_id);
+    const riskColor = b.risk_score>0.65?'red':b.wrapper_theater?'yellow':'green';
+    const ln = b.sink_line||0;
+    if(ln>0){
+      anns.push({
+        line:ln, color:riskColor,
+        icon:riskColor==='red'?'⬡':'◈',
+        label:(b.verdict||'').slice(0,22),
+      });
+    }
+  });
+
+  // Annotate obligations
+  const obls = (result.starmap_topology||{}).obligation_kinds||[];
+  if(obls.length>0 && lines.length>0){
+    anns.push({line:0,color:'purple',icon:'⚑',label:obls[0].slice(0,20)});
+  }
+
+  return anns;
+}
+
+let _activeCode = null;
+
+/* ══════════════════════════════════════════════════
+   RESULT RENDERER
+══════════════════════════════════════════════════ */
+function renderResult(data, path){
+  const assurance = data.assurance||'unknown';
+  const sm = data.starmap_topology||{};
+  const bp = data.lbe_blueprint||{};
+  const lbe = data.lbe_result||{};
+  const gates = data.gate_results||[];
+  const code = data._code || _activeCode || null;
+
+  // ── Top bar ────────────────────────────────────
+  const aEl=document.getElementById('cv-assurance');
+  aEl.textContent=assurance.toUpperCase();
+  aEl.className='chip-val '+(assurance==='green'?'g':assurance==='red'?'r':'y');
+
+  const fiedler=sm.fiedler_value??0;
+  const fEl=document.getElementById('cv-fiedler');
+  fEl.textContent=fiedler.toFixed(3);
+  fEl.className='chip-val '+(fiedler>.3?'r':fiedler>.1?'y':'g');
+
+  const tier=sm.trust_tier||'—';
+  const tEl=document.getElementById('cv-tier');
+  tEl.textContent=tier;
+  tEl.className='chip-val '+(tier==='T1'?'g':tier==='T2'?'y':'r');
+
+  const blobCount=(lbe.blob_count||0);
+  const bEl=document.getElementById('cv-blobs');
+  bEl.textContent=blobCount;
+  bEl.className='chip-val '+(blobCount>0?'r':'g');
+
+  const badge=document.getElementById('abadge');
+  badge.textContent=assurance.toUpperCase();
+  badge.className='abadge '+(assurance==='green'?'g':assurance==='red'?'r':'y');
+
+  // Cognitive corona on top bar
+  const tb=document.getElementById('topbar');
+  tb.className='glass glass-dk '+(tier==='T1'?'c-t1':tier==='T2'?'c-t2':tier==='T3'?'c-t3':'c-t4');
+
+  // ── File viewer ─────────────────────────────────
+  if(path && path!=='<input>'){
+    document.getElementById('file-name').textContent=path.split('/').slice(-2).join('/');
+  }
+  if(code){
+    const anns = buildAnnotations(data, code);
+    renderCode(code, anns);
+  }
+
+  // Flow stats
+  if(bp){
+    document.getElementById('flow-stats').textContent=
+      `🔴${bp.red_paths||0} 🟡${bp.yellow_paths||0} 🟢${bp.green_paths||0} 🟣${bp.purple_paths||0}`;
+  }
+
+  // ── Gate list ────────────────────────────────────
+  const gl=document.getElementById('gate-list');
+  gl.innerHTML='';
+  const fails=gates.filter(g=>g.status==='fail').slice(0,7);
+  const warns=gates.filter(g=>g.status==='warn').slice(0,4);
+  const passes=gates.filter(g=>g.status==='pass').slice(0,5);
+  [...fails,...warns,...passes].forEach(g=>{
+    const row=document.createElement('div');
+    row.className=`grow ${g.status}`;
+    const id=g.gate_id.split(':').slice(-1)[0]?.slice(0,32)||g.gate_id.slice(0,32);
+    const title=(g.findings||[]).map(f=>f.message).join('; ').slice(0,80)||'';
+    row.title=title;
+    row.innerHTML=`<div class="gdot ${g.status}"></div><div class="gid">${id}</div>`;
+    gl.appendChild(row);
+  });
+  const sum=document.createElement('div');
+  sum.className='gsum';
+  sum.textContent=`${data.gate_pass}✓ ${data.gate_warn}⚠ ${data.gate_fail}✗`;
+  gl.appendChild(sum);
+  document.getElementById('gate-badge').textContent=`${data.gate_pass}/${gates.length}`;
+
+  // ── Blob list ─────────────────────────────────────
+  const bl=document.getElementById('blob-list');
+  bl.innerHTML='';
+  const blobs=lbe.blobs||[];
+  document.getElementById('blob-badge').textContent=blobs.length;
+  if(!blobs.length){
+    bl.innerHTML='<div class="empty"><div class="eicon">◉</div>No blobs</div>';
+  } else {
+    blobs.slice(0,8).forEach(b=>{
+      const rc=b.risk_score>.65?'red':b.wrapper_theater?'yellow':b.risk_score>.3?'yellow':'green';
+      const rCol=b.risk_score>.7?'var(--r)':b.risk_score>.4?'var(--y)':'var(--g)';
+      const mr=(bp.flows||[]).find(f=>f.minimum_replacement)?.minimum_replacement;
+      const card=document.createElement('div');
+      card.className=`bcard ${rc}`;
+      card.innerHTML=`<div class="bcard-top"><span class="bid">${b.blob_id||'?'}</span>
+        <span class="brisk" style="color:${rCol}">${(b.risk_score||0).toFixed(2)}</span></div>
+        <div class="bverdict">${(b.verdict||'').slice(0,60)}</div>`+
+        (mr?`<div class="bmr">★ ${(mr.what_to_do||'').slice(0,48)}</div>`:'');
+      bl.appendChild(card);
+    });
+  }
+
+  // ── StarMap ───────────────────────────────────────
+  const smFx=(n,id,colorFn)=>{
+    const el=document.getElementById(id);
+    el.textContent=n!=null?n.toFixed(4):'—';
+    el.style.color=colorFn(n);
+  };
+  smFx(sm.fiedler_value,'sm-fiedler',n=>n>.3?'var(--r)':n>.1?'var(--y)':'var(--g)');
+  smFx(sm.integrity,'sm-integrity',_=>'var(--p)');
+  smFx(sm.interference,'sm-interf',n=>n>.5?'var(--y)':'var(--g)');
+  smFx(sm.curvature,'sm-curve',_=>'var(--txt2)');
+  const tb2=document.getElementById('tier-badge');
+  tb2.textContent=tier||'—';
+  tb2.className='tier-badge '+(tier||'—');
+
+  // ── Obligations ────────────────────────────────────
+  const ol=document.getElementById('obl-list');
+  ol.innerHTML='';
+  const obls=(sm.obligation_kinds||bp.obligation_kinds||[]);
+  if(!obls.length){
+    ol.innerHTML='<div class="empty" style="min-height:28px;"><div style="font-size:10px;">Clean</div></div>';
+  } else {
+    obls.slice(0,6).forEach(k=>{
+      const row=document.createElement('div');
+      row.className='obl';
+      row.innerHTML=`<div class="odot fail"></div><div class="olbl">${k}</div>`;
+      ol.appendChild(row);
+    });
+  }
+
+  // ── Verdict bar ────────────────────────────────────
+  const vbar=document.getElementById('verdict');
+  const topBlob=blobs[0];
+  const verdict=topBlob?.verdict||(assurance==='green'?
+    `✓ CLEAN — ${data.gate_pass}/${gates.length} gates pass, no violations`:
+    `⚑ ${assurance.toUpperCase()} — ${data.gate_fail} gate failures, ${blobCount} blob(s)`);
+  const vc=assurance==='green'?'var(--g)':assurance==='red'?'var(--r)':'var(--y)';
+  vbar.textContent=verdict.slice(0,120);
+  vbar.style.color=vc;
+  vbar.style.borderLeftColor=vc;
+  vbar.style.background=assurance==='red'?'rgba(239,68,68,.07)':
+    assurance==='green'?'rgba(16,185,129,.07)':'rgba(245,158,11,.07)';
+}
+
+/* ── Commit log ── */
+function prependCommit(entry){
+  const cl=document.getElementById('clog');
+  const first=cl.querySelector('.empty');
+  if(first) cl.innerHTML='';
+  const row=document.createElement('div');
+  row.className='centry';
+  const ac=entry.assurance==='green'?'g':entry.assurance==='red'?'r':'y';
+  row.innerHTML=`<span class="cts">${entry.ts}</span>
+    <span class="cfile">${entry.path}</span>
+    <span class="cass ${ac}">${(entry.assurance||'?').toUpperCase()}</span>`;
+  cl.insertBefore(row,cl.firstChild);
+  while(cl.children.length>30) cl.removeChild(cl.lastChild);
+}
+
+/* ── Project state ── */
+function updateProjectState(state){
+  if(state.active_file){
+    document.getElementById('file-name').textContent=
+      state.active_file.split('/').slice(-2).join('/');
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   ACTIONS
+══════════════════════════════════════════════════ */
+async function runAnalysis(){
+  const code=document.getElementById('code-in').value.trim();
+  const req=document.getElementById('req-in').value.trim();
+  if(!code) return;
+  _activeCode=code;
+  setResp('proc'); setPDots(0);
+  document.getElementById('analyze-btn').disabled=true;
+  document.getElementById('verdict').textContent='Analyzing…';
+  document.getElementById('verdict').style.color='var(--txt3)';
+  document.getElementById('verdict').style.borderLeftColor='transparent';
+
+  let phaseAnim=0;
+  const pa=setInterval(()=>{phaseAnim=(phaseAnim+1)%8;setPDots(phaseAnim);},260);
+
+  try{
+    const resp=await fetch(API+'/api/analyze',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({code,requirement:req,
+        tags:['security','idor','access_control','authorization'],
+        path:'<input>'})
+    });
+    clearInterval(pa); setPDots(7);
+    const data=await resp.json();
+    if(data.error) throw new Error(data.error);
+    data._code=code;
+    renderResult(data,'<input>');
+    bloom();
+  } catch(e){
+    clearInterval(pa); setResp('rest'); setPDots(0);
+    document.getElementById('verdict').textContent='✗ '+e.message;
+    document.getElementById('verdict').style.color='var(--r)';
+    document.getElementById('verdict').style.borderLeftColor='var(--r)';
+  } finally{
+    document.getElementById('analyze-btn').disabled=false;
+  }
+}
+
+async function setProject(){
+  const root=document.getElementById('proj-in').value.trim();
+  if(!root) return;
+  try{
+    const resp=await fetch(API+'/api/project',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({root})
+    });
+    const data=await resp.json();
+    if(data.error){
+      document.getElementById('verdict').textContent='✗ '+data.error;
+      document.getElementById('verdict').style.color='var(--r)';
+    } else {
+      document.getElementById('verdict').textContent=`✓ Watching: ${root}`;
+      document.getElementById('verdict').style.color='var(--g)';
+    }
+  } catch(e){
+    document.getElementById('verdict').textContent='✗ '+e.message;
+    document.getElementById('verdict').style.color='var(--r)';
+  }
+}
+
+function clearEvents(){
+  socket.emit('clear_events');
+  document.getElementById('event-stream').innerHTML='';
+  setPDots(0); setResp('rest');
+}
+
+/* ── Keyboard ── */
+document.getElementById('code-in').addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();runAnalysis();}
+});
+document.getElementById('proj-in').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();setProject();}
+});
+</script>
+</body>
+</html>

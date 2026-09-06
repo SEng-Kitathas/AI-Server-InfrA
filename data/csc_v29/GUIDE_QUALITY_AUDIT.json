@@ -1,0 +1,25 @@
+{
+  "created_at_utc": "2026-07-29T23:20:14.649672+00:00",
+  "audit_name": "CSC guide-derived style/quality/hygiene audit",
+  "audit_scope": "Project-agnostic Python surfaces when present: baseline/pcmmad_receiver, tools/csc_native, system, tests.",
+  "rubric_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/docs/external_guides/GEMINI_GUIDES_EVALUATION_RUBRIC.json",
+  "line_length": 100,
+  "metrics": {
+    "functions": 0,
+    "classes": 0,
+    "max_function_lines": 0,
+    "max_parameters": 0,
+    "max_nesting": 0,
+    "long_functions_over_30": 0,
+    "loc": 0,
+    "lines_over_limit": 0,
+    "files": 0
+  },
+  "finding_count": 0,
+  "severity_counts": {},
+  "rule_counts": {},
+  "file_counts": {},
+  "findings": [],
+  "strict_failure_count": 0,
+  "advisory_only": true
+}

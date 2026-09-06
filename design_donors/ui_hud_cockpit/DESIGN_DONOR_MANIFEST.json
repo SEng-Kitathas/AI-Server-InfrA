@@ -1,0 +1,86 @@
+[
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\LIQUID_AERO_DESIGN_SYSTEM.md",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\LIQUID_AERO_DESIGN_SYSTEM.md",
+    "bytes": 31752,
+    "sha256": "c5cca3a3448260fc7a541577c171844ea98ed1740721fa0d1ddfe964b28b02d0",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\LIQUID_AERO_UI_v2.md",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\LIQUID_AERO_UI_v2.md",
+    "bytes": 53812,
+    "sha256": "169fb88aa8f4d2d90e7098d254dc16bd1d548e97f1ae60c5d4554c7363a0a31e",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\YuiUI_CP_v1_0_OMEGA.md",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\YuiUI_CP_v1_0_OMEGA.md",
+    "bytes": 129928,
+    "sha256": "237aeb99f1e670328f5b2a59b2d72dc8bad22484b9870a699e95e6a20947b569",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\NEAL_YUI_v1_1_QA_CORRECTED.md",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\NEAL_YUI_v1_1_QA_CORRECTED.md",
+    "bytes": 62423,
+    "sha256": "a1f2b4f4e81074fa15157d36bf0cae9ee73f2e29652a7afb0873a1dd34b5129a",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\ALCI_v7.2_UI_Specification.md",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\ALCI_v7.2_UI_Specification.md",
+    "bytes": 23736,
+    "sha256": "27cd0966fc960bc000b8c6a4ef59a008eb88f7b6838991976b1bb66d3fb04b4a",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\ALCI_v7.2_LiquidGlass_Complete.html",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\ALCI_v7.2_LiquidGlass_Complete.html",
+    "bytes": 394359,
+    "sha256": "735ee20b4404312f605e80dd442b38310cb5fdc434323f7f37d856d235b70a01",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\YuiUI_Ultimate.html",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\YuiUI_Ultimate.html",
+    "bytes": 38802,
+    "sha256": "f535280cff53f8f407d07af152be04f5a546ed23fbd38b3119fdff2df37d32e8",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\UI_INTEGRATION_GUIDE.md",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\UI_INTEGRATION_GUIDE.md",
+    "bytes": 7769,
+    "sha256": "6dd3f34cfacea9ea6cf67d61ae42b95812d08780c1b1d125a2fd8f13e812dd3a",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\ui.py",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\ui.py",
+    "bytes": 8159,
+    "sha256": "2d8ddd5dcd3774af904e02d3b749ffdb3d66b6a82239ba6fb97e335390befac7",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\UI ingredients\\YuiUI.html",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\UI ingredients\\YuiUI.html",
+    "bytes": 24323,
+    "sha256": "01fa4b118d07098d48355f1d4b9ce88184ba7b9982a7cf89f2ce1833828752fe",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\UI ingredients\\CogOS UI\\UI.html",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\UI ingredients\\CogOS UI\\UI.html",
+    "bytes": 21317,
+    "sha256": "d2542e2116ba9622e746981f639dc4766fe5e06f1ed81d6f65b77ec2adc2716d",
+    "status": "copied"
+  },
+  {
+    "source": "E:\\new pc\\everything\\Download\\Download\\AI\\UI-HUD-Cockpit\\UI ingredients\\UI_UPDATE_FINAL.md",
+    "copy": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\PCMMAD_RECEIVER_LAB\\V30_WORKING\\PCMMAD_receiver\\design_donors\\ui_hud_cockpit\\UI ingredients\\UI_UPDATE_FINAL.md",
+    "bytes": 5803,
+    "sha256": "b4a47a911113d4f41d90de2042bcbfbd5497fe1860369b5d6a22c4cad0ae1771",
+    "status": "copied"
+  }
+]

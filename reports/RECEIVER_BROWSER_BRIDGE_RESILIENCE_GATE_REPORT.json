@@ -1,0 +1,176 @@
+{
+  "created_at_utc": "2026-07-29T23:18:34.867828+00:00",
+  "gate_name": "receiver_browser_bridge_resilience",
+  "approach": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "levels": {
+    "nano": "individual probe",
+    "micro": "route family / boundary class",
+    "meso": "gate matrix",
+    "macro": "claim gate"
+  },
+  "clean": true,
+  "probe_count": 6,
+  "failure_count": 0,
+  "unexpected_500_count": 0,
+  "failures": [],
+  "unexpected_500": [],
+  "results": [
+    {
+      "name": "browser health success",
+      "route": "/lab/dispatch",
+      "method": "POST",
+      "category": "browser_bridge",
+      "status": 200,
+      "expected_statuses": [
+        200,
+        503
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "approved": false,
+        "danger_tier": "low",
+        "ok": true,
+        "policy_mode": "strict",
+        "result": {
+          "bridge": "dummy-resilience",
+          "ok": true,
+          "status": "online"
+        },
+        "time": "2026-07-29T23:18:33.224298+00:00",
+        "tool": "browser.health"
+      }
+    },
+    {
+      "name": "browser screenshot success",
+      "route": "/lab/dispatch",
+      "method": "POST",
+      "category": "browser_bridge",
+      "status": 200,
+      "expected_statuses": [
+        200,
+        404,
+        503
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "approved": false,
+        "danger_tier": "medium",
+        "ok": true,
+        "policy_mode": "strict",
+        "result": {
+          "ok": true,
+          "path": "dummy/resilience.png",
+          "session_id": "resilience-session"
+        },
+        "time": "2026-07-29T23:18:33.233661+00:00",
+        "tool": "browser.screenshot"
+      }
+    },
+    {
+      "name": "browser health error",
+      "route": "/lab/dispatch",
+      "method": "POST",
+      "category": "browser_bridge",
+      "status": 503,
+      "expected_statuses": [
+        200,
+        503
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BROWSER_BRIDGE_HTTP_ERROR",
+      "body_sample": {
+        "error_code": "BROWSER_BRIDGE_HTTP_ERROR",
+        "message": "503: {\n  \"ok\": false,\n  \"error\": \"dummy bridge error\"\n}",
+        "ok": false,
+        "time": "2026-07-29T23:18:33.798330+00:00"
+      }
+    },
+    {
+      "name": "browser screenshot error",
+      "route": "/lab/dispatch",
+      "method": "POST",
+      "category": "browser_bridge",
+      "status": 503,
+      "expected_statuses": [
+        200,
+        404,
+        503
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": false,
+      "error_code": "BROWSER_BRIDGE_HTTP_ERROR",
+      "body_sample": {
+        "error_code": "BROWSER_BRIDGE_HTTP_ERROR",
+        "message": "503: {\n  \"ok\": false,\n  \"error\": \"dummy bridge error\"\n}",
+        "ok": false,
+        "time": "2026-07-29T23:18:33.799493+00:00"
+      }
+    },
+    {
+      "name": "browser health malformed",
+      "route": "/lab/dispatch",
+      "method": "POST",
+      "category": "browser_bridge",
+      "status": 200,
+      "expected_statuses": [
+        200,
+        503
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "approved": false,
+        "danger_tier": "low",
+        "ok": true,
+        "policy_mode": "strict",
+        "result": {
+          "ok": true,
+          "raw": "{bad-json",
+          "status": 200
+        },
+        "time": "2026-07-29T23:18:34.360092+00:00",
+        "tool": "browser.health"
+      }
+    },
+    {
+      "name": "browser screenshot malformed",
+      "route": "/lab/dispatch",
+      "method": "POST",
+      "category": "browser_bridge",
+      "status": 200,
+      "expected_statuses": [
+        200,
+        404,
+        503
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "approved": false,
+        "danger_tier": "medium",
+        "ok": true,
+        "policy_mode": "strict",
+        "result": {
+          "ok": true,
+          "raw": "{bad-json",
+          "status": 200
+        },
+        "time": "2026-07-29T23:18:34.361576+00:00",
+        "tool": "browser.screenshot"
+      }
+    }
+  ]
+}

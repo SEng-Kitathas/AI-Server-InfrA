@@ -1,0 +1,72 @@
+{
+  "created_at_utc": "2026-07-29T23:20:14.648589+00:00",
+  "audit_scope": "Every Python LOC under baseline/pcmmad_receiver, tools/csc_native, system, and tests; generated/extracted/data surfaces excluded.",
+  "doctrine_basis": {
+    "CODEX_OMEGA_BIBLE.md": {
+      "sha256": "9d4f70d54994fd9e620452bed750cb8d7b83841668ea31a9f137ce9dffdc8fad",
+      "bytes": 170766,
+      "role": "theoretical maximum / immutable laws / Omega quality frame"
+    },
+    "UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md": {
+      "sha256": "a00fc7c36b5a090c131e0b02eb8a7fb8352f04c53696400b8635eeba8c29f5c2",
+      "bytes": 24169,
+      "role": "canonical Rahl-authored code standards / PDVER / code-level mandates"
+    }
+  },
+  "rule_basis": {
+    "OMEGA_L1_NO_STUBS": {
+      "severity": "BLOCKER",
+      "basis": "Law 1 / 0-Day Not Someday: no stubs, TODOs, placeholders, incomplete implementation framed as done."
+    },
+    "OMEGA_L4_EVIDENCE_BOUNDARY": {
+      "severity": "HIGH",
+      "basis": "Law 4 / Pedantic Verification: no unsupported confidence, no unread-gap language in load-bearing code comments/docs."
+    },
+    "UCS_FAILURE_LOCALITY": {
+      "severity": "HIGH",
+      "basis": "Failure locality: no silent failures, swallowed exceptions, or untraceable propagation."
+    },
+    "UCS_TYPED_BOUNDARY": {
+      "severity": "HIGH",
+      "basis": "Typed boundaries: avoid dict-smearing, stringly APIs, anonymous payload leakage across module seams."
+    },
+    "UCS_SUBSTRATE_SOVEREIGNTY": {
+      "severity": "HIGH",
+      "basis": "Substrate sovereignty: imports are material; heavy or brittle dependencies must be justified/lazy."
+    },
+    "UCS_COGNITIVE_CONSERVATION": {
+      "severity": "MEDIUM",
+      "basis": "Cognitive conservation: parameters <=4, file/function/nesting complexity within working-memory limits."
+    },
+    "UCS_ERROR_VALUES": {
+      "severity": "HIGH",
+      "basis": "Errors must be explicit/actionable; no broad catch without structured conversion or re-raise."
+    },
+    "UCS_JSON_BOUNDARY": {
+      "severity": "MEDIUM",
+      "basis": "Serialization formats explicit/versioned; centralize JSON boundaries."
+    },
+    "UCS_COMMAND_BOUNDARY": {
+      "severity": "HIGH",
+      "basis": "Execution boundaries must use hardened envelopes; no shell=True; no ad hoc subprocess output shapes."
+    },
+    "UCS_STATE_DISCIPLINE": {
+      "severity": "MEDIUM",
+      "basis": "Global state requires explicit lifecycle; prefer append-only/immutable state where feasible."
+    },
+    "UCS_HARD_CODED_PATH": {
+      "severity": "MEDIUM",
+      "basis": "Substrate sovereignty / boundary discipline: hardcoded machine paths are local truth leakage unless isolated in config."
+    }
+  },
+  "file_count": 0,
+  "total_loc": 0,
+  "finding_count": 0,
+  "severity_counts": {},
+  "rule_counts": {},
+  "surface_finding_counts": {},
+  "files": [],
+  "findings": [],
+  "per_line_index": "reports/CODEX_UNIFIED_LOC_AUDIT_LINES.jsonl",
+  "promotion_readiness": "CONDITIONAL"
+}

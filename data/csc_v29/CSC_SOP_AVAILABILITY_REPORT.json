@@ -1,0 +1,69 @@
+{
+  "report_id": "CSC_SOP_AVAILABILITY_REPORT_2026-04-15",
+  "local_docs": [
+    {
+      "path": "docs/csc_sop/00_CSC_START_AND_AUTHORITY.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "docs/csc_sop/05_CSC_REQUIRED_SOP_SET.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "docs/csc_sop/09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "docs/csc_sop/10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "docs/csc_sop/11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "docs/receiver_doctrine/00_RECEIVER_PROJECT_BINDINGS.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "docs/receiver_sop/01_RECEIVER_INGRESS_AND_EVALUATION_SOP.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "spec/PCMMAD_RECEIVER_V29_NATIVE_PROTOCOL_SPEC.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "docs/protocol/NATIVE_PROTOCOL_CONTRACT.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "docs/pcmmad_doctrine/PCMMAD_CANONICAL_RUNTIME_SPECIFICATION.md",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "reports/INITIAL_EXTRACTION_MANIFEST.json",
+      "present": true,
+      "missing_phrases": []
+    },
+    {
+      "path": "reports/INITIAL_PACKAGE_EVALUATION.json",
+      "present": true,
+      "missing_phrases": []
+    }
+  ],
+  "repaired_archive_root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/data/imports",
+  "repaired_archive_files": [],
+  "clean": true,
+  "note": "Local CSC SOP set and repaired PCMMAD archive control files must be present before CSC can claim tri-doctrine readiness."
+}

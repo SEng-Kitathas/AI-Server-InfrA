@@ -1,0 +1,98 @@
+{
+  "report_id": "CSC_SOP_FRESHNESS_REPORT_2026-04-15",
+  "latest_meaningful_lab_mutation_path": "",
+  "latest_meaningful_lab_mutation_epoch": 0.0,
+  "latest_required_sop_path": "docs/receiver_doctrine/00_RECEIVER_PROJECT_BINDINGS.md",
+  "latest_required_sop_epoch": 1785366187.510165,
+  "items": [
+    {
+      "path": "docs/csc_sop/00_CSC_START_AND_AUTHORITY.md",
+      "modified_at_epoch": 1785364873.7102199,
+      "age_seconds": 2340,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "docs/csc_sop/05_CSC_REQUIRED_SOP_SET.md",
+      "modified_at_epoch": 1785364873.7102199,
+      "age_seconds": 2340,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "docs/csc_sop/09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "modified_at_epoch": 1785364873.7102199,
+      "age_seconds": 2340,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "docs/csc_sop/10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "modified_at_epoch": 1785364873.7102199,
+      "age_seconds": 2340,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "docs/csc_sop/11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "modified_at_epoch": 1785364873.7102199,
+      "age_seconds": 2340,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "docs/receiver_doctrine/00_RECEIVER_PROJECT_BINDINGS.md",
+      "modified_at_epoch": 1785366187.510165,
+      "age_seconds": 1027,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "docs/receiver_sop/01_RECEIVER_INGRESS_AND_EVALUATION_SOP.md",
+      "modified_at_epoch": 1785364873.7142198,
+      "age_seconds": 2340,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "spec/PCMMAD_RECEIVER_V29_NATIVE_PROTOCOL_SPEC.md",
+      "modified_at_epoch": 1785366187.506165,
+      "age_seconds": 1027,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "docs/protocol/NATIVE_PROTOCOL_CONTRACT.md",
+      "modified_at_epoch": 1785365981.0141735,
+      "age_seconds": 1233,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "docs/pcmmad_doctrine/PCMMAD_CANONICAL_RUNTIME_SPECIFICATION.md",
+      "modified_at_epoch": 1785365981.0101736,
+      "age_seconds": 1233,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "reports/INITIAL_EXTRACTION_MANIFEST.json",
+      "modified_at_epoch": 1785364873.7142198,
+      "age_seconds": 2340,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    },
+    {
+      "path": "reports/INITIAL_PACKAGE_EVALUATION.json",
+      "modified_at_epoch": 1785364873.7142198,
+      "age_seconds": 2340,
+      "lag_from_latest_mutation_seconds": 0,
+      "stale": false
+    }
+  ],
+  "active_heat_window_seconds": 86400,
+  "max_mutation_lag_seconds": 1800,
+  "max_required_sop_set_age_seconds": 259200,
+  "clean": true,
+  "note": "Freshness compares required local SOP updates against current time and the latest meaningful lab mutation surface, excluding CSC's own report directory."
+}

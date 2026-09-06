@@ -1,0 +1,99 @@
+{
+  "report_id": "CSC_HOLONIC_AUDIT_REPORT_2026-04-15",
+  "entries": [
+    {
+      "subsystem_id": "receiver_runtime",
+      "file_path": "baseline/pcmmad_receiver/server.py",
+      "purpose": "Promoted PCMMAD receiver process entrypoint.",
+      "boundary": "Authenticated local authority-plane boundary.",
+      "interface": "Flask application process.",
+      "invariants": [
+        "server entrypoint",
+        "Flask app factory",
+        "typed environment bind configuration"
+      ],
+      "hazards": [
+        "required route-family failure",
+        "schema drift",
+        "global interpreter drift"
+      ],
+      "status": "clean",
+      "missing_signals": []
+    },
+    {
+      "subsystem_id": "receiver_action_schema",
+      "file_path": "baseline/pcmmad_receiver/pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json",
+      "purpose": "Compact action schema/router for PCMMAD receiver tools.",
+      "boundary": "Custom GPT import boundary.",
+      "interface": "OpenAPI 3.0.3 JSON schema.",
+      "invariants": [
+        "openapi",
+        "paths",
+        "components",
+        "exactly 30 unique operation IDs"
+      ],
+      "hazards": [
+        "tool/schema mismatch",
+        "stale ngrok URL"
+      ],
+      "status": "clean",
+      "missing_signals": []
+    },
+    {
+      "subsystem_id": "receiver_evaluation_report",
+      "file_path": "reports/INITIAL_PACKAGE_EVALUATION.json",
+      "purpose": "Static package evaluation output.",
+      "boundary": "Evaluation boundary.",
+      "interface": "JSON report.",
+      "invariants": [
+        "module_count",
+        "compileall_returncode"
+      ],
+      "hazards": [
+        "evaluation drift"
+      ],
+      "status": "clean",
+      "missing_signals": []
+    },
+    {
+      "subsystem_id": "pcmmad_native_protocol",
+      "file_path": "baseline/pcmmad_receiver/protocol_store.py",
+      "purpose": "Append-only typed PCMMAD runtime protocol and derived state projection.",
+      "boundary": "Project-scoped governance and mode boundary.",
+      "interface": "Server-native protocol tools behind /lab/dispatch.",
+      "invariants": [
+        "hash-chained ledger",
+        "typed state",
+        "proportionate rigor",
+        "mode gate",
+        "waiver lineage"
+      ],
+      "hazards": [
+        "silent history rewrite",
+        "mode leakage",
+        "stale evidence",
+        "expired waiver authorization"
+      ],
+      "status": "clean",
+      "missing_signals": []
+    },
+    {
+      "subsystem_id": "task_finalizer",
+      "file_path": "system/finalize_task.py",
+      "purpose": "Run CSC and finalize receiver lab tasks.",
+      "boundary": "Finalization boundary.",
+      "interface": "CLI script.",
+      "invariants": [
+        "csc output",
+        "final_clean"
+      ],
+      "hazards": [
+        "silent success"
+      ],
+      "status": "clean",
+      "missing_signals": []
+    }
+  ],
+  "clean": true,
+  "note": "CSC holonic audit checks whether the active holonic profile 'PCMMAD_receiver' remains explicit enough to survive maintenance pressure."
+}

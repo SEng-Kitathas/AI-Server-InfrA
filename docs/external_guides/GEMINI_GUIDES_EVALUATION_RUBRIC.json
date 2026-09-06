@@ -1,0 +1,99 @@
+{
+  "created_at_utc": "2026-05-06T01:23:13.027761+00:00",
+  "rubric_name": "Gemini style / quality / hygiene guide codebase evaluation rubric",
+  "source_limitations": [
+    "The earlier Code Quality shell capture has been superseded by Code Quality_ An Exhaustive Breakdown - Google Gemini (2).mht."
+  ],
+  "rules": [
+    {
+      "id": "GEM_STYLE_NAMING_CLARITY",
+      "severity": "LOW",
+      "basis": "Intention-revealing names; avoid cryptic identifiers and generic implementation names where domain names exist."
+    },
+    {
+      "id": "GEM_STYLE_VISUAL_SCAN",
+      "severity": "LOW",
+      "basis": "Spatial rhythm, formatting, bounded line length, bounded function length, and shallow indentation keep code readable at 3 AM."
+    },
+    {
+      "id": "GEM_STYLE_COMMENTS_WHY",
+      "severity": "LOW",
+      "basis": "Comments explain why/global state/intent, not compensate for unclear how."
+    },
+    {
+      "id": "GEM_QUALITY_MAGIC_VALUES",
+      "severity": "LOW",
+      "basis": "Hardcoded strings/numbers should generally be named constants/enums unless local and obvious."
+    },
+    {
+      "id": "GEM_QUALITY_MODULARITY",
+      "severity": "LOW",
+      "basis": "Functions should generally be single-purpose and often split above 20\u201330 lines if cohesion is mixed."
+    },
+    {
+      "id": "GEM_QUALITY_RESOURCE_EFFICIENCY",
+      "severity": "LOW",
+      "basis": "Avoid unnecessary repeated work, especially inside loops; prefer cached/indexed forms for repeated lookups."
+    },
+    {
+      "id": "GEM_QUALITY_FALLIBILITY",
+      "severity": "MEDIUM",
+      "basis": "Use explicit error handling; no bare except, silent pass, or Pokemon catching without diagnostics."
+    },
+    {
+      "id": "GEM_QUALITY_INPUT_SECURITY",
+      "severity": "MEDIUM",
+      "basis": "Treat external input as malicious; sanitize, validate, and avoid hardcoded credentials/secrets."
+    },
+    {
+      "id": "GEM_QUALITY_TEST_COVERAGE",
+      "severity": "LOW",
+      "basis": "Critical paths and complex logic should have descriptive tests, ideally with Arrange-Act-Assert shape."
+    },
+    {
+      "id": "GEM_QUALITY_PORTABILITY",
+      "severity": "LOW",
+      "basis": "Code should be environment-agnostic and avoid local machine assumptions."
+    },
+    {
+      "id": "GEM_ARCH_TRACEABILITY",
+      "severity": "LOW",
+      "basis": "A reader should follow the narrative arc of data without hidden side effects or teleporting state."
+    },
+    {
+      "id": "GEM_HYGIENE_NO_BIG_BANG",
+      "severity": "ADVISORY",
+      "basis": "Avoid mixing broad refactors with unrelated behavior changes; preserve atomic known-good states."
+    },
+    {
+      "id": "GEM_HYGIENE_NO_CARGO_CULT",
+      "severity": "LOW",
+      "basis": "Avoid needless abstractions, over-generic internals, interface sprawl, and speculative architecture."
+    },
+    {
+      "id": "GEM_HYGIENE_NO_VAGUE_PRIMITIVES",
+      "severity": "MEDIUM",
+      "basis": "Domain values should cross boundaries through typed request/result/value objects rather than raw dict/object/stringly blobs."
+    },
+    {
+      "id": "GEM_HYGIENE_NO_PYRAMID",
+      "severity": "MEDIUM",
+      "basis": "Avoid deep nested control flow; use guard clauses to keep happy path visible."
+    },
+    {
+      "id": "GEM_HYGIENE_NO_REP_LEAK",
+      "severity": "MEDIUM",
+      "basis": "Avoid mutable public representation leakage and public globals that downstream code can mutate."
+    },
+    {
+      "id": "GEM_RUST_SAFETY",
+      "severity": "HIGH",
+      "basis": "Rust unsafe must be fenced and documented; unwrap/expect/panic/todo are unacceptable in production paths; sync mutex must not cross await."
+    },
+    {
+      "id": "GEM_SUPPLY_CHAIN",
+      "severity": "ADVISORY",
+      "basis": "Dependencies and external tools should be explicit, minimal, and audit-gated."
+    }
+  ]
+}

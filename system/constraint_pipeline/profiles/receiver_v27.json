@@ -1,0 +1,45 @@
+{
+  "profile_id": "receiver_v27",
+  "description": "Receiver v27 profile composing LOC, guide, semantic footgun, runtime selftest/schema, and CSC finalizer evidence as claim-governing expressions.",
+  "gate_families": [
+    "loc_code_shape",
+    "guide_quality_style",
+    "semantic_footgun_dataflow",
+    "receiver_selftest",
+    "schema_authority",
+    "task_finalizer",
+    "receiver_full_route_trace",
+    "receiver_resilience_suite",
+    "receiver_launcher_script_audit"
+  ],
+  "claim_effects": [
+    "blocks_reply_claim",
+    "blocks_promotion",
+    "blocks_package",
+    "requires_local_patch",
+    "advisory_with_waiver",
+    "not_applicable"
+  ],
+  "default_recommended_action": "bounded_patch",
+  "full_refactor_policy": "only when repeated bounded patches fail or a gate emits full_refactor explicitly",
+  "required_gates": [
+    "receiver_full_route_trace",
+    "receiver_resilience_suite",
+    "receiver_launcher_script_audit",
+    "receiver_selftest",
+    "schema_authority",
+    "task_finalizer",
+    "semantic_footgun_dataflow",
+    "loc_code_shape",
+    "guide_quality_style"
+  ],
+  "route_trace_doctrine": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE at nano, micro, meso, and macro levels",
+  "resilience_doctrine": "Failure coverage gates apply PROBE_DERIVE_VERIFY_EMBODY_RECURSE across negative contracts, security, state, browser, package, live parity, and concurrency planes.",
+  "pdver_defacto_algorithm": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "pdver_levels": {
+    "nano": "single probe/line/route/script invariant",
+    "micro": "single gate or subsystem",
+    "meso": "cross-gate doctrine/CSC/expression synthesis",
+    "macro": "claim-governed finalizer blocker state"
+  }
+}

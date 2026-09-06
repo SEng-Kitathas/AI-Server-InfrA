@@ -1,0 +1,94 @@
+{
+  "created_at_utc": "2026-07-29T23:20:10.521574+00:00",
+  "clean": true,
+  "schema_policy": "compact 30-action schema authoritative; runtime-only routes classified internal/legacy",
+  "baseline_root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/baseline",
+  "package_root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/baseline/pcmmad_receiver",
+  "route_import_ok": true,
+  "factory_used": "pcmmad_receiver.app_factory.create_app",
+  "schema_path_count": 30,
+  "runtime_route_count": 49,
+  "schema_paths_missing_in_runtime_routes": [],
+  "runtime_only_route_count": 19,
+  "runtime_only_routes": [
+    {
+      "path": "/context/health",
+      "classification": "internal_health_probe"
+    },
+    {
+      "path": "/files/tree",
+      "classification": "legacy_convenience_route"
+    },
+    {
+      "path": "/lab/health",
+      "classification": "internal_health_probe"
+    },
+    {
+      "path": "/lab/mcp/manifest",
+      "classification": "internal_manifest_route"
+    },
+    {
+      "path": "/lab/mounts",
+      "classification": "internal_mount_diagnostic"
+    },
+    {
+      "path": "/manifest",
+      "classification": "internal_manifest_route"
+    },
+    {
+      "path": "/project/archives/extract",
+      "classification": "legacy_archive_route_not_in_compact_schema"
+    },
+    {
+      "path": "/project/archives/inspect",
+      "classification": "legacy_archive_route_not_in_compact_schema"
+    },
+    {
+      "path": "/project/checkpoints/create",
+      "classification": "legacy_checkpoint_route_not_in_compact_schema"
+    },
+    {
+      "path": "/project/files/read_many",
+      "classification": "legacy_batch_file_route_not_in_compact_schema"
+    },
+    {
+      "path": "/project/journal/append",
+      "classification": "legacy_journal_route_not_in_compact_schema"
+    },
+    {
+      "path": "/project/journal/read",
+      "classification": "legacy_journal_route_not_in_compact_schema"
+    },
+    {
+      "path": "/project/models/inspect",
+      "classification": "legacy_model_route_not_in_compact_schema"
+    },
+    {
+      "path": "/project/models/list",
+      "classification": "legacy_model_route_not_in_compact_schema"
+    },
+    {
+      "path": "/research/arxiv/paper",
+      "classification": "legacy_research_route_not_in_compact_schema"
+    },
+    {
+      "path": "/research/arxiv/search",
+      "classification": "legacy_research_route_not_in_compact_schema"
+    },
+    {
+      "path": "/research/health",
+      "classification": "internal_health_probe"
+    },
+    {
+      "path": "/static/{filename}",
+      "classification": "flask_static_route"
+    },
+    {
+      "path": "/status/{commit_id}",
+      "classification": "legacy_status_alias"
+    }
+  ],
+  "unclassified_runtime_only_routes": [],
+  "route_result_error": null,
+  "route_result_traceback": null
+}

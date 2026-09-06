@@ -1,0 +1,83 @@
+{
+  "project": "PCMMAD Receiver",
+  "release": "V29 Native Protocol Release Candidate",
+  "clean": true,
+  "surface": {
+    "routes": 49,
+    "registered_tools": 87,
+    "protocol_tools": 12,
+    "custom_gpt_operations": 30
+  },
+  "regression_tests": {
+    "passed": 40,
+    "total": 40
+  },
+  "reports": [
+    {
+      "report": "PCMMAD_RUNTIME_SURFACE_CONTRACT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_BASELINE_SELFTEST_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_BROWSER_BRIDGE_RESILIENCE_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_CONCURRENCY_TRACE_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_FULL_ROUTE_TRACE_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_LAUNCHER_SCRIPT_AUDIT_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_LIVE_PARITY_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_NEGATIVE_CONTRACT_TRACE_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_PACKAGE_INTEGRITY_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_RESILIENCE_GATE_SUITE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_SCHEMA_AUTHORITY_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_SECURITY_BOUNDARY_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "RECEIVER_STATEFUL_REPLAY_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "SEMANTIC_FOOTGUN_DATAFLOW_GATE_REPORT.json",
+      "clean": true
+    },
+    {
+      "report": "V29_RELEASE_VERIFICATION.json",
+      "clean": true
+    }
+  ],
+  "host_bound_deferred": [
+    "Windows PowerShell",
+    "live D:/E: mounts",
+    "ngrok tunnel",
+    "real Custom GPT callback"
+  ]
+}

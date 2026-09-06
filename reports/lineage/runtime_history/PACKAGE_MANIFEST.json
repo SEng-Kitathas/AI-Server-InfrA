@@ -1,0 +1,502 @@
+{
+  "package": "PCMMAD_RECEIVER_V25_STATE_PROJECT_TIGHTENING_PACKAGE.zip",
+  "generated_at_utc": "2026-04-13T03:15:38Z",
+  "summary": {
+    "focus": [
+      "tighten dynamic looseness in lab_tools_state.py",
+      "tighten dynamic looseness in lab_tools_project.py",
+      "harden compatibility hydration in control_plane_models.py",
+      "reduce helper looseness in execution_routes.py"
+    ],
+    "verification": {
+      "package_wide_py_compile": "PASS",
+      "errors": 0
+    }
+  },
+  "metrics_before": {
+    "lab_tools_state.py": {
+      "lines": 342,
+      "Any": 64,
+      ".get": 6
+    },
+    "lab_tools_project.py": {
+      "lines": 540,
+      "Any": 89,
+      ".get": 13
+    },
+    "control_plane_models.py": {
+      "lines": 801,
+      "Any": 61,
+      ".get": 95
+    },
+    "execution_routes.py": {
+      "lines": 1347,
+      "Any": 22,
+      ".get": 57
+    }
+  },
+  "metrics_after": {
+    "lab_tools_state.py": {
+      "lines": 387,
+      "Any": 21,
+      ".get": 6
+    },
+    "lab_tools_project.py": {
+      "lines": 627,
+      "Any": 17,
+      ".get": 5
+    },
+    "control_plane_models.py": {
+      "lines": 827,
+      "Any": 62,
+      ".get": 108
+    },
+    "execution_routes.py": {
+      "lines": 1348,
+      "Any": 22,
+      ".get": 46
+    }
+  },
+  "files": [
+    {
+      "path": "PACKAGE_AUDIT_REPORT.md",
+      "bytes": 2433,
+      "sha256": "fd18f32906dc9d9a9f43a0dcc0ec0ab9b6aae9661d2a00c9b7b2a8179b9bc1bb"
+    },
+    {
+      "path": "PACKAGE_MANIFEST.json",
+      "bytes": 7684,
+      "sha256": "f06d4c76502759a0c7b298f3a7886c2b208e19ba1de3ddf3c6ab3d47dabee174"
+    },
+    {
+      "path": "README_CURRENT.txt",
+      "bytes": 356,
+      "sha256": "20d0ad7d3fa02b8fd8328784ca4c3cd67cdb2092b8ec1bc128219e1773cbd542"
+    },
+    {
+      "path": "pcmmad_receiver/PACKAGE_AUDIT_REPORT.md",
+      "bytes": 2433,
+      "sha256": "fd18f32906dc9d9a9f43a0dcc0ec0ab9b6aae9661d2a00c9b7b2a8179b9bc1bb"
+    },
+    {
+      "path": "pcmmad_receiver/PACKAGE_MANIFEST.json",
+      "bytes": 7684,
+      "sha256": "f06d4c76502759a0c7b298f3a7886c2b208e19ba1de3ddf3c6ab3d47dabee174"
+    },
+    {
+      "path": "pcmmad_receiver/README_CURRENT.txt",
+      "bytes": 356,
+      "sha256": "20d0ad7d3fa02b8fd8328784ca4c3cd67cdb2092b8ec1bc128219e1773cbd542"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/api_wire_common.cpython-313.pyc",
+      "bytes": 3865,
+      "sha256": "00e19505555bfad3400f929e20639add29ed869c0444d577c957f145a3f79b88"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/api_wire_context.cpython-313.pyc",
+      "bytes": 26872,
+      "sha256": "7da76a8ce7579974cf356cd202269555122cb84e44ce0cde3b49926f9477e1ab"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/api_wire_execution.cpython-313.pyc",
+      "bytes": 13989,
+      "sha256": "6be34ecda90958dd602658d593b67fd4a02daac472049fb8b17abb10f2371cc6"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/api_wire_models.cpython-313.pyc",
+      "bytes": 387,
+      "sha256": "3b2ff95dfc03aac440078e528cd4d41b1cac8d855afca2e3fa9a13a68a48152c"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/api_wire_power.cpython-313.pyc",
+      "bytes": 17007,
+      "sha256": "55eabac93ec3b377e6ad4874e9adc7410b92f2f9edf5b2f821c092cd9e9a27bb"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/api_wire_research.cpython-313.pyc",
+      "bytes": 6649,
+      "sha256": "5f40efd72a3a8017e91ab31b2580c97cb720f79a8cc784bc3ece7ae292500e74"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/app_factory.cpython-313.pyc",
+      "bytes": 4207,
+      "sha256": "c520aa6d8e18fed8a1a222e6e21a5b9d2e34ccc1f6cb8a838d1be5cc79a0542f"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/context_config.cpython-313.pyc",
+      "bytes": 895,
+      "sha256": "3ed6738fadd4459bfdeb054041f553cf319d59618ca7bb9c6200e3a406de0344"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/context_engine.cpython-313.pyc",
+      "bytes": 37825,
+      "sha256": "70b4d35eb2cce6b2a37b45d21921d7364f51bd30eb6329e22f9e1bb978d15835"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/context_routes.cpython-313.pyc",
+      "bytes": 11525,
+      "sha256": "23a950cc7a9fb98eda695ac27c1153619431c2ab5ca2b0c5ead2e362f0f6e474"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/control_plane_models.cpython-313.pyc",
+      "bytes": 44437,
+      "sha256": "02015cccd994488665442c85a3122a2badbe96754e8aef995f31639240b7f8ec"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/execution_routes.cpython-313.pyc",
+      "bytes": 68137,
+      "sha256": "b0e7a9723b5eef5e12641a37e0cbce32dbcc7c3013f5b38e394869b3c466654e"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_plugins.cpython-313.pyc",
+      "bytes": 2274,
+      "sha256": "afe96f24a66916a30f0d98edcb49e9153731e81210959823265b7b16d7f87fcc"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_policy.cpython-313.pyc",
+      "bytes": 3339,
+      "sha256": "ef72c1481a8d48659ebaf50468ecf16667a50760e5894cd25fd33703d923f277"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_results.cpython-313.pyc",
+      "bytes": 3209,
+      "sha256": "509ba2c70e2ba4fbbceed27052c347c3f152f856e1a194f5b4dbfd05c7cfa9a4"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_routes.cpython-313.pyc",
+      "bytes": 20429,
+      "sha256": "05b3798b1479f66e0950193717d324cd34047899e7971e5c6dbf8cfec98ca551"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_schema_validation.cpython-313.pyc",
+      "bytes": 5832,
+      "sha256": "32aa910044791fcc9fcf3acc7dce40ae9f57703de3f498edd7aff2490c8905fc"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_state.cpython-313.pyc",
+      "bytes": 7434,
+      "sha256": "154a43da2dce4253027c332d129eceafb4feaec03dd6b8bfc456239c48337868"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools.cpython-313.pyc",
+      "bytes": 29467,
+      "sha256": "ac0bc32bf488e2fa76b8fb9e23d2535497188229dfd4e961fbd28f9175d72539"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools_browser.cpython-313.pyc",
+      "bytes": 17369,
+      "sha256": "597e2f286f7a2917512e5eb8a7d06bea191c27a061ef1d3ee502d0ec50b51de1"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools_execution.cpython-313.pyc",
+      "bytes": 15803,
+      "sha256": "754c1e936362a7118797ac5872f2aa68753e8f6b382ea21e13b066d0eb0fbf53"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools_filesystem.cpython-313.pyc",
+      "bytes": 17623,
+      "sha256": "dfb6ff542053063c23546868f1c1447e6b3621c435eeaaafb63dbdd2da125999"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools_ops.cpython-313.pyc",
+      "bytes": 12375,
+      "sha256": "827cbd765b73506e37982eeddef00ced0b02575c60f085c58fe65aab337df13e"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools_project.cpython-313.pyc",
+      "bytes": 34844,
+      "sha256": "1be849a81693166cf240ddad37c308865d0f3cd38d4311319ab89aff665d71cc"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools_research.cpython-313.pyc",
+      "bytes": 6845,
+      "sha256": "5808dfd7efd4667d76b663ddd42daa06cb674c381f3f67fd022af3de4589688b"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools_sop.cpython-313.pyc",
+      "bytes": 7532,
+      "sha256": "9f789b10102bb4bd57f94dcc2ee3a59084e72c967bda14a754078afbf53f694a"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/lab_tools_state.cpython-313.pyc",
+      "bytes": 22429,
+      "sha256": "cd7b9a34c9b8044d2400ddf9655f853dd471cd0d2abf32d2ed8e1c673b441e39"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/legacy_routes.cpython-313.pyc",
+      "bytes": 19016,
+      "sha256": "701203f32dc4d8777c60bc94137cf84d83fe18ce17c6169282086493a60e845f"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/power_routes.cpython-313.pyc",
+      "bytes": 33171,
+      "sha256": "d0c246c4293c739be3227183dd31b25eb9c0ff2dad906294ffacf4268ad2dff2"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/research_arxiv.cpython-313.pyc",
+      "bytes": 9748,
+      "sha256": "84c0155a1cba0538ad8b3cb5084fcb86ba4a68f9a1d2cc45f48a2806e21f1fa0"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/research_config.cpython-313.pyc",
+      "bytes": 440,
+      "sha256": "a050a31fb456e5af2c053647bdaee1146b187506f71d8cc4027891352c3d0fad"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/research_distill.cpython-313.pyc",
+      "bytes": 5258,
+      "sha256": "4ffc5d3ce8bacccc495b9d9d61bd146f176472e75a5bc12c589ef8af4437704e"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/research_models.cpython-313.pyc",
+      "bytes": 8597,
+      "sha256": "cacd50e15a3e2ae9db2547c86d11080c74fc5856548442f084b318771ae77659"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/research_predator.cpython-313.pyc",
+      "bytes": 7790,
+      "sha256": "93a79c37fdb08a7e3fd3e769d8d463452baff9529167a4db17f0e1acbe19d54a"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/research_routes.cpython-313.pyc",
+      "bytes": 8037,
+      "sha256": "71df5d9e16cdd61a99e93d46a4fcccd5f2a81fd32e6e35499eeb18942a7c4d1a"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/research_starmap.cpython-313.pyc",
+      "bytes": 3910,
+      "sha256": "f5b04ce51dcc2bf465f3c399c937534383f36e9fbbc77786a7e03ac92210ec4d"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/runtime_config.cpython-313.pyc",
+      "bytes": 4816,
+      "sha256": "a01659164ed1b2baf02a2bb672e7b58b03daa486fdfd479ba13c0dd23c351f30"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/server.cpython-313.pyc",
+      "bytes": 1123,
+      "sha256": "6dd9d5726ad19b5fa79c0f9c405e51b53b54b45befbd29c234e110a6cda7d5fd"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/shared_core.cpython-313.pyc",
+      "bytes": 15134,
+      "sha256": "c08367fda207533756df50ec23af80f3f514d82d3f4f57461a8ada5d1dc895eb"
+    },
+    {
+      "path": "pcmmad_receiver/__pycache__/sop_ingest.cpython-313.pyc",
+      "bytes": 31661,
+      "sha256": "4eb1ffb6e325df82dcc5e14f612f0dd86c867b3c2bc0080705409855399e88c9"
+    },
+    {
+      "path": "pcmmad_receiver/api_wire_common.py",
+      "bytes": 2001,
+      "sha256": "a9515babbc6a1b5653f13bbdee8ab4a97f3f3282c597901097f13dc65ea2d8cd"
+    },
+    {
+      "path": "pcmmad_receiver/api_wire_context.py",
+      "bytes": 14072,
+      "sha256": "7ac49931df895968f8bb0d1e267ad4b5d112b8aac72498a1989d2431f3d01a2a"
+    },
+    {
+      "path": "pcmmad_receiver/api_wire_execution.py",
+      "bytes": 8232,
+      "sha256": "f3fed315baab7015b0dc9923de57ed15ff6ae354816e5c61cdf0fb48cbda5ff6"
+    },
+    {
+      "path": "pcmmad_receiver/api_wire_models.py",
+      "bytes": 197,
+      "sha256": "814b00afe562c9ed88a409161f21be2837a86b09fbc7c64fa3f80f88c4e1e79c"
+    },
+    {
+      "path": "pcmmad_receiver/api_wire_power.py",
+      "bytes": 8103,
+      "sha256": "5920d4faa26e6924a28c76e1d3d02a6a9946d9543dce5586b32d2b9467b07e09"
+    },
+    {
+      "path": "pcmmad_receiver/api_wire_research.py",
+      "bytes": 3167,
+      "sha256": "105aa4108f8e8877621bd5e229f96fdceb0801542b42fe91eb0583947cde82f0"
+    },
+    {
+      "path": "pcmmad_receiver/app_factory.py",
+      "bytes": 2869,
+      "sha256": "42860324aca09197f5ea46cebcf62bb7527f163a1cecb75b4f50f7863461c6ef"
+    },
+    {
+      "path": "pcmmad_receiver/context_config.py",
+      "bytes": 597,
+      "sha256": "8ead4c49270cfc0ec9722a5cc2faa6d564cfc0464a9bc76522d1dbb40d4dfe58"
+    },
+    {
+      "path": "pcmmad_receiver/context_engine.py",
+      "bytes": 23271,
+      "sha256": "a9a57d56211dd0e775aa5a512a04c1183c0888a0938dd543d6c519df8e9c3def"
+    },
+    {
+      "path": "pcmmad_receiver/context_routes.py",
+      "bytes": 8187,
+      "sha256": "2f0c6181bcb91af3ae5768d100fdcd90777019b80bb3130ad74bade6d324b75c"
+    },
+    {
+      "path": "pcmmad_receiver/control_plane_models.py",
+      "bytes": 27625,
+      "sha256": "a33a9b44694ab91b0fc1dc3655c69507cf80acdc47aee2cd8c96486cd8a18c5a"
+    },
+    {
+      "path": "pcmmad_receiver/execution_routes.py",
+      "bytes": 51031,
+      "sha256": "6ebc72e88834e363446820bbfff780615d083b8769fd42250881e0ef62cd3d7a"
+    },
+    {
+      "path": "pcmmad_receiver/lab_plugins.py",
+      "bytes": 1190,
+      "sha256": "bca11fcc1c0e92b13848e59ff1c540a3939d1830d6168e1cb3659a649a7d87b6"
+    },
+    {
+      "path": "pcmmad_receiver/lab_policy.py",
+      "bytes": 1928,
+      "sha256": "128644471d49df53b37c5cf4dc15bacdacfb1d0dcc59cc709cbcab597a6c8359"
+    },
+    {
+      "path": "pcmmad_receiver/lab_results.py",
+      "bytes": 2101,
+      "sha256": "6db57c5e55cf41f448a3877bef0d5629e419f43bc24631ed3a6c42fe6a6f2d4f"
+    },
+    {
+      "path": "pcmmad_receiver/lab_routes.py",
+      "bytes": 13596,
+      "sha256": "4b647c3a61ca32b7bcdf2e29687ff54c0c80c291ff36397411af05dc47f45864"
+    },
+    {
+      "path": "pcmmad_receiver/lab_schema_validation.py",
+      "bytes": 4684,
+      "sha256": "0f9eba82493959a605e82e8e24dcf5b96e531f5eed1a90bd36dc99e2ef1a5da0"
+    },
+    {
+      "path": "pcmmad_receiver/lab_state.py",
+      "bytes": 4550,
+      "sha256": "61820b1495f3f0840bfd17c44c1db1b1b8ae5e24b3daec72c49cdc428a4ca949"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools.py",
+      "bytes": 22289,
+      "sha256": "3e6484a2ef49a2011217d98010c7280553005fb0342318d4870df45bdede3850"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools_browser.py",
+      "bytes": 16585,
+      "sha256": "9d8a4c13f75173d4ceb9a0aa32ee4ed8292ad604127268832646e876c922f0f7"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools_execution.py",
+      "bytes": 12835,
+      "sha256": "af90e9c25ce50b7fa044c967105159bb30218da6724a24cfa99acce9156e824d"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools_filesystem.py",
+      "bytes": 12473,
+      "sha256": "d93996402ca82377b105197205a1dd4a5ae17b9699c05db9c23f52063669ddae"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools_ops.py",
+      "bytes": 8007,
+      "sha256": "40599c5d224d45f0c64cb4690aa298b592e6e7079bdefa04d6f1b09e91c5c910"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools_project.py",
+      "bytes": 24168,
+      "sha256": "1c7887602750ed5e440b6eca8e5a7fe7026718be5214994ed74d59a94cd87d29"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools_research.py",
+      "bytes": 5068,
+      "sha256": "657a065a46133806ddfeb027dd5cec6d7b05cccaccdc2e1385e68e1f543689b2"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools_sop.py",
+      "bytes": 5658,
+      "sha256": "d4d3855d1819fa8552bf304902f5365df6c60f78964d1eb5e7aab9b65b18b738"
+    },
+    {
+      "path": "pcmmad_receiver/lab_tools_state.py",
+      "bytes": 15362,
+      "sha256": "3d98e8cfd50616f246dc32b66a1dead96b8159ba690deacd0ab93eb7a80681b6"
+    },
+    {
+      "path": "pcmmad_receiver/legacy_routes.py",
+      "bytes": 13773,
+      "sha256": "2483a11971f87dafdcb876a62d1a45294cc18f57f3edcc695c14b3b9d9c1ba72"
+    },
+    {
+      "path": "pcmmad_receiver/pcmmad_lab_action_schema_v10_1_compact_30_router.json",
+      "bytes": 115353,
+      "sha256": "9225f47fd9698543d17a6ccd146a239552613d04f987c7cc1ccaf665eb25b3ca"
+    },
+    {
+      "path": "pcmmad_receiver/power_routes.py",
+      "bytes": 21711,
+      "sha256": "a6a959885f7091c7d172d109451f99eea708e74de356eb0dab06f66a49e7b515"
+    },
+    {
+      "path": "pcmmad_receiver/requirements.txt",
+      "bytes": 54,
+      "sha256": "b9205bb517ef9ad38b6fe303c548bc0dad4afa2ed2afddcc42196c7197f57e37"
+    },
+    {
+      "path": "pcmmad_receiver/research_arxiv.py",
+      "bytes": 5544,
+      "sha256": "4e71b4c08bbbcbe1881c5a5d251ba3de29fb42b0ac3784e824b41f194c5d1991"
+    },
+    {
+      "path": "pcmmad_receiver/research_config.py",
+      "bytes": 215,
+      "sha256": "a4b5433a37a717961ac98dda079cd963e4f01649c4e14cff02e374d3c864e712"
+    },
+    {
+      "path": "pcmmad_receiver/research_distill.py",
+      "bytes": 5318,
+      "sha256": "f027095e6a4ae6c0411c0ae9b9ec5faa808e57fcb979b23a02b8d084d16d234c"
+    },
+    {
+      "path": "pcmmad_receiver/research_models.py",
+      "bytes": 6848,
+      "sha256": "bdc5f436a9d271528f5b8438e515149f77e78f73b03915a68df9794fe8f9ba9f"
+    },
+    {
+      "path": "pcmmad_receiver/research_predator.py",
+      "bytes": 6650,
+      "sha256": "dd60a73fd48dd33a8b287bb0d9caca9a768015e2a89c4cf9bbfecc5221875ae7"
+    },
+    {
+      "path": "pcmmad_receiver/research_routes.py",
+      "bytes": 5132,
+      "sha256": "3bbe9c02a546313eca0d27076cd12d6ec43c17cbac67665f86ec83ade79a823e"
+    },
+    {
+      "path": "pcmmad_receiver/research_starmap.py",
+      "bytes": 3259,
+      "sha256": "a1070b7d0e4e1aba06a494939e6360d8619373b9fd02697d0ffab8fb899a2a4a"
+    },
+    {
+      "path": "pcmmad_receiver/runtime_config.py",
+      "bytes": 3091,
+      "sha256": "e04b7e4449a5598de400a78ad3dfa37b0f5812fe3a8c2792937dd9304007d7fc"
+    },
+    {
+      "path": "pcmmad_receiver/server.py",
+      "bytes": 456,
+      "sha256": "2b1c64f860ec1200d0dda80dd634cef6fc30f33c142d82b856480ea5520d24b4"
+    },
+    {
+      "path": "pcmmad_receiver/shared_core.py",
+      "bytes": 9406,
+      "sha256": "b6ae626923204e7c099f97375b3017f7029d5a4cbb65e7544a030632c5173a91"
+    },
+    {
+      "path": "pcmmad_receiver/sop_ingest.py",
+      "bytes": 23194,
+      "sha256": "162758a0057d92c4e97b715cb9d0d95052863e9247e14cbd90cdebc999ec0ac6"
+    }
+  ]
+}

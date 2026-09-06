@@ -1,0 +1,266 @@
+{
+  "created_at_utc": "2026-07-29T23:18:30.484909+00:00",
+  "gate_name": "receiver_stateful_replay",
+  "approach": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "levels": {
+    "nano": "individual probe",
+    "micro": "route family / boundary class",
+    "meso": "gate matrix",
+    "macro": "claim gate"
+  },
+  "clean": true,
+  "probe_count": 6,
+  "failure_count": 0,
+  "unexpected_500_count": 0,
+  "failures": [],
+  "unexpected_500": [],
+  "results": [
+    {
+      "name": "execution submit first",
+      "route": "/project/execution/submit",
+      "method": "POST",
+      "category": "idempotency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "agent_role": null,
+        "artifact_registration_status": "not_attempted",
+        "checkpoint_on_complete": false,
+        "command": [
+          "python",
+          "-c",
+          "import sys; sys.stdout.write('stateful')"
+        ],
+        "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate",
+        "cwd_rel": ".",
+        "deadline_epoch": 1785367120.479081,
+        "duration_ms": null,
+        "env_allowlist": {},
+        "execution_mode": "one_shot",
+        "failure_digest": null,
+        "feasibility_gate": "not_evaluated",
+        "finished_at": null,
+        "idempotency_key": "stateful-1785367110476891490",
+        "job_id": "job-18466809b0a2",
+        "journal_on_complete": false,
+        "journal_on_failure": true,
+        "journal_on_submit": true,
+        "local_model_id": null,
+        "ok": true,
+        "pid": 5615,
+        "project_id": "route_trace_tmp_full_route_gate",
+        "queue_position": null,
+        "replay_of": null,
+        "replayed": false,
+        "resource_gate": "not_evaluated",
+        "result_artifact_targets": [],
+        "return_code": null,
+        "stage": "runtime",
+        "started_at": "2026-07-29T23:18:30.479071+00:00",
+        "status": "RUNNING",
+        "stderr_max_bytes": null,
+        "stderr_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/system/logs/execution/job-18466809b0a2/stderr.log",
+        "stdout_max_bytes": 10000,
+        "stdout_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/system/logs/execution/job-18466809b0a2/stdout.log",
+        "submission_fingerprint": "9e70d78b8c9ea74f40644d0f09b465041db6dbb816f6b756d0c6090deeb1f475",
+        "submitted_at": "2026-07-29T23:18:30.478070+00:00",
+        "supervision_state": null,
+        "timeout_seconds": 10,
+        "truth_gate": "not_evaluated"
+      }
+    },
+    {
+      "name": "execution submit replay",
+      "route": "/project/execution/submit",
+      "method": "POST",
+      "category": "idempotency",
+      "status": 200,
+      "expected_statuses": [
+        200,
+        409
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "agent_role": null,
+        "artifact_registration_status": "not_attempted",
+        "checkpoint_on_complete": false,
+        "command": [
+          "python",
+          "-c",
+          "import sys; sys.stdout.write('stateful')"
+        ],
+        "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate",
+        "cwd_rel": ".",
+        "deadline_epoch": 1785367120.479081,
+        "duration_ms": null,
+        "env_allowlist": {},
+        "execution_mode": "one_shot",
+        "failure_digest": null,
+        "feasibility_gate": "not_evaluated",
+        "finished_at": null,
+        "idempotency_key": "stateful-1785367110476891490",
+        "job_id": "job-18466809b0a2",
+        "journal_on_complete": false,
+        "journal_on_failure": true,
+        "journal_on_submit": true,
+        "local_model_id": null,
+        "ok": true,
+        "pid": 5615,
+        "project_id": "route_trace_tmp_full_route_gate",
+        "queue_position": null,
+        "replay_of": null,
+        "replayed": true,
+        "resource_gate": "not_evaluated",
+        "result_artifact_targets": [],
+        "return_code": null,
+        "stage": "runtime",
+        "started_at": "2026-07-29T23:18:30.479071+00:00",
+        "status": "RUNNING",
+        "stderr_max_bytes": null,
+        "stderr_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/system/logs/execution/job-18466809b0a2/stderr.log",
+        "stdout_max_bytes": 10000,
+        "stdout_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/system/logs/execution/job-18466809b0a2/stdout.log",
+        "submission_fingerprint": "9e70d78b8c9ea74f40644d0f09b465041db6dbb816f6b756d0c6090deeb1f475",
+        "submitted_at": "2026-07-29T23:18:30.478070+00:00",
+        "supervision_state": null,
+        "timeout_seconds": 10,
+        "truth_gate": "not_evaluated"
+      }
+    },
+    {
+      "name": "commit first",
+      "route": "/commit",
+      "method": "POST",
+      "category": "idempotency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "artifact_class": "notes.maintenance",
+        "bytes": 8,
+        "commit_id": "stateful-1785367110476891490",
+        "idempotency_key": "commit-1785367110476891490",
+        "logical_name": "stateful_1785367110476891490.txt",
+        "ok": true,
+        "operation": "create",
+        "path": "notes/maintenance/stateful_1785367110476891490.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "replayed": false,
+        "session_id": "stateful",
+        "sha256": "58bdfeb61cba4c3ca0a276b86e54c7ebadb30bded1e0de68838af234f8ffbb0a",
+        "time": "2026-07-29T23:18:30.482870+00:00"
+      }
+    },
+    {
+      "name": "commit replay",
+      "route": "/commit",
+      "method": "POST",
+      "category": "idempotency",
+      "status": 200,
+      "expected_statuses": [
+        200,
+        409
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "artifact_class": "notes.maintenance",
+        "bytes": 8,
+        "commit_id": "stateful-1785367110476891490",
+        "idempotency_key": "commit-1785367110476891490",
+        "logical_name": "stateful_1785367110476891490.txt",
+        "ok": true,
+        "operation": "create",
+        "path": "notes/maintenance/stateful_1785367110476891490.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "replayed": true,
+        "session_id": "stateful",
+        "sha256": "58bdfeb61cba4c3ca0a276b86e54c7ebadb30bded1e0de68838af234f8ffbb0a",
+        "time": "2026-07-29T23:18:30.482870+00:00"
+      }
+    },
+    {
+      "name": "journal append",
+      "route": "/project/journal/append",
+      "method": "POST",
+      "category": "replay",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "entry": {
+          "content": "entry",
+          "entry_type": "stateful",
+          "tags": [
+            "stateful"
+          ],
+          "time": "2026-07-29T23:18:30.484072+00:00",
+          "title": "Stateful"
+        },
+        "ok": true,
+        "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/system/journal/journal.jsonl",
+        "project_id": "route_trace_tmp_full_route_gate"
+      }
+    },
+    {
+      "name": "journal read",
+      "route": "/project/journal/read",
+      "method": "POST",
+      "category": "replay",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "count": 2,
+        "entries": [
+          {
+            "content": "Mode=one_shot Command=python -c import sys; sys.stdout.write('stateful')",
+            "entry_type": "session_trace",
+            "tags": [
+              "execution"
+            ],
+            "time": "2026-07-29T23:18:30.479162+00:00",
+            "title": "execution running job-18466809b0a2"
+          },
+          {
+            "content": "entry",
+            "entry_type": "stateful",
+            "tags": [
+              "stateful"
+            ],
+            "time": "2026-07-29T23:18:30.484072+00:00",
+            "title": "Stateful"
+          }
+        ],
+        "ok": true,
+        "project_id": "route_trace_tmp_full_route_gate"
+      }
+    }
+  ]
+}

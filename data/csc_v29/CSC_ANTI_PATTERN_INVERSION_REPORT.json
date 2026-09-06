@@ -1,0 +1,5 @@
+{
+  "report_id": "CSC_ANTI_PATTERN_INVERSION_REPORT_2026-04-15",
+  "entries": [],
+  "note": "CSC should invert anti-patterns into stronger invariants and primitives, not only list defects."
+}

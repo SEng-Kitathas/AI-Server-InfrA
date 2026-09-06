@@ -1,0 +1,73 @@
+{
+  "created_at_utc": "2026-07-29T23:18:25.966725+00:00",
+  "clean": true,
+  "finding_count": 0,
+  "strict_failure_count": 0,
+  "findings": [],
+  "route_smoke_all_pass": true,
+  "dummy_bridge_started": true,
+  "route_results": [
+    {
+      "label": "legacy health",
+      "path": "/health",
+      "status": 200,
+      "expected": 200,
+      "pass_": true
+    },
+    {
+      "label": "legacy capabilities",
+      "path": "/capabilities",
+      "status": 200,
+      "expected": 200,
+      "pass_": true
+    },
+    {
+      "label": "lab health",
+      "path": "/lab/health",
+      "status": 200,
+      "expected": 200,
+      "pass_": true
+    },
+    {
+      "label": "lab tools",
+      "path": "/lab/tools",
+      "status": 200,
+      "expected": 200,
+      "pass_": true
+    },
+    {
+      "label": "mcp manifest",
+      "path": "/lab/mcp/manifest",
+      "status": 200,
+      "expected": 200,
+      "pass_": true
+    },
+    {
+      "label": "lab dispatch",
+      "path": "/lab/dispatch",
+      "status": 200,
+      "expected": 200,
+      "pass_": true
+    },
+    {
+      "label": "browser health",
+      "path": "/lab/dispatch",
+      "status": 200,
+      "expected": 200,
+      "pass_": true
+    },
+    {
+      "label": "browser screenshot",
+      "path": "/lab/dispatch",
+      "status": 200,
+      "expected": 200,
+      "pass_": true
+    }
+  ],
+  "rules": [
+    "request_payload_stale_d",
+    "known_corruption_identifier",
+    "instantiate_to_dict_missing_method",
+    "route_smoke"
+  ]
+}

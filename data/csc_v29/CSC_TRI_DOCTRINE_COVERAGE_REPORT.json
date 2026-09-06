@@ -1,0 +1,125 @@
+{
+  "report_id": "CSC_TRI_DOCTRINE_COVERAGE_REPORT_2026-04-15",
+  "authorities": [
+    "receiver_project",
+    "receiver_sop",
+    "omega_local",
+    "unified_local",
+    "csc_sop"
+  ],
+  "entries": [
+    {
+      "requirement_id": "REQ_RECEIVER_INGRESS",
+      "normalized_class": "receiver_ingress_and_evidence_boundary",
+      "title": "Receiver ingress and evidence boundary",
+      "authorities": [
+        "csc_sop"
+      ],
+      "status": "enforced",
+      "enforcement_surfaces": [
+        "sop_availability",
+        "doctrine_coverage"
+      ],
+      "active_findings": [],
+      "blockers": []
+    },
+    {
+      "requirement_id": "REQ_RECEIVER_VERIFICATION",
+      "normalized_class": "receiver_compile_and_static_evaluation",
+      "title": "Receiver compile and static evaluation",
+      "authorities": [
+        "csc_sop"
+      ],
+      "status": "enforced",
+      "enforcement_surfaces": [
+        "verification_battery",
+        "doctrine_coverage"
+      ],
+      "active_findings": [],
+      "blockers": []
+    },
+    {
+      "requirement_id": "REQ_RECEIVER_FINALIZER",
+      "normalized_class": "receiver_finalizer_and_doctrine_gate",
+      "title": "Receiver finalizer and doctrine gate",
+      "authorities": [
+        "csc_sop"
+      ],
+      "status": "enforced",
+      "enforcement_surfaces": [
+        "verification_battery",
+        "doctrine_coverage"
+      ],
+      "active_findings": [],
+      "blockers": []
+    },
+    {
+      "requirement_id": "REQ_PROTOCOL_TYPED_STATE",
+      "normalized_class": "pcmmad_typed_runtime_state",
+      "title": "Typed PCMMAD runtime state",
+      "authorities": [
+        "receiver_project",
+        "unified_local"
+      ],
+      "status": "enforced",
+      "enforcement_surfaces": [
+        "verification_battery",
+        "doctrine_coverage"
+      ],
+      "active_findings": [],
+      "blockers": []
+    },
+    {
+      "requirement_id": "REQ_PROTOCOL_APPEND_ONLY",
+      "normalized_class": "pcmmad_append_only_protocol",
+      "title": "Append-only protocol history",
+      "authorities": [
+        "receiver_project",
+        "csc_sop"
+      ],
+      "status": "enforced",
+      "enforcement_surfaces": [
+        "sop_availability",
+        "verification_battery",
+        "doctrine_coverage"
+      ],
+      "active_findings": [],
+      "blockers": []
+    },
+    {
+      "requirement_id": "REQ_PROTOCOL_MODE_GATE",
+      "normalized_class": "pcmmad_discourse_build_mode_gate",
+      "title": "Discourse/build mode gate",
+      "authorities": [
+        "receiver_project",
+        "omega_local"
+      ],
+      "status": "enforced",
+      "enforcement_surfaces": [
+        "verification_battery",
+        "doctrine_coverage"
+      ],
+      "active_findings": [],
+      "blockers": []
+    },
+    {
+      "requirement_id": "REQ_PROTOCOL_PROMOTION_EVIDENCE",
+      "normalized_class": "pcmmad_promotion_evidence_and_waivers",
+      "title": "Promotion evidence and waiver discipline",
+      "authorities": [
+        "receiver_project",
+        "unified_local",
+        "csc_sop"
+      ],
+      "status": "enforced",
+      "enforcement_surfaces": [
+        "verification_battery",
+        "doctrine_coverage"
+      ],
+      "active_findings": [],
+      "blockers": []
+    }
+  ],
+  "clean": true,
+  "note": "Coverage means each load-bearing tri-doctrine class has an inspectable enforcement surface or an explicit partial/missing marker."
+}

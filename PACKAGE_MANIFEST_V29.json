@@ -1,0 +1,841 @@
+{
+  "format": "pcmmad.release-body-manifest.v1",
+  "release": "PCMMAD Receiver V29 Native Protocol Release Candidate",
+  "root": ".",
+  "exclusions": {
+    "mutable_top_level": [
+      ".git",
+      ".pytest_cache",
+      "browser_bridge_logs",
+      "browser_screenshots",
+      "data",
+      "reports"
+    ],
+    "machine_local_names": [
+      "MANIFEST.sha256",
+      "PACKAGE_MANIFEST_V29.json",
+      "PCMMAD_LOCAL_ENV.cmd",
+      "pcmmad_lab_action_schema_ACTIVE.json"
+    ],
+    "generated_or_interpreter_state": [
+      ".venv",
+      "__pycache__",
+      "*.pyc",
+      "*.pyo"
+    ]
+  },
+  "file_count": 162,
+  "total_bytes": 1925602,
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 363,
+      "sha256": "8ecd3455a53751a1d41ddf85314b5efe103b78849b5303d08da06e92f841f258"
+    },
+    {
+      "path": "BROWSER_BRIDGE_README.md",
+      "bytes": 555,
+      "sha256": "a09bce432dde061f8c34cb47538f862f72189050f08f7cde97c9a1f5c0b093ae"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 2773,
+      "sha256": "367a6b3e31cfeb1bfee9426194b76195dc96d0be4839a9bfa509d9db4aceba56"
+    },
+    {
+      "path": "CHECK_BROWSER_BRIDGE.cmd",
+      "bytes": 453,
+      "sha256": "13185188dd8a07078f2fb0dd8cf26c11ee33d71ef8ba73d0a6272019250600f5"
+    },
+    {
+      "path": "MIGRATION_FROM_RECOVERY.md",
+      "bytes": 676,
+      "sha256": "91b269fa54a378c7acf65f7d019fb5e72a66d06aa9e2b25b3e59e09bb63c7244"
+    },
+    {
+      "path": "PCMMAD.ps1",
+      "bytes": 5398,
+      "sha256": "079f54ee4d5da320a9eeba3496d2f85ddd2b652f676a8ce8815bfd4374751adf"
+    },
+    {
+      "path": "PCMMAD_LOCAL_ENV.example.cmd",
+      "bytes": 291,
+      "sha256": "c5f229a79121a34ba0b00b5cad50eeed9440e5b819a7f78a08db218c3ddce11e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2379,
+      "sha256": "456853a1a2884ca5f91f49c781f040079f9a2bf32bfef8b5424106dfd4b52e7a"
+    },
+    {
+      "path": "README_PROJECT_ROOT.md",
+      "bytes": 1020,
+      "sha256": "66dd43edfcff3fc73d6c6f9db6854fb5252a9fcbb68813a2b4701590abd9d63f"
+    },
+    {
+      "path": "RECOVERY_README.md",
+      "bytes": 523,
+      "sha256": "23e781f0844c14bfe6358f0726d26334ad4902c3de1ad8f86e02aa99bec24860"
+    },
+    {
+      "path": "RELEASE.json",
+      "bytes": 1526,
+      "sha256": "fff3c6d1a7c0086d61bab882ca13d808f68f243463cbb6755a8488b77f68f48a"
+    },
+    {
+      "path": "RESTART_RECEIVER_AND_NGROK.cmd",
+      "bytes": 242,
+      "sha256": "4b3bfdf4d463e475818ada216e71403e82836955dbc64bc76035412a69ee176b"
+    },
+    {
+      "path": "RESTART_RECEIVER_AND_NGROK.ps1",
+      "bytes": 7747,
+      "sha256": "36fc2a74699913e5df123a3f421f06a3d32ea284ced6d0a53c7c344d3f213211"
+    },
+    {
+      "path": "RESTART_RECEIVER_ONLY.cmd",
+      "bytes": 251,
+      "sha256": "851e29da5cabad507ec1880cfda4384459822134fd398c5d7c98ab3f668fd5c9"
+    },
+    {
+      "path": "SETUP_PCMMAD_RUNTIME.ps1",
+      "bytes": 1645,
+      "sha256": "d8e5c506653812b830c32296d5af5c9700e3ae0086867a57c7e716bbd7d87066"
+    },
+    {
+      "path": "START_BROWSER_BRIDGE.cmd",
+      "bytes": 635,
+      "sha256": "a9d43e9d07836469b9dc8811f6ee713378e0242b2c936dcac64e95d6a51efbad"
+    },
+    {
+      "path": "START_RECEIVER.cmd",
+      "bytes": 251,
+      "sha256": "566963ee86ffcca1c0f0d30daa80bafe5aaa5318e31eaf1634ee4574443b6860"
+    },
+    {
+      "path": "START_RECEIVER_AND_NGROK.cmd",
+      "bytes": 242,
+      "sha256": "71ef16dee38c5abc2a83a7d527a90dc16e0db6757a1331a996c06fa181d19964"
+    },
+    {
+      "path": "STOP_BROWSER_BRIDGE.cmd",
+      "bytes": 150,
+      "sha256": "17b7ca152a7a29220738d4c0de1b53456138bc295746d41c3d5e08bbb5a3f9d9"
+    },
+    {
+      "path": "VERSION",
+      "bytes": 27,
+      "sha256": "6ce17b8b2568260ce1649dd0de5660db6ae923f854c2b20caea34ea8fac9e415"
+    },
+    {
+      "path": "WINDOWS_FIRST_BOOT.md",
+      "bytes": 3936,
+      "sha256": "acd4e1ba4d7289dd77ad304191f75ad5075cfb54cbbb2a4ec71cc65f6adc76d9"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/BROWSER_BRIDGE_README.md",
+      "bytes": 555,
+      "sha256": "a09bce432dde061f8c34cb47538f862f72189050f08f7cde97c9a1f5c0b093ae"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/CHECK_BROWSER_BRIDGE.cmd",
+      "bytes": 458,
+      "sha256": "3649332df8a9f7127dc5f1d9c7995958d030e732bfb91e8ee8180ed9545dc034"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/README_CURRENT.txt",
+      "bytes": 279,
+      "sha256": "db882604f04c5af956a396195e5ff2e00bbeadb5be3706ce3a083d27bd5da170"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/START_BROWSER_BRIDGE.cmd",
+      "bytes": 360,
+      "sha256": "7f7604b344d989e994d3be1f4e286b607f9a22a961d0297a74ef5c6ce97b4a6a"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/STOP_BROWSER_BRIDGE.cmd",
+      "bytes": 392,
+      "sha256": "74ebdb5710c059f8ea7d8d05a18fe09485f85b98642bc0e8c6af7e126a3d4254"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/api_wire_common.py",
+      "bytes": 2650,
+      "sha256": "68f7801d4bcba3ff465a287b3615f9e46bb4aa6b73aff3fdf33ad06d5b770c1f"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/api_wire_context.py",
+      "bytes": 15572,
+      "sha256": "9ab2cb35731e80fbbdfb270c63546b66e1bba4a9343d791ef696317b15c6e4ed"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/api_wire_execution.py",
+      "bytes": 8727,
+      "sha256": "e2253a23f58dc590b78b3f67c80d68b9461f333674a0b38a01f72548224f0ec1"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/api_wire_models.py",
+      "bytes": 284,
+      "sha256": "6bd55b8139102cdb71e7b3d139462d16c17124c486c1d76b5bd392be824510f8"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/api_wire_power.py",
+      "bytes": 9253,
+      "sha256": "c13339a150dc4cbce9ef8ff36ec534b6fb618dde081758ee562fe31de73a71a1"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/api_wire_research.py",
+      "bytes": 3663,
+      "sha256": "e92245fbead18435b5e1904c3e9d018784ad8611103a93c886a22d3a9d97c2de"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/app_factory.py",
+      "bytes": 4115,
+      "sha256": "67874a500c30de791bb77d9812e854116d7f9e4c4994b595328de9c2bead4262"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/browser_bridge_service.py",
+      "bytes": 16120,
+      "sha256": "ca312ec5a396d416d475f0e17b3dabaa7324c762e3a003725a95f87e5ff14b85"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/context_config.py",
+      "bytes": 695,
+      "sha256": "152cce25108db51c4e05d56508643eca5a1f2cb26738beaef5a507c800fdcbdc"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/context_engine.py",
+      "bytes": 40953,
+      "sha256": "84685074d5a53c591a5be8b559e41882a3d4858d6303f20352203d1552009ba0"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/context_routes.py",
+      "bytes": 10331,
+      "sha256": "8fd824cb1231eea18dd39bebc3b0e21ffcdd004ada9d60f1ebfa2bd2eae4e8f5"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/control_plane_models.py",
+      "bytes": 29701,
+      "sha256": "58c011ae9dfef3e04139788a82c0b2b83e776c9ae737828801e1c6c39b372b7a"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/execution_routes.py",
+      "bytes": 64460,
+      "sha256": "a01bd5f690932cb3e68dcacc02ae901bf74ffbf6f708259e1e64045c08d01db0"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_plugins.py",
+      "bytes": 1399,
+      "sha256": "091d179e265b819be65e48c86c9db4625565e4a1d790afe3cef0d8421ab12718"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_policy.py",
+      "bytes": 2303,
+      "sha256": "09873ccdbee784995f5080e5fe3091a7b6023c7aa21c62c706524706494d3956"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_results.py",
+      "bytes": 2327,
+      "sha256": "6249005e84dc81a454b5cbc7592d890f89622ef2eb3d3aa84aee22b1e33ad639"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_routes.py",
+      "bytes": 17059,
+      "sha256": "f4b35530d08aeda8a5b05b70dc93ab0d6f5a820d9b0ef509c09114fb4b28dee3"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_schema_validation.py",
+      "bytes": 6347,
+      "sha256": "a43594ae2846dbf0f5751d9f769f935804aa6b84a9e1b4c6b1bc47162df61504"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_state.py",
+      "bytes": 5096,
+      "sha256": "c7cfabb0634a0f21d99b90db6c2acba9f5940a34481ba51e821097d3fecda8e5"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tool_primitives.py",
+      "bytes": 1963,
+      "sha256": "2744ffde275dc22629447647f2162ea7fac00146fb50d01b2ad8c7c5e77c3a3a"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools.py",
+      "bytes": 25605,
+      "sha256": "50da135f2d71de630125a1076c23fa56c548737703e3f4a9faadf552696af382"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_browser.py",
+      "bytes": 24282,
+      "sha256": "21d866c1a0474d877d29b8219112f6f6203f8138010651028dd1ad326dcac631"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_doctrine.py",
+      "bytes": 4594,
+      "sha256": "c52b83923d84f571fe87b2e8a347d9976b87db32ee00047709692e18ee57d02e"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_execution.py",
+      "bytes": 17365,
+      "sha256": "8f789de776d562c8192006d8a9f70598cc4a651dfec68f0297bb132ee85aabdf"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_filesystem.py",
+      "bytes": 14563,
+      "sha256": "07d43307af371b527c1748cce4b3f45519a31f153ac0d9d02b9ded43590020bb"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_ops.py",
+      "bytes": 11246,
+      "sha256": "5ec4819e0ccba125f2aeb45c238830d45b526007deaa7ab15672e12628e2a816"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_project.py",
+      "bytes": 31145,
+      "sha256": "3da803a940d8fbfd31394f4cd168b6b9ee5ddac158ae629e32e5a3b3b2ca5ad7"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_protocol.py",
+      "bytes": 18981,
+      "sha256": "09efe27dfe9bbd9594bafe1abae7f04317d2bf577bdfcf765e859e181682cd3d"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_research.py",
+      "bytes": 6292,
+      "sha256": "c6824662876d53706051542bfe45a397f33728978845bca48e4396dedb2272ea"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_semantic.py",
+      "bytes": 6319,
+      "sha256": "7b96d077dbdabbd68836755de84361a230aa576b2571d77dd25a62fc6cf0643e"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_sop.py",
+      "bytes": 8651,
+      "sha256": "42379812d2005191539ed0a92885abbea9f6426fe9dac902079200f7ba7faac8"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/lab_tools_state.py",
+      "bytes": 21626,
+      "sha256": "5135e4d4f8cd848ababded5608b68ff72e18fd6b31cbf15f74c7533f6e77b0db"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/legacy_routes.py",
+      "bytes": 17599,
+      "sha256": "5c431f31a815d46f5d48b836ae8cc7cf54e6b12868442107f58cd07cbf0a1d19"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json",
+      "bytes": 115352,
+      "sha256": "b1e1273d960f9eb7ae149e8bbba635b83b4d4777d5a9b35250a4c7086c2ffb39"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/power_routes.py",
+      "bytes": 28951,
+      "sha256": "0cacaa2faa431efb647bd0562c65bd8fe0058fe3707ab5a1dee51fae8853747f"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/protocol_models.py",
+      "bytes": 7923,
+      "sha256": "db7749f8552babe30d61de8e65b24003d402a6bd5c827776fda2f90807c4c8ce"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/protocol_policy.py",
+      "bytes": 3527,
+      "sha256": "a25a164a917c46e837fd493088d2dab4e7503101a2298257b907842d6fe4ee59"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/protocol_store.py",
+      "bytes": 30095,
+      "sha256": "eaab635f918ad343c6705fba5b2adef5b619c646dc2ac4b680209ae2c2ba187c"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/requirements.txt",
+      "bytes": 54,
+      "sha256": "b9205bb517ef9ad38b6fe303c548bc0dad4afa2ed2afddcc42196c7197f57e37"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/research_arxiv.py",
+      "bytes": 6530,
+      "sha256": "42899e9da9a293c8cc79ca32ed91bbe7a0ec05f249566ad8365db66cd76bf7b7"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/research_config.py",
+      "bytes": 491,
+      "sha256": "73d8ea57ff89050de3eb90b05a28f6e02750e25b6dfbb9d9014a13f35baf5d1f"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/research_distill.py",
+      "bytes": 6129,
+      "sha256": "e318905088c489b97c58e26d570a54d6328596c0f68cce6dc16c4f63bbbd01b7"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/research_models.py",
+      "bytes": 7161,
+      "sha256": "218643bc6dcfe134082fabca31f56377f7d79801d4213402c55ccd4266ad4fd9"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/research_predator.py",
+      "bytes": 7899,
+      "sha256": "7f3263c9983abae65d88235d32c7dc9bd8c8bc995be9e78dbd9264b166269abc"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/research_routes.py",
+      "bytes": 5861,
+      "sha256": "db1df5871d911f24c7ca6ecb796238aee757dfad2289ecdfd9972a6239a10102"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/research_starmap.py",
+      "bytes": 4061,
+      "sha256": "838ef996dca977c4d9d6a67cd28380174cc2cfdb7728e86416ead26f835c2e0e"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/runtime_config.py",
+      "bytes": 6579,
+      "sha256": "280b522aa522d8e9b8861624fc3289cf077b9beedf65c44f2e9d1552c4bcb2ac"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/server.py",
+      "bytes": 361,
+      "sha256": "e6c28add5a53f97b16af4db5fe1d4e84812db3618a26636ad6ea549549e1f241"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/server_hardening.py",
+      "bytes": 17897,
+      "sha256": "35ff6731aab10151780c11abc6824401bcf099f331c131b627d4a650aaebdcb3"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/shared_core.py",
+      "bytes": 11120,
+      "sha256": "ed0c3ac5fd14c82f6270fc62827ea8f51ad37d9a0c63519d851bc725cfb6914b"
+    },
+    {
+      "path": "baseline/pcmmad_receiver/sop_ingest.py",
+      "bytes": 31384,
+      "sha256": "bb4a0499fc09ae327316c1789d694731d8a179a80568247b1499ecaf5b05daa7"
+    },
+    {
+      "path": "csc_project.json",
+      "bytes": 1615,
+      "sha256": "342314490a83f5c10a0132358902e39fc03bfdcbcd42da568ec2b6a33544dc9c"
+    },
+    {
+      "path": "docs/CONSTRAINT_PROFILE_AUTHORING_GUIDE.md",
+      "bytes": 2220,
+      "sha256": "8a3f466ee94a40af6152c1def938c73c59d3b22f70da0fef1735a656c94dd53a"
+    },
+    {
+      "path": "docs/architecture/INVARIANTS.md",
+      "bytes": 2712,
+      "sha256": "de18aad49bc75f16da219031617438584684942227d61f2b50284fc3959c101d"
+    },
+    {
+      "path": "docs/csc_sop/00_CSC_START_AND_AUTHORITY.md",
+      "bytes": 7231,
+      "sha256": "c273cb834156e46a1859af8e8508f55f6c00ab25ad3dc602416395b86d9dacd9"
+    },
+    {
+      "path": "docs/csc_sop/01_CSC_DOCTRINE_LINKAGE.md",
+      "bytes": 7638,
+      "sha256": "98687fd6922bcb40b052a15580c2fb6a53cf5223b7e55f87170c704b34ad5ba0"
+    },
+    {
+      "path": "docs/csc_sop/02_CSC_HOLONIC_AUDIT_SOP.md",
+      "bytes": 7295,
+      "sha256": "5c32b820d47ca490a0c286be8600536c3ad2e5f2fc039a9e209b5d74064654d8"
+    },
+    {
+      "path": "docs/csc_sop/03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "bytes": 7171,
+      "sha256": "57253efd1488ba7f9a2dc4df74e4d51d022307f0589d3caa4ccec2ebee995a7c"
+    },
+    {
+      "path": "docs/csc_sop/04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "bytes": 6908,
+      "sha256": "f8f87a47b1b4e23346fc60a24badfa4150895611ea0465fad80203ad850a7c18"
+    },
+    {
+      "path": "docs/csc_sop/05_CSC_REQUIRED_SOP_SET.md",
+      "bytes": 7097,
+      "sha256": "8736411fe0831a227c9ae1895bf0112405171ae988ec170f493f8a7315ce21f1"
+    },
+    {
+      "path": "docs/csc_sop/06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+      "bytes": 7153,
+      "sha256": "5d19072be496d75f487dd93d01041ee03b8e783b9757ad0209290d10c92b6433"
+    },
+    {
+      "path": "docs/csc_sop/07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+      "bytes": 7241,
+      "sha256": "121bb1f2c40722c238e783e229f46d26c73abfed792b57022cf6e3c00e3cb463"
+    },
+    {
+      "path": "docs/csc_sop/08_CSC_IDIOMATIC_EXPRESSION_SOP.md",
+      "bytes": 6624,
+      "sha256": "402936f72a59ae3ed35defad16b43f4c61884c4d49ab5be449c2d04dfad33fa5"
+    },
+    {
+      "path": "docs/csc_sop/09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "bytes": 7379,
+      "sha256": "2ed25789bb015f0cf0ee2f2f8f38b5b1e1b3e41bbb33646dcc78e64f0d717c1e"
+    },
+    {
+      "path": "docs/csc_sop/10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "bytes": 15994,
+      "sha256": "c21ed9a851095a325b4843ceb14e9b9251daeefa42b87f6e3c7a9e916bd3fd88"
+    },
+    {
+      "path": "docs/csc_sop/11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "bytes": 9543,
+      "sha256": "903745581bb434da787bbe3dc8043ccc7f77ef0a9c3453fb3e1908990c2b072c"
+    },
+    {
+      "path": "docs/ergo_doctrine/00_ERGO_PROJECT_BINDINGS.md",
+      "bytes": 1354,
+      "sha256": "937bc3797ca2c615a406fb11f4deb1d85fff20db7a729aab9ba8ecaab3f14e68"
+    },
+    {
+      "path": "docs/ergo_doctrine/01_ERGO_CODE_DOCTRINE_BINDING.md",
+      "bytes": 2300,
+      "sha256": "e0a50648bad84e24664c22ae66b5746671f77c3298ffda170f79614900ef9afb"
+    },
+    {
+      "path": "docs/ergo_foundations/CODEX_OMEGA_BIBLE.md",
+      "bytes": 170766,
+      "sha256": "9d4f70d54994fd9e620452bed750cb8d7b83841668ea31a9f137ce9dffdc8fad"
+    },
+    {
+      "path": "docs/ergo_foundations/UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "bytes": 14065,
+      "sha256": "6d5355d7c0e893a7af0de3cf20d7ac97f5c3a7126f285999b742322b2bb62532"
+    },
+    {
+      "path": "docs/ergo_foundations/UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "bytes": 24169,
+      "sha256": "a00fc7c36b5a090c131e0b02eb8a7fb8352f04c53696400b8635eeba8c29f5c2"
+    },
+    {
+      "path": "docs/ergo_sop/01_ERGO_CSC_AND_FINALIZER_SOP.md",
+      "bytes": 1025,
+      "sha256": "c48390a5fbd2c4ec0a10b4369913f8f61b723a536a7fe52a77e68883ec3aa93e"
+    },
+    {
+      "path": "docs/ergo_sop/02_ERGO_UNIFIED_CODE_STYLE_GUIDE_SOP.md",
+      "bytes": 2238,
+      "sha256": "8f9cc367922f1e573f5f8e8613c10e83dcc5f98426f87c8004d75a0d07fa4ec5"
+    },
+    {
+      "path": "docs/ergo_sop/03_IMPORTED_CODE_STYLE_SOURCE_CTO_2026-04-28.md",
+      "bytes": 10740,
+      "sha256": "907c33859ef9ef4d682db90efc0afcf598fd92ada5c8d862c2b64cdb1b4300d8"
+    },
+    {
+      "path": "docs/external_guides/GEMINI_GUIDES_EVALUATION_RUBRIC.json",
+      "bytes": 3946,
+      "sha256": "4986b8d9924f2a30f4416a5d1753625bf0f9bb6ddecc089fc10df8af4eebebf3"
+    },
+    {
+      "path": "docs/external_guides/GEMINI_GUIDES_EVALUATION_RUBRIC.md",
+      "bytes": 1360,
+      "sha256": "a740df059f514039a6598890a91bce5fc232a4388b6b51f2c63da945a34061f8"
+    },
+    {
+      "path": "docs/external_guides/GEMINI_GUIDES_SOURCE_EXTRACTION_SUMMARY.json",
+      "bytes": 2611,
+      "sha256": "ebec88cecf43d2bb61533066b8980688a856c9e6cf7cc4505c21f5abd21f4af2"
+    },
+    {
+      "path": "docs/pcmmad_doctrine/APPEND_ONLY_PROTOCOL_SOURCE.md",
+      "bytes": 2565,
+      "sha256": "16bcdf96428a218eb33aee01c8d3683bdd4e94c6bfd4de83c64d0f956f124e58"
+    },
+    {
+      "path": "docs/pcmmad_doctrine/PCMMAD_CANONICAL_RUNTIME_SPECIFICATION.md",
+      "bytes": 21673,
+      "sha256": "3469a2fc03ebbd0668ae1ec45978c4baba6173898cfc270fbb72bebbdac4ee0b"
+    },
+    {
+      "path": "docs/pcmmad_doctrine/SOURCE_AUTHORITY_AND_CONFLICT_RESOLUTION.md",
+      "bytes": 1465,
+      "sha256": "576c18a77277bee75c340bc66b1acb6d63955fd028de0814e6ee9bf1253810f0"
+    },
+    {
+      "path": "docs/protocol/MIGRATION_AND_COMPATIBILITY.md",
+      "bytes": 929,
+      "sha256": "a30d50494c061eff977e6ac9f7856547e5d2a8a2515f92c92690ebd699bc6f21"
+    },
+    {
+      "path": "docs/protocol/NATIVE_PROTOCOL_CONTRACT.md",
+      "bytes": 3045,
+      "sha256": "be316fab259b1ae5bc65ee704aa4a962a96a6bf0864d8cf65ddcefb6c1a7ca02"
+    },
+    {
+      "path": "docs/receiver_doctrine/00_RECEIVER_PROJECT_BINDINGS.md",
+      "bytes": 1268,
+      "sha256": "269b7183a9db0fb59b1a66edfb233bc8b89fc0f643fd2df3b6e27da8f4dc4c78"
+    },
+    {
+      "path": "docs/receiver_sop/01_RECEIVER_INGRESS_AND_EVALUATION_SOP.md",
+      "bytes": 529,
+      "sha256": "6fba16e6edf8b419ca94a01be26a0f4cff6f763a39146f7ee0c86329f017efe6"
+    },
+    {
+      "path": "docs/universal_invariants/CODEX_UNIFIED_LOC_AUDIT_RULESET.md",
+      "bytes": 1316,
+      "sha256": "a338e88c4eff3b6b6d0e9ea703c8f8239be3595f807c8351e5ff073f02fd1cf8"
+    },
+    {
+      "path": "docs/universal_invariants/UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "bytes": 111668,
+      "sha256": "c75a8b3e35048a3f953a7f38d6751c38fb49d32d0f8e6522415bbe2d790d32b9"
+    },
+    {
+      "path": "docs/universal_invariants/UNIVERSAL_INVARIANT_MANIFEST.json",
+      "bytes": 319986,
+      "sha256": "1f73ff40dcb6df44bde9b97d1209005ed99e017c6d906645f1a95e352e1a39d9"
+    },
+    {
+      "path": "docs/verification/RELEASE_CONTRACT.md",
+      "bytes": 1339,
+      "sha256": "692e9134f41b7790877b55f366eb573cd17887e85bc2d0c0dd4e13a8b78678b3"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 646,
+      "sha256": "a84d187e4ef1f5dd9c5cd90db8df670696f29e02d45d6a09e51656d42b448dfc"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "bytes": 27,
+      "sha256": "095a92f47a92a86390f41231954eeae4916b2b9f368ab7c83211353bd4feadff"
+    },
+    {
+      "path": "spec/PCMMAD_RECEIVER_V27_PACKAGE_SPEC.md",
+      "bytes": 1365,
+      "sha256": "2695fa1faa5b66ce9e9f26fdd47392436ab7e5b9c65f2dd4284f548765f857ab"
+    },
+    {
+      "path": "spec/PCMMAD_RECEIVER_V28_PDVER_REFACTOR_SPEC.md",
+      "bytes": 1170,
+      "sha256": "162da10ee87b5ad588cab8be4bc78f5f5c44850cb971c8fe54d6706be52bdff7"
+    },
+    {
+      "path": "spec/PCMMAD_RECEIVER_V29_NATIVE_PROTOCOL_SPEC.md",
+      "bytes": 2391,
+      "sha256": "639f9a5be22dbdd22ea31dd110f16d9978193a0ffa88f0a99e231f325ca15bc6"
+    },
+    {
+      "path": "system/constraint_pipeline/__init__.py",
+      "bytes": 83,
+      "sha256": "d503c13969ff18690d687c2af576b58fe878ea618ce667a678dc7d794c23b29f"
+    },
+    {
+      "path": "system/constraint_pipeline/claim_governor.py",
+      "bytes": 3671,
+      "sha256": "25eca84ebfb9ff6c7ed455418e17e95eeb0010736df13b6b053509b1717ca027"
+    },
+    {
+      "path": "system/constraint_pipeline/constraint_model.py",
+      "bytes": 4241,
+      "sha256": "7c38b8fb24734ca7db507a7528ff943c5669aaaaf092ab9d9a03b6f36c55d60f"
+    },
+    {
+      "path": "system/constraint_pipeline/finalizer_expression.py",
+      "bytes": 3155,
+      "sha256": "ecdd4d8d748f37293dee2e4811af82731c48ef772012a58840b62d6debb25a7e"
+    },
+    {
+      "path": "system/constraint_pipeline/profiles/generic_python_project.json",
+      "bytes": 1413,
+      "sha256": "07ffcc62b4b5418345819742562d4e31369712a5f579783f0987f5746c01dcef"
+    },
+    {
+      "path": "system/constraint_pipeline/profiles/receiver_v27.json",
+      "bytes": 1739,
+      "sha256": "4c3a11b8e8f9db154a551754ec7d9bcfa89866d00ea73ac4a29a4c113a52e0fd"
+    },
+    {
+      "path": "system/constraint_pipeline/receiver_report_adapter.py",
+      "bytes": 17054,
+      "sha256": "d3e7c07507e00330e0c54bdbdd98a667015751585e986128be7096924b0a9c11"
+    },
+    {
+      "path": "system/finalize_task.py",
+      "bytes": 21157,
+      "sha256": "513d3832cc1699f761246ab2bd856ee302d9aa49531036f46e016cd933339634"
+    },
+    {
+      "path": "tests/test_auth_boundary.py",
+      "bytes": 1131,
+      "sha256": "2e5a73e86e10e7a5447a2f50cfea0fe08a23eb36c2bdcddaf189c8193746faf5"
+    },
+    {
+      "path": "tests/test_constraint_pipeline_regressions.py",
+      "bytes": 6353,
+      "sha256": "1f7e674782b33636fa9f51a4d46e03358f628ca10cc68577655d0b7121593da3"
+    },
+    {
+      "path": "tests/test_git_ops_hardening.py",
+      "bytes": 3213,
+      "sha256": "34a8c581307be012bd0e2390c78e99383216c34ce361eacefaa5d5e83967277b"
+    },
+    {
+      "path": "tests/test_protocol_runtime.py",
+      "bytes": 9663,
+      "sha256": "84fe89329e658b9dab6ea811d664353ad4c55d36bad87122178a702650fc3713"
+    },
+    {
+      "path": "tests/test_runtime_config.py",
+      "bytes": 1952,
+      "sha256": "e870bc341b25a8351f918e9e763bfd79693a194753960b2c58ea597a81561dea"
+    },
+    {
+      "path": "tests/test_semantic_doctrine_tools.py",
+      "bytes": 1728,
+      "sha256": "5eca97b4c36206a9db1657419a2833d18f50e103a8b6d5a2592d732efcc04442"
+    },
+    {
+      "path": "tests/test_server_hardening.py",
+      "bytes": 5062,
+      "sha256": "a4f37ef8a1fdcbb099501b77bfa64b847dc84e895ce5762c4d35d1e52dddafcb"
+    },
+    {
+      "path": "tests/test_unbounded_policy.py",
+      "bytes": 2478,
+      "sha256": "15d878232e3a40380a6b53bb046dc4fbe2e22123db0dd075f398c395bc9a868f"
+    },
+    {
+      "path": "tools/csc_native/code_slop_cleanup_csc.py",
+      "bytes": 3382,
+      "sha256": "5e36506ae3c917bf294323c767409772cb0090a6c6834f2502cdc40381120ece"
+    },
+    {
+      "path": "tools/csc_native/codex_unified_loc_compliance_audit.py",
+      "bytes": 28753,
+      "sha256": "40deb0099443b28dd9ae08cac19213aeed7ad1f5e54afe4f9606d8f7f85f9431"
+    },
+    {
+      "path": "tools/csc_native/csc_doctrine_manifest.py",
+      "bytes": 10207,
+      "sha256": "832d97f60d8b06a4f99a70a84bd987c23c030fa8019435878bab485b2505d147"
+    },
+    {
+      "path": "tools/csc_native/csc_doctrine_passes.py",
+      "bytes": 30392,
+      "sha256": "ba3e3e5d810b96444f023a003f8614c169c2af3c5733ff94533c9c579270ea84"
+    },
+    {
+      "path": "tools/csc_native/csc_gate.py",
+      "bytes": 1241,
+      "sha256": "42c8ab8875896e981e0025ed988a3b158cd159268010ec0cf37cc5eea4da2830"
+    },
+    {
+      "path": "tools/csc_native/csc_runtime_bindings.py",
+      "bytes": 1319,
+      "sha256": "155871493f37c4afd8b1b87caf6c91164cedfd2204d09dedfc94d464a9f3ebb0"
+    },
+    {
+      "path": "tools/csc_native/csc_universal_runner.py",
+      "bytes": 2355,
+      "sha256": "0f519f563561bc64864218071b2cd4ab1255da1acb8a6c1fd58344ad745411f9"
+    },
+    {
+      "path": "tools/csc_native/guide_quality_audit.py",
+      "bytes": 27691,
+      "sha256": "6e0979bb2ebd4e77e45fdbf53af01f8ac6d2e032b8625c5d980bb6bd4d4f025f"
+    },
+    {
+      "path": "tools/csc_native/pdver_lab_hardening_cycle.py",
+      "bytes": 37095,
+      "sha256": "5458de855b073fac8a5e87a8a37affebb5734e1d29c871c4db4e01c8c7bb1c61"
+    },
+    {
+      "path": "tools/csc_native/receiver_baseline_selftest_gate.py",
+      "bytes": 4572,
+      "sha256": "eed55572b964d199c04eee5182759d203d97aa8ac9f605be5e885d28d7db0b0f"
+    },
+    {
+      "path": "tools/csc_native/receiver_browser_bridge_resilience_gate.py",
+      "bytes": 1927,
+      "sha256": "3cc7ab00a1a3d2e5a39e5062bf6307680590e9a7479955f9120e191eeb97bbfd"
+    },
+    {
+      "path": "tools/csc_native/receiver_concurrency_trace_gate.py",
+      "bytes": 1556,
+      "sha256": "2365a71e98b55360bb204f1b4879c8eefe923ca78322513db969a3f9cdd92d0f"
+    },
+    {
+      "path": "tools/csc_native/receiver_full_route_trace_gate.py",
+      "bytes": 30646,
+      "sha256": "98f8f2c0f0b455a6a3fa80edc463e5dccb89b2881027254595e8f20e40219756"
+    },
+    {
+      "path": "tools/csc_native/receiver_launcher_script_audit_gate.py",
+      "bytes": 8879,
+      "sha256": "888f1a362dc38a4131528202dee354764221604b7d5470105ff26b0d7323928c"
+    },
+    {
+      "path": "tools/csc_native/receiver_live_parity_gate.py",
+      "bytes": 2197,
+      "sha256": "08b679f4ae9b3623e75f64d177f497f2aadc55065b96b9917f7d4fae8a816609"
+    },
+    {
+      "path": "tools/csc_native/receiver_negative_contract_trace_gate.py",
+      "bytes": 4176,
+      "sha256": "944260a1f9838cbf8971505ee8e4375077d8cd13450e5e603c7d8fe7477fd4d1"
+    },
+    {
+      "path": "tools/csc_native/receiver_package_integrity_gate.py",
+      "bytes": 1730,
+      "sha256": "c67ac2da7ab19f4adf8ab6cb5e942ac4c91aa68cf4527a1ff4924e8c228f4ad7"
+    },
+    {
+      "path": "tools/csc_native/receiver_resilience_common.py",
+      "bytes": 10457,
+      "sha256": "95eb153ee17d4cd2fd484e8ea8dcd5c550db55f106ac9ed416fdef7a3194a577"
+    },
+    {
+      "path": "tools/csc_native/receiver_resilience_gate_suite.py",
+      "bytes": 2354,
+      "sha256": "ffcb20e5f049711b4946f1e950531dffd692010280e290c4a26fc1cd253df89d"
+    },
+    {
+      "path": "tools/csc_native/receiver_schema_authority_gate.py",
+      "bytes": 7013,
+      "sha256": "70e2836b50d49f60b711a61008d54616760e8b3de0b77b6e4cc9504e315090b3"
+    },
+    {
+      "path": "tools/csc_native/receiver_security_boundary_gate.py",
+      "bytes": 2873,
+      "sha256": "211a35d59c875bd6c983cd1921b6230682409d609a7bdc0ab39aebc69d5b48fc"
+    },
+    {
+      "path": "tools/csc_native/receiver_stateful_replay_gate.py",
+      "bytes": 3373,
+      "sha256": "58c94d2775b703b8cedda9721bd2186841eda49adfcfad48006cba1564fe63f0"
+    },
+    {
+      "path": "tools/csc_native/semantic_footgun_dataflow_gate.py",
+      "bytes": 13128,
+      "sha256": "255e7207ff5556c7927316253ff1f18c9e48c85ba8051dfd96571f5fc8ecbabc"
+    },
+    {
+      "path": "tools/csc_native/strict_json_boundary.py",
+      "bytes": 1536,
+      "sha256": "ec36a9596d6069c3481b645b51e8024070e297d0c77251716de1c5c832bd4d87"
+    },
+    {
+      "path": "tools/release_manifest.py",
+      "bytes": 6289,
+      "sha256": "301772576e5b98fbe3ceb54989b3c474885265b31cb1ab1945113c7d716dfa15"
+    },
+    {
+      "path": "tools/runtime_surface_contract.py",
+      "bytes": 3063,
+      "sha256": "05305441d1c53eaaf4e0e0d9a2cafb988d82b7b017813f0d5b33f6381fc5945b"
+    },
+    {
+      "path": "tools/verify_release.py",
+      "bytes": 7740,
+      "sha256": "2f8ae00b38eaa1eebd3ebeafa62471e4c8746948abcd0676401b9c75cb13ce8d"
+    }
+  ]
+}

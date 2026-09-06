@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CogOS – Aether Console</title>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" crossorigin="anonymous"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* --- THE AETHER PALETTE --- */
+      --bg-void: #02040a;
+
+      /* Neon Hues */
+      --neon-cyan: #00f0ff;
+      --neon-purple: #bc13fe;
+      --neon-pink: #ff0055;
+      --neon-amber: #ffcc00;
+
+      /* Glass Physics */
+      --glass-surface: rgba(10, 20, 30, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --blur-strength: 40px;
+
+      /* Fonts */
+      --font-hud: "Rajdhani", sans-serif;
+      --font-code: "Share Tech Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--bg-void);
+      font-family: var(--font-hud);
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* --- LAYER 0: STARMAP CANVAS --- */
+    #starmap-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      display: block;
+    }
+
+    /* --- LAYER 1: VIGNETTE & SCANLINES --- */
+    .overlay-fx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(circle at center, transparent 40%, #000 120%),
+        repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0, 0, 0, 0.3) 3px);
+      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+    }
+
+    /* --- LAYER 2: HUD GRID --- */
+    #ui-layer {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 300px 1fr 300px;
+      grid-template-rows: 80px 1fr 100px;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    /* --- GLASS CARD BASE --- */
+    .glass-card {
+      background: var(--glass-surface);
+      backdrop-filter: blur(var(--blur-strength));
+      -webkit-backdrop-filter: blur(var(--blur-strength));
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Liquid light border */
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      z-index: -1;
+      background: linear-gradient(
+        135deg,
+        rgba(0, 240, 255, 0),
+        rgba(0, 240, 255, 0.3),
+        rgba(188, 19, 254, 0.3),
+        rgba(188, 19, 254, 0)
+      );
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
+      opacity: 0.6;
+    }
+
+    /* --- HEADER / IDENTITY --- */
+    .header-region {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      border-radius: 50%;
+      box-shadow: 0 0 20px var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #000;
+      font-size: 18px;
+    }
+
+    .system-title {
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    }
+
+    .system-subtitle {
+      font-size: 10px;
+      color: var(--neon-pink);
+      letter-spacing: 4px;
+      margin-top: -4px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* --- RIGHT COLUMN: MONITORS --- */
+    .monitor-stack {
+      grid-column: 3 / 4;
+      grid-row: 2 / 3;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-end;
+    }
+
+    .widget {
+      width: 100%;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .widget-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+
+    /* VRAM / Substrate Capacity */
+    .flux-container {
+      height: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+    }
+
+    .flux-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+      box-shadow: 0 0 15px var(--neon-cyan);
+      position: relative;
+      transition: width 0.5s ease-out;
+    }
+
+    .flux-bar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 4px;
+      background: #fff;
+      opacity: 0.8;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    /* Lattice */
+    .lattice-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 2px;
+    }
+
+    .lattice-cell {
+      aspect-ratio: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 2px;
+      transition: background 0.1s, box-shadow 0.1s;
+    }
+
+    .lattice-cell.active {
+      background: var(--neon-cyan);
+      box-shadow: 0 0 5px var(--neon-cyan);
+    }
+
+    /* --- CENTER: STREAM REGION --- */
+    .stream-region {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 40px;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+    }
+
+    .message-log {
+      max-height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: none;
+    }
+
+    .message-log::-webkit-scrollbar {
+      display: none;
+    }
+
+    .msg {
+      padding: 12px 18px;
+      border-radius: 0 12px 12px 12px;
+      font-family: var(--font-code);
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 85%;
+      animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 12px 12px 0 12px;
+      color: var(--neon-cyan);
+    }
+
+    .msg.sys {
+      align-self: flex-start;
+      background: rgba(188, 19, 254, 0.1);
+      border: 1px solid rgba(188, 19, 254, 0.3);
+      color: #e0d0ff;
+    }
+
+    .msg.sys::before {
+      content: "COGOS";
+      position: absolute;
+      top: -10px;
+      left: 0;
+      font-size: 8px;
+      color: var(--neon-purple);
+      letter-spacing: 1px;
+    }
+
+    /* --- INPUT / COMMAND CAPSULE --- */
+    .input-region {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .command-capsule {
+      width: 100%;
+      max-width: 600px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 25px;
+      border: 1px solid var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+      transition: box-shadow 0.2s;
+      position: relative;
+    }
+
+    .command-capsule:focus-within {
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+    }
+
+    .capsule-icon {
+      color: var(--neon-cyan);
+      font-size: 18px;
+      margin-right: 15px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        opacity: 1;
+        text-shadow: 0 0 10px var(--neon-cyan);
+      }
+      50% {
+        opacity: 0.5;
+        text-shadow: 0 0 0 transparent;
+      }
+    }
+
+    input#prompt {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: var(--font-hud);
+      font-size: 16px;
+      letter-spacing: 1px;
+      outline: none;
+    }
+
+    input#prompt::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* --- MODE BADGES --- */
+    .mode-dock {
+      position: absolute;
+      bottom: -30px;
+      right: 0;
+      display: flex;
+      gap: 5px;
+    }
+
+    .mode-pill {
+      font-size: 9px;
+      padding: 4px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: 0.2s;
+      user-select: none;
+    }
+
+    .mode-pill.active {
+      background: var(--neon-cyan);
+      color: #000;
+      box-shadow: 0 0 10px var(--neon-cyan);
+      border-color: transparent;
+      font-weight: 700;
+    }
+
+    .mode-pill:focus-visible {
+      outline: 1px solid var(--neon-cyan);
+      outline-offset: 2px;
+    }
+
+    /* --- RESPONSIVE / MOBILE --- */
+    @media (max-width: 1000px) {
+      #ui-layer {
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+      }
+
+      .header-region {
+        flex: 0 0 auto;
+        margin-bottom: 5px;
+      }
+
+      .system-title {
+        font-size: 18px;
+      }
+
+      .system-subtitle {
+        font-size: 8px;
+      }
+
+      .monitor-stack {
+        flex: 0 0 auto;
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        gap: 10px;
+        order: 2;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .monitor-stack::-webkit-scrollbar {
+        display: none;
+      }
+
+      .widget {
+        min-width: 140px;
+        padding: 10px;
+      }
+
+      .lattice-cell {
+        width: 8px;
+        height: 8px;
+      }
+
+      .stream-region {
+        flex: 1 1 auto;
+        order: 3;
+        mask-image: linear-gradient(to bottom, transparent 0%, black 10%);
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%);
+        margin-bottom: 10px;
+      }
+
+      .input-region {
+        flex: 0 0 auto;
+        order: 4;
+        padding-bottom: 0;
+      }
+
+      .command-capsule {
+        height: 45px;
+        font-size: 14px;
+      }
+
+      .mode-dock {
+        bottom: 45px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="starmap-canvas"></canvas>
+  <div class="overlay-fx"></div>
+
+  <div id="ui-layer" aria-label="CogOS Aether Console UI">
+    <!-- HEADER: IDENTITY -->
+    <header class="header-region" aria-label="System identity">
+      <div class="logo-mark" aria-hidden="true">C</div>
+      <div>
+        <div class="system-title">CogOS <span style="font-weight:700">Aether Console</span></div>
+        <div class="system-subtitle">COGNITIVE OPERATIONS INTERFACE</div>
+      </div>
+    </header>
+
+    <!-- RIGHT COLUMN: MONITORS -->
+    <aside class="monitor-stack" aria-label="System metrics">
+      <div class="widget glass-card" aria-label="Substrate capacity monitor">
+        <div class="widget-title">Substrate Capacity</div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:4px;">
+          <span id="vram-text">0.00 GB / 6.00 GB</span>
+          <span style="color:var(--neon-pink)">OOM RISK: LOW</span>
+        </div>
+        <div class="flux-container" aria-hidden="true">
+          <div class="flux-bar" id="vram-bar"></div>
+        </div>
+      </div>
+
+      <div class="widget glass-card" aria-label="Ryzen neural lattice visualization">
+        <div class="widget-title">Ryzen Neural Lattice</div>
+        <div class="lattice-grid" id="lattice-grid"></div>
+      </div>
+
+      <div class="widget glass-card" aria-label="Cognitive metrics">
+        <div class="widget-title">Cog.Metrics</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:12px;">
+          <div>
+            <div style="color:#aaa; font-size:9px;">INTEGRITY</div>
+            <div style="color:var(--neon-cyan); font-family:var(--font-code);" id="val-integrity">0.000</div>
+          </div>
+          <div>
+            <div style="color:#aaa; font-size:9px;">INTERFERENCE</div>
+            <div style="color:var(--neon-purple); font-family:var(--font-code);" id="val-interference">0.000</div>
+          </div>
+          <div>
+            <div style="color:#aaa; font-size:9px;">DEPTH</div>
+            <div style="color:var(--neon-amber); font-family:var(--font-code);" id="val-depth">1</div>
+          </div>
+          <div>
+            <div style="color:#aaa; font-size:9px;">STATUS</div>
+            <div style="color:#fff; font-size:9px;" id="val-status">STANDBY</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER: MESSAGE STREAM -->
+    <main class="stream-region" aria-label="Conversation stream">
+      <div class="message-log" id="msg-log">
+        <div class="msg sys">
+[SYS] CogOS core online.  
+[SYS] Aether Console link established.  
+[SYS] Ready for cognitive input.
+        </div>
+      </div>
+    </main>
+
+    <!-- BOTTOM: INPUT -->
+    <footer class="input-region" aria-label="Command input">
+      <div class="command-capsule">
+        <div class="capsule-icon" aria-hidden="true">&gt;</div>
+        <input
+          type="text"
+          id="prompt"
+          placeholder="Initiate cognitive sequence..."
+          autocomplete="off"
+          aria-label="Enter prompt for CogOS"
+        >
+        <div class="mode-dock" aria-label="Cognitive mode selection">
+          <button class="mode-pill" id="mode-simple" type="button" aria-pressed="false">SMPL</button>
+          <button class="mode-pill active" id="mode-auto" type="button" aria-pressed="true">AUTO</button>
+          <button class="mode-pill" id="mode-deep" type="button" aria-pressed="false">DEEP</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    /* =========================================
+       1. STARMAP RENDERER (WEBGL)
+       ========================================= */
+    const canvas = document.getElementById("starmap-canvas");
+    /** @type {WebGLRenderingContext|null} */
+    const gl = canvas.getContext("webgl");
+    let width;
+    let height;
+
+    if (!gl) {
+      console.warn("WebGL not supported; starmap disabled.");
+    } else {
+      const vsSource = `
+        attribute vec2 a_pos;
+        attribute float a_size;
+        attribute float a_speed;
+        uniform float u_time;
+        uniform vec2 u_mouse;
+        void main() {
+          float x = a_pos.x + sin(u_time * a_speed + a_pos.y * 5.0) * 0.05;
+          float y = a_pos.y + cos(u_time * a_speed + a_pos.x * 5.0) * 0.05;
+          x -= u_mouse.x * 0.1 * a_speed;
+          y += u_mouse.y * 0.1 * a_speed;
+          gl_Position = vec4(x, y, 0.0, 1.0);
+          gl_PointSize = a_size * (1.0 + sin(u_time * 2.0) * 0.3);
+        }
+      `;
+
+      const fsSource = `
+        precision mediump float;
+        uniform float u_time;
+        void main() {
+          vec2 coord = gl_PointCoord - vec2(0.5);
+          float dist = length(coord);
+          if (dist > 0.5) discard;
+          float pulse = 0.5 + 0.5 * sin(u_time * 3.0);
+          vec3 color = mix(vec3(0.0, 0.9, 1.0), vec3(0.7, 0.0, 1.0), pulse);
+          float alpha = 1.0 - smoothstep(0.4, 0.5, dist);
+          gl_FragColor = vec4(color, alpha * 0.8);
+        }
+      `;
+
+      function createShader(glCtx, type, source) {
+        const shader = glCtx.createShader(type);
+        glCtx.shaderSource(shader, source);
+        glCtx.compileShader(shader);
+        if (!glCtx.getShaderParameter(shader, glCtx.COMPILE_STATUS)) {
+          console.error(glCtx.getShaderInfoLog(shader));
+          glCtx.deleteShader(shader);
+          return null;
+        }
+        return shader;
+      }
+
+      const program = gl.createProgram();
+      gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vsSource));
+      gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fsSource));
+      gl.linkProgram(program);
+
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error(gl.getProgramInfoLog(program));
+      }
+
+      gl.useProgram(program);
+
+      const NUM_STARS = 400;
+      const data = new Float32Array(NUM_STARS * 4);
+      for (let i = 0; i < NUM_STARS; i++) {
+        data[i * 4 + 0] = (Math.random() * 2 - 1) * 1.5;
+        data[i * 4 + 1] = (Math.random() * 2 - 1) * 1.5;
+        data[i * 4 + 2] = Math.random() * 4.0 + 1.0;
+        data[i * 4 + 3] = Math.random() * 0.5 + 0.1;
+      }
+
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+      const aPos = gl.getAttribLocation(program, "a_pos");
+      const aSize = gl.getAttribLocation(program, "a_size");
+      const aSpeed = gl.getAttribLocation(program, "a_speed");
+
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 16, 0);
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aSize, 1, gl.FLOAT, false, 16, 8);
+      gl.enableVertexAttribArray(aSize);
+      gl.vertexAttribPointer(aSpeed, 1, gl.FLOAT, false, 16, 12);
+      gl.enableVertexAttribArray(aSpeed);
+
+      const uTime = gl.getUniformLocation(program, "u_time");
+      const uMouse = gl.getUniformLocation(program, "u_mouse");
+
+      let mouseX = 0;
+      let mouseY = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -((e.clientY / window.innerHeight) * 2 - 1);
+      });
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        gl.viewport(0, 0, width, height);
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+
+      function render(time) {
+        gl.clearColor(0.01, 0.02, 0.04, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform1f(uTime, time * 0.001);
+        gl.uniform2f(uMouse, mouseX, mouseY);
+        gl.drawArrays(gl.POINTS, 0, NUM_STARS);
+        requestAnimationFrame(render);
+      }
+
+      requestAnimationFrame(render);
+    }
+
+    /* =========================================
+       2. UI LOGIC & SIMULATION
+       ========================================= */
+    const promptInput = document.getElementById("prompt");
+    const logContainer = document.getElementById("msg-log");
+    const vramBar = document.getElementById("vram-bar");
+    const vramText = document.getElementById("vram-text");
+    const latticeGrid = document.getElementById("lattice-grid");
+    const integrityEl = document.getElementById("val-integrity");
+    const interferenceEl = document.getElementById("val-interference");
+    const depthEl = document.getElementById("val-depth");
+    const statusEl = document.getElementById("val-status");
+
+    // Seed lattice cells
+    for (let i = 0; i < 32; i++) {
+      const div = document.createElement("div");
+      div.className = "lattice-cell";
+      latticeGrid.appendChild(div);
+    }
+
+    function addMessage(text, type = "sys") {
+      const div = document.createElement("div");
+      div.className = `msg ${type}`;
+      // Allow simple newline → <br> formatting
+      div.innerHTML = text.replace(/\n/g, "<br>");
+      logContainer.appendChild(div);
+      requestAnimationFrame(() => {
+        logContainer.scrollTop = logContainer.scrollHeight;
+      });
+    }
+
+    // Mock metrics updater (when backend isn't pushing real values)
+    setInterval(() => {
+      // VRAM usage simulation (40–60%)
+      const usagePercent = 40 + Math.random() * 20;
+      vramBar.style.width = `${usagePercent.toFixed(1)}%`;
+      const usedGB = (usagePercent / 100 * 6.0).toFixed(2);
+      vramText.innerText = `${usedGB} GB / 6.00 GB`;
+
+      // Lattice flicker
+      const cells = document.querySelectorAll(".lattice-cell");
+      cells.forEach((c) => {
+        if (Math.random() > 0.7) {
+          c.classList.add("active");
+        } else {
+          c.classList.remove("active");
+        }
+      });
+
+      // Cog metrics simulation
+      integrityEl.innerText = (0.95 + Math.random() * 0.04).toFixed(3);
+      interferenceEl.innerText = (Math.random() * 0.02).toFixed(3);
+      depthEl.innerText = (1 + Math.floor(Math.random() * 3)).toString();
+      statusEl.innerText = "ONLINE";
+    }, 1000);
+
+    /* =========================================
+       3. SOCKET.IO + MODE LOGIC
+       ========================================= */
+    let socket = null;
+    let mode = "auto";
+
+    const modeButtons = {
+      simple: document.getElementById("mode-simple"),
+      auto: document.getElementById("mode-auto"),
+      deep: document.getElementById("mode-deep"),
+    };
+
+    function setMode(newMode) {
+      Object.entries(modeButtons).forEach(([key, btn]) => {
+        const isActive = key === newMode;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+      mode = newMode;
+      addMessage(`[SYS] Switching cognitive strategy → ${newMode.toUpperCase()}`, "sys");
+    }
+
+    modeButtons.simple.addEventListener("click", () => setMode("simple"));
+    modeButtons.auto.addEventListener("click", () => setMode("auto"));
+    modeButtons.deep.addEventListener("click", () => setMode("deep"));
+
+    promptInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const txt = promptInput.value.trim();
+        if (!txt) return;
+
+        addMessage(txt, "user");
+        promptInput.value = "";
+
+        if (socket && socket.connected) {
+          socket.emit("submit_prompt", { prompt: txt, mode });
+          const loadId = `loading-${Date.now()}`;
+          const loadDiv = document.createElement("div");
+          loadDiv.className = "msg sys";
+          loadDiv.id = loadId;
+          loadDiv.innerHTML = `<span style="animation:pulse 1s infinite">PROCESSING NEURAL PATHWAYS...</span>`;
+          logContainer.appendChild(loadDiv);
+          requestAnimationFrame(() => {
+            logContainer.scrollTop = logContainer.scrollHeight;
+          });
+        } else {
+          // Demo fallback: pretend CogOS responded
+          setTimeout(() => {
+            addMessage(
+              "Aether Console is running in DEMO MODE (no backend socket).\nSimulation: CogOS has received your input and the architecture is responding coherently.",
+              "sys"
+            );
+          }, 600);
+        }
+      }
+    });
+
+    try {
+      // Let Socket.IO infer protocol/host; this plays nicer behind proxies.
+      socket = io({
+        transports: ["websocket", "polling"],
+      });
+
+      socket.on("connect", () => {
+        console.log("Socket.IO connected to backend.");
+        addMessage("[NET] Uplink to CogOS established.", "sys");
+      });
+
+      socket.on("disconnect", () => {
+        addMessage("[NET] Uplink lost. Console in local DEMO mode.", "sys");
+      });
+
+      socket.on("prompt_result", (data) => {
+        // Remove any pending loaders
+        const loaders = document.querySelectorAll("div[id^='loading-']");
+        loaders.forEach((el) => el.remove());
+
+        if (data && data.success) {
+          addMessage(data.response || "", "sys");
+        } else {
+          const err = data && data.error ? data.error : "Unknown error";
+          addMessage(`[ERR] ${err}`, "sys");
+        }
+      });
+    } catch (e) {
+      console.log("Socket initialization failed:", e);
+      addMessage("[NET] Unable to initialize backend socket. Running in DEMO mode.", "sys");
+    }
+  </script>
+</body>
+</html>

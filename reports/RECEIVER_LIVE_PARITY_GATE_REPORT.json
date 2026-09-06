@@ -1,0 +1,32 @@
+{
+  "created_at_utc": "2026-07-29T23:18:36.704695+00:00",
+  "gate_name": "receiver_live_parity",
+  "approach": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "levels": {
+    "nano": "individual probe",
+    "micro": "route family / boundary class",
+    "meso": "gate matrix",
+    "macro": "claim gate"
+  },
+  "clean": true,
+  "probe_count": 1,
+  "failure_count": 0,
+  "unexpected_500_count": 0,
+  "failures": [],
+  "unexpected_500": [],
+  "results": [
+    {
+      "name": "live folder absent",
+      "category": "live_parity",
+      "route": "/home/oai/Desktop/pcmmad_receiver",
+      "method": "FS",
+      "status": 204,
+      "expected_statuses": [
+        204
+      ],
+      "pass_": true,
+      "json_object": true,
+      "body_sample": "live parity not required when folder absent"
+    }
+  ]
+}

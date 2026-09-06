@@ -1,0 +1,17 @@
+{
+  "clean": true,
+  "finding_count": 0,
+  "severity_counts": {},
+  "scripts": [
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/PCMMAD.ps1",
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/SETUP_PCMMAD_RUNTIME.ps1",
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/RESTART_RECEIVER_AND_NGROK.ps1",
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/RESTART_RECEIVER_AND_NGROK.cmd",
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/RESTART_RECEIVER_ONLY.cmd",
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/START_RECEIVER.cmd",
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/START_RECEIVER_AND_NGROK.cmd",
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/START_BROWSER_BRIDGE.cmd",
+    "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/STOP_BROWSER_BRIDGE.cmd"
+  ],
+  "findings": []
+}

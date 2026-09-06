@@ -1,0 +1,43 @@
+{
+  "profile_id": "generic_python_project",
+  "description": "Project-agnostic Python constraint profile. Full doctrine/quality coverage is represented; execution may be incremental only when evidence freshness permits.",
+  "required_gate_families": [
+    "loc_code_shape",
+    "guide_quality_style",
+    "semantic_footgun_dataflow",
+    "test_or_smoke",
+    "task_finalizer"
+  ],
+  "optional_gate_families": [
+    "schema_authority",
+    "package_readback",
+    "browser_bridge_smoke",
+    "project_specific_runtime"
+  ],
+  "claim_effects": [
+    "blocks_reply_claim",
+    "blocks_promotion",
+    "blocks_package",
+    "requires_local_patch",
+    "advisory_with_waiver",
+    "not_applicable"
+  ],
+  "source_classes": [
+    "canonical_doctrine",
+    "candidate_doctrine",
+    "historical_discourse",
+    "generated_evidence",
+    "nonbinding_reference",
+    "active_project_source",
+    "archive_inventory"
+  ],
+  "freshness_policy": "evidence reports must be newer than active source surfaces they claim to cover, unless a profile supplies a stronger hash-based scope map",
+  "refactor_policy": "bounded_patch by default; full_refactor only when explicitly emitted by a gate or repeated bounded repair fails",
+  "minimum_native_gates": [
+    "compile_or_parse",
+    "loc_code_shape",
+    "guide_quality_style",
+    "semantic_footgun_dataflow",
+    "claim_governor"
+  ]
+}

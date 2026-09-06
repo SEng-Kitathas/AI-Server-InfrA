@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CogOS v7.0 | Aether Interface</title>
+  
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" crossorigin="anonymous"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* --- THE AETHER PALETTE --- */
+      --bg-void: #02040a;
+      
+      /* Neon Hues */
+      --neon-cyan: #00f0ff;
+      --neon-purple: #bc13fe;
+      --neon-pink: #ff0055;
+      --neon-amber: #ffcc00;
+
+      /* Glass Physics */
+      --glass-surface: rgba(10, 20, 30, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-highlight: rgba(255, 255, 255, 0.15);
+      --blur-strength: 40px;
+      
+      /* Fonts */
+      --font-hud: "Rajdhani", sans-serif;
+      --font-code: "Share Tech Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--bg-void);
+      font-family: var(--font-hud);
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* --- LAYER 0: THE NEURAL SUBSTRATE (Canvas) --- */
+    #starmap-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* --- LAYER 1: VIGNETTE & SCANLINES --- */
+    .overlay-fx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: 
+        radial-gradient(circle at center, transparent 40%, #000 120%),
+        repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0,0,0,0.3) 3px);
+      box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
+    }
+
+    /* --- LAYER 2: THE UI HUD --- */
+    #ui-layer {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 300px 1fr 300px;
+      grid-template-rows: 80px 1fr 100px;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    /* --- GLASS MORPHISM BASE CLASS --- */
+    .glass-card {
+      background: var(--glass-surface);
+      backdrop-filter: blur(var(--blur-strength));
+      -webkit-backdrop-filter: blur(var(--blur-strength));
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow: 
+        0 8px 32px rgba(0,0,0,0.5),
+        inset 0 0 0 1px rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* The "Liquid Light" Border Effect */
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      z-index: -1;
+      background: linear-gradient(135deg, 
+        rgba(0, 240, 255, 0), 
+        rgba(0, 240, 255, 0.3), 
+        rgba(188, 19, 254, 0.3), 
+        rgba(188, 19, 254, 0)
+      );
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
+      opacity: 0.6;
+    }
+
+    /* --- TOP LEFT: IDENTITY --- */
+    .header-region {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      border-radius: 50%;
+      box-shadow: 0 0 20px var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #000;
+      font-size: 18px;
+    }
+
+    .system-title {
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+    }
+
+    .system-subtitle {
+      font-size: 10px;
+      color: var(--neon-pink);
+      letter-spacing: 4px;
+      margin-top: -4px;
+      font-weight: 700;
+    }
+
+    /* --- RIGHT COLUMN: VITAL MONITORS (VERTICAL STACK) --- */
+    .monitor-stack {
+      grid-column: 3 / 4;
+      grid-row: 2 / 3;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-end; /* Align to right edge */
+    }
+
+    .widget {
+      width: 100%;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .widget-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.6);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+
+    /* FLUX CAPACITOR (VRAM) */
+    .flux-container {
+      height: 8px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+    }
+    .flux-bar {
+      height: 100%;
+      width: 40%;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+      box-shadow: 0 0 15px var(--neon-cyan);
+      position: relative;
+      transition: width 0.5s ease-out;
+    }
+    .flux-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0; right: 0; width: 4px;
+      background: #fff;
+      opacity: 0.8;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    /* NEURAL THREADS (LATTICE) */
+    .lattice-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 2px;
+    }
+    .lattice-cell {
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.05);
+      border-radius: 2px;
+      transition: background 0.1s;
+    }
+    .lattice-cell.active {
+      background: var(--neon-cyan);
+      box-shadow: 0 0 5px var(--neon-cyan);
+    }
+
+    /* --- CENTER: THE CONVERSATION VOID --- */
+    .stream-region {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 40px;
+      mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+    }
+
+    .message-log {
+      max-height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: none; /* Firefox */
+    }
+    .message-log::-webkit-scrollbar { display: none; }
+
+    .msg {
+      padding: 12px 18px;
+      border-radius: 0 12px 12px 12px;
+      font-family: var(--font-code);
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 85%;
+      animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 12px 12px 0 12px;
+      color: var(--neon-cyan);
+    }
+
+    .msg.sys {
+      align-self: flex-start;
+      background: rgba(188, 19, 254, 0.1);
+      border: 1px solid rgba(188, 19, 254, 0.3);
+      color: #e0d0ff;
+    }
+    
+    .msg.sys::before {
+      content: 'COG.OS';
+      position: absolute;
+      top: -10px;
+      left: 0;
+      font-size: 8px;
+      color: var(--neon-purple);
+      letter-spacing: 1px;
+    }
+
+    /* --- BOTTOM CENTER: THE COMMAND CAPSULE --- */
+    .input-region {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .command-capsule {
+      width: 100%;
+      max-width: 600px;
+      height: 50px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 25px;
+      border: 1px solid var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+      transition: box-shadow 0.2s;
+    }
+
+    .command-capsule:focus-within {
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
+    }
+
+    .capsule-icon {
+      color: var(--neon-cyan);
+      font-size: 18px;
+      margin-right: 15px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--neon-cyan); }
+      50% { opacity: 0.5; text-shadow: 0 0 0 transparent; }
+    }
+
+    input#prompt {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: var(--font-hud);
+      font-size: 16px;
+      letter-spacing: 1px;
+      outline: none;
+    }
+    
+    input#prompt::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* --- MODE BADGES (FLOATING) --- */
+    .mode-dock {
+      position: absolute;
+      bottom: -30px; /* Hidden mostly, creates depth */
+      right: 0;
+      display: flex;
+      gap: 5px;
+    }
+    
+    .mode-pill {
+      font-size: 9px;
+      padding: 4px 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mode-pill.active {
+      background: var(--neon-cyan);
+      color: #000;
+      box-shadow: 0 0 10px var(--neon-cyan);
+      border-color: transparent;
+      font-weight: 700;
+    }
+
+    /* --- RESPONSIVE ADJUSTMENTS --- */
+    @media (max-width: 1000px) {
+      #ui-layer {
+        grid-template-columns: 1fr;
+        grid-template-rows: 60px 1fr auto 100px;
+      }
+      .header-region { grid-row: 1; grid-column: 1; }
+      .monitor-stack { 
+        grid-row: 3; grid-column: 1; 
+        flex-direction: row; 
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+      .stream-region { grid-row: 2; grid-column: 1; }
+      .input-region { grid-row: 4; grid-column: 1; }
+      .widget { min-width: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="starmap-canvas"></canvas>
+  <div class="overlay-fx"></div>
+
+  <div id="ui-layer">
+    
+    <header class="header-region">
+      <div class="logo-mark">C</div>
+      <div>
+        <div class="system-title">COG.OS <span style="font-weight:700">AETHER</span></div>
+        <div class="system-subtitle">NEURO-SYMBOLIC ARCHITECTURE v7.0</div>
+      </div>
+    </header>
+
+    <aside class="monitor-stack">
+      
+      <div class="widget glass-card">
+        <div class="widget-title">Substrate Capacity (VRAM)</div>
+        <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:4px;">
+          <span id="vram-text">4.2 GB / 6.0 GB</span>
+          <span style="color:var(--neon-pink)">OOM RISK: LOW</span>
+        </div>
+        <div class="flux-container">
+          <div class="flux-bar" id="vram-bar"></div>
+        </div>
+      </div>
+
+      <div class="widget glass-card">
+        <div class="widget-title">Ryzen Neural Lattice</div>
+        <div class="lattice-grid" id="lattice-grid">
+          </div>
+      </div>
+
+      <div class="widget glass-card">
+        <div class="widget-title">Cog.Metrics</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:12px;">
+          <div>
+            <div style="color:#aaa; font-size:9px;">INTEGRITY</div>
+            <div style="color:var(--neon-cyan); font-family:var(--font-code);" id="val-integrity">0.982</div>
+          </div>
+          <div>
+            <div style="color:#aaa; font-size:9px;">INTERFERENCE</div>
+            <div style="color:var(--neon-purple); font-family:var(--font-code);" id="val-interference">0.004</div>
+          </div>
+          <div>
+            <div style="color:#aaa; font-size:9px;">DEPTH</div>
+            <div style="color:var(--neon-amber); font-family:var(--font-code);" id="val-depth">2</div>
+          </div>
+           <div>
+            <div style="color:#aaa; font-size:9px;">STATUS</div>
+            <div style="color:#fff; font-size:9px;">ONLINE</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="stream-region">
+      <div class="message-log" id="msg-log">
+        <div class="msg sys">
+          [SYS] COG.OS AETHER SUBSYSTEM INITIALIZED.<br>
+          [SYS] HOLOGRAPHIC RENDERING: ACTIVE.<br>
+          [SYS] NEURO-LINK ESTABLISHED.
+        </div>
+      </div>
+    </main>
+
+    <footer class="input-region">
+      <div class="command-capsule">
+        <div class="capsule-icon">&gt;</div>
+        <input type="text" id="prompt" placeholder="Initiate cognitive sequence..." autocomplete="off">
+        <div class="mode-dock">
+          <div class="mode-pill" id="mode-simple">SMPL</div>
+          <div class="mode-pill active" id="mode-auto">AUTO</div>
+          <div class="mode-pill" id="mode-deep">DEEP</div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    /* =========================================
+       1. THE STARMAP (THE BRAIN)
+       Uses WebGL for high performance particles
+       that represent the "Thoughts" of the AI.
+       ========================================= */
+    const canvas = document.getElementById('starmap-canvas');
+    const gl = canvas.getContext('webgl');
+    let width, height;
+    
+    // Shader Sources
+    const vsSource = `
+      attribute vec2 a_pos;
+      attribute float a_size;
+      attribute float a_speed;
+      uniform float u_time;
+      uniform vec2 u_mouse;
+      void main() {
+        // Organic movement
+        float x = a_pos.x + sin(u_time * a_speed + a_pos.y * 5.0) * 0.05;
+        float y = a_pos.y + cos(u_time * a_speed + a_pos.x * 5.0) * 0.05;
+        
+        // Parallax Mouse Interaction (The "Gaze")
+        x -= u_mouse.x * 0.1 * a_speed;
+        y += u_mouse.y * 0.1 * a_speed;
+
+        gl_Position = vec4(x, y, 0.0, 1.0);
+        gl_PointSize = a_size * (1.0 + sin(u_time * 2.0) * 0.3); // Breathe effect
+      }
+    `;
+
+    const fsSource = `
+      precision mediump float;
+      uniform float u_time;
+      void main() {
+        vec2 coord = gl_PointCoord - vec2(0.5);
+        float dist = length(coord);
+        if (dist > 0.5) discard;
+        
+        // Liquid Cyber Color Palette
+        float pulse = 0.5 + 0.5 * sin(u_time * 3.0);
+        vec3 color = mix(vec3(0.0, 0.9, 1.0), vec3(0.7, 0.0, 1.0), pulse); // Cyan to Purple
+        
+        float alpha = 1.0 - smoothstep(0.4, 0.5, dist);
+        gl_FragColor = vec4(color, alpha * 0.8);
+      }
+    `;
+
+    // Compile Shader Helper
+    function createShader(gl, type, source) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, source);
+      gl.compileShader(s);
+      if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(s));
+        gl.deleteShader(s); return null;
+      }
+      return s;
+    }
+
+    // Init GL
+    const prog = gl.createProgram();
+    gl.attachShader(prog, createShader(gl, gl.VERTEX_SHADER, vsSource));
+    gl.attachShader(prog, createShader(gl, gl.FRAGMENT_SHADER, fsSource));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    // Buffers
+    const NUM_STARS = 400;
+    const data = new Float32Array(NUM_STARS * 4); // x, y, size, speed
+    for(let i=0; i<NUM_STARS; i++) {
+      data[i*4+0] = (Math.random() * 2 - 1) * 1.5; // X spread
+      data[i*4+1] = (Math.random() * 2 - 1) * 1.5; // Y spread
+      data[i*4+2] = Math.random() * 4.0 + 1.0;   // Size
+      data[i*4+3] = Math.random() * 0.5 + 0.1;   // Speed
+    }
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+    const aPos = gl.getAttribLocation(prog, 'a_pos');
+    const aSize = gl.getAttribLocation(prog, 'a_size');
+    const aSpeed = gl.getAttribLocation(prog, 'a_speed');
+    
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 16, 0);
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aSize, 1, gl.FLOAT, false, 16, 8);
+    gl.enableVertexAttribArray(aSize);
+    gl.vertexAttribPointer(aSpeed, 1, gl.FLOAT, false, 16, 12);
+    gl.enableVertexAttribArray(aSpeed);
+
+    const uTime = gl.getUniformLocation(prog, 'u_time');
+    const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+    // Render Loop
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', e => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -((e.clientY / window.innerHeight) * 2 - 1);
+    });
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      gl.viewport(0,0,width,height);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function render(time) {
+      gl.clearColor(0.01, 0.02, 0.04, 1);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform1f(uTime, time * 0.001);
+      gl.uniform2f(uMouse, mouseX, mouseY);
+      gl.drawArrays(gl.POINTS, 0, NUM_STARS);
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+
+    /* =========================================
+       2. UI LOGIC & SIMULATION
+       ========================================= */
+    const promptInput = document.getElementById('prompt');
+    const logContainer = document.getElementById('msg-log');
+    const vramBar = document.getElementById('vram-bar');
+    const vramText = document.getElementById('vram-text');
+    const latticeGrid = document.getElementById('lattice-grid');
+
+    // Create Neural Lattice Grid
+    for(let i=0; i<32; i++) {
+      const div = document.createElement('div');
+      div.className = 'lattice-cell';
+      latticeGrid.appendChild(div);
+    }
+
+    // Add Message Helper
+    function addMessage(text, type='sys') {
+      const div = document.createElement('div');
+      div.className = `msg ${type}`;
+      div.innerHTML = text; // allow html
+      logContainer.appendChild(div);
+      logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+    // Mock Simulation Loop (Heartbeat)
+    setInterval(() => {
+      // Simulate VRAM fluctuation
+      const usage = 40 + Math.random() * 20;
+      vramBar.style.width = `${usage}%`;
+      const gb = (usage/100 * 6.0).toFixed(2);
+      vramText.innerText = `${gb} GB / 6.0 GB`;
+
+      // Simulate Thread activity
+      const cells = document.querySelectorAll('.lattice-cell');
+      cells.forEach(c => {
+        if(Math.random() > 0.7) c.classList.add('active');
+        else c.classList.remove('active');
+      });
+
+      // Simulate Metrics Jitter
+      document.getElementById('val-integrity').innerText = (0.95 + Math.random()*0.04).toFixed(3);
+      document.getElementById('val-interference').innerText = (Math.random()*0.02).toFixed(3);
+    }, 1000);
+
+    /* =========================================
+       3. INTERACTION & SOCKET.IO
+       ========================================= */
+    let socket = null;
+    let mode = 'auto';
+
+    // Mode Switching
+    ['simple','auto','deep'].forEach(m => {
+      document.getElementById(`mode-${m}`).addEventListener('click', (e) => {
+        document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
+        e.target.classList.add('active');
+        mode = m;
+        addMessage(`[SYS] SWITCHING COGNITIVE STRATEGY >> ${m.toUpperCase()}`, 'sys');
+      });
+    });
+
+    // Input Handling
+    promptInput.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') {
+        const txt = promptInput.value.trim();
+        if(!txt) return;
+        
+        // 1. Visual Feedback immediately
+        addMessage(txt, 'user');
+        promptInput.value = '';
+
+        // 2. Check Socket
+        if(socket && socket.connected) {
+          socket.emit('submit_prompt', { prompt: txt, mode: mode });
+          // Add temporary loading indicator
+          const loadId = 'loading-' + Date.now();
+          const loadDiv = document.createElement('div');
+          loadDiv.className = 'msg sys';
+          loadDiv.id = loadId;
+          loadDiv.innerHTML = `<span style="animation:pulse 1s infinite">PROCESSING NEURAL PATHWAYS...</span>`;
+          logContainer.appendChild(loadDiv);
+        } else {
+          // Mock Response for Demo
+          setTimeout(() => {
+            addMessage("CogOS is running in DEMO MODE (No Socket). <br>Simulation: I have received your input. The architecture is sound.", 'sys');
+          }, 600);
+        }
+      }
+    });
+
+    // Socket Initialization
+    try {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      socket = io(`${protocol}//${window.location.host}`, { transports: ['websocket', 'polling'] });
+      
+      socket.on('connect', () => {
+        console.log("Connected");
+        addMessage("[NET] UPLINK ESTABLISHED.", 'sys');
+      });
+      
+      socket.on('prompt_result', (data) => {
+        // Remove loading indicators
+        const loaders = document.querySelectorAll("div[id^='loading-']");
+        loaders.forEach(el => el.remove());
+        
+        if(data.success) {
+          addMessage(data.response.replace(/\n/g, '<br>'), 'sys');
+        } else {
+          addMessage(`[ERR] ${data.error}`, 'sys');
+        }
+      });
+
+    } catch(e) {
+      console.log("Socket init failed (expected in static preview)");
+    }
+
+  </script>
+</body>
+</html>

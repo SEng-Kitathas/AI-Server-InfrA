@@ -1,0 +1,319 @@
+{
+  "created_at_utc": "2026-07-29T23:18:37.618298+00:00",
+  "gate_name": "receiver_concurrency_trace",
+  "approach": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "levels": {
+    "nano": "individual probe",
+    "micro": "route family / boundary class",
+    "meso": "gate matrix",
+    "macro": "claim gate"
+  },
+  "clean": true,
+  "probe_count": 12,
+  "failure_count": 0,
+  "unexpected_500_count": 0,
+  "failures": [],
+  "unexpected_500": [],
+  "results": [
+    {
+      "name": "concurrent write 0",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_0.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_0.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "55e1403139cdb2c357f00aba55c42db6b11a35ace355f664f2b187da7a3ebdd0",
+        "time": "2026-07-29T23:18:37.602361+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 1",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_1.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_1.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "cc2c3cb56b3673a8539dfbfdc64876354f78ce87a697ef6bd43b951613a45c91",
+        "time": "2026-07-29T23:18:37.603903+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 3",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_3.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_3.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "625f4b45faa53b7902d9be2e3a6da77606a432483f4b3a2c011c8ff4779c1dc8",
+        "time": "2026-07-29T23:18:37.605958+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 2",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_2.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_2.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "450e2343036ee798b89029c8e45931efe592613098aa6c08073e8d07862db421",
+        "time": "2026-07-29T23:18:37.606935+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 4",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_4.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_4.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "173ff500866fb4a359eab1d65bbcd5b5a79c2d2529003d64fa7c98c946d53f8e",
+        "time": "2026-07-29T23:18:37.609334+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 5",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_5.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_5.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "bf8d8da24b1f323635aa99a871d6ebb52aba55a937eeadbf1dac3d3e1e1a34ac",
+        "time": "2026-07-29T23:18:37.611227+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 7",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_7.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_7.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "7278411e66253dd85b76c0c731586492ca894da83b56df8e87a927f79408ef09",
+        "time": "2026-07-29T23:18:37.611885+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 10",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_10.txt",
+        "bytes": 14,
+        "bytes_written": 14,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_10.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "c75cc1169a4ecac3b6e29560c27e50ae2a470ac56ebd6e16cab0c106506d56fb",
+        "time": "2026-07-29T23:18:37.614461+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 6",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_6.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_6.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "8e6313ba7e4532c715819dd3c64b3c682509a2b657927e2b309c76349f769adf",
+        "time": "2026-07-29T23:18:37.615836+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 11",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_11.txt",
+        "bytes": 14,
+        "bytes_written": 14,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_11.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "4654545e6d1ac983a52dc4f210301eb35ada76bd61623d839794f12459d87cf4",
+        "time": "2026-07-29T23:18:37.616367+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 8",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_8.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_8.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "e38495b9aa2db4d490b8eb405513327e3917402f52253dc87ff277fc5d14adb2",
+        "time": "2026-07-29T23:18:37.617482+00:00"
+      }
+    },
+    {
+      "name": "concurrent write 9",
+      "route": "/project/files/write",
+      "method": "POST",
+      "category": "concurrency",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "ok_field": true,
+      "error_code": null,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime/projects/route_trace_tmp_full_route_gate/reports/concurrent_9.txt",
+        "bytes": 13,
+        "bytes_written": 13,
+        "created": true,
+        "ok": true,
+        "path": "reports/concurrent_9.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "563be21ad88b76b9d6895cb9734c484103eda7e65ccdc05f8a442e48e8b99646",
+        "time": "2026-07-29T23:18:37.617849+00:00"
+      }
+    }
+  ]
+}

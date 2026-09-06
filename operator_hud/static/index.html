@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PCMMAD Operations HUD</title>
+  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260901c">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="eyebrow">PCMMAD LOCAL CONTROL PLANE</div>
+    <h1>Operations HUD</h1>
+    <div class="sub">live state · explicit approvals · browser sessions · dispatch evidence · tool explorer</div>
+  </div>
+  <div class="top-actions">
+    <button id="refreshAll" class="secondary">Refresh all</button>
+    <div id="globalState" class="state-pill unknown">CHECKING</div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="ops">Operations</button>
+  <button class="tab" data-tab="browser">Browser</button>
+  <button class="tab" data-tab="activity">Activity</button>
+  <button class="tab" data-tab="tools">Tool Explorer</button>
+</nav>
+
+<main>
+<section id="tab-ops" class="tabpage active">
+  <div class="service-grid">
+    <article class="service-card" id="hudCard">
+      <div class="service-head"><span>HUD</span><span id="hudLamp" class="lamp unknown"></span></div>
+      <div id="hudState" class="service-state">checking</div><div id="hudDetail" class="service-detail">127.0.0.1:5090</div>
+    </article>
+    <article class="service-card" id="receiverCard">
+      <div class="service-head"><span>Receiver</span><span id="receiverLamp" class="lamp unknown"></span></div>
+      <div id="receiverState" class="service-state">checking</div><div id="receiverDetail" class="service-detail">127.0.0.1:5000</div>
+    </article>
+    <article class="service-card" id="bridgeCard">
+      <div class="service-head"><span>Browser Bridge</span><span id="bridgeLamp" class="lamp unknown"></span></div>
+      <div id="bridgeState" class="service-state">checking</div><div id="bridgeDetail" class="service-detail">127.0.0.1:4471</div>
+    </article>
+    <article class="service-card">
+      <div class="service-head"><span>Active Sessions</span><span id="sessionLamp" class="lamp unknown"></span></div>
+      <div id="sessionCount" class="service-state">0</div><div class="service-detail">browser bridge sessions</div>
+    </article>
+    <article class="service-card" id="journalCard">
+      <div class="service-head"><span>Forensic Journal</span><span id="journalLamp" class="lamp unknown"></span></div>
+      <div id="journalState" class="service-state">checking</div><div id="journalDetail" class="service-detail">durable dispatch evidence</div>
+    </article>
+  </div>
+
+  <div class="ops-grid">
+    <section class="panel action-panel">
+      <div class="panel-head"><div><div class="eyebrow">ACTION CENTER</div><h2>Common operations</h2></div></div>
+      <div class="action-grid">
+        <button class="action-card danger-action" data-preset="duckai">
+          <span class="action-icon">↗</span><span><strong>Start Duck.ai evaluator</strong><small>visible Chrome session · approval required</small></span>
+        </button>
+        <button class="action-card" data-preset="sessions">
+          <span class="action-icon">◉</span><span><strong>Refresh browser sessions</strong><small>read-only</small></span>
+        </button>
+        <button class="action-card" data-preset="mounts">
+          <span class="action-icon">▦</span><span><strong>Inspect mounts</strong><small>read-only</small></span>
+        </button>
+        <button class="action-card" data-preset="upload">
+          <span class="action-icon">⇧</span><span><strong>Upload to browser</strong><small>file input · approval required</small></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><div><div class="eyebrow">ATTENTION</div><h2>Recent failures</h2></div><span id="failureCount" class="counter">0</span></div>
+      <div id="failures" class="stack empty-note">No HUD dispatch failures recorded.</div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><div><div class="eyebrow">LIVE ACTIVITY</div><h2>Recent dispatches</h2></div><span id="lastRefresh" class="muted"></span></div>
+    <div id="recentActivity" class="activity-list"></div>
+  </section>
+</section>
+
+<section id="tab-browser" class="tabpage">
+  <div class="browser-layout">
+    <section class="panel">
+      <div class="panel-head"><div><div class="eyebrow">BROWSER RUNTIME</div><h2>Sessions</h2></div><button id="browserRefresh" class="secondary">Refresh</button></div>
+      <div id="sessionList" class="session-list"></div>
+    </section>
+    <section class="panel">
+      <div class="eyebrow">NEW SESSION</div><h2>Launch browser</h2>
+      <label>URL<input id="launchUrl" value="https://duck.ai/"></label>
+      <label>Profile name<input id="launchProfile" value="pcmmad_operator"></label>
+      <div class="split"><label><input id="launchHeadless" type="checkbox"> headless</label><label><input id="launchPersistent" type="checkbox"> persistent</label></div>
+      <button id="launchBrowser" class="primary danger-button">Request browser launch</button>
+      <div class="hint">This action will open the approval surface before anything is dispatched.</div>
+      <hr class="section-rule">
+      <div class="eyebrow">UPLOAD TO ACTIVE SESSION</div><h2>File input</h2>
+      <label>Session<select id="uploadSession"><option value="">No active session</option></select></label>
+      <label>Selector<input id="uploadSelector" value="input[type=file]"></label>
+      <label>Local path(s), one per line<textarea id="uploadPaths" rows="4" placeholder="E:\path\to\artifact.zip"></textarea></label>
+      <button id="requestUpload" class="danger-button">Request file upload</button>
+      <div class="hint">Uses browser.upload. Approval is required and surfaced before dispatch.</div>
+    </section>
+  </div>
+</section>
+
+<section id="tab-activity" class="tabpage">
+  <section class="panel">
+    <div class="panel-head"><div><div class="eyebrow">FORENSIC HUD JOURNAL</div><h2>Dispatch history</h2></div><button id="activityRefresh" class="secondary">Refresh</button></div>
+    <div id="activityTable" class="activity-table"></div>
+  </section>
+</section>
+
+<section id="tab-tools" class="tabpage">
+  <div class="tool-layout">
+    <aside class="tool-sidebar">
+      <input id="toolSearch" placeholder="Search live tools">
+      <div id="categories" class="categories"></div>
+      <div id="toolCount" class="muted"></div>
+      <div id="toolList" class="tool-list"></div>
+    </aside>
+    <section class="panel tool-workspace">
+      <div id="toolEmpty" class="empty-note">Select a live tool. This is the expert/raw surface, not the primary operator interface.</div>
+      <div id="toolDetail" class="hidden">
+        <div class="panel-head"><div><div id="toolCategory" class="eyebrow"></div><h2 id="toolName"></h2><div id="toolDescription" class="muted"></div></div><div id="toolBadges"></div></div>
+        <div id="schemaForm"></div>
+        <details><summary>Raw JSON payload</summary><textarea id="rawPayload" spellcheck="false">{}</textarea></details>
+        <div class="dispatch-row"><button id="syncFormBtn" class="secondary">Form → JSON</button><button id="dispatchBtn" class="primary">Dispatch</button></div>
+        <pre id="resultBox" class="result">No dispatch yet.</pre>
+      </div>
+    </section>
+  </div>
+</section>
+</main>
+
+<div id="approvalModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="approvalTitle">
+  <div class="modal-card">
+    <div class="modal-danger">EXPLICIT OPERATOR APPROVAL REQUIRED</div>
+    <h2 id="approvalTitle">Approve action?</h2>
+    <div class="approval-meta"><span id="approvalTool"></span><span id="approvalTier"></span></div>
+    <p id="approvalDescription"></p>
+    <div class="payload-label">Exact Runtime Challenge + Payload</div><pre id="approvalPayload" class="approval-payload"></pre>
+    <div class="approval-warning">The Runtime bound this challenge to the exact capability contract, arguments, target, and expiry. Confirmation consumes this single-use handle; changed arguments require a new challenge.</div>
+    <div class="modal-actions"><button id="rejectApproval" class="secondary">Reject</button><button id="confirmApproval" class="danger-button">Approve exact challenge</button></div>
+  </div>
+</div>
+
+<div id="dataModal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-card data-modal-card">
+    <div class="eyebrow">OPERATOR RESULT</div><h2 id="dataTitle">Result</h2>
+    <pre id="dataBody" class="approval-payload"></pre>
+    <div class="modal-actions"><button id="closeData" class="primary">Close</button></div>
+  </div>
+</div>
+<div id="toast" class="toast hidden"></div>
+<script src="/static/app.js?v=ops-hud-20260905-bound-approval"></script>
+</body>
+</html>
