@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-05 20:39 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-05 20:42 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -595,14 +595,14 @@ Before promotion:
 - [x] SOP/governed-ingestion integrity/currentness/in-process-concurrency slice qualified; true streaming member inspection + multi-process locking remain explicit claim ceilings.
 - [x] protocol non-initializing observation + current-GENESIS doctrine slice qualified; historical ledgers remain immutable.
 - [x] plugin transactional registry/currentness reload slice qualified; **no plugin code sandbox/isolation claim.**
-- [ ] control/restart/HUD full-plane audit.
+- [~] control/restart/HUD audit: approval/Host/process-ownership + A-030 availability/core-readiness slices earned; broader service constellation/visual/operator surfaces remain open.
 - [~] transfer authority/scope/currentness/integrity hostile slice qualified; immutable export snapshot semantics remain unearned and final release promotion pressure remains.
-- [ ] browser degraded/optional semantics final pass.
-- [~] schema/runtime/policy/imported-action parity audit: **bound-authority compact adapter + MCP availability + HUD availability/readiness presentation slices earned**; permissive OpenAPI/action typing lossiness classification remains open.
+- [x] browser optional-vs-core HUD readiness split qualified under A-030; browser remains an optional provider/plane.
+- [~] schema/runtime/policy/imported-action parity audit: **bound-authority compact adapter + MCP availability + HUD availability/readiness presentation slices earned**; remaining OpenAPI/imported-action/runtime-surface currentness classification remains open.
 - [x] continuity/rehydration ranking + cache-currentness audit: **ICF-CS v1.0 embodied**, transient noise excluded, all authority roles seeded, cache source-currentness validated, full suite green 209.
 
 ### Capability/runtime maturation
-- [ ] capability availability/currentness normalization across all families.
+- [~] capability availability/currentness core earned; provider expansion remains evidence-driven rather than blanket across all families.
 - [ ] process identity maturation beyond PID/start time where needed.
 - [ ] approval cleanup/revocation/introspection if justified.
 - [ ] retire legacy inline approval after adapter migration.
@@ -610,7 +610,7 @@ Before promotion:
 - [ ] resource-aware admission/orchestration only when justified by real workloads.
 - [ ] service constellation supervision.
 - [ ] multi-project/session/tab semantics.
-- [ ] plugin lifecycle/currentness/degradation semantics.
+- [x] plugin transactional reload/currentness/collision/rollback semantics earned; plugin code sandbox isolation remains a separate threat-model ceiling.
 
 ### Operator HUD
 - [x] Aero-Glass/Liquid-Aero/HoloFont/YuiUI/ALCI donor corpus recovered.
@@ -619,7 +619,7 @@ Before promotion:
 - [x] current RAHL-HUD preserved as behavioral/security ancestry.
 - [x] receiver-owned operator-plane lifecycle started in V30.
 - [x] bound-approval HTTP 421 cluster fixed; dedicated Host-guard + approval qualification 13/13 PASS.
-- [ ] core-vs-optional degraded qualification split.
+- [x] core-vs-optional degraded qualification split earned under A-030.
 - [ ] responsive three-wing layout.
 - [ ] top corona / bottom command dock.
 - [ ] Liquid-Aero material tier.
@@ -648,11 +648,11 @@ Fresh current evidence:
 - native effect + availability + bound authority + result range + plugin currentness earned;
 - MCP availability parity earned;
 - HUD dynamic availability/core-vs-optional presentation earned;
-- strengthened focused HUD/currentness cluster **41/41 PASS**;
-- full V30 suite **241 GREEN**.
+- final HUD+projection currentness cluster **32/32 PASS**;
+- full V30 suite **245 GREEN**.
 
 Current ordered frontier:
-1. complete remaining adapter-lossiness classification, especially permissive OpenAPI/action typing, and label acceptable/deferred/fix-now;
+1. complete remaining OpenAPI/imported-action/runtime-surface currentness classification and label acceptable/deferred/fix-now;
 2. rank next genuinely-open Runtime seam from process/service identity, async final qualification, semantic executor, node/resource maturation, live V30 promotion;
 3. maintain Git commit/push/remote-readback cadence after each earned delta;
 4. visual HUD embodiment remains later;

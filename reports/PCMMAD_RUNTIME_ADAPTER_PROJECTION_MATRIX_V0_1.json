@@ -30,7 +30,8 @@
       "id": "runtime.health",
       "authority": "runtime",
       "adapter_lossiness": "summary_allowed_truth_exact",
-      "durable_adapter_truth": false
+      "durable_adapter_truth": false,
+      "hud_projection": "core readiness from HUD+receiver+journal; optional browser bridge degradation remains visible without disqualifying core"
     },
     {
       "id": "runtime.constitutional_seed",
@@ -50,7 +51,8 @@
         "contract_digest",
         "availability_contract"
       ],
-      "native_evidence": "100_tool_registry_effects_complete_availability_core_earned"
+      "native_evidence": "100_tool_registry_effects_complete_availability_core_earned",
+      "hud_projection": "native card preserved; static availability rendered; explicit selected-tool native availability probe; ephemeral probe discarded on contract-digest change"
     },
     {
       "id": "project",
@@ -208,12 +210,11 @@
     "process identity and service/node ownership normalization",
     "node/resource model maturation",
     "research/semantic long-run projection and qualified semantic executor",
-    "HUD presentation of core-vs-optional health and dynamic availability",
-    "remaining MCP/OpenAPI/HUD/imported-action parity",
+    "remaining OpenAPI/imported-action/runtime-surface parity",
     "async malformed/stale/race/final release qualification",
     "OBE candidate reconciliation against audited successor runtime",
     "live V30 promotion/restart/CSC/package qualification",
     "final schema redesign after whole-runtime convergence"
   ],
-  "reconciled_through": "A-029"
+  "reconciled_through": "A-030"
 }

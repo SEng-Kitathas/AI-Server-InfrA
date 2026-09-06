@@ -1,6 +1,6 @@
 # PCMMAD Runtime Adapter Projection Matrix v0.1
 
-Status: CURRENT CANDIDATE SHARED CONTRACT / runtime-audit derived / reconciled through A-029
+Status: CURRENT CANDIDATE SHARED CONTRACT / runtime-audit derived / reconciled through A-030
 Purpose: meeting surface between audited Laboratory Runtime semantics and OBE/Skill/MCP projection work. This does NOT freeze final adapter vocabulary.
 
 ## Governing laws
@@ -17,9 +17,9 @@ Purpose: meeting surface between audited Laboratory Runtime semantics and OBE/Sk
 | Native concept / holon | Native authority | Current native evidence | MCP candidate projection | OpenAPI / Actions projection | HUD projection | Adapter lossiness allowed | Lifecycle | Authority / approval | Idempotency | Result / readback | Version / currentness | Adapter-only durable state allowed? |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Runtime identity | Runtime/health | `/health`, lab health, roots, version, constitutional seed | `runtime.identity` | `/health` | corona/global identity | representation only | live | read | n/a | health receipt | runtime/version + doctrine digest | no |
-| Runtime health | Runtime/plane health | aggregate lab health, execution scheduler health, optional-plane states | `runtime.status` | `/health`, `/lab/health` | global readiness + plane matrix | may summarize, not alter required/optional truth | live | read | n/a | plane health receipt | timestamp/currentness | no |
+| Runtime health | Runtime/plane health | aggregate lab health, execution scheduler health, optional-plane states | `runtime.status` | `/health`, `/lab/health` | core readiness + plane matrix; optional browser degradation remains visible without disqualifying core | may summarize, not alter required/optional truth | live | read | n/a | plane health receipt | timestamp/currentness | no |
 | Constitutional seed | Runtime doctrine seed | `runtime_axioms.py`, `/health`, `lab.health` | included in identity/status | health payload | subtle boot/corona surface | zero semantic loss | versioned | read | n/a | digest | axiom version + digest | no |
-| Capability | Native registry | 100 native tools; ToolSpec contract/effect/availability metadata | `capabilities.list/describe/invoke` | `/lab/tools`, `/lab/dispatch` | command palette/tool explorer | filtering/summarization only; invocation semantics zero-loss | versioned/current availability | effective policy per capability | capability-specific | verifier/readback metadata | capability_version + schema_version + schema_hash + contract_digest + availability contract/currentness | no |
+| Capability | Native registry | 100 native tools; ToolSpec contract/effect/availability metadata | `capabilities.list/describe/invoke` | `/lab/tools`, `/lab/dispatch` | command palette/tool explorer + static availability + explicit selected-tool currentness | filtering/summarization only; invocation semantics zero-loss | versioned/current availability | effective policy per capability | capability-specific | verifier/readback metadata | capability_version + schema_version + schema_hash + contract_digest + availability contract/currentness | no |
 | Capability family | Native registry projection | category/family cards | list filters/family describe | capability router descriptor | topology/family browser | summary allowed | live/versioned | derived | n/a | constituent capability refs | digest/currentness desirable | no |
 | Project | Project registry/layout | project roots, manifest, status, continuity surfaces | `projects.resolve/bootstrap` | project routes | project selector/context wing | zero identity loss | persistent | project-scoped | n/a | project/manifest receipt | project revision/currentness needed | no |
 | Job | Canonical execution scheduler | durable job JSON, queue/status/replay/cancel | `jobs.submit/status/progress/wait/cancel` | execution routes + lab execution tools | jobs/queue wing | status may be compact; lifecycle semantics zero-loss | durable lifecycle | submit/cancel mutation policy | existing key+payload fingerprint semantics | compact progress + output/result/artifact links | job revision/currentness desirable | no |
@@ -84,12 +84,11 @@ Remaining genuinely open:
 1. process identity object completion and service/node ownership normalization;
 2. node/resource model maturation;
 3. research/semantic long-run projection and qualified semantic executor restoration;
-4. HUD presentation of core-vs-optional health and dynamic capability availability;
-5. remaining MCP/OpenAPI/HUD/imported-action parity where native contract fields are still intentionally/permissively compressed;
-6. async malformed/stale/race/final release qualification;
-7. final runtime audit reconciliation with OBE research/derivation campaign;
-8. live V30 promotion/restart/CSC/package qualification;
-9. final schema redesign only after whole-runtime convergence.
+4. remaining OpenAPI/imported-action/runtime-surface parity where native contract fields are still intentionally/permissively compressed;
+5. async malformed/stale/race/final release qualification;
+6. final runtime audit reconciliation with OBE research/derivation campaign;
+7. live V30 promotion/restart/CSC/package qualification;
+8. final schema redesign only after whole-runtime convergence.
 
 ## Claim ceiling
 Candidate shared contract. It is grounded in the current V30 audit and verified runtime mechanisms but does not freeze final MCP tool names, final OBE interface, or final schema ontology.

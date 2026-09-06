@@ -153,6 +153,13 @@ A competent unfamiliar AI agent should be able to:
 
 The same native state should support the human Operator HUD.
 
+Current earned HUD projection:
+- `/api/tools` preserves native capability cards rather than maintaining a second catalog;
+- static resident/dynamic availability is rendered from the native descriptor;
+- dynamic currentness is requested explicitly for the selected capability through native `lab.capabilities.availability`, never by a hidden catalog-wide scan;
+- current probe receipts are ephemeral adapter state and are discarded when the native `contract_digest` changes;
+- HUD core readiness treats HUD + receiver + forensic journal as required while browser bridge health is optional/degraded presentation, not a false core failure.
+
 ## Cross-thread compatibility requirement
 Any MCP/App/Skill work occurring in another thread MUST target this contract rather than inventing a parallel job/project/artifact/capability model.
 
