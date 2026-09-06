@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-06 00:51 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-06 07:12 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -194,6 +194,8 @@ Scars to preserve:
 - receiver venv Python identity is not receiver-service identity;
 - `PowerShell -NoExit` wrappers can outlive children;
 - submitted/start/completed/registered must not be conflated.
+- **DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**: where steady-state mutation can lawfully extend previously verified derived state, extend it rather than paying full recovery cost every mutation;
+- **INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**: full reconstruction/full verification remain explicit recovery/audit backstops.
 
 ---
 
@@ -643,18 +645,28 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-035 active/terminal partition is earned locally:
-- active metadata and terminal history are physically separated while identity/history/replay/restart remain compatible;
-- terminal transitions are same-filesystem atomic; legacy migration is conflict-refusing and crash-repairable;
-- 0/500/5000 terminal-history discriminator keeps hot scans at 58 active record loads;
-- execution/partition cluster 34/34 PASS; full isolated suite 279 GREEN;
-- first qualification accidentally migrated 1,158 real records, all were exactly restored, and suite-wide pre-import root isolation now proves ambient partition dirs 0 before/after.
+A-036 post-A-035 lifecycle boundedness is derivationally complete:
+- retention no longer justified as scheduler-performance repair; defer to explicit storage/privacy policy;
+- default finite global concurrency already bounds drain starts/reads;
+- project-full candidate traversal observed but not material enough for bespoke patch;
+- `/execution/list(limit=N)` still stats/sorts O(history) before slicing and is a real bounded-materialization defect handed to incremental-state machinery.
+
+The cross-domain raid packet has been read in full and independently pressure-tested. Current `protocol_store` is the second verified subsystem to pay full-rebuild cost in steady state: full JSONL parse, full chain verification, append+fsync, second full verification, full snapshot fold on every event.
+
+Load-bearing engineering direction now includes:
+**DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**
+paired with
+**INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**.
 
 Immediate sequence:
-1. publish A-035 and remote-read exact head;
-2. only then A-036 derive retention/bounded-drain policy;
-3. keep all-history indexing, serving model, PID reuse, and multi-receiver admission separate;
-4. preserve the A-035 test-isolation recovery scar as a permanent anti-regression.
+1. publish A-036 audit/raid intake and remote-read;
+2. A-037 protocol-store incremental fold/checkpoint while preserving full rebuild/verify recovery path;
+3. deterministic simulation/state-machine on-ramp;
+4. informer watch/cache + slow resync over A-035 active store;
+5. Merkle inclusion/consistency proof receipts after ledger checkpoint semantics stabilize;
+6. lab/protocol idempotency and Windows Job Object resource limits as small high-value raids;
+7. remaining R6/R8/R9/R10/R11/R12/R13 candidates only after current-tree discrimination;
+8. final schema redesign remains locked last.
 
 ---
 

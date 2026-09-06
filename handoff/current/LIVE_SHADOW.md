@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-06 00:51 ET
+Last updated: 2026-09-06 07:12 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-035 active/terminal partition earned after recovery/isolation hardening; Git publication next
+- Current mode: CHECKPOINT / PROMOTION — A-036 derived; raid intake/scar promotion awaiting Git publication
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-035 active-set-bounded execution storage with recovery scar intact; then derive A-036 retention/bounded-drain policy.
+- Dominant objective: publish A-036 audit/raid intake, then A-037 protocol-store incremental fold/checkpoint.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -113,37 +113,40 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-035 and remote-read exact head;
-2. A-036 retention/bounded-drain policy only after publication;
-3. serving model, PID reuse, multi-receiver admission remain separate.
+1. P0 publish A-036 audit/raid intake;
+2. A-037 protocol-store incremental fold + verified-head/checkpoint;
+3. deterministic simulation/state-machine on-ramp;
+4. informer watch/cache + slow resync;
+5. Merkle proof-carrying protocol receipts;
+6. lab/protocol idempotency + Windows Job Object resource limits;
+7. remaining raids only after current-tree discriminators.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. refresh repo handoff mirror to A-035;
-2. final isolated handoff/execution/full-suite gate;
-3. verify ambient real partition dirs remain zero after final gate;
-4. commit/push/remote-read A-035;
-5. update outer Git receipt;
-6. then A-036.
+1. register A-036 continuity + scar promotion;
+2. refresh Git handoff mirror;
+3. final handoff/full-suite gate;
+4. commit/push/remote-read A-036;
+5. inspect snapshot/currentness/recovery contracts before A-037 mutation.
 
 ## Last 10 Turn Reinforcement Window
-1. A-034 remote-verified at `07b83f1`; A-035 access census opened.
-2. Centralized read/write/iterator model enabled active/terminal design without identity API rewrite.
-3. Initial A-035 implementation + hostile tests written.
-4. Focused tests exposed startup/test-currentness issues; repaired without reverting partition semantics.
-5. Full suite reached 279 GREEN, but side-effect audit found real operator stores had been migrated. CRITICAL RECOVERY.
-6. Exact recovery plan frozen: 1,158 files / 3,853,013 bytes / SHA `fafb83d8...13a7`.
-7. Recovery restored 1,158/1,158 files, removed 94/94 dirs, 0 conflicts/remnants/hash failures.
-8. Added pre-import pytest temp-root isolation; real partition dirs 0 before rerun.
-9. Isolated focused 34/34 + full 279 GREEN; real partition dirs remained 0 after. VERIFIED.
-10. 0/500/5000 terminal benchmark held hot loads at 58/58/58; A-035 entering Git publication.
+1. A-035 was found already remote-current at `9bb9251`; no replay of completed A-034/A-035 work.
+2. USER supplied full cross-domain raid packet and independent protocol-store benchmark, proposing fold-not-rebuild scar. NEW EVIDENCE.
+3. ASSISTANT read entire 13-raid attachment and hashed it exactly.
+4. Current tree structurally confirmed protocol full-history append, lab idempotency gaps, unused Job Object resource fields.
+5. Protocol benchmark fixture first failed on stale lowercase rigor enum; no Runtime mutation. EVALUATOR SCAR.
+6. Canonical enum readback repaired benchmark.
+7. Current Windows protocol benchmark reproduced linear append and full parse/double verify/full fold. DEFECT EARNED.
+8. A-036 pressure showed retention no longer performance-required and default drain already bounded by global=8.
+9. `/execution/list(limit=20)` proved N history stat/sort work before 20 loads. DEFECT / HANDOFF.
+10. A-036 report + full raid receipt written; systemic fold-not-rebuild lens entering continuity/Git publication.
 
 ## Delta Since Previous Shadow
-- A-035 active/terminal partition is locally earned.
-- hot scheduler/capacity scan complexity is now O(active), independent of terminal history.
-- qualification isolation defect was caught before promotion and fully recovered.
-- new explicit test-isolation law entered doctrine/revisit/trace.
-- A-036 remains blocked until A-035 remote readback.
+- A-036 closes as derivation/no execution-code mutation.
+- retention deferred; default drain classified bounded; all-history list cost defect confirmed.
+- protocol store independently proves second full-rebuild steady-state disease.
+- `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD` promoted as load-bearing hostile audit lens with full-recovery anti-overreach.
+- A-037 protocol fold/checkpoint becomes next after Git.

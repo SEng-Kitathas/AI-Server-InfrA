@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-06 00:51 ET
+Last updated: 2026-09-06 07:12 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,46 +263,34 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-035 active/terminal execution-store partition is **EARNED for current V30 working-tree scope** and pending mandatory Git publication.
+A-036 post-partition execution lifecycle boundedness is **DERIVED / NO EXECUTION-CODE MUTATION EARNED** and pending this audit step's mandatory Git publication.
 
-Earned storage semantics:
-- hot metadata: `execution/active/<job>.json`;
-- durable history: `execution/terminal/<job>.json`;
-- legacy flat records remain direct-read/migration fallback;
-- `idempotency.json` remains at execution root;
-- per-job output/worker-control directories remain unchanged;
-- direct identity resolves active -> terminal -> legacy;
-- `/execution/list` merges all-history; scheduler/capacity/queued/readiness enumerate active only;
-- terminal transition persists terminal payload then same-filesystem `os.replace(source, terminal)`;
-- startup repair handles crash-stranded records;
-- migration refuses conflicting bytes and keeps corrupt/unclassifiable records hot-visible;
-- migration readiness is per execution-store root, so later-mounted legacy projects can be normalized.
+A-036 outcomes:
+- terminal retention = **DEFER / policy-only**, because A-035 already removed terminal history from scheduler/capacity hot scans;
+- default drain = **NO DEFECT** under current global concurrency 8: candidate populations 100/1,000/10,000 all started/read exactly 8 when capacity empty and 0 when saturated;
+- configured per-project-full traversal remains linear in candidate count but 10,000 skipped candidates took ~0.776 ms and only one job-file read; no bespoke patch earned;
+- `/execution/list(limit=20)` = **REAL BOUNDED-MATERIALIZATION DEFECT**: 100/1,000/10,000 history candidates caused 100/1,000/10,000 `stat()` calls before only 20 records were loaded. This is handed forward to the incremental-derived-state raid rather than patched with an O(history) heap/sort variant.
 
-Structural discriminator with constant 58 active jobs:
-- terminal history 0 / 500 / 5,000;
-- queued-discovery loads **58 / 58 / 58**;
-- running-census loads **58 / 58 / 58**;
-- post-warm Windows scans ~7–8 ms independent of terminal history.
+New cross-domain evidence packet `CROSS DOMAIN RAIDS.md` was read in full and preserved by receipt at `reports/hostile_inputs/CROSS_DOMAIN_RAIDS_2026-09-06_RECEIPT.md` (source bytes 20,441; SHA `dcdafb71cd5a5a66b18139b4cada42dd131fa7a1eb1e01ff117afa5acf310027`).
 
-Verification:
-- isolated execution/partition cluster **34/34 PASS**;
-- isolated complete V30 suite **279 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- `execution_routes.py` SHA `11d888186db1f365ca76aada5512f9fcef420c93c2ec0b0976e9dcfd8c8e2a40`;
-- A-035 test SHA `28b3b667a7332690bb251d01f0a73e7344a434e3d41870dfdf82dc0980be01c7`;
-- pytest isolation SHA `43d8b6b940b19a88932197f54d13fa2b677642eaa46ca28c20381cb342714ab7`.
+Independent current-V30 protocol-store reproduction confirms the same implementation disease in a second subsystem:
+- 100 events -> 10.421 ms append; 201 events verified; 101 folded;
+- 1,000 -> 26.411 ms; 2,001 verified; 1,001 folded;
+- 4,000 -> 81.705 ms; 8,001 verified; 4,001 folded.
 
-Critical recovery scar:
-- first full-suite qualification inherited the operator's real `PCMMAD_PROJECTS_ROOT` and migrated 1,158 real terminal records into 94 test-created partition directories;
-- A-035 promotion was blocked immediately;
-- exact recovery plan SHA `fafb83d8674be0d37c5625d8dd1a863368b49a7bde20bce6e5bd4cf471e313a7`;
-- 1,158/1,158 records restored, 94/94 directories removed, 0 conflicts, 0 source remnants, 0 hash failures;
-- suite-wide pre-import temp-root isolation added; ambient real partition dirs verified **0 before -> 0 after** isolated focused+full reruns.
+Promoted hostile audit lens:
+**DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**.
+Meaning: when steady-state mutation can lawfully extend previously verified derived state, extend the fold/checkpoint/cache; full reconstruction/full verification remain recovery/audit backstops.
+Companion anti-overreach: **INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**.
 
 Immediate sequence:
-1. refresh Git handoff mirror to A-035;
-2. final exact-candidate handoff/execution/full-suite + ambient side-effect gate;
-3. commit/push/remote-read A-035;
-4. only then open A-036 retention/bounded-drain policy.
+1. publish A-036 audit/raid intake to Git and remote-read;
+2. A-037 derive/embody protocol-store incremental snapshot + verified-head/checkpoint semantics from current ledger invariants;
+3. then deterministic simulation/state-machine on-ramp before larger scheduler concurrency changes;
+4. informer watch/cache + slow resync on A-035 active store;
+5. Merkle proof-carrying protocol receipts after ledger checkpoint/head semantics stabilize;
+6. small high-value raids: lab/protocol idempotency and Windows Job Object resource limits;
+7. remaining raid candidates stay provisional until current-tree discriminators.
 
 ## Remaining major seams
 

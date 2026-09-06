@@ -89,39 +89,35 @@ Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/
 
 ## Verified base and current candidate
 
-Last remote-verified Git base before A-035:
-- commit `07b83f12409e50c37942d517c6ac4bd812dbf203`;
-- tree `b9327b495f13775266f346ae3253e0c15b9905ae`;
-- A-034 poison-record scheduler isolation current;
-- full suite 269 GREEN.
+Last remote-verified Git base before A-036:
+- commit `9bb925137bf9dfa2b33f13f2df078d52710947ca`;
+- tree `a459d735fec7d5759c61411fba56a523ed9a99e9`;
+- A-035 active/terminal execution metadata partition current;
+- full suite 279 GREEN.
 
-Current A-035 candidate:
-- execution metadata partitioned into active vs terminal while direct identity/history/replay/restart compatibility remains explicit;
-- 58 active jobs produce 58 hot record loads with 0, 500, or 5,000 terminal records;
-- focused execution/partition cluster 34/34 PASS;
-- isolated complete V30 suite 279 GREEN;
-- ambient real partition dirs 0 before -> 0 after isolated qualification;
-- execution SHA `11d888186db1f365ca76aada5512f9fcef420c93c2ec0b0976e9dcfd8c8e2a40`.
+Current A-036 candidate is audit/derivation only:
+- retention deferred as policy-only;
+- default drain classified bounded under current finite global limit;
+- `/execution/list(limit=N)` O(history) metadata work confirmed and handed to incremental-state raid;
+- current protocol-store full parse/double-verify/full-fold append cost independently reproduced;
+- `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD` promoted with full-recovery anti-overreach;
+- no Runtime execution code mutation in this step.
 
-Critical scar: an earlier qualification pass unintentionally migrated 1,158 real terminal records; all were exactly restored before promotion and the suite now establishes isolated runtime roots pre-import. See Current/Doctrine/Trace/DTS and `reports/V30_A035_ACTIVE_TERMINAL_PARTITION.md`.
-
-Resolve current Git identity dynamically; this snapshot does not prove whether A-035 has been pushed.
+Resolve current Git identity dynamically; this snapshot does not prove whether A-036 has been pushed.
 
 ## Current handoff-candidate qualification
 
-A-035 engineering qualification before mirror refresh:
-- execution/partition **34 / 34 PASS**;
-- isolated complete suite **279 GREEN**;
-- ambient operator stores unchanged after isolated rerun (**0 -> 0 partition directories**).
+A-036 is a no-Runtime-code derivation candidate. The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/full-suite gate follows this qualification update, with no repo mutation before commit.
 
-The refreshed handoff regression passed **6 / 6**. A final exact-candidate isolated handoff/execution/full-suite gate and ambient side-effect readback follow this qualification update, with no repo mutation before commit.
+## Active engineering frontier after A-036 publication
 
-## Active engineering frontier after A-035 publication
-
-1. Publish/remote-read A-035 under per-step Git cadence.
-2. A-036 derive terminal retention and bounded-drain policy; do not infer deletion policy merely because terminal history is now off the hot path.
-3. Keep all-history indexing, WSGI serving model, legacy PID reuse, and multi-receiver admission ownership as separate evidence-driven seams.
-4. Preserve the A-035 ambient-state qualification incident as a permanent anti-regression scar.
+1. A-037 protocol-store incremental fold + verified-head/checkpoint while retaining full rebuild/verify recovery.
+2. Deterministic simulation/state-machine on-ramp for schedule failures.
+3. Execution informer watch/cache + slow full resync over A-035 active store.
+4. Certificate Transparency-style proof-carrying protocol receipts after head/checkpoint semantics stabilize.
+5. Lab/protocol idempotency and Windows Job Object resource limits as small high-value raids.
+6. Remaining raid mechanisms require current-tree discriminators.
+7. Final schema redesign remains locked last.
 
 ## Release/live ceiling
 

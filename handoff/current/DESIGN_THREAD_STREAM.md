@@ -2584,3 +2584,142 @@ A-035 earns active/terminal metadata partitioning and active-set-bounded hot sca
 It does NOT earn terminal retention/deletion, bounded default drain batch, all-history indexing, multi-receiver admission ownership, legacy PID reuse repair, WSGI serving change, or live V30 promotion.
 
 A-036 retention/bounded-drain policy remains blocked until A-035 Git commit/push/remote-readback completes.
+
+
+### A-035 Git publication complete
+
+A-035 active/terminal execution-store partition was committed and remotely verified before A-036 policy work began.
+
+Commit:
+`9bb925137bf9dfa2b33f13f2df078d52710947ca`
+
+Tree:
+`a459d735fec7d5759c61411fba56a523ed9a99e9`.
+
+Subject:
+`Partition execution metadata into active and terminal stores`.
+
+Push:
+`07b83f1..9bb9251  main -> main`.
+
+Final qualification carried into publication:
+- isolated focused+handoff 40/40 PASS;
+- complete V30 suite 279 GREEN;
+- ambient real execution partition directories 0 after final qualification;
+- A-035 recovery scar preserved: 1,158 unintended ambient terminal-record moves were exactly restored before promotion and qualification roots are now isolated pre-import.
+
+Remote/local `main` matched exactly and branch was clean after push.
+
+Disposition:
+**A-035 EARNED + GIT REMOTE-VERIFIED.**
+
+A-036 begins by re-deriving retention, drain boundedness, and all-history list behavior from the post-partition reality. Retention is not assumed merely because it was an older worklist item.
+
+
+---
+
+## Phase 47 — A-036 lifecycle boundedness re-derivation + cross-domain raid intake
+
+### RE-ENTRY REALITY
+Current Git inspection showed A-034 and A-035 were already remotely published despite the earlier local thread boundary suggesting A-034 promotion was still underway.
+
+Current Git truth on entry:
+- A-034 `07b83f12409e50c37942d517c6ac4bd812dbf203` — poison scheduler isolation;
+- A-035 `9bb925137bf9dfa2b33f13f2df078d52710947ca` — active/terminal execution metadata partition;
+- A-035 tree `a459d735fec7d5759c61411fba56a523ed9a99e9`;
+- local/remote main exact and clean;
+- A-035 full-suite qualification 279 GREEN.
+
+No completed step was replayed.
+
+### NEW CONTROLLED EVIDENCE — CROSS-DOMAIN RAIDS
+User supplied `CROSS DOMAIN RAIDS.md` and argued that the execution scheduler failure was one instance of a broader implementation default: correct semantics implemented by full recomputation where an incremental extension exists.
+
+The attachment was read in full.
+- bytes: 20,441
+- SHA-256: `dcdafb71cd5a5a66b18139b4cada42dd131fa7a1eb1e01ff117afa5acf310027`.
+
+Full mechanism-quarry receipt:
+`reports/hostile_inputs/CROSS_DOMAIN_RAIDS_2026-09-06_RECEIPT.md`.
+
+Raid families preserved there include Kubernetes informer/watch+resync, WAL/checkpoint, FoundationDB-style deterministic simulation, Stripe-style idempotency, Certificate Transparency Merkle proofs, Erlang restart intensity, Windows Job Object resource envelopes, lease authority, CoDel queue age, schema derivation/reflection, caller-owned result cursors, version-vector continuity, and peer identity.
+
+### SECOND-SUBSYSTEM DISCRIMINATOR — PROTOCOL STORE
+Current code inspection confirmed `_append_event_locked` performs:
+1. full JSONL `read_events`;
+2. full `verify_events`;
+3. append + flush + fsync;
+4. `build_snapshot` over all events;
+5. a second full `verify_events` inside `build_snapshot`;
+6. full `_apply_event` fold.
+
+First benchmark fixture attempt failed before a timing result because synthetic genesis used stale lowercase rigor value `standard`. Current `RigorLevel` values were read back (`STANDARD|ELEVATED|CRITICAL`) and the benchmark fixture was corrected. Runtime was not mutated to accommodate stale test assumptions.
+
+Corrected Windows benchmark:
+- depth 100 -> 10.421 ms append; 100 historical events parsed; 201 events verified; 101 folded;
+- depth 1,000 -> 26.411 ms; 1,000 parsed; 2,001 verified; 1,001 folded;
+- depth 4,000 -> 81.705 ms; 4,000 parsed; 8,001 verified; 4,001 folded.
+
+The second subsystem independently reproduced linear steady-state mutation cost and approximately 3x-history derived processing after parse.
+
+### PROMOTED HOSTILE AUDIT LENS
+The cross-subsystem evidence is sufficient to promote:
+
+**DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**
+
+Meaning:
+When a steady-state mutation can lawfully extend previously verified derived state, the steady-state path should extend that fold/checkpoint/cache instead of paying full recovery cost on every mutation.
+
+Companion anti-overreach:
+**INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**.
+
+Full reconstruction and full verification remain explicit recovery/audit backstops. This is not a universal ban on recomputation.
+
+### A-036 POST-A-035 RE-DERIVATION
+A-036 deliberately re-tested old lifecycle assumptions instead of inheriting them from the pre-partition teardown.
+
+Retention:
+- A-035 already removes terminal history from scheduler/capacity hot scans;
+- deletion/compression therefore no longer has a demonstrated scheduler-performance justification.
+Disposition: **DEFER / policy-only** pending storage/privacy/lifecycle evidence.
+
+Default drain boundedness:
+With actual default global concurrency 8 and synthetic 100/1,000/10,000 queued candidates:
+- capacity empty -> exactly 8 starts / 8 job reads at every candidate population;
+- saturated -> 0 starts / 0 reads.
+Disposition: **NO DEFAULT DRAIN DEFECT EARNED** despite `drain_batch=None`.
+
+Per-project-full traversal:
+With project p1 at configured limit and one p2 runnable candidate after N p1 candidates:
+- N=100 -> ~0.034 ms, one job-file read;
+- N=1,000 -> ~0.098 ms, one read;
+- N=10,000 -> ~0.776 ms, one read.
+Disposition: observed linear in-memory traversal but not material enough for bespoke repair before informer/cache work.
+
+`/execution/list(limit=20)`:
+Current implementation sorts `_iter_all_job_files` by `path.stat().st_mtime` before slicing.
+Instrumentation:
+- history 100 -> 100 stat calls / 20 record loads;
+- 1,000 -> 1,000 stats / 20 loads;
+- 10,000 -> 10,000 stats / 20 loads.
+Disposition: **REAL BOUNDED-MATERIALIZATION DEFECT / HANDED FORWARD TO INCREMENTAL-STATE RAID**.
+A heap-only rewrite would still scan/stat O(history) and would not solve the actual cost model.
+
+A-036 report:
+`reports/V30_A036_EXECUTION_LIFECYCLE_BOUNDEDNESS_DERIVATION.md`.
+
+### CURRENT DISPOSITION
+A-036 earns no execution Runtime code mutation.
+It earns a corrected lifecycle policy surface and a new systemic audit lens.
+
+Current raid ordering after A-036 publication:
+1. A-037 protocol-store incremental fold + verified-head/checkpoint;
+2. deterministic simulation/state-machine on-ramp;
+3. execution informer watch/cache + slow full resync;
+4. Certificate Transparency-style proof-carrying protocol receipts;
+5. lab/protocol idempotency + Windows Job Object resource limits;
+6. remaining raid families only after current-tree discriminators.
+
+Final schema redesign remains locked last.
+
+A-037 mutation is blocked until A-036 Git commit/push/remote-readback completes.

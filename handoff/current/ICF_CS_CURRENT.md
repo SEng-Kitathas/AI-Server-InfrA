@@ -147,7 +147,7 @@ Git-contained ICF-CS recovery mirror publication is COMPLETE:
 - remote `CURRENT_INGRESS.md` readback PASS;
 - handoff focused 6/6 PASS; full suite 251 GREEN.
 
-Active Frontier: A-035 active/terminal execution-store partition is locally earned (34/34 focused; 279 full GREEN; ambient side-effect gate 0->0 after recovery) and must be Git-published/remote-read before A-036 retention/bounded-drain policy begins.
+Active Frontier: A-036 post-partition lifecycle boundedness is derived with no execution-code mutation earned; retention is deferred, default drain is bounded, all-history list O(history) materialization is handed to the incremental-state raid, and A-037 protocol-store fold/checkpoint begins only after A-036 Git readback.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 

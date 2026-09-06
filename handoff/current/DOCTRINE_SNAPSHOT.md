@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-06 00:51 ET
+Last updated: 2026-09-06 07:12 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -187,6 +187,8 @@ Key laws/scars:
 - TOOL SUCCESS != TASK SUCCESS
 - submitted != started != running != completed != registered != promoted
 - current process PID != stable ownership identity
+- DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD — steady-state mutation should extend a verified fold/checkpoint/cache when lawful; full rebuild remains recovery/audit backstop
+- INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH
 - file access != process ownership
 - shared immutable artifact != shared runtime ownership
 - research plane != continuity/write authority
@@ -310,11 +312,17 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-035 active/terminal partition is earned locally and awaiting Git publication. Hot execution state is now structurally separable from durable terminal history.
+A-036 is derivationally complete and awaiting Git publication. The post-A-035 reality falsified retention-as-performance-necessity and showed default drain starts already bounded, but confirmed `/execution/list(limit=N)` still performs O(history) stat/sort materialization.
 
-New law earned by the incident: **QUALIFICATION MUST NOT MUTATE AMBIENT OPERATOR STATE.** Test/runtime boot surfaces that can migrate or mutate durable stores require pre-import isolated roots in qualification harnesses.
+More importantly, current `protocol_store` independently reproduced the same full-rebuild steady-state cost model seen in execution. The active raid lens is now:
 
-A-036 retention/deletion is still unearned and SHALL NOT be inferred from the partition.
+**DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**
+
+Use it narrowly: extend previously verified derived state on steady-state mutation when lawful; keep full reconstruction/verification as explicit recovery/audit paths.
+
+**INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**.
+
+A-037 protocol-store fold/checkpoint is the first embodiment target after A-036 remote readback.
 
 ## Current quality/search posture
 

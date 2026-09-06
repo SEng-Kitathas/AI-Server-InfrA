@@ -1,27 +1,27 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-06 00:51 ET
+Last updated: 2026-09-06 07:12 ET
 
 ## Immediate — current frontier
 
-Completed A-035 engineering:
-- [x] complete execution-store access census;
-- [x] active/terminal/legacy resolution embodied;
-- [x] atomic active->terminal transition + crash repair;
-- [x] direct status/replay/history compatibility retained;
-- [x] late-mounted project migration currentness tested;
-- [x] 0/500/5000 terminal-history hot scans remain 58 loads;
-- [x] unintended ambient migration detected, exactly recovered, and suite isolation repaired;
-- [x] execution/partition cluster 34/34 PASS;
-- [x] full isolated V30 suite 279 GREEN.
+A-036 derivation complete:
+- [x] retention re-derived as policy-only/deferred after A-035;
+- [x] default drain start/read work proven bounded by finite global concurrency;
+- [x] per-project-full traversal measured and not material enough for bespoke repair;
+- [x] `/execution/list(limit=N)` proven to sort/stat O(history) before slicing; defect handed to incremental-state raid;
+- [x] `protocol_store` independently reproduced full-history parse + double verify + full fold on every append;
+- [x] `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD` promoted as active hostile audit lens with full-recovery anti-overreach.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-035 to Git | per-step publication law | remote/local exact and recovery mirror current |
-| P1 | Then A-036 derive terminal retention + drain bounding | partition makes lifecycle policy possible without hot-scan coupling | explicit retention thresholds/currentness/backpressure + hostile tests |
-| P1 | Keep all-history list optimization separate unless evidence demands | terminal history is intentionally durable | no premature index/DB |
-| P1 | Serving/PID/multi-receiver audits remain separate | distinct authority/process identity risks | individual discriminators |
+| P0 | Publish A-036 audit + raid intake | per-step Git law | commit/push/remote exact |
+| P0 | A-037 protocol-store incremental fold/checkpoint | independently reproduced linear mutation cost in second subsystem | steady append extends verified head/snapshot without full-history parse/verify/fold; recovery full rebuild retained |
+| P0 | Deterministic simulation/state-machine on-ramp | schedule bugs should become CI-searchable mechanism, not artisanal discovery | seeded lifecycle/fault exploration with replayable failure seed |
+| P1 | Execution informer watch/cache + slow resync | A-035 bounds resync set but 0.25s full active scan still pays level cost at edge rate | steady state O(changes), slow full correctness backstop |
+| P1 | Merkle proof-carrying protocol receipts | append-only claims need cheap inclusion/consistency proof | receipt independently proves inclusion/current append extension without full ledger read |
+| P1 | Lab/protocol idempotency | response-loss scar is mechanized only on execution submit today | replay-safe duplicate request semantics on mutating dispatch/batch/protocol append |
+| P1 | Windows Job Object resource envelope | ownership primitive already exists but memory/process caps unused | model-authored subprocess tree bounded by explicit resource contract |
 
 ## Near-term all-plane audit
 
