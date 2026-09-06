@@ -3179,3 +3179,149 @@ Current identities:
 A-039 is technically earned and awaiting mandatory Git publication.
 
 A-040 execution active-store informer/watch + slow resync is blocked until A-039 remote readback.
+
+
+### A-039 Git publication complete
+
+A-039 legacy non-worker PID identity binding was committed and remotely verified before informer/watch work began.
+
+Commit:
+`d887213d8fa341af79e59ac1070ebf66225e107f`
+
+Tree:
+`55b602665d0eda05b18853073d3ea4519ce709a1`.
+
+Subject:
+`Bind legacy execution PID identity`.
+
+Push:
+`cb2b4ee..d887213  main -> main`.
+
+Remote/local `main` matched exactly and branch was clean after push.
+
+Publication qualification:
+- final handoff + A-039 focused gate 35/35 PASS;
+- complete V30 suite 297 GREEN;
+- fixed vulnerable/current PID-reuse probe;
+- current 100-seed x 40-step campaign green;
+- one clean final tick leaves zero PID aliases across all 100 seeds.
+
+Disposition:
+**A-039 EARNED + GIT REMOTE-VERIFIED.**
+
+Active Frontier advances to **A-040 execution active-store informer/watch + slow resync**.
+
+A-040 authority law:
+- watcher/cache state is derived acceleration only;
+- job metadata on disk + canonical reconciliation remain truth;
+- periodic/full active-store resync remains the level-triggered correctness backstop;
+- missed/overflowed events, watcher failure/restart, receiver restart, and external mutation must converge through resync.
+
+
+---
+
+## Phase 51 — A-040 execution event wake + slow level-triggered resync
+
+### CURRENT-HOST DEFECT REPRODUCTION
+Post-A039 host contained 59 execution-store roots and zero active jobs.
+
+Instrumented 100 idle `_scheduler_tick()` calls:
+- 300 execution-root traversals;
+- 300 hot iterator calls;
+- zero job loads;
+- 6791.506 ms total;
+- 67.915 ms mean tick;
+- 250 ms scheduler cadence;
+- **27.166% idle scheduler duty**.
+
+This independently earned the informer-style frequency problem after A-035 had already removed terminal history from the hot set.
+
+### NATIVE WATCHER QUARRY
+An untracked dependency-free Windows watcher prototype was inspected instead of adopted by trust.
+It wraps recursive `ReadDirectoryChangesW` through ctypes and owns no execution semantics.
+
+Real Windows smoke test:
+- atomic temp-file -> JSON replace emitted add/rename edges;
+- no overflow/error;
+- clean cancellation/stop.
+
+### NAIVE DONOR REJECTION
+A blind watch + 60-second resync would weaken current recovery because worker heartbeat freshness grace is 3 seconds and process-loss/stale-heartbeat cleanup still needs bounded periodic reconciliation.
+
+A second naive design would create an event oscillator:
+- worker heartbeat cadence is 0.20s;
+- reconciliation rewrites active metadata on fresh heartbeat;
+- waking on heartbeat or active metadata would recreate the old 4-5Hz poll cost as event-driven self-wake cost.
+
+Therefore A-040 accepts only one-shot completion receipt filename edges.
+
+### SURVIVOR
+- dependency-free recursive Windows filename watcher;
+- completion receipt edge -> coalesced scheduler wake;
+- submit path also explicitly wakes scheduler;
+- healthy watcher + active records -> 2s periodic full resync;
+- healthy watcher + no active records -> 60s periodic full resync;
+- watcher unavailable/error -> historical 250ms poll fallback;
+- overflow -> immediate authoritative resync wake;
+- watcher/cache owns no job truth, admission, lifecycle, or terminal semantics;
+- every scheduler pass still reconciles the authoritative active store.
+
+Laws:
+- `WATCHER_EVENT != AUTHORITATIVE_STATE`;
+- `EDGE_ACCELERATION != LOSS_OF_LEVEL_TRIGGERED_RECOVERY`;
+- `WATCHER_FAILURE -> POLL_FALLBACK`.
+
+### OBSERVABILITY
+Scheduler telemetry now exposes watcher startup/alive/event/overflow/error counts, last watcher event/error, wakeups, periodic resyncs, last resync, active-record count, and current wait mode.
+
+Execution capabilities separately expose historical fallback interval, active resync interval, idle resync interval, watcher support, and watcher-active state.
+
+### HOSTILE QUALIFICATION
+Added `tests/test_execution_informer_watch.py` and extended runtime-config tests.
+
+The tests prove:
+- heartbeat/active metadata noise ignored;
+- completion edges accepted/coalesced;
+- overflow forces resync;
+- watcher failure selects historical fallback;
+- healthy watcher selects active/idle resync modes;
+- capability policy is distinct from live telemetry;
+- real Windows watcher observes atomic completion and stops cleanly;
+- real scheduler thread stays at one idle tick beyond the historical 250ms interval and wakes promptly on completion.
+
+Focused A-040 + adjacent execution/config cluster: **37/37 PASS**.
+Complete V30 suite: **306 collected tests GREEN** with existing conditional Windows symlink-privilege skip only.
+
+### ACTUAL-HOST INTEGRATED RESULT
+Same real 59-root tree, 2.001s observation:
+- watcher started true;
+- scheduler iterations 1;
+- mode `watch_idle`;
+- watcher events 0;
+- wakeups 0;
+- periodic resyncs 0 within window;
+- active records 0;
+- watcher errors 0;
+- clean scheduler/watcher shutdown.
+
+Using measured 67.915ms reconciliation cost, a 60s idle backstop implies ~0.113% resync duty versus 27.166% old polling duty. This is explicitly an extrapolated duty comparison, not a direct 60-second CPU measurement.
+
+### EVALUATOR SCAR
+First integration edit assumed CRLF for all Runtime Python files. `runtime_config.py` is LF-only, so the edit aborted before mutation. Source hashes matched backups afterward. The patch harness was corrected to preserve newline style per file rather than normalizing the repository.
+
+Continuity staging later encountered stale exact-text assumptions in Revisit; no canonical mutation occurred until stable actual-file insertion points were used.
+
+### CURRENT IDENTITIES
+- runtime config `9c47876b409bfd6fc5fd9bc091ab8a40fbc6bad9bc9b2aa3834e6b792c592be8`;
+- control model `d89caf8ba08618b6a82e383231b9d164999e57d68b15256d9f18590701727049`;
+- execution routes `20756e443265f1bff80bc6c8178f9dc7811856ecf6e1ec9c6080a5b2d77ece66`;
+- watcher `faad367cd9675be7138ab4a54084ccb3b3d0a5fc4bfe0d2a45f5680c57e7903b`;
+- A-040 regression `90996775b0d8f3475ba9239efaf438ec2ff80ca6682287c942cb4a6c91a87ecd`;
+- report `reports/V30_A040_EXECUTION_INFORMER_WATCH_DERIVATION.md`.
+
+### CLAIM CEILING / NEXT
+A-040 changes scheduler wake frequency/fallback behavior, not execution truth semantics.
+It does not create an indexed Kubernetes-style job cache and does not make each wake O(changed jobs).
+Cache refinement is deferred until active-load evidence shows the per-wake active scan is material.
+
+A-041 CT/Merkle proof-carrying protocol receipts is blocked until A-040 Git commit/push/remote readback completes.

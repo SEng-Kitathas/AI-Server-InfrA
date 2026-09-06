@@ -1,26 +1,25 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-06 17:22 ET
+Last updated: 2026-09-06 18:57 ET
 
 ## Immediate — current frontier
 
-A-039 engineering complete locally:
-- [x] bind legacy process identity to creation-time witness where available;
-- [x] preserve worker-capsule/Job Object semantics;
-- [x] split identity authority from conservative capacity accounting;
-- [x] deterministic vulnerable/current PID-reuse proof;
-- [x] 100x40 current campaign green; one clean final tick leaves zero aliases;
-- [x] focused **29/29 PASS**; full suite **297 GREEN**;
-- [x] current-host live legacy RUNNING census = 0.
+A-040 engineering complete locally:
+- [x] current idle polling cost measured on 59-root host;
+- [x] native watcher smoke-qualified;
+- [x] heartbeat/self-write event storm rejected; completion-only wake contract derived;
+- [x] active 2 s / idle 60 s resync + 250 ms fallback embodied;
+- [x] watcher overflow/error -> authoritative resync/fallback;
+- [x] policy/currentness telemetry exposed;
+- [x] focused **37/37 PASS**; full suite **306 GREEN**.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-039 to Git | per-step publication law | commit/push/remote exact; outer receipt advanced |
-| P0 | A-040 inspect active-store change-notification options | informer raid should preserve level-triggered correctness and avoid new truth plane | current Windows/native watcher semantics, overflow/failure behavior, restart/resync contract mapped |
-| P0 | Derive watch + slow-resync survivor | steady state O(changes), periodic full active scan backstop | watcher cache remains derived; resync repairs drift; failure degrades to level-triggered correctness |
-| P1 | CT/Merkle protocol receipts after A-040 | raid order / cheap proof-carrying append consistency | separate step after informer publication |
-| P1 | Idempotency + Job Object resource envelope | high-value small raids | separate discriminators/pushes |
+| P0 | Publish A-040 to Git | per-step publication law | remote/local exact; outer receipt advanced |
+| P0 | A-041 inspect current protocol ledger/checkpoint identities for CT/Merkle integration | proof structure must derive from current A-037 append/head semantics | exact leaf/root/consistency-proof authority and checkpoint lifecycle mapped |
+| P0 | Derive smallest proof-carrying receipt survivor | cheap inclusion/append-consistency without replacing JSONL authority | proof can be independently verified; recovery can rebuild tree from ledger |
+| P1 | Idempotency expansion + Job Object resource caps | subsequent small high-value raids | separate discriminators and pushes |
 
 ## Near-term all-plane audit
 

@@ -1,41 +1,25 @@
-# Git Handoff Qualification — A-039 Publication Candidate
+# Git Handoff Qualification — A-040 Publication Candidate
 
 Date: 2026-09-06
 Status: QUALIFIED FOR GIT COMMIT/PUSH
 
-## Current step
-A-039 legacy non-worker PID reuse identity binding.
+A-040 execution event wake + slow level-triggered resync is qualified on the current candidate.
 
-## Qualification
-- fixed vulnerable/current PID-reuse probe: vulnerable target RUNNING; current target terminal FAILED;
-- vulnerable and current fixed probes replay byte-identically;
-- current 100-seed x 40-step campaign: **100 / 100 PASS**, 203 PID recycle actions;
-- after one clean final tick across all 100 seeds: **0 PID aliases**;
-- current-host live legacy non-worker RUNNING census: **0**;
-- focused A-039/execution/simulation cluster: **29 / 29 PASS**;
-- refreshed Git handoff regression: **6 / 6 PASS**;
-- complete V30 suite before mirror refresh: **297 collected tests GREEN**.
+Verification before final exact-candidate rerun:
+- focused A-040 + adjacent execution/config: 37/37 PASS;
+- refreshed Git handoff: 6/6 PASS;
+- complete V30 suite: 306 GREEN;
+- actual-host idle proof: 2.001s, one scheduler iteration, `watch_idle`, zero watcher errors/false wakeups.
 
 Current identities:
-- control-plane model `d70e890854965f73b4fbeaa61bd8a25b7a414ca386683fee10af0457083bd2ee`;
-- execution routes `1f19988d2d86ce1dedeef51578a46a6d6b17405e689b8285b09be2464d62c15b`;
-- simulator `d13b8288b1f734ed868198605c2e87ed315b308e0b3d9c834c2b9a7200d39834`;
-- A-039 test `4346fa6c67dfbabe651fd17518cd6dcf8f441f2f27fa09c3298248e815a0106e`.
+- runtime config `9c47876b409bfd6fc5fd9bc091ab8a40fbc6bad9bc9b2aa3834e6b792c592be8`;
+- control model `d89caf8ba08618b6a82e383231b9d164999e57d68b15256d9f18590701727049`;
+- execution routes `20756e443265f1bff80bc6c8178f9dc7811856ecf6e1ec9c6080a5b2d77ece66`;
+- watcher `faad367cd9675be7138ab4a54084ccb3b3d0a5fc4bfe0d2a45f5680c57e7903b`;
+- A-040 regression `90996775b0d8f3475ba9239efaf438ec2ff80ca6682287c942cb4a6c91a87ecd`.
 
-## Identity contract
-`PID_ALIVE != SAME_PROCESS`.
+Last remote base: `d887213d8fa341af79e59ac1070ebf66225e107f`.
 
-Unverifiable alive legacy history is not granted SAME_PROCESS authority; it consumes capacity conservatively until reconciliation to preserve anti-overadmission.
+Final exact-candidate handoff + focused + full-suite gate follows this update with no repo mutation before commit.
 
-## Publication boundary
-Last remote-verified base:
-`cb2b4ee2c54c2aab02fa29b8feca6c40c666148e`.
-
-A final exact-candidate handoff + focused + full-suite gate follows this file/manifest update, with no repo mutation before commit.
-
-## Claim ceiling
-A-039 does not create watcher semantics, Job Object resource caps, executable/command/service identity, or multi-receiver admission authority. Worker-capsule/Job Object process ownership remains unchanged.
-
-Git publication is incomplete until commit, push, and independent remote-head readback succeed.
-
-`GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`
+Claim ceiling: watcher is a derived wake hint only; every scheduler pass still performs authoritative active-store reconciliation; A-041 remains blocked until remote readback.

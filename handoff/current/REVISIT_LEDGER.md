@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Revisit Ledger
 
-Last updated: 2026-09-06 17:22 ET
+Last updated: 2026-09-06 18:57 ET
 
 | Priority | Seam / Claim / Decision | Why revisit | What could invalidate it | Evidence / action needed | Current status | Next action |
 |---|---|---|---|---|---|---|
@@ -57,7 +57,7 @@ Last updated: 2026-09-06 17:22 ET
 | P1 | Mutating lab dispatch/batch/protocol append are safely idempotent | execution submit has key ledger; other mutating surfaces may duplicate on response loss | response lost can cause duplicate filesystem/Git/protocol mutation | exact current call-site audit + replay/different-payload tests | RAID CANDIDATE | mechanize RESPONSE_LOST != SAFE_TO_REPEAT_MUTATION |
 | P1 | Windows worker Job Object enforces resource envelope | struct has memory/process fields but current flags set kill-on-close only | runaway model-authored subprocess can exhaust host | current job-object limit integration + hostile child allocation/process fanout | RAID CANDIDATE | do not add thermal policy; focus process/memory tree containment |
 | P1 | Schedule-level execution failures are searched systematically | schedule scars live above isolated functions | artisanal hostile testing misses interleavings | A-038 seeded real-runtime lifecycle simulator + historical vulnerable reference | RESOLVED / A-038 EARNED + GIT VERIFIED `cb2b4ee` | 100x40 current green; pre-A034 rediscovered seed 0; exact failure replay |
-| P0 | Legacy non-worker process identity is sufficient | A-038 seed0 + fixed A-039 probe prove bare PID liveness aliases recycled processes | recycled PID falsely preserves supervision/capacity | creation-time identity states + deterministic vulnerable/current probe + capacity/authority split | RESOLVED / A-039 EARNED / GIT PENDING | mismatch/dead free slot; unverifiable alive consumes capacity conservatively until reconciliation without SAME_PROCESS authority |
+| P0 | Legacy non-worker process identity is sufficient | A-038 seed0 + fixed A-039 probe prove bare PID liveness aliases recycled processes | recycled PID falsely preserves supervision/capacity | creation-time identity states + deterministic vulnerable/current probe + capacity/authority split | RESOLVED / A-039 EARNED + GIT VERIFIED `d887213` | mismatch/dead free slot; unverifiable alive consumes capacity conservatively until reconciliation without SAME_PROCESS authority |
 | P1 | Result preview/range solves bounded-result issue fully | strong current mechanism | real MCP/large structural payloads may expose gaps | scale/use-case tests | EARNED CORE / REVISIT AT SCALE | avoid speculative overbuild |
 | P1 | Context scope is exhaustively secure on Windows | relative/absolute/junction escapes rejected | other reparse/device/mount aliases | final security-boundary audit | STRONG / NOT EXHAUSTIVE | revisit in security pass |
 | P1 | Git exact-root model covers all repo topologies | current scope safe | linked worktrees/submodules/bare repos may need explicit support | only add with real use case + tests | EARNED CURRENT SCOPE | do not generalize silently |
@@ -76,6 +76,9 @@ Last updated: 2026-09-06 17:22 ET
 | P2 | `capabilities.invoke` generic router is safe if typed | typed dispatch useful | can become disguised god tool | bounded namespace + schema hash + authority + target currentness | OPEN DESIGN | arbitrary command text forbidden |
 | P2 | Resource-aware orchestration belongs in V30 | future workloads need it | premature scheduler complexity | workload/resource evidence | DEFER / QUARRY | inspect existing signals first |
 | P2 | Custom GPT Action adapter can be demoted | architecture favors MCP/Skills | external product/account constraints may keep it necessary | actual client capability at promotion time | LIKELY / EXTERNAL | maintain compatibility until replaceable |
+
+| P1 | Execution active-store polling should remain 0.25s full-scan forever | measured idle host: 59 roots / 67.915ms per tick / 27.166% duty | watcher could become second truth plane or lose events | native watcher + completion-only coalesced wake + active/idle resync + fallback tests | RESOLVED / A-040 EARNED / GIT PENDING | watcher is hint-only; active full resync remains authority; cache refinement deferred until active-load evidence |
+| P1 | A Kubernetes-style indexed execution cache is needed now | A-040 frequency reduction leaves each wake as full active-store reconciliation | extra cache creates coherence/authority complexity without current active-load evidence | benchmark high active-cardinality wake cost after A-040 | DEFERRED / EVIDENCE-TRIGGERED | do not build second truth plane by enthusiasm |
 
 ## Scar reminders
 1. Global scheduler lock contention was real and cross-project.

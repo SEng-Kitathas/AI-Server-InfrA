@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-06 17:22 ET
+Last updated: 2026-09-06 18:57 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -316,16 +316,16 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-039 legacy PID identity binding is technically earned locally and awaiting Git publication.
+A-040 event-wake + slow-resync is technically earned locally and awaiting Git publication.
 
-Load-bearing identity law:
-**PID_ALIVE != SAME_PROCESS**.
+Load-bearing scheduler laws:
+- **WATCHER_EVENT != AUTHORITATIVE_STATE**;
+- **EDGE_ACCELERATION != LOSS_OF_LEVEL_TRIGGERED_RECOVERY**;
+- **WATCHER_FAILURE -> POLL_FALLBACK**.
 
-Companion distinction:
-**IDENTITY_AUTHORITY != CONSERVATIVE_CAPACITY_ACCOUNTING**.
-An alive but unverifiable historical PID may consume capacity until reconciliation without being granted SAME_PROCESS authority.
+The watcher is a disposable wake accelerator, not a job cache or second execution truth plane. Full active-store reconciliation remains authoritative on every wake/resync.
 
-A-040 informer/watch remains blocked until A-039 remote readback. Its survivor must keep watcher/cache state derived and retain slow level-triggered resync as correctness authority.
+A-041 CT/Merkle protocol receipts remain blocked until A-040 remote readback.
 
 ## Current quality/search posture
 

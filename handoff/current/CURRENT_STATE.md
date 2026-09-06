@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-06 17:22 ET
+Last updated: 2026-09-06 18:57 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,42 +263,47 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-039 legacy non-worker PID reuse identity binding is **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
+A-040 execution event wake + slow level-triggered resync is **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
 
-Defect/witness:
-- A-038 deterministic schedule showed recycled PID-generation aliases could remain legacy `RUNNING` because bare PID liveness was treated as process identity;
-- fixed vulnerable/current probe now proves `pid_only` leaves target active RUNNING while current identity binding moves the same target terminal FAILED.
+Current-host before baseline (post-A039):
+- 59 execution-store roots; 0 active jobs;
+- 100 idle ticks -> 300 execution-root traversals, 67.915 ms/tick;
+- 250 ms cadence -> **27.166% idle scheduler duty**.
 
-A-039 survivor:
-- `ExecutionJobRecord.pid_creation_time_100ns` for legacy identity witness compatibility;
-- reuse existing Windows `process_creation_time_100ns()` helper;
-- legacy identity states: `same_process`, `dead`, `creation_time_mismatch`, `identity_unverifiable`;
-- reconciliation/readiness refuse to promote mismatch/unverifiable identity to SAME_PROCESS;
-- supervision-loss digest records expected/observed creation-time evidence;
-- capacity accounting is deliberately conservative: alive unverifiable historical records consume capacity until reconciliation, preserving A-033 anti-overadmission without granting identity authority;
-- worker-capsule/Job Object semantics remain unchanged.
+A-040 survivor:
+- dependency-free Windows `ReadDirectoryChangesW` recursive watcher, filename/directory changes only;
+- wake hints accepted only for one-shot `worker_completion.json`; heartbeat and active-metadata rewrite noise ignored;
+- submissions explicitly set the coalesced scheduler wake event;
+- healthy watcher + active records -> 2 s periodic resync; healthy watcher + idle -> 60 s resync; watcher failed/unavailable -> historical 0.25 s polling fallback;
+- overflow/error immediately wakes authoritative full active-store reconciliation;
+- watcher/cache owns no job truth, admission, lifecycle, or terminal transition semantics;
+- capabilities expose support/policy; readiness telemetry exposes current watcher/wait/resync state.
 
-Qualification:
-- fixed PID-reuse vulnerable/current probe replays byte-identically;
-- current 100-seed x 40-step campaign: **100/100 PASS**, 203 PID recycle actions;
-- 34 alias observations at random endpoints reduce to **0 after one clean final scheduler tick across all 100 seeds**;
-- current-host live legacy RUNNING census: **0**;
-- focused A-039/execution/sim cluster: **29/29 PASS**;
-- complete V30 suite: **297 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+Actual-host integrated idle measurement on same 59-root tree:
+- 2.001 s observation; scheduler iterations **1**; mode `watch_idle`; active records 0; watcher errors 0; false wakeups 0; clean shutdown.
+- conservative extrapolation from measured 67.915 ms resync cost: 60 s idle backstop ~0.113% duty versus 27.166% old polling duty; this is an extrapolated comparison, not a direct 60 s CPU measurement.
 
-Current identities:
-- `control_plane_models.py` SHA `d70e890854965f73b4fbeaa61bd8a25b7a414ca386683fee10af0457083bd2ee`;
-- `execution_routes.py` SHA `1f19988d2d86ce1dedeef51578a46a6d6b17405e689b8285b09be2464d62c15b`;
-- simulator SHA `d13b8288b1f734ed868198605c2e87ed315b308e0b3d9c834c2b9a7200d39834`;
-- A-039 regression SHA `4346fa6c67dfbabe651fd17518cd6dcf8f441f2f27fa09c3298248e815a0106e`;
-- derivation report `reports/V30_A039_LEGACY_PID_IDENTITY_BINDING_DERIVATION.md`.
+Verification:
+- focused A-040 + adjacent execution/config cluster **37/37 PASS**;
+- complete V30 suite **306 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- `runtime_config.py` SHA `9c47876b409bfd6fc5fd9bc091ab8a40fbc6bad9bc9b2aa3834e6b792c592be8`;
+- `control_plane_models.py` SHA `d89caf8ba08618b6a82e383231b9d164999e57d68b15256d9f18590701727049`;
+- `execution_routes.py` SHA `20756e443265f1bff80bc6c8178f9dc7811856ecf6e1ec9c6080a5b2d77ece66`;
+- watcher SHA `faad367cd9675be7138ab4a54084ccb3b3d0a5fc4bfe0d2a45f5680c57e7903b`;
+- A-040 test SHA `90996775b0d8f3475ba9239efaf438ec2ff80ca6682287c942cb4a6c91a87ecd`;
+- derivation report `reports/V30_A040_EXECUTION_INFORMER_WATCH_DERIVATION.md`.
+
+Locked laws:
+- **WATCHER_EVENT != AUTHORITATIVE_STATE**;
+- **EDGE_ACCELERATION != LOSS_OF_LEVEL_TRIGGERED_RECOVERY**;
+- **WATCHER_FAILURE -> POLL_FALLBACK**.
 
 Immediate sequence:
-1. refresh Git recovery mirror to A-039;
-2. exact-candidate handoff + focused/full suite gate;
-3. commit/push/remote-read A-039;
-4. post-push continuity reconciliation;
-5. only then open **A-040 execution active-store informer/watch + slow resync**.
+1. refresh Git handoff mirror to A-040;
+2. final handoff + focused + full exact-candidate gate;
+3. commit/push/remote-read A-040;
+4. reconcile outer Git receipt;
+5. only then open A-041 CT/Merkle proof-carrying protocol receipts.
 
 ## Remaining major seams
 

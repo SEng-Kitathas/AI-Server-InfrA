@@ -147,7 +147,7 @@ Git-contained ICF-CS recovery mirror publication is COMPLETE:
 - remote `CURRENT_INGRESS.md` readback PASS;
 - handoff focused 6/6 PASS; full suite 251 GREEN.
 
-Active Frontier: A-039 legacy non-worker PID identity binding is technically earned (focused 29/29; full 297 GREEN; fixed vulnerable/current PID-reuse proof; 100x40 current campaign green) and must be Git-published/remote-read before A-040 execution informer/watch + slow resync begins.
+Active Frontier: A-040 execution event wake + slow level-triggered resync is technically earned (focused 37/37; full 306 GREEN; actual-host watch_idle proof) and must be Git-published/remote-read before A-041 CT/Merkle protocol receipts begin.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 

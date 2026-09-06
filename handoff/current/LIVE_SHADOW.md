@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-06 17:22 ET
+Last updated: 2026-09-06 18:57 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-039 PID identity earned; Git publication next
+- Current mode: BUILD-COMMIT / PROMOTION — A-040 event wake/resync earned; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-039 legacy PID identity binding, remote-read it, then open A-040 informer/watch + slow resync.
+- Dominant objective: publish A-040 derived watcher wake + slow resync, remote-read it, then open A-041 CT/Merkle protocol receipts.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -113,38 +113,36 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-039 and remote-read exact head;
-2. A-040 execution active-store informer/watch + slow resync;
-3. CT/Merkle protocol receipts;
-4. idempotency + Job Object resource limits;
-5. remaining raids evidence-ranked.
+1. P0 publish A-040 and remote-read exact head;
+2. A-041 CT/Merkle proof-carrying protocol receipts;
+3. idempotency expansion + Job Object resource limits;
+4. remaining raids evidence-ranked.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. refresh Git handoff mirror to registered A-039 state;
-2. run handoff + A-039 focused + full exact-candidate gates;
-3. commit/push/remote-read A-039;
-4. reconcile outer Git receipt;
-5. only then inspect Windows active-directory watcher semantics for A-040.
+1. refresh Git handoff mirror to A-040;
+2. run handoff + A-040 focused + full exact-candidate gates;
+3. commit/push/remote-read A-040;
+4. post-push continuity receipt;
+5. only then inspect A-041 protocol Merkle proof semantics.
 
 ## Last 10 Turn Reinforcement Window
-1. USER: poke/proceed after A-037 boundary.
-2. ASSISTANT: recovery found A-037 and A-038 already remote-current; no replay; A-039 uncommitted candidate discovered. STATE CORRECTION.
-3. ASSISTANT: A-039 diff adds legacy creation-time witness/classifier and simulator vulnerable/current variant.
-4. ASSISTANT: production spawn audit confirmed current jobs use worker capsule; legacy field is recovery-only.
-5. ASSISTANT: fixed PID probe: pid_only stays RUNNING; current becomes terminal FAILED. DEFECT/REPAIR WITNESS.
-6. ASSISTANT: first focused run exposed old partial mocks + raw-status simulator invariant; migration helper and identity-aware invariant repaired.
-7. ASSISTANT: A-033 regression then exposed capacity-vs-authority collision; survivor now conservatively counts alive unverifiable history until reconciliation without granting SAME_PROCESS.
-8. ASSISTANT: focused A-039/execution/sim cluster reached 29/29 PASS.
-9. ASSISTANT: 100x40 campaign 100/100 green, 203 PID recycles; random endpoint aliases 34 but one clean final tick leaves 0 across all seeds; live legacy RUNNING census 0.
-10. ASSISTANT: complete V30 suite 297 GREEN; A-039 report persisted; entering Git publication.
+1. A-039 remote-verified at `d887213`; A-040 opened.
+2. Idle scheduler measured 59 roots, 67.915ms/tick, 27.166% duty despite 0 active jobs. DEFECT.
+3. Native ReadDirectoryChangesW watcher smoke-qualified on atomic rename and clean stop.
+4. 0.20s heartbeat + reconciliation self-write exposed feedback risk; heartbeat/active metadata wakes rejected.
+5. Completion-only FS wake + explicit submit wake + coalesced Event derived.
+6. Active 2s / idle60s resync; failure fallback 250ms polling.
+7. First integration edit aborted before mutation on newline-style assumption; hashes matched backups; per-file newline preservation fixed harness.
+8. Real watcher/scheduler-thread hostile tests green.
+9. Actual-host idle run: 2.001s, one iteration, watch_idle, zero errors/wakeups, clean shutdown.
+10. Focused 37/37; full 306 GREEN; A-040 report persisted; Git publication next.
 
 ## Delta Since Previous Shadow
-- A-039 moves from provisional PID-reuse seam to technically earned identity-bound survivor.
-- full suite advances 289 -> 297 GREEN.
-- `PID_ALIVE != SAME_PROCESS` and capacity-vs-authority split become load-bearing.
-- current-host has no live legacy non-worker RUNNING records.
-- A-040 informer/watch is next only after A-039 remote readback.
+- A-040 technically earned; full suite 297 -> 306 GREEN.
+- watcher remains hint-only; no indexed job cache/second truth plane.
+- healthy idle moves from 250ms polling to 60s resync with completion/submission wake; active backstop 2s.
+- A-041 blocked until A-040 remote readback.

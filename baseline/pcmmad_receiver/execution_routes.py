@@ -16,8 +16,18 @@ from typing import Any
 
 if os.name == "nt":
     import windows_job_object as _wjo
+    try:
+        from windows_directory_watch import (
+            DirectoryChangeEvent as _DirectoryChangeEvent,
+            WindowsRecursiveDirectoryWatcher as _WindowsRecursiveDirectoryWatcher,
+        )
+    except (ImportError, OSError):
+        _DirectoryChangeEvent = None
+        _WindowsRecursiveDirectoryWatcher = None
 else:
     _wjo = None
+    _DirectoryChangeEvent = None
+    _WindowsRecursiveDirectoryWatcher = None
 from collections.abc import MutableMapping
 
 from flask import Blueprint, jsonify, request
@@ -120,8 +130,14 @@ EXECUTION_GLOBAL_QUEUE_LIMIT = EXECUTION_CONFIG.global_queue_limit
 EXECUTION_PROJECT_QUEUE_LIMIT = EXECUTION_CONFIG.project_queue_limit
 EXECUTION_DRAIN_BATCH = EXECUTION_CONFIG.drain_batch
 EXECUTION_SCHEDULER_INTERVAL_SECONDS = EXECUTION_CONFIG.scheduler_interval_seconds
+EXECUTION_SCHEDULER_ACTIVE_RESYNC_SECONDS = EXECUTION_CONFIG.scheduler_active_resync_seconds
+EXECUTION_SCHEDULER_IDLE_RESYNC_SECONDS = EXECUTION_CONFIG.scheduler_idle_resync_seconds
 _SCHEDULER_THREAD: threading.Thread | None = None
 _SCHEDULER_STOP = threading.Event()
+_SCHEDULER_WAKE = threading.Event()
+_EXECUTION_WATCH_LOCK = threading.RLock()
+_EXECUTION_WATCHER: Any | None = None
+_EXECUTION_WATCH_FAILED = False
 _EXECUTION_STORE_LAYOUT_LOCK = threading.RLock()
 _EXECUTION_STORE_LAYOUT_READY_ROOTS: set[str] = set()
 
@@ -232,6 +248,10 @@ def execution_capabilities() -> JsonObject:
         global_queue_limit=_limit_for_wire(EXECUTION_GLOBAL_QUEUE_LIMIT),
         per_project_queue_limit=_limit_for_wire(EXECUTION_PROJECT_QUEUE_LIMIT),
         scheduler_interval_seconds=EXECUTION_SCHEDULER_INTERVAL_SECONDS,
+        scheduler_active_resync_seconds=EXECUTION_SCHEDULER_ACTIVE_RESYNC_SECONDS,
+        scheduler_idle_resync_seconds=EXECUTION_SCHEDULER_IDLE_RESYNC_SECONDS,
+        watcher_supported=bool(os.name == "nt" and _WindowsRecursiveDirectoryWatcher is not None),
+        watcher_active=_execution_watcher_alive(),
         background_scheduler=True,
         scheduler_alive=bool(_SCHEDULER_THREAD and _SCHEDULER_THREAD.is_alive()),
     ).to_dict()
@@ -1510,6 +1530,9 @@ def _submit_job_locked(
     started = _drain_queue_locked(payload.project_id)
     if started and job.status == JOB_STATUS_QUEUED:
         job = _read_job(payload.project_id, spec.job_id)
+    # Submit is an authoritative in-process edge. Wake an idle event-driven scheduler
+    # so it learns that active work exists even if a future filesystem edge is missed.
+    _SCHEDULER_WAKE.set()
     job.replayed = False
     return job
 
@@ -1930,9 +1953,113 @@ def _reconcile_job_locked(job: ExecutionJobRecord) -> None:
     _scheduler_stat_inc("jobs_reconciled")
 
 
-def _scheduler_tick() -> None:
+def _execution_watch_path_relevant(relative_path: str) -> bool:
+    normalized = str(relative_path or "").replace("\\", "/").casefold().strip("/")
+    marker = "/system/logs/execution/"
+    if marker not in f"/{normalized}":
+        return False
+    # Worker heartbeats are atomically replaced at 5 Hz; waking on them would recreate
+    # the polling tax as an event storm. Completion is one-shot and releases capacity.
+    return normalized.endswith("/worker_completion.json")
+
+
+def _scheduler_watch_events(events: list[Any]) -> None:
+    relevant = sum(
+        1
+        for event in events
+        if _execution_watch_path_relevant(str(getattr(event, "relative_path", "")))
+    )
+    if relevant <= 0:
+        return
+    _scheduler_stat_inc("watcher_events", relevant)
+    _scheduler_stat_set("last_watcher_event_at", utc_now())
+    _SCHEDULER_WAKE.set()
+
+
+def _scheduler_watch_overflow() -> None:
+    _scheduler_stat_inc("watcher_overflows")
+    _SCHEDULER_WAKE.set()
+
+
+def _scheduler_watch_error(message: str) -> None:
+    global _EXECUTION_WATCH_FAILED
+    _EXECUTION_WATCH_FAILED = True
+    _scheduler_stat_inc("watcher_errors")
+    _scheduler_stat_set("last_watcher_error", str(message)[:500])
+    _scheduler_stat_set("watcher_alive", False)
+    _SCHEDULER_WAKE.set()
+
+
+def _execution_watcher_alive() -> bool:
+    with _EXECUTION_WATCH_LOCK:
+        watcher = _EXECUTION_WATCHER
+        alive = bool(watcher is not None and watcher.is_alive())
+    _scheduler_stat_set("watcher_alive", alive)
+    return alive
+
+
+def _ensure_execution_watcher_started() -> bool:
+    global _EXECUTION_WATCHER, _EXECUTION_WATCH_FAILED
+    if os.name != "nt" or _WindowsRecursiveDirectoryWatcher is None:
+        return False
+    if _EXECUTION_WATCH_FAILED:
+        return False
+    with _EXECUTION_WATCH_LOCK:
+        if _EXECUTION_WATCHER is not None and _EXECUTION_WATCHER.is_alive():
+            _scheduler_stat_set("watcher_alive", True)
+            return True
+        try:
+            PROJECTS_ROOT.mkdir(parents=True, exist_ok=True)
+            watcher = _WindowsRecursiveDirectoryWatcher(
+                PROJECTS_ROOT,
+                on_events=_scheduler_watch_events,
+                on_overflow=_scheduler_watch_overflow,
+                on_error=_scheduler_watch_error,
+            )
+            watcher.start()
+            _EXECUTION_WATCHER = watcher
+            _scheduler_stat_set("watcher_started", True)
+            _scheduler_stat_set("watcher_alive", True)
+            _scheduler_stat_set("last_watcher_error", None)
+            return True
+        except (OSError, RuntimeError, ValueError, TypeError) as exc:
+            _EXECUTION_WATCH_FAILED = True
+            _scheduler_stat_inc("watcher_errors")
+            _scheduler_stat_set(
+                "last_watcher_error", f"{type(exc).__name__}: {exc}"[:500]
+            )
+            _scheduler_stat_set("watcher_alive", False)
+            return False
+
+
+def _shutdown_execution_watcher() -> None:
+    global _EXECUTION_WATCHER
+    with _EXECUTION_WATCH_LOCK:
+        watcher = _EXECUTION_WATCHER
+        _EXECUTION_WATCHER = None
+    if watcher is not None:
+        try:
+            watcher.stop(timeout=2.0)
+        except (OSError, RuntimeError, ValueError, TypeError) as exc:
+            _scheduler_stat_inc("watcher_errors")
+            _scheduler_stat_set(
+                "last_watcher_error", f"shutdown {type(exc).__name__}: {exc}"[:500]
+            )
+    _scheduler_stat_set("watcher_alive", False)
+
+
+def _scheduler_wait_timeout(active_records: int) -> tuple[float, str]:
+    if _execution_watcher_alive():
+        if active_records > 0:
+            return EXECUTION_SCHEDULER_ACTIVE_RESYNC_SECONDS, "watch_active"
+        return EXECUTION_SCHEDULER_IDLE_RESYNC_SECONDS, "watch_idle"
+    return EXECUTION_SCHEDULER_INTERVAL_SECONDS, "poll_fallback"
+
+
+def _scheduler_tick() -> int:
     # Whole-tree discovery and file reads must never monopolize admission for every project.
     paths = list(_iter_job_files(None))
+    _scheduler_stat_set("last_active_records", len(paths))
     reconcile_errors = 0
     for path in paths:
         job, _error = _load_job_file(path)
@@ -1954,25 +2081,41 @@ def _scheduler_tick() -> None:
     started = _drain_queue(None)
     if started:
         _scheduler_stat_inc("jobs_started", len(started))
+    return len(paths)
 
 
 def _scheduler_loop() -> None:
+    active_records = 0
     while not _SCHEDULER_STOP.is_set():
+        # Clear before the tick: an edge arriving during the tick remains set and causes
+        # an immediate coalesced follow-up pass rather than being lost.
+        _SCHEDULER_WAKE.clear()
         _scheduler_stat_inc("iterations")
         _scheduler_stat_set("last_tick_at", utc_now())
         try:
             _scheduler_stat_set("last_error", None)
-            _scheduler_tick()
+            active_records = _scheduler_tick()
         except (OSError, RuntimeError, ValueError, TypeError, KeyError) as exc:
             _scheduler_stat_set("last_error", f"{type(exc).__name__}: {exc}")
-        _SCHEDULER_STOP.wait(EXECUTION_SCHEDULER_INTERVAL_SECONDS)
+        timeout, mode = _scheduler_wait_timeout(active_records)
+        _scheduler_stat_set("scheduler_wait_mode", mode)
+        woke = _SCHEDULER_WAKE.wait(timeout)
+        if _SCHEDULER_STOP.is_set():
+            break
+        if woke:
+            _scheduler_stat_inc("scheduler_wakeups")
+        else:
+            _scheduler_stat_inc("periodic_resyncs")
+            _scheduler_stat_set("last_resync_at", utc_now())
 
 
 def _shutdown_scheduler() -> None:
     _SCHEDULER_STOP.set()
+    _SCHEDULER_WAKE.set()
+    _shutdown_execution_watcher()
     thread = _SCHEDULER_THREAD
     if thread and thread.is_alive():
-        thread.join(timeout=1.0)
+        thread.join(timeout=2.0)
 
 
 atexit.register(_shutdown_scheduler)
@@ -1986,6 +2129,8 @@ def _ensure_scheduler_started() -> None:
     if _SCHEDULER_THREAD and _SCHEDULER_THREAD.is_alive():
         return
     _SCHEDULER_STOP.clear()
+    _SCHEDULER_WAKE.clear()
+    _ensure_execution_watcher_started()
     _SCHEDULER_THREAD = threading.Thread(
         target=_scheduler_loop,
         name="pcmmad-execution-scheduler",

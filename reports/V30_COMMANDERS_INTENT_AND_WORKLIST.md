@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-06 17:22 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-06 18:57 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -647,25 +647,25 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-039 legacy non-worker PID identity binding is technically earned locally with full suite **297 GREEN**.
+A-040 execution event wake + slow level-triggered resync is technically earned locally with full suite **306 GREEN**.
 
-Locked A-039 direction:
-- **PID_ALIVE != SAME_PROCESS**;
-- legacy identity uses PID + creation-time witness where available;
-- mismatch/dead are not counted as owned capacity and reconcile terminal;
-- unverifiable identity is never TOFU-promoted to SAME_PROCESS; alive unverifiable history consumes capacity conservatively until reconciliation to preserve anti-overadmission;
-- worker-capsule/Job Object creation-time authority remains unchanged;
-- fixed deterministic `pid_only` vulnerable specimen remains RUNNING after recycle while current survivor becomes terminal FAILED;
-- 100x40 current campaign green; one clean final tick leaves zero aliases across all 100 seeds;
-- current host has zero live legacy non-worker RUNNING records.
+Locked A-040 direction:
+- **WATCHER_EVENT != AUTHORITATIVE_STATE**;
+- **EDGE_ACCELERATION != LOSS_OF_LEVEL_TRIGGERED_RECOVERY**;
+- only one-shot completion receipts wake filesystem scheduling; 5Hz heartbeat/active metadata writes are ignored to prevent feedback oscillation;
+- submit explicitly wakes scheduler;
+- healthy watcher: active 2s full-resync backstop, idle 60s; watcher unavailable/error: 250ms poll fallback; overflow wakes immediate authoritative resync;
+- no indexed job cache earned; each pass still reconciles durable active-store truth;
+- capabilities expose watcher policy/support; readiness telemetry exposes live mode/currentness.
+
+Measured current-host gain: before 59 roots/67.915ms per tick/27.166% idle duty; candidate 2.001s real observation -> one iteration, `watch_idle`, no false wakes/errors, clean shutdown.
 
 Immediate sequence:
-1. publish A-039 and remote-read exact head;
-2. **A-040 execution active-store informer/watch + slow resync**: watch is derived edge accelerator only, never truth authority; slow level-triggered active-store resync remains correctness backstop;
-3. CT/Merkle protocol receipts;
-4. idempotency + Windows Job Object resource limits;
-5. remaining raid mechanisms evidence-ranked;
-6. final schema redesign remains locked last.
+1. publish A-040 and remote-read;
+2. A-041 CT/Merkle proof-carrying protocol receipts;
+3. idempotency expansion + Windows Job Object resource limits;
+4. evidence-ranked remaining raids;
+5. final schema redesign remains locked last.
 
 ---
 

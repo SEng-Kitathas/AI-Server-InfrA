@@ -119,6 +119,18 @@ class SchedulerTelemetry(DictSerializable):
     last_reconcile_error: str | None = None
     last_reconcile_error_at: str | None = None
     scheduler_startups: int = 0
+    watcher_started: bool = False
+    watcher_alive: bool = False
+    watcher_events: int = 0
+    watcher_overflows: int = 0
+    watcher_errors: int = 0
+    last_watcher_event_at: str | None = None
+    last_watcher_error: str | None = None
+    scheduler_wakeups: int = 0
+    periodic_resyncs: int = 0
+    last_resync_at: str | None = None
+    last_active_records: int = 0
+    scheduler_wait_mode: str = "poll"
 
     def inc(self, name: str, amount: int = 1) -> None:
         setattr(self, name, int(getattr(self, name, 0)) + amount)
@@ -286,6 +298,10 @@ class ExecutionCapabilitiesEnvelope:
     global_queue_limit: int
     per_project_queue_limit: int
     scheduler_interval_seconds: float
+    scheduler_active_resync_seconds: float
+    scheduler_idle_resync_seconds: float
+    watcher_supported: bool
+    watcher_active: bool
     background_scheduler: bool
     scheduler_alive: bool
 

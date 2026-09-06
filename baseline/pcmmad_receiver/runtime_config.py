@@ -120,6 +120,16 @@ def _execution_runtime_env_values() -> dict[str, int | float | None]:
         0.25,
         minimum=0.05,
     )
+    values["scheduler_active_resync_seconds"] = parse_float(
+        os.environ.get("PCMMAD_EXECUTION_SCHEDULER_ACTIVE_RESYNC_SECONDS"),
+        2.0,
+        minimum=0.25,
+    )
+    values["scheduler_idle_resync_seconds"] = parse_float(
+        os.environ.get("PCMMAD_EXECUTION_SCHEDULER_IDLE_RESYNC_SECONDS"),
+        60.0,
+        minimum=1.0,
+    )
     return values
 
 
@@ -165,6 +175,8 @@ class ExecutionRuntimeConfig:
     project_queue_limit: int | None = None
     drain_batch: int | None = None
     scheduler_interval_seconds: float = 0.25
+    scheduler_active_resync_seconds: float = 2.0
+    scheduler_idle_resync_seconds: float = 60.0
 
     @classmethod
     def from_env(cls) -> "ExecutionRuntimeConfig":

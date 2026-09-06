@@ -13,6 +13,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
 
 from runtime_config import (
     BrowserBridgeRuntimeConfig,
+    ExecutionRuntimeConfig,
     RuntimeConfigurationError,
     ServerRuntimeConfig,
     parse_http_base_url,
@@ -32,6 +33,19 @@ class RuntimeConfigTests(unittest.TestCase):
         for value in ("file:///tmp/bridge", "bridge", "http://host/path?secret=x"):
             with self.subTest(value=value), self.assertRaises(RuntimeConfigurationError):
                 parse_http_base_url(value, "http://127.0.0.1:4471")
+
+    def test_execution_resync_intervals_are_typed_and_clamped(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "PCMMAD_EXECUTION_SCHEDULER_ACTIVE_RESYNC_SECONDS": "0.1",
+                "PCMMAD_EXECUTION_SCHEDULER_IDLE_RESYNC_SECONDS": "12.5",
+            },
+            clear=False,
+        ):
+            config = ExecutionRuntimeConfig.from_env()
+        self.assertEqual(config.scheduler_active_resync_seconds, 0.25)
+        self.assertEqual(config.scheduler_idle_resync_seconds, 12.5)
 
     def test_configs_are_derived_from_environment_at_the_boundary(self) -> None:
         with patch.dict(
