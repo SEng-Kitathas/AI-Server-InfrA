@@ -98,3 +98,96 @@ Status: WORKING / integrated / not live-promoted
 
 ### Claim ceiling
 This is a verified integrated V30 working-tree mechanism. It has NOT been promoted to the live receiver and has not yet completed full V30 release qualification, full-plane audit, malformed-state replay matrix, or clean-package install verification.
+
+
+## A-033 — saturation-time admission read amplification under the global lock
+
+Status: **FIXED / QUALIFIED IN V30 WORKING TREE / PENDING THIS STEP GIT PUBLICATION**
+
+### External hostile evidence
+A user-supplied execution teardown reported that `_drain_queue_locked()` called `_can_start_now()` per queued candidate; `_can_start_now()` called `_capacity_snapshot()`, and `_capacity_snapshot()` performed four full durable job-tree scans. With `EXECUTION_DRAIN_BATCH=None` and saturation using `continue`, one drain repeatedly re-read the lifetime job tree while starting nothing.
+
+Exact external attachment identities and campaign split are preserved in:
+`reports/hostile_inputs/EXECUTION_PLANE_TEARDOWN_2026-09-05_RECEIPT.md`.
+
+### Current-V30 reproduction before mutation
+Synthetic current-module store:
+- 40 terminal history records
+- 8 RUNNING records (global limit saturated)
+- 12 QUEUED records
+
+One `_drain_queue('p1')`:
+- started: 0
+- `_capacity_snapshot` calls: 12
+- `_can_start_now` calls: 12
+- job-tree walks: **49** = 1 candidate discovery + (4 × 12) capacity walks
+- job-file loads: **2,940** = 49 × 60 records
+- elapsed on operator Windows host: **0.554 s**, already > configured 0.25 s scheduler interval.
+
+This reproduces the mechanism independently of the donor patch and proves O(queued × lifetime_jobs) read amplification on current V30.
+
+### Derivation / embodiment
+The supplied donor diff was not applied wholesale because it also contained poison-record isolation (a separate failure class reserved for A-034).
+
+Current-V30 A-033 repair:
+- added `_running_census()`;
+- snapshots live `_RUNNING` managed process IDs under `_RUNNING_LOCK` so existing managed-process capacity semantics are preserved;
+- performs one durable global job-tree pass;
+- globally deduplicates job IDs while maintaining independent per-project seen sets/counts;
+- durable RUNNING records not represented by a live managed process count only when `_pid_alive(job.pid)` succeeds;
+- `_drain_queue_locked()` establishes global/per-project capacity once under `_ADMISSION_LOCK`;
+- successful starts increment local global/project budgets;
+- global capacity exhaustion uses `break` because no later candidate can be admitted in that pass;
+- project capacity exhaustion still uses `continue` so other projects can make progress;
+- `_capacity_snapshot()` / `_can_start_now()` remain intact for observational/other callers.
+
+No queue/lifecycle/authority semantics were intentionally changed.
+
+### Hostile regression
+Added:
+`tests/test_execution_admission_hotpath.py`
+
+It proves:
+1. same 60-record saturated drain performs exactly 2 tree walks / 120 loads and never calls `_can_start_now` or `_capacity_snapshot` per candidate;
+2. saturation breaks before queued-record reads;
+3. one remaining global slot starts exactly one job and local capacity prevents over-admission without re-census;
+4. a full project is skipped while another project may still start;
+5. live managed `_RUNNING` process semantics survive even if durable status is transiently stale.
+
+### Post-fix reproduction
+Same 60-record case:
+- started: 0
+- tree walks: **2**
+- file loads: **120**
+- `_can_start_now` calls: 0
+- `_capacity_snapshot` calls: 0
+- queued `_read_job` calls at global saturation: 0
+- elapsed: **0.231 s**.
+
+500 terminal + 8 RUNNING + 50 QUEUED Windows case with candidate discovery separated from lock:
+- candidate discovery: **2.226 s** (outside `_ADMISSION_LOCK`)
+- admission-lock hold: **0.049 s**
+- jobs started: 0.
+
+The remaining 2.226 s discovery cost is not claimed fixed. It is direct current-host evidence for A-035 active/terminal partitioning: lifetime history still dominates flat-tree scans even after admission serialization is repaired.
+
+### Verification
+- current execution focused cluster: **19/19 PASS**
+- complete V30 suite: **264 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+
+Current identities:
+- `execution_routes.py` SHA-256 `2cea76cd1b24291f1ef5d929fedbf02f6102b3bc0e2927cedc5db2a367d0a02e`
+- A-033 test SHA-256 `fd2ed0b73c413d88dc8083797d623504da5bca435b7a0063c9d1d8b1ba56efb8`.
+
+### Claim ceiling
+A-033 fixes repeated capacity rescans under admission. It does **not** fix:
+- one lifetime-tree candidate discovery scan;
+- one lifetime-tree running census scan;
+- scheduler whole-tree reconciliation;
+- poison-record isolation;
+- retention;
+- process-global-only admission ownership;
+- legacy bare-PID identity;
+- WSGI serving model.
+
+Those remain separately pressure-tested seams.

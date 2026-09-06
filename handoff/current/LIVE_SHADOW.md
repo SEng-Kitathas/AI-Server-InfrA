@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-05 22:58 ET
+Last updated: 2026-09-05 23:31 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-032 bounded-result parity earned; Git publication next
+- Current mode: BUILD-COMMIT / PROMOTION — A-033 admission hotpath earned; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: push A-032 bounded result-handle Actions parity, remote-read it, then re-census adapter lossiness for A-033.
+- Dominant objective: publish A-033 one-census admission fix, remote-read it, then reproduce A-034 poison-record scheduler starvation.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -29,8 +29,8 @@ Last updated: 2026-09-05 22:58 ET
 
 ### Git publication truth
 - exact Git root: `V30_WORKING/PCMMAD_receiver`; branch `main`; remote `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`.
-- current local/remote HEAD `02b6ef1224a7ced2abab3cbd3e61235727842249`; tree `6720a4ac13c41fe90c6ca70cb5a85e07fd612f0c`; upstream clean after A-031 push.
-- A-031 family effective-approval parity is current Git source truth.
+- current local/remote HEAD `a3d84199e2673b87c4d7d246bf591bb3dbefdd63`; tree `7055df4da7200121207734cf36bb703441ae1b6d`; upstream clean.
+- A-032 bounded result-handle Actions parity is current Git source truth.
 - `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`; live Desktop receiver remains separate.
 
 ### Current runtime/test truth
@@ -113,37 +113,38 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-032 and remote-read exact head;
-2. re-census remaining OpenAPI/imported-action/runtime-surface lossiness;
-3. choose A-033 only from exact remaining mismatch evidence;
-4. continue one earned/pushed seam at a time;
-5. final schema remains last-stage.
+1. P0 publish A-033 and remote-read exact head;
+2. A-034 poison-record scheduler starvation reproduce/fix/push;
+3. A-035 active/terminal execution store partition from lifetime-scan evidence;
+4. A-036 retention/bounded drain;
+5. separate serving/PID/multi-receiver ownership audits.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. refresh repo handoff mirror to A-032;
-2. run handoff + full exact-candidate gates;
-3. commit/push A-032 and remote-read;
+1. refresh Git recovery mirror to registered A-033 state;
+2. run handoff + execution/full exact-candidate gates;
+3. commit/push A-033 and remote-read;
 4. update outer Git receipt;
-5. then run remaining adapter-lossiness census for A-033.
+5. only then execute poison-record repro for A-034.
 
 ## Last 10 Turn Reinforcement Window
-1. ASSISTANT: A-031 post-push continuity registered; A-032 activated.
-2. ASSISTANT: exact native result route read showed auto/full/metadata/preview/range + range/preview bounds.
-3. ASSISTANT: compact closed ResultHandleRequest proved limited to historical summary_only. DEFECT.
-4. ASSISTANT: classified A-032 FIX-NOW under bounded context/result law.
-5. ASSISTANT: surgical CRLF A-032 request/operation patch applied; 30 ops preserved. BUILD.
-6. ASSISTANT: added result bounded parity regression bound to native constants.
-7. ASSISTANT: focused native/result/adapter cluster 36/36 PASS. VERIFIED.
-8. ASSISTANT: full suite 260 GREEN. VERIFIED.
-9. ASSISTANT: compatibility contract + projection matrix advanced to A-032; response strong typing classified acceptable current lossiness.
-10. ASSISTANT: post-promotion focused 36/36 + full 260 GREEN; entering publication. STATE CHANGE.
+1. ASSISTANT: A-032 post-push continuity reconciled to `a3d8419`; execution teardown admitted as provisional evidence.
+2. ASSISTANT: current code inspection confirmed four-scan `_capacity_snapshot`, per-candidate `_can_start_now`, unbounded drain, 0.25s scheduler.
+3. ASSISTANT: current synthetic repro proved 49 walks / 2,940 loads / 0.554s / 0 starts for 60 records. DEFECT EARNED.
+4. ASSISTANT: lock-order audit found admission→running ordering already established; no reverse nested path.
+5. ASSISTANT: derived managed-aware one-pass census rather than copying donor file-only census.
+6. ASSISTANT: A-033 implementation written with CRLF preserved; no poison-record changes bundled.
+7. ASSISTANT: hostile regression added for 2-walk saturation, local global budget, cross-project project-limit progress, managed-process semantics.
+8. ASSISTANT: current execution cluster 19/19 PASS.
+9. ASSISTANT: post-fix repro 2 walks / 120 loads; 500-history admission lock 0.049s, discovery remains 2.226s off-lock.
+10. ASSISTANT: full V30 suite 264 GREEN; A-033 entering mandatory Git publication.
 
 ## Delta Since Previous Shadow
-- A-032 bounded result request parity earned locally.
-- full suite advances 254 -> 260 GREEN.
-- request bounded modes are now zero-loss; polymorphic response typing remains acceptable/deferred.
-- mandatory Git publication precedes A-033 selection.
+- A-033 admission read amplification reproduced and fixed locally.
+- full suite advances 260 -> 264 GREEN.
+- global admission lock no longer repeats lifetime-tree capacity scans per queued candidate.
+- remaining lifetime discovery is explicitly not fixed and strengthens A-035.
+- A-034 cannot begin until A-033 Git readback.

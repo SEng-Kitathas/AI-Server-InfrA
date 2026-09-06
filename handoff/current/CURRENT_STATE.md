@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-05 22:58 ET
+Last updated: 2026-09-05 23:31 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,28 +263,47 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-032 compact result-handle bounded retrieval parity is **EARNED for current V30 working-tree scope** and pending this step's mandatory Git publication.
+A-033 execution admission hotpath is **EARNED for current V30 working-tree scope** and pending this step's mandatory Git publication.
 
-Fresh evidence:
-- compact `/lab/results/get` request now exposes native `auto|full|metadata|preview|range`;
-- native range controls projected exactly: offset min/default 0, length min 1/default 32768/max 65536;
-- preview controls projected: min 200/default 1200/max 4000;
-- historical `summary_only=true` remains a documented preview alias;
-- `auto` remains bounded default and `full` explicit opt-in;
-- compact operation count remains 30;
-- focused result/adapter/currentness/handoff cluster **36/36 PASS**;
-- complete V30 suite **260 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- compact schema SHA `25be4cbd0ab4b5a0be10e1e087857537656a712f33308de12e3a462a7186bf6c`.
+Current-V30 defect reproduction before mutation:
+- 40 terminal + 8 RUNNING + 12 QUEUED; global concurrency saturated;
+- 0 jobs started;
+- 12 `_capacity_snapshot` / 12 `_can_start_now` calls;
+- **49 job-tree walks / 2,940 job-file loads**;
+- 0.554 s on operator Windows host, already > 0.25 s scheduler interval.
 
-Lossiness disposition:
-- hidden request-side bounded modes = **FIX-NOW -> EARNED**;
-- mode-dependent 200 response remains a permissive object = **ACCEPTABLE CURRENT COMPATIBILITY** because bounded choice/content identity are preserved and no concrete client requires a frozen response hierarchy.
+Earned A-033 behavior:
+- one `_running_census()` per drain;
+- live managed `_RUNNING` semantics preserved;
+- one durable capacity pass, independent global/per-project dedup;
+- local budget increments on successful starts;
+- global exhaustion `break`, project exhaustion `continue`;
+- no per-candidate `_can_start_now` / `_capacity_snapshot`.
+
+Post-fix same 60-record case:
+- **2 walks / 120 loads**;
+- 0 capacity calls; 0 queued-record reads at saturation;
+- 0.231 s; 0 starts.
+
+500-history/50-queued Windows case:
+- candidate discovery 2.226 s outside admission lock;
+- admission-lock hold **0.049 s**;
+- 0 starts.
+
+Verification:
+- current execution cluster **19/19 PASS**;
+- complete V30 suite **264 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- `execution_routes.py` SHA `2cea76cd1b24291f1ef5d929fedbf02f6102b3bc0e2927cedc5db2a367d0a02e`;
+- A-033 regression SHA `fd2ed0b73c413d88dc8083797d623504da5bca435b7a0063c9d1d8b1ba56efb8`.
+
+Important non-claim: the remaining flat lifetime-tree candidate discovery/census cost is **not fixed** and is direct Windows evidence for A-035.
 
 Immediate sequence:
-1. refresh Git handoff mirror;
-2. qualify exact publication candidate;
-3. commit/push/remote-read A-032;
-4. only after publication, census remaining adapter-lossiness and select A-033 from evidence.
+1. refresh Git handoff mirror to A-033;
+2. exact-candidate handoff + full-suite gate;
+3. commit/push/remote-read A-033;
+4. only then open A-034 poison-record scheduler starvation;
+5. A-035 active/terminal partition follows separate reproduction/derivation.
 
 ## Remaining major seams
 

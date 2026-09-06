@@ -1,24 +1,25 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-05 22:58 ET
+Last updated: 2026-09-05 23:31 ET
 
 ## Immediate — current frontier
 
-Completed this step:
-- [x] A-032 bounded result-handle Actions loss classified FIX-NOW.
-- [x] exact native mode/range/preview controls projected into closed compact request schema.
-- [x] historical `summary_only` retained as compatibility alias.
-- [x] mode-dependent response strong typing explicitly deferred as acceptable current representation lossiness.
-- [x] focused cluster **36/36 PASS**.
-- [x] full V30 suite **260 GREEN**.
+Completed A-033 engineering:
+- [x] reproduced current admission amplification independently of donor patch;
+- [x] preserved managed-process counting semantics in one-pass census;
+- [x] eliminated per-candidate capacity rescans from drain;
+- [x] hostile regression proves 49→2 walks and 2,940→120 loads in same saturation case;
+- [x] current execution cluster **19/19 PASS**;
+- [x] full V30 suite **264 GREEN**.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-032 to Git | per-step publication law | commit/push/remote readback exact |
-| P1 | Re-census remaining adapter lossiness after A-032 | avoid stale matrix assumptions | next mismatch has exact evidence and disposition |
-| P1 | Select A-033 from highest-value actual mismatch | continue narrow earned increments | next isolated seam named after remote A-032 readback |
-| P1 | Keep final schema redesign locked | compatibility parity != ontology redesign | no broad rewrite |
+| P0 | Publish A-033 to Git | user mandates per-step publication | commit/push/remote exact; outer Git receipt advanced |
+| P0 | Then reproduce A-034 poison-record starvation | distinct failure class from admission amplification | malformed record repro on current bytes with queue blocked before repair |
+| P1 | Move failure excerpt I/O off scheduler critical transition if repro supports it | operator-controlled paths must not poison scheduling | reconciliation state transition cannot tail arbitrary logs |
+| P1 | Then A-035 active/terminal partition | 500-history discovery still 2.226 s on Windows | scheduler hot scans bounded by active set |
+| P1 | Keep retention/serving/PID/multi-receiver separate | avoid multi-defect patching | each gets own discriminator/push |
 
 ## Near-term all-plane audit
 

@@ -2191,3 +2191,149 @@ Disposition: **ACCEPTABLE CURRENT COMPATIBILITY / DEFERRED STRONG TYPING** becau
 
 ### CURRENT STATE
 A-032 is technically/continuity-earned and awaiting this step's mandatory Git commit/push/remote-readback before any A-033 implementation begins.
+
+
+### A-032 Git publication complete / execution hostile campaign admitted
+
+A-032 final publication was independently read back after push.
+
+Git commit:
+`a3d84199e2673b87c4d7d246bf591bb3dbefdd63`
+
+Tree:
+`7055df4da7200121207734cf36bb703441ae1b6d`.
+
+Subject:
+`Expose bounded result retrieval in compact Actions`.
+
+Verification carried into publication:
+- focused result/adapter/currentness cluster 36/36 PASS;
+- refreshed handoff 6/6 PASS;
+- complete V30 suite 260 GREEN;
+- compact schema SHA `25be4cbd0ab4b5a0be10e1e087857537656a712f33308de12e3a462a7186bf6c`;
+- 30 operations.
+
+Remote/local `main` were exact and branch clean after push.
+
+Immediately afterward the user supplied a hostile execution-plane teardown with measured claims about:
+- repeated full-tree capacity scans under the process-global admission lock;
+- poison execution records permanently starving queue drain;
+- scheduler duty cycle scaling with lifetime job count;
+- no retention and a flat execution directory;
+- active/terminal partition as structural fix;
+- Werkzeug dev-server exposure;
+- legacy bare-PID reuse risk;
+- process-local admission lock under double receiver start.
+
+Campaign disposition:
+The teardown is admitted as **PROVISIONAL HOSTILE EVIDENCE**, not automatic architecture authority. Failure classes are separated into independently reproduced/qualified/pushed steps.
+
+Ordered frontier:
+1. A-033 admission hotpath reproduction/fix;
+2. A-034 poison-record isolation/read-path failure excerpt separation;
+3. A-035 active/terminal execution-store partition;
+4. A-036 retention/bounded drain;
+5. separate serving-model / PID-reuse / multi-receiver ownership audits.
+
+Per-step Git publication/readback remains mandatory.
+
+
+---
+
+## Phase 44 — A-033 execution admission hotpath read-amplification repair
+
+### HOSTILE INPUT
+User supplied an execution-plane teardown with measured claims about saturation-time admission lock amplification, poison-record starvation, lifetime-tree scheduler cost, active/terminal partitioning, retention, serving model, PID reuse, and multi-receiver admission ownership.
+
+Exact attachment identities and campaign split are persisted in:
+`reports/hostile_inputs/EXECUTION_PLANE_TEARDOWN_2026-09-05_RECEIPT.md`.
+
+The donor patch was **not** applied wholesale because it bundled admission hotpath and poison-record isolation.
+
+### CURRENT-V30 REPRODUCTION BEFORE MUTATION
+Synthetic store:
+- 40 terminal history records
+- 8 RUNNING records at global limit
+- 12 QUEUED records.
+
+One `_drain_queue('p1')` produced:
+- 0 starts;
+- 12 `_capacity_snapshot` calls;
+- 12 `_can_start_now` calls;
+- **49 job-tree walks** = 1 candidate discovery + 4×12 capacity scans;
+- **2,940 job-file loads**;
+- 0.554 s on operator Windows host, already greater than the configured 0.25 s scheduler interval.
+
+The external mechanism was independently reproduced on current V30.
+
+### DERIVATION
+Current `_effective_running_count()` semantics include live managed `_RUNNING` processes before durable RUNNING records. The donor's simpler file-only census would narrow that behavior.
+
+Derived A-033 `_running_census()` therefore:
+- snapshots live managed process IDs under `_RUNNING_LOCK`;
+- counts them globally even if durable status is transiently stale;
+- walks durable records once;
+- globally deduplicates job IDs while maintaining independent per-project seen sets;
+- counts non-managed durable RUNNING records only when PID liveness succeeds.
+
+Lock-order audit confirmed existing admission→running ordering and no reverse nested path in current module.
+
+### EMBODIMENT
+`_drain_queue_locked()` now:
+- establishes global/per-project running capacity once under admission;
+- uses local budgets for the pass;
+- increments budgets only after successful spawn+write;
+- breaks immediately when global capacity is exhausted;
+- continues past a full project so another project may still start;
+- no longer calls `_can_start_now()` per candidate.
+
+`_capacity_snapshot()` and `_can_start_now()` remain for observational/other callers.
+
+Backup:
+`baseline/pcmmad_receiver/_v30_backups/AUDIT_A033_ADMISSION_HOTPATH/execution_routes.py`.
+
+### HOSTILE REGRESSION
+Added `tests/test_execution_admission_hotpath.py`.
+
+It proves:
+- same saturated 60-record case is exactly 2 walks / 120 loads;
+- saturation causes zero queued-record reads and zero per-candidate capacity calls;
+- one remaining global slot admits only one candidate without re-census;
+- a full project does not block another project;
+- live managed-process semantics survive transiently stale durable status.
+
+### POST-FIX MEASUREMENT
+Same 60-record case:
+- 2 tree walks;
+- 120 loads;
+- 0 `_can_start_now` / 0 `_capacity_snapshot`;
+- 0 queued `_read_job` at global saturation;
+- 0.231 s;
+- 0 starts.
+
+500 terminal + 8 RUNNING + 50 QUEUED Windows case:
+- candidate discovery: 2.226 s outside `_ADMISSION_LOCK`;
+- admission-lock hold: **0.049 s**;
+- 0 starts.
+
+The remaining off-lock flat-tree scan is not claimed fixed; it is direct current-host evidence for A-035 active/terminal partitioning.
+
+### VERIFICATION
+- current execution cluster: **19/19 PASS**;
+- complete V30 suite: **264 collected tests GREEN**;
+- one existing conditional Windows symlink-privilege skip.
+
+Current identities:
+- `execution_routes.py` SHA `2cea76cd1b24291f1ef5d929fedbf02f6102b3bc0e2927cedc5db2a367d0a02e`;
+- A-033 test SHA `fd2ed0b73c413d88dc8083797d623504da5bca435b7a0063c9d1d8b1ba56efb8`.
+
+### CLAIM CEILING / NEXT
+A-033 fixes repeated capacity scans under the global admission lock only.
+
+Still open:
+- A-034 poison-record scheduler isolation / critical-path failure excerpt I/O;
+- A-035 active/terminal partition and lifetime-scan cost;
+- A-036 retention/bounded drain;
+- serving model, legacy PID identity, multi-receiver admission ownership.
+
+A-034 mutation is blocked until A-033 Git commit/push/remote-readback completes.

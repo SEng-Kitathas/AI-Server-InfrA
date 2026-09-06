@@ -1316,6 +1316,53 @@ def submit_execution_job(
         return _submit_job_locked(payload, replay_of)
 
 
+def _running_census() -> tuple[int, dict[str, int]]:
+    """Return effective global/per-project running counts from one durable-tree pass.
+
+    Preserve the existing capacity semantics: live managed processes count even when
+    their durable record is transiently stale, while durable RUNNING records not
+    represented in `_RUNNING` are counted only when their PID is alive. Global job
+    IDs are deduplicated independently from per-project counts.
+    """
+    managed_alive: set[str] = set()
+    with _RUNNING_LOCK:
+        for job_id, proc in list(_RUNNING.items()):
+            if proc.poll() is None:
+                managed_alive.add(job_id)
+
+    global_seen: set[str] = set(managed_alive)
+    per_project_seen: dict[str, set[str]] = {}
+    per_project: dict[str, int] = {}
+    total = len(global_seen)
+
+    for path in _iter_job_files(None):
+        job, _ = _load_job_file(path)
+        if not job:
+            continue
+        job_id = str(job.job_id or "")
+        if not job_id:
+            continue
+        managed = job_id in managed_alive
+        durable_alive = job.status == JOB_STATUS_RUNNING and _pid_alive(job.pid)
+        if not managed and not durable_alive:
+            continue
+
+        if job_id not in global_seen:
+            global_seen.add(job_id)
+            total += 1
+
+        project_key = str(job.project_id or "")
+        if not project_key:
+            continue
+        seen = per_project_seen.setdefault(project_key, set())
+        if job_id in seen:
+            continue
+        seen.add(job_id)
+        per_project[project_key] = per_project.get(project_key, 0) + 1
+
+    return total, per_project
+
+
 def _queued_job_candidates(project_id: str | None = None) -> list[tuple[str, str, str]]:
     """Discover queued jobs without holding the global admission lock."""
     queued: list[tuple[str, str, str]] = []
@@ -1332,24 +1379,36 @@ def _drain_queue_locked(
     project_id: str | None = None, *, limit: int | None = EXECUTION_DRAIN_BATCH,
     candidates: list[tuple[str, str, str]] | None = None,
 ) -> list[str]:
-    # Candidate discovery is intentionally outside the admission critical section.
+    # Candidate discovery is intentionally outside the admission critical section when
+    # callers can provide a snapshot. Capacity itself must be established while the
+    # admission lock is held, but one census is enough for the entire drain pass.
     queued_jobs = candidates if candidates is not None else _queued_job_candidates(project_id)
     started: list[str] = []
+    running_global, running_per_project = _running_census()
+    global_limit = EXECUTION_GLOBAL_CONCURRENCY
+    project_limit = EXECUTION_PROJECT_CONCURRENCY
+
     for _, pid, job_id in queued_jobs:
         if limit is not None and len(started) >= limit:
             break
+        if global_limit is not None and running_global >= global_limit:
+            break
         if not pid or not job_id:
+            continue
+        if project_limit is not None and running_per_project.get(pid, 0) >= project_limit:
             continue
         try:
             job = _read_job(pid, job_id)
         except FileNotFoundError:
             continue
-        if job.status != JOB_STATUS_QUEUED or not _can_start_now(pid):
+        if job.status != JOB_STATUS_QUEUED:
             continue
         try:
             job = _spawn_job(job)
             _write_job(pid, job.job_id, job)
             started.append(job.job_id)
+            running_global += 1
+            running_per_project[pid] = running_per_project.get(pid, 0) + 1
         except (OSError, RuntimeError, ValueError, TypeError) as e:
             _set_job_status(job, JOB_STATUS_FAILED, "spawn")
             job.finished_at = utc_now()

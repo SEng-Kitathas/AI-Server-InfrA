@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-05 22:58 ET
+Last updated: 2026-09-05 23:31 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -310,9 +310,11 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-032 request-side bounded result parity is earned locally: 36/36 focused and 260 full-suite GREEN.
+A-033 admission hotpath is earned locally and awaiting mandatory Git publication. It removes repeated capacity rescans under `_ADMISSION_LOCK` while deliberately leaving flat lifetime-tree discovery/census for A-035.
 
-Immediate challenge is its mandatory Git publication/readback. Response-shape strong typing remains intentionally deferred as acceptable legacy representation lossiness. After remote readback, re-census remaining adapter mismatches before selecting A-033.
+A-034 poison-record scheduler isolation is the next failure class but SHALL NOT be mutated until A-033 remote readback completes.
+
+Execution optimization law reinforced: reduce work inside the global mutation lock without pretending off-lock lifetime scans are solved.
 
 ## Current quality/search posture
 

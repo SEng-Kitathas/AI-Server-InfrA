@@ -89,36 +89,39 @@ Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/
 
 ## Verified base and current candidate
 
-Last remote-verified Git base before A-032:
-- commit `02b6ef1224a7ced2abab3cbd3e61235727842249`;
-- tree `6720a4ac13c41fe90c6ca70cb5a85e07fd612f0c`;
-- A-031 compact family effective-approval parity current.
+Last remote-verified Git base before A-033:
+- commit `a3d84199e2673b87c4d7d246bf591bb3dbefdd63`;
+- tree `7055df4da7200121207734cf36bb703441ae1b6d`;
+- A-032 bounded result-handle Actions parity current;
+- full suite 260 GREEN.
 
-Current A-032 candidate:
-- compact `/lab/results/get` exposes native auto/full/metadata/preview/range request choice;
-- native range/preview bounds projected exactly;
-- historical `summary_only` retained as preview alias;
-- focused cluster 36/36 PASS; full suite 260 GREEN;
-- schema SHA `25be4cbd0ab4b5a0be10e1e087857537656a712f33308de12e3a462a7186bf6c`;
-- compact surface remains 30 operations.
+Current A-033 candidate:
+- admission saturation defect reproduced at 49 job-tree walks / 2,940 loads for 12 queued candidates;
+- managed-aware one-pass census reduces same case to 2 walks / 120 loads;
+- 500-history Windows admission-lock hold 0.049 s after off-lock candidate discovery;
+- current execution cluster 19/19 PASS;
+- full V30 suite 264 GREEN;
+- `execution_routes.py` SHA `2cea76cd1b24291f1ef5d929fedbf02f6102b3bc0e2927cedc5db2a367d0a02e`.
 
-Resolve current Git identity dynamically; this snapshot does not prove whether A-032 has been pushed.
+Resolve current Git identity dynamically; this snapshot does not prove whether A-033 has been pushed.
 
 ## Current handoff-candidate qualification
 
-A-032 engineering qualification before mirror refresh:
-- focused result/adapter/currentness/handoff cluster **36 / 36 PASS**;
-- complete V30 suite **260 GREEN**.
+A-033 engineering qualification before mirror refresh:
+- execution cluster **19 / 19 PASS**;
+- complete V30 suite **264 GREEN**.
 
-The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/full-suite gate follows the qualification/manifest update, with no repo mutation before commit.
+The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/execution/full-suite gate follows the qualification/manifest update, with no repo mutation before commit.
 
-## Active engineering frontier after A-032 publication
+## Active engineering frontier after A-033 publication
 
-1. Publish/remote-read A-032 under per-step Git cadence.
-2. Re-census remaining adapter lossiness from exact current schema/matrix after publication.
-3. Select A-033 from the highest-value remaining real mismatch; do not perform broad schema cleanup.
-4. Continue one independently qualified/pushed seam at a time.
-5. Final schema redesign remains locked until whole-runtime convergence / explicit final trigger.
+1. Publish/remote-read A-033 under per-step Git cadence.
+2. A-034 reproduce poison-record scheduler starvation; isolate one-record failure and remove arbitrary failure-excerpt filesystem I/O from critical reconciliation if earned.
+3. A-035 derive active/terminal execution-store partition from current lifetime-scan evidence.
+4. A-036 retention/bounded drain after partition semantics.
+5. Keep serving model, legacy PID identity, and multi-receiver admission ownership as separate audits.
+
+External hostile campaign receipt: `reports/hostile_inputs/EXECUTION_PLANE_TEARDOWN_2026-09-05_RECEIPT.md`.
 
 ## Release/live ceiling
 
