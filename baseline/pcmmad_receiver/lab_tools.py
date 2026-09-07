@@ -174,6 +174,7 @@ def _build_tool_spec(
             for item in (metadata.get("effect_traits") or [])
             if str(item).strip()
         ],
+        idempotency_semantics=str(metadata.get("idempotency_semantics", "")),
         availability_mode=str(metadata.get("availability_mode", "resident")),
         availability_scope=str(metadata.get("availability_scope", "handler")),
         availability_provider_id=str(metadata.get("availability_provider_id", "")),

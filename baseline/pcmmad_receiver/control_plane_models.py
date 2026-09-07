@@ -682,6 +682,7 @@ class ToolSpec:
     schema_version: str = "1"
     side_effect_class: str = ""
     effect_traits: list[str] = field(default_factory=list)
+    idempotency_semantics: str = ""
     availability_mode: str = "resident"
     availability_scope: str = "handler"
     availability_provider_id: str = ""
@@ -706,6 +707,21 @@ class ToolSpec:
         # `mutating=False` historically meant only "not declared mutating".  Do
         # not launder that absence into a read-only guarantee.
         return "unknown"
+
+    @property
+    def effective_idempotency_semantics(self) -> str:
+        explicit = str(self.idempotency_semantics or "").strip().lower()
+        if explicit:
+            return explicit
+        traits = set(self.effect_traits or [])
+        if self.effective_side_effect_class == "read":
+            return "safe_repeat"
+        if "idempotent_replay_while_unacked" in traits:
+            return "state_bound_replay"
+        if {"exact_offset_required", "requires_chunk_hash"}.issubset(traits):
+            return "position_bound_replay"
+        # Conservative default: absence of an earned replay mechanism is not idempotency.
+        return "unsafe_retry"
 
     @property
     def availability_contract(self) -> JsonObject:
@@ -746,6 +762,7 @@ class ToolSpec:
                 "effective_approval_required": self.effective_approval_required,
                 "side_effect_class": self.effective_side_effect_class,
                 "effect_traits": sorted(set(self.effect_traits)),
+                "idempotency_semantics": self.effective_idempotency_semantics,
                 "availability_mode": str(self.availability_mode or "resident").strip().lower(),
                 "availability_scope": str(self.availability_scope or "handler"),
                 "availability_provider_id": str(self.availability_provider_id or ""),
@@ -766,6 +783,7 @@ class ToolSpec:
             "mutating": self.mutating,
             "side_effect_class": self.effective_side_effect_class,
             "effect_traits": sorted(set(self.effect_traits or (["durable_mutation"] if self.mutating else []))),
+            "idempotency_semantics": self.effective_idempotency_semantics,
             "capability_version": str(self.capability_version),
             "schema_version": str(self.schema_version),
             "schema_hash": self.schema_hash,

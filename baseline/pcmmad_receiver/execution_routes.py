@@ -1066,6 +1066,8 @@ def _spawn_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
         _wjo.set_kill_on_close(job_handle, True)
     try:
         request_path = _write_worker_request(job)
+        _set_job_status(job, JOB_STATUS_STARTING, "worker_request_durable")
+        _write_job(job.project_id, job.job_id, job)
         paths = _worker_paths(job)
         out_f = paths["control_stdout"].open("ab")
         err_f = paths["control_stderr"].open("ab")
@@ -1308,26 +1310,89 @@ def _normalize_submit_payload(
     return payload
 
 
+def _recover_idempotency_from_job_records(
+    payload: ExecutionSubmitPayload,
+) -> ExecutionJobRecord | None:
+    matches: list[ExecutionJobRecord] = []
+    for path in _iter_all_job_files(payload.project_id):
+        job, error = _load_job_file(path)
+        if error or job is None:
+            continue
+        if str(job.idempotency_key or "") == payload.idempotency_key:
+            matches.append(job)
+    if not matches:
+        return None
+    if len(matches) > 1:
+        raise ExecutionRequestError(
+            "IDEMPOTENCY_RECOVERY_AMBIGUOUS",
+            "multiple execution records claim the same idempotency_key",
+            409,
+            job_ids=sorted(str(job.job_id) for job in matches),
+        )
+    job = matches[0]
+    if str(job.submission_fingerprint or "") != payload.submission_fingerprint:
+        raise ExecutionRequestError(
+            "IDEMPOTENCY_KEY_CONFLICT",
+            "idempotency_key already used for a different execution payload",
+            409,
+            existing_job_id=job.job_id,
+        )
+    # idempotency.json is a rebuildable index. The durable job record is the
+    # authoritative consequence witness, so heal the index rather than creating
+    # a second job after response loss or an interrupted index write.
+    ledger = _load_execution_idempotency(payload.project_id)
+    ledger.keys[payload.idempotency_key] = ExecutionIdempotencyRecord(
+        job_id=job.job_id,
+        submission_fingerprint=payload.submission_fingerprint,
+        recorded_at=str(job.submitted_at or utc_now()),
+    )
+    _save_execution_idempotency(payload.project_id, ledger)
+    return job
+
+
+def _resume_reserved_idempotent_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
+    if job.status != JOB_STATUS_SUBMITTED:
+        return job
+    resumed = _spawn_or_queue_job(job)
+    _journal_job_submission(resumed)
+    _write_job(resumed.project_id, resumed.job_id, resumed)
+    _ensure_scheduler_started()
+    started = _drain_queue_locked(resumed.project_id)
+    if started and resumed.status == JOB_STATUS_QUEUED:
+        resumed = _read_job(resumed.project_id, resumed.job_id)
+    _SCHEDULER_WAKE.set()
+    return resumed
+
+
 def _resolve_existing_idempotent_job(payload: ExecutionSubmitPayload) -> ExecutionJobRecord | None:
     idempotency_key = payload.idempotency_key
     if not idempotency_key:
         return None
     ledger = _load_execution_idempotency(payload.project_id)
     existing = ledger.keys.get(idempotency_key)
-    if not existing:
+    job: ExecutionJobRecord | None = None
+    if existing is not None:
+        if existing.submission_fingerprint != payload.submission_fingerprint:
+            raise ExecutionRequestError(
+                "IDEMPOTENCY_KEY_CONFLICT",
+                "idempotency_key already used for a different execution payload",
+                409,
+                existing_job_id=existing.job_id,
+            )
+        existing_job_id = str(existing.job_id)
+        if existing_job_id:
+            try:
+                job = _read_job(payload.project_id, existing_job_id)
+            except FileNotFoundError:
+                job = None
+    if job is None:
+        job = _recover_idempotency_from_job_records(payload)
+    if job is None:
         return None
-    if existing.submission_fingerprint != payload.submission_fingerprint:
-        raise ExecutionRequestError(
-            "IDEMPOTENCY_KEY_CONFLICT",
-            "idempotency_key already used for a different execution payload",
-            409,
-            existing_job_id=existing.job_id,
-        )
-    existing_job_id = str(existing.job_id)
-    if not existing_job_id:
-        return None
-    job = _read_job(payload.project_id, existing_job_id)
-    job = _finalize(payload.project_id, existing_job_id, job)
+    if job.status == JOB_STATUS_SUBMITTED:
+        job = _resume_reserved_idempotent_job(job)
+    else:
+        job = _finalize(payload.project_id, job.job_id, job)
     job.replayed = True
     return job
 
@@ -1534,11 +1599,16 @@ def _submit_job_locked(
     if existing is not None:
         return existing
     spec = _new_execution_job_spec(payload, replay_of)
-    job = _spawn_or_queue_job(_build_execution_job(payload, spec))
+    job = _build_execution_job(payload, spec)
+    # Durable reservation precedes any worker/process consequence. A retry can
+    # recover from the authoritative job record even if the auxiliary idempotency
+    # index write or the original HTTP response is lost.
+    _write_job(payload.project_id, spec.job_id, job)
+    _persist_idempotency_key(payload, spec.job_id)
+    job = _spawn_or_queue_job(job)
     _journal_job_submission(job)
     _write_job(payload.project_id, spec.job_id, job)
     _ensure_scheduler_started()
-    _persist_idempotency_key(payload, spec.job_id)
     started = _drain_queue_locked(payload.project_id)
     if started and job.status == JOB_STATUS_QUEUED:
         job = _read_job(payload.project_id, spec.job_id)

@@ -84,3 +84,13 @@ A-001 expected-contract currentness is **ENGINEERING-PUBLISHED / REMOTE-VERIFIED
 Runtime now natively supports optional `expected_contract_digest`; stale mismatch returns `409 CAPABILITY_CONTRACT_STALE` before provider/authority/handler consequence. Legacy omission remains compatible.
 
 Next integration frontier: OBE/Skills dogfood against this promoted interface. The 11-Skill interface remains unfrozen. Final schema redesign remains LAST and requires whole-runtime convergence plus explicit `hells yeah, ready`.
+## Idempotency raid frontier
+The idempotency response-loss raid is **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING**.
+- candidate 7 files; inventory `1d81399d5f98e6e37481cb3070a5d987c340aab2c9bf067bf1efa600fa803efb`;
+- `IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY`;
+- `RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS`;
+- `UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY`;
+- 107-tool registry = 31 `safe_repeat`, 73 `unsafe_retry`, one `keyed_replay_when_keyed`, one `state_bound_replay`, one `position_bound_replay`;
+- hostile response-loss 12/12 PASS; broader adjacency 96/96 PASS; full suite 364 collected / 363 passed / 0 failed / 1 conditional skip; compile + CRLF-aware diff check PASS.
+
+Claim ceiling: the Runtime does not claim every mutation is idempotent. Unearned effects remain `unsafe_retry`. Next server campaign after publication is Windows Job Object resource envelope, then remaining cross-domain raids. Final schema remains LAST/untriggered.

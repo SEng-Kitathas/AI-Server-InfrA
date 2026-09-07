@@ -37,16 +37,17 @@
 - `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`.
 - `RuntimeAuthorityEnvelope` is the invocation authority projection; flat approval sub-contract remains until final schema campaign.
 - A-001 stale-contract binding is engineering-published / remote-verified at `a552af9957b99361c3aebf91c7abc65775e0ce43`; tree `e51be9f7fb2f1e125b19d30e9da0e5324b661e4c`.
+- Current Git/remote `main` is recovery-only handoff `7618b0350c0266c70125d226baa9371bf3844a9d`; tree `c895f36a6c51110300a2353d9056aa7425564ad1`; last engineering feature remains A-001 `a552af9957b99361c3aebf91c7abc65775e0ce43`.
 
 ## Open Loops
 - A-042 engineering publication is complete and remote-verified.
 - Begin OBE/Skills dogfood against promoted A-001 Runtime currentness semantics; keep 11-Skill interface unfrozen.
-- Preserve idempotency / Job Object / remaining raid queue after A-001.
+- Idempotency raid is a qualified engineering candidate / publication pending; Job Object resource envelope follows after publication.
 - Final schema remains last/untriggered.
 - Do not live-promote unless separately authorized/gated.
 
 ## Immediate Next Step
-- Dogfood the OBE/Skills bootstrap against promoted Runtime currentness; any interface change must be re-earned from live behavior.
+- Publish the qualified idempotency raid as its own engineering commit; then begin Windows Job Object resource envelope. OBE/Skills dogfood may proceed in parallel.
 
 ## Last 10 Turn Reinforcement Window
 1. USER re-entered under RECOVERY/AUDIT and prohibited replay/restoration over newer WIP.
@@ -93,3 +94,22 @@
 - This publication does not freeze the OBE/Skills 11-Skill interface; real dogfood against this promoted Runtime remains the next integration discriminator.
 - Final schema redesign remains LAST and untriggered; whole-runtime convergence plus explicit user `hells yeah, ready` is still required.
 - `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
+
+## A-001 POST-PUBLICATION RECOVERY MIRROR — 2026-09-07
+- Current Git/remote `main`: recovery-only handoff commit `7618b0350c0266c70125d226baa9371bf3844a9d`; tree `c895f36a6c51110300a2353d9056aa7425564ad1`; subject `Refresh A-001 publication handoff`.
+- Last engineering feature remains A-001 `a552af9957b99361c3aebf91c7abc65775e0ce43`; tree `e51be9f7fb2f1e125b19d30e9da0e5324b661e4c`; subject `Bind dispatch to expected capability contract`.
+- `RECOVERY_HANDOFF_HEAD != ENGINEERING_FEATURE_HEAD`.
+- `origin/main` independently resolves exactly to `7618b0350c0266c70125d226baa9371bf3844a9d`; post-push worktree is clean / `main...origin/main`.
+- Recovery-only mirror carries the published A-001 contract/currentness truth and does not add Runtime behavior.
+- Next engineering frontier follows Commander intent; OBE/Skills interface remains unfrozen; final schema remains LAST/untriggered.
+
+## IDEMPOTENCY RAID — QUALIFIED CANDIDATE (2026-09-07)
+- Status: **QUALIFIED ENGINEERING CANDIDATE / GIT PUBLICATION PENDING**.
+- Candidate: 7 changed/new engineering files; inventory `1d81399d5f98e6e37481cb3070a5d987c340aab2c9bf067bf1efa600fa803efb`.
+- Earned laws: `IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY`; `RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS`; `UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY`.
+- Runtime registry: 107 tools = 31 `safe_repeat`, 73 `unsafe_retry`, one `keyed_replay_when_keyed`, one `state_bound_replay`, one `position_bound_replay`.
+- Execution keyed replay now reserves authoritative job state before process consequence, persists STARTING before launch, heals missing auxiliary index from durable job records, and fails closed on key ambiguity/conflict.
+- Legacy commit uses write-ahead PREPARED witness and consequence-state recovery; lost-response append recovery does not duplicate bytes.
+- Qualification: hostile response-loss `12/12 PASS`; broader adjacency `96/96 PASS`; full suite `364 collected / 363 passed / 0 failed / 1 conditional skip`; changed Python compile PASS; CRLF-aware diff check PASS.
+- Claim ceiling: this does **not** make every mutation idempotent; unearned effects remain `unsafe_retry`.
+- Next server engineering frontier after publication: Windows Job Object resource envelope, then remaining cross-domain raids. Final schema remains LAST/untriggered.

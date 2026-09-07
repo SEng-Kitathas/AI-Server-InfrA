@@ -32,3 +32,12 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - full qualification `352 collected / 351 passed / 0 failed / 1 conditional skip`;
 - Runtime currentness contract promoted; 11-Skill interface still unfrozen; final schema remains last/untriggered;
 - this handoff refresh is recovery-only and does not alter the engineering feature identity.
+
+## IDEMPOTENCY RAID QUALIFIED CANDIDATE
+- 7-file inventory `1d81399d5f98e6e37481cb3070a5d987c340aab2c9bf067bf1efa600fa803efb`;
+- `IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY`;
+- `RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS`;
+- `UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY`;
+- registry census 107 tools: 31 safe-repeat, 73 unsafe-retry, three effectful capabilities with stronger earned replay semantics;
+- hostile response-loss 12/12 PASS; adjacency 96/96 PASS; complete suite 364 collected / 363 passed / 0 failed / 1 conditional skip; compile/diff checks PASS;
+- publication pending; next server campaign Windows Job Object resource envelope; final schema remains last/untriggered.

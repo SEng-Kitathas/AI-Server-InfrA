@@ -3,6 +3,9 @@
 from __future__ import annotations
 from dataclasses import dataclass
 
+import hashlib
+import json
+import os
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -42,6 +45,14 @@ from shared_core import (
 from runtime_axioms import constitutional_seed
 
 legacy_bp = Blueprint("legacy", __name__, url_prefix="")
+
+
+class LegacyIdempotencyError(RuntimeError):
+    def __init__(self, error_code: str, message: str, status: int = 409) -> None:
+        super().__init__(message)
+        self.error_code = error_code
+        self.message = message
+        self.status = status
 
 
 @dataclass(frozen=True)
@@ -150,21 +161,117 @@ def update_manifest_entry(spec: ManifestUpdateSpec) -> None:
     save_manifest(spec.project_id, manifest)
 
 
-def get_idempotency(project_id: str) -> dict[str, CommitLedgerRecord]:
+def _legacy_request_fingerprint(request_model: LegacyCommitRequest) -> str:
+    plan = request_model.plan
+    payload = {
+        "project_id": plan.project_id,
+        "artifact_class": plan.artifact_class,
+        "logical_name": plan.logical_name,
+        "operation": plan.operation,
+        "content_sha256": sha256_text(plan.content),
+        "provided_sha256": plan.provided_sha,
+        "expected_previous_sha256": plan.expected_previous_sha,
+        "session_id": request_model.session_id,
+        "commit_id": request_model.commit_id,
+    }
+    raw = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def get_idempotency(project_id: str) -> dict[str, JsonObject]:
     raw = load_json(idempotency_path_for(project_id), {})
     if not isinstance(raw, dict):
         return {}
-    out: dict[str, CommitLedgerRecord] = {}
+    out: dict[str, JsonObject] = {}
     for key, value in raw.items():
-        if isinstance(key, str) and isinstance(value, dict):
-            out[key] = CommitLedgerRecord.from_dict(value)
+        if not isinstance(key, str) or not isinstance(value, dict):
+            continue
+        if "state" in value:
+            out[key] = dict(value)
+            continue
+        # Backward compatibility: historical entries were bare CommitLedgerRecord
+        # payloads. They remain replayable but cannot retroactively prove request
+        # fingerprint equality.
+        try:
+            record = CommitLedgerRecord.from_dict(value)
+        except (TypeError, ValueError, KeyError):
+            continue
+        out[key] = {
+            "version": 1,
+            "state": "committed",
+            "request_fingerprint": None,
+            "record": record.to_dict(),
+        }
     return out
 
 
-def save_idempotency(project_id: str, data: dict[str, CommitLedgerRecord]) -> None:
-    save_json_atomic(
-        idempotency_path_for(project_id), {key: record.to_dict() for key, record in data.items()}
-    )
+def save_idempotency(project_id: str, data: dict[str, JsonObject]) -> None:
+    save_json_atomic(idempotency_path_for(project_id), data)
+
+
+def _legacy_text_write_bytes(content: str) -> bytes:
+    # Legacy writers use text mode with newline=None, so Python translates LF to
+    # the platform line separator on write. Idempotency recovery must bind the
+    # physical target bytes, not only the logical request string.
+    rendered = content.replace("\n", os.linesep) if os.linesep != "\n" else content
+    return rendered.encode("utf-8")
+
+
+def _intended_final_sha(validation: LegacyValidationResult) -> str:
+    plan = validation.request
+    written = _legacy_text_write_bytes(plan.content)
+    if plan.operation != "append":
+        return hashlib.sha256(written).hexdigest()
+    digest = hashlib.sha256()
+    with validation.target.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    digest.update(written)
+    return digest.hexdigest()
+
+
+def _prepared_idempotency_entry(
+    request_model: LegacyCommitRequest, validation: LegacyValidationResult
+) -> JsonObject:
+    plan = request_model.plan
+    return {
+        "version": 2,
+        "state": "prepared",
+        "request_fingerprint": _legacy_request_fingerprint(request_model),
+        "project_id": plan.project_id,
+        "session_id": request_model.session_id,
+        "commit_id": request_model.commit_id,
+        "idempotency_key": request_model.idempotency_key,
+        "artifact_class": plan.artifact_class,
+        "logical_name": plan.logical_name,
+        "operation": plan.operation,
+        "before_sha256": validation.current_sha,
+        "intended_final_sha256": _intended_final_sha(validation),
+        "prepared_at": utc_now(),
+        "record": None,
+    }
+
+
+def _committed_idempotency_entry(entry: JsonObject, record: CommitLedgerRecord) -> JsonObject:
+    committed = dict(entry)
+    committed["state"] = "committed"
+    committed["record"] = record.to_dict()
+    committed["committed_at"] = utc_now()
+    return committed
+
+
+def _entry_record(entry: JsonObject) -> CommitLedgerRecord | None:
+    raw = entry.get("record")
+    return CommitLedgerRecord.from_dict(raw) if isinstance(raw, dict) else None
+
+
+def _assert_idempotency_request_matches(
+    request_model: LegacyCommitRequest, entry: JsonObject
+) -> None:
+    expected = str(entry.get("request_fingerprint") or "")
+    if expected and expected != _legacy_request_fingerprint(request_model):
+        raise LegacyIdempotencyError("IDEMPOTENCY_KEY_CONFLICT", "idempotency_key already belongs to another commit request")
+
 
 
 def validate_operation_semantics(operation: str, artifact_class: str, target: Path) -> None:
@@ -437,10 +544,67 @@ def _apply_legacy_commit(
     )
     record = _legacy_commit_record(request_model, validation.target, final_sha, size_bytes)
     append_jsonl(commits_ledger_path_for(plan_model.project_id), record)
-    idem = get_idempotency(plan_model.project_id)
-    idem[request_model.idempotency_key] = record
-    save_idempotency(plan_model.project_id, idem)
     return record
+
+
+def _finalize_prepared_legacy_commit(
+    request_model: LegacyCommitRequest,
+    entry: JsonObject,
+    *,
+    apply_effect: bool,
+) -> CommitLedgerRecord:
+    plan = request_model.plan
+    target = resolve_target(plan.project_id, plan.artifact_class, plan.logical_name)
+    if apply_effect:
+        # Revalidation occurs against the same prepared before-state; the target has
+        # not changed since preparation.
+        validation = _validate_legacy_plan(plan)
+        record = _apply_legacy_commit(request_model, validation)
+    else:
+        final_sha = sha256_file(target)
+        if final_sha != str(entry.get("intended_final_sha256") or ""):
+            raise LegacyIdempotencyError("IDEMPOTENCY_RECOVERY_CONFLICT", "target is not at intended final state")
+        size_bytes = target.stat().st_size
+        update_manifest_entry(
+            ManifestUpdateSpec(plan.project_id, target, plan.artifact_class, final_sha, size_bytes)
+        )
+        existing_record = _find_commit_record(plan.project_id, request_model.commit_id)
+        if existing_record is not None:
+            if existing_record.idempotency_key != request_model.idempotency_key:
+                raise LegacyIdempotencyError("IDEMPOTENCY_RECOVERY_CONFLICT", "commit_id belongs to another operation")
+            record = existing_record
+        else:
+            record = _legacy_commit_record(request_model, target, final_sha, size_bytes)
+            append_jsonl(commits_ledger_path_for(plan.project_id), record)
+    idem = get_idempotency(plan.project_id)
+    idem[request_model.idempotency_key] = _committed_idempotency_entry(entry, record)
+    save_idempotency(plan.project_id, idem)
+    return record
+
+
+def _replay_or_resume_legacy_commit(
+    request_model: LegacyCommitRequest, entry: JsonObject
+) -> tuple[CommitLedgerRecord, bool]:
+    _assert_idempotency_request_matches(request_model, entry)
+    record = _entry_record(entry)
+    if str(entry.get("state") or "") == "committed" and record is not None:
+        return record, True
+    if str(entry.get("state") or "") != "prepared":
+        raise LegacyIdempotencyError("IDEMPOTENCY_RECOVERY_CONFLICT", "unknown idempotency record state")
+    plan = request_model.plan
+    target = resolve_target(plan.project_id, plan.artifact_class, plan.logical_name)
+    current_sha = get_existing_sha(target)
+    before_sha = entry.get("before_sha256")
+    intended_sha = str(entry.get("intended_final_sha256") or "")
+    if current_sha == intended_sha:
+        return _finalize_prepared_legacy_commit(request_model, entry, apply_effect=False), True
+    if current_sha == before_sha:
+        return _finalize_prepared_legacy_commit(request_model, entry, apply_effect=True), True
+    raise LegacyIdempotencyError(
+        "IDEMPOTENCY_RECOVERY_CONFLICT",
+        "target changed to neither prepared before-state nor intended final state",
+    )
+
 
 
 @legacy_bp.post("/plan")
@@ -485,12 +649,17 @@ def commit() -> object:
             # Idempotency and optimistic currentness are checked while writer exclusion
             # is held; the lease supplements, never replaces, hash/version validation.
             idem = get_idempotency(request_model.plan.project_id)
-            if request_model.idempotency_key in idem:
-                return jsonify(
-                    {"ok": True, "replayed": True, **idem[request_model.idempotency_key].to_dict()}
-                )
+            existing = idem.get(request_model.idempotency_key)
+            if existing is not None:
+                record, replayed = _replay_or_resume_legacy_commit(request_model, existing)
+                return jsonify({"ok": True, "replayed": replayed, **record.to_dict()})
             validation = _validate_legacy_plan(request_model.plan)
-            record = _apply_legacy_commit(request_model, validation)
+            prepared = _prepared_idempotency_entry(request_model, validation)
+            idem[request_model.idempotency_key] = prepared
+            save_idempotency(request_model.plan.project_id, idem)
+            record = _finalize_prepared_legacy_commit(
+                request_model, prepared, apply_effect=True
+            )
             return jsonify({"ok": True, "replayed": False, **record.to_dict()})
     except PermissionError as e:
         return error_response("HASH_MISMATCH", str(e), 409)
@@ -498,5 +667,7 @@ def commit() -> object:
         return error_response("CONTENT_HASH_INVALID", str(e), 400)
     except ProjectMutationAuthorityError as e:
         return error_response(e.error_code, e.message, e.status, **e.extra)
+    except LegacyIdempotencyError as e:
+        return error_response(e.error_code, e.message, e.status)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
         return error_response("COMMIT_FAILED", str(e), 400)

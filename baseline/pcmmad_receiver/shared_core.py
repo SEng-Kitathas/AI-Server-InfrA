@@ -207,6 +207,8 @@ def append_jsonl(path: Path, record: Any) -> None:
     payload = _json_ready(record)
     with path.open("a", encoding="utf-8") as f:
         f.write(render_jsonl_boundary(payload) + "\n")
+        f.flush()
+        os.fsync(f.fileno())
 
 
 def validate_project_id(project_id: str) -> str:

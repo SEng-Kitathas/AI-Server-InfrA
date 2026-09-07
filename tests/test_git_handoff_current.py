@@ -150,6 +150,12 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING", self.ingress)
         self.assertIn("11-Skill interface remains unfrozen", self.ingress)
         self.assertIn("Final schema remains LAST", self.ingress)
+        for text in (self.ingress, handoff, prompt, qualification):
+            self.assertIn("IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY", text)
+            self.assertIn("RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS", text)
+            self.assertIn("364 collected / 363 passed / 0 failed / 1 conditional skip", text)
+        self.assertIn("UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY", self.ingress)
+        self.assertIn("Windows Job Object resource envelope", self.ingress)
 
     def test_ingress_does_not_reopen_resolved_a042_discriminators(self) -> None:
         self.assertIn("a97a00f67f3b79dbbe18e092d29b8971e588d4a2", self.ingress)

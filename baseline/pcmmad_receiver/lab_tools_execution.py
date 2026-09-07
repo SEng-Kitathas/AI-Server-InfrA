@@ -279,6 +279,7 @@ def _register_async_submit_tool(register_tool: Callable[..., Any], dep: Executio
         approval_required=True,
         side_effect_class="execution",
         effect_traits=["creates_durable_state", "queues_work", "executes_code", "arbitrary_process_side_effects", "project_mutation_fenced", "requires_explicit_project_mutation_authority"],
+        idempotency_semantics="keyed_replay_when_keyed",
     )
     def tool_execution_submit(payload: ToolPayload) -> ToolResult:
         return _submit_async_job_payload(payload, dep)
