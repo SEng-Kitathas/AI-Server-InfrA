@@ -1,42 +1,41 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-07 14:36 ET
+Last updated: 2026-09-07 15:21 ET
 
-## Immediate — emergency rollover / exact A-042 frontier
+## Immediate — FINAL ROLLOVER / EXACT A-042 CONTINUE POINT
 
-Completed / verified this recovery pass:
-- [x] exact Git local/remote readback at `77da92c7e8693287c2b541aa89275c062f0af558`;
-- [x] last engineering publication identified as A-041 `a97a00f...`;
-- [x] current A-042 dirty worktree inventoried byte-for-byte across 13 files;
-- [x] all changed/new Python files compile; compact schema parses;
-- [x] focused A-042 test set executed: **7/8 PASS** with one explicit compatibility-authority disagreement;
-- [x] final current WIP freeze superseded the 11-file intermediate: **13 files**, V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`, V2 ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Git recovery mirror now contains all 13 byte-matching copies.
-- [x] old rollover handoff proven stale relative current WIP;
-- [x] strengthened Git handoff verifier **11/11 PASS** on the 13-file mirror;
-- [x] complete dirty-tree suite run: **331 collected / 328 PASS / 2 FAIL / 1 skip**;
-- [x] second blocker localized: compact schema projects `RuntimeAuthorityEnvelope` while legacy parity test expects `BoundApprovalAuthority`;
-- [x] full continuity refresh + byte-exact WIP recovery mirror initiated.
+Freshly verified 2026-09-07 15:21 ET:
+- [x] project info + manifest/ledger present;
+- [x] Git local/remote exact at recovery checkpoint `4c31f4cee2393650c090e49d585ae61b14879944` / tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`;
+- [x] last engineering feature A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` distinguished from recovery commits;
+- [x] all 13 dirty A-042 files byte-match V2 recovery manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
+- [x] changed/new Python compile PASS; compact schema parses;
+- [x] focused authority + schema discriminator reproduces **7 PASS / 2 FAIL**;
+- [x] full dirty-tree suite reproduces **331 collected / 328 PASS / 2 FAIL / 1 skip**;
+- [x] Governance Contact activation locator present; required token + ACTIVE receipt absent; **NOT ACTIVE**;
+- [x] filesystem-vs-registered continuity divergence localized; this pass re-registers one coherent canonical set.
 
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Seal this emergency rollover checkpoint | thread is visually rolled back/full; current WIP must survive 1:1 | all continuity registered/read back + Git recovery mirror pushed without staging Runtime WIP |
-| P0 | New thread fresh rehydrate + WIP hash verification | prevent rollback/reinvention | every current WIP source hash matches checkpoint inventory or disagreement is localized |
-| P0 | Reproduce both A-042 discriminators | establish current semantic/projection boundary | same compatibility-session failure + same RuntimeAuthorityEnvelope/BoundApprovalAuthority parity failure reproduced |
-| P0 | Decide compatibility authority law from intent/invariants | current code/test disagree on whether same textual session may exercise active lease | survivor justified by stale-owner/cross-client threat model, not convenience |
-| P0 | Linear audit current core/projection/integration | WIP has advanced far beyond old 455-line core | duplicated authority, bypass paths, missing choke points, lifecycle semantics mapped |
-| P0 | Hostile A-042 integration/race qualification | project exclusivity is consequence-bearing | two client/process writers cannot both mutate; stale generation/token/session cannot regain authority; long mutation exclusion survives lease expiry boundary |
-| P0 | Adjacent + full suite | local green != system green | authority/protocol/project/Git/schema clusters green, then full suite green |
-| P0 | Publish A-042 separately | per-step Git law | engineering commit/push/remote exact; continuity updated; claim ceiling explicit |
-| P1 | OBE ordinary stale-contract discriminator | reserved next after A-042 | current-head repro/derivation only after A-042 publication |
-| P1 | Idempotency + Job Object resource raids | valuable but separate | own discriminator/commit after A-042 |
+| P0 | Fresh-thread rehydrate + 13-file hash/status readback | visible chat proved stale; WIP may advance after checkpoint | exact current worktree localized before mutation |
+| P0 | Reproduce both A-042 discriminators | prevent stale-test or stale-code repair by narrative | same two failures reproduced or changed result localized |
+| P0 | Linear audit 589-line core + 280-line projection + all integration diffs | A-042 is already broad integrated WIP | lease lifecycle, fencing, adapter/wire/chokepoints/bypasses mapped |
+| P0 | Decide lease/session authority law | textual session identity may be stale/restarted and is not obviously fencing authority | survivor justified against strongest stale-same-session and compatibility counterexample |
+| P0 | Decide RuntimeAuthorityEnvelope projection law | generalized authority envelope may be lawful or unintended widening | native authority + compatibility contract + no-smuggling law decide |
+| P0 | Hostile concurrency/authority qualification | project exclusivity is consequence-bearing | cross-process/client writers serialize; stale generation/token/session cannot regain authority; reads remain nonblocking; long guarded mutation does not split-brain on TTL |
+| P0 | Adjacent + full suite | local focused green is insufficient | authority/protocol/project/Git/schema clusters green; complete suite GREEN |
+| P0 | Publish A-042 separately | recovery checkpoint != engineering publication | exact engineering commit/push/remote readback + continuity receipt |
+| P1 | OBE stale-contract discriminator | reserved next | only after A-042 publication |
+| P1 | Idempotency + Job Object resource raids | high value but separate failure classes | own discriminator/commit after A-042 |
 
-DO NOT during recovery:
+DO NOT:
 - replay A-037..A-041;
-- assume A-042 is only one untracked file;
-- stage/commit current Runtime WIP as part of the recovery checkpoint;
-- weaken explicit authority merely to make the one stale test green;
-- promote recovery commit into engineering truth;
-- start final schema redesign.
+- restore V2 over a newer worktree without localization;
+- stage A-042 source into a rollover/recovery-only Git commit;
+- weaken explicit authority merely to satisfy the legacy session test;
+- revert/generalize adapter authority merely to satisfy schema parity;
+- claim Governance Contact ACTIVE while token is absent;
+- begin final schema redesign.
 
 ## Near-term all-plane audit
 

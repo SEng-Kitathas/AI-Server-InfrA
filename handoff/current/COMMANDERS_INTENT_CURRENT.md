@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-07 14:36 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-07 15:21 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -664,33 +664,43 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-Current published Git truth is recovery head `77da92c7e8693287c2b541aa89275c062f0af558` / tree `3764bf8fe5caf39e82c36316719a2042f764bff6`; last published engineering feature remains A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`.
+**Published engineering baseline:** A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`. **Current recovery Git baseline:** `4c31f4cee2393650c090e49d585ae61b14879944` / tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`. Recovery commits do not promote A-042.
 
-A-042 project mutation exclusivity has materially progressed as **uncommitted integrated WIP**, not yet earned:
-- 589-line `project_mutation_authority.py` core SHA `5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e`;
-- 280-line native projection `lab_tools_mutation_authority.py` SHA `d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f`;
-- current hostile test file SHA `959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c`;
-- dispatch, Git, project write/archive, protocol mutation, execution registration, power/write, legacy request, and compact schema integration are physically present;
-- all changed Python compile and schema parses;
-- focused A-042 authority result **7/8 PASS**; complete latest dirty-tree suite **331 collected = 328 PASS / 2 FAIL / 1 skip**;
-- blocker 1: same-session legacy compatibility vs explicit fenced lease/generation/owner authority;
-- blocker 2: compact schema `RuntimeAuthorityEnvelope` vs legacy parity expectation `BoundApprovalAuthority`.
-- final observed recovery freeze = **13 WIP files**, V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`, V2 ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; execution/power route integration appeared after the first 11-file freeze.
+**A-042 project mutation ownership/exclusivity is the sole active engineering frontier.** Current worktree is 13-file integrated dirty WIP, byte-identical to V2 recovery manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`, but explicitly not earned or committed.
 
-Exact current discriminator: one test expects same-session legacy compatibility under an active governed lease, while the current implementation requires explicit lease ID + generation + owner authority whenever a lease is active. The next thread SHALL derive the lawful survivor from the stale-owner/cross-client threat model and these Commander's Intent laws; it SHALL NOT weaken authority or rewrite the test by convenience.
+Fresh qualification ceiling (2026-09-07 15:21 ET):
+- changed/new Python compile PASS;
+- compact schema parse PASS;
+- authority suite 7/8;
+- combined authority + schema discriminator 7 PASS / 2 FAIL;
+- full dirty-tree suite 331 collected = **328 PASS / 2 FAIL / 1 conditional Windows skip**.
 
-Immediate sequence:
-1. seal emergency rollover continuity + byte-exact WIP mirror without staging Runtime WIP;
-2. fresh thread rehydrates and verifies worktree/WIP hashes;
-3. reproduce both known failures (focused lease/session + compact-schema authority parity);
-4. derive both authority contracts from intent/threat model before changing code/tests;
-5. linear audit A-042 core/projection/integration;
-5. resolve compatibility authority law;
-7. hostile cross-process/cross-client race and long-mutation/expiry tests;
-8. adjacent regression + full suite;
-9. continuity + A-042 engineering commit/push/remote readback;
-9. only then OBE stale-contract/idempotency/Job Object raids;
-10. final schema redesign remains locked last.
+The two unresolved load-bearing contract choices are:
+1. **lease/session authority** — same textual legacy `session_id` passage vs explicit lease/generation/owner fenced authority. Candidate `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` remains provisional until stale/restarted same-session and compatibility counterexamples are attacked.
+2. **adapter authority projection** — generalized `RuntimeAuthorityEnvelope` vs `BoundApprovalAuthority`. Derive from native Runtime authority + adapter compatibility + no-smuggling law, not parity-green pressure.
+
+Exact next engineering sequence:
+1. fresh rehydrate/readback in new thread;
+2. reproduce both discriminators;
+3. linear audit core/projection/test/all integration diffs;
+4. derive both authority survivors;
+5. map authoritative project-mutation chokepoints and every bypass;
+6. hostile cross-process/client/stale-generation/token/session/expiry/takeover/killed-guard/corrupt-state/long-mutation/read-nonblocking/legacy-bypass/Git-continuity race qualification;
+7. adjacent regressions + full suite GREEN;
+8. complete continuity update;
+9. A-042 engineering commit/push/remote readback as its own step;
+10. only then OBE stale-contract, idempotency, Windows Job Object, remaining raids;
+11. final schema redesign still waits for explicit whole-runtime convergence/user trigger.
+
+Rollover/authority anti-regressions are Commander-level:
+- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
+- `REGISTERED_CONTINUITY_HASH != UNREGISTERED_NEWER_FILE` does not authorize newest-file-wins;
+- `CHECKPOINT_PUBLICATION != ENGINEERING_PUBLICATION`;
+- `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`;
+- `ACTIVATION_LOCATOR_PRESENT != ACTIVATION_TOKEN_PRESENT`.
+
+Governance Contact resolver state: stable locator exists; exact activation token and ACTIVE receipt do not. It remains **NOT ACTIVE at this target**.
+
 
 ## 22. Fresh-thread anti-regression list
 
@@ -765,3 +775,5 @@ Authority ordering for rollover:
 
 `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
+
+Rollover seal result: recovery-only Git publication `4c31f4c` is remote-exact, contains the 13-file WIP mirror, and did not stage active Runtime WIP. New thread is authorized to resume A-042 only after RECOVERY/AUDIT readback and reproduction of both blockers.

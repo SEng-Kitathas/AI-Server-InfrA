@@ -3893,3 +3893,57 @@ Neither failure was repaired during recovery.
 
 ### NEW THREAD EXACT START
 RECOVERY/AUDIT -> fresh project/Git/worktree readback -> verify 13-file V2 inventory -> reproduce both failures -> derive both authority contract survivors -> only then mutate A-042.
+
+
+---
+
+## Phase 50 — Emergency rollover Git seal complete — 2026-09-07
+
+Recovery-only checkpoint committed as `4c31f4cee2393650c090e49d585ae61b14879944` with tree `2efa45bc35463e45902395d2ddb5af4ace668ae6` and subject `Seal 13-file thread rollover recovery handoff`. Push `77da92c..4c31f4c main -> main` succeeded; independent `ls-remote` matched local HEAD exactly.
+
+Staging audit proved no active A-042 Runtime source or `tests/test_project_mutation_authority.py` entered the commit. Only ingress/handoff recovery copies, Commander mirror, and recovery verifier were staged.
+
+Post-push worktree remains intentionally dirty with the 13 active A-042 WIP files. A-041 `a97a00f...` remains the last engineering feature.
+
+Final recovery claim ceiling:
+- handoff verifier 11/11 PASS;
+- dirty suite 331 collected / 328 PASS / 2 FAIL / 1 skip;
+- blocker 1 lease/session fenced authority;
+- blocker 2 RuntimeAuthorityEnvelope vs BoundApprovalAuthority projection parity;
+- A-042 not qualified, engineering-published, or live.
+
+Old thread is terminal for substantive engineering. Fresh thread starts RECOVERY/AUDIT from `checkpoints/NEW_THREAD_HANDOFF_PROMPT_CURRENT.md` and `checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md`, fresh-reads Git/worktree/tests, reproduces both blockers, then derives before mutation.
+
+---
+
+## Phase 51 — Governance Contact Activation Phase 1 Resolver Propagation — 2026-09-07
+
+Stable locator `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md` SHA `380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd` is staged into Receiver process-currentness control while A-042 runtime WIP remains untouched. The locator expects activation token SHA `b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094`.
+
+At Phase-1 staging the Receiver activation token and final ACTIVE receipt are absent. Current/Doctrine/Trace/GC-sidecar/SOP-pointer receive version-stable resolver precedence; earlier NOT ACTIVE text remains preserved as pre-activation snapshot.
+
+No A-042 source/test/schema/runtime WIP is part of this mutation. Phase 1 does not activate Governance Contact.
+
+`DISCOVERED_DIRTY_WIP != AUTHORITY_TO_SWEEP_IT_INTO_MY_MUTATION`
+`SUPERSESSION != SOURCE_REWRITE`
+`ACTIVATION_LOCATOR_PRESENT != ACTIVATION_TOKEN_PRESENT`
+`PARTIAL_LOCATOR_PROPAGATION_WITH_TOKEN_ABSENT != ACTIVE`
+
+
+---
+
+## Phase 52 — Final thread-full recovery reconciliation / complete handoff refresh — 2026-09-07
+
+USER reported visual-chat rollback and `this thread is full`, requesting a complete update of all continuity surfaces plus a thorough new-thread handoff.
+
+RECOVERY/AUDIT made persisted project/Git/worktree/current tests authoritative over chat recency. Rehydration recovered A-037..A-041 as published and A-042 as current 13-file dirty WIP. Git at recovery start: local/remote `4c31f4cee2393650c090e49d585ae61b14879944`, tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`; A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` remains last engineering feature.
+
+A continuity split was localized: registered manifest hashes lagged some newer filesystem Current/Doctrine/Trace/DTS bytes. Newest-file-wins was rejected. New scar: `REGISTERED_CONTINUITY_HASH != UNREGISTERED_NEWER_FILE -> RECOVERY/AUDIT, NOT TIMESTAMP ARBITRATION`.
+
+Fresh 13-file A-042 hash comparison matched V2 `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2` exactly. Python compile PASS. Compact schema parse PASS. Focused authority+schema discriminator run: 9 collected, 7 pass, 2 fail. Full dirty-tree suite: 331 collected, 328 pass, 2 fail, 1 conditional skip. Failures remain the same lease/session authority and RuntimeAuthorityEnvelope-vs-BoundApprovalAuthority projection discriminators. No code/test/schema mutation occurred.
+
+DTS Phase 51 Governance Contact resolver propagation was preserved. Locator SHA `380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd` exists; required token `b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094` and ACTIVE receipt are absent. Receiver status remains `GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`; Phase 1 did not touch A-042.
+
+This recovery prepares a complete canonical whole-set update: Current, Next, Doctrine, Revisit, Trace, Live, full DTS, ICF, Commander, Git receipt, Server Handoff, New Thread Prompt, maintenance note. DTS is registered as whole-file update due prior proven destructive append-registration semantics.
+
+Exact new-thread start: RECOVERY/AUDIT, R1 -> canonical surfaces -> fresh Git/worktree/hash/tests -> reproduce both failures -> derive both authority contracts -> only then mutate A-042. Full green + hostile exclusivity proof before A-042 engineering publication. Final schema redesign remains last.

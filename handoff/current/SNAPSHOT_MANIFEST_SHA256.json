@@ -1,108 +1,113 @@
 {
   "authority_ceiling": "commit-bound recovery mirror; A-042 WIP copies are recovery material only; fresh persisted/Git/worktree/live Runtime readback required before mutation",
-  "created_at": "2026-09-07T14:41:00-04:00",
-  "current_handoff_candidate_test_state": "13-file handoff verifier 11/11 PASS; A-042 compile/schema PASS; focused 7/8; complete dirty tree 331 collected = 328 PASS / 2 FAIL / 1 skip",
-  "current_step": "final 13-file emergency rollover seal; recovery-only Git publication pending; A-042 engineering remains unqualified",
+  "created_at": "2026-09-07T15:36:00-04:00",
+  "current_handoff_candidate_test_state": "handoff verifier 11/11 PASS; 13/13 WIP match; A-042 328 PASS / 2 FAIL / 1 skip",
+  "current_step": "final thread-full rollover continuity refresh; recovery-only Git publication qualified; A-042 engineering remains unqualified",
   "files": {
     "COMMANDERS_INTENT_CURRENT.md": {
-      "bytes": 38082,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "0c98b151a20402db3f1ae825a00dc5a0a5bec3c0c025ace35b1cde5ca974bf41"
+      "bytes": 37580,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "ce195ea698027152318f9429026b0dbfa476d3846820e37a94bccbab17912c06"
     },
     "CURRENT_CANONICAL_SOP_POINTER.md": {
       "bytes": 2278,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
       "sha256": "6cef6401f87008c65258f671e7d32b469c99f7483b9546c799426422b1ed4ecc"
     },
     "CURRENT_STATE.md": {
-      "bytes": 29542,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "80965a6d7ec0ffaba70c45848bab04b3d14397781e922aacab26a8e27af3a51b"
+      "bytes": 26155,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "ef905a866c8ed6b1d57c42c8ca6a1deedd484c1d25216806cabae1a20776fd5c"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 174549,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "a62a2ba465dbbc4f8e2c597b17f49255a5528cd5a09b25d05cd63933601f933c"
+      "bytes": 175373,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "00e59bb52c5559f25bbf1cc45f4044f76b835ed47fc7b49c47c39e78d55692e4"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 21871,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "6af283e4f2c671cf9798e04f47e4e3379162de3f0ca2b2aa33400356bf7c4ef1"
+      "bytes": 23065,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "d3086d8636b387557719c8f8a1643a85e3d60177ce50fd01522f7eff613846c5"
     },
     "GIT_PUBLICATION_BASE.md": {
-      "bytes": 1942,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "da76893399fb25efcb84020e63d7ae59103865009da0a39a21462f8e43a4fb5a"
+      "bytes": 1282,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "ea3f4087401bf8c0902c28e190707a5f6bd0b1711813df62c1a9957d49bd58bb"
     },
     "HANDOFF_QUALIFICATION.md": {
-      "bytes": 1758,
-      "claim_ceiling": "recovery verifier 11/11 PASS; A-042 focused 7/8 and unqualified; Git readback pending",
-      "sha256": "00d43da9674f4e9291f5f9f7b40de9e33369e9939a4b5f60eb50f079fc29978e"
+      "bytes": 1187,
+      "claim_ceiling": "recovery verifier 11/11 PASS; A-042 remains unqualified; Git remote readback pending",
+      "sha256": "c538600b94142a5ecd6bfc32d2975ecdad5655a2857ec30e2a84b648623770e5"
     },
     "ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md": {
       "bytes": 4656,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
       "sha256": "245390f54148bf93e794904a987c0135df9b737ab484b615b7a51468562cb058"
     },
     "ICF_CS_CLAIM_CEILING.md": {
       "bytes": 1353,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
       "sha256": "079a523d017438cfd9057d5bfe78b4bf47e4550c20fc9bbd3840cbf6d66f245a"
     },
     "ICF_CS_CURRENT.md": {
-      "bytes": 9110,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "3172a517ea57915212f0e9750a2693a6cd71adaca439a8e7d9f6ab2a18b23e59"
+      "bytes": 10241,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "d60e0d41183eb2d6ba796dcf26bd0473e7d8cc253ce2d1adf02a7813e18ca731"
     },
     "ICF_CS_V1_0_MACHINE.json": {
       "bytes": 2688,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
       "sha256": "527e4fa0926449155a8aa548656b3debc5292262f8cfaab0ca3f0470e7771f5a"
     },
     "INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md": {
       "bytes": 6316,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
       "sha256": "62be845da364ae81f59b6320c9b34b136236bf5be8aa8036018da48efcb754f4"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 6431,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "3276d6c9838ff5f198383212b36e52b0297ba22d764b971fef731e7d1583d2b4"
+      "bytes": 6317,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "7a2bf5687b7122a834665e4ccd0bb3dbf1c1467f1f8e6d3533cb77291cdb6646"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 5294,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "d43bef57466275b75a032c8078faf7b283a40b851359f95b6d675e9f9b1f4cb4"
+      "bytes": 5251,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "c44ec61daeac71a143c04673937a014caad34be090ca3aee183792b0fb8a83ff"
     },
     "NEXT_STEPS.md": {
-      "bytes": 12315,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "3e8abaf88e9ee6d57df27fd9d62071c0902f322d4b82167127e6ea78b47ac1d3"
+      "bytes": 11890,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "412a0941016407518e2a0602e034974c8fc45b38fc37942a9a1617e1847e87ea"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 30286,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "905338a850e3dda9fa70c00f62d0cd72a84698288daa2abbf377d0c3d3cffd9d"
+      "bytes": 32233,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "b5c41a421c50e65a213e84db3bacff4f8ca6eb92c2d5b691955313c312ea96dc"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
       "sha256": "f55a9b7dd1960f5430d5d9612c89253be93775f92d9e123546383fd2f7f2c8e4"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 7535,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "e8e46c6e7980c71abc91067aec0f6a26c4ebcc40f11d17382677d0349ea09410"
+      "bytes": 6175,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "8ee91ac7a549304a1a6eb08c89a2e34b76f073c03cc2df36cae1bcb1cd9cdda6"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
       "sha256": "9e1787a7f0180bea9bc497723e839570b2f54533b9889c15e4346ca18798861b"
     },
+    "THREAD_ROLLOVER_RECOVERY_2026-09-07_FINAL.md": {
+      "bytes": 1641,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
+    },
     "TRACE_MATRIX.md": {
-      "bytes": 40365,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
-      "sha256": "742f0a4f9e6493ed5f6e81b86309e6b52f0970b189c403ccfb253f4c1d7cbeff"
+      "bytes": 44485,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree/test readback required before mutation",
+      "sha256": "5ee3170fecc4d17f2b6b2419963551fae5da583951c3abf7358076b7aa5c3fb9"
     },
     "wip/A042_API_WIRE_EXECUTION_WIP.py": {
       "bytes": 8911,
@@ -121,7 +126,7 @@
     },
     "wip/A042_EXECUTION_ROUTES_WIP.py": {
       "bytes": 97012,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
       "sha256": "08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37"
     },
     "wip/A042_LAB_TOOLS_MUTATION_AUTHORITY_WIP.py": {
@@ -156,7 +161,7 @@
     },
     "wip/A042_POWER_ROUTES_WIP.py": {
       "bytes": 30001,
-      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
       "sha256": "8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3"
     },
     "wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py": {
@@ -175,9 +180,9 @@
       "sha256": "3e332dfaebe0ee019b9908ddb3a528ed6bff65eb82851798494fa661cb46a791"
     }
   },
-  "pre_handoff_git_base": "77da92c7e8693287c2b541aa89275c062f0af558",
-  "pre_handoff_test_state": "recovery head full suite 321 GREEN on older checkpoint; latest A-042 dirty tree 328 PASS / 2 FAIL / 1 skip",
-  "pre_handoff_tree": "3764bf8fe5caf39e82c36316719a2042f764bff6",
+  "pre_handoff_git_base": "4c31f4cee2393650c090e49d585ae61b14879944",
+  "pre_handoff_test_state": "A-042 dirty tree 331 collected = 328 PASS / 2 FAIL / 1 skip; no engineering promotion",
+  "pre_handoff_tree": "2efa45bc35463e45902395d2ddb5af4ace668ae6",
   "project_id": "PCMMAD_RECEIVER_LAB",
   "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
   "schema": "pcmmad.git-handoff-snapshot.v1"

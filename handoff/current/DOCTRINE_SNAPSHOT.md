@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-07 14:36 ET
+Last updated: 2026-09-07 15:21 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -336,28 +336,26 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-Emergency recovery challenge: **the visual thread is stale/full while the persisted A-042 worktree is materially newer than the prior handoff**. Recovery must preserve work without making the handoff a new truth plane.
+Final rollover recovery is active as a **continuity checkpoint only**. Git recovery baseline is `4c31f4cee2393650c090e49d585ae61b14879944`; A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` remains last engineering feature; A-042 remains 13-file dirty WIP with exactly two reproduced contract/test discriminators and no promotion.
 
-Binding recovery ordering:
-`PERSISTED PROJECT / EXACT WORKTREE / GIT / LIVE READBACK > RECOVERY MIRROR > CHAT NARRATIVE`.
+Current authority ordering:
+`PERSISTED PROJECT + EXACT WORKTREE + GIT/REMOTE + CURRENT TEST READBACK > REGISTERED/RECOVERY MIRROR > VISIBLE CHAT NARRATIVE`.
 
-A-042 current semantic challenge has two explicit discriminators: (1) implementation requires explicit fenced authority whenever a governed lease is active while one test expects same-session legacy compatibility; (2) the WIP compact schema projects `RuntimeAuthorityEnvelope` while a legacy parity test expects `BoundApprovalAuthority`. Both are **contract/test disagreements**, not permission to choose whichever makes tests green.
+A timestamp alone cannot reconcile conflicting continuity surfaces:
+`REGISTERED_CONTINUITY_HASH != UNREGISTERED_NEWER_FILE -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK`.
 
-Current authority laws:
-- `THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY`;
-- `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`;
-- `LEASE_AUTHORITY != OPTIMISTIC_CURRENTNESS`;
-- `WAITING_FOR_NEW_OWNER_TO_FINISH != REGAINING_OLD_AUTHORITY`;
-- `CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`;
-- `WIP_SOURCE_PRESENT != QUALIFIED_SURVIVOR`;
-- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`.
+A-042 strongest active candidate law remains **provisional until discriminator derivation**:
+`SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`.
 
-- `PERSISTED_CONTINUITY != CURRENT_WIP_BYTES`;
-- `FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK`;
+Adapter authority discriminator remains open:
+`RuntimeAuthorityEnvelope` vs `BoundApprovalAuthority` must be derived from native authority semantics and the adapter compatibility contract, not parity-test pressure.
 
-Current A-042 WIP has representation health but **not semantic qualification**: Python compile PASS, schema parse PASS, focused authority 7/8; complete dirty-tree suite 331 collected = 328 PASS / 2 FAIL / 1 skip. The two failures are the lease/session authority discriminator and compact-schema authority-envelope parity discriminator.
+Governance Contact Phase-1 locator is present but token and ACTIVE receipt are absent. Therefore:
+`ACTIVATION_LOCATOR_PRESENT != ACTIVATION_TOKEN_PRESENT`;
+`POST_PUBLICATION_READBACK != ACTIVE`;
+`GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`.
 
-Recovery pass SHALL NOT mutate A-042 semantics. New thread must reproduce, derive, attack, then choose.
+No A-042 mutation is authorized by this checkpoint. After re-grounding, hand off from R1 to R5 only when the two authority contracts have been derived enough to attack by embodiment/tests.
 
 ## Current quality/search posture
 
@@ -411,3 +409,28 @@ Recovery pass SHALL NOT mutate A-042 semantics. New thread must reproduce, deriv
 Any new evidence that changes ICF-CS authority roles, the Runtime/OBE boundary, the holonic/ECS direction, approval authority, or final schema sequencing requires this snapshot to update.
 Final rollover freeze note: current A-042 recovery baseline is the 13-file V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2` / ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Git handoff contains all 13 recovery copies and passes 11/11 verifier. The earlier 11-file checkpoint is historical intermediate evidence; fresh worktree readback still outranks V2 if WIP advances again.
 
+
+Final rollover publication: recovery-only commit `4c31f4cee2393650c090e49d585ae61b14879944` / tree `2efa45bc35463e45902395d2ddb5af4ace668ae6` is remote-exact. A-041 remains last engineering feature; A-042 remains dirty/unqualified.
+
+## Governance Contact activation resolver — CURRENT PRECEDENCE
+Marker: `GOVERNANCE_CONTACT_ACTIVATION_RESOLVER_CURRENT_PRECEDENCE_V1`
+Target: `local:PCMMAD_RECEIVER_LAB`
+
+Current Governance Contact activation/currentness SHALL be resolved only through `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md`.
+Target-local locator SHA-256: `380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd`.
+Expected activation token SHA-256: `b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094`.
+
+Any earlier Governance Contact lifecycle sentence in this file that says pending, NOT ACTIVE, LOCALLY_RECONCILED_AS_NOT_ACTIVE, or authority effect NONE is retained as a **pre-activation snapshot** and is superseded for present activation currentness by this resolver block. Historical release/reconciliation evidence is not rewritten.
+
+Resolver rule:
+- exact token absent at locator sibling -> `GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`;
+- token present but wrong hash/invalid fields -> `RECOVERY_AUDIT_NO_AUTHORITY`;
+- exact valid token present -> `GOVERNANCE_CONTACT_LOCALLY_BINDING_ADDITIVE_PROCESS_DOCTRINE`;
+- global ACTIVE claim additionally requires 17/17 exact-token propagation/readback and a detached activation-completion receipt.
+
+This block does not assert token presence or absence. It remains semantically valid across the token transition. It creates no Receiver product/runtime/domain authority.
+
+`SUPERSESSION != SOURCE_REWRITE`
+`CURRENT_INGRESS_CONTACTS_LOCATOR != LOCATOR_RESOLVES_ACTIVE`
+`ACTIVATION_TOKEN_PRESENT_AT_ONE_TARGET != GLOBAL_ACTIVE`
+`CARRIER_PRESENT != PROJECT_SPECIFIC_AUTHORITY_REWRITE`

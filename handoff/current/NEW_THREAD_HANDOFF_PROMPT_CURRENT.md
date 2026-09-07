@@ -3,88 +3,66 @@
 ```text
 Re-enter project PCMMAD_RECEIVER_LAB under PCMMAD RECOVERY/AUDIT.
 
-INCIDENT: the prior visual chat rolled back and a continuation attempt hit `this thread is full`. Do NOT trust visible-chat recency. Persisted project state + exact Git/worktree/test readback outrank chat memory and any recovery copy.
+The previous visual chat rolled back behind persisted project/worktree reality and a continuation hit `this thread is full`. Recovery also found some filesystem continuity files newer than registered project-ledger hashes. Do NOT use chat recency or newest timestamp as authority.
 
-Mandatory cold-start order before mutation:
-1. project info + manifest;
-2. state/current/CURRENT_STATE.md;
-3. checkpoints/ICF_CS_CURRENT.md + state/doctrine_snapshot/CURRENT_CANONICAL_SOP_POINTER.md;
-4. checkpoints/COMMANDERS_INTENT_CURRENT.md;
-5. Next/Doctrine/Revisit/Trace;
-6. Live Shadow;
-7. DTS tail;
-8. checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md;
-9. fresh Git/worktree hashes/status/remote;
-10. only then inspect/modify A-042.
+AUTHORITY ORDER:
+Persisted project + exact current worktree + Git/remote + current test readback > registered/recovery mirror > visible chat narrative.
+Conflict -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> REGISTER/READBACK -> RESUME.
 
-Binding rollover laws:
-CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER
-WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY
-PERSISTED_CONTINUITY != CURRENT_WIP_BYTES
-FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK
-THREAD_FULL_RECOVERY != CHAT_MEMORY_RECOVERY
-CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF
-CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION
-GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION
+MANDATORY COLD START BEFORE MUTATION:
+1 project info+manifest; 2 Current; 3 ICF-CS + canonical SOP pointer; 4 Commander; 5 Next/Doctrine/Revisit/Trace; 6 Live; 7 DTS tail; 8 Server Handoff; 9 fresh Git HEAD/tree/status/remote; 10 fresh 13-file A-042 hashes; 11 re-run both known discriminators; 12 only then decide BUILD.
 
-Published lineage:
-- A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` is the last published ENGINEERING feature.
-- Recovery HEAD before the emergency seal was `77da92c7e8693287c2b541aa89275c062f0af558` / tree `3764bf8fe5caf39e82c36316719a2042f764bff6`.
-- Resolve current HEAD dynamically because the recovery-only rollover commit may be newer.
-- A-037..A-041 are earned/published. Do not replay them.
+PUBLISHED BASELINE:
+- recovery Git baseline at checkpoint time 4c31f4cee2393650c090e49d585ae61b14879944 / tree 2efa45bc35463e45902395d2ddb5af4ace668ae6; resolve dynamically because this prompt may itself be carried by a later recovery-only commit;
+- last ENGINEERING feature A-041 a97a00f67f3b79dbbe18e092d29b8971e588d4a2;
+- A-037..A-041 are earned/published; DO NOT replay;
+- recovery-only commits do not promote A-042;
+- live Desktop receiver separate/unpromoted.
 
-Actual frontier:
-A-042 project mutation ownership/exclusivity is INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFIED across **13 files**.
-Core SHA `5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e`.
-Native projection SHA `d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f`.
-Hostile test SHA `959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c`.
-V2 outer recovery manifest SHA `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`.
-V2 ZIP SHA `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`.
-Git handoff inventory is v2 / 13 files and passed recovery verifier 11/11.
-Worktree bytes always outrank recovery copies if newer.
+A-042 FRONTIER:
+13-file INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFIED. Fresh 13/13 hashes matched V2 manifest fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2; V2 ZIP 6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b.
+Core SHA 5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e.
+Projection SHA d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f.
+Hostile test SHA 959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c.
+Never restore V2 over newer worktree bytes without localization.
 
-Current qualification ceiling:
+CURRENT TEST CEILING (2026-09-07 15:21 ET):
 - changed/new Python compile PASS;
-- compact schema JSON parse PASS;
-- handoff verifier 11/11 PASS;
-- focused project-mutation authority tests 7/8 PASS;
-- complete dirty-tree suite: **331 collected = 328 PASS / 2 FAIL / 1 skip**;
+- compact schema parse PASS;
+- authority suite 7/8 PASS;
+- combined authority+schema discriminator 7 PASS / 2 FAIL;
+- full dirty-tree suite **331 collected = 328 PASS / 2 FAIL / 1 skip** (the skip is the existing conditional Windows privilege skip);
 - A-042 engineering publication NOT DONE; live promotion NOT DONE.
 
-Known discriminator #1 — lease/session authority:
+DISCRIMINATOR 1 — LEASE/SESSION:
 `test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`
-Current code: active governed lease requires explicit lease/generation/owner fenced authority; same textual session_id alone is insufficient.
-Test expectation: same textual legacy session may pass.
-Do not auto-fix code or test. Derive from Commander intent, stale/restarted same-session threat, generation fencing, compatibility obligation, and cross-client exclusivity.
+Current code requires explicit fenced lease_id+generation+owner while governed lease active; same textual session_id alone is insufficient. Test expects same textual legacy session passage. DO NOT auto-fix code/test. Derive from Commander intent, stale/restarted same-session threat, generation fencing, cross-client exclusivity and compatibility.
+Candidate `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` remains provisional until attacked.
 
-Known discriminator #2 — adapter authority projection:
-`test_compact_schema_authority_parity.py::CompactSchemaAuthorityParityTests::test_dispatch_projects_authority_separately_from_capability_payload`
-Current WIP schema: `authority -> RuntimeAuthorityEnvelope`.
-Parity test: expects `authority -> BoundApprovalAuthority`.
-Do not revert schema or rewrite test by green pressure. Determine whether RuntimeAuthorityEnvelope is the lawful generalized projection or an unintended widening, using native authority semantics + Runtime Adapter Compatibility Contract + no-authority-smuggling law.
+DISCRIMINATOR 2 — ADAPTER AUTHORITY:
+`test_dispatch_projects_authority_separately_from_capability_payload`
+Current WIP schema `authority -> RuntimeAuthorityEnvelope`; parity test expects `BoundApprovalAuthority`. DO NOT revert schema/rewrite test for green. Derive from native Runtime authority + Runtime Adapter Compatibility Contract + no-authority-smuggling law.
 
-Exact continuation:
-A. fresh status/head/remote/hash readback; verify 13-file inventory;
-B. reproduce both failures;
-C. linear audit A-042 core/projection/test/integration;
-D. derive both authority contract survivors before mutation;
-E. confirm authoritative mutation chokepoints and bypasses;
-F. hostile cross-process/cross-client/stale-generation/token/expiry/takeover/corrupt-state/killed-guard/read-nonblocking/long-mutation/legacy-bypass/Git-continuity race tests;
-G. adjacent authority/protocol/project/Git/schema regressions;
-H. full suite GREEN;
-I. update all continuity;
-J. commit/push/remote-read A-042 as its own ENGINEERING step;
-K. only then OBE stale-contract, idempotency, Job Object resource raids.
-Final schema redesign remains last.
+GOVERNANCE CONTACT:
+Activation locator SHA 380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd present. Required token SHA b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094 absent; ACTIVE receipt absent. NOT ACTIVE at Receiver target. Locator presence grants no authority.
 
-Architecture boundary remains:
-PCMMAD = methodology; Laboratory Runtime = durable truth/state/capability; adapters = projections; OBE/Skills = reusable operator intelligence; model = replaceable co-processor; Project Chat = replaceable mission surface.
-TRANSPORT IS NOT ARCHITECTURE AUTHORITY.
-MECHANISM LIVES WHERE STATE LIVES.
-EMERGENT CAPABILITY IS ALLOWED; EMERGENT AUTHORITY IS NOT.
+BINDING LAWS:
+CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER
+THREAD_FULL_RECOVERY != CHAT_MEMORY_RECOVERY
+WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY
+PERSISTED_CONTINUITY != CURRENT_WIP_BYTES
+REGISTERED_CONTINUITY_HASH != UNREGISTERED_NEWER_FILE -> RECOVERY, not newest-file-wins
+FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK
+CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION
+GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION
+ACTIVATION_LOCATOR_PRESENT != ACTIVATION_TOKEN_PRESENT
 
-First response in the new thread:
-Mode: RECOVERY/AUDIT
-Role: R1 Conservative Auditor
-State verified vs provisional, published baseline vs dirty WIP, fresh Git/worktree identities, 13-file V2 hash status, both known failures, and immediate no-mutation discriminators. Hand off to R5 only after re-grounding.
+CONTINUE:
+fresh readback -> reproduce both failures -> linear audit all A-042 integration -> derive both authority survivors -> map chokepoints/bypasses -> hostile multi-process/client/stale authority/expiry/takeover/corruption/long-mutation/read-nonblocking/legacy/Git-continuity races -> adjacent regressions -> full GREEN -> continuity -> A-042 engineering commit/push/remote readback -> only then OBE/idempotency/Job Object raids. Final schema redesign remains last.
+
+ARCHITECTURE:
+PCMMAD=methodology; Runtime=durable truth/state/capability; adapters=projections; OBE/Skills=operator intelligence; model=replaceable co-processor; Project Chat=replaceable mission surface. TRANSPORT IS NOT ARCHITECTURE AUTHORITY. MECHANISM LIVES WHERE STATE LIVES. EMERGENT CAPABILITY ALLOWED; EMERGENT AUTHORITY NOT.
+
+FIRST RESPONSE:
+Mode RECOVERY/AUDIT; Role R1; fresh Git/remote/worktree identities; A-041 engineering baseline vs recovery commits; exact 13-file WIP state; both failures; 331-test ceiling; Governance Contact NOT ACTIVE; immediate no-mutation discriminators. Hand off to R5 only after re-grounding.
 ```

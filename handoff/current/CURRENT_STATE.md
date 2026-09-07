@@ -1,7 +1,7 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-07 14:36 ET
-Continuity status: **EMERGENCY ROLLOVER FULLY RECONCILED / 13-FILE RECOVERY MIRROR QUALIFIED / GIT SEAL PENDING**
+Last updated: 2026-09-07 15:21 ET
+Continuity status: **THREAD ROLLOVER COMPLETE / 13-FILE RECOVERY MIRROR SEALED + GIT REMOTE-VERIFIED**
 Active project mode on resume: **RECOVERY/AUDIT -> BUILD-COMMIT only after A-042 discriminator**
 Recommended resume role: **R1 Conservative Auditor -> R5 Reality Pressure Engine after re-grounding**
 
@@ -274,128 +274,79 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-### Published / persisted authority
-- last published engineering feature: **A-041** at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` (`Add protocol Merkle proof receipts`);
-- current Git local HEAD = remote `main` = `77da92c7e8693287c2b541aa89275c062f0af558`; tree `3764bf8fe5caf39e82c36316719a2042f764bff6`;
-- commits `86f410b...` and `77da92c...` are recovery/checkpoint publications only, not A-042 engineering promotion;
-- current worktree is intentionally dirty with **A-042 project mutation ownership/exclusivity WIP**;
-- live Desktop receiver remains a separate, unpromoted surface.
+### Final rollover authority state — verified 2026-09-07 15:21 ET
+This section supersedes earlier emergency-rollover narration for resume purposes while preserving all prior history above and in DTS.
 
-### Visual-thread rollback incident
-The visible chat rolled back behind persisted project/worktree reality, and a continuation attempt later hit `this thread is full`. The safe recovery ordering is now mandatory:
+**Published / Git reality**
+- Git repo: `V30_WORKING/PCMMAD_receiver`, branch `main`.
+- local HEAD = remote `main` = `4c31f4cee2393650c090e49d585ae61b14879944`; tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`; subject `Seal 13-file thread rollover recovery handoff`.
+- `4c31f4cee2393650c090e49d585ae61b14879944` and recovery commits immediately before it are **recovery/checkpoint publications only**.
+- last published engineering feature remains A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` (`Add protocol Merkle proof receipts`).
+- A-037..A-041 are earned/published survivors. **Do not replay them.**
+- live Desktop receiver remains separate/unpromoted; `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
 
-`PERSISTED PROJECT / WORKTREE / GIT READBACK > GIT HANDOFF MIRROR > VISIBLE CHAT NARRATIVE`
+**A-042 exact dirty-WIP reality**
+A-042 project mutation ownership/exclusivity remains **INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFIED** across exactly 13 changed/new files. Fresh 2026-09-07 15:21 ET byte readback matches the sealed V2 WIP recovery manifest **13/13**:
+- V2 manifest SHA `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
+- V2 ZIP SHA `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`.
+
+Fresh non-mutating representation checks on the exact current bytes:
+- all changed/new Python `py_compile`: **PASS**;
+- compact Actions schema JSON parse: **PASS**;
+- focused authority + exact schema discriminator: **9 collected = 7 PASS / 2 FAIL**;
+- full dirty-tree suite: **331 collected = 328 PASS / 2 FAIL / 1 conditional Windows skip**.
+
+Known discriminator #1 — lease/session authority:
+`ProjectMutationAuthorityTests.test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`
+- current implementation: active governed lease requires explicit fenced lease/generation/owner authority; same textual `session_id` alone is insufficient;
+- stale/current test expectation: same textual legacy session may pass;
+- **checkpoint does not choose the winner**.
+
+Known discriminator #2 — adapter authority projection:
+`CompactSchemaAuthorityParityTests.test_dispatch_projects_authority_separately_from_capability_payload`
+- current WIP compact schema projects `authority -> RuntimeAuthorityEnvelope`;
+- parity test expects `authority -> BoundApprovalAuthority`;
+- **checkpoint does not choose the winner**.
+
+**Governance Contact post-rollover process-currentness state**
+- stable locator exists at `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md`, SHA `380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd`;
+- locator bytes alone grant no authority;
+- required sibling activation token SHA is `b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094`;
+- current authority directory contains the locator only: activation token absent, ACTIVE receipt absent;
+- therefore local resolution remains `GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`; global ACTIVE is also forbidden.
+- Phase-1 resolver propagation is preserved in DTS; it did not touch A-042 and did not activate Governance Contact.
+
+**Continuity divergence localized and repaired by this checkpoint**
+At recovery start, several filesystem continuity files were newer than their registered project-ledger hashes. Newer-file-wins was rejected. Current filesystem content was reconciled against Git/worktree/tests/DTS, then this complete set is being re-registered as one coherent checkpoint.
 
 Binding scars:
 - `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
 - `THREAD_FULL_RECOVERY != CHAT_MEMORY_RECOVERY`;
 - `WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY`;
 - `PERSISTED_CONTINUITY != CURRENT_WIP_BYTES`;
+- `REGISTERED_CONTINUITY_HASH != UNREGISTERED_NEWER_FILE` requires RECOVERY/AUDIT, not timestamp arbitration;
 - `FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK`;
-- `RECENT_INFERENCE != CURRENT_AUTHORITY`;
-- `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
+- `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`;
+- `CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`.
 
-Causal attribution to compaction/thread saturation remains **suspected, not proven exclusive**.
+### Exact lawful resume in the new thread
+1. Start **RECOVERY/AUDIT**, primary role **R1 Conservative Auditor**.
+2. Read: Current -> ICF-CS + canonical SOP pointer -> Commander -> Next/Doctrine/Revisit/Trace -> Live Shadow -> DTS tail -> Server Handoff -> New Thread Prompt.
+3. Fresh-read Git HEAD/tree/remote/status and confirm current worktree still matches the 13-file V2 inventory; if it differs, localize newer WIP instead of restoring over it.
+4. Re-run the A-042 focused authority set and the compact-schema parity discriminator; expected current state is the same two failures.
+5. Linear-read current A-042 core, projection, test, and every integration diff.
+6. Derive the lease/session authority survivor from stale-owner/restarted-client/generation-fencing/cross-client exclusivity and compatibility requirements. **Do not fix code/test by green pressure.**
+7. Derive `RuntimeAuthorityEnvelope` vs `BoundApprovalAuthority` from native Runtime authority semantics + adapter compatibility contract + no-authority-smuggling law.
+8. Identify the smallest authoritative project-mutation chokepoint set and every bypass/legacy path.
+9. Hostile-test simultaneous processes/clients, stale generation/token/session, expiry/takeover, killed guard, corrupt state, long mutation across TTL, nonblocking reads, legacy bypass, and Git/continuity races.
+10. Run adjacent authority/protocol/project/Git/schema regressions, then complete suite. A-042 requires **full GREEN** before promotion.
+11. Update all continuity, then commit/push/remote-read **A-042 as its own engineering step**.
+12. Only afterward resume OBE stale-contract discriminator, idempotency raid, Windows Job Object resource envelope, remaining cross-domain raids.
+13. Final schema redesign remains last and still requires explicit whole-runtime-convergence / user “hells yeah, ready” trigger.
 
-### A-042 actual WIP state — newer than prior rollover handoff
-The prior handoff recorded only the first 455-line lease module. Fresh worktree readback shows A-042 progressed materially before the visual rollback. Current exact WIP inventory:
-
-| Path | Git | Bytes | SHA-256 |
-|---|---:|---:|---|
-| `baseline/pcmmad_receiver/project_mutation_authority.py` | ?? | 20,926 | `5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e` |
-| `baseline/pcmmad_receiver/lab_tools_mutation_authority.py` | ?? | 10,247 | `d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f` |
-| `baseline/pcmmad_receiver/api_wire_execution.py` | M | 8,911 | `ab497e79803aa8efb7117faed0b7d81d7fa618923760f0d0fa0e30ac719e9f17` |
-| `baseline/pcmmad_receiver/api_wire_power.py` | M | 10,090 | `b6cea2f1cccf74057f7c53485549eb3adf40bfd35df116de793d34a7861892a2` |
-| `baseline/pcmmad_receiver/execution_routes.py` | M | 97,012 | `08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37` |
-| `baseline/pcmmad_receiver/lab_tools.py` | M | 41,251 | `42dffdb3bc124e8bdf0b1911e21d6a8c33535305ef55bd67dac44a44d0c25966` |
-| `baseline/pcmmad_receiver/lab_tools_ops.py` | M | 33,370 | `56728c417fafd82bd1af766ed82fd3d6d20b7310a1dd9c462164e589f4de78f8` |
-| `baseline/pcmmad_receiver/lab_tools_project.py` | M | 32,407 | `cc4c877541f5075e6ca4b56ac2d481316d3e8d4b6105331f6f9bf9042f147475` |
-| `baseline/pcmmad_receiver/lab_tools_protocol.py` | M | 23,416 | `6a27835ee00a7f2477774b610df4af7f7a4e7a8aa8e00c85b57c4dbe9b9189e4` |
-| `baseline/pcmmad_receiver/legacy_routes.py` | M | 18,526 | `636a21ee6489edf949eba73677682dd719d8b7a9372129449ad35bc29c44a79f` |
-| `baseline/pcmmad_receiver/power_routes.py` | M | 30,001 | `8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3` |
-| compact Actions schema JSON | M | 121,257 | `65f841072cfdae76df3b4ea38c9217c99daf17f4b5751aa30f9dc9404a90cf9b` |
-| `tests/test_project_mutation_authority.py` | ?? | 16,818 | `959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c` |
-
-Fresh non-mutating representation qualification on these exact bytes:
-- all changed/new Python files `py_compile`: **PASS**;
-- compact schema JSON parse: **PASS**;
-- `tests/test_project_mutation_authority.py`: **7/8 PASS, 1 FAIL**.
-
-Exact failing discriminator:
-`test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`
-
-Observed disagreement:
-- current implementation: once a governed mutation lease is active, a legacy caller must present **explicit fenced authority**; textual `session_id` equality alone is insufficient;
-- stale test expectation: same textual session may enter through `compatibility_session_guard`.
-
-Checkpointing SHALL NOT choose the winner. The new thread must inspect Commander intent + A-042 authority law and decide whether the test is stale or implementation is over-strict, then hostile-test the survivor.
-
-### A-042 physical integration already present
-Fresh diff proves existing WIP already includes:
-- native `project.mutation.inspect/acquire/renew/release` projection module;
-- `project_mutation_scope` composition at native dispatch for tools carrying `project_mutation_fenced`;
-- explicit mutation-authority plumbing in execution registration, sync/python/write requests, and legacy commit request;
-- fencing traits on Git commit/reset/clean, project write/archive extract, and protocol mutation tools;
-- protocol `session_id` input surface;
-- compact Actions schema regeneration reflecting WIP contracts.
-
-This integration is **implementation evidence, not earned architecture**. No full A-042 suite or Git engineering publication has occurred.
-
-### Final 13-file recovery freeze
-The first emergency inventory captured 11 files. A concurrent writer then added `execution_routes.py` and `power_routes.py` before the checkpoint was sealed. The current immutable recovery freeze therefore supersedes the 11-file intermediate for Frontier recovery:
-- V2 manifest `checkpoints/A042_WIP_RECOVERY_MANIFEST_2026-09-07_V2.json` SHA `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
-- V2 ZIP `checkpoints/A042_WIP_RECOVERY_2026-09-07_V2.zip` SHA `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`;
-- `execution_routes.py` SHA `08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37`;
-- `power_routes.py` SHA `8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3`.
-The older 11-file freeze remains historical evidence only. If a fresh worktree differs from V2, assume newer WIP may exist and localize before restoring anything.
-
-### Exact lawful resume
-1. New thread starts **RECOVERY/AUDIT**, R1 first, not BUILD by conversational memory.
-2. Re-read Current -> ICF-CS -> Commander -> Next/Doctrine/Revisit/Trace -> Live -> DTS tail -> dedicated handoff.
-3. Fresh Git/worktree readback and verify all WIP hashes/inventory.
-4. Re-run the A-042 8-test focused set to confirm the same 7/8 state.
-5. Inspect the compatibility-session disagreement against intended authority semantics; **do not auto-fix test or code**.
-6. Linear audit current 589-line core + 280-line projection + all integration diffs.
-7. Derive smallest authoritative mutation chokepoint set and explicit legacy-compatibility claim ceiling.
-8. Add/repair hostile cross-process/cross-client integration tests.
-9. Only after focused tests are green: run adjacent authority/protocol/project/Git tests, then full suite.
-10. Update all continuity, then commit/push/remote-read **A-042 as its own engineering step**.
-11. Only then resume OBE stale-contract discriminator, idempotency raid, Job Object resource envelope, and remaining raids.
-
-### Current test/publication ceiling
-- last fully published recovery checkpoint suite: **321 GREEN** on checkpoint bytes;
-- strengthened 13-file Git handoff verifier: **11/11 PASS**;
-- current dirty A-042 WIP complete suite: **331 collected = 328 PASS / 2 FAIL / 1 conditional Windows skip**;
-- focused A-042 authority suite: **7/8 PASS**, failing `test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`;
-- second dirty-tree blocker: `test_compact_schema_authority_parity.py::CompactSchemaAuthorityParityTests::test_dispatch_projects_authority_separately_from_capability_payload` because WIP schema projects `RuntimeAuthorityEnvelope` while the parity test expects `BoundApprovalAuthority`;
-- these are **contract/test discriminators**, not recovery-time repair authorization;
-- A-042 engineering publication: **NOT DONE**;
-- live Runtime promotion: **NOT DONE**.
-
-## Remaining major seams
-
-Known genuinely-open or release-gated areas before reconciliation finishes:
-- remaining adapter/projection parity against native effect+availability+authority/currentness contracts;
-- async malformed/stale-state/race/final release qualification;
-- control/HUD/service-constellation and process-identity hardening;
-- semantic executor restoration/qualification;
-- transfer immutable-export-snapshot question and final release pressure;
-- SOP true streaming/multi-process claim ceilings only if workload/threat evidence demands them;
-- plugin sandbox isolation only if plugin threat model changes;
-- process identity / node / resource model maturation;
-- multi-project/session/operator ergonomics;
-- live/V30 capability parity, clean extraction/install/restart, CSC, packaging, promotion;
-- OBE/Runtime projection reconciliation;
-- HUD visual embodiment;
-- final schema research/redesign last.
-
-## Continuity maintenance obligation
-
-After every load-bearing change:
-- append Design Thread Stream;
-- update Live Shadow;
-- update Current/Next/Doctrine/Revisit/Trace as applicable;
-- checkpoint at thread rollover/promotion/recovery boundaries;
-- read back manifest/hash after mutation.
-
-Next event that makes this snapshot stale: checklist reconciliation changes the genuine-open frontier, full-suite state changes, live promotion occurs, or tool/capability counts change.
+### Claim ceiling
+- recovery/checkpoint continuity may be published separately without staging A-042 source;
+- A-042 is not earned, not engineering-published, not live;
+- current dirty-tree suite is explicitly **not green**;
+- Governance Contact locator is present but **NOT ACTIVE**;
+- no new-thread model may infer across either open A-042 discriminator before re-reading current bytes.

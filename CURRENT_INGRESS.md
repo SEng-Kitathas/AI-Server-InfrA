@@ -77,6 +77,16 @@ If material surfaces disagree:
 
 `WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY`
 
+`REGISTERED_CONTINUITY_HASH != UNREGISTERED_NEWER_FILE` -> RECOVERY/AUDIT, not newest-file-wins
+
+`FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK`
+
+## Governance Contact currentness
+
+Stable locator `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md` exists in the outer project store, but the exact sibling activation token and ACTIVE receipt are absent. Current Receiver resolution is **NOT ACTIVE**. Locator presence grants no authority.
+
+`ACTIVATION_LOCATOR_PRESENT != ACTIVATION_TOKEN_PRESENT`.
+
 ## Architecture in one screen
 
 - **PCMMAD** = methodology.
@@ -106,9 +116,10 @@ Published engineering base:
 - A-041 commit `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
 - A-041 CT/Merkle protocol receipts published; targeted 20/20 and full 318 GREEN at its engineering publication.
 
-Recovery Git head before this emergency rollover seal:
-- local/remote `main` `77da92c7e8693287c2b541aa89275c062f0af558`;
-- tree `3764bf8fe5caf39e82c36316719a2042f764bff6`;
+Recovery Git baseline before this final rollover refresh:
+- local/remote `main` `4c31f4cee2393650c090e49d585ae61b14879944`;
+- tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`;
+- this mirror may itself be carried by a later recovery-only commit, so resolve HEAD/remote dynamically;
 - recovery commits do not promote A-042.
 
 Current local frontier is **A-042 INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFIED** across **13 files**. Core identities:
@@ -118,7 +129,7 @@ Current local frontier is **A-042 INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFI
 
 Exact inventory/copies: `handoff/current/wip/A042_WIP_INVENTORY.json`.
 
-Fresh recovery qualification: changed/new Python compile PASS; compact schema JSON parse PASS; strengthened 13-file handoff **11/11 PASS**; focused A-042 authority suite **7/8 PASS**; complete dirty tree **331 collected = 328 PASS / 2 FAIL / 1 skip**. Blocker 1 is active-lease same-session compatibility vs explicit fenced authority. Blocker 2 is compact-schema `RuntimeAuthorityEnvelope` vs legacy parity expectation `BoundApprovalAuthority`.
+Fresh outer recovery qualification before this mirror refresh: changed/new Python compile PASS; compact schema JSON parse PASS; focused A-042 authority suite **7/8 PASS**; exact authority+schema discriminator **7 PASS / 2 FAIL**; complete dirty tree **331 collected = 328 PASS / 2 FAIL / 1 skip**. The refreshed Git handoff verifier must be rerun before publication. Blocker 1 is active-lease same-session compatibility vs explicit fenced authority. Blocker 2 is compact-schema `RuntimeAuthorityEnvelope` vs legacy parity expectation `BoundApprovalAuthority`.
 
 ## Current handoff-candidate qualification
 

@@ -122,7 +122,7 @@ This is a project implementation of ICF-CS, not a substitute for the qualified s
 ## Current verification ceiling
 
 Current publication/worktree evidence at emergency rollover:
-- current Git local/remote `main` `77da92c7e8693287c2b541aa89275c062f0af558` / tree `3764bf8fe5caf39e82c36316719a2042f764bff6`;
+- current Git local/remote `main` `4c31f4cee2393650c090e49d585ae61b14879944` / tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`; this is recovery-only publication;
 - last published engineering feature A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
 - later Git commits are recovery-only;
 - current A-042 worktree has **13** changed/new files and is not engineering-published; Git recovery mirror now contains all 13 byte-matching copies;
@@ -132,7 +132,7 @@ Current publication/worktree evidence at emergency rollover:
 - current dirty-tree full suite NOT RUN / NOT CLAIMED;
 - last published rollover checkpoint full suite 321 GREEN.
 
-Active Frontier: emergency rollover checkpoint SHALL preserve exact 13-file A-042 WIP bytes and current intent/constraints without mutating A-042. New thread rehydrates, verifies hashes, reproduces both known failures, then derives (1) same-session legacy access vs explicit lease/generation/owner authority and (2) RuntimeAuthorityEnvelope vs BoundApprovalAuthority projection contract.
+Active Frontier: A-042 project mutation ownership/exclusivity is exact 13-file dirty WIP, uncommitted/unqualified; Git recovery baseline is `4c31f4cee2393650c090e49d585ae61b14879944` while A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` remains last engineering feature. Fresh 13/13 V2 hash readback and 331-test run reproduce exactly two contract discriminators. New thread begins RECOVERY/AUDIT and derives both before mutation.
 
 Recovery ordering is binding:
 `CURRENT -> ICF/COMMANDER -> EXACT GIT/WORKTREE -> LIVE RUNTIME WHEN RELEVANT -> WIP HASHES -> RECOVERY MIRROR -> CHAT NARRATIVE`.
@@ -175,3 +175,19 @@ New binding scars:
 The first emergency handoff preserved 11 files; that requirement is superseded for current Frontier recovery. The current handoff SHALL preserve all **13** A-042 WIP files byte-for-byte in a recovery-only namespace and state both current failing tests. It SHALL NOT stage active Runtime WIP into the recovery commit.
 Final freeze supersession: the first emergency snapshot captured 11 A-042 files. Fresh status then showed 13 files because `execution_routes.py` and `power_routes.py` advanced concurrently. Current recovery freeze is V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2` / ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Git mirror now contains all 13 and handoff verifier is 11/11 PASS. Complete dirty tree is 331 collected / 328 PASS / 2 FAIL / 1 skip. This does not promote A-042.
 
+
+Rollover completion: Git recovery mirror is sealed at `4c31f4cee2393650c090e49d585ae61b14879944`; A-042 active worktree was not staged. Fresh worktree/test readback still outranks the recovery mirror if WIP advances.
+
+
+## Thread-full rollover currentness addendum — 2026-09-07 15:21 ET
+- visible chat rolled back behind persisted project/worktree state; chat recency is not frontier authority;
+- registered continuity hashes were also found behind some newer filesystem continuity bytes; timestamp arbitration is forbidden;
+- current project/worktree/Git/tests were re-read and one coherent set is being re-registered;
+- exact resume: `4c31f4cee2393650c090e49d585ae61b14879944` recovery baseline + 13-file A-042 WIP matching V2 `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2` + 331 = 328 pass/2 fail/1 skip;
+- Governance Contact locator present, activation token/ACTIVE receipt absent → NOT ACTIVE.
+
+Cold-start conflict law:
+`CURRENT STATE -> ICF-CS -> COMMANDER -> NEXT/DOCTRINE/REVISIT/TRACE -> LIVE -> DTS -> HANDOFF -> FRESH GIT/WORKTREE/TEST READBACK BEFORE MUTATION`.
+
+If any surface materially disagrees:
+`CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> REGISTER/READBACK -> RESUME`.

@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Trace Matrix
 
-Last updated: 2026-09-07 14:18 ET
+Last updated: 2026-09-07 15:21 ET
 
 | Artifact / Claim | Upstream evidence | Derivation / interpretation | Embodiment | Verification | Status | Demotion trigger / notes |
 |---|---|---|---|---|---|---|
@@ -108,16 +108,50 @@ Last updated: 2026-09-07 14:18 ET
 | A-041 CT-style protocol Merkle receipts | cross-domain CT raid + A-037 append-only JSONL/hash-chain authority | derive Merkle evidence from verified event hashes; never persist as second ledger; bind currentness to authoritative head comparison | `protocol_merkle.py` + 3 native read-only tools + protocol/Merkle regressions | currentness race caught false `current_at_issue`; targeted 20/20; full 318 GREEN; 20k proofs 15/16 hashes | PROMOTED V30 + GIT CURRENT / `a97a00f` REMOTE-VERIFIED | issuance still O(history); proof validity != currentness; no linearizable multi-process current claim |
 | Project-tab mutation exclusivity is missing | live cross-thread Git/continuity regression demonstrated consequence conflict | lease/generation ownership must serialize consequence-bearing project mutation across clients while reads stay nonblocking | current 13-file A-042 integrated WIP: 589-line core + 280-line native projection + dispatch/Git/project/protocol/wire/schema integration | compile/schema parse PASS; focused authority 7/8; full dirty tree 331 collected = 328 PASS / 2 FAIL / 1 skip | ACTIVE P0 / INTEGRATED WIP / NOT EARNED | resolve lease/session authority + RuntimeAuthorityEnvelope projection parity, then hostile cross-client race + full qualification |
 
-| Saturated-thread visible rollback can lag persisted project frontier | conversation twice resumed from older A-037/A-041 state while Current/ICF/Commander/Git were ahead | fresh thread must derive resume point from persisted authority + exact readback, not conversational recency | `checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md` + refreshed Git handoff mirror | exact readback localized current Git A-041 + A-042 WIP and stale pre-publication mirror | PROMOTED ROLLOVER SCAR / CHECKPOINT IN PROGRESS | suspected thread-full/compaction cause remains provisional |
+| Saturated-thread visible rollback can lag persisted project frontier | conversation twice resumed from older A-037/A-041 state while Current/ICF/Commander/Git were ahead | fresh thread must derive resume point from persisted authority + exact readback, not conversational recency | `checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md` + refreshed Git handoff mirror | exact readback localized current Git A-041 + A-042 WIP and stale pre-publication mirror | PROMOTED ROLLOVER SCAR / RECOVERY SEALED `4c31f4c` | suspected thread-full/compaction cause remains provisional |
 | Git handoff mirror can itself become stale | `handoff/current` still described A-041 as pre-publication after Git/outer state had advanced to A-041 published/A-042 active | fallback mirror must be refreshed at publication/rollover and carry WIP recovery evidence without promoting it | current mirror refresh + manifest + dedicated handoff + `wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py` | source WIP SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`; handoff tests to be rerun before checkpoint publication | PROMOTED RECOVERY REPAIR / SELF-NONREFERENTIAL SEAL `77da92c` | handoff 9/9 + full 321 GREEN; mirror requires dynamic Git readback and is not live authority |
 
-| A-042 current WIP byte identity survives visual-thread rollback | prior handoff was stale at original one-file WIP while worktree contains 13 changed/new files | exact worktree bytes must outrank recovery prose and be recoverable if thread dies | emergency handoff inventory + byte-exact `handoff/current/wip/` copies | first 11-file freeze was superseded by final 13-file V2 after execution/power route integration appeared; compile/focused discriminator rechecked | RECOVERY EVIDENCE / CHECKPOINT IN PROGRESS | WIP copies are not Runtime authority and must not be auto-restored over a newer worktree |
+| A-042 current WIP byte identity survives visual-thread rollback | prior handoff was stale at original one-file WIP while worktree contains 13 changed/new files | exact worktree bytes must outrank recovery prose and be recoverable if thread dies | emergency handoff inventory + byte-exact `handoff/current/wip/` copies | first 11-file freeze was superseded by final 13-file V2 after execution/power route integration appeared; compile/focused discriminator rechecked | RECOVERY EVIDENCE / GIT SEALED `4c31f4c` | WIP copies are not Runtime authority and must not be auto-restored over a newer worktree |
 | A-042 compatibility-session semantics unresolved | current `compatibility_session_guard` rejects any active governed lease absent explicit fence; stale focused test expects same-session passage | `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` may be required to prevent stale/restarted client regain, but compatibility intent must be checked | exact failing test + current core implementation | focused 7/8; one deterministic fail at active-lease compatibility boundary | OPEN DISCRIMINATOR | new thread must derive survivor; checkpoint must not alter code/test |
 | Visual thread can be materially older than active worktree | visual rollback + `thread full` continuation failure while persisted Git/worktree advanced | recovery must start from persisted state and exact bytes | ICF emergency rollover update + dedicated prompt/handoff + WIP mirror | Git/worktree readback localized current remote + dirty A-042 integration | PROMOTED RECOVERY SCAR | chat cause remains provisional; persisted-first ordering is binding |
 
-| Final A-042 rollover freeze | fresh status after concurrent continuity write showed `execution_routes.py` and `power_routes.py` newly modified in addition to prior 11 files | recovery checkpoint must preserve the newest observed WIP without overwriting a later worktree | V2 13-file manifest/ZIP | manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`; ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Python compile PASS; focused A-042 still 7/8 same blocker | CURRENT RECOVERY EVIDENCE / NOT ENGINEERING PROMOTION | worktree readback outranks V2 if newer; checkpoint publication must not stage Runtime WIP |
+| Final A-042 rollover freeze | fresh status after concurrent continuity write showed `execution_routes.py` and `power_routes.py` newly modified in addition to prior 11 files | recovery checkpoint must preserve the newest observed WIP without overwriting a later worktree | V2 13-file manifest/ZIP | manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`; ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Python compile PASS; focused A-042 still 7/8 same blocker | CURRENT RECOVERY EVIDENCE / GIT SEALED `4c31f4c` / NOT ENGINEERING PROMOTION | worktree readback outranks V2 if newer; checkpoint publication must not stage Runtime WIP |
 
 | A-042 compact-schema authority projection is contract-current | WIP schema projects `RuntimeAuthorityEnvelope`; existing compact-schema parity expects `BoundApprovalAuthority` | projection may be correctly generalized or may widen authority beyond compatibility contract | exact schema diff + RuntimeAuthorityEnvelope model + projection contract + parity regression | complete dirty-tree suite fails `test_dispatch_projects_authority_separately_from_capability_payload` | OPEN A-042 SECOND DISCRIMINATOR | do not choose code/test by green pressure; preserve authority separation |
 
+| Final thread rollover recovery publication | visual rollback + thread-full + stale 11-file Git mirror | publish a complete recovery-only 13-file mirror without staging active Runtime WIP | Git handoff v2 + prompt + continuity mirror + recovery verifier | 11/11 handoff PASS; remote/local `4c31f4cee2393650c090e49d585ae61b14879944` tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`; active source remains dirty/uncommitted | RECOVERY COMPLETE / REMOTE-VERIFIED | A-041 remains last engineering feature; A-042 328 PASS / 2 FAIL / 1 skip and unqualified |
+
 ## Trace rule
 Anything newly treated as load-bearing must be added here with real evidence. Historical reports may contain earlier claim ceilings; when they conflict with this current trace + fresh verification, preserve the conflict and prefer the stronger/current evidence rather than smoothing them together.
+## Governance Contact activation resolver — CURRENT PRECEDENCE
+Marker: `GOVERNANCE_CONTACT_ACTIVATION_RESOLVER_CURRENT_PRECEDENCE_V1`
+Target: `local:PCMMAD_RECEIVER_LAB`
+
+Current Governance Contact activation/currentness SHALL be resolved only through `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md`.
+Target-local locator SHA-256: `380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd`.
+Expected activation token SHA-256: `b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094`.
+
+Any earlier Governance Contact lifecycle sentence in this file that says pending, NOT ACTIVE, LOCALLY_RECONCILED_AS_NOT_ACTIVE, or authority effect NONE is retained as a **pre-activation snapshot** and is superseded for present activation currentness by this resolver block. Historical release/reconciliation evidence is not rewritten.
+
+Resolver rule:
+- exact token absent at locator sibling -> `GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`;
+- token present but wrong hash/invalid fields -> `RECOVERY_AUDIT_NO_AUTHORITY`;
+- exact valid token present -> `GOVERNANCE_CONTACT_LOCALLY_BINDING_ADDITIVE_PROCESS_DOCTRINE`;
+- global ACTIVE claim additionally requires 17/17 exact-token propagation/readback and a detached activation-completion receipt.
+
+This block does not assert token presence or absence. It remains semantically valid across the token transition. It creates no Receiver product/runtime/domain authority.
+
+`SUPERSESSION != SOURCE_REWRITE`
+`CURRENT_INGRESS_CONTACTS_LOCATOR != LOCATOR_RESOLVES_ACTIVE`
+`ACTIVATION_TOKEN_PRESENT_AT_ONE_TARGET != GLOBAL_ACTIVE`
+`CARRIER_PRESENT != PROJECT_SPECIFIC_AUTHORITY_REWRITE`
+
+
+## Final rollover trace — 2026-09-07 15:21 ET
+
+| Artifact / Claim | Upstream evidence | Derivation | Embodiment | Verification | Status | Claim ceiling / demotion trigger |
+|---|---|---|---|---|---|---|
+| Final thread-full recovery frontier is A-042 dirty WIP, not rolled-back visual chat | user rollback report + Git/worktree/project readback | persisted/exact bytes outrank chat recency | Current/ICF/Commander/Next/Doctrine/Revisit/Trace/Live/DTS + dedicated handoffs | Git local/remote `4c31f4cee2393650c090e49d585ae61b14879944`; 13/13 WIP hashes match V2; focused 7/9; full 328/331 + 1 skip | PROMOTED RECOVERY TRUTH / A-042 NOT EARNED | any fresh Git/worktree/hash/test disagreement requires RECOVERY, not continuation by memory |
+| A-042 current qualification ceiling | current worktree + tests | preserve failures as discriminators | 13-file WIP + V2 freeze + handoff mirror | py_compile/schema PASS; authority suite 7/8; exact schema discriminator FAIL; full 331 = 328 pass/2 fail/1 skip | ACTIVE P0 / UNCOMMITTED / UNQUALIFIED | full green + hostile concurrency/authority proof + own engineering Git publication required |
+| Continuity filesystem/ledger divergence requires explicit reconciliation | manifest hashes disagreed with later filesystem Current/Doctrine/Trace/DTS | newest timestamp is not authority | whole-file staged recovery set + expected-previous-hash registration | post-registration manifest/readback required | PROMOTED RECOVERY SCAR | any material disagreement -> audit/localize/repair, never silently pick newest |
+| Governance Contact locator presence is not activation | Phase-1 resolver locator + live authority-directory listing | local authority requires exact sibling activation token; global ACTIVE additionally needs completion receipt | `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md` | locator present; token absent; ACTIVE receipt absent | NOT ACTIVE / CURRENT | exact token/field validation can change local status; global receipt required for global ACTIVE |

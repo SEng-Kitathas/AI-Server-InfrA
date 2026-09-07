@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Revisit Ledger
 
-Last updated: 2026-09-07 14:36 ET
+Last updated: 2026-09-07 15:21 ET
 
 | Priority | Seam / Claim / Decision | Why revisit | What could invalidate it | Evidence / action needed | Current status | Next action |
 |---|---|---|---|---|---|---|
@@ -85,10 +85,10 @@ Last updated: 2026-09-07 14:36 ET
 | P1 | A Kubernetes-style indexed execution cache is needed now | A-040 frequency reduction leaves each wake as full active-store reconciliation | extra cache creates coherence/authority complexity without current active-load evidence | benchmark high active-cardinality wake cost after A-040 | DEFERRED / EVIDENCE-TRIGGERED | do not build second truth plane by enthusiasm |
 
 | P0 | Same textual session may exercise an active governed project mutation lease without explicit lease/generation/owner authority | one focused A-042 test expects compatibility session inheritance, while current implementation rejects it | allowing session equality may let a stale/restarted client regain consequence authority; rejecting it may break required compatibility | Commander intent + threat model + cross-client/stale-generation discriminator | OPEN / EXACT A-042 BLOCKER | do not make test green by assumption; derive whether `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` is binding at active-lease boundary |
-| P0 | Emergency handoff fully preserves current dirty A-042 WIP | prior Git handoff preserved only original 455-line module; worktree advanced to 13-file integration before visual rollback | new thread could re-invent or silently lose integrated work | byte-exact WIP mirror + inventory hashes + dynamic Git/worktree readback | ACTIVE RECOVERY CHECKPOINT | mirror is recovery material only; actual worktree wins when present/current |
+| P0 | Emergency handoff fully preserves current dirty A-042 WIP | prior Git handoff preserved only original 455-line module; worktree advanced to 13-file integration before visual rollback | new thread could re-invent or silently lose integrated work | byte-exact WIP mirror + inventory hashes + dynamic Git/worktree readback | RESOLVED / RECOVERY SEALED `4c31f4c` | 13-file v2 mirror 11/11; actual worktree still wins when present/current |
 | P0 | Current dirty A-042 integration is system-qualified | representation is healthy but complete suite is 331 collected = 328 PASS / 2 FAIL / 1 skip | lease/session authority and compact-schema authority-envelope parity remain unresolved | derive both contracts, hostile race/projection tests, then rerun full suite | NOT EARNED / TWO BLOCKERS | `PY_COMPILE_PASS != A042_QUALIFIED`; recovery checkpoint does not choose either contract |
 
-| P0 | A-042 WIP recovery snapshot is byte-current enough to resume | another writer added execution/power route integration after the first 11-file freeze | recovery copy can lag a still-live dirty worktree | V2 13-file manifest + fresh status/hash/test readback | CURRENT RECOVERY FREEZE / NOT AUTHORITY | manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`; worktree wins if newer; focused remains 7/8 |
+| P0 | A-042 WIP recovery snapshot is byte-current enough to resume | another writer added execution/power route integration after the first 11-file freeze | recovery copy can lag a still-live dirty worktree | V2 13-file manifest + fresh status/hash/test readback | RECOVERY SEALED / NOT RUNTIME AUTHORITY / `4c31f4c` | manifest `fad436...`; 13-file Git mirror; worktree wins if newer; dirty suite 328/331 pass with 2 blockers |
 | P0 | WIP compact schema authority envelope matches intended adapter contract | WIP schema now uses `RuntimeAuthorityEnvelope`; existing parity test expects `BoundApprovalAuthority` | stale parity test could block legitimate generalized authority, or generalized envelope could accidentally widen adapter authority | inspect RuntimeAuthorityEnvelope semantics + compatibility contract + action projection requirements; hostile no-authority-smuggling test | OPEN / A-042 SECOND BLOCKER | do not revert schema or rewrite test by green pressure |
 
 ## Scar reminders
@@ -111,3 +111,13 @@ Last updated: 2026-09-07 14:36 ET
 
 ## Resolution discipline
 Mark an item resolved only with explicit evidence and corresponding trace/readback. Preserve resolved scars; do not erase them.
+
+## Final rollover reconciliation — 2026-09-07 15:21 ET
+
+| Priority | Seam / Claim | Why revisit | What could invalidate it | Evidence/action needed | Current status | Next action |
+|---|---|---|---|---|---|---|
+| P0 | Same textual session may exercise an active governed project-mutation lease without explicit lease/generation/owner fence | current code rejects; one legacy compatibility test expects pass | threat model may prove session identity sufficiently bound, or compatibility contract may require explicit same-session bridge | linear A-042 audit + stale/restarted same-session hostile counterexample | OPEN / EXACT FAIL REPRODUCED | derive before changing code or test |
+| P0 | Compact dispatch `authority` should be `RuntimeAuthorityEnvelope` rather than `BoundApprovalAuthority` | WIP schema and parity test disagree | native Runtime authority model may prove generalized envelope lawful or over-broad | compatibility contract + native request model + authority-smuggling hostile review | OPEN / EXACT FAIL REPRODUCED | derive projection survivor before schema/test mutation |
+| P0 | Current 13-file A-042 WIP has drifted since sealed V2 recovery snapshot | visual thread rollback proved summaries can lag bytes | any hash/status mismatch | fresh 13-file hash inventory + Git status | CURRENTLY FALSE / 13 OF 13 MATCH `fad436518624` | recheck first in new thread; never restore over newer bytes |
+| P0 | Canonical continuity may be chosen by newest timestamp when project-ledger hash differs | this recovery found newer filesystem Current/Doctrine/Trace/DTS than registered hashes | explicit lineage/readback can reconcile, timestamp cannot | whole-set re-registration + manifest readback | DEMOTED / FALSE | use ICF conflict grammar, not timestamp arbitration |
+| P0 | Governance Contact is active at Receiver | Phase-1 locator exists but sibling token/ACTIVE receipt absent | exact valid activation token propagation | locator/token/receipt readback | FALSE / NOT ACTIVE | preserve locator; re-evaluate only when exact token appears |
