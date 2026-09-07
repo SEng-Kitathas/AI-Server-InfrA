@@ -47,6 +47,8 @@ class GitHandoffCurrentTests(unittest.TestCase):
             "ICF_CS_CLAIM_CEILING.md",
             "ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md",
             "RUNTIME_OBE_SKILLS_DUALITY.md",
+            "SERVER_THREAD_HANDOFF_CURRENT.md",
+            "wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py",
         }
         self.assertTrue(required.issubset(set(self.manifest["files"])))
 
@@ -90,6 +92,25 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("recovery mirror", combined.lower())
         self.assertIn("fresh Git/local/runtime readback", combined)
         self.assertIn("V30_WORKING_TREE_SUCCESS != RELEASE_QUALIFICATION != LIVE_DEPLOYMENT", combined)
+
+    def test_rollover_frontier_is_current_and_wip_is_not_promoted(self) -> None:
+        handoff = (HANDOFF / "SERVER_THREAD_HANDOFF_CURRENT.md").read_text(encoding="utf-8")
+        self.assertIn("a97a00f67f3b79dbbe18e092d29b8971e588d4a2", handoff)
+        self.assertIn("A-042 project mutation ownership/exclusivity across tabs/clients is ACTIVE", handoff)
+        self.assertIn("3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1", handoff)
+        self.assertIn("qualification: **NONE YET**", handoff)
+        self.assertIn("CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER", handoff)
+
+    def test_wip_recovery_copy_matches_declared_a042_identity(self) -> None:
+        path = HANDOFF / "wip" / "A042_PROJECT_MUTATION_AUTHORITY_WIP.py"
+        self.assertTrue(path.is_file())
+        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), "3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1")
+        self.assertEqual(path.stat().st_size, 15838)
+
+    def test_ingress_does_not_reopen_published_a041(self) -> None:
+        self.assertIn("a97a00f67f3b79dbbe18e092d29b8971e588d4a2", self.ingress)
+        self.assertIn("A-042 ACTIVE WIP", self.ingress)
+        self.assertNotIn("Resolve current Git identity dynamically; this snapshot does not prove whether A-041 has been pushed", self.ingress)
 
 
 if __name__ == "__main__":

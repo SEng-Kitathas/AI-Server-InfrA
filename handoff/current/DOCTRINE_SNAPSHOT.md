@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-06 20:18 ET
+Last updated: 2026-09-06 22:38 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -316,18 +316,28 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-041 CT-style protocol receipts are technically earned locally and awaiting Git publication.
+A-041 is Git-current. A-042 project mutation ownership/exclusivity is already in implementation, with an untracked 455-line server-native lease/generation-fence candidate present locally.
 
-Load-bearing laws:
-- **MERKLE_PROJECTION != LEDGER_AUTHORITY**;
-- **VALID_HISTORICAL_PROOF != CURRENT_STATE_PROOF**;
-- **CRYPTOGRAPHIC_VALIDITY != CURRENTNESS**;
-- **LOGARITHMIC_PROOF_SIZE != LOGARITHMIC_PROOF_ISSUANCE_COST**.
+The immediate challenge is **not architecture ideation**. It is recovery-safe qualification and integration of the existing candidate without allowing a saturated/stale thread to replay completed work or overwrite newer project truth.
 
-The live multi-tab race also promoted a separate coordination scar:
-**THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY**.
+Rollover/currentness doctrine promoted for this checkpoint:
 
-A-042 becomes the next correctness frontier after A-041 publication. It must be server-native and cross-client/tab, not a chat convention. Reads should remain available; consequential project/Git/continuity mutation requires explicit lease ownership with bounded stale-owner recovery.
+- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
+- `RECENT_INFERENCE != CURRENT_AUTHORITY`;
+- `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`;
+- `THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY`;
+- stale Git handoff mirror is a recoverability defect even when canonical outer state remains current;
+- thread saturation/compaction is a suspected rollback cause here, not yet a proven exclusive cause.
+
+Fresh-thread authority ordering for consequence-bearing work:
+1. persisted Current/ICF/Commander state;
+2. exact Git/worktree readback;
+3. live Runtime readback where relevant;
+4. active WIP bytes and their explicit claim ceiling;
+5. Git recovery mirror;
+6. visible chat narrative.
+
+A-042 must preserve optimistic currentness/hash checks; lease ownership is additional mutation authority, not a substitute for state-version validation. Reads remain nonblocking. Expiry/recovery must be bounded, and stale generations must fail closed.
 
 ## Current quality/search posture
 

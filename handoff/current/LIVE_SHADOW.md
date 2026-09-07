@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-06 20:18 ET
+Last updated: 2026-09-06 22:38 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-041 Merkle receipts earned; Git publication next
+- Current mode: CHECKPOINT / PROMOTION — rollover handoff qualified 9/9 + 321 GREEN; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-041 proof-carrying protocol receipts, then A-042 project mutation ownership/exclusivity.
+- Dominant objective: commit/push/remote-read the exact rollover checkpoint while keeping A-042 Runtime source untracked/unqualified.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -113,38 +113,41 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-041 and remote-read exact head;
-2. A-042 project mutation ownership/exclusivity lease across tabs/clients;
-3. idempotency expansion;
-4. Windows Job Object resource envelope;
-5. remaining raids evidence-ranked.
+1. publish current rollover handoff/mirror;
+2. A-042 existing WIP SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` linear audit + hostile lease tests;
+3. identify authoritative mutation chokepoints/integration;
+4. cross-client race qualification;
+5. full suite + continuity + Git A-042;
+6. then current-head OBE stale-contract discriminator;
+7. idempotency/Job Object raids remain queued.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. refresh Git handoff mirror to registered A-041 state;
-2. run handoff + Merkle/protocol + full exact-candidate gates;
-3. commit/push/remote-read A-041;
-4. reconcile outer publication receipt;
-5. A-042 inspect existing project/control-plane lock primitives and derive one mutation-owner lease before further broad mutation.
+1. refresh Git mirror from final registered rollover surfaces;
+2. final 9/9 handoff readback;
+3. stage only checkpoint/mirror/test/report files — NOT active A-042 Runtime source;
+4. commit/push/remote-read rollover checkpoint;
+5. post-push outer receipt;
+6. move to new server thread; resume A-042 from exact WIP hash under RECOVERY/AUDIT.
 
 ## Last 10 Turn Reinforcement Window
-1. USER: proceed.
-2. ASSISTANT: recovery found A-037/A-038 already done, qualified/pushed A-039 PID identity.
-3. ASSISTANT: while closing A-039, direct Git read showed another tab had already committed A-040 and begun A-041. CONCURRENCY RACE.
-4. ASSISTANT: A-039 outer continuity was therefore stale/regressive; exact A-040 post-push scratch hashes restored canonical planes.
-5. ASSISTANT: read-only audit of shared A-041 candidate found Merkle root/inclusion/consistency implementation; targeted 19/19 and full 317 green on stable hashes.
-6. ASSISTANT: deterministic verified-read/concurrent-append race proved unconditional `current_at_issue=true` false while proof remained valid for old tree. DEFECT.
-7. ASSISTANT: optimistic hash-guarded patch removed currentness assertion and added `verified_ledger_snapshot` / `currentness_claim=not_asserted` / head-match law.
-8. ASSISTANT: targeted A-041 20/20 PASS; full suite 318 GREEN; candidate hashes stable.
-9. ASSISTANT: 20k proof size measured inclusion 15 hashes / consistency 16 hashes; issuance-cost claim ceiling preserved.
-10. ASSISTANT: A-041 report persisted; multi-tab race promoted as A-042 project mutation exclusivity frontier.
+1. USER: pointed out assistant had rolled back twice and supplied prior recovery evidence. STATE ALERT.
+2. ASSISTANT: stopped visible-thread continuation and rehydrated persisted project state.
+3. READBACK: Git/Current/ICF/Commander proved A-041 already remote-current and A-042 active. RECOVERY.
+4. READBACK: untracked `project_mutation_authority.py` discovered; A-042 is already physically in progress, not merely next.
+5. USER: requested absolutely complete continuity update and a new-server-thread handoff that avoids reinvention.
+6. AUDIT: Git handoff mirror found stale at A-041 pre-publication despite current outer state. RECOVERY DEFECT.
+7. LIVE READBACK: server online, scheduler 0.25s, 96 tools/16 families/30 compact ops; current Git registry separately 103 tools.
+8. OBE SEAM: contract digest exists, but ordinary invocation still lacks expected-contract assertion; reserved after A-042.
+9. A-042 WIP: 15,838 bytes / 455 lines / SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` / AST PASS; no qualification/integration yet.
+10. CHECKPOINT: canonical surfaces + dedicated handoff + WIP recovery mirror being published before thread rollover.
 
 ## Delta Since Previous Shadow
-- A-041 moves from active raid to technically earned / Git pending.
-- full suite advances 306 -> 318 GREEN.
-- cryptographic proof validity is explicitly separated from currentness.
-- live multi-tab race promoted `THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY`.
-- A-042 project mutation lease/ownership becomes next correctness frontier after A-041 publication.
+- recovered from second visible-thread rollback using persisted state/Git rather than chat memory;
+- localized stale Git handoff mirror as a real recoverability defect;
+- preserved A-042 WIP exact identity and claim ceiling;
+- promoted anti-rollback authority ordering and dedicated server-thread handoff requirement;
+- OBE stale-contract seam explicitly queued after A-042 rather than mixed into current mutation work.

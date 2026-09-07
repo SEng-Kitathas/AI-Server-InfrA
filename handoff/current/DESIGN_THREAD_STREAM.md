@@ -3459,3 +3459,163 @@ Current identities:
 A-041 is technically earned and awaiting Git publication.
 
 After A-041 remote readback, A-042 project mutation ownership/exclusivity becomes the next correctness frontier before idempotency or Job Object resource-envelope raids.
+
+
+### A-041 Git publication complete
+
+A-041 Certificate-Transparency-style protocol Merkle receipts were committed and remotely verified before project-mutation exclusivity work began.
+
+Commit:
+`a97a00f67f3b79dbbe18e092d29b8971e588d4a2`
+
+Tree:
+`2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53`.
+
+Subject:
+`Add protocol Merkle proof receipts`.
+
+Push:
+`486eee4..a97a00f  main -> main`.
+
+Remote/local `main` matched exactly and branch was clean after push.
+
+Publication qualification:
+- final handoff + Merkle/protocol focused gate 26/26 PASS;
+- complete V30 suite 318 GREEN;
+- deterministic currentness-race regression green;
+- frozen candidate hashes unchanged across final gate.
+
+Disposition:
+**A-041 EARNED + GIT REMOTE-VERIFIED.**
+
+Load-bearing laws:
+- `MERKLE_PROJECTION != LEDGER_AUTHORITY`;
+- `VALID_HISTORICAL_PROOF != CURRENT_STATE_PROOF`;
+- `CRYPTOGRAPHIC_VALIDITY != CURRENTNESS`;
+- `LOGARITHMIC_PROOF_SIZE != LOGARITHMIC_PROOF_ISSUANCE_COST`.
+
+Active Frontier advances to A-042 server-native project mutation ownership/exclusivity across tabs/clients, driven by the directly observed A-039/A-040 overlap race. Reads should remain nonblocking; consequential Git/project/continuity mutation must require bounded owner/lease authority with stale-owner recovery.
+
+
+---
+
+## Phase 52 — saturated-thread rollback recovery + full server-thread rollover checkpoint
+
+Timestamp: 2026-09-06 22:38 ET
+Mode: RECOVERY/AUDIT -> CHECKPOINT/RECOVERY-HARDENING
+
+### Trigger
+User observed that the assistant had rolled back to stale visible-thread frontiers more than once and explicitly requested an absolutely complete continuity update plus a handoff for a fresh server thread that can resume without reinventing completed work.
+
+### Recovery readback
+Persisted project/Git reality outranked the visible chat continuation.
+
+Verified Git:
+- local/remote `main` `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
+- tree `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53`;
+- A-041 CT/Merkle receipts already published;
+- A-041 final targeted 20/20, full 318 GREEN.
+
+Verified active local WIP:
+- `V30_WORKING/PCMMAD_receiver/baseline/pcmmad_receiver/project_mutation_authority.py`;
+- untracked;
+- 15,838 bytes / 455 lines;
+- SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`;
+- AST parse PASS;
+- no qualification/integration claim.
+
+Therefore A-042 is already physically in progress, not merely “next.”
+
+### WIP candidate already embodied
+The unqualified candidate contains:
+- project-scoped persistent lease record;
+- persistent generation fence;
+- bounded TTL and expiry recovery;
+- integrity-hashed record;
+- Windows/POSIX cross-process guard file locking;
+- inspect/acquire/renew/release;
+- generation/lease/owner/session active validation;
+- mutation guard;
+- compatibility-session guard fencing legacy sessions when a governed lease is active.
+
+Do not reinvent this module in the next thread; audit/hostile-test it first.
+
+### Rollover defect localization
+Canonical outer Current/ICF/Commander/Live surfaces were current through A-041/A-042.
+
+However repo `handoff/current` was stale at the A-041 pre-publication candidate. That is an independently verified recoverability defect.
+
+Visible chat rollback is consistent with thread saturation/compaction causing conversational state to lag persisted state, but causal exclusivity is **not proven**.
+
+Promoted rollover laws:
+- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
+- `RECENT_INFERENCE != CURRENT_AUTHORITY`;
+- `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
+
+### Live server surface during checkpoint
+Fresh action-server readback:
+- online;
+- scheduler alive;
+- scheduler interval 0.25s;
+- 96 native tools / 16 families;
+- compact imported surface 30 operations;
+- global concurrency 8.
+
+Current Git working-tree import separately reported 103 tools.
+
+`LIVE_ACTION_SERVER_SURFACE != CURRENT_GIT_WORKING_TREE_REGISTRY`.
+
+### OBE stale-contract seam preserved separately
+Current V30 has native `contract_digest` and bound approvals/HUD currentness use it. Search found no current `expected_contract_digest`, `CAPABILITY_CONTRACT_STALE`, or `BAD_EXPECTED_CONTRACT_DIGEST` ordinary-invocation enforcement.
+
+The older OBE A-001 candidate remains ancestry-stale controlled evidence. Reproduce against then-current HEAD only after A-042 publication; do not splice it into A-042.
+
+### Published lineage not to replay
+- A-037 `59b4b5e5d6339127e50e052827f27bc94a14c832` — incremental verified protocol fold — 284 GREEN;
+- A-038 `cb2b4ee2c54c2aab02fa29b8feca6c40c666148e` — deterministic execution lifecycle replay — 289 GREEN;
+- A-039 `d887213d8fa341af79e59ac1070ebf66225e107f` — legacy PID identity binding — 297 GREEN;
+- A-040 `486eee4a9c8a053bc5f5f301199010ba1a7f8d42` — event-driven scheduler wake/resync — 306 GREEN;
+- A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` — CT/Merkle protocol receipts — 318 GREEN.
+
+### Canonical rollover repair
+Updated/registered together:
+- Current State;
+- Next Steps;
+- Doctrine Snapshot;
+- Revisit Ledger;
+- Trace Matrix;
+- Live Shadow;
+- ICF Current;
+- Commander’s Intent;
+- Git Publication Current;
+- dedicated `SERVER_THREAD_HANDOFF_CURRENT.md`;
+- maintenance incident receipt.
+
+Dedicated handoff explicitly describes current Git/live/WIP facts, published lineage, A-042 exact continuation sequence, OBE donor ceiling, architecture duality, scars, and anti-rollback boot grammar.
+
+Next step before thread rollover:
+1. refresh Git `handoff/current` from these registered surfaces;
+2. carry byte-exact A-042 WIP recovery copy under handoff namespace without promoting it as Runtime source;
+3. strengthen handoff regression;
+4. run handoff/full-suite gates;
+5. commit/push/remote-read checkpoint;
+6. new server thread resumes A-042 from existing WIP under RECOVERY/AUDIT -> BUILD-COMMIT.
+
+
+### Rollover checkpoint qualification complete / Git publication pending
+
+The repaired Git handoff mirror and dedicated server-thread handoff were qualified before checkpoint publication.
+
+Verification:
+- strengthened handoff regression: **9 / 9 PASS**;
+- complete V30 suite: **321 collected tests GREEN**;
+- existing conditional Windows symlink-privilege skip only.
+
+The first strengthened handoff test run was 8/9 because the test searched for a shorter exact A-042 phrase than the authoritative handoff contained (`A-042 project mutation ownership/exclusivity across tabs/clients is ACTIVE`). The test was corrected to the actual handoff wording; no Runtime/handoff semantics were weakened.
+
+Scope boundary:
+- active Runtime WIP `baseline/pcmmad_receiver/project_mutation_authority.py` remains untracked/unqualified;
+- only its byte-exact recovery copy under `handoff/current/wip/` is eligible for the rollover checkpoint commit;
+- checkpoint publication SHALL NOT be interpreted as A-042 engineering publication.
+
+Next: refresh mirror from final registered qualification surfaces, final 9/9 readback, stage only checkpoint files, commit/push/remote-read, then roll to the new server thread and resume A-042 hostile qualification from the exact WIP hash.

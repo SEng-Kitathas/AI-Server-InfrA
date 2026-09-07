@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-06 20:18 ET
+Last updated: 2026-09-06 22:38 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,59 +263,47 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-041 Certificate-Transparency-style Merkle protocol receipts are **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
+A-041 Certificate-Transparency-style Merkle protocol receipts remain **EARNED, PUSHED, AND REMOTE-VERIFIED**.
 
-A-041 survivor:
-- authoritative `system/protocol/events.jsonl` remains unchanged as the protocol truth source;
-- Merkle state is derived/rebuildable only;
-- RFC6962-style domain-separated tree over existing ordered event hashes;
-- native read-only tools: `protocol.merkle.root`, `protocol.merkle.inclusion`, `protocol.merkle.consistency`;
-- protocol native tool count 12 -> 15;
-- inclusion/consistency proof verifiers are local/pure and receipts bind tree size/root, ledger head, algorithm, event identity/hash, and proof material.
+Current Git truth at rollover checkpoint:
+- local/remote `main` `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
+- tree `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53`;
+- A-041 final targeted 20/20 + full 318 GREEN;
+- worktree contains one intentional untracked A-042 candidate: `baseline/pcmmad_receiver/project_mutation_authority.py`.
 
-Currentness hostile result:
-- first candidate unconditionally claimed `current_at_issue=true`;
-- deterministic verified-read/concurrent-append race produced receipt size 2 while actual ledger size was 3, with mismatched heads;
-- current semantics now say `verified_ledger_snapshot=true`, `currentness_claim=not_asserted`, and `currentness_requires_head_match=true`;
-- tool descriptions likewise avoid claiming a linearly-current tree.
+**Actual Active Frontier: A-042 project mutation ownership/exclusivity is already IN PROGRESS, not merely next.**
 
-Proof compactness at 20,000 leaves / index-old-size 12,345:
-- inclusion proof: **15 hashes**;
-- consistency proof: **16 hashes**;
-- ~30 ms pure in-memory generation each on current host.
+A-042 WIP identity:
+- bytes 15,838 / 455 lines;
+- SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`;
+- AST parse PASS;
+- untracked / uncommitted / unqualified;
+- no route/tool integration or tests are yet verified.
 
-Claim ceiling:
-- **LOGARITHMIC_PROOF_SIZE != LOGARITHMIC_PROOF_ISSUANCE_COST**;
-- current receipt issuance still reads/verifies authoritative ledger history and derives proof material on demand; no persisted Merkle truth/index is introduced.
+The candidate already contains persistent generation fencing, bounded TTL lease state, cross-process guard locking, integrity-checked state, acquire/renew/release/inspect, active mutation validation, expiry recovery, and a compatibility-session guard. Do not reinvent these mechanisms; inspect and hostile-test them first.
 
-Verification:
-- first shared candidate targeted 19/19 + full 317 GREEN;
-- after currentness-race repair targeted **20/20 PASS**;
-- complete V30 suite **318 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- candidate hashes remained stable before/after qualification runs.
+Rollover incident findings:
+- canonical outer continuity was current through A-041/A-042;
+- Git `handoff/current` was stale at A-041 pre-publication and is being repaired in this checkpoint;
+- visible chat rollback is suspected to be thread-saturation/compaction drift but causal attribution is NOT proven.
 
-Current identities:
-- `lab_tools_protocol.py` SHA `a5fb00ae7fe315cd834b3fc328e26673a95a4276d7b514386c66ad9f73ff16e4`;
-- `protocol_merkle.py` SHA `9227dda0b661a42607e2c8d2d278a726bf4e11d7b9489724ace5a448bebdde90`;
-- `test_protocol_runtime.py` SHA `51432fd3b0d444fedc3f24c2cc733a44317af46d0f2357bddbc1009e355e0926`;
-- `test_protocol_merkle.py` SHA `8f7a6d37e9a4ac1dd7ce4306f74e4ccca99883c4d4766e4461ba58dabd88c669`;
-- report `reports/V30_A041_PROTOCOL_MERKLE_RECEIPTS_DERIVATION.md` SHA `88cab594712e91dd872b453b6bb6327ec2d2b980fe2c74dba92d3731aa90a813`.
+New rollover laws:
+`CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
+`RECENT_INFERENCE != CURRENT_AUTHORITY`;
+`CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
 
-New directly observed P0 seam:
-- while this thread was closing A-039, another project tab committed A-040 and began A-041;
-- this thread then registered older A-039 outer continuity after newer A-040 Git publication, temporarily regressing the bounded Frontier;
-- A-040 canonical state had to be restored from exact post-push scratch hashes.
+Live server readback at checkpoint: online, scheduler alive at 0.25s, 96 native tools / 16 families, compact surface 30 operations. Current Git working-tree registry separately imports 103 tools. Do not conflate live deployment and working-tree capability counts.
 
-Promoted coordination scar:
-**THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY**.
+Rollover checkpoint qualification: **handoff 9/9 PASS; complete suite 321 GREEN**. No A-042 engineering qualification is implied.
 
-Immediate sequence:
-1. refresh Git handoff mirror to A-041;
-2. exact-candidate handoff + protocol/Merkle + full-suite gate;
-3. commit/push/remote-read A-041;
-4. post-push continuity reconciliation;
-5. **A-042 project mutation ownership/exclusivity**: derive a server-native cross-tab lease/owner protocol before further broad mutation raids;
-6. then idempotency / Windows Job Object resource-envelope raids.
+Exact resume:
+1. publish this rollover checkpoint/mirror without adding the unqualified A-042 source as Runtime truth;
+2. next thread rehydrates and verifies the WIP hash;
+3. inspect/hostile-test existing A-042 lease core;
+4. derive minimal integration chokepoints and native projection;
+5. qualify focused + full suite;
+6. continuity + Git push/readback A-042;
+7. only then re-derive OBE stale-contract ordinary invocation seam and later idempotency/Job Object raids.
 
 ## Remaining major seams
 

@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-06 20:18 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-06 22:38 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -650,34 +650,29 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-041 Certificate-Transparency-style protocol Merkle receipts are technically earned locally with complete suite **318 GREEN**.
+A-041 is current Git truth at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` / tree `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53` with final 318 GREEN.
 
-Locked A-041 direction:
-1. authoritative JSONL/hash-chain remains the protocol truth;
-2. Merkle roots/proofs are derived/rebuildable only;
-3. inclusion and append-consistency receipts are compact and independently verifiable;
-4. `CRYPTOGRAPHIC_VALIDITY != CURRENTNESS`; receipt currentness is **not asserted** and requires authoritative head match;
-5. proof size is logarithmic, but current issuance still performs O(history) verified rebuild work;
-6. tampered authoritative ledger refuses proof issuance;
-7. missing Merkle state never blocks authority because proofs rebuild from ledger.
+**A-042 project mutation ownership/exclusivity is ACTIVE WIP, not merely next.**
 
-Directly observed coordination defect now outranks feature raids:
-- another tab committed A-040 while this thread still owned stale A-039 continuity assumptions;
-- this thread then regressed bounded outer continuity below newer Git reality before the conflict was discovered and repaired;
-- active A-041 dirty files also existed concurrently.
+Existing unqualified source candidate:
+`baseline/pcmmad_receiver/project_mutation_authority.py`
+SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` / 15,838 bytes / 455 lines / AST parse PASS.
 
-Therefore after A-041 publication, current frontier becomes **A-042 project mutation ownership/exclusivity**. Required direction:
-1. server-native authority object/lease, not prompt convention;
-2. bind owner session/client identity, project, operation class/scope, issue/renew/expiry times, and provenance;
-3. consequential Git/project/continuity mutations require ownership; ordinary reads remain nonblocking;
-4. conflicting tab/client receives explicit busy/owner/current-frontier evidence rather than hanging or silently racing;
-5. stale/crashed owner recovers by bounded expiry/lease takeover with readback;
-6. mutation completion/release and failure paths cannot leave immortal lock state;
-7. hostile two-writer tests must reproduce the observed race and prove only one mutation authority survives.
+It already embodies a persistent generation-fenced lease core, cross-process guard locking, bounded expiry, integrity-checked state, acquire/renew/release/inspect, mutation validation, and compatibility-session fencing. A new thread SHALL inspect and hostile-test this candidate before inventing replacement architecture.
 
-Then resume idempotency and Windows Job Object resource-envelope raids. Final schema redesign remains locked last.
+Required A-042 progression:
+1. publish current rollover checkpoint/mirror first;
+2. linear audit existing candidate and current mutation chokepoints;
+3. hostile lease-core tests: simultaneous acquire, stale generation/token, expiry/takeover, owner/session mismatch, corrupt state, read nonblocking, crash/guard recovery;
+4. derive minimal native projection and consequence-bearing mutation integration;
+5. reproduce the actual two-tab continuity/Git race and prove only one writer authority survives;
+6. keep optimistic currentness/hash checks in addition to lease authority;
+7. full suite + continuity + Git commit/push/remote readback;
+8. only after A-042, re-derive current-head OBE stale-contract ordinary-invocation seam;
+9. idempotency/Job Object raids remain after that;
+10. final schema redesign remains locked last.
 
----
+Rollover finding: canonical outer state was current while visible chat rolled back and Git handoff mirror lagged at A-041 pre-publication. `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`. Thread saturation/compaction is suspected, not proven exclusive cause.
 
 ## 22. Fresh-thread anti-regression list
 
@@ -703,6 +698,12 @@ A new thread/model SHALL NOT:
 - treat UI prettiness as permission to weaken state clarity/security/accessibility;
 - trust stale green reports over fresh tests;
 - let continuity surfaces go stale while ad-hoc reports remain current.
+- resume from chat-visible frontier without persisted/Git readback;
+- treat a Git handoff mirror as current merely because it is committed;
+- reinvent an active WIP candidate before verifying its exact bytes and claim ceiling;
+- treat an untracked WIP source as earned Runtime authority merely because it exists;
+- replay A-037 through A-041: they are already published;
+- apply the ancestry-stale OBE A-001 patch without current-head reproduction.
 
 ---
 
@@ -716,7 +717,10 @@ That snapshot:
 - must point to the qualified ICF-CS/current canonical SOP identities;
 - must include Current/Next/Doctrine/Revisit/Trace/Live Shadow/DTS and Commander’s Intent or equivalent recovery surfaces;
 - must include the shared Runtime Adapter Compatibility Contract and Projection Matrix as the cross-thread server/Skill meeting surface;
-- must instruct a fresh thread to perform live local/runtime/Git readback before consequential mutation.
+- must instruct a fresh thread to perform live local/runtime/Git readback before consequential mutation;
+- must identify any active uncommitted WIP by exact path/hash and preserve a recovery copy without promoting it;
+- must be refreshed at publication/rollover boundaries or explicitly marked stale;
+- must include the dedicated `SERVER_THREAD_HANDOFF_CURRENT.md` resume surface.
 
 `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
 
@@ -724,14 +728,22 @@ That snapshot:
 
 ## 23. Fresh-thread handoff rule
 
-For re-entry use the qualified version-agnostic grammar:
+For a new server thread:
+0. read `checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md` as the rollover dispatcher;
 1. Current State;
 2. `checkpoints/ICF_CS_CURRENT.md` + exact qualified ICF-CS standard;
 3. `state/doctrine_snapshot/CURRENT_CANONICAL_SOP_POINTER.md` + Commander’s Intent + Next/Doctrine/Revisit/Trace;
 4. Live Shadow;
 5. DTS tail;
-6. fresh consequence-bearing local/runtime readback before mutation.
+6. exact Git/worktree readback;
+7. live Runtime readback when consequence semantics depend on deployment;
+8. verify active WIP exact hash/claim ceiling;
+9. only then mutate.
 
-If material surfaces disagree: RECOVERY/AUDIT → LOCALIZE → REPAIR/SUPERSEDE → READBACK → RESUME.
+If material surfaces disagree: RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME.
+
+Authority ordering for rollover:
+`PERSISTED_PROJECT_FRONTIER > CHAT_VISIBLE_FRONTIER` for resume-point selection, subject to fresh evidence/readback.
 
 `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
+`GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.

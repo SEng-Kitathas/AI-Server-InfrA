@@ -205,26 +205,32 @@ Mechanism first. Representation second. ECS/graph/etc. terminology is not permis
 
 ## Current shared Runtime facts the Skill thread must respect
 
-As of this handoff snapshot:
-- V30 native registry: 100 tools / 16 families;
+As of this rollover checkpoint:
+- Git `main` is current through A-041 at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` / final 318 GREEN;
+- A-042 project mutation ownership/exclusivity is active WIP and unqualified;
+- exact A-042 WIP recovery identity is carried in `handoff/current/SERVER_THREAD_HANDOFF_CURRENT.md` and `handoff/current/wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py`;
+- current Git working-tree registry import reports **103 tools**;
+- fresh live action server separately reports **96 native tools / 16 families / 30 compact operations**;
+- `LIVE_ACTION_SERVER_SURFACE != CURRENT_GIT_WORKING_TREE_REGISTRY`;
 - `REGISTRATION != CAPABILITY_AVAILABILITY != TARGET_HEALTH`;
-- discovery remains probe-free; dynamic availability is explicit and bounded;
 - bound approval is a Runtime authority object/challenge, not boolean payload metadata;
 - compact OpenAPI remains compatibility projection, not ontology;
-- MCP/HUD availability projection consumes the same native capability cards;
-- result/log payloads are bounded via handles/ranges where needed;
+- MCP/HUD availability projection consumes native capability cards;
+- result/log payloads remain bounded via handles/ranges where needed;
 - Git publication is source lineage, not live deployment;
-- V30 working-tree success is not release/live promotion;
-- final schema redesign is last-stage, after whole-runtime convergence.
+- final schema redesign remains last-stage, after whole-runtime convergence.
 
 ## Current cross-thread open seam
 
-`OBE_RESEARCH_AND_DERIVATION_CAMPAIGN_V0_1` and related Skill artifacts may continue as candidate research.
+OBE/Skill research remains candidate work and SHALL reconcile against audited current Runtime semantics before interface promotion.
 
-Final reconciliation gate:
-- compare OBE candidate assumptions against the audited successor Runtime/projection matrix;
-- preserve mismatches explicitly;
-- only promote the shared interface that survives both sides.
+High-priority donor seam after A-042:
+- current Runtime has `contract_digest` and bound approvals/HUD use it;
+- current source does **not** implement ordinary invocation `expected_contract_digest` / `CAPABILITY_CONTRACT_STALE` / `BAD_EXPECTED_CONTRACT_DIGEST` enforcement;
+- ancestry-stale OBE A-001 patch is controlled evidence only;
+- after A-042 publication, reproduce the stale ordinary-invocation contract case against then-current HEAD and derive the native mechanism only if still earned.
+
+Do not mix this donor seam into A-042 mutation-exclusivity work.
 
 ## Re-entry rule
 

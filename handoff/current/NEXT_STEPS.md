@@ -1,25 +1,27 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-06 20:18 ET
+Last updated: 2026-09-06 22:38 ET
 
-## Immediate — current frontier
+## Immediate — rollover-safe active frontier
 
-A-041 engineering complete locally:
-- [x] derived CT-style Merkle root/inclusion/consistency proofs from verified authoritative ledger history;
-- [x] kept Merkle state derived/rebuildable and protocol JSONL authoritative;
-- [x] exposed 3 read-only protocol proof tools;
-- [x] hostile currentness race caught unconditional `current_at_issue=true` and removed that false authority;
-- [x] proof receipts now bind verified snapshot/head and require fresh head match for currentness;
-- [x] targeted **20/20 PASS**; full suite **318 GREEN**.
+Completed / verified:
+- [x] A-041 Git-current at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`, final 318 GREEN.
+- [x] live server checkpoint readback: online; scheduler alive 0.25s; 96 native tools / 16 families; compact surface 30.
+- [x] A-042 WIP source discovered and byte-identified; AST parse PASS; still unqualified.
+- [x] repaired rollover handoff regression **9/9 PASS**; complete suite **321 GREEN**.
+- [x] rollback localized: outer canonical state current, Git handoff mirror stale; thread saturation/compaction remains suspected causal contributor, not proven.
 
-Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-041 to Git | per-step publication law | commit/push/remote exact; outer receipt advanced |
-| P0 | A-042 derive project mutation ownership/exclusivity | live multi-tab race advanced Git in one thread while another regressed outer continuity | one server-native owner/lease surface serializes consequential project/Git/continuity mutation across tabs/process clients, with stale-owner recovery and read-only nonblocking behavior |
-| P0 | Hostile-test lease acquisition/renew/release/stale takeover/conflicting tab | lock concern is now observed behavior | simultaneous writers cannot both gain mutation authority; crash/stale lease cannot deadlock project forever |
-| P1 | Expand idempotency to mutating lab/protocol surfaces | response-loss duplicate mutation scar remains | replay same key/same payload returns prior result; mismatch conflicts |
-| P1 | Enforce Windows Job Object resource envelope | runaway model-authored subprocess remains host risk | memory/process-count limits tested without thermal policy |
+| P0 | Publish full rollover checkpoint + repaired Git handoff mirror | new thread must not replay A-037..A-041 or lose A-042 WIP | remote commit contains current mirror, dedicated server handoff, and byte-exact WIP recovery copy |
+| P0 | New thread re-read persisted surfaces + exact Git/live readback | prevent second rollback | it states A-041 published and A-042 active WIP from evidence, not chat memory |
+| P0 | Linear audit existing A-042 module before editing | 455 lines already embody intended lease/generation architecture | invariants, gaps, duplicate mechanisms, and integration points mapped |
+| P0 | Add hostile lease-core tests | project mutation exclusivity is correctness, not convenience | two-writer, stale-generation, expiry/takeover, stale-token, owner/session mismatch, corrupt-state, read-nonblocking tests pass |
+| P0 | Audit consequential mutation chokepoints | avoid scattered symbolic checks | smallest authoritative integration surface identified for project/Git/continuity mutation |
+| P0 | Integrate/projection + hostile cross-client race test | reproduce the real failure mechanism | exactly one writer survives; stale thread cannot regress continuity/Git after newer generation |
+| P0 | Full suite + continuity + Git A-042 | per-step law | remote exact; A-042 claim ceiling explicit |
+| P1 | Re-derive OBE A-001 stale-contract ordinary invocation seam | old donor remains ancestry-stale but current source still lacks expected contract assertion | current-head repro decides native mechanism |
+| P1 | Then idempotency / Job Object resource raids | remain valuable but must not contaminate A-042 | separate discriminators/commits |
 
 ## Near-term all-plane audit
 

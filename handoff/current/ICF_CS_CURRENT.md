@@ -147,8 +147,27 @@ Git-contained ICF-CS recovery mirror publication is COMPLETE:
 - remote `CURRENT_INGRESS.md` readback PASS;
 - handoff focused 6/6 PASS; full suite 251 GREEN.
 
-Active Frontier: A-041 CT-style protocol Merkle receipts are technically earned (targeted 20/20; full 318 GREEN; currentness race repaired) and must be Git-published/remote-read before A-042 project mutation ownership/exclusivity begins.
+Active Frontier: A-041 is Git-verified at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`; A-042 is already active WIP at source SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` and remains unqualified. Fresh-thread recovery SHALL read `checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md`, reconcile persisted Current/ICF/Commander/Live + exact Git/worktree/live Runtime before mutation, and SHALL NOT replay A-037..A-041 from stale chat or stale mirror.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 
 `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`, `STALE_GREEN != CURRENT_EVIDENCE`, and `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION` remain binding.
+
+## Rollover hardening — 2026-09-06
+
+Observed recovery law:
+`CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`.
+
+The saturated thread visibly resumed behind persisted project reality more than once. Canonical outer state was current, while the Git recovery mirror was also found stale at an A-041 pre-publication candidate. Full-thread/compaction is a suspected cause of the visible rollback, not proven exclusive cause.
+
+Cold-start consequence ordering:
+1. persisted Current/ICF/Commander;
+2. exact Git/worktree readback;
+3. live Runtime readback when relevant;
+4. active WIP byte identity/claim ceiling;
+5. Git recovery mirror;
+6. visible chat narrative.
+
+Dedicated current server rollover pointer:
+`checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md`.
+
