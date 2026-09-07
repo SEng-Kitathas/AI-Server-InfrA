@@ -16,7 +16,7 @@ Current pre-publication local+remote `main`: `014dc68c954ab099c43118bd5072349fb9
 - compact schema parse PASS / 30 ops / `runtime-authority-envelope-v1`.
 - CRLF-aware diff check PASS.
 - full suite `345 collected / 344 passed / 0 failed / 1 conditional skip`.
-- contracts: `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`; `RuntimeAuthorityEnvelope` is invocation authority; `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`.
+- contracts: `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`; `RuntimeAuthorityEnvelope` invocation authority; `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`.
 - core: state/consequence lock split, generation fence, token hash/redaction, durable worker non-secret binding, stale-takeover fence.
 - chokepoints: native project/Git/protocol/state/SOP/execution + path filesystem/transfer + transfer cleanup + two-phase apoptosis/recovery.
 - Git publication pending; live Runtime remains unpromoted.
@@ -34,3 +34,29 @@ Do not begin final schema redesign. It is LAST and requires whole-runtime conver
 4. Push `main`; independently `ls-remote` readback.
 5. Update outer continuity with exact A-042 commit/tree.
 6. Do not live-promote implicitly.
+
+## A-042 ENGINEERING PUBLICATION — 2026-09-07
+- A-042 `PROJECT MUTATION OWNERSHIP / EXCLUSIVITY` is **ENGINEERING-PUBLISHED / REMOTE-VERIFIED**.
+- Commit: `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`
+- Tree: `8ac51e5177e5a4edde449310c4566bab064eac04`
+- Subject: `Add project mutation ownership exclusivity`
+- `origin/main` independently resolves exactly to `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`.
+- Post-push worktree: clean / `main...origin/main`.
+- Pre-publication qualification remains `345 collected / 344 passed / 0 failed / 1 conditional skip`, with focused A-042 cluster 71/71 PASS and Git handoff verifier 11/11 PASS.
+- This publication does **not** live-promote the Desktop Runtime. `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
+- The non-PCMMAD OBE/Skills A-001 stale-contract candidate is now the next Runtime/OBE discriminator and must be re-derived against this published Runtime; donor qualification alone grants no Runtime authority.
+- Final schema redesign remains LAST and untriggered; whole-runtime convergence plus explicit user `hells yeah, ready` remains required.
+
+## A-001 RUNTIME CONTRACT CURRENTNESS — QUALIFIED CANDIDATE (2026-09-07)
+- Source donor: non-PCMMAD OBE/Skills stale-contract candidate; donor archive remains evidence, not authority.
+- Re-derived against published A-042 Runtime commit `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`.
+- Native contract: optional `expected_contract_digest`; exact current `ToolSpec.contract_digest` is compared immediately after native tool resolution.
+- Mismatch: `409 CAPABILITY_CONTRACT_STALE` before router/provider work, schema/protocol work, approval issuance/consumption, mutation fencing, or handler effect.
+- Malformed assertion: `400 BAD_EXPECTED_CONTRACT_DIGEST`.
+- Legacy callers may omit the assertion; OBE/MCP may require it after capability discovery.
+- HTTP `/lab/dispatch` and per-step `/lab/batch` propagate the assertion.
+- Compact schema exposes the optional 64-hex assertion for both single and batch dispatch; authority model remains `runtime-authority-envelope-v1`; 30 operations remain unchanged.
+- Qualification: focused A-001 + approval/MCP/result/schema adjacency `49/49 PASS`; changed Python compile PASS; full suite `352 collected / 351 passed / 0 failed / 1 conditional skip`; CRLF-aware `git diff --check` PASS.
+- Status: **QUALIFIED ENGINEERING CANDIDATE / GIT PUBLICATION PENDING**.
+- OBE/Skills 11-Skill interface remains **UNFROZEN** pending dogfood against the promoted Runtime interface.
+- Final schema redesign remains LAST and untriggered; this compact schema field addition is adapter parity, not final schema redesign.

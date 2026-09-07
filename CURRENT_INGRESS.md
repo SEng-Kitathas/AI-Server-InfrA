@@ -70,3 +70,11 @@ Governance Contact locator is present in the outer project, but activation token
 **CHECKPOINT_PUBLICATION != ENGINEERING_PUBLICATION**
 **GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION**
 **V30_WORKING_TREE_SUCCESS != RELEASE_QUALIFICATION != LIVE_DEPLOYMENT**
+## A-001 currentness frontier
+A-001 expected-contract binding is now **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING** against published A-042 Runtime.
+- optional `expected_contract_digest` at native dispatch;
+- `409 CAPABILITY_CONTRACT_STALE` on mismatch before authority/provider/handler consequence;
+- HTTP and batch propagation; legacy omission compatible;
+- qualification `352 collected / 351 passed / 0 failed / 1 conditional skip`; focused adjacency 49/49 PASS.
+
+This is not final schema redesign. The 11-Skill interface remains unfrozen pending dogfood. Final schema remains LAST and requires explicit `hells yeah, ready`.

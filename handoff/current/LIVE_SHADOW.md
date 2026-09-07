@@ -13,7 +13,7 @@
 - Preserve final schema redesign as the last campaign under Commander intent.
 
 ## Current Authoritative State
-- Git current recovery HEAD before A-042 publication: `014dc68c954ab099c43118bd5072349fb93385d3`; last engineering feature A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`.
+- Git engineering HEAD = remote `main` = `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`; tree `8ac51e5177e5a4edde449310c4566bab064eac04`; A-042 is engineering-published and remote-verified.
 - A-042 candidate: 23 changed/new files; inventory SHA `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`.
 - Qualification: 345 collected / 344 passed / 0 failed / 1 conditional skip; 22 changed/new Python compile PASS; compact schema parse PASS / 30 ops; CRLF-aware diff check PASS.
 - Contracts: session identity is not fenced authority; RuntimeAuthorityEnvelope is adapter authority surface; no authority smuggling through payload.
@@ -36,17 +36,17 @@
 - `LEASE_STATE_LOCK != MUTATION_CONSEQUENCE_LOCK`.
 - `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`.
 - `RuntimeAuthorityEnvelope` is the invocation authority projection; flat approval sub-contract remains until final schema campaign.
-- A-001 is post-A-042 donor work, not part of A-042.
+- A-001 stale-contract binding has been re-derived against published A-042 and is a qualified engineering candidate / Git publication pending.
 
 ## Open Loops
-- Register this continuity reconciliation.
-- Refresh Git-contained handoff mirror from registered continuity.
-- Create dedicated A-042 engineering commit, push, independently read remote HEAD.
-- Post-push outer continuity update with exact engineering commit/hash.
+- A-042 engineering publication is complete and remote-verified.
+- Publish qualified A-001 as its own Runtime engineering commit, then independently read remote HEAD.
+- Preserve idempotency / Job Object / remaining raid queue after A-001.
+- Final schema remains last/untriggered.
 - Do not live-promote unless separately authorized/gated.
 
 ## Immediate Next Step
-- Register continuity candidate, refresh Git handoff mirror, rerun handoff/full gates, commit/push/readback.
+- Publish the re-derived A-001 currentness contract; donor patch provenance is no longer the authority basis.
 
 ## Last 10 Turn Reinforcement Window
 1. USER re-entered under RECOVERY/AUDIT and prohibited replay/restoration over newer WIP.
@@ -61,7 +61,21 @@
 10. ASSISTANT earned full candidate ceiling `345 collected / 344 passed / 0 failed / 1 conditional skip` and sealed inventory `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`.
 
 ## Delta Since Previous Shadow
-- A-042 advanced from recovered red 13-file WIP to qualified green 23-file engineering candidate.
+- A-042 advanced through qualified candidate to engineering-published / remote-verified commit `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`.
 - Two authority discriminators are resolved and embodied.
 - Cross-thread Skills bridge is recovered without authority promotion.
 - Final schema last-stage lock re-confirmed.
+
+## A-001 RUNTIME CONTRACT CURRENTNESS — QUALIFIED CANDIDATE (2026-09-07)
+- Source donor: non-PCMMAD OBE/Skills stale-contract candidate; donor archive remains evidence, not authority.
+- Re-derived against published A-042 Runtime commit `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`.
+- Native contract: optional `expected_contract_digest`; exact current `ToolSpec.contract_digest` is compared immediately after native tool resolution.
+- Mismatch: `409 CAPABILITY_CONTRACT_STALE` before router/provider work, schema/protocol work, approval issuance/consumption, mutation fencing, or handler effect.
+- Malformed assertion: `400 BAD_EXPECTED_CONTRACT_DIGEST`.
+- Legacy callers may omit the assertion; OBE/MCP may require it after capability discovery.
+- HTTP `/lab/dispatch` and per-step `/lab/batch` propagate the assertion.
+- Compact schema exposes the optional 64-hex assertion for both single and batch dispatch; authority model remains `runtime-authority-envelope-v1`; 30 operations remain unchanged.
+- Qualification: focused A-001 + approval/MCP/result/schema adjacency `49/49 PASS`; changed Python compile PASS; full suite `352 collected / 351 passed / 0 failed / 1 conditional skip`; CRLF-aware `git diff --check` PASS.
+- Status: **QUALIFIED ENGINEERING CANDIDATE / GIT PUBLICATION PENDING**.
+- OBE/Skills 11-Skill interface remains **UNFROZEN** pending dogfood against the promoted Runtime interface.
+- Final schema redesign remains LAST and untriggered; this compact schema field addition is adapter parity, not final schema redesign.

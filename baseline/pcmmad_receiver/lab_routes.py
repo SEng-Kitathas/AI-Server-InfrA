@@ -209,8 +209,17 @@ def _batch_step_result(idx: int, step: dict) -> dict:
     tool_name = str(step.get("tool_name", "")).strip()
     payload = step.get("payload") or {}
     authority = step.get("authority") or {}
+    expected_contract_digest = step.get("expected_contract_digest")
     try:
-        return {"index": idx, **dispatch_tool(tool_name, payload, authority=authority)}
+        return {
+            "index": idx,
+            **dispatch_tool(
+                tool_name,
+                payload,
+                authority=authority,
+                expected_contract_digest=expected_contract_digest,
+            ),
+        }
     except LabToolError as exc:
         return {
             "index": idx,
@@ -490,13 +499,19 @@ def lab_dispatch() -> object:
         tool_name = str(request_payload.get("tool_name", "")).strip()
         payload = request_payload.get("payload") or {}
         authority = request_payload.get("authority") or {}
+        expected_contract_digest = request_payload.get("expected_contract_digest")
         if not tool_name:
             return _error("BAD_REQUEST", "tool_name is required", 400)
         if not isinstance(payload, dict):
             return _error("BAD_REQUEST", "payload must be an object", 400)
         if not isinstance(authority, dict):
             return _error("BAD_REQUEST", "authority must be an object", 400)
-        result = dispatch_tool(tool_name, payload, authority=authority)
+        result = dispatch_tool(
+            tool_name,
+            payload,
+            authority=authority,
+            expected_contract_digest=expected_contract_digest,
+        )
         return jsonify(result)
     except LabToolError as e:
         return _error(e.error_code, e.message, e.status, **e.extra)

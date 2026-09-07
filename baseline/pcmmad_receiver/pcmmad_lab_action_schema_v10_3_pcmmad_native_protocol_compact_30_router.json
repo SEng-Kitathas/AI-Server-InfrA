@@ -3180,6 +3180,13 @@
           },
           "authority": {
             "$ref": "#/components/schemas/RuntimeAuthorityEnvelope"
+          },
+          "expected_contract_digest": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-fA-F]{64}$",
+            "description": "Optional optimistic currentness assertion from capability discovery. Mismatch fails with CAPABILITY_CONTRACT_STALE before authority or capability effects."
           }
         },
         "required": [
@@ -3272,6 +3279,13 @@
                 },
                 "authority": {
                   "$ref": "#/components/schemas/RuntimeAuthorityEnvelope"
+                },
+                "expected_contract_digest": {
+                  "type": "string",
+                  "minLength": 64,
+                  "maxLength": 64,
+                  "pattern": "^[0-9a-fA-F]{64}$",
+                  "description": "Optional optimistic currentness assertion from capability discovery. Mismatch fails with CAPABILITY_CONTRACT_STALE before authority or capability effects."
                 }
               },
               "required": [

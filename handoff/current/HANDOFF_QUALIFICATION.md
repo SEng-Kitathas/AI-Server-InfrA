@@ -18,3 +18,11 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 
 `CHECKPOINT_PUBLICATION != ENGINEERING_PUBLICATION`
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`
+
+## A-001 CURRENTNESS CANDIDATE
+- optional `expected_contract_digest` is enforced at native dispatch; stale mismatch returns `409 CAPABILITY_CONTRACT_STALE` before downstream authority/provider/handler effects;
+- re-derived against A-042 published Runtime `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`;
+- focused adjacency 49/49 PASS;
+- complete suite 352 collected / 351 passed / 0 failed / 1 conditional skip;
+- changed Python compile PASS; compact schema remains 30 ops / runtime-authority-envelope-v1; CRLF-aware diff check PASS;
+- publication pending; OBE/Skills 11-Skill interface unfrozen; final schema last/untriggered.

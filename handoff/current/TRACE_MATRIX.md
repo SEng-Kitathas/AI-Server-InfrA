@@ -158,3 +158,29 @@ This block does not assert token presence or absence. It remains semantically va
 
 | A-042 project mutation ownership/exclusivity qualified candidate | live cross-client continuity/Git consequence conflict + 13-file recovered WIP | split state/consequence locks; generation-fenced lease; token hash/redaction; Runtime authority envelope; durable worker binding; path/two-phase chokepoints | 23 changed/new candidate files; inventory `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e` | changed Python compile + schema parse + diff check + hostile authority/worker/transfer/chokepoint suites + full `345 collected / 344 passed / 0 failed / 1 conditional skip` | **QUALIFIED / GIT PUBLICATION PENDING** | high | any new bypass/race or post-commit mismatch | Git publication not live promotion |
 | Non-PCMMAD V30 OBE/Skills bridge | uploaded `OBE_V30_HANDOFF_BUNDLE_2026-09-06.zip` + Runtime/OBE duality + Commander intent | treat 11-Skill portfolio and A-001 as donor candidates; re-derive against current Runtime | companion campaign ZIP `88c8f91ea67126d93a629deab37dde4cdf23d07881f20ab0e7906fc525b6631e`; A-001 ZIP `ca4823d1c12d70581aa22661a258bebaaa2ba82939d4545d45b6bb6280174fe8` | source-local qualification preserved; Runtime promotion intentionally withheld | **DONOR / POST-A-042 QUEUE** | bounded | pack contradicts current Runtime or tries to own durable authority | final schema remains last |
+
+## A-042 ENGINEERING PUBLICATION — 2026-09-07
+- A-042 `PROJECT MUTATION OWNERSHIP / EXCLUSIVITY` is **ENGINEERING-PUBLISHED / REMOTE-VERIFIED**.
+- Commit: `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`
+- Tree: `8ac51e5177e5a4edde449310c4566bab064eac04`
+- Subject: `Add project mutation ownership exclusivity`
+- `origin/main` independently resolves exactly to `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`.
+- Post-push worktree: clean / `main...origin/main`.
+- Pre-publication qualification remains `345 collected / 344 passed / 0 failed / 1 conditional skip`, with focused A-042 cluster 71/71 PASS and Git handoff verifier 11/11 PASS.
+- This publication does **not** live-promote the Desktop Runtime. `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
+- The non-PCMMAD OBE/Skills A-001 stale-contract candidate is now the next Runtime/OBE discriminator and must be re-derived against this published Runtime; donor qualification alone grants no Runtime authority.
+- Final schema redesign remains LAST and untriggered; whole-runtime convergence plus explicit user `hells yeah, ready` remains required.
+
+## A-001 RUNTIME CONTRACT CURRENTNESS — QUALIFIED CANDIDATE (2026-09-07)
+- Source donor: non-PCMMAD OBE/Skills stale-contract candidate; donor archive remains evidence, not authority.
+- Re-derived against published A-042 Runtime commit `df5cdd2f687c7da0ea9ac0b1abecb23579ae599c`.
+- Native contract: optional `expected_contract_digest`; exact current `ToolSpec.contract_digest` is compared immediately after native tool resolution.
+- Mismatch: `409 CAPABILITY_CONTRACT_STALE` before router/provider work, schema/protocol work, approval issuance/consumption, mutation fencing, or handler effect.
+- Malformed assertion: `400 BAD_EXPECTED_CONTRACT_DIGEST`.
+- Legacy callers may omit the assertion; OBE/MCP may require it after capability discovery.
+- HTTP `/lab/dispatch` and per-step `/lab/batch` propagate the assertion.
+- Compact schema exposes the optional 64-hex assertion for both single and batch dispatch; authority model remains `runtime-authority-envelope-v1`; 30 operations remain unchanged.
+- Qualification: focused A-001 + approval/MCP/result/schema adjacency `49/49 PASS`; changed Python compile PASS; full suite `352 collected / 351 passed / 0 failed / 1 conditional skip`; CRLF-aware `git diff --check` PASS.
+- Status: **QUALIFIED ENGINEERING CANDIDATE / GIT PUBLICATION PENDING**.
+- OBE/Skills 11-Skill interface remains **UNFROZEN** pending dogfood against the promoted Runtime interface.
+- Final schema redesign remains LAST and untriggered; this compact schema field addition is adapter parity, not final schema redesign.

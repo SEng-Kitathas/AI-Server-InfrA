@@ -664,13 +664,45 @@ def _split_authority(
     return arguments, authority_data
 
 
+def _assert_expected_contract_digest(
+    spec: ToolSpec, expected_contract_digest: str | None
+) -> None:
+    if expected_contract_digest is None:
+        return
+    expected = str(expected_contract_digest).strip().lower()
+    if (
+        len(expected) != 64
+        or any(ch not in "0123456789abcdef" for ch in expected)
+    ):
+        raise LabToolError(
+            "BAD_EXPECTED_CONTRACT_DIGEST",
+            "expected_contract_digest must be exactly 64 hexadecimal characters",
+            400,
+        )
+    current = str(spec.contract_digest).strip().lower()
+    if expected != current:
+        raise LabToolError(
+            "CAPABILITY_CONTRACT_STALE",
+            "capability contract changed after client discovery",
+            409,
+            expected_contract_digest=expected,
+            current_contract_digest=current,
+            capability=spec.name,
+        )
+
+
 def dispatch_tool(
     tool_name: str,
     payload: JsonObject | None,
     *,
     authority: JsonObject | None = None,
+    expected_contract_digest: str | None = None,
 ) -> JsonObject:
     spec = _dispatch_spec(tool_name)
+    # Contract currentness is checked immediately after exact native tool resolution.
+    # A stale invocation must fail before provider work, schema/protocol checks,
+    # approval issuance/consumption, mutation fencing, or handler consequence.
+    _assert_expected_contract_digest(spec, expected_contract_digest)
     router_validation = _tool_router_validation_state()
     if _requires_router_connection(spec) and (
         not router_validation.api_valid or not router_validation.connected

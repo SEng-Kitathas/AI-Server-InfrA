@@ -139,6 +139,18 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("A-001", prompt)
         self.assertIn("Final schema", prompt)
 
+    def test_a001_currentness_candidate_is_preserved_in_ingress_and_handoff(self) -> None:
+        handoff = (HANDOFF / "SERVER_THREAD_HANDOFF_CURRENT.md").read_text(encoding="utf-8")
+        prompt = (HANDOFF / "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md").read_text(encoding="utf-8")
+        qualification = (HANDOFF / "HANDOFF_QUALIFICATION.md").read_text(encoding="utf-8")
+        for text in (self.ingress, handoff, prompt, qualification):
+            self.assertIn("expected_contract_digest", text)
+            self.assertIn("CAPABILITY_CONTRACT_STALE", text)
+            self.assertIn("352 collected / 351 passed / 0 failed / 1 conditional skip", text)
+        self.assertIn("QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING", self.ingress)
+        self.assertIn("11-Skill interface remains unfrozen", self.ingress)
+        self.assertIn("Final schema remains LAST", self.ingress)
+
     def test_ingress_does_not_reopen_resolved_a042_discriminators(self) -> None:
         self.assertIn("a97a00f67f3b79dbbe18e092d29b8971e588d4a2", self.ingress)
         self.assertIn("QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING", self.ingress)
