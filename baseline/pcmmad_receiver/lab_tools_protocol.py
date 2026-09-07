@@ -11,11 +11,17 @@ from lab_tool_primitives import (
     ToolResult,
     payload_bool,
     payload_list_of_str,
+    payload_optional_int,
     payload_optional_str,
     payload_str,
     payload_value,
 )
 from protocol_models import ProtocolValidationError
+from protocol_merkle import (
+    merkle_consistency_receipt,
+    merkle_inclusion_receipt,
+    merkle_root_receipt,
+)
 from protocol_store import (
     ProtocolConflictError,
     ProtocolLedgerError,
@@ -511,6 +517,57 @@ def _register_integrity_tools(context: ProtocolRegistrationContext) -> None:
     )
     def tool_protocol_ledger_verify(payload: ToolPayload) -> ToolResult:
         return _run(context, lambda: verify_events(_project_id(payload)))
+
+    @context.register_tool(
+        "protocol.merkle.root",
+        "Derive a CT-style Merkle root from a verified snapshot of the authoritative protocol ledger.",
+        "low",
+        category="protocol",
+        tags=["pcmmad", "ledger", "merkle", "proof", "integrity"],
+        side_effect_class="read",
+        effect_traits=["reads_state", "verifies_hash_chain", "derives_merkle_root", "non_initializing"],
+        input_schema=_schema(["project_id"], context.common_schema),
+    )
+    def tool_protocol_merkle_root(payload: ToolPayload) -> ToolResult:
+        return _run(context, lambda: merkle_root_receipt(_project_id(payload)))
+
+    @context.register_tool(
+        "protocol.merkle.inclusion",
+        "Return a compact inclusion receipt proving one protocol event hash is in a verified ledger snapshot.",
+        "low",
+        category="protocol",
+        tags=["pcmmad", "ledger", "merkle", "inclusion", "proof"],
+        side_effect_class="read",
+        effect_traits=["reads_state", "verifies_hash_chain", "derives_merkle_proof", "non_initializing"],
+        input_schema=_schema(
+            ["project_id", "sequence"],
+            {**context.common_schema, "sequence": {"type": "integer", "minimum": 1}},
+        ),
+    )
+    def tool_protocol_merkle_inclusion(payload: ToolPayload) -> ToolResult:
+        sequence = payload_optional_int(payload, "sequence")
+        if sequence is None or sequence < 1:
+            raise context.error_cls("BAD_REQUEST", "sequence must be an integer >= 1", 400)
+        return _run(context, lambda: merkle_inclusion_receipt(_project_id(payload), sequence))
+
+    @context.register_tool(
+        "protocol.merkle.consistency",
+        "Return a compact proof that an earlier protocol Merkle tree is an append-only prefix of a verified ledger snapshot.",
+        "low",
+        category="protocol",
+        tags=["pcmmad", "ledger", "merkle", "consistency", "append-only", "proof"],
+        side_effect_class="read",
+        effect_traits=["reads_state", "verifies_hash_chain", "derives_merkle_proof", "non_initializing"],
+        input_schema=_schema(
+            ["project_id", "old_tree_size"],
+            {**context.common_schema, "old_tree_size": {"type": "integer", "minimum": 0}},
+        ),
+    )
+    def tool_protocol_merkle_consistency(payload: ToolPayload) -> ToolResult:
+        old_size = payload_optional_int(payload, "old_tree_size")
+        if old_size is None or old_size < 0:
+            raise context.error_cls("BAD_REQUEST", "old_tree_size must be an integer >= 0", 400)
+        return _run(context, lambda: merkle_consistency_receipt(_project_id(payload), old_size))
 
 
 def register_protocol_tools(

@@ -147,7 +147,7 @@ Git-contained ICF-CS recovery mirror publication is COMPLETE:
 - remote `CURRENT_INGRESS.md` readback PASS;
 - handoff focused 6/6 PASS; full suite 251 GREEN.
 
-Active Frontier: A-040 execution event wake + slow level-triggered resync is technically earned (focused 37/37; full 306 GREEN; actual-host watch_idle proof) and must be Git-published/remote-read before A-041 CT/Merkle protocol receipts begin.
+Active Frontier: A-041 CT-style protocol Merkle receipts are technically earned (targeted 20/20; full 318 GREEN; currentness race repaired) and must be Git-published/remote-read before A-042 project mutation ownership/exclusivity begins.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 

@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-06 18:57 ET
+Last updated: 2026-09-06 20:18 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -316,16 +316,18 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-040 event-wake + slow-resync is technically earned locally and awaiting Git publication.
+A-041 CT-style protocol receipts are technically earned locally and awaiting Git publication.
 
-Load-bearing scheduler laws:
-- **WATCHER_EVENT != AUTHORITATIVE_STATE**;
-- **EDGE_ACCELERATION != LOSS_OF_LEVEL_TRIGGERED_RECOVERY**;
-- **WATCHER_FAILURE -> POLL_FALLBACK**.
+Load-bearing laws:
+- **MERKLE_PROJECTION != LEDGER_AUTHORITY**;
+- **VALID_HISTORICAL_PROOF != CURRENT_STATE_PROOF**;
+- **CRYPTOGRAPHIC_VALIDITY != CURRENTNESS**;
+- **LOGARITHMIC_PROOF_SIZE != LOGARITHMIC_PROOF_ISSUANCE_COST**.
 
-The watcher is a disposable wake accelerator, not a job cache or second execution truth plane. Full active-store reconciliation remains authoritative on every wake/resync.
+The live multi-tab race also promoted a separate coordination scar:
+**THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY**.
 
-A-041 CT/Merkle protocol receipts remain blocked until A-040 remote readback.
+A-042 becomes the next correctness frontier after A-041 publication. It must be server-native and cross-client/tab, not a chat convention. Reads should remain available; consequential project/Git/continuity mutation requires explicit lease ownership with bounded stale-owner recovery.
 
 ## Current quality/search posture
 

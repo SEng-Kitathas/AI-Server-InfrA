@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-06 18:57 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-06 20:18 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -198,6 +198,9 @@ Scars to preserve:
 - **DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD**: where steady-state mutation can lawfully extend previously verified derived state, extend it rather than paying full recovery cost every mutation;
 - **INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH**: full reconstruction/full verification remain explicit recovery/audit backstops.
 - **A037_FAST_CURRENTNESS_WITNESS != CRYPTOGRAPHIC_HISTORY_PROOF**: filesystem metadata can cheaply witness ordinary in-process currentness but does not replace Merkle/CT-grade proof of arbitrary historical integrity.
+- **MERKLE_PROJECTION != LEDGER_AUTHORITY**; derived proof state never becomes a second protocol history.
+- **CRYPTOGRAPHIC_VALIDITY != CURRENTNESS**; a valid historical proof requires fresh authoritative-head comparison before being called current.
+- **THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY**; consequential project/Git/continuity mutation needs server-native cross-tab ownership, not chat convention.
 
 ---
 
@@ -647,25 +650,32 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-040 execution event wake + slow level-triggered resync is technically earned locally with full suite **306 GREEN**.
+A-041 Certificate-Transparency-style protocol Merkle receipts are technically earned locally with complete suite **318 GREEN**.
 
-Locked A-040 direction:
-- **WATCHER_EVENT != AUTHORITATIVE_STATE**;
-- **EDGE_ACCELERATION != LOSS_OF_LEVEL_TRIGGERED_RECOVERY**;
-- only one-shot completion receipts wake filesystem scheduling; 5Hz heartbeat/active metadata writes are ignored to prevent feedback oscillation;
-- submit explicitly wakes scheduler;
-- healthy watcher: active 2s full-resync backstop, idle 60s; watcher unavailable/error: 250ms poll fallback; overflow wakes immediate authoritative resync;
-- no indexed job cache earned; each pass still reconciles durable active-store truth;
-- capabilities expose watcher policy/support; readiness telemetry exposes live mode/currentness.
+Locked A-041 direction:
+1. authoritative JSONL/hash-chain remains the protocol truth;
+2. Merkle roots/proofs are derived/rebuildable only;
+3. inclusion and append-consistency receipts are compact and independently verifiable;
+4. `CRYPTOGRAPHIC_VALIDITY != CURRENTNESS`; receipt currentness is **not asserted** and requires authoritative head match;
+5. proof size is logarithmic, but current issuance still performs O(history) verified rebuild work;
+6. tampered authoritative ledger refuses proof issuance;
+7. missing Merkle state never blocks authority because proofs rebuild from ledger.
 
-Measured current-host gain: before 59 roots/67.915ms per tick/27.166% idle duty; candidate 2.001s real observation -> one iteration, `watch_idle`, no false wakes/errors, clean shutdown.
+Directly observed coordination defect now outranks feature raids:
+- another tab committed A-040 while this thread still owned stale A-039 continuity assumptions;
+- this thread then regressed bounded outer continuity below newer Git reality before the conflict was discovered and repaired;
+- active A-041 dirty files also existed concurrently.
 
-Immediate sequence:
-1. publish A-040 and remote-read;
-2. A-041 CT/Merkle proof-carrying protocol receipts;
-3. idempotency expansion + Windows Job Object resource limits;
-4. evidence-ranked remaining raids;
-5. final schema redesign remains locked last.
+Therefore after A-041 publication, current frontier becomes **A-042 project mutation ownership/exclusivity**. Required direction:
+1. server-native authority object/lease, not prompt convention;
+2. bind owner session/client identity, project, operation class/scope, issue/renew/expiry times, and provenance;
+3. consequential Git/project/continuity mutations require ownership; ordinary reads remain nonblocking;
+4. conflicting tab/client receives explicit busy/owner/current-frontier evidence rather than hanging or silently racing;
+5. stale/crashed owner recovers by bounded expiry/lease takeover with readback;
+6. mutation completion/release and failure paths cannot leave immortal lock state;
+7. hostile two-writer tests must reproduce the observed race and prove only one mutation authority survives.
+
+Then resume idempotency and Windows Job Object resource-envelope raids. Final schema redesign remains locked last.
 
 ---
 

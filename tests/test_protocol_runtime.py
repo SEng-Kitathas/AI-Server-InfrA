@@ -73,8 +73,11 @@ class ProtocolRuntimeTests(unittest.TestCase):
         protocol_names = {
             card["name"] for card in list_tools() if card["name"].startswith("protocol.")
         }
-        self.assertEqual(len(protocol_names), 12)
+        self.assertEqual(len(protocol_names), 15)
         self.assertIn("protocol.ledger.verify", protocol_names)
+        self.assertIn("protocol.merkle.root", protocol_names)
+        self.assertIn("protocol.merkle.inclusion", protocol_names)
+        self.assertIn("protocol.merkle.consistency", protocol_names)
         self.assertIn("protocol.promotion.record", protocol_names)
 
     def test_genesis_and_superseding_objective_are_append_only(self) -> None:

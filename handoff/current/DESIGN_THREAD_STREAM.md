@@ -3325,3 +3325,137 @@ It does not create an indexed Kubernetes-style job cache and does not make each 
 Cache refinement is deferred until active-load evidence shows the per-wake active scan is material.
 
 A-041 CT/Merkle proof-carrying protocol receipts is blocked until A-040 Git commit/push/remote readback completes.
+
+
+### A-040 Git publication complete
+
+A-040 event-driven execution scheduler wakeups were committed and remotely verified before CT/Merkle work began.
+
+Commit:
+`486eee4a9c8a053bc5f5f301199010ba1a7f8d42`
+
+Tree:
+`4299bb0e92b70c45c8f9e51cc8b3f1c014f6a618`.
+
+Subject:
+`Add event-driven execution scheduler wakeups`.
+
+Push:
+`d887213..486eee4  main -> main`.
+
+Remote/local `main` matched exactly and branch was clean after push.
+
+Publication qualification:
+- final handoff + A-040 focused gate 43/43 PASS;
+- complete V30 suite 306 GREEN;
+- actual-host watch_idle proof preserved.
+
+Disposition:
+**A-040 EARNED + GIT REMOTE-VERIFIED.**
+
+Active Frontier advances to **A-041 Certificate-Transparency-style Merkle proof-carrying protocol receipts**.
+
+A-041 authority laws:
+- JSONL event ledger remains authoritative history;
+- Merkle tree/root/proofs are derived and rebuildable;
+- proof validity for a historical tree size does not imply currentness;
+- missing/corrupt derived Merkle state shall rebuild from authoritative ledger rather than block ledger authority.
+
+
+---
+
+## Phase 51 — A-041 CT-style Merkle protocol receipts + live multi-tab race
+
+### ENTRY / CONCURRENCY RECOVERY
+This thread resumed after A-039 publication. Direct Git inspection revealed another project tab had already advanced `main` to A-040 commit `486eee4a9c8a053bc5f5f301199010ba1a7f8d42` / tree `4299bb0e92b70c45c8f9e51cc8b3f1c014f6a618`, while this thread had meanwhile registered older A-039 post-push continuity.
+
+The result was a real cross-tab continuity regression: outer bounded state temporarily lagged newer Git truth.
+
+Exact A-040 post-push scratch hashes were still present and matched the known-good A-040 canonical state. Current/Next/Doctrine/Revisit/Trace/Live/ICF/Commander/Git receipt were restored to A-040 before A-041 work continued. DTS already contained A-040 publication and did not require repair.
+
+Promoted scar:
+`THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY`.
+
+This becomes A-042 after A-041 publication.
+
+### SHARED A-041 CANDIDATE
+The other tab had already created an uncommitted A-041 candidate:
+- new `protocol_merkle.py`;
+- 3 new read-only protocol tools in `lab_tools_protocol.py`;
+- protocol runtime tool-count update;
+- Merkle pure/integration tests.
+
+File hashes were captured before/after read-only qualification. Initial targeted tests: 19/19 PASS. Initial complete suite: 317 GREEN. Hashes stayed stable across runs.
+
+### AUTHORITY MODEL
+A-041 keeps `system/protocol/events.jsonl` + existing hash chain authoritative. Merkle state is derived/rebuildable only.
+
+Construction: RFC6962-style domain separation over ordered existing event hashes.
+- leaf = SHA256(0x00 || event_hash_bytes)
+- node = SHA256(0x01 || left || right)
+- empty root = SHA256(empty)
+
+Native tools:
+- `protocol.merkle.root`
+- `protocol.merkle.inclusion`
+- `protocol.merkle.consistency`
+
+Protocol native tool count 12 -> 15.
+
+### CURRENTNESS FALSE-GREEN
+Initial receipts unconditionally emitted `current_at_issue=true`.
+
+A deterministic temp-ledger race verified one ledger snapshot, appended another lawful event immediately after verification, then allowed receipt generation to return from the older event list.
+
+Observed:
+- receipt tree size 2;
+- actual ledger tree size 3;
+- receipt head != actual head;
+- receipt still claimed current_at_issue true.
+
+Therefore cryptographic proof validity did not imply currentness.
+
+Optimistic hash guards confirmed no concurrent edit before patch. Current semantics:
+- `verified_ledger_snapshot=true`;
+- `currentness_claim=not_asserted`;
+- `currentness_requires_head_match=true`.
+
+Tool descriptions were corrected from "current verified tree" to "verified ledger snapshot".
+
+New hostile regression reproduces the verified-read/concurrent-append race and proves stale snapshot receipt is not mislabeled current.
+
+Promoted laws:
+- `MERKLE_PROJECTION != LEDGER_AUTHORITY`
+- `VALID_HISTORICAL_PROOF != CURRENT_STATE_PROOF`
+- `CRYPTOGRAPHIC_VALIDITY != CURRENTNESS`
+
+### PROOF SIZE / COST CLAIM CEILING
+20,000-leaf pure measurement at index / old size 12,345:
+- inclusion proof: 15 hashes;
+- consistency proof: 16 hashes;
+- pure in-memory generation ~30 ms each on current host.
+
+However receipt issuance still reads/verifies authoritative history and rebuilds proof material on demand.
+
+`LOGARITHMIC_PROOF_SIZE != LOGARITHMIC_PROOF_ISSUANCE_COST`.
+
+No persisted Merkle authority/index is introduced in A-041.
+
+### VERIFICATION
+After currentness repair:
+- targeted Merkle + protocol runtime: 20/20 PASS;
+- complete V30 suite: 318 GREEN;
+- existing conditional Windows symlink-privilege skip only;
+- candidate hashes unchanged before/after qualification.
+
+Current identities:
+- lab_tools_protocol.py `a5fb00ae7fe315cd834b3fc328e26673a95a4276d7b514386c66ad9f73ff16e4`
+- protocol_merkle.py `9227dda0b661a42607e2c8d2d278a726bf4e11d7b9489724ace5a448bebdde90`
+- test_protocol_runtime.py `51432fd3b0d444fedc3f24c2cc733a44317af46d0f2357bddbc1009e355e0926`
+- test_protocol_merkle.py `8f7a6d37e9a4ac1dd7ce4306f74e4ccca99883c4d4766e4461ba58dabd88c669`
+- derivation report `88cab594712e91dd872b453b6bb6327ec2d2b980fe2c74dba92d3731aa90a813`.
+
+### CURRENT DISPOSITION
+A-041 is technically earned and awaiting Git publication.
+
+After A-041 remote readback, A-042 project mutation ownership/exclusivity becomes the next correctness frontier before idempotency or Job Object resource-envelope raids.

@@ -1,25 +1,25 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-06 18:57 ET
+Last updated: 2026-09-06 20:18 ET
 
 ## Immediate — current frontier
 
-A-040 engineering complete locally:
-- [x] current idle polling cost measured on 59-root host;
-- [x] native watcher smoke-qualified;
-- [x] heartbeat/self-write event storm rejected; completion-only wake contract derived;
-- [x] active 2 s / idle 60 s resync + 250 ms fallback embodied;
-- [x] watcher overflow/error -> authoritative resync/fallback;
-- [x] policy/currentness telemetry exposed;
-- [x] focused **37/37 PASS**; full suite **306 GREEN**.
+A-041 engineering complete locally:
+- [x] derived CT-style Merkle root/inclusion/consistency proofs from verified authoritative ledger history;
+- [x] kept Merkle state derived/rebuildable and protocol JSONL authoritative;
+- [x] exposed 3 read-only protocol proof tools;
+- [x] hostile currentness race caught unconditional `current_at_issue=true` and removed that false authority;
+- [x] proof receipts now bind verified snapshot/head and require fresh head match for currentness;
+- [x] targeted **20/20 PASS**; full suite **318 GREEN**.
 
 Current sequence:
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish A-040 to Git | per-step publication law | remote/local exact; outer receipt advanced |
-| P0 | A-041 inspect current protocol ledger/checkpoint identities for CT/Merkle integration | proof structure must derive from current A-037 append/head semantics | exact leaf/root/consistency-proof authority and checkpoint lifecycle mapped |
-| P0 | Derive smallest proof-carrying receipt survivor | cheap inclusion/append-consistency without replacing JSONL authority | proof can be independently verified; recovery can rebuild tree from ledger |
-| P1 | Idempotency expansion + Job Object resource caps | subsequent small high-value raids | separate discriminators and pushes |
+| P0 | Publish A-041 to Git | per-step publication law | commit/push/remote exact; outer receipt advanced |
+| P0 | A-042 derive project mutation ownership/exclusivity | live multi-tab race advanced Git in one thread while another regressed outer continuity | one server-native owner/lease surface serializes consequential project/Git/continuity mutation across tabs/process clients, with stale-owner recovery and read-only nonblocking behavior |
+| P0 | Hostile-test lease acquisition/renew/release/stale takeover/conflicting tab | lock concern is now observed behavior | simultaneous writers cannot both gain mutation authority; crash/stale lease cannot deadlock project forever |
+| P1 | Expand idempotency to mutating lab/protocol surfaces | response-loss duplicate mutation scar remains | replay same key/same payload returns prior result; mismatch conflicts |
+| P1 | Enforce Windows Job Object resource envelope | runaway model-authored subprocess remains host risk | memory/process-count limits tested without thermal policy |
 
 ## Near-term all-plane audit
 

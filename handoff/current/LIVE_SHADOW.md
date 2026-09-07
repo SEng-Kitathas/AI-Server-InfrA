@@ -1,12 +1,12 @@
 # LIVE SHADOW — PCMMAD_RECEIVER_LAB
 
-Last updated: 2026-09-06 18:57 ET
+Last updated: 2026-09-06 20:18 ET
 
 ## Thread Identity
 - Thread/workstream: PCMMAD Receiver V29→V30 hostile modernization / Laboratory Runtime successor
-- Current mode: BUILD-COMMIT / PROMOTION — A-040 event wake/resync earned; Git publication next
+- Current mode: BUILD-COMMIT / PROMOTION — A-041 Merkle receipts earned; Git publication next
 - Recommended resume role: R5 Reality Pressure Engine
-- Dominant objective: publish A-040 derived watcher wake + slow resync, remote-read it, then open A-041 CT/Merkle protocol receipts.
+- Dominant objective: publish A-041 proof-carrying protocol receipts, then A-042 project mutation ownership/exclusivity.
 
 ## Active User Intent
 - Grow V29 receiver into a production-worthy Laboratory Runtime, not merely polish legacy code.
@@ -113,36 +113,38 @@ FIX INTENDED OUTCOME → inspect reality/ancestry/constraints → composition be
 ## Open Loops
 
 ### Current audit frontier
-1. P0 publish A-040 and remote-read exact head;
-2. A-041 CT/Merkle proof-carrying protocol receipts;
-3. idempotency expansion + Job Object resource limits;
-4. remaining raids evidence-ranked.
+1. P0 publish A-041 and remote-read exact head;
+2. A-042 project mutation ownership/exclusivity lease across tabs/clients;
+3. idempotency expansion;
+4. Windows Job Object resource envelope;
+5. remaining raids evidence-ranked.
 
 ### Tooling seam
 Root-level ranking/cache-currentness defect is **closed in V30 current scope**. Claim ceiling: cache source identity uses canonical path + size + `mtime_ns`, not content digest; live receiver remains unpromoted.
 
 ## Immediate Next Step
 
-1. refresh Git handoff mirror to A-040;
-2. run handoff + A-040 focused + full exact-candidate gates;
-3. commit/push/remote-read A-040;
-4. post-push continuity receipt;
-5. only then inspect A-041 protocol Merkle proof semantics.
+1. refresh Git handoff mirror to registered A-041 state;
+2. run handoff + Merkle/protocol + full exact-candidate gates;
+3. commit/push/remote-read A-041;
+4. reconcile outer publication receipt;
+5. A-042 inspect existing project/control-plane lock primitives and derive one mutation-owner lease before further broad mutation.
 
 ## Last 10 Turn Reinforcement Window
-1. A-039 remote-verified at `d887213`; A-040 opened.
-2. Idle scheduler measured 59 roots, 67.915ms/tick, 27.166% duty despite 0 active jobs. DEFECT.
-3. Native ReadDirectoryChangesW watcher smoke-qualified on atomic rename and clean stop.
-4. 0.20s heartbeat + reconciliation self-write exposed feedback risk; heartbeat/active metadata wakes rejected.
-5. Completion-only FS wake + explicit submit wake + coalesced Event derived.
-6. Active 2s / idle60s resync; failure fallback 250ms polling.
-7. First integration edit aborted before mutation on newline-style assumption; hashes matched backups; per-file newline preservation fixed harness.
-8. Real watcher/scheduler-thread hostile tests green.
-9. Actual-host idle run: 2.001s, one iteration, watch_idle, zero errors/wakeups, clean shutdown.
-10. Focused 37/37; full 306 GREEN; A-040 report persisted; Git publication next.
+1. USER: proceed.
+2. ASSISTANT: recovery found A-037/A-038 already done, qualified/pushed A-039 PID identity.
+3. ASSISTANT: while closing A-039, direct Git read showed another tab had already committed A-040 and begun A-041. CONCURRENCY RACE.
+4. ASSISTANT: A-039 outer continuity was therefore stale/regressive; exact A-040 post-push scratch hashes restored canonical planes.
+5. ASSISTANT: read-only audit of shared A-041 candidate found Merkle root/inclusion/consistency implementation; targeted 19/19 and full 317 green on stable hashes.
+6. ASSISTANT: deterministic verified-read/concurrent-append race proved unconditional `current_at_issue=true` false while proof remained valid for old tree. DEFECT.
+7. ASSISTANT: optimistic hash-guarded patch removed currentness assertion and added `verified_ledger_snapshot` / `currentness_claim=not_asserted` / head-match law.
+8. ASSISTANT: targeted A-041 20/20 PASS; full suite 318 GREEN; candidate hashes stable.
+9. ASSISTANT: 20k proof size measured inclusion 15 hashes / consistency 16 hashes; issuance-cost claim ceiling preserved.
+10. ASSISTANT: A-041 report persisted; multi-tab race promoted as A-042 project mutation exclusivity frontier.
 
 ## Delta Since Previous Shadow
-- A-040 technically earned; full suite 297 -> 306 GREEN.
-- watcher remains hint-only; no indexed job cache/second truth plane.
-- healthy idle moves from 250ms polling to 60s resync with completion/submission wake; active backstop 2s.
-- A-041 blocked until A-040 remote readback.
+- A-041 moves from active raid to technically earned / Git pending.
+- full suite advances 306 -> 318 GREEN.
+- cryptographic proof validity is explicitly separated from currentness.
+- live multi-tab race promoted `THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY`.
+- A-042 project mutation lease/ownership becomes next correctness frontier after A-041 publication.

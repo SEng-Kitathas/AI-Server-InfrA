@@ -89,34 +89,37 @@ Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/
 
 ## Verified base and current candidate
 
-Last remote-verified Git base before A-040:
-- commit `d887213d8fa341af79e59ac1070ebf66225e107f`;
-- tree `55b602665d0eda05b18853073d3ea4519ce709a1`;
-- A-039 legacy PID identity current;
-- full suite 297 GREEN.
+Last remote-verified Git base before A-041:
+- commit `486eee4a9c8a053bc5f5f301199010ba1a7f8d42`;
+- tree `4299bb0e92b70c45c8f9e51cc8b3f1c014f6a618`;
+- A-040 event-driven scheduler wake + slow resync current;
+- full suite 306 GREEN.
 
-Current A-040 candidate:
-- dependency-free Windows completion-edge watcher;
-- completion/submission coalesced wake; heartbeat/active metadata ignored;
-- active 2s / idle60s full-resync backstop; failed watcher -> 250ms polling;
-- actual idle host proof: one iteration in 2.001s, watch_idle, no errors;
-- focused 37/37; full 306 GREEN.
+Current A-041 candidate:
+- CT-style Merkle root/inclusion/consistency proofs are derived from verified authoritative protocol JSONL;
+- 3 new read-only protocol tools;
+- currentness race repaired so receipts do not claim linear currentness;
+- targeted 20/20 PASS; full suite 318 GREEN;
+- next correctness frontier after publication is A-042 project mutation ownership/exclusivity.
 
-Resolve current Git identity dynamically; this snapshot does not prove whether A-040 has been pushed.
+Resolve current Git identity dynamically; this snapshot does not prove whether A-041 has been pushed.
 
 ## Current handoff-candidate qualification
 
-A-040 engineering qualification before mirror refresh: focused **37 / 37 PASS**; complete suite **306 GREEN**.
+A-041 engineering qualification before mirror refresh:
+- targeted Merkle + protocol runtime **20 / 20 PASS**;
+- complete V30 suite **318 GREEN**.
 
-The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/A-040-focused/full-suite gate follows this qualification update, with no repo mutation before commit.
+The refreshed handoff regression passed **6 / 6**. A final exact-candidate handoff/Merkle-protocol/full-suite gate follows this qualification update, with no repo mutation before commit.
 
-## Active engineering frontier after A-040 publication
+## Active engineering frontier after A-041 publication
 
-1. A-041 CT/Merkle proof-carrying protocol receipts.
-2. Idempotency expansion + Windows Job Object resource caps.
-3. Remaining raid mechanisms require current-tree discriminators.
-4. Indexed execution cache remains deferred unless active-load evidence makes per-wake scan material.
-5. Final schema redesign remains locked last.
+1. A-042 server-native project mutation ownership/exclusivity across tabs/clients.
+2. Hostile two-writer/stale-owner/release/recovery tests.
+3. Mutating lab/protocol idempotency expansion.
+4. Windows Job Object resource envelope.
+5. Remaining raid mechanisms evidence-ranked.
+6. Final schema redesign remains locked last.
 
 ## Release/live ceiling
 

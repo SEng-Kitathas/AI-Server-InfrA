@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-06 18:57 ET
+Last updated: 2026-09-06 20:18 ET
 Continuity status: **REPAIRED / HANDOFF READY**
 Active project mode on resume: **BUILD-COMMIT / AUDIT**
 Recommended resume role: **R5 Reality Pressure Engine**
@@ -263,47 +263,59 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-040 execution event wake + slow level-triggered resync is **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
+A-041 Certificate-Transparency-style Merkle protocol receipts are **TECHNICALLY EARNED for current V30 working-tree scope** and pending mandatory Git publication.
 
-Current-host before baseline (post-A039):
-- 59 execution-store roots; 0 active jobs;
-- 100 idle ticks -> 300 execution-root traversals, 67.915 ms/tick;
-- 250 ms cadence -> **27.166% idle scheduler duty**.
+A-041 survivor:
+- authoritative `system/protocol/events.jsonl` remains unchanged as the protocol truth source;
+- Merkle state is derived/rebuildable only;
+- RFC6962-style domain-separated tree over existing ordered event hashes;
+- native read-only tools: `protocol.merkle.root`, `protocol.merkle.inclusion`, `protocol.merkle.consistency`;
+- protocol native tool count 12 -> 15;
+- inclusion/consistency proof verifiers are local/pure and receipts bind tree size/root, ledger head, algorithm, event identity/hash, and proof material.
 
-A-040 survivor:
-- dependency-free Windows `ReadDirectoryChangesW` recursive watcher, filename/directory changes only;
-- wake hints accepted only for one-shot `worker_completion.json`; heartbeat and active-metadata rewrite noise ignored;
-- submissions explicitly set the coalesced scheduler wake event;
-- healthy watcher + active records -> 2 s periodic resync; healthy watcher + idle -> 60 s resync; watcher failed/unavailable -> historical 0.25 s polling fallback;
-- overflow/error immediately wakes authoritative full active-store reconciliation;
-- watcher/cache owns no job truth, admission, lifecycle, or terminal transition semantics;
-- capabilities expose support/policy; readiness telemetry exposes current watcher/wait/resync state.
+Currentness hostile result:
+- first candidate unconditionally claimed `current_at_issue=true`;
+- deterministic verified-read/concurrent-append race produced receipt size 2 while actual ledger size was 3, with mismatched heads;
+- current semantics now say `verified_ledger_snapshot=true`, `currentness_claim=not_asserted`, and `currentness_requires_head_match=true`;
+- tool descriptions likewise avoid claiming a linearly-current tree.
 
-Actual-host integrated idle measurement on same 59-root tree:
-- 2.001 s observation; scheduler iterations **1**; mode `watch_idle`; active records 0; watcher errors 0; false wakeups 0; clean shutdown.
-- conservative extrapolation from measured 67.915 ms resync cost: 60 s idle backstop ~0.113% duty versus 27.166% old polling duty; this is an extrapolated comparison, not a direct 60 s CPU measurement.
+Proof compactness at 20,000 leaves / index-old-size 12,345:
+- inclusion proof: **15 hashes**;
+- consistency proof: **16 hashes**;
+- ~30 ms pure in-memory generation each on current host.
+
+Claim ceiling:
+- **LOGARITHMIC_PROOF_SIZE != LOGARITHMIC_PROOF_ISSUANCE_COST**;
+- current receipt issuance still reads/verifies authoritative ledger history and derives proof material on demand; no persisted Merkle truth/index is introduced.
 
 Verification:
-- focused A-040 + adjacent execution/config cluster **37/37 PASS**;
-- complete V30 suite **306 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
-- `runtime_config.py` SHA `9c47876b409bfd6fc5fd9bc091ab8a40fbc6bad9bc9b2aa3834e6b792c592be8`;
-- `control_plane_models.py` SHA `d89caf8ba08618b6a82e383231b9d164999e57d68b15256d9f18590701727049`;
-- `execution_routes.py` SHA `20756e443265f1bff80bc6c8178f9dc7811856ecf6e1ec9c6080a5b2d77ece66`;
-- watcher SHA `faad367cd9675be7138ab4a54084ccb3b3d0a5fc4bfe0d2a45f5680c57e7903b`;
-- A-040 test SHA `90996775b0d8f3475ba9239efaf438ec2ff80ca6682287c942cb4a6c91a87ecd`;
-- derivation report `reports/V30_A040_EXECUTION_INFORMER_WATCH_DERIVATION.md`.
+- first shared candidate targeted 19/19 + full 317 GREEN;
+- after currentness-race repair targeted **20/20 PASS**;
+- complete V30 suite **318 collected tests GREEN**, existing conditional Windows symlink-privilege skip only;
+- candidate hashes remained stable before/after qualification runs.
 
-Locked laws:
-- **WATCHER_EVENT != AUTHORITATIVE_STATE**;
-- **EDGE_ACCELERATION != LOSS_OF_LEVEL_TRIGGERED_RECOVERY**;
-- **WATCHER_FAILURE -> POLL_FALLBACK**.
+Current identities:
+- `lab_tools_protocol.py` SHA `a5fb00ae7fe315cd834b3fc328e26673a95a4276d7b514386c66ad9f73ff16e4`;
+- `protocol_merkle.py` SHA `9227dda0b661a42607e2c8d2d278a726bf4e11d7b9489724ace5a448bebdde90`;
+- `test_protocol_runtime.py` SHA `51432fd3b0d444fedc3f24c2cc733a44317af46d0f2357bddbc1009e355e0926`;
+- `test_protocol_merkle.py` SHA `8f7a6d37e9a4ac1dd7ce4306f74e4ccca99883c4d4766e4461ba58dabd88c669`;
+- report `reports/V30_A041_PROTOCOL_MERKLE_RECEIPTS_DERIVATION.md` SHA `88cab594712e91dd872b453b6bb6327ec2d2b980fe2c74dba92d3731aa90a813`.
+
+New directly observed P0 seam:
+- while this thread was closing A-039, another project tab committed A-040 and began A-041;
+- this thread then registered older A-039 outer continuity after newer A-040 Git publication, temporarily regressing the bounded Frontier;
+- A-040 canonical state had to be restored from exact post-push scratch hashes.
+
+Promoted coordination scar:
+**THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY**.
 
 Immediate sequence:
-1. refresh Git handoff mirror to A-040;
-2. final handoff + focused + full exact-candidate gate;
-3. commit/push/remote-read A-040;
-4. reconcile outer Git receipt;
-5. only then open A-041 CT/Merkle proof-carrying protocol receipts.
+1. refresh Git handoff mirror to A-041;
+2. exact-candidate handoff + protocol/Merkle + full-suite gate;
+3. commit/push/remote-read A-041;
+4. post-push continuity reconciliation;
+5. **A-042 project mutation ownership/exclusivity**: derive a server-native cross-tab lease/owner protocol before further broad mutation raids;
+6. then idempotency / Windows Job Object resource-envelope raids.
 
 ## Remaining major seams
 

@@ -1,21 +1,16 @@
 # PCMMAD Receiver V30 — Git Publication Receipt
 
-Date: 2026-09-06 17:29 ET
-Status: VERIFIED REMOTE PUBLICATION — CURRENT THROUGH A-039
+Date: 2026-09-06 19:12 ET
+Status: VERIFIED REMOTE PUBLICATION — CURRENT THROUGH A-040
 
 Repository: `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`
 Branch: `main`
-Commit: `d887213d8fa341af79e59ac1070ebf66225e107f`
-Tree: `55b602665d0eda05b18853073d3ea4519ce709a1`
-Subject: `Bind legacy execution PID identity`
+Commit: `486eee4a9c8a053bc5f5f301199010ba1a7f8d42`
+Tree: `4299bb0e92b70c45c8f9e51cc8b3f1c014f6a618`
+Subject: `Add event-driven execution scheduler wakeups`
 
-Qualification:
-- final handoff + A-039 focused gate 35/35 PASS
-- complete V30 suite 297 GREEN
-- fixed vulnerable/current PID-reuse discriminator
-- current 100x40 deterministic campaign green; final clean-tick aliases 0.
-
+Qualification: final handoff+A-040 focused 43/43 PASS; complete V30 suite 306 GREEN.
 Remote/local exact; branch clean after push.
-Next: A-040 execution active-store informer/watch + slow resync.
+Next: A-041 CT/Merkle proof-carrying protocol receipts.
 
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`
