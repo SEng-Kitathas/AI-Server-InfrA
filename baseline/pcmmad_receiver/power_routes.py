@@ -59,6 +59,7 @@ from execution_routes import (
     ExecutionRequestError,
     submit_execution_job,
 )
+from project_mutation_authority import ProjectMutationAuthorityError, consequence_guard
 from server_hardening import safe_json_dumps, safe_json_loads
 from shared_core import (
     ensure_parent,
@@ -341,32 +342,42 @@ def _bounded_exec_limits(
 
 def _run_sync_payload(req: SyncExecRequest) -> JsonObject:
     timeout_seconds, stdout_max_bytes, stderr_max_bytes = _bounded_exec_limits(req)
-    return _stream_exec_to_files(
-        StreamExecSpec(
-            req.project_id,
-            req.command + req.args,
-            req.cwd,
-            timeout_seconds,
-            stdout_max_bytes,
-            stderr_max_bytes,
-            {**os.environ.copy(), **req.env},
+    with consequence_guard(
+        req.project_id,
+        mutation_authority=req.mutation_authority,
+        session_id=req.session_id,
+    ):
+        return _stream_exec_to_files(
+            StreamExecSpec(
+                req.project_id,
+                req.command + req.args,
+                req.cwd,
+                timeout_seconds,
+                stdout_max_bytes,
+                stderr_max_bytes,
+                {**os.environ.copy(), **req.env},
+            )
         )
-    )
 
 
 def _python_exec_payload(req: PythonExecRequest, tmp_path: Path) -> JsonObject:
     timeout_seconds, stdout_max_bytes, stderr_max_bytes = _bounded_exec_limits(req)
-    return _stream_exec_to_files(
-        StreamExecSpec(
-            req.project_id,
-            [sys.executable, str(tmp_path)],
-            req.cwd,
-            timeout_seconds,
-            stdout_max_bytes,
-            stderr_max_bytes,
-            {**os.environ.copy(), **req.env, "PYTHONIOENCODING": "utf-8"},
+    with consequence_guard(
+        req.project_id,
+        mutation_authority=req.mutation_authority,
+        session_id=req.session_id,
+    ):
+        return _stream_exec_to_files(
+            StreamExecSpec(
+                req.project_id,
+                [sys.executable, str(tmp_path)],
+                req.cwd,
+                timeout_seconds,
+                stdout_max_bytes,
+                stderr_max_bytes,
+                {**os.environ.copy(), **req.env, "PYTHONIOENCODING": "utf-8"},
+            )
         )
-    )
 
 
 def _read_many_file(root: Path, path: str, max_bytes_each: int | None) -> JsonObject:
@@ -412,24 +423,29 @@ def _write_file_target(req: WriteFileRequest) -> tuple[Path, bool]:
 
 
 def _write_file_payload(req: WriteFileRequest) -> JsonObject:
-    target, existed_before = _write_file_target(req)
-    if req.mode == "append":
-        with target.open("a", encoding=req.encoding) as handle:
-            handle.write(req.content)
-    else:
-        target.write_text(req.content, encoding=req.encoding)
-    size_bytes = target.stat().st_size
-    return {
-        "ok": True,
-        "project_id": req.project_id,
-        "path": req.path,
-        "absolute_path": str(target),
-        "bytes_written": size_bytes,
-        "created": not existed_before,
-        "sha256": sha256_file(target),
-        "bytes": size_bytes,
-        "time": utc_now(),
-    }
+    with consequence_guard(
+        req.project_id,
+        mutation_authority=req.mutation_authority,
+        session_id=req.session_id,
+    ):
+        target, existed_before = _write_file_target(req)
+        if req.mode == "append":
+            with target.open("a", encoding=req.encoding) as handle:
+                handle.write(req.content)
+        else:
+            target.write_text(req.content, encoding=req.encoding)
+        size_bytes = target.stat().st_size
+        return {
+            "ok": True,
+            "project_id": req.project_id,
+            "path": req.path,
+            "absolute_path": str(target),
+            "bytes_written": size_bytes,
+            "created": not existed_before,
+            "sha256": sha256_file(target),
+            "bytes": size_bytes,
+            "time": utc_now(),
+        }
 
 
 @power_bp.post("/run")
@@ -442,6 +458,8 @@ def run_sync() -> object:
     except ValueError as e:
         return _error("BAD_REQUEST", str(e), 400)
     except ExecutionRequestError as e:
+        return _error(e.error_code, e.message, e.status, **e.extra)
+    except ProjectMutationAuthorityError as e:
         return _error(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, TypeError) as e:
         return _error("RUN_SYNC_FAILED", str(e), 500)
@@ -466,6 +484,8 @@ def run_python() -> object:
             tmp_path.unlink(missing_ok=True)
     except ValueError as e:
         return _error("BAD_REQUEST", str(e), 400)
+    except ProjectMutationAuthorityError as e:
+        return _error(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, TypeError) as e:
         return _error("RUN_PYTHON_FAILED", str(e), 500)
 
@@ -497,6 +517,8 @@ def write_project_file() -> object:
         return _error("ALREADY_EXISTS", str(e), 409)
     except ValueError as e:
         return _error("BAD_REQUEST", str(e), 400)
+    except ProjectMutationAuthorityError as e:
+        return _error(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, TypeError, UnicodeError) as e:
         return _error("WRITE_FILE_FAILED", str(e), 500)
 

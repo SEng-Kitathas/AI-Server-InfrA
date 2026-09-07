@@ -125,6 +125,8 @@ def _register_sop_package_tools(register_tool: SopRegistrar, dep: SopToolDeps) -
             "registers_corpus",
             "verifies_integrity",
             "creates_ingestion_state",
+            "project_mutation_fenced",
+            "project_scope_enforced",
         ],
     )
     def tool_sop_package_register(payload: JsonObject) -> JsonObject:
@@ -144,6 +146,8 @@ def _register_sop_reset_tool(register_tool: SopRegistrar, dep: SopToolDeps) -> N
             "durable_mutation",
             "resets_ingestion_cursor",
             "clears_ingestion_progress",
+            "project_mutation_fenced",
+            "project_scope_enforced",
         ],
     )
     def tool_sop_ingest_reset(payload: JsonObject) -> JsonObject:
@@ -221,6 +225,8 @@ def _register_sop_next_chunk_tool(register_tool: SopRegistrar, dep: SopToolDeps)
             "updates_ingestion_cursor_state",
             "idempotent_replay_while_unacked",
             "revalidates_source_file_hash",
+            "project_mutation_fenced",
+            "project_scope_enforced",
         ],
     )
     def tool_sop_ingest_next_chunk(payload: JsonObject) -> JsonObject:
@@ -243,6 +249,8 @@ def _register_sop_ack_chunk_tool(register_tool: SopRegistrar, dep: SopToolDeps) 
             "durable_mutation",
             "advances_ingestion_cursor",
             "requires_chunk_hash_confirmation",
+            "project_mutation_fenced",
+            "project_scope_enforced",
         ],
     )
     def tool_sop_ingest_ack_chunk(payload: JsonObject) -> JsonObject:
@@ -264,6 +272,8 @@ def _register_sop_complete_file_tool(register_tool: SopRegistrar, dep: SopToolDe
             "durable_mutation",
             "records_file_completion",
             "requires_metadata_bound_receipt",
+            "project_mutation_fenced",
+            "project_scope_enforced",
         ],
     )
     def tool_sop_ingest_complete_file(payload: JsonObject) -> JsonObject:

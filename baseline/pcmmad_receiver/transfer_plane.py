@@ -5,6 +5,11 @@ from pathlib import Path
 from typing import Any, Callable
 from flask import Blueprint, jsonify, request, send_file
 from shared_core import get_mount_roots, get_project_root, resolve_mount_spec, utc_now, require_valid_api_key
+from project_mutation_authority import (
+    ProjectMutationAuthorityError,
+    project_id_for_resolved_path,
+    resolved_paths_consequence_guard,
+)
 
 transfer_bp = Blueprint("transfer", __name__, url_prefix="/transfer")
 _STATE = Path(tempfile.gettempdir()) / "pcmmad_transfer_plane_v1"
@@ -82,7 +87,7 @@ def _load(ticket: str) -> dict[str, Any]:
 
 
 def _public(obj: dict[str, Any]) -> dict[str, Any]:
-    keys = ("ticket","direction","created_at","expires_at","name","size","sha256","offset","complete","chunk_bytes","manifest_sha256")
+    keys = ("ticket","direction","created_at","expires_at","project_id","name","size","sha256","offset","complete","chunk_bytes","manifest_sha256")
     return {k: obj.get(k) for k in keys if k in obj}
 
 
@@ -118,6 +123,9 @@ def _path_identity(path: Path) -> dict[str, Any]:
 def create_import(path: str, expected_size: int, expected_sha256: str, project_id: str | None = None,
                   ttl_seconds: int = DEFAULT_TTL, chunk_bytes: int = DEFAULT_CHUNK, overwrite: bool = False) -> dict[str, Any]:
     dst = _resolve(path, project_id)
+    resolved_project_id = project_id_for_resolved_path(dst)
+    if project_id and resolved_project_id and str(project_id) != resolved_project_id:
+        raise ValueError("destination project identity does not match project_id")
     destination_identity = _path_identity(dst)
     if destination_identity.get("kind") == "non_file":
         raise FileExistsError("destination exists and is not a regular file")
@@ -129,16 +137,20 @@ def create_import(path: str, expected_size: int, expected_sha256: str, project_i
         raise ValueError("expected_sha256 must be 64 hex characters")
     ttl = max(60, min(int(ttl_seconds), MAX_TTL)); chunk = max(4096, min(int(chunk_bytes), MAX_CHUNK))
     now = time.time(); ticket = secrets.token_hex(32)
-    stage_dir = dst.parent / ".pcmmad_transfer_staging"
-    stage_dir.mkdir(parents=True, exist_ok=True)
-    stage = stage_dir / f"{ticket}.part"
-    stage.write_bytes(b"")
-    obj = {"ticket": ticket, "direction": "import", "created_at": utc_now(),
-           "expires_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now + ttl)), "expires_epoch": now + ttl,
-           "path": str(dst), "stage": str(stage), "name": dst.name, "size": size, "sha256": digest,
-           "chunk_bytes": chunk, "offset": 0, "complete": False, "overwrite": bool(overwrite),
-           "destination_identity_at_create": destination_identity}
-    with _LOCK: _save(obj)
+    try:
+        with resolved_paths_consequence_guard([dst], session_id="transfer"):
+            stage_dir = dst.parent / ".pcmmad_transfer_staging"
+            stage_dir.mkdir(parents=True, exist_ok=True)
+            stage = stage_dir / f"{ticket}.part"
+            stage.write_bytes(b"")
+            obj = {"ticket": ticket, "direction": "import", "created_at": utc_now(),
+                   "expires_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now + ttl)), "expires_epoch": now + ttl,
+                   "project_id": resolved_project_id, "path": str(dst), "stage": str(stage), "name": dst.name, "size": size, "sha256": digest,
+                   "chunk_bytes": chunk, "offset": 0, "complete": False, "overwrite": bool(overwrite),
+                   "destination_identity_at_create": destination_identity}
+            with _LOCK: _save(obj)
+    except ProjectMutationAuthorityError:
+        raise
     return _public(obj)
 
 
@@ -158,56 +170,88 @@ def read_chunk(ticket: str, offset: int = 0, length: int | None = None) -> dict[
 
 def append_chunk(ticket: str, offset: int, data_b64: str, chunk_sha256: str | None = None) -> dict[str, Any]:
     with _LOCK:
-        obj = _load(ticket)
-        if obj["direction"] != "import": raise ValueError("not an import ticket")
-        if obj["complete"]: raise ValueError("transfer already complete")
-        off = int(offset)
-        if off != int(obj["offset"]): raise ValueError(f"offset mismatch: expected {obj['offset']}, got {off}")
-        try: data = base64.b64decode(data_b64, validate=True)
-        except Exception as e: raise ValueError("invalid base64 chunk") from e
-        if not data: raise ValueError("empty chunk")
-        if len(data) > int(obj["chunk_bytes"]): raise ValueError("chunk exceeds negotiated size")
-        if off + len(data) > int(obj["size"]): raise ValueError("chunk exceeds expected file size")
-        actual = hashlib.sha256(data).hexdigest()
-        expected_chunk = str(chunk_sha256 or "").strip().lower()
-        if not expected_chunk:
-            raise ValueError("chunk_sha256 is required")
-        if actual != expected_chunk:
-            raise ValueError("chunk sha256 mismatch")
-        stage = Path(obj["stage"])
-        with stage.open("r+b") as f:
-            f.seek(off); f.write(data); f.flush(); os.fsync(f.fileno())
-        obj["offset"] = off + len(data); _save(obj)
-        return {**_public(obj), "chunk_bytes_written": len(data), "chunk_sha256": actual}
+        preflight = _load(ticket)
+        if preflight["direction"] != "import": raise ValueError("not an import ticket")
+        stage_path = Path(preflight["stage"])
+    with resolved_paths_consequence_guard([stage_path], session_id="transfer"):
+        with _LOCK:
+            obj = _load(ticket)
+            if obj["direction"] != "import": raise ValueError("not an import ticket")
+            if obj["complete"]: raise ValueError("transfer already complete")
+            off = int(offset)
+            if off != int(obj["offset"]): raise ValueError(f"offset mismatch: expected {obj['offset']}, got {off}")
+            try: data = base64.b64decode(data_b64, validate=True)
+            except Exception as e: raise ValueError("invalid base64 chunk") from e
+            if not data: raise ValueError("empty chunk")
+            if len(data) > int(obj["chunk_bytes"]): raise ValueError("chunk exceeds negotiated size")
+            if off + len(data) > int(obj["size"]): raise ValueError("chunk exceeds expected file size")
+            actual = hashlib.sha256(data).hexdigest()
+            expected_chunk = str(chunk_sha256 or "").strip().lower()
+            if not expected_chunk:
+                raise ValueError("chunk_sha256 is required")
+            if actual != expected_chunk:
+                raise ValueError("chunk sha256 mismatch")
+            stage = Path(obj["stage"])
+            with stage.open("r+b") as f:
+                f.seek(off); f.write(data); f.flush(); os.fsync(f.fileno())
+            obj["offset"] = off + len(data); _save(obj)
+            return {**_public(obj), "chunk_bytes_written": len(data), "chunk_sha256": actual}
 
 
 def finalize_import(ticket: str) -> dict[str, Any]:
     with _LOCK:
-        obj = _load(ticket)
-        if obj["direction"] != "import": raise ValueError("not an import ticket")
-        if int(obj["offset"]) != int(obj["size"]): raise ValueError(f"incomplete: {obj['offset']} of {obj['size']} bytes")
-        stage = Path(obj["stage"]); actual = _sha(stage)
-        if actual != obj["sha256"]: raise ValueError(f"full sha256 mismatch: {actual}")
-        dst = Path(obj["path"]); dst.parent.mkdir(parents=True, exist_ok=True)
-        if dst.exists() and not obj["overwrite"]: raise FileExistsError("destination exists")
-        current_destination = _path_identity(dst)
-        if current_destination != obj.get("destination_identity_at_create", {"exists": False}):
-            raise ValueError("destination changed after import ticket creation")
-        os.replace(stage, dst); obj["complete"] = True; obj["finalized_at"] = utc_now(); _save(obj)
-        return {**_public(obj), "path": str(dst), "verified": True}
+        preflight = _load(ticket)
+        if preflight["direction"] != "import": raise ValueError("not an import ticket")
+        stage_path = Path(preflight["stage"]); dst_path = Path(preflight["path"])
+    with resolved_paths_consequence_guard([stage_path, dst_path], session_id="transfer"):
+        with _LOCK:
+            obj = _load(ticket)
+            if obj["direction"] != "import": raise ValueError("not an import ticket")
+            if int(obj["offset"]) != int(obj["size"]): raise ValueError(f"incomplete: {obj['offset']} of {obj['size']} bytes")
+            stage = Path(obj["stage"]); actual = _sha(stage)
+            if actual != obj["sha256"]: raise ValueError(f"full sha256 mismatch: {actual}")
+            dst = Path(obj["path"]); dst.parent.mkdir(parents=True, exist_ok=True)
+            if dst.exists() and not obj["overwrite"]: raise FileExistsError("destination exists")
+            current_destination = _path_identity(dst)
+            if current_destination != obj.get("destination_identity_at_create", {"exists": False}):
+                raise ValueError("destination changed after import ticket creation")
+            os.replace(stage, dst); obj["complete"] = True; obj["finalized_at"] = utc_now(); _save(obj)
+            return {**_public(obj), "path": str(dst), "verified": True}
 
 
 def cleanup_expired() -> dict[str, int]:
-    now = time.time(); manifests = parts = 0
+    now = time.time(); manifests = parts = blocked_project_stages = 0
     with _LOCK:
-        for p in _STATE.glob("*.json"):
-            try: obj = json.loads(p.read_text("utf-8"))
-            except Exception: continue
-            if now <= float(obj.get("expires_epoch", 0)): continue
-            stage = Path(obj["stage"]) if obj.get("stage") else None
-            if stage and stage.exists(): stage.unlink(missing_ok=True); parts += 1
-            p.unlink(missing_ok=True); manifests += 1
-    return {"removed_manifests": manifests, "removed_parts": parts}
+        candidates: list[tuple[Path, dict[str, Any]]] = []
+        for manifest_path in _STATE.glob("*.json"):
+            try:
+                obj = json.loads(manifest_path.read_text("utf-8"))
+            except Exception:
+                continue
+            if now <= float(obj.get("expires_epoch", 0)):
+                continue
+            candidates.append((manifest_path, obj))
+
+    for manifest_path, obj in candidates:
+        stage = Path(obj["stage"]) if obj.get("stage") else None
+        try:
+            if stage and stage.exists():
+                with resolved_paths_consequence_guard([stage], session_id="transfer-cleanup"):
+                    stage.unlink(missing_ok=True)
+                    parts += 1
+            with _LOCK:
+                manifest_path.unlink(missing_ok=True)
+            manifests += 1
+        except ProjectMutationAuthorityError:
+            # Do not erase either the project staging bytes or their recovery manifest
+            # while another client owns that project's mutation generation.
+            blocked_project_stages += 1
+            continue
+    return {
+        "removed_manifests": manifests,
+        "removed_parts": parts,
+        "blocked_project_stages": blocked_project_stages,
+    }
 
 
 def _require_transfer_auth():
@@ -341,11 +385,11 @@ def register(register_tool: Callable[..., Any]) -> None:
     @register_tool("transfer.chunk.read", "Read one bounded export chunk with per-chunk SHA-256 and Base64 transport.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_files","bounded_output","chunk_hash","ticket_scoped","source_currentness_check"])
     def _chunk(p): return wrap(read_chunk, str(p.get("ticket","")), int(p.get("offset",0)), int(p.get("length",0)) or None)
 
-    @register_tool("transfer.import.create", "Create one staged import ticket; destination is not mutated until full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","creates_staging_file","creates_ephemeral_state","binds_destination_identity","project_scope_enforced"])
+    @register_tool("transfer.import.create", "Create one staged import ticket; destination is not mutated until full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","creates_staging_file","creates_ephemeral_state","binds_destination_identity","project_scope_enforced","path_project_mutation_fenced"])
     def _import(p): return wrap(create_import, str(p.get("path","")), int(p.get("expected_size",-1)), str(p.get("expected_sha256","")), str(p.get("project_id","")) or None, int(p.get("ttl_seconds",DEFAULT_TTL)), int(p.get("chunk_bytes",DEFAULT_CHUNK)), bool(p.get("overwrite",False)))
 
-    @register_tool("transfer.chunk.write", "Append one verified chunk to a staged import at the exact expected offset.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","writes_staging_file","exact_offset_required","requires_chunk_hash","fsync","ticket_scoped"])
+    @register_tool("transfer.chunk.write", "Append one verified chunk to a staged import at the exact expected offset.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","writes_staging_file","exact_offset_required","requires_chunk_hash","fsync","ticket_scoped","path_project_mutation_fenced"])
     def _write(p): return wrap(append_chunk, str(p.get("ticket","")), int(p.get("offset",-1)), str(p.get("data_b64","")), str(p.get("chunk_sha256","")) or None)
 
-    @register_tool("transfer.import.finalize", "Atomically promote a staged import only after exact size and full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","full_hash_verification","atomic_replace","binds_destination_identity","ticket_scoped","postcondition_verified"])
+    @register_tool("transfer.import.finalize", "Atomically promote a staged import only after exact size and full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","full_hash_verification","atomic_replace","binds_destination_identity","ticket_scoped","postcondition_verified","path_project_mutation_fenced"])
     def _final(p): return wrap(finalize_import, str(p.get("ticket","")))

@@ -44,6 +44,8 @@ class SyncExecRequest:
     stdout_max_bytes: int | None = None
     stderr_max_bytes: int | None = None
     env: dict[str, str] = field(default_factory=dict)
+    session_id: str = ""
+    mutation_authority: dict[str, Any] | None = None
 
     @classmethod
     def from_json(cls, data: JsonObject) -> "SyncExecRequest":
@@ -61,6 +63,8 @@ class SyncExecRequest:
             stdout_max_bytes=data.get("stdout_max_bytes"),
             stderr_max_bytes=data.get("stderr_max_bytes"),
             env=_as_str_map(data.get("env") or data.get("env_allowlist")),
+            session_id=_as_str(data.get("session_id", "")).strip(),
+            mutation_authority=(dict(data["mutation_authority"]) if isinstance(data.get("mutation_authority"), dict) else None),
         )
 
 
@@ -73,6 +77,8 @@ class PythonExecRequest:
     stdout_max_bytes: int | None = None
     stderr_max_bytes: int | None = None
     env: dict[str, str] = field(default_factory=dict)
+    session_id: str = ""
+    mutation_authority: dict[str, Any] | None = None
 
     @classmethod
     def from_json(cls, data: JsonObject) -> "PythonExecRequest":
@@ -85,6 +91,8 @@ class PythonExecRequest:
             stdout_max_bytes=data.get("stdout_max_bytes"),
             stderr_max_bytes=data.get("stderr_max_bytes"),
             env=_as_str_map(data.get("env") or data.get("env_allowlist")),
+            session_id=_as_str(data.get("session_id", "")).strip(),
+            mutation_authority=(dict(data["mutation_authority"]) if isinstance(data.get("mutation_authority"), dict) else None),
         )
 
 
@@ -114,6 +122,8 @@ class WriteFileRequest:
     content: str
     mode: str = "overwrite"
     encoding: str = "utf-8"
+    session_id: str = ""
+    mutation_authority: dict[str, Any] | None = None
 
     @classmethod
     def from_json(cls, data: JsonObject) -> "WriteFileRequest":
@@ -124,6 +134,8 @@ class WriteFileRequest:
             content=_as_str(data.get("content", "")),
             mode=_as_str(data.get("mode", "overwrite"), "overwrite"),
             encoding=_as_str(data.get("encoding", "utf-8"), "utf-8"),
+            session_id=_as_str(data.get("session_id", "")).strip(),
+            mutation_authority=(dict(data["mutation_authority"]) if isinstance(data.get("mutation_authority"), dict) else None),
         )
 
 

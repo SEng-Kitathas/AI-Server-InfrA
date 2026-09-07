@@ -103,6 +103,7 @@ class ExecutionRegisterRequest:
     session_id: str = "execution"
     commit_id: str | None = None
     idempotency_key: str = ""
+    mutation_authority: dict[str, Any] | None = None
 
     @classmethod
     def from_json(cls, data: JsonObject) -> "ExecutionRegisterRequest":
@@ -120,6 +121,7 @@ class ExecutionRegisterRequest:
             session_id=_as_str(data.get("session_id", "execution")).strip() or "execution",
             commit_id=(_as_str(data.get("commit_id", "")).strip() or None),
             idempotency_key=_as_str(data.get("idempotency_key", "")).strip(),
+            mutation_authority=(dict(data["mutation_authority"]) if isinstance(data.get("mutation_authority"), dict) else None),
         )
 
 
@@ -138,6 +140,7 @@ class ExecutionReplayRequest:
     local_model_id: str | None = None
     agent_role: str | None = None
     idempotency_key: str | None = None
+    mutation_authority: dict[str, Any] | None = None
 
     @classmethod
     def from_json(cls, data: JsonObject) -> "ExecutionReplayRequest":
@@ -159,6 +162,11 @@ class ExecutionReplayRequest:
             local_model_id=(_as_str(data.get("local_model_id", "")).strip() or None),
             agent_role=(_as_str(data.get("agent_role", "")).strip() or None),
             idempotency_key=(_as_str(data.get("idempotency_key", "")).strip() or None),
+            mutation_authority=(
+                dict(data["mutation_authority"])
+                if isinstance(data.get("mutation_authority"), dict)
+                else None
+            ),
         )
 
 

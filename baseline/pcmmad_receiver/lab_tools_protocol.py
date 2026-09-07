@@ -114,6 +114,7 @@ def _register_observation_tools(context: ProtocolRegistrationContext) -> None:
         category="protocol",
         tags=["pcmmad", "state", "genesis", "pdver"],
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id"],
             {
@@ -207,6 +208,7 @@ def _register_mode_and_objective_tools(context: ProtocolRegistrationContext) -> 
         category="protocol",
         tags=["pcmmad", "mode", "boundary"],
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id", "to_mode", "reason"],
             {
@@ -238,6 +240,7 @@ def _register_mode_and_objective_tools(context: ProtocolRegistrationContext) -> 
         category="protocol",
         tags=["pcmmad", "objective", "state"],
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id", "objective_id", "statement"],
             {
@@ -277,6 +280,7 @@ def _register_constraint_and_continuity_tools(
         category="protocol",
         tags=["pcmmad", "constraint", "state"],
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id", "constraint_id", "statement", "strength"],
             {
@@ -315,6 +319,7 @@ def _register_constraint_and_continuity_tools(
         category="protocol",
         tags=["pcmmad", "continuity", "state"],
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id", "continuity_id", "kind", "summary"],
             {
@@ -354,6 +359,7 @@ def _register_claim_and_artifact_tools(context: ProtocolRegistrationContext) -> 
         category="protocol",
         tags=["pcmmad", "claim", "evidence", "adjudication"],
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id", "claim_id", "kind", "statement"],
             {
@@ -389,6 +395,7 @@ def _register_claim_and_artifact_tools(context: ProtocolRegistrationContext) -> 
         category="protocol",
         tags=["pcmmad", "artifact", "provenance", "seal"],
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id", "artifact_id", "artifact_class"],
             {
@@ -431,6 +438,7 @@ def _register_promotion_and_waiver_tools(context: ProtocolRegistrationContext) -
         tags=["pcmmad", "promotion", "adjudication", "evidence"],
         approval_required=True,
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id", "target_type", "target_id", "decision", "rationale"],
             {
@@ -469,6 +477,7 @@ def _register_promotion_and_waiver_tools(context: ProtocolRegistrationContext) -
         tags=["pcmmad", "waiver", "governance", "expiry"],
         approval_required=True,
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
         input_schema=_schema(
             ["project_id", "waiver_id", "scope", "reason", "doctrine_basis", "owner"],
             {
@@ -581,6 +590,7 @@ def register_protocol_tools(
         common_schema={
             "project_id": {"type": "string", "minLength": 1},
             "actor": {"type": "string"},
+            "session_id": {"type": "string"},
         },
     )
     _register_observation_tools(context)

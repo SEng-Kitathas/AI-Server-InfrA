@@ -1,5 +1,19 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
+## A-042 active doctrine delta — 2026-09-07
+
+- `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`.
+- `LEASE_STATE_LOCK != MUTATION_CONSEQUENCE_LOCK`.
+- `EXPIRED_SAME_GENERATION_FOLLOW_ON != POST_TAKEOVER_AUTHORITY`: an already-authorized Runtime follow-on may finish after TTL only while the generation has not been superseded; takeover fences it.
+- `RUNTIME_JOB_TRUTH != PROJECT_JOURNAL_CONSEQUENCE`: scheduler/job reconciliation remains Runtime-owned; project journal consequences obey project ownership.
+- `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`.
+- `RuntimeAuthorityEnvelope` is the adapter invocation authority projection; approval and project mutation are independent dimensions.
+- path-mediated project mutations are fenced by resolved project identity; a single consequence may not span two project ownership domains.
+- two-phase recovery/apoptosis validates authority before process termination, then reacquires the consequence guard for project/Git writes to avoid kill-vs-lock deadlock.
+- the non-PCMMAD V30 OBE/Skills bundle is donor evidence only. Runtime owns currentness/authority; Skills compose. A-001 is queued post-A-042.
+- final schema redesign remains LAST and requires whole-runtime convergence + explicit `hells yeah, ready`.
+
+
 Last updated: 2026-09-07 15:21 ET
 
 ## Active mode-control state
@@ -336,26 +350,21 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-Final rollover recovery is active as a **continuity checkpoint only**. Git recovery baseline is `4c31f4cee2393650c090e49d585ae61b14879944`; A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` remains last engineering feature; A-042 remains 13-file dirty WIP with exactly two reproduced contract/test discriminators and no promotion.
+A-042 is now a **qualified engineering candidate / Git publication pending**. Current pre-publication Git remains recovery HEAD `014dc68c954ab099c43118bd5072349fb93385d3`; A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` remains the last published engineering feature until the dedicated A-042 commit is created. Candidate inventory `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`; full qualification `345 collected / 344 passed / 0 failed / 1 conditional skip`.
 
-Current authority ordering:
+Current authority ordering remains:
 `PERSISTED PROJECT + EXACT WORKTREE + GIT/REMOTE + CURRENT TEST READBACK > REGISTERED/RECOVERY MIRROR > VISIBLE CHAT NARRATIVE`.
 
-A timestamp alone cannot reconcile conflicting continuity surfaces:
-`REGISTERED_CONTINUITY_HASH != UNREGISTERED_NEWER_FILE -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK`.
+Current A-042 laws are earned for the candidate bytes:
+- `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`;
+- `RuntimeAuthorityEnvelope` is the adapter invocation authority projection;
+- `LEASE_STATE_LOCK != MUTATION_CONSEQUENCE_LOCK`;
+- `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`;
+- already-authorized expired same-generation follow-on may finish only before takeover; superseding generation fences it.
 
-A-042 strongest active candidate law remains **provisional until discriminator derivation**:
-`SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`.
+Governance Contact Phase-1 locator remains present while token and ACTIVE receipt remain absent: `GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`.
 
-Adapter authority discriminator remains open:
-`RuntimeAuthorityEnvelope` vs `BoundApprovalAuthority` must be derived from native authority semantics and the adapter compatibility contract, not parity-test pressure.
-
-Governance Contact Phase-1 locator is present but token and ACTIVE receipt are absent. Therefore:
-`ACTIVATION_LOCATOR_PRESENT != ACTIVATION_TOKEN_PRESENT`;
-`POST_PUBLICATION_READBACK != ACTIVE`;
-`GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`.
-
-No A-042 mutation is authorized by this checkpoint. After re-grounding, hand off from R1 to R5 only when the two authority contracts have been derived enough to attack by embodiment/tests.
+The remaining A-042 challenge is publication/readback, not contract derivation: refresh canonical continuity + Git-contained handoff, create the dedicated engineering commit, push, independently read remote HEAD, then record post-push continuity. Live Runtime promotion remains separate.
 
 ## Current quality/search posture
 
@@ -407,10 +416,10 @@ No A-042 mutation is authorized by this checkpoint. After re-grounding, hand off
 
 ## Next doctrine-changing event
 Any new evidence that changes ICF-CS authority roles, the Runtime/OBE boundary, the holonic/ECS direction, approval authority, or final schema sequencing requires this snapshot to update.
-Final rollover freeze note: current A-042 recovery baseline is the 13-file V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2` / ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Git handoff contains all 13 recovery copies and passes 11/11 verifier. The earlier 11-file checkpoint is historical intermediate evidence; fresh worktree readback still outranks V2 if WIP advances again.
+Historical rollover freeze evidence: A-042 recovery baseline was the 13-file V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2` / ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Git handoff contains all 13 recovery copies and passes 11/11 verifier. The earlier 11-file checkpoint is historical intermediate evidence; fresh worktree readback still outranks V2 if WIP advances again.
 
 
-Final rollover publication: recovery-only commit `4c31f4cee2393650c090e49d585ae61b14879944` / tree `2efa45bc35463e45902395d2ddb5af4ace668ae6` is remote-exact. A-041 remains last engineering feature; A-042 remains dirty/unqualified.
+Historical rollover publication evidence: recovery-only commit `4c31f4cee2393650c090e49d585ae61b14879944` / tree `2efa45bc35463e45902395d2ddb5af4ace668ae6` was remote-exact at that checkpoint. It is superseded as current Git recovery authority by fresh readback; see the A-042 frontier above.
 
 ## Governance Contact activation resolver — CURRENT PRECEDENCE
 Marker: `GOVERNANCE_CONTACT_ACTIVATION_RESOLVER_CURRENT_PRECEDENCE_V1`

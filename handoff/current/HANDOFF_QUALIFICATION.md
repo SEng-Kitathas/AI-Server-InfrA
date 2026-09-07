@@ -1,20 +1,20 @@
-# Git Handoff Qualification — FINAL THREAD-FULL ROLLOVER
+# Git Handoff Qualification — A-042 PRE-PUBLICATION MIRROR
 
-Date: 2026-09-07 15:36 ET
-Status: **QUALIFIED FOR RECOVERY-ONLY GIT PUBLICATION**
+Date: 2026-09-07
+Status: **QUALIFIED RECOVERY MIRROR FOR A-042 ENGINEERING PUBLICATION**
 
-- refreshed Git handoff verifier: **11/11 PASS**;
-- outer canonical continuity registered and rehydratable with Live Shadow + DTS, `open_seams=[]`;
-- Git baseline before refresh: `4c31f4cee2393650c090e49d585ae61b14879944` / tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`;
-- A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` remains last engineering feature;
-- A-042 13-file dirty WIP is byte-identical to V2 recovery inventory, uncommitted/unqualified;
-- changed/new Python compile PASS; compact schema parse PASS;
-- authority suite 7/8; combined authority+schema discriminator 7 PASS / 2 FAIL;
-- complete dirty tree `331 collected = 328 PASS / 2 FAIL / 1 skip`;
-- both failures remain explicit contract discriminators; no A-042 repair occurred;
-- Governance Contact locator present; activation token/ACTIVE receipt absent => NOT ACTIVE.
+- outer canonical continuity registered at the A-042 qualified-candidate frontier;
+- 23 engineering candidate files, inventory `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`;
+- 22 changed/new Python compile PASS;
+- compact schema JSON PASS / 30 operations / `runtime-authority-envelope-v1`;
+- CRLF-aware diff check PASS; independent logical-line scan found zero actual trailing spaces/tabs;
+- focused authority/chokepoint/execution/transfer/effect/schema cluster 71/71 PASS;
+- complete suite 345 collected / 344 passed / 0 failed / 1 conditional skip;
+- old 13-file `wip/` mirror retained as historical rollover recovery evidence only;
+- OBE/Skills 11-Skill candidate and A-001 remain donor/post-A-042; final schema remains last/untriggered;
+- Governance Contact remains NOT ACTIVE; live Desktop Runtime remains unpromoted.
 
-Publication MUST stage recovery surfaces only. Active A-042 Runtime/schema/test work remains unstaged.
+This file is a recovery-mirror qualification, not the engineering Git receipt. Exact commit/tree/remote identity must be read after commit/push.
 
-`CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`
+`CHECKPOINT_PUBLICATION != ENGINEERING_PUBLICATION`
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`

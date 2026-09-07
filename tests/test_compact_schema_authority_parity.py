@@ -29,7 +29,7 @@ class CompactSchemaAuthorityParityTests(unittest.TestCase):
     def test_dispatch_projects_authority_separately_from_capability_payload(self) -> None:
         request = self.schemas["LabDispatchRequest"]
         props = request["properties"]
-        self.assertEqual(props["authority"], {"$ref": "#/components/schemas/BoundApprovalAuthority"})
+        self.assertEqual(props["authority"], {"$ref": "#/components/schemas/RuntimeAuthorityEnvelope"})
         self.assertIn("arguments only", props["payload"]["description"])
         self.assertIn("does not belong inside payload", props["payload"]["description"])
         self.assertFalse(request["additionalProperties"])
@@ -39,12 +39,27 @@ class CompactSchemaAuthorityParityTests(unittest.TestCase):
     def test_batch_projects_bound_authority_per_step_not_in_payload(self) -> None:
         step = self.schemas["LabBatchRequest"]["properties"]["steps"]["items"]
         props = step["properties"]
-        self.assertEqual(props["authority"], {"$ref": "#/components/schemas/BoundApprovalAuthority"})
+        self.assertEqual(props["authority"], {"$ref": "#/components/schemas/RuntimeAuthorityEnvelope"})
         self.assertIn("arguments only", props["payload"]["description"])
         self.assertIn("separately per step", props["payload"]["description"])
         self.assertFalse(step["additionalProperties"])
         self.assertNotIn("approval", props)
         self.assertNotIn("approval_handle", props)
+
+    def test_runtime_authority_envelope_separates_approval_and_project_mutation(self) -> None:
+        envelope = self.schemas["RuntimeAuthorityEnvelope"]
+        self.assertFalse(envelope["additionalProperties"])
+        props = envelope["properties"]
+        approval = self.schemas["BoundApprovalAuthority"]["properties"]
+        for key in ("approval_handle", "permit", "operator_id", "provenance"):
+            self.assertEqual(props[key]["type"], approval[key]["type"])
+            if "minLength" in approval[key]:
+                self.assertEqual(props[key].get("minLength"), approval[key]["minLength"])
+        self.assertEqual(
+            props["project_mutation"],
+            {"$ref": "#/components/schemas/ProjectMutationAuthority"},
+        )
+        self.assertNotIn("project_mutation", self.schemas["BoundApprovalAuthority"]["properties"])
 
     def test_bound_authority_contract_matches_runtime_retry_shape(self) -> None:
         authority = self.schemas["BoundApprovalAuthority"]
@@ -67,7 +82,7 @@ class CompactSchemaAuthorityParityTests(unittest.TestCase):
             self.assertIsNone(re.search(pattern, text, flags=re.IGNORECASE), pattern)
         self.assertEqual(
             self.schema["info"]["x-pcmmad-authority-model"],
-            "bound-authority-envelope-v1",
+            "runtime-authority-envelope-v1",
         )
 
     def test_dispatch_and_batch_descriptions_explain_separate_bound_authority(self) -> None:
@@ -75,7 +90,7 @@ class CompactSchemaAuthorityParityTests(unittest.TestCase):
         batch = self.schema["paths"]["/lab/batch"]["post"]["description"].lower()
         self.assertIn("separate top-level authority envelope", dispatch)
         self.assertIn("do not embed approval inside payload", dispatch)
-        self.assertIn("separate bound authority envelope", batch)
+        self.assertIn("separate runtime authority envelope", batch)
         self.assertIn("does not imply transaction", batch)
 
     def test_restart_controller_still_publishes_this_compact_template(self) -> None:

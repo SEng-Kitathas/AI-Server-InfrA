@@ -18,6 +18,7 @@ RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
 sys.path.insert(0, str(RUNTIME_ROOT))
 
 import lab_tools
+import project_mutation_authority as pma
 import transfer_plane as tp
 
 
@@ -36,6 +37,14 @@ class TransferPlaneHostileTests(unittest.TestCase):
             patch.object(tp, "_STATE", self.state),
             patch.object(tp, "get_mount_roots", return_value=[self.root]),
             patch.object(tp, "get_project_root", lambda project_id: self.projects / project_id),
+            patch.object(pma, "PROJECTS_ROOT", self.projects),
+            patch.object(pma, "get_project_root", side_effect=lambda project_id: self.projects / project_id),
+            patch.object(
+                pma,
+                "init_project_layout",
+                side_effect=lambda project_id: (self.projects / project_id).mkdir(parents=True, exist_ok=True)
+                or (self.projects / project_id),
+            ),
         ]
         for item in self.patches:
             item.start()
@@ -172,6 +181,42 @@ class TransferPlaneHostileTests(unittest.TestCase):
         self.assertIn("offset mismatch", str(errors[0]))
         self.assertEqual(tp._load(created["ticket"])["offset"], 4)
 
+    def test_expired_project_stage_cleanup_is_blocked_by_active_mutation_lease(self) -> None:
+        data = b"cleanup-fence"
+        created = tp.create_import(
+            "cleanup.bin",
+            expected_size=len(data),
+            expected_sha256=hashlib.sha256(data).hexdigest(),
+            project_id="alpha",
+        )
+        ticket = created["ticket"]
+        manifest = tp._mp(ticket)
+        row = json.loads(manifest.read_text(encoding="utf-8"))
+        stage = Path(row["stage"])
+        row["expires_epoch"] = time.time() - 1
+        manifest.write_text(json.dumps(row), encoding="utf-8")
+
+        lease = pma.acquire_lease(
+            "alpha", expected_generation=0, owner_id="owner-a", session_id="session-a"
+        )
+        blocked = tp.cleanup_expired()
+        self.assertEqual(blocked["blocked_project_stages"], 1)
+        self.assertTrue(stage.exists())
+        self.assertTrue(manifest.exists())
+
+        pma.release_lease(
+            "alpha",
+            lease_id=str(lease["lease_id"]),
+            generation=1,
+            owner_id="owner-a",
+            session_id="session-a",
+        )
+        cleaned = tp.cleanup_expired()
+        self.assertEqual(cleaned["removed_parts"], 1)
+        self.assertEqual(cleaned["removed_manifests"], 1)
+        self.assertFalse(stage.exists())
+        self.assertFalse(manifest.exists())
+
     def test_all_direct_http_routes_require_api_key(self) -> None:
         app = Flask(__name__)
         app.register_blueprint(tp.transfer_bp)
@@ -215,7 +260,16 @@ class TransferPlaneHostileTests(unittest.TestCase):
                     "expected_size": 1,
                     "expected_sha256": "a" * 64,
                     "project_id": "alpha",
-                    "authority": {"approval_handle": "apr-test", "permit": True},
+                    "authority": {
+                        "approval_handle": "apr-test",
+                        "permit": True,
+                        "project_mutation": {
+                            "lease_id": "pml-test",
+                            "generation": 7,
+                            "owner_id": "owner-a",
+                            "session_id": "session-a",
+                        },
+                    },
                 },
             )
         self.assertEqual(response.status_code, 200)
@@ -226,6 +280,7 @@ class TransferPlaneHostileTests(unittest.TestCase):
         self.assertEqual(args[0], "transfer.import.create")
         self.assertNotIn("authority", args[1])
         self.assertEqual(kwargs["authority"]["approval_handle"], "apr-test")
+        self.assertEqual(kwargs["authority"]["project_mutation"]["generation"], 7)
 
     def test_transfer_capability_effect_contracts_are_explicit(self) -> None:
         tools = {row["name"]: row for row in lab_tools.list_tools()}

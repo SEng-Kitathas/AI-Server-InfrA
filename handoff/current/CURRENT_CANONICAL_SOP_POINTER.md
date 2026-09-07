@@ -36,3 +36,26 @@ Governance Contact does not replace R4.4 + ICF-CS v1.1 unless the complete relea
 `CURRENT STATE -> ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> LIVE READBACK BEFORE MUTATION`
 
 This file is navigation, not working-tree/runtime state proof.
+
+## Governance Contact activation resolver — CURRENT PRECEDENCE
+Marker: `GOVERNANCE_CONTACT_ACTIVATION_RESOLVER_CURRENT_PRECEDENCE_V1`
+Target: `local:PCMMAD_RECEIVER_LAB`
+
+Current Governance Contact activation/currentness SHALL be resolved only through `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md`.
+Target-local locator SHA-256: `380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd`.
+Expected activation token SHA-256: `b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094`.
+
+Any earlier Governance Contact lifecycle sentence in this file that says pending, NOT ACTIVE, LOCALLY_RECONCILED_AS_NOT_ACTIVE, or authority effect NONE is retained as a **pre-activation snapshot** and is superseded for present activation currentness by this resolver block. Historical release/reconciliation evidence is not rewritten.
+
+Resolver rule:
+- exact token absent at locator sibling -> `GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`;
+- token present but wrong hash/invalid fields -> `RECOVERY_AUDIT_NO_AUTHORITY`;
+- exact valid token present -> `GOVERNANCE_CONTACT_LOCALLY_BINDING_ADDITIVE_PROCESS_DOCTRINE`;
+- global ACTIVE claim additionally requires 17/17 exact-token propagation/readback and a detached activation-completion receipt.
+
+This block does not assert token presence or absence. It remains semantically valid across the token transition. It creates no Receiver product/runtime/domain authority.
+
+`SUPERSESSION != SOURCE_REWRITE`
+`CURRENT_INGRESS_CONTACTS_LOCATOR != LOCATOR_RESOLVES_ACTIVE`
+`ACTIVATION_TOKEN_PRESENT_AT_ONE_TARGET != GLOBAL_ACTIVE`
+`CARRIER_PRESENT != PROJECT_SPECIFIC_AUTHORITY_REWRITE`

@@ -1,9 +1,43 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-07 15:21 ET
-Continuity status: **THREAD ROLLOVER COMPLETE / 13-FILE RECOVERY MIRROR SEALED + GIT REMOTE-VERIFIED**
-Active project mode on resume: **RECOVERY/AUDIT -> BUILD-COMMIT only after A-042 discriminator**
-Recommended resume role: **R1 Conservative Auditor -> R5 Reality Pressure Engine after re-grounding**
+Last updated: 2026-09-07 — A-042 qualified candidate / publication pending
+Continuity status: **A-042 QUALIFIED ENGINEERING CANDIDATE / 23-FILE HASH SEAL / GIT PUBLICATION PENDING**
+Active project mode on resume: **BUILD-COMMIT -> engineering publication/readback; live promotion remains separate**
+Recommended resume role: **R5 Reality Pressure Engine with R1 publication/readback audit**
+
+
+## A-042 qualification frontier — 2026-09-07
+
+A-042 `PROJECT MUTATION OWNERSHIP / EXCLUSIVITY` is now a **QUALIFIED ENGINEERING CANDIDATE / GIT PUBLICATION PENDING**. It is not yet engineering-published and is not live-promoted.
+
+Fresh exact candidate readback:
+- current Git recovery HEAD remains `014dc68c954ab099c43118bd5072349fb93385d3` until the dedicated A-042 engineering commit is created;
+- last published engineering feature remains A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
+- current dirty candidate contains **23 changed/new worktree files**; canonical sorted inventory SHA-256 `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`;
+- changed/new Python compile: **PASS** across 22 Python paths;
+- compact schema parse: **PASS**, exactly 30 operations, authority model `runtime-authority-envelope-v1`;
+- CRLF-aware Git diff whitespace check: **PASS**;
+- complete candidate suite: **345 collected / 344 passed / 0 failed / 1 conditional skip**.
+
+Resolved A-042 authority contracts:
+- `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`; an active lease requires explicit lease token + generation + owner, and textual session equality never inherits authority;
+- adapter invocation authority is `RuntimeAuthorityEnvelope`; approval authority and project-mutation authority are independent dimensions;
+- `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`;
+- lease state lock != long-running consequence lock; renew/inspect stay available while the consequence lock serializes mutation;
+- lease bearer token is returned only on acquisition, hashed at rest, and redacted from inspect/error projections;
+- durable execution persists only a non-secret generation/owner/session binding; workers revalidate before child spawn and hold the project consequence lock for the child lifetime; stale post-takeover completion journals are fenced while Runtime-owned job truth can still reconcile;
+- project-backed native state/SOP/Git/protocol/project/execution mutators, project-path filesystem/transfer mutators, transfer cleanup, and two-phase recovery/apoptosis consequences are now covered by one project authority truth plane.
+
+Cross-thread OBE/Skills reconciliation:
+- `OBE_V30_HANDOFF_BUNDLE_2026-09-06.zip` came from a **non-PCMMAD companion thread**; the uploaded handoff bundle is the bridge artifact, not a second continuity authority;
+- its V30 OBE campaign is an 11-Skill candidate portfolio whose own authority ceiling requires re-derivation against current Runtime;
+- campaign nested ZIP SHA `88c8f91ea67126d93a629deab37dde4cdf23d07881f20ab0e7906fc525b6631e`; A-001 stale-contract candidate ZIP SHA `ca4823d1c12d70581aa22661a258bebaaa2ba82939d4545d45b6bb6280174fe8`;
+- Runtime owns durable truth/currentness/authority; Skills compose and interpret; no second scheduler/project/job/approval/result authority is admitted;
+- A-001 expected-contract binding remains the next donor discriminator **only after A-042 engineering publication**.
+
+Final schema boundary remains locked:
+- this A-042 compact-schema authority parity is a necessary projection repair, **not** the final schema redesign;
+- final schema redesign remains LAST, after whole-runtime convergence and the explicit user `hells yeah, ready` trigger.
 
 ## Universal process authority / Governance Contact local reconciliation
 
@@ -279,13 +313,13 @@ This section supersedes earlier emergency-rollover narration for resume purposes
 
 **Published / Git reality**
 - Git repo: `V30_WORKING/PCMMAD_receiver`, branch `main`.
-- local HEAD = remote `main` = `4c31f4cee2393650c090e49d585ae61b14879944`; tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`; subject `Seal 13-file thread rollover recovery handoff`.
-- `4c31f4cee2393650c090e49d585ae61b14879944` and recovery commits immediately before it are **recovery/checkpoint publications only**.
+- local HEAD = remote `main` = `014dc68c954ab099c43118bd5072349fb93385d3`; tree `99ab6238094234dc97cca8fbc1dc91d88b95003b`; subject `Refresh final thread-full recovery handoff`.
+- `014dc68c954ab099c43118bd5072349fb93385d3` and recovery commits after A-041 are **recovery/checkpoint publications only**.
 - last published engineering feature remains A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` (`Add protocol Merkle proof receipts`).
 - A-037..A-041 are earned/published survivors. **Do not replay them.**
 - live Desktop receiver remains separate/unpromoted; `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
 
-**A-042 exact dirty-WIP reality**
+**Historical A-042 13-file recovery reality — superseded by the qualified frontier above**
 A-042 project mutation ownership/exclusivity remains **INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFIED** across exactly 13 changed/new files. Fresh 2026-09-07 15:21 ET byte readback matches the sealed V2 WIP recovery manifest **13/13**:
 - V2 manifest SHA `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
 - V2 ZIP SHA `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`.
@@ -350,3 +384,18 @@ Binding scars:
 - current dirty-tree suite is explicitly **not green**;
 - Governance Contact locator is present but **NOT ACTIVE**;
 - no new-thread model may infer across either open A-042 discriminator before re-reading current bytes.
+
+## Governance Contact activation resolver — CURRENT PRECEDENCE RESTORED AFTER CHECKPOINT REWRITE
+Marker: `GOVERNANCE_CONTACT_ACTIVATION_RESOLVER_CURRENT_PRECEDENCE_V1`
+Target: `local:PCMMAD_RECEIVER_LAB`
+
+Phase 52 recovery rewrote this Current State after Phase-1 resolver propagation and preserved the correct pre-token observation that the activation token is absent. For **present and future Governance Contact activation/currentness**, resolve only through `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md`, exact target-local locator SHA-256 `380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd`.
+
+Expected activation token SHA-256: `b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094`. Token absent -> `GOVERNANCE_CONTACT_NOT_ACTIVE_AT_THIS_TARGET`; wrong/invalid token -> `RECOVERY_AUDIT_NO_AUTHORITY`; exact valid token -> `GOVERNANCE_CONTACT_LOCALLY_BINDING_ADDITIVE_PROCESS_DOCTRINE`. Global ACTIVE still requires 17/17 token propagation/readback and a detached activation-completion receipt.
+
+Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snapshot and is superseded for present activation currentness by this resolver block. This block creates no A-042 engineering/domain authority and does not alter the open A-042 discriminators.
+
+`CURRENTNESS_PROPAGATED_ONCE != CURRENTNESS_REMAINS_CURRENT_AFTER_LATER_REWRITE`
+`SUPERSESSION != SOURCE_REWRITE`
+`CURRENT_INGRESS_CONTACTS_LOCATOR != LOCATOR_RESOLVES_ACTIVE`
+`ACTIVATION_TOKEN_PRESENT_AT_ONE_TARGET != GLOBAL_ACTIVE`

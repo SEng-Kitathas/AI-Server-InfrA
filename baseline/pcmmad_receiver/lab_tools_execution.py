@@ -148,7 +148,7 @@ class ExecutionToolDeps:
     default_stdout_max_bytes: int | None
     default_stderr_max_bytes: int | None
     max_timeout_seconds: int | None
-    submit_job: Callable[[ToolPayload], Any]
+    submit_job: Callable[..., Any]
     terminate_job: Callable[[str, str], Any]
     utc_now: Callable[[], str]
 
@@ -239,7 +239,7 @@ def _register_sync_execution_tools(
         category="execution",
         approval_required=True,
         side_effect_class="execution",
-        effect_traits=["executes_code", "spawns_process", "arbitrary_process_side_effects"],
+        effect_traits=["executes_code", "spawns_process", "arbitrary_process_side_effects", "project_mutation_fenced"],
     )
     def tool_execution_run(payload: ToolPayload) -> ToolResult:
         return _sync_execution_payload(payload, dep)
@@ -251,7 +251,7 @@ def _register_sync_execution_tools(
         category="execution",
         approval_required=True,
         side_effect_class="execution",
-        effect_traits=["executes_code", "spawns_process", "arbitrary_process_side_effects"],
+        effect_traits=["executes_code", "spawns_process", "arbitrary_process_side_effects", "project_mutation_fenced"],
     )
     def tool_python_run(payload: ToolPayload) -> ToolResult:
         return _python_execution_payload(payload, dep)
@@ -278,7 +278,7 @@ def _register_async_submit_tool(register_tool: Callable[..., Any], dep: Executio
         category="execution",
         approval_required=True,
         side_effect_class="execution",
-        effect_traits=["creates_durable_state", "queues_work", "executes_code", "arbitrary_process_side_effects"],
+        effect_traits=["creates_durable_state", "queues_work", "executes_code", "arbitrary_process_side_effects", "project_mutation_fenced", "requires_explicit_project_mutation_authority"],
     )
     def tool_execution_submit(payload: ToolPayload) -> ToolResult:
         return _submit_async_job_payload(payload, dep)

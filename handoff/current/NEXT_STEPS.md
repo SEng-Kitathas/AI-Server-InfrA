@@ -1,8 +1,23 @@
 # PCMMAD Receiver V30 — Next Steps
 
+## A-042 publication queue — 2026-09-07
+
+| Priority | Action | Gate / done condition |
+|---|---|---|
+| P0 | Publish A-042 as its own engineering commit | exact 23-file candidate remains hash-stable; commit succeeds; push succeeds; remote `main` independently equals new commit |
+| P0 | Post-push continuity readback | outer continuity and Git-contained handoff mirror name the engineering publication correctly without conflating Git publication with live promotion |
+| P1 | Re-derive OBE/Skills A-001 stale-contract binding against published current Runtime | donor remains candidate until native semantics + hostile tests earn it; do not import companion-thread authority |
+| P1 | Idempotency raid | response-loss/replay safety derived across consequence-bearing mutations |
+| P1 | Windows Job Object resource envelope | process/memory tree containment hostile-qualified |
+| P1 | Remaining cross-domain raids | only after the above dependencies |
+| LAST | Final schema redesign | whole-runtime convergence complete **and** explicit user `hells yeah, ready` trigger present |
+
+Current A-042 gate evidence: `345 collected / 344 passed / 0 failed / 1 conditional skip`; candidate inventory `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`.
+
+
 Last updated: 2026-09-07 15:21 ET
 
-## Immediate — FINAL ROLLOVER / EXACT A-042 CONTINUE POINT
+## Historical rollover frontier — superseded by the A-042 publication queue above
 
 Freshly verified 2026-09-07 15:21 ET:
 - [x] project info + manifest/ledger present;

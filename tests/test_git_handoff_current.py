@@ -49,6 +49,8 @@ class GitHandoffCurrentTests(unittest.TestCase):
             "RUNTIME_OBE_SKILLS_DUALITY.md",
             "SERVER_THREAD_HANDOFF_CURRENT.md",
             "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md",
+            "GIT_PUBLICATION_CURRENT.md",
+            "A042_ENGINEERING_QUALIFICATION_2026-09-07.md",
             "wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py",
             "wip/A042_EXECUTION_ROUTES_WIP.py",
             "wip/A042_POWER_ROUTES_WIP.py",
@@ -97,14 +99,15 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("fresh Git/local/runtime readback", combined)
         self.assertIn("V30_WORKING_TREE_SUCCESS != RELEASE_QUALIFICATION != LIVE_DEPLOYMENT", combined)
 
-    def test_rollover_frontier_is_current_and_wip_is_not_promoted(self) -> None:
+    def test_rollover_frontier_is_current_and_historical_wip_is_not_authority(self) -> None:
         handoff = (HANDOFF / "SERVER_THREAD_HANDOFF_CURRENT.md").read_text(encoding="utf-8")
         self.assertIn("a97a00f67f3b79dbbe18e092d29b8971e588d4a2", handoff)
-        self.assertIn("A-042 is **integrated dirty WIP / uncommitted / unqualified**", handoff)
-        self.assertIn("5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e", handoff)
-        self.assertIn("7/8 PASS", handoff)
-        self.assertIn("CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER", handoff)
-        self.assertIn("WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY", handoff)
+        self.assertIn("QUALIFIED 23-file engineering candidate", handoff)
+        self.assertIn("e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e", handoff)
+        self.assertIn("345 collected / 344 passed / 0 failed / 1 conditional skip", handoff)
+        self.assertIn("SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY", handoff)
+        self.assertIn("A-001", handoff)
+        self.assertIn("Final schema", handoff)
 
     def test_wip_recovery_copy_matches_declared_a042_identity(self) -> None:
         path = HANDOFF / "wip" / "A042_PROJECT_MUTATION_AUTHORITY_WIP.py"
@@ -127,20 +130,24 @@ class GitHandoffCurrentTests(unittest.TestCase):
             self.assertEqual(len(data), row["bytes"], row["recovery_path"])
             self.assertEqual(hashlib.sha256(data).hexdigest(), row["sha256"], row["recovery_path"])
 
-    def test_new_thread_prompt_preserves_current_blockers_and_claim_ceiling(self) -> None:
+    def test_new_thread_prompt_preserves_current_frontier_and_claim_ceiling(self) -> None:
         prompt = (HANDOFF / "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md").read_text(encoding="utf-8")
-        self.assertIn("7/8 PASS", prompt)
-        self.assertIn("331 collected = 328 PASS / 2 FAIL / 1 skip", prompt)
-        self.assertIn("test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active", prompt)
-        self.assertIn("test_dispatch_projects_authority_separately_from_capability_payload", prompt)
+        self.assertIn("QUALIFIED 23-file engineering candidate", prompt)
+        self.assertIn("345 collected / 344 passed / 0 failed / 1 conditional skip", prompt)
+        self.assertIn("SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY", prompt)
         self.assertIn("RuntimeAuthorityEnvelope", prompt)
-        self.assertIn("BoundApprovalAuthority", prompt)
-        self.assertIn("Final schema redesign remains last", prompt)
+        self.assertIn("A-001", prompt)
+        self.assertIn("Final schema", prompt)
 
-    def test_ingress_does_not_reopen_published_a041(self) -> None:
+    def test_ingress_does_not_reopen_resolved_a042_discriminators(self) -> None:
         self.assertIn("a97a00f67f3b79dbbe18e092d29b8971e588d4a2", self.ingress)
-        self.assertIn("A-042 INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFIED", self.ingress)
-        self.assertNotIn("Resolve current Git identity dynamically; this snapshot does not prove whether A-041 has been pushed", self.ingress)
+        self.assertIn("QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING", self.ingress)
+        self.assertIn("SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY", self.ingress)
+        self.assertIn("runtime-authority-envelope-v1", self.ingress)
+        self.assertIn("A-001 expected-contract binding is queued", self.ingress)
+        self.assertIn("Final schema redesign remains LAST", self.ingress)
+        self.assertNotIn("7/8 PASS", self.ingress)
+        self.assertNotIn("328 PASS / 2 FAIL", self.ingress)
 
 
 if __name__ == "__main__":

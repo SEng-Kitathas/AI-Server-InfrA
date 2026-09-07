@@ -664,33 +664,34 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-**Published engineering baseline:** A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`. **Current recovery Git baseline:** `4c31f4cee2393650c090e49d585ae61b14879944` / tree `2efa45bc35463e45902395d2ddb5af4ace668ae6`. Recovery commits do not promote A-042.
+**Published engineering baseline:** A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`. **Fresh pre-publication recovery Git HEAD/remote:** `014dc68c954ab099c43118bd5072349fb93385d3`. Recovery commits do not promote A-042.
 
-**A-042 project mutation ownership/exclusivity is the sole active engineering frontier.** Current worktree is 13-file integrated dirty WIP, byte-identical to V2 recovery manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`, but explicitly not earned or committed.
+**A-042 project mutation ownership/exclusivity is the sole active engineering frontier and is now a QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING.**
 
-Fresh qualification ceiling (2026-09-07 15:21 ET):
-- changed/new Python compile PASS;
-- compact schema parse PASS;
-- authority suite 7/8;
-- combined authority + schema discriminator 7 PASS / 2 FAIL;
-- full dirty-tree suite 331 collected = **328 PASS / 2 FAIL / 1 conditional Windows skip**.
+Exact candidate evidence:
+- 23 changed/new files; sorted inventory SHA `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`;
+- 22 changed/new Python paths compile PASS;
+- compact schema JSON PASS / 30 operations / `runtime-authority-envelope-v1`;
+- CRLF-aware diff check PASS;
+- complete suite **345 collected / 344 passed / 0 failed / 1 conditional skip**.
 
-The two unresolved load-bearing contract choices are:
-1. **lease/session authority** — same textual legacy `session_id` passage vs explicit lease/generation/owner fenced authority. Candidate `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` remains provisional until stale/restarted same-session and compatibility counterexamples are attacked.
-2. **adapter authority projection** — generalized `RuntimeAuthorityEnvelope` vs `BoundApprovalAuthority`. Derive from native Runtime authority + adapter compatibility + no-smuggling law, not parity-green pressure.
+The two rollover discriminators are resolved:
+1. `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`; textual session equality never inherits an active lease.
+2. `RuntimeAuthorityEnvelope` is the adapter invocation authority projection; approval authority and project-mutation authority remain independent dimensions, and capability payloads cannot smuggle mutation authority.
+
+Hostile widening from the discriminator audit is also embodied: split lease-state/consequence locks, hashed/redacted bearer token, durable worker generation binding, post-takeover fencing, path-mediated filesystem/transfer fencing, transfer cleanup fencing, project state/SOP chokepoints, and two-phase apoptosis/recovery semantics without a second authority truth plane.
 
 Exact next engineering sequence:
-1. fresh rehydrate/readback in new thread;
-2. reproduce both discriminators;
-3. linear audit core/projection/test/all integration diffs;
-4. derive both authority survivors;
-5. map authoritative project-mutation chokepoints and every bypass;
-6. hostile cross-process/client/stale-generation/token/session/expiry/takeover/killed-guard/corrupt-state/long-mutation/read-nonblocking/legacy-bypass/Git-continuity race qualification;
-7. adjacent regressions + full suite GREEN;
-8. complete continuity update;
-9. A-042 engineering commit/push/remote readback as its own step;
-10. only then OBE stale-contract, idempotency, Windows Job Object, remaining raids;
-11. final schema redesign still waits for explicit whole-runtime convergence/user trigger.
+1. register/read back the canonical continuity reconciliation;
+2. refresh/qualify the Git-contained `handoff/current` recovery mirror from that canonical set;
+3. create A-042 as its own engineering commit;
+4. push `main` and independently read remote HEAD/tree;
+5. update outer continuity with the exact engineering publication;
+6. only then re-derive the non-PCMMAD OBE/Skills A-001 stale-contract candidate;
+7. idempotency raid, Windows Job Object resource envelope, remaining cross-domain raids;
+8. final schema redesign remains LAST and still requires whole-runtime convergence + explicit user `hells yeah, ready`.
+
+The non-PCMMAD V30 Skills handoff is donor intelligence, not project continuity authority. Runtime continues to own durable truth/currentness/authority; Skills/OBE compose.
 
 Rollover/authority anti-regressions are Commander-level:
 - `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
@@ -777,3 +778,10 @@ Authority ordering for rollover:
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
 
 Rollover seal result: recovery-only Git publication `4c31f4c` is remote-exact, contains the 13-file WIP mirror, and did not stage active Runtime WIP. New thread is authorized to resume A-042 only after RECOVERY/AUDIT readback and reproduction of both blockers.
+
+
+## Current convergence reconciliation — 2026-09-07
+
+The uploaded `OBE_V30_HANDOFF_BUNDLE_2026-09-06.zip` is a bridge from a non-PCMMAD companion thread, not a parallel project-continuity authority. Its 11-Skill portfolio is admissible donor intelligence only where re-derived against current Laboratory Runtime contracts. Runtime continues to own durable truth/state/currentness/authority; Skills/OBE compose reusable intelligence. A-001 stale expected-contract binding is reserved immediately after A-042 engineering publication.
+
+A-042 compact-schema work is limited to current authority projection parity and does **not** trigger the final schema campaign. Final schema redesign remains the last stage and still requires whole-runtime convergence plus the operator's explicit `hells yeah, ready` trigger.

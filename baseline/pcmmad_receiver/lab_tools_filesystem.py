@@ -14,6 +14,7 @@ from lab_tool_primitives import (
     payload_str,
 )
 from server_hardening import tolerant_rglob
+from project_mutation_authority import ProjectMutationAuthorityError, resolved_paths_consequence_guard
 from pathlib import Path
 from typing import Any, Callable
 
@@ -163,8 +164,12 @@ def _fs_read_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResul
 def _fs_write_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResult:
     path = dep.ensure_within_allowed(dep.resolve_general_path(payload))
     content = payload_str(payload, "content")
-    dep.ensure_parent(path)
-    path.write_text(content, encoding="utf-8")
+    try:
+        with resolved_paths_consequence_guard([path], session_id=payload_str(payload, "session_id")):
+            dep.ensure_parent(path)
+            path.write_text(content, encoding="utf-8")
+    except ProjectMutationAuthorityError as exc:
+        raise dep.error_cls(exc.error_code, exc.message, exc.status, **exc.extra) from exc
     return {"path": str(path), "bytes_written": len(content.encode("utf-8")), "ok": True}
 
 
@@ -173,8 +178,14 @@ def _fs_move_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResul
     dst = dep.ensure_within_allowed(dep.resolve_general_path(payload, "dst"))
     if not src.exists():
         raise dep.error_cls("NOT_FOUND", "src not found", 404)
-    dep.ensure_parent(dst)
-    shutil.move(str(src), str(dst))
+    try:
+        with resolved_paths_consequence_guard(
+            [src, dst], session_id=payload_str(payload, "session_id")
+        ):
+            dep.ensure_parent(dst)
+            shutil.move(str(src), str(dst))
+    except ProjectMutationAuthorityError as exc:
+        raise dep.error_cls(exc.error_code, exc.message, exc.status, **exc.extra) from exc
     return {"src": str(src), "dst": str(dst), "moved": True}
 
 
@@ -193,6 +204,8 @@ def _register_basic_file_tools(register_tool: Callable[..., Any], dep: Filesyste
         category="filesystem",
         approval_required=True,
         mutating=True,
+        side_effect_class="mutation",
+        effect_traits=["durable_mutation", "path_project_mutation_fenced", "allowed_root_scope"],
     )
     def tool_fs_write(payload: ToolPayload) -> ToolResult:
         return _fs_write_payload(payload, dep)
@@ -204,6 +217,8 @@ def _register_basic_file_tools(register_tool: Callable[..., Any], dep: Filesyste
         category="filesystem",
         approval_required=True,
         mutating=True,
+        side_effect_class="mutation",
+        effect_traits=["durable_mutation", "path_project_mutation_fenced", "allowed_root_scope"],
     )
     def tool_fs_move(payload: ToolPayload) -> ToolResult:
         return _fs_move_payload(payload, dep)

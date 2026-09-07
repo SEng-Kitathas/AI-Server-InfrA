@@ -4,7 +4,7 @@
     "title": "PCMMAD Receiver v10.3 Native Protocol Compact Control Surface + Capability Router",
     "version": "10.3.0",
     "description": "Behavior-preserving 30-operation Custom GPT control surface for the PCMMAD Receiver V29 native-protocol release candidate. The imported surface remains intentionally compact; GET /capabilities and GET /lab/tools expose the wider server capability contract, while /lab/dispatch, /lab/batch, and /lab/results/get route into server-native tools including the append-only typed PCMMAD protocol plane without schema churn.",
-    "x-pcmmad-authority-model": "bound-authority-envelope-v1"
+    "x-pcmmad-authority-model": "runtime-authority-envelope-v1"
   },
   "servers": [
     {
@@ -542,6 +542,9 @@
           },
           "idempotency_key": {
             "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
           }
         },
         "required": [
@@ -1100,6 +1103,9 @@
           },
           "expected_previous_sha256": {
             "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
           }
         },
         "required": [
@@ -2623,6 +2629,12 @@
               "type": "string"
             },
             "description": "Extra env vars. PYTHONIOENCODING=utf-8 auto-injected for python commands."
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
           }
         },
         "required": [
@@ -2715,6 +2727,12 @@
             "minimum": 0,
             "default": 262144,
             "description": "Maximum stderr bytes returned. Use 0 or -1 for unbounded when the server supports it."
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
           }
         },
         "required": [
@@ -2825,6 +2843,12 @@
           "encoding": {
             "type": "string",
             "default": "utf-8"
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
           }
         },
         "required": [
@@ -3155,7 +3179,7 @@
             "additionalProperties": true
           },
           "authority": {
-            "$ref": "#/components/schemas/BoundApprovalAuthority"
+            "$ref": "#/components/schemas/RuntimeAuthorityEnvelope"
           }
         },
         "required": [
@@ -3247,7 +3271,7 @@
                   "additionalProperties": true
                 },
                 "authority": {
-                  "$ref": "#/components/schemas/BoundApprovalAuthority"
+                  "$ref": "#/components/schemas/RuntimeAuthorityEnvelope"
                 }
               },
               "required": [
@@ -3549,6 +3573,56 @@
           "approval_handle",
           "permit"
         ],
+        "additionalProperties": false
+      },
+      "ProjectMutationAuthority": {
+        "type": "object",
+        "description": "Generation-fenced project mutation lease authority.",
+        "properties": {
+          "lease_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "generation": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "owner_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "session_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "lease_id",
+          "generation",
+          "owner_id"
+        ],
+        "additionalProperties": false
+      },
+      "RuntimeAuthorityEnvelope": {
+        "type": "object",
+        "description": "Runtime authority envelope. Approval and project mutation authority are independent dimensions and are validated by the runtime as required by the invoked capability.",
+        "properties": {
+          "approval_handle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "permit": {
+            "type": "boolean"
+          },
+          "operator_id": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "project_mutation": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
+          }
+        },
         "additionalProperties": false
       }
     }
@@ -4576,7 +4650,7 @@
       "post": {
         "operationId": "dispatchLabBatch",
         "summary": "Run multiple lab tool calls in sequence",
-        "description": "Dispatch up to 30 server-native lab steps. Each step carries capability arguments in payload and, when required, its own separate bound authority envelope. Batch does not imply transaction/atomicity.",
+        "description": "Dispatch up to 30 server-native lab steps. Each step carries capability arguments in payload and, when required, its own separate Runtime authority envelope. Batch does not imply transaction/atomicity.",
         "requestBody": {
           "required": true,
           "content": {

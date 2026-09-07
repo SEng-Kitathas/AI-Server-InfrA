@@ -187,6 +187,18 @@ def _wait_for_ownership_release(
     return "timeout"
 
 
+def _project_mutation_context(request: dict[str, Any]):
+    binding = request.get("project_mutation_binding")
+    if not isinstance(binding, dict):
+        from contextlib import nullcontext
+        return nullcontext()
+    project_id = str(request.get("project_id") or "").strip()
+    if not project_id:
+        raise ValueError("bound execution worker request missing project_id")
+    from project_mutation_authority import runtime_bound_mutation_guard
+    return runtime_bound_mutation_guard(project_id, binding)
+
+
 def run_request(request_path: Path) -> int:
     request = _load_request(request_path)
     heartbeat_path = Path(str(request["heartbeat_path"]))
@@ -224,60 +236,61 @@ def run_request(request_path: Path) -> int:
             if outcome != "released":
                 raise RuntimeError("OWNERSHIP_HANDSHAKE_TIMEOUT")
 
-        with stdout_path.open("wb") as out_f, stderr_path.open("wb") as err_f:
-            options = _child_options(request)
-            options["stdout"] = out_f
-            options["stderr"] = err_f
-            proc = subprocess.Popen(list(request["command"]), **options)
-            child_pid = int(proc.pid)
-            _heartbeat(request, state="RUNNING", child_pid=child_pid, started_at=started_at)
-            start_monotonic = time.monotonic()
-
-            while True:
-                return_code = proc.poll()
-                if return_code is not None:
-                    state = "COMPLETED" if return_code == 0 else "FAILED"
-                    _completion(
-                        request,
-                        state=state,
-                        return_code=int(return_code),
-                        child_pid=child_pid,
-                        started_at=started_at,
-                        reason=None if return_code == 0 else "NONZERO_EXIT",
-                    )
-                    _heartbeat(request, state=state, child_pid=child_pid, started_at=started_at)
-                    return int(return_code)
-
-                if cancel_path.exists():
-                    _kill_process_tree(proc)
-                    proc.wait(timeout=10)
-                    _completion(
-                        request,
-                        state="TERMINATED",
-                        return_code=-9,
-                        child_pid=child_pid,
-                        started_at=started_at,
-                        reason="CANCEL_REQUEST",
-                    )
-                    _heartbeat(request, state="TERMINATED", child_pid=child_pid, started_at=started_at)
-                    return 0
-
-                if timeout_seconds is not None and (time.monotonic() - start_monotonic) > timeout_seconds:
-                    _kill_process_tree(proc)
-                    proc.wait(timeout=10)
-                    _completion(
-                        request,
-                        state="TIMED_OUT",
-                        return_code=-9,
-                        child_pid=child_pid,
-                        started_at=started_at,
-                        reason="TIMEOUT",
-                    )
-                    _heartbeat(request, state="TIMED_OUT", child_pid=child_pid, started_at=started_at)
-                    return 0
-
+        with _project_mutation_context(request):
+            with stdout_path.open("wb") as out_f, stderr_path.open("wb") as err_f:
+                options = _child_options(request)
+                options["stdout"] = out_f
+                options["stderr"] = err_f
+                proc = subprocess.Popen(list(request["command"]), **options)
+                child_pid = int(proc.pid)
                 _heartbeat(request, state="RUNNING", child_pid=child_pid, started_at=started_at)
-                time.sleep(HEARTBEAT_INTERVAL_SECONDS)
+                start_monotonic = time.monotonic()
+
+                while True:
+                    return_code = proc.poll()
+                    if return_code is not None:
+                        state = "COMPLETED" if return_code == 0 else "FAILED"
+                        _completion(
+                            request,
+                            state=state,
+                            return_code=int(return_code),
+                            child_pid=child_pid,
+                            started_at=started_at,
+                            reason=None if return_code == 0 else "NONZERO_EXIT",
+                        )
+                        _heartbeat(request, state=state, child_pid=child_pid, started_at=started_at)
+                        return int(return_code)
+
+                    if cancel_path.exists():
+                        _kill_process_tree(proc)
+                        proc.wait(timeout=10)
+                        _completion(
+                            request,
+                            state="TERMINATED",
+                            return_code=-9,
+                            child_pid=child_pid,
+                            started_at=started_at,
+                            reason="CANCEL_REQUEST",
+                        )
+                        _heartbeat(request, state="TERMINATED", child_pid=child_pid, started_at=started_at)
+                        return 0
+
+                    if timeout_seconds is not None and (time.monotonic() - start_monotonic) > timeout_seconds:
+                        _kill_process_tree(proc)
+                        proc.wait(timeout=10)
+                        _completion(
+                            request,
+                            state="TIMED_OUT",
+                            return_code=-9,
+                            child_pid=child_pid,
+                            started_at=started_at,
+                            reason="TIMEOUT",
+                        )
+                        _heartbeat(request, state="TIMED_OUT", child_pid=child_pid, started_at=started_at)
+                        return 0
+
+                    _heartbeat(request, state="RUNNING", child_pid=child_pid, started_at=started_at)
+                    time.sleep(HEARTBEAT_INTERVAL_SECONDS)
     except Exception as exc:
         if proc is not None and proc.poll() is None:
             _kill_process_tree(proc)

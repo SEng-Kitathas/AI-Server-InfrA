@@ -72,6 +72,8 @@ from lab_tools_sop import register_sop_tools
 from lab_tools_semantic import register_semantic_tools
 from lab_tools_doctrine import register_doctrine_tools
 from lab_tools_protocol import register_protocol_tools
+from lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
+from project_mutation_authority import project_mutation_authority_context
 from research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
 from research_arxiv import get_cache_stats
 from server_hardening import safe_json_dumps, safe_json_loads
@@ -621,6 +623,10 @@ def _merge_warnings(*warnings: str | None) -> str | None:
     return "; ".join(present) if present else None
 
 
+def _project_mutation_fenced(spec: ToolSpec) -> bool:
+    return "project_mutation_fenced" in set(spec.effect_traits or [])
+
+
 def _dispatch_result(tool_name: str, spec: ToolSpec, payload: JsonObject) -> JsonObject:
     if spec.handler is None:
         raise LabToolError("BAD_TOOL_HANDLER", f"Tool {tool_name} has no handler", 500)
@@ -639,6 +645,12 @@ def _split_authority(
 ) -> tuple[JsonObject, JsonObject]:
     arguments: JsonObject = dict(payload or {})
     authority_data: JsonObject = dict(authority or {})
+    if "mutation_authority" in arguments:
+        raise LabToolError(
+            "AUTHORITY_IN_CAPABILITY_PAYLOAD",
+            "project mutation authority belongs in the top-level Runtime authority envelope",
+            400,
+        )
     embedded_approval = arguments.pop("approval", None)
     embedded_handle = arguments.pop("approval_handle", None)
     # Transitional compatibility: old clients carried approval inside tool args.
@@ -675,6 +687,16 @@ def dispatch_tool(
     # Protocol eligibility is checked before consuming single-use approval authority.
     protocol_decision = _dispatch_protocol_decision(tool_name, spec, arguments)
     decision = _dispatch_decision(tool_name, spec, arguments, authority_data)
+    with project_mutation_authority_context(authority_data.get("project_mutation")):
+        if _project_mutation_fenced(spec):
+            with project_mutation_scope(
+                arguments,
+                LabToolError,
+                mutation_authority=authority_data.get("project_mutation"),
+            ):
+                result = _dispatch_result(tool_name, spec, arguments)
+        else:
+            result = _dispatch_result(tool_name, spec, arguments)
     return ToolResultEnvelope(
         ok=True,
         tool=tool_name,
@@ -682,7 +704,7 @@ def dispatch_tool(
         policy_mode=decision.mode,
         approved=decision.approved,
         time=utc_now(),
-        result=_dispatch_result(tool_name, spec, arguments),
+        result=result,
         warning=_merge_warnings(decision.warning, protocol_decision.warning),
         approval_mode=decision.approval_mode if decision.approved else None,
         approval_handle=decision.approval_handle if decision.approved else None,
@@ -975,6 +997,11 @@ register_state_tools(
     utc_now=utc_now,
 )
 
+register_mutation_authority_tools(
+    register_tool,
+    error_cls=LabToolError,
+)
+
 register_project_tools(
     register_tool,
     error_cls=LabToolError,
@@ -1018,7 +1045,7 @@ register_execution_tools(
     default_stdout_max_bytes=DEFAULT_STDOUT_MAX_BYTES,
     default_stderr_max_bytes=DEFAULT_STDERR_MAX_BYTES,
     max_timeout_seconds=MAX_TIMEOUT_SECONDS,
-    submit_job=submit_execution_job,
+    submit_job=lambda payload: submit_execution_job(payload, require_mutation_authority=True),
     terminate_job=terminate_execution_job,
     utc_now=utc_now,
 )

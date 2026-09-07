@@ -7,6 +7,13 @@ from collections.abc import MutableMapping
 from dataclasses import dataclass
 from typing import Any, Callable, TypeAlias
 
+from project_mutation_authority import (
+    ProjectMutationAuthorityError,
+    consequence_guard,
+    current_project_mutation_authority,
+    validate_consequence_authority,
+)
+
 JsonObject = MutableMapping[str, Any]
 
 ToolPayload: TypeAlias = JsonObject
@@ -439,6 +446,8 @@ def _register_session_start_tool(register_tool: Callable[..., Any], dep: StateTo
         "low",
         category="lab",
         mutating=True,
+        side_effect_class="mutation",
+        effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
     )
     def tool_lab_session_start(payload: ToolPayload) -> ToolResult:
         return _session_start_payload(payload, dep)
@@ -457,6 +466,8 @@ def _register_session_note_tool(register_tool: Callable[..., Any], dep: StateToo
         "medium",
         category="lab",
         mutating=True,
+        side_effect_class="mutation",
+        effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
     )
     def tool_lab_session_note(payload: ToolPayload) -> ToolResult:
         return _session_note_payload(payload, dep)
@@ -469,6 +480,8 @@ def _register_session_end_tool(register_tool: Callable[..., Any], dep: StateTool
         "medium",
         category="lab",
         mutating=True,
+        side_effect_class="mutation",
+        effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
     )
     def tool_lab_session_end(payload: ToolPayload) -> ToolResult:
         return _session_end_payload(payload, dep)
@@ -519,6 +532,8 @@ def _register_reflexion_tools(register_tool: Callable[..., Any], dep: StateToolD
         "medium",
         category="lab",
         mutating=True,
+        side_effect_class="mutation",
+        effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
     )
     def tool_lab_andon_pull(payload: ToolPayload) -> ToolResult:
         return _andon_payload(payload, dep)
@@ -529,6 +544,8 @@ def _register_reflexion_tools(register_tool: Callable[..., Any], dep: StateToolD
         "medium",
         category="lab",
         mutating=True,
+        side_effect_class="mutation",
+        effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
     )
     def tool_lab_reflexion_append(payload: ToolPayload) -> ToolResult:
         return _reflexion_append_payload(payload, dep)
@@ -589,21 +606,39 @@ def _end_apoptosis_session(
 
 def _apoptosis_payload(payload: ToolPayload, dep: StateToolDeps) -> ToolResult:
     request = ApoptosisTriggerRequest.from_payload(dep.error_cls, payload)
+    authority = current_project_mutation_authority()
+    session_id = _get_str(payload, "session_id").strip()
+    try:
+        validate_consequence_authority(
+            request.project_id, mutation_authority=authority, session_id=session_id
+        )
+    except ProjectMutationAuthorityError as exc:
+        raise dep.error_cls(exc.error_code, exc.message, exc.status, **exc.extra) from exc
+
     actions: list[str] = []
     terminated: list[str] = []
     if request.terminate_running_jobs:
         terminated = _terminate_running_jobs(dep)
         actions.append("terminate_running_jobs")
-    actions.extend(_apoptosis_git_actions(request, dep))
-    _end_apoptosis_session(request, payload, dep, actions)
-    dep.append_reflexion(
-        request.project_id,
-        {
-            "title": "software_apoptosis",
-            "content": request.reason,
-            "tags": ["apoptosis", "recovery"],
-        },
-    )
+
+    try:
+        with consequence_guard(
+            request.project_id,
+            mutation_authority=authority,
+            session_id=session_id,
+        ):
+            actions.extend(_apoptosis_git_actions(request, dep))
+            _end_apoptosis_session(request, payload, dep, actions)
+            dep.append_reflexion(
+                request.project_id,
+                {
+                    "title": "software_apoptosis",
+                    "content": request.reason,
+                    "tags": ["apoptosis", "recovery"],
+                },
+            )
+    except ProjectMutationAuthorityError as exc:
+        raise dep.error_cls(exc.error_code, exc.message, exc.status, **exc.extra) from exc
     return {
         "project_id": request.project_id,
         "actions": actions,
@@ -620,6 +655,13 @@ def _register_apoptosis_tool(register_tool: Callable[..., Any], dep: StateToolDe
         category="lab",
         approval_required=True,
         mutating=True,
+        side_effect_class="mutation",
+        effect_traits=[
+            "durable_mutation",
+            "two_phase_project_mutation_fenced",
+            "requires_explicit_project_mutation_authority_when_leased",
+            "terminates_processes_before_project_consequence",
+        ],
     )
     def tool_lab_apoptosis_trigger(payload: ToolPayload) -> ToolResult:
         return _apoptosis_payload(payload, dep)

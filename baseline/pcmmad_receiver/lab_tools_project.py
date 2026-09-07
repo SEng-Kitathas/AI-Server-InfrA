@@ -711,6 +711,7 @@ def _register_project_archive_tools(
         category="project",
         approval_required=True,
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
     )
     def tool_project_archives_extract(payload: ToolPayload) -> ToolResult:
         return _project_archive_extract_payload(payload, dep)
@@ -790,6 +791,7 @@ def _register_project_mutation_tools(
         category="project",
         approval_required=True,
         mutating=True,
+        effect_traits=["durable_mutation", "project_mutation_fenced"],
     )
     def tool_project_files_write(payload: ToolPayload) -> ToolResult:
         return _project_write_payload(payload, dep)

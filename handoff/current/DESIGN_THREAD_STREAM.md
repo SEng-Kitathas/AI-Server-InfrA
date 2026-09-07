@@ -3947,3 +3947,39 @@ DTS Phase 51 Governance Contact resolver propagation was preserved. Locator SHA 
 This recovery prepares a complete canonical whole-set update: Current, Next, Doctrine, Revisit, Trace, Live, full DTS, ICF, Commander, Git receipt, Server Handoff, New Thread Prompt, maintenance note. DTS is registered as whole-file update due prior proven destructive append-registration semantics.
 
 Exact new-thread start: RECOVERY/AUDIT, R1 -> canonical surfaces -> fresh Git/worktree/hash/tests -> reproduce both failures -> derive both authority contracts -> only then mutate A-042. Full green + hostile exclusivity proof before A-042 engineering publication. Final schema redesign remains last.
+
+
+---
+
+## Phase 53 — Governance Contact Phase-1 Currentness Repair After Phase-52 Rewrite — 2026-09-07
+
+Fresh readback found that Phase 52 preserved the Governance Contact locator and pre-token NOT ACTIVE truth but rewrote `state/current/CURRENT_STATE.md` without the version-stable resolver precedence appended during Phase 51. Leaving that file unchanged would make a current load-bearing status assertion stale when Phase 2 propagates the exact token.
+
+Repair is bounded to Current State + this append-only chronology entry. Current State now resolves Governance Contact through `authority/rahl-sop/GOVERNANCE_CONTACT_V1_0_ACTIVATION.md` SHA `380059a4e8204c35f82b3a232d45f962bb20038eec3d9eecb44f4411809346bd` and expected token SHA `b5a2e35f300c6f72d93fc80b877ef0478a3628442b705e50f6893cbceafb5094`. A-042 source/tests/schema/runtime WIP are outside scope and untouched.
+
+`CURRENTNESS_PROPAGATED_ONCE != CURRENTNESS_REMAINS_CURRENT_AFTER_LATER_REWRITE`
+`CURRENT_POINTER_CORRECT_BEFORE_ACTIVATION != CURRENT_POINTER_CORRECT_AFTER_ACTIVATION`
+`SUPERSESSION != SOURCE_REWRITE`
+`PHASE1_RESOLVER_READY != ACTIVATION_TOKEN_PRESENT`
+
+
+## PHASE MARKER — A-042 THREAD-FULL RECOVERY -> QUALIFIED ENGINEERING CANDIDATE (2026-09-07)
+Tags: RECOVERY, AUDIT, BUILD-COMMIT, AUTHORITY, SKILLS-BRIDGE, SCHEMA-LOCK
+
+### USER
+Re-entered PCMMAD_RECEIVER_LAB under RECOVERY/AUDIT; declared persisted project + exact worktree + Git/remote + test readback authoritative; prohibited replay of A-037..A-041 and modification of A-042 before cold-start re-grounding. Then instructed `Proceed`, later explicitly requested continuity checking, V30 Skills companion-pack reconciliation, and Commander-intent verification that final schema rework stays last. Supplied `OBE_V30_HANDOFF_BUNDLE_2026-09-06.zip` and clarified the Skills work came from a non-PCMMAD thread.
+
+### ASSISTANT / VERIFIED RECOVERY
+Fresh Git recovered `main` at `014dc68c954ab099c43118bd5072349fb93385d3` and the original 13-file A-042 WIP matched its V2 recovery inventory 13/13. Prior 331-test ceiling and the two known failures were reproduced. Governance Contact locator remained present while token/ACTIVE receipt remained absent.
+
+### ASSISTANT / CONTRACT DERIVATION
+Resolved `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` and RuntimeAuthorityEnvelope as the lawful adapter authority projection. Linear hostile audit found additional exclusivity seams beyond the original two tests: readable lease token, monolithic lock, durable execution lifetime, project-backed state/SOP paths, generic filesystem/transfer paths, transfer cleanup, two-phase apoptosis, and execution completion journals.
+
+### ASSISTANT / EMBODIMENT + ATTACK
+A-042 expanded to 23 changed/new candidate files. Core now splits state/consequence locks, hashes/redacts tokens, carries non-secret worker bindings, fences stale generations/takeovers, and covers central/path/two-phase mutation chokepoints without creating a second project/job/authority truth plane. Hostile regressions cover simultaneous owners, stale session/generation/token/owner, expiry/takeover, worker binding, authority smuggling, transfer cleanup, and completion journal follow-on semantics.
+
+### ASSISTANT / SKILLS + SCHEMA RECONCILIATION
+The uploaded non-PCMMAD OBE/Skills handoff was recovered as a donor bridge: 11-Skill candidate portfolio; nested campaign ZIP SHA `88c8f91ea67126d93a629deab37dde4cdf23d07881f20ab0e7906fc525b6631e`; A-001 stale-contract candidate ZIP SHA `ca4823d1c12d70581aa22661a258bebaaa2ba82939d4545d45b6bb6280174fe8`. Its own authority ceiling agrees that Runtime owns durable currentness/authority and Skills compose. A-001 remains post-A-042. Final schema redesign remains LAST and requires whole-runtime convergence plus explicit user `hells yeah, ready`; A-042 compact-schema authority parity is not that campaign.
+
+### ASSISTANT / QUALIFICATION
+Final pre-publication candidate: 23 files, inventory SHA `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`; 22 changed/new Python compile PASS; compact schema JSON PASS / 30 ops / `runtime-authority-envelope-v1`; CRLF-aware diff check PASS; full suite `345 collected / 344 passed / 0 failed / 1 conditional skip`. Git engineering publication and live promotion remain unperformed at this entry.

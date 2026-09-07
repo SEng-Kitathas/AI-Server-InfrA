@@ -389,7 +389,7 @@ def _register_git_commit_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> 
         approval_required=True,
         mutating=True,
         side_effect_class="mutation",
-        effect_traits=["durable_mutation", "mutates_repo", "creates_commit", "requires_exact_repo_identity", "postcondition_verified"],
+        effect_traits=["durable_mutation", "mutates_repo", "creates_commit", "requires_exact_repo_identity", "postcondition_verified", "project_mutation_fenced"],
     )
     def tool_git_commit(payload: JsonObject) -> JsonObject:
         return _git_commit_payload(payload, dep)
@@ -404,7 +404,7 @@ def _register_git_reset_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         approval_required=True,
         mutating=True,
         side_effect_class="mutation",
-        effect_traits=["durable_mutation", "destructive", "mutates_repo", "requires_exact_repo_identity", "postcondition_verified"],
+        effect_traits=["durable_mutation", "destructive", "mutates_repo", "requires_exact_repo_identity", "postcondition_verified", "project_mutation_fenced"],
     )
     def tool_git_reset_hard(payload: JsonObject) -> JsonObject:
         return _git_reset_payload(payload, dep)
@@ -419,7 +419,7 @@ def _register_git_clean_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         approval_required=True,
         mutating=True,
         side_effect_class="mutation",
-        effect_traits=["durable_mutation", "destructive", "deletes_files", "requires_exact_repo_identity", "dry_run_preview", "postcondition_verified"],
+        effect_traits=["durable_mutation", "destructive", "deletes_files", "requires_exact_repo_identity", "dry_run_preview", "postcondition_verified", "project_mutation_fenced"],
     )
     def tool_git_clean(payload: JsonObject) -> JsonObject:
         return _git_clean_payload(payload, dep)
@@ -537,7 +537,7 @@ def _register_verify_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> Non
         approval_required=True,
         mutating=True,
         side_effect_class="execution",
-        effect_traits=[
+        effect_traits=["project_mutation_fenced",
             "executes_code",
             "spawns_process",
             "arbitrary_process_side_effects",

@@ -191,3 +191,14 @@ Cold-start conflict law:
 
 If any surface materially disagrees:
 `CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> REGISTER/READBACK -> RESUME`.
+
+
+## A-042 frontier addendum — 2026-09-07
+
+**Intent:** preserve one durable Runtime authority plane while making cross-client project mutation exclusive without blocking reads or creating a second scheduler/authority store.
+
+**Constraints:** session text is not authority; generation fencing survives restart/takeover; long consequences outlive TTL safely; lease token is not readable from state; adapter authority stays separate from capability payload; Git publication != live promotion; Skills donor != Runtime authority; final schema redesign remains last.
+
+**Frontier:** A-042 is a qualified 23-file engineering candidate, inventory `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`, full suite `345 collected / 344 passed / 0 failed / 1 conditional skip`. Current Git still points to recovery commit `014dc68c954ab099c43118bd5072349fb93385d3` until the dedicated A-042 engineering publication is created and pushed.
+
+**Next:** publish A-042, independently read remote HEAD, update post-push continuity, then re-derive the companion Skills A-001 stale-contract candidate.

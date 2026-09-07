@@ -14,6 +14,7 @@ from control_plane_models import CommitLedgerRecord, ManifestDocument, ManifestE
 from execution_routes import execution_capabilities
 from api_wire_models import CompactCapabilitiesResponse
 from lab_tools import compact_control_surface_descriptor, server_native_router_descriptor
+from project_mutation_authority import ProjectMutationAuthorityError, consequence_guard
 from shared_core import (
     ALLOWED_OPERATIONS,
     APPEND_ALLOWED_CLASSES,
@@ -85,6 +86,7 @@ class LegacyCommitRequest:
     session_id: str
     commit_id: str
     idempotency_key: str
+    mutation_authority: dict[str, Any] | None = None
 
     @classmethod
     def from_payload(cls, payload: JsonObject) -> "LegacyCommitRequest":
@@ -93,6 +95,7 @@ class LegacyCommitRequest:
             session_id=str(payload.get("session_id", "")),
             commit_id=str(payload.get("commit_id", "")),
             idempotency_key=str(payload.get("idempotency_key", "")),
+            mutation_authority=(dict(payload["mutation_authority"]) if isinstance(payload.get("mutation_authority"), dict) else None),
         )
 
 
@@ -474,17 +477,26 @@ def commit() -> object:
                 "BAD_REQUEST", "Missing project_id, session_id, commit_id, or idempotency_key", 400
             )
         init_project_layout(request_model.plan.project_id)
-        idem = get_idempotency(request_model.plan.project_id)
-        if request_model.idempotency_key in idem:
-            return jsonify(
-                {"ok": True, "replayed": True, **idem[request_model.idempotency_key].to_dict()}
-            )
-        validation = _validate_legacy_plan(request_model.plan)
-        record = _apply_legacy_commit(request_model, validation)
-        return jsonify({"ok": True, "replayed": False, **record.to_dict()})
+        with consequence_guard(
+            request_model.plan.project_id,
+            mutation_authority=request_model.mutation_authority,
+            session_id=request_model.session_id,
+        ):
+            # Idempotency and optimistic currentness are checked while writer exclusion
+            # is held; the lease supplements, never replaces, hash/version validation.
+            idem = get_idempotency(request_model.plan.project_id)
+            if request_model.idempotency_key in idem:
+                return jsonify(
+                    {"ok": True, "replayed": True, **idem[request_model.idempotency_key].to_dict()}
+                )
+            validation = _validate_legacy_plan(request_model.plan)
+            record = _apply_legacy_commit(request_model, validation)
+            return jsonify({"ok": True, "replayed": False, **record.to_dict()})
     except PermissionError as e:
         return error_response("HASH_MISMATCH", str(e), 409)
     except ArithmeticError as e:
         return error_response("CONTENT_HASH_INVALID", str(e), 400)
+    except ProjectMutationAuthorityError as e:
+        return error_response(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
         return error_response("COMMIT_FAILED", str(e), 400)

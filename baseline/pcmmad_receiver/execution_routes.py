@@ -32,6 +32,12 @@ from collections.abc import MutableMapping
 
 from flask import Blueprint, jsonify, request
 from runtime_config import EXECUTION_CONFIG
+from project_mutation_authority import (
+    ProjectMutationAuthorityError,
+    consequence_guard,
+    current_mutation_binding,
+    runtime_bound_mutation_guard,
+)
 from server_hardening import ManagedProcess, start_background_process
 from control_plane_models import (
     CapacitySnapshot,
@@ -1027,6 +1033,8 @@ def _write_worker_request(job: ExecutionJobRecord) -> Path:
             "ownership_release_path": job.worker_ownership_release_path,
             "job_object_name": job.job_object_name,
             "timeout_seconds": job.timeout_seconds,
+            "project_id": job.project_id,
+            "project_mutation_binding": job.get("project_mutation_binding"),
         },
     )
     return paths["request"]
@@ -1397,7 +1405,11 @@ def _execution_job_kwargs(
 def _build_execution_job(
     payload: ExecutionSubmitPayload, spec: ExecutionJobBuildSpec
 ) -> ExecutionJobRecord:
-    return ExecutionJobRecord(**_execution_job_kwargs(payload, spec))
+    job = ExecutionJobRecord(**_execution_job_kwargs(payload, spec))
+    binding = current_mutation_binding(payload.project_id)
+    if binding is not None:
+        job.extra["project_mutation_binding"] = binding
+    return job
 
 
 def _spawn_or_queue_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
@@ -1543,6 +1555,7 @@ def submit_execution_job(
     execution_mode_override: str | None = None,
     replay_of: str | None = None,
     default_idempotency_key: str | None = None,
+    require_mutation_authority: bool = False,
 ) -> ExecutionJobRecord:
     payload = _normalize_submit_payload(
         data,
@@ -1550,6 +1563,12 @@ def submit_execution_job(
         replay_of=replay_of,
         default_idempotency_key=default_idempotency_key,
     )
+    if require_mutation_authority and current_mutation_binding(payload.project_id) is None:
+        raise ExecutionRequestError(
+            "PROJECT_MUTATION_AUTHORITY_REQUIRED",
+            "async project execution requires explicit fenced project mutation authority",
+            423,
+        )
     # Direct/programmatic callers may bypass create_app(); scheduler startup performs
     # the one-time store migration before admission, never while admission is held.
     _ensure_scheduler_started()
@@ -1753,19 +1772,44 @@ def _mark_timeout_failure(
 
 
 def _record_completion_journal(project_id: str, job: ExecutionJobRecord) -> None:
-    if job.journal_on_complete and job.return_code == 0:
-        _append_job_journal(
-            project_id, f"execution complete {job.job_id}", f"Command: {' '.join(job.command)}"
-        )
-    if job.journal_on_failure and job.return_code != 0:
-        failure_payload = (
-            job.failure_digest.to_dict()
-            if isinstance(job.failure_digest, ExecutionFailureDigest)
-            else job.failure_digest or {}
-        )
-        _append_job_journal(
-            project_id, f"execution failed {job.job_id}", safe_json_dumps(failure_payload)
-        )
+    wants_success = bool(job.journal_on_complete and job.return_code == 0)
+    wants_failure = bool(job.journal_on_failure and job.return_code != 0)
+    if not wants_success and not wants_failure:
+        return
+
+    def write_journal() -> None:
+        if wants_success:
+            _append_job_journal(
+                project_id,
+                f"execution complete {job.job_id}",
+                f"Command: {' '.join(job.command)}",
+            )
+        if wants_failure:
+            failure_payload = (
+                job.failure_digest.to_dict()
+                if isinstance(job.failure_digest, ExecutionFailureDigest)
+                else job.failure_digest or {}
+            )
+            _append_job_journal(
+                project_id, f"execution failed {job.job_id}", safe_json_dumps(failure_payload)
+            )
+
+    binding = job.get("project_mutation_binding")
+    try:
+        if isinstance(binding, dict):
+            with runtime_bound_mutation_guard(
+                project_id, binding, allow_expired_same_generation=True
+            ):
+                write_journal()
+        else:
+            with consequence_guard(project_id, session_id="execution-completion"):
+                write_journal()
+        job.extra["completion_journal_status"] = "recorded"
+    except ProjectMutationAuthorityError as exc:
+        # Internal job/process truth still reconciles. Only the stale external project
+        # journal consequence is suppressed after ownership advances.
+        job.extra["completion_journal_status"] = "fenced"
+        job.extra["completion_journal_error"] = exc.error_code
 
 
 def _apply_worker_completion(
@@ -2147,8 +2191,20 @@ def submit_execution() -> object:
         return ae
     try:
         request_payload = request.get_json(silent=False, force=True)
-        job = submit_execution_job(request_payload)
+        if not isinstance(request_payload, dict):
+            raise ExecutionRequestError("BAD_REQUEST", "request body must be an object", 400)
+        request_payload = dict(request_payload)
+        mutation_authority = request_payload.pop("mutation_authority", None)
+        project_id = str(request_payload.get("project_id") or "").strip()
+        with consequence_guard(
+            project_id,
+            mutation_authority=mutation_authority,
+            session_id=str(request_payload.get("session_id") or "execution"),
+        ):
+            job = submit_execution_job(request_payload, require_mutation_authority=True)
         return jsonify(ExecutionStatusResponse(ok=True, job=job).to_dict())
+    except ProjectMutationAuthorityError as e:
+        return _error(e.error_code, e.message, e.status, **e.extra)
     except ExecutionRequestError as e:
         return _error(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
@@ -2437,33 +2493,38 @@ def _registration_record(spec: RegistrationRecordBuildSpec) -> ExecutionRegistra
 
 
 def _register_payload(request_model: ExecutionRegisterRequest) -> JsonObject:
-    root, src = _resolve_registration_source(request_model.project_id, request_model.source_path)
-    target = _validate_registration_target(
-        RegistrationTargetSpec(
-            request_model.project_id,
-            request_model.artifact_class,
-            request_model.logical_name,
-            request_model.operation,
-            request_model.expected_previous_sha256,
+    with consequence_guard(
+        request_model.project_id,
+        mutation_authority=request_model.mutation_authority,
+        session_id=str(request_model.session_id or ""),
+    ):
+        root, src = _resolve_registration_source(request_model.project_id, request_model.source_path)
+        target = _validate_registration_target(
+            RegistrationTargetSpec(
+                request_model.project_id,
+                request_model.artifact_class,
+                request_model.logical_name,
+                request_model.operation,
+                request_model.expected_previous_sha256,
+            )
         )
-    )
-    ensure_parent(target)
-    shutil.copy2(src, target)
-    sha = sha256_file(target)
-    _update_manifest_entry(request_model.project_id, target, request_model.artifact_class)
-    commit_id = request_model.commit_id or f"execution-register-{uuid.uuid4().hex[:8]}"
-    record = _registration_record(
-        RegistrationRecordBuildSpec(request_model, root, target, sha, commit_id)
-    )
-    _record_commit(request_model.project_id, record.to_dict())
-    if request_model.job_id:
-        job = _read_job(request_model.project_id, request_model.job_id)
-        job.registered_artifacts.append(record.to_dict())
-        job.artifact_registration_status = "registered"
-        _write_job(request_model.project_id, request_model.job_id, job)
-    return ExecutionRegisterResponse(
-        ok=True, registration_commit_id=commit_id, **record.to_dict()
-    ).to_dict()
+        ensure_parent(target)
+        shutil.copy2(src, target)
+        sha = sha256_file(target)
+        _update_manifest_entry(request_model.project_id, target, request_model.artifact_class)
+        commit_id = request_model.commit_id or f"execution-register-{uuid.uuid4().hex[:8]}"
+        record = _registration_record(
+            RegistrationRecordBuildSpec(request_model, root, target, sha, commit_id)
+        )
+        _record_commit(request_model.project_id, record.to_dict())
+        if request_model.job_id:
+            job = _read_job(request_model.project_id, request_model.job_id)
+            job.registered_artifacts.append(record.to_dict())
+            job.artifact_registration_status = "registered"
+            _write_job(request_model.project_id, request_model.job_id, job)
+        return ExecutionRegisterResponse(
+            ok=True, registration_commit_id=commit_id, **record.to_dict()
+        ).to_dict()
 
 
 def _default_replay_key(project_id: str, prior_job_id: str, payload: JsonObject) -> str:
@@ -2485,14 +2546,20 @@ def _default_replay_key(project_id: str, prior_job_id: str, payload: JsonObject)
 def _replay_payload(replay_request: ExecutionReplayRequest) -> JsonObject:
     prior = _read_job(replay_request.project_id, replay_request.job_id)
     payload = _build_replay_submission_data(prior, replay_request, replay_request.project_id)
-    job = submit_execution_job(
-        payload,
-        execution_mode_override="replay",
-        replay_of=replay_request.job_id,
-        default_idempotency_key=_default_replay_key(
-            replay_request.project_id, replay_request.job_id, payload
-        ),
-    )
+    with consequence_guard(
+        replay_request.project_id,
+        mutation_authority=replay_request.mutation_authority,
+        session_id="execution",
+    ):
+        job = submit_execution_job(
+            payload,
+            execution_mode_override="replay",
+            replay_of=replay_request.job_id,
+            default_idempotency_key=_default_replay_key(
+                replay_request.project_id, replay_request.job_id, payload
+            ),
+            require_mutation_authority=True,
+        )
     return ExecutionStatusResponse(ok=True, job=job).to_dict()
 
 
@@ -2511,6 +2578,8 @@ def execution_register() -> object:
         return _error("BAD_OPERATION", str(e), 409)
     except FileNotFoundError as e:
         return _error("NOT_FOUND", str(e), 404)
+    except ProjectMutationAuthorityError as e:
+        return _error(e.error_code, e.message, e.status, **e.extra)
     except RuntimeError as e:
         if str(e).startswith("HASH_MISMATCH:"):
             return _error(
@@ -2537,6 +2606,8 @@ def execution_replay() -> object:
         )
     except FileNotFoundError:
         return _error("NOT_FOUND", "job not found", 404)
+    except ProjectMutationAuthorityError as e:
+        return _error(e.error_code, e.message, e.status, **e.extra)
     except ExecutionRequestError as e:
         return _error(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
