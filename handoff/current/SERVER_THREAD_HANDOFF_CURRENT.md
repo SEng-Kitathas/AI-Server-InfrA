@@ -266,7 +266,7 @@ This handoff/mirror repair has now passed:
 - complete V30 suite: **321 collected tests GREEN**;
 - existing conditional Windows symlink-privilege skip only.
 
-The checkpoint still awaits Git commit/push/remote readback at this exact outer-state moment. A fresh thread must read Git dynamically; a newer checkpoint commit does **not** imply A-042 engineering publication.
+The first rollover checkpoint was Git/remote-verified as `86f410b373877dd8cde2b30a388512b928169178`. This handoff may itself be present in that or a later recovery-only commit, so a fresh thread SHALL read current Git dynamically. Recovery/checkpoint commits do **not** imply A-042 engineering publication.
 
 `CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`.
 
@@ -274,6 +274,6 @@ The checkpoint still awaits Git commit/push/remote readback at this exact outer-
 
 Use something equivalent to:
 
-**“Mode: RECOVERY/AUDIT. I have re-read persisted Current/ICF/Commander/Live, exact Git is `a97a00f...`, A-041 is published, A-042 is active WIP at SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` and is unqualified. I will inspect/hostile-test the existing A-042 candidate before any new architecture or mutation.”**
+**“Mode: RECOVERY/AUDIT. I have re-read persisted Current/ICF/Commander/Live and performed fresh Git/worktree readback. A-041 is the last published engineering feature, any newer handoff/checkpoint commit does not promote A-042, and A-042 is active WIP at SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` and is unqualified. I will inspect/hostile-test the existing A-042 candidate before any new architecture or mutation.”**
 
 That is the lawful resume point.

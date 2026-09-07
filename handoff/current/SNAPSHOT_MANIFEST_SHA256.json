@@ -1,7 +1,7 @@
 {
   "authority_ceiling": "commit-bound recovery mirror; A-042 WIP copy is recovery material only; fresh local/Git/live Runtime readback required before mutation",
-  "created_at": "2026-09-06T22:48:00-04:00",
-  "current_handoff_candidate_test_state": "rollover handoff 9/9 PASS; complete suite 321 GREEN; final exact-handoff readback follows; A-042 WIP remains unqualified",
+  "created_at": "2026-09-06T22:54:00-04:00",
+  "current_handoff_candidate_test_state": "rollover handoff self-nonreferential seal; 9/9 rerun pending; full suite 321 GREEN from qualified checkpoint; A-042 WIP unqualified",
   "current_step": "thread rollover checkpoint; A-042 project mutation authority WIP preserved/unqualified",
   "files": {
     "COMMANDERS_INTENT_CURRENT.md": {
@@ -109,9 +109,9 @@
       "source_project_path": null
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 12833,
+      "bytes": 13036,
       "role": "server_thread_rollover_dispatcher",
-      "sha256": "384aeea93fed07b0c5026a8a9b2705c58d1c75cf06cf72afdc547b3d24cb447c",
+      "sha256": "a387983b921bb59e09e7c59270233cdb32c720215f4d528f8b36399a2bbcc0ba",
       "source_project_path": "checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md"
     },
     "TRACE_MATRIX.md": {
