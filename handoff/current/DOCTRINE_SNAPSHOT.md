@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Doctrine Snapshot
 
-Last updated: 2026-09-06 22:38 ET
+Last updated: 2026-09-07 14:36 ET
 
 ## Active mode-control state
 - Current checkpoint mode: CHECKPOINT / RECOVERY
@@ -81,12 +81,15 @@ Implications:
 - adapters may poll, long-poll briefly, stream, subscribe, or receive progress events, but Runtime owns lifecycle truth;
 - useful distinctions include PROGRESSING / QUIESCENT / POSSIBLY_STALLED / DEGRADED / TERMINAL when evidence supports them.
 
-## ICF-CS v1.0 — qualified binding additive continuity doctrine
+## ICF-CS v1.1 — current binding additive continuity doctrine
 
 Authority status:
 - sealed base: canonical R4.4 SHA `04f3e94efe8c901cc83a12a9c8531be8a9bb350728b8f9eba53db0fd082b3bbc`;
-- qualified additive overlay outer SHA `51ed7f424dff7c67534f7e53e8a7c10ebd93bf33ea575eea49dc3f05c24a92a9`;
-- overlay scope: continuity/process control only.
+- current additive ICF-CS v1.1 standard SHA `62be845da364ae81f59b6320c9b34b136236bf5be8aa8036018da48efcb754f4`;
+- current v1.1 payload SHA `f6f4ab2bafdb0ef2a7db1622a00462990baf980284d5b33827807caea1d41f63`;
+- detached v1.1 release receipt SHA `418346ed6373887b5b924e71ca2bf4b83effad20b7269ab40607f5d2750b970c`;
+- ICF-CS v1.0 payload `51ed7f424dff7c67534f7e53e8a7c10ebd93bf33ea575eea49dc3f05c24a92a9` remains historical/demoted qualification lineage;
+- scope: continuity/process control only.
 
 Core law:
 **DIRECTION != CONSTRAINTS != FRONTIER != HISTORY**
@@ -113,11 +116,14 @@ Binding non-equivalences:
 - SUMMARY_FIDELITY != SOURCE_COMPLETENESS.
 
 Current exact authority surfaces:
-- `INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md` SHA `b22b6ba6...e1051b`;
-- `ICF_CS_V1_0_MACHINE.json` SHA `527e4fa0...e7771f5a`;
-- `ICF_CS_CLAIM_CEILING.md` SHA `079a523d...6f245a`;
+- `INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md` SHA `62be845da364ae81f59b6320c9b34b136236bf5be8aa8036018da48efcb754f4`;
+- current v1.1 machine descriptor SHA `d67726aeb402c280770eeaf314068ed7a1330beb21167d9d6d9b7c4674425bb0`;
+- current v1.1 qualification contract SHA `7d20ed708adb4f7ee147b56da41deac77146b56fc85bd769be3a6d240b3e2029`;
+- current v1.1 detached release receipt SHA `418346ed6373887b5b924e71ca2bf4b83effad20b7269ab40607f5d2750b970c`;
 - `CURRENT_CANONICAL_SOP_POINTER.md`;
-- `checkpoints/ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md`.
+- `checkpoints/ICF_CS_CURRENT.md`.
+
+Historical v1.0 machine/claim/qualification artifacts remain preserved as lineage and do not define current authority.
 
 Maintenance law:
 - Intent changes only by explicit governing direction;
@@ -126,6 +132,20 @@ Maintenance law:
 - History preserves chronology without automatic current authority;
 - consequence-bearing readback follows mutation.
 
+
+## Governance Contact v1.0 — locally reconciled pending doctrine
+
+Governance Contact v1.0 is published and repository-admitted on the shared Git authority plane and locally reconciled in Receiver as **NOT ACTIVE**. Its sidecar governs current local interpretation without rewriting Receiver product/runtime authority.
+
+- release ZIP SHA `c4ab4a516e088b6c28b5240d6b3877d2e3fb889a8bbbfd406e8e0c73bebdd1ae`;
+- detached receipt SHA `cf2e7bd8e5ed613d3c3a99b7f8645833ddb742ac4939bd1719092b277ef286e6`;
+- package qualification SHA `509aba0bb859db49d9311e08acae98d8c7bdfbbb1d41cdd157d1675e70f8a302`;
+- local sidecar `GOVERNANCE_CONTACT_V1_0_LOCAL_RECONCILIATION.md`.
+
+`SIDECAR != TRUTH`
+`LOCATOR != AUTHORITY`
+`CARRIER_PRESENT != PROJECT_SPECIFIC_AUTHORITY_REWRITE`
+`POST_PUBLICATION_READBACK != ACTIVE`
 
 ## Capability availability/currentness doctrine
 
@@ -316,28 +336,28 @@ Design goal: personally distinctive/sexy without sacrificing operational density
 
 ## Active challenge
 
-A-041 is Git-current. A-042 project mutation ownership/exclusivity is already in implementation, with an untracked 455-line server-native lease/generation-fence candidate present locally.
+Emergency recovery challenge: **the visual thread is stale/full while the persisted A-042 worktree is materially newer than the prior handoff**. Recovery must preserve work without making the handoff a new truth plane.
 
-The immediate challenge is **not architecture ideation**. It is recovery-safe qualification and integration of the existing candidate without allowing a saturated/stale thread to replay completed work or overwrite newer project truth.
+Binding recovery ordering:
+`PERSISTED PROJECT / EXACT WORKTREE / GIT / LIVE READBACK > RECOVERY MIRROR > CHAT NARRATIVE`.
 
-Rollover/currentness doctrine promoted for this checkpoint:
+A-042 current semantic challenge has two explicit discriminators: (1) implementation requires explicit fenced authority whenever a governed lease is active while one test expects same-session legacy compatibility; (2) the WIP compact schema projects `RuntimeAuthorityEnvelope` while a legacy parity test expects `BoundApprovalAuthority`. Both are **contract/test disagreements**, not permission to choose whichever makes tests green.
 
-- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
-- `RECENT_INFERENCE != CURRENT_AUTHORITY`;
-- `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`;
+Current authority laws:
 - `THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY`;
-- stale Git handoff mirror is a recoverability defect even when canonical outer state remains current;
-- thread saturation/compaction is a suspected rollback cause here, not yet a proven exclusive cause.
+- `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`;
+- `LEASE_AUTHORITY != OPTIMISTIC_CURRENTNESS`;
+- `WAITING_FOR_NEW_OWNER_TO_FINISH != REGAINING_OLD_AUTHORITY`;
+- `CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`;
+- `WIP_SOURCE_PRESENT != QUALIFIED_SURVIVOR`;
+- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`.
 
-Fresh-thread authority ordering for consequence-bearing work:
-1. persisted Current/ICF/Commander state;
-2. exact Git/worktree readback;
-3. live Runtime readback where relevant;
-4. active WIP bytes and their explicit claim ceiling;
-5. Git recovery mirror;
-6. visible chat narrative.
+- `PERSISTED_CONTINUITY != CURRENT_WIP_BYTES`;
+- `FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK`;
 
-A-042 must preserve optimistic currentness/hash checks; lease ownership is additional mutation authority, not a substitute for state-version validation. Reads remain nonblocking. Expiry/recovery must be bounded, and stale generations must fail closed.
+Current A-042 WIP has representation health but **not semantic qualification**: Python compile PASS, schema parse PASS, focused authority 7/8; complete dirty-tree suite 331 collected = 328 PASS / 2 FAIL / 1 skip. The two failures are the lease/session authority discriminator and compact-schema authority-envelope parity discriminator.
+
+Recovery pass SHALL NOT mutate A-042 semantics. New thread must reproduce, derive, attack, then choose.
 
 ## Current quality/search posture
 
@@ -358,7 +378,7 @@ A-042 must preserve optimistic currentness/hash checks; lease ownership is addit
 - exact Git repo grounding/postcondition verification.
 - physical bounded sync subprocess capture + typed verification claim ceiling
 - web public-read credential/header/currentness contract hardening
-- ICF-CS v1.0 authority-separated rehydration and cache currentness.
+- ICF-CS authority-separated rehydration/cache-currentness architecture remains earned; first qualified under v1.0, with current process authority now v1.1.
 - compact 30-operation adapter separate bound-authority projection qualified without expanding the compatibility surface.
 - native capability availability/currentness model qualified with explicit bounded provider probes and registration/health separation.
 - MCP manifest preserves native availability contract/currentness semantics without executing provider probes.
@@ -389,3 +409,5 @@ A-042 must preserve optimistic currentness/hash checks; lease ownership is addit
 
 ## Next doctrine-changing event
 Any new evidence that changes ICF-CS authority roles, the Runtime/OBE boundary, the holonic/ECS direction, approval authority, or final schema sequencing requires this snapshot to update.
+Final rollover freeze note: current A-042 recovery baseline is the 13-file V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2` / ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Git handoff contains all 13 recovery copies and passes 11/11 verifier. The earlier 11-file checkpoint is historical intermediate evidence; fresh worktree readback still outranks V2 if WIP advances again.
+

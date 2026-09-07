@@ -1,0 +1,4718 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "PCMMAD Receiver v10.3 Native Protocol Compact Control Surface + Capability Router",
+    "version": "10.3.0",
+    "description": "Behavior-preserving 30-operation Custom GPT control surface for the PCMMAD Receiver V29 native-protocol release candidate. The imported surface remains intentionally compact; GET /capabilities and GET /lab/tools expose the wider server capability contract, while /lab/dispatch, /lab/batch, and /lab/results/get route into server-native tools including the append-only typed PCMMAD protocol plane without schema churn.",
+    "x-pcmmad-authority-model": "bound-authority-envelope-v1"
+  },
+  "servers": [
+    {
+      "url": "https://replace-with-active-ngrok-url.invalid"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-GitHome-Key"
+      }
+    },
+    "schemas": {
+      "ProjectId": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "pattern": "^[A-Za-z0-9._-]{1,128}$"
+      },
+      "ArtifactClass": {
+        "type": "string",
+        "enum": [
+          "code",
+          "continuity.checkpoint",
+          "continuity.design_thread_stream",
+          "continuity.live_shadow",
+          "notes.maintenance",
+          "state.current",
+          "state.doctrine_snapshot",
+          "state.next_steps",
+          "state.revisit_ledger",
+          "state.trace_matrix"
+        ]
+      },
+      "Operation": {
+        "type": "string",
+        "enum": [
+          "create",
+          "update",
+          "append"
+        ]
+      },
+      "ErrorEnvelope": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "error_code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "error_code",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "ExecutionMode": {
+        "type": "string",
+        "enum": [
+          "one_shot",
+          "bench",
+          "replay",
+          "ablation"
+        ]
+      },
+      "ExecutionFailureDigest": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "failure_kind": {
+            "type": "string"
+          },
+          "execution_state": {
+            "type": "string"
+          },
+          "stage": {
+            "type": "string"
+          },
+          "host_preempted": {
+            "type": "boolean"
+          },
+          "exit_code": {
+            "type": "integer",
+            "nullable": true
+          },
+          "signal": {
+            "type": "string",
+            "nullable": true
+          },
+          "stderr_excerpt": {
+            "type": "string"
+          },
+          "stdout_excerpt": {
+            "type": "string"
+          },
+          "artifact_registration_status": {
+            "type": "string"
+          },
+          "time_started": {
+            "type": "string",
+            "nullable": true
+          },
+          "time_ended": {
+            "type": "string",
+            "nullable": true
+          },
+          "duration_ms": {
+            "type": "integer",
+            "nullable": true
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "job_id",
+          "project_id",
+          "failure_kind",
+          "execution_state",
+          "host_preempted",
+          "retryable"
+        ],
+        "additionalProperties": true
+      },
+      "ExecutionSubmitRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "execution_mode": {
+            "$ref": "#/components/schemas/ExecutionMode"
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "args": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cwd": {
+            "type": "string",
+            "description": "Project-relative working directory."
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 60,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          },
+          "stdout_max_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 65536,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          },
+          "stderr_max_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 65536,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          },
+          "env_allowlist": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "result_artifact_targets": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "idempotency_key": {
+            "type": "string"
+          },
+          "local_model_id": {
+            "type": "string",
+            "description": "Optional local model identifier for sub-agent style runs."
+          },
+          "agent_role": {
+            "type": "string",
+            "description": "Optional semantic role for the local model/sub-agent."
+          },
+          "journal_on_submit": {
+            "type": "boolean",
+            "default": true
+          },
+          "journal_on_complete": {
+            "type": "boolean",
+            "default": false
+          },
+          "journal_on_failure": {
+            "type": "boolean",
+            "default": true
+          },
+          "checkpoint_on_complete": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "project_id",
+          "command"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionJob": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUBMITTED",
+              "QUEUED",
+              "STARTING",
+              "RUNNING",
+              "COMPLETED",
+              "FAILED",
+              "TERMINATED",
+              "HOST_PREEMPTED",
+              "OUTPUT_TRUNCATED",
+              "RESULT_REGISTERED"
+            ]
+          },
+          "stage": {
+            "type": "string"
+          },
+          "execution_mode": {
+            "$ref": "#/components/schemas/ExecutionMode"
+          },
+          "replay_of": {
+            "type": "string"
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "submitted_at": {
+            "type": "string"
+          },
+          "started_at": {
+            "type": "string"
+          },
+          "finished_at": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "type": "integer"
+          },
+          "stdout_max_bytes": {
+            "type": "integer"
+          },
+          "stderr_max_bytes": {
+            "type": "integer"
+          },
+          "result_artifact_targets": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "artifact_registration_status": {
+            "type": "string"
+          },
+          "registered_artifacts": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "truth_gate": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "advisory",
+              "not_evaluated"
+            ]
+          },
+          "resource_gate": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "advisory",
+              "not_evaluated"
+            ]
+          },
+          "feasibility_gate": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "advisory",
+              "not_evaluated"
+            ]
+          },
+          "local_model_id": {
+            "type": "string"
+          },
+          "agent_role": {
+            "type": "string"
+          },
+          "pid": {
+            "type": "integer"
+          },
+          "return_code": {
+            "type": "integer"
+          },
+          "duration_ms": {
+            "type": "integer"
+          },
+          "failure_digest": {
+            "$ref": "#/components/schemas/ExecutionFailureDigest"
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "job_id",
+          "status",
+          "execution_mode",
+          "command"
+        ],
+        "additionalProperties": true
+      },
+      "ExecutionStatusRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "job_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_id",
+          "job_id"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionOutputRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "max_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 32768,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id",
+          "job_id"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionOutputResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "stdout": {
+            "type": "string"
+          },
+          "stderr": {
+            "type": "string"
+          },
+          "stdout_truncated": {
+            "type": "boolean"
+          },
+          "stderr_truncated": {
+            "type": "boolean"
+          },
+          "bytes_returned": {
+            "type": "integer"
+          },
+          "max_bytes": {
+            "type": "integer"
+          },
+          "last_update_time": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "job_id",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionListRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 20,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionListResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "jobs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExecutionJob"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "count",
+          "jobs"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionRegisterRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "source_path": {
+            "type": "string",
+            "description": "Project-relative path to produced file."
+          },
+          "artifact_class": {
+            "$ref": "#/components/schemas/ArtifactClass"
+          },
+          "logical_name": {
+            "type": "string"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "expected_previous_sha256": {
+            "type": "string"
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "commit_id": {
+            "type": "string"
+          },
+          "idempotency_key": {
+            "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
+          }
+        },
+        "required": [
+          "project_id",
+          "source_path",
+          "artifact_class",
+          "logical_name"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionReplayRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3600
+          },
+          "stdout_max_bytes": {
+            "type": "integer",
+            "minimum": 1024,
+            "maximum": 1048576
+          },
+          "stderr_max_bytes": {
+            "type": "integer",
+            "minimum": 1024,
+            "maximum": 1048576
+          },
+          "env_allowlist": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "result_artifact_targets": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "local_model_id": {
+            "type": "string"
+          },
+          "agent_role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_id",
+          "job_id"
+        ],
+        "additionalProperties": false
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "projects_root": {
+            "type": "string"
+          },
+          "context_enabled": {
+            "type": "boolean"
+          },
+          "research_enabled": {
+            "type": "boolean"
+          },
+          "execution_enabled": {
+            "type": "boolean"
+          },
+          "artifact_classes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "capabilities": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "ok",
+          "status",
+          "context_enabled",
+          "research_enabled",
+          "execution_enabled"
+        ],
+        "additionalProperties": true
+      },
+      "CapabilitiesResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "time": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "object"
+          },
+          "limits": {
+            "type": "object"
+          },
+          "compact_control_surface": {
+            "$ref": "#/components/schemas/CompactControlSurfaceDescriptor"
+          },
+          "server_native_router": {
+            "$ref": "#/components/schemas/ServerCapabilityRouterDescriptor"
+          }
+        },
+        "required": [
+          "ok",
+          "time",
+          "capabilities",
+          "limits",
+          "compact_control_surface",
+          "server_native_router"
+        ],
+        "additionalProperties": true
+      },
+      "LegacyObjectRequest": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "LogicalName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 255,
+        "pattern": "^[A-Za-z0-9._ -]+$",
+        "description": "Filename only. No path separators."
+      },
+      "SortBy": {
+        "type": "string",
+        "enum": [
+          "relevance",
+          "lastUpdatedDate",
+          "submittedDate"
+        ]
+      },
+      "ModelType": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "safetensors",
+          "gguf",
+          "onnx",
+          "bin",
+          "pt",
+          "pth"
+        ]
+      },
+      "ArchiveType": {
+        "type": "string",
+        "enum": [
+          "auto",
+          "zip",
+          "tar",
+          "tar.gz",
+          "tgz",
+          "7z"
+        ]
+      },
+      "WarningItem": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "message"
+        ],
+        "additionalProperties": false
+      },
+      "IndexCacheStats": {
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "max_bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "ttl_seconds": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "entries",
+          "bytes",
+          "max_bytes",
+          "ttl_seconds"
+        ],
+        "additionalProperties": false
+      },
+      "CapabilitySummary": {
+        "type": "object",
+        "properties": {
+          "project_routes": {
+            "type": "boolean"
+          },
+          "legacy_routes": {
+            "type": "boolean"
+          },
+          "research": {
+            "type": "boolean"
+          },
+          "context": {
+            "type": "boolean"
+          },
+          "model_inventory": {
+            "type": "boolean"
+          },
+          "archive_inventory": {
+            "type": "boolean"
+          },
+          "archive_extract": {
+            "type": "boolean"
+          },
+          "journal": {
+            "type": "boolean"
+          },
+          "checkpoints": {
+            "type": "boolean"
+          },
+          "partial_traversal_reporting": {
+            "type": "boolean"
+          },
+          "rehydrate_debug": {
+            "type": "boolean"
+          },
+          "execution": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project_routes",
+          "legacy_routes",
+          "research",
+          "context",
+          "model_inventory",
+          "archive_inventory",
+          "archive_extract",
+          "journal",
+          "checkpoints",
+          "partial_traversal_reporting",
+          "rehydrate_debug",
+          "execution"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectInitRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectInfoRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectInfoResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "project_root": {
+            "type": "string"
+          },
+          "exists": {
+            "type": "boolean"
+          },
+          "manifest_exists": {
+            "type": "boolean"
+          },
+          "ledger_exists": {
+            "type": "boolean"
+          },
+          "created": {
+            "type": "boolean"
+          },
+          "directories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "project_root"
+        ],
+        "additionalProperties": false
+      },
+      "ManifestRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "additionalProperties": false
+      },
+      "ManifestEntry": {
+        "type": "object",
+        "properties": {
+          "artifact_class": {
+            "$ref": "#/components/schemas/ArtifactClass"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "artifact_class",
+          "sha256",
+          "bytes",
+          "updated_at"
+        ],
+        "additionalProperties": false
+      },
+      "ManifestResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "updated_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "files": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ManifestEntry"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "updated_at",
+          "files"
+        ],
+        "additionalProperties": false
+      },
+      "CommitStatusRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "commit_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "project_id",
+          "commit_id"
+        ],
+        "additionalProperties": false
+      },
+      "PlanRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "artifact_class": {
+            "$ref": "#/components/schemas/ArtifactClass"
+          },
+          "logical_name": {
+            "$ref": "#/components/schemas/LogicalName"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "content": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "expected_previous_sha256": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_id",
+          "artifact_class",
+          "logical_name",
+          "operation",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "PlanResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "validated": {
+            "type": "object",
+            "properties": {
+              "project_id": {
+                "$ref": "#/components/schemas/ProjectId"
+              },
+              "artifact_class": {
+                "$ref": "#/components/schemas/ArtifactClass"
+              },
+              "logical_name": {
+                "$ref": "#/components/schemas/LogicalName"
+              },
+              "operation": {
+                "$ref": "#/components/schemas/Operation"
+              },
+              "target_path": {
+                "type": "string"
+              },
+              "exists": {
+                "type": "boolean"
+              },
+              "current_sha256": {
+                "type": "string",
+                "nullable": true
+              },
+              "incoming_sha256": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "project_id",
+              "artifact_class",
+              "logical_name",
+              "operation",
+              "target_path",
+              "exists",
+              "incoming_sha256"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "ok",
+          "validated"
+        ],
+        "additionalProperties": false
+      },
+      "CommitRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "session_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "commit_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "artifact_class": {
+            "$ref": "#/components/schemas/ArtifactClass"
+          },
+          "logical_name": {
+            "$ref": "#/components/schemas/LogicalName"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "content": {
+            "type": "string"
+          },
+          "expected_previous_sha256": {
+            "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
+          }
+        },
+        "required": [
+          "project_id",
+          "session_id",
+          "commit_id",
+          "idempotency_key",
+          "artifact_class",
+          "logical_name",
+          "operation",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "CommitResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "replayed": {
+            "type": "boolean"
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "commit_id": {
+            "type": "string"
+          },
+          "idempotency_key": {
+            "type": "string"
+          },
+          "artifact_class": {
+            "$ref": "#/components/schemas/ArtifactClass"
+          },
+          "logical_name": {
+            "$ref": "#/components/schemas/LogicalName"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "time": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "commit_id",
+          "artifact_class",
+          "logical_name",
+          "operation",
+          "path",
+          "sha256",
+          "bytes",
+          "time"
+        ],
+        "additionalProperties": false
+      },
+      "ResearchHealthResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "modes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parser_version": {
+            "type": "string"
+          },
+          "cache": {
+            "$ref": "#/components/schemas/IndexCacheStats"
+          },
+          "predator_generation": {
+            "type": "string"
+          },
+          "starmap_layer": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "status",
+          "sources",
+          "modes",
+          "parser_version",
+          "cache"
+        ],
+        "additionalProperties": false
+      },
+      "ArxivPaper": {
+        "type": "object",
+        "properties": {
+          "paper_id": {
+            "type": "string"
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "abstract": {
+            "type": "string"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "published": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pdf_url": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": "string"
+          },
+          "source_quality": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "paper_id",
+          "title",
+          "abstract"
+        ],
+        "additionalProperties": true
+      },
+      "ArxivSearchRequest": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "max_results": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12,
+            "default": 8,
+            "description": "Bounded low-latency default. Keep small unless needed."
+          },
+          "sort_by": {
+            "$ref": "#/components/schemas/SortBy"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "ArxivSearchResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "query": {
+            "type": "string"
+          },
+          "max_results": {
+            "type": "integer"
+          },
+          "sort_by": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArxivPaper"
+            }
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "query",
+          "max_results",
+          "sort_by",
+          "results"
+        ],
+        "additionalProperties": false
+      },
+      "ArxivPaperRequest": {
+        "type": "object",
+        "properties": {
+          "paper_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ingestion_run_id": {
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "paper_id"
+        ],
+        "additionalProperties": false
+      },
+      "ArxivPaperResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "canonical_paper": {
+            "$ref": "#/components/schemas/ArxivPaper"
+          },
+          "derived_objects": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "ok",
+          "canonical_paper",
+          "derived_objects"
+        ],
+        "additionalProperties": true
+      },
+      "ResearchHuntRequest": {
+        "type": "object",
+        "properties": {
+          "topic": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "direct_hunt"
+            ]
+          },
+          "max_results": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 5,
+            "description": "Bounded by design to preserve latency and avoid noisy hunts."
+          }
+        },
+        "required": [
+          "topic"
+        ],
+        "additionalProperties": false
+      },
+      "ResearchHuntResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "topic": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "query_families": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "candidate_count_before_dedupe": {
+            "type": "integer"
+          },
+          "ranked_results": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "starmap": {
+            "type": "object"
+          },
+          "cache": {
+            "$ref": "#/components/schemas/IndexCacheStats"
+          },
+          "note": {
+            "type": "string"
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "topic",
+          "mode",
+          "query_families",
+          "ranked_results",
+          "starmap"
+        ],
+        "additionalProperties": true
+      },
+      "ContextHealthResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "roots": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "index_cache": {
+            "$ref": "#/components/schemas/IndexCacheStats"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "status",
+          "roots",
+          "capabilities",
+          "index_cache"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectFilesListRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string",
+            "description": "Project-relative path. Use '.' or omit for project root."
+          },
+          "recursive": {
+            "type": "boolean",
+            "default": false
+          },
+          "contains": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 200,
+            "description": "Lower default improves latency. Raise only when needed. Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "additionalProperties": false
+      },
+      "FileItem": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "is_dir": {
+            "type": "boolean"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "modified_at": {
+            "type": "number"
+          },
+          "extension": {
+            "type": "string"
+          },
+          "artifact_class": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "name",
+          "is_dir",
+          "size_bytes",
+          "modified_at",
+          "extension",
+          "artifact_class"
+        ],
+        "additionalProperties": false
+      },
+      "FileListResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          },
+          "skipped_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "root_summary": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "target": {
+            "type": "string"
+          },
+          "recursive": {
+            "type": "boolean"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "target",
+          "recursive",
+          "count",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectFilesReadRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string"
+          },
+          "start_line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "end_line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "max_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 50000,
+            "description": "Lower default reduces latency and accidental giant payloads. Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id",
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "FileReadResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "file": {
+            "$ref": "#/components/schemas/FileItem"
+          },
+          "slice": {
+            "type": "object",
+            "properties": {
+              "start_line": {
+                "type": "integer"
+              },
+              "end_line": {
+                "type": "integer"
+              },
+              "max_bytes": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "start_line",
+              "end_line",
+              "max_bytes"
+            ],
+            "additionalProperties": false
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "file",
+          "slice",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectFilesSearchRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "path": {
+            "type": "string"
+          },
+          "artifact_classes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "recursive": {
+            "type": "boolean",
+            "default": true
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 30,
+            "description": "Bound search hits to preserve latency. Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id",
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "SearchHit": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "artifact_class": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "best_window": {
+            "type": "object",
+            "properties": {
+              "start_line": {
+                "type": "integer"
+              },
+              "end_line": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "start_line",
+              "end_line"
+            ],
+            "additionalProperties": false
+          },
+          "excerpt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "artifact_class",
+          "score",
+          "best_window",
+          "excerpt"
+        ],
+        "additionalProperties": false
+      },
+      "FileSearchResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          },
+          "skipped_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "query": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "hits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchHit"
+            }
+          },
+          "index_cache": {
+            "$ref": "#/components/schemas/IndexCacheStats"
+          }
+        },
+        "required": [
+          "ok",
+          "query",
+          "target",
+          "count",
+          "hits",
+          "index_cache"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectContextRehydrateRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "topic": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "path": {
+            "type": "string"
+          },
+          "budget_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 40000,
+            "description": "Keep bounded; lower default reduces latency and token bloat. Use 0 or -1 for unbounded when the server supports it."
+          },
+          "debug": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "project_id",
+          "topic"
+        ],
+        "additionalProperties": false
+      },
+      "RehydrateSelectedItem": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "artifact_class": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "window": {
+            "type": "object",
+            "properties": {
+              "start_line": {
+                "type": "integer"
+              },
+              "end_line": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "start_line",
+              "end_line"
+            ],
+            "additionalProperties": false
+          },
+          "excerpt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "artifact_class",
+          "score",
+          "window",
+          "excerpt"
+        ],
+        "additionalProperties": false
+      },
+      "RehydrateResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          },
+          "skipped_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "header": {
+            "type": "object"
+          },
+          "selected": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RehydrateSelectedItem"
+            }
+          },
+          "open_seams": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "index_cache": {
+            "$ref": "#/components/schemas/IndexCacheStats"
+          },
+          "debug_trace": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "ok",
+          "header",
+          "selected",
+          "open_seams",
+          "index_cache"
+        ],
+        "additionalProperties": true
+      },
+      "ProjectModelsListRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string"
+          },
+          "recursive": {
+            "type": "boolean",
+            "default": true
+          },
+          "model_type": {
+            "$ref": "#/components/schemas/ModelType"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 50,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "additionalProperties": false
+      },
+      "ModelItem": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "model_type": {
+            "$ref": "#/components/schemas/ModelType"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "modified_at": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "path",
+          "name",
+          "model_type",
+          "size_bytes",
+          "modified_at"
+        ],
+        "additionalProperties": false
+      },
+      "ModelListResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          },
+          "skipped_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "count": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "count",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectModelsInspectRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string"
+          },
+          "model_type": {
+            "$ref": "#/components/schemas/ModelType"
+          }
+        },
+        "required": [
+          "project_id",
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "ModelInspectResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "model_type": {
+            "$ref": "#/components/schemas/ModelType"
+          },
+          "size_bytes": {
+            "type": "integer"
+          },
+          "metadata": {
+            "type": "object"
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "path",
+          "model_type",
+          "size_bytes",
+          "metadata"
+        ],
+        "additionalProperties": true
+      },
+      "ProjectArchivesListRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string"
+          },
+          "recursive": {
+            "type": "boolean",
+            "default": true
+          },
+          "archive_type": {
+            "$ref": "#/components/schemas/ArchiveType"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 50,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "additionalProperties": false
+      },
+      "ArchiveItem": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "archive_type": {
+            "$ref": "#/components/schemas/ArchiveType"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "modified_at": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "path",
+          "name",
+          "archive_type",
+          "size_bytes",
+          "modified_at"
+        ],
+        "additionalProperties": false
+      },
+      "ArchiveListResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          },
+          "skipped_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "count": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArchiveItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "count",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectArchivesInspectRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string"
+          },
+          "archive_type": {
+            "$ref": "#/components/schemas/ArchiveType"
+          },
+          "max_entries": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "default": 200
+          }
+        },
+        "required": [
+          "project_id",
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "ArchiveInspectResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "archive_type": {
+            "$ref": "#/components/schemas/ArchiveType"
+          },
+          "entry_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "path",
+          "archive_type",
+          "entry_count",
+          "entries"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectArchivesExtractRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string"
+          },
+          "archive_type": {
+            "$ref": "#/components/schemas/ArchiveType"
+          },
+          "destination_path": {
+            "type": "string",
+            "description": "Project-relative destination."
+          },
+          "selected_entries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "overwrite": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "project_id",
+          "path",
+          "destination_path"
+        ],
+        "additionalProperties": false
+      },
+      "ArchiveExtractResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "destination_path": {
+            "type": "string"
+          },
+          "extracted_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "partial": {
+            "type": "boolean"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WarningItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "path",
+          "destination_path",
+          "extracted_count"
+        ],
+        "additionalProperties": false
+      },
+      "JournalAppendRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "entry_type": {
+            "type": "string",
+            "enum": [
+              "memory_note",
+              "operator_journal",
+              "session_trace",
+              "checkpoint_note"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20000
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 50
+          }
+        },
+        "required": [
+          "project_id",
+          "entry_type",
+          "title",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "JournalEntry": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string"
+          },
+          "entry_type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "time",
+          "entry_type",
+          "title",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "JournalReadRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          }
+        },
+        "required": [
+          "project_id"
+        ],
+        "additionalProperties": false
+      },
+      "JournalReadResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JournalEntry"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "count",
+          "entries"
+        ],
+        "additionalProperties": false
+      },
+      "CheckpointCreateRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          }
+        },
+        "required": [
+          "project_id",
+          "name",
+          "summary"
+        ],
+        "additionalProperties": false
+      },
+      "CheckpointCreateResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "bytes": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "path",
+          "sha256",
+          "bytes",
+          "time"
+        ],
+        "additionalProperties": false
+      },
+      "ExecutionJobResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cwd": {
+            "type": "string"
+          },
+          "submitted_at": {
+            "type": "string"
+          },
+          "finished_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "return_code": {
+            "type": "integer",
+            "nullable": true
+          },
+          "timeout_seconds": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "ok",
+          "project_id",
+          "job_id",
+          "status"
+        ],
+        "additionalProperties": true
+      },
+      "SyncExecRequest": {
+        "type": "object",
+        "description": "Synchronous one-shot execution request.",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "command": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Argv array. No shell expansion."
+          },
+          "args": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "cwd": {
+            "type": "string",
+            "description": "Project-relative working directory."
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 30,
+            "description": "Jobs <=30s block; >30s fall back to async. Use 0 or -1 for unbounded when the server supports it."
+          },
+          "stdout_max_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 131072,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          },
+          "env": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Extra env vars. PYTHONIOENCODING=utf-8 auto-injected for python commands."
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
+          }
+        },
+        "required": [
+          "project_id",
+          "command"
+        ],
+        "additionalProperties": false
+      },
+      "SyncExecResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "COMPLETED",
+              "FAILED",
+              "TIMEOUT",
+              "ASYNC_FALLBACK"
+            ]
+          },
+          "return_code": {
+            "type": "integer"
+          },
+          "stdout": {
+            "type": "string"
+          },
+          "stderr": {
+            "type": "string"
+          },
+          "stdout_truncated": {
+            "type": "boolean"
+          },
+          "stderr_truncated": {
+            "type": "boolean"
+          },
+          "duration_ms": {
+            "type": "integer"
+          },
+          "job_id": {
+            "type": "string",
+            "description": "Present only when status=ASYNC_FALLBACK."
+          }
+        },
+        "required": [
+          "ok",
+          "status",
+          "stdout",
+          "stderr"
+        ],
+        "additionalProperties": false
+      },
+      "PythonExecRequest": {
+        "type": "object",
+        "description": "Execute Python source directly. Written to a temp .py file — no shell escaping needed.",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "code": {
+            "type": "string",
+            "description": "Full Python source. UTF-8 I/O enforced. sys.argv[0]=\"<pcmmad_inline>\"."
+          },
+          "cwd": {
+            "type": "string",
+            "description": "Project-relative working directory."
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 60,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          },
+          "stdout_max_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 262144,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          },
+          "env": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "stderr_max_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 262144,
+            "description": "Maximum stderr bytes returned. Use 0 or -1 for unbounded when the server supports it."
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
+          }
+        },
+        "required": [
+          "project_id",
+          "code"
+        ],
+        "additionalProperties": false
+      },
+      "ReadManyRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Project-relative paths. No client-side count cap in v9; server may still enforce host safety policy."
+          },
+          "max_bytes_each": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 50000,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id",
+          "paths"
+        ],
+        "additionalProperties": false
+      },
+      "ReadManyFileResult": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "size_bytes": {
+            "type": "integer"
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string",
+            "description": "Present on per-file error. Does not fail the whole request."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReadManyResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "files": {
+            "type": "object",
+            "description": "path -> ReadManyFileResult",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ReadManyFileResult"
+            }
+          },
+          "read_count": {
+            "type": "integer"
+          },
+          "error_count": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "ok",
+          "files",
+          "read_count",
+          "error_count"
+        ],
+        "additionalProperties": false
+      },
+      "WriteFileRequest": {
+        "type": "object",
+        "description": "Write text content to a project-relative path. Creates parent directories. No artifact_class ceremony.",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "path": {
+            "type": "string",
+            "description": "Project-relative file path. Traversal outside project root is rejected."
+          },
+          "content": {
+            "type": "string",
+            "description": "UTF-8 text content."
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "overwrite",
+              "create_only",
+              "append"
+            ],
+            "default": "overwrite",
+            "description": "overwrite: always write. create_only: 409 if file exists. append: add to end of existing content."
+          },
+          "encoding": {
+            "type": "string",
+            "default": "utf-8"
+          },
+          "session_id": {
+            "type": "string"
+          },
+          "mutation_authority": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
+          }
+        },
+        "required": [
+          "project_id",
+          "path",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "WriteFileResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "path": {
+            "type": "string"
+          },
+          "absolute_path": {
+            "type": "string"
+          },
+          "bytes_written": {
+            "type": "integer"
+          },
+          "created": {
+            "type": "boolean",
+            "description": "True if file did not exist before this write."
+          }
+        },
+        "required": [
+          "ok",
+          "path",
+          "bytes_written",
+          "created"
+        ],
+        "additionalProperties": false
+      },
+      "ZipReadRequest": {
+        "type": "object",
+        "description": "List and optionally read entries from a zip archive in one call.",
+        "properties": {
+          "zip_path": {
+            "type": "string",
+            "description": "Absolute or root-relative path to the zip file."
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Entry names to read. Omit for listing only."
+          },
+          "max_bytes_each": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 200000,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          },
+          "encoding": {
+            "type": "string",
+            "default": "utf-8"
+          }
+        },
+        "required": [
+          "zip_path"
+        ],
+        "additionalProperties": false
+      },
+      "ZipListingItem": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "compressed": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "size"
+        ],
+        "additionalProperties": false
+      },
+      "ZipEntryResult": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "size_bytes": {
+            "type": "integer"
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ZipReadResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "zip_path": {
+            "type": "string"
+          },
+          "listing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ZipListingItem"
+            }
+          },
+          "contents": {
+            "type": "object",
+            "description": "entry_name -> ZipEntryResult. Present only when entries were requested.",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ZipEntryResult"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "zip_path",
+          "listing"
+        ],
+        "additionalProperties": false
+      },
+      "ExecWaitRequest": {
+        "type": "object",
+        "description": "Server-side long-poll for an existing async job.",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 60,
+            "description": "Server waits up to this many seconds before returning timed_out=true. Use 0 or -1 for unbounded when the server supports it."
+          },
+          "max_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 262144,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "project_id",
+          "job_id"
+        ],
+        "additionalProperties": false
+      },
+      "ExecWaitResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timed_out": {
+            "type": "boolean"
+          },
+          "stdout": {
+            "type": "string"
+          },
+          "stderr": {
+            "type": "string"
+          },
+          "return_code": {
+            "type": "integer"
+          },
+          "duration_ms": {
+            "type": "integer"
+          },
+          "stdout_truncated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ok",
+          "job_id",
+          "status",
+          "timed_out"
+        ],
+        "additionalProperties": false
+      },
+      "FileTreeRequest": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Absolute or root-relative root path."
+          },
+          "depth": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 3,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          },
+          "include_hidden": {
+            "type": "boolean",
+            "default": false
+          },
+          "exclude_dirs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Dir names to prune. Server default: [__pycache__, .git, node_modules, .venv, .venv_cuda, vendor]."
+          },
+          "extensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Filter by extension e.g. [\".py\", \".json\"]. Omit for all files."
+          },
+          "min_size_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 500,
+            "description": "Use 0 or -1 for unbounded when the server supports it."
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "additionalProperties": false
+      },
+      "FileTreeItem": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "rel_path": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "is_dir": {
+            "type": "boolean"
+          },
+          "size_bytes": {
+            "type": "integer"
+          },
+          "depth": {
+            "type": "integer"
+          },
+          "extension": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "rel_path",
+          "name",
+          "is_dir",
+          "depth"
+        ],
+        "additionalProperties": false
+      },
+      "FileTreeResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "root": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "partial": {
+            "type": "boolean",
+            "description": "True if limit was hit before full traversal."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileTreeItem"
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "root",
+          "count",
+          "partial",
+          "items"
+        ],
+        "additionalProperties": false
+      },
+      "LabDispatchRequest": {
+        "type": "object",
+        "properties": {
+          "tool_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "payload": {
+            "type": "object",
+            "description": "Optional server-native capability arguments only. Approval/authority metadata does not belong inside payload.",
+            "additionalProperties": true
+          },
+          "authority": {
+            "$ref": "#/components/schemas/RuntimeAuthorityEnvelope"
+          }
+        },
+        "required": [
+          "tool_name"
+        ],
+        "additionalProperties": false
+      },
+      "LabDispatchResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "tool": {
+            "type": "string"
+          },
+          "danger_tier": {
+            "type": "string"
+          },
+          "policy_mode": {
+            "type": "string"
+          },
+          "approved": {
+            "type": "boolean"
+          },
+          "time": {
+            "type": "string"
+          },
+          "warning": {
+            "type": "string"
+          },
+          "result": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "ok"
+        ],
+        "additionalProperties": true
+      },
+      "LabToolsResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "compact_control_surface": {
+            "$ref": "#/components/schemas/CompactControlSurfaceDescriptor"
+          },
+          "server_native_router": {
+            "$ref": "#/components/schemas/ServerCapabilityRouterDescriptor"
+          }
+        },
+        "required": [
+          "ok",
+          "count",
+          "tools",
+          "compact_control_surface",
+          "server_native_router"
+        ],
+        "additionalProperties": true
+      },
+      "LabBatchRequest": {
+        "type": "object",
+        "properties": {
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "properties": {
+                "tool_name": {
+                  "type": "string"
+                },
+                "payload": {
+                  "type": "object",
+                  "description": "Capability arguments only. Authority is supplied separately per step.",
+                  "additionalProperties": true
+                },
+                "authority": {
+                  "$ref": "#/components/schemas/BoundApprovalAuthority"
+                }
+              },
+              "required": [
+                "tool_name"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 30
+          },
+          "stop_on_error": {
+            "type": "boolean",
+            "default": true
+          },
+          "project_id": {
+            "$ref": "#/components/schemas/ProjectId"
+          },
+          "background": {
+            "type": "boolean",
+            "default": false,
+            "description": "When true, the server executes the batch in a background thread and returns a handle retrievable via /lab/results/get."
+          },
+          "parallelism": {
+            "type": "integer",
+            "minimum": 1,
+            "default": 1,
+            "description": "Server-side per-batch parallelism hint. Sequential semantics remain the default."
+          }
+        },
+        "required": [
+          "steps"
+        ],
+        "additionalProperties": false,
+        "description": "Schema-side batch cap is 30 steps for GPT action compatibility. Server-side orchestration may exceed this through background/server-managed workflows."
+      },
+      "LabBatchResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        "required": [
+          "ok",
+          "count",
+          "results"
+        ],
+        "additionalProperties": true
+      },
+      "ResultHandleRequest": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "full",
+              "metadata",
+              "preview",
+              "range"
+            ],
+            "default": "auto",
+            "description": "Bounded retrieval mode. auto returns full only when safely inline; otherwise preview. Use metadata for identity only, preview for bounded summary, range for exact byte slices, or full explicitly."
+          },
+          "offset_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Byte offset used when mode=range."
+          },
+          "length_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65536,
+            "default": 32768,
+            "description": "Requested byte length when mode=range; server hard-cap is 65536 bytes."
+          },
+          "preview_chars": {
+            "type": "integer",
+            "minimum": 200,
+            "maximum": 4000,
+            "default": 1200,
+            "description": "Preview character budget when mode=preview or auto selects preview."
+          },
+          "summary_only": {
+            "type": "boolean",
+            "default": false,
+            "description": "Historical compatibility alias. true forces preview mode; prefer mode=preview for new clients."
+          }
+        },
+        "required": [
+          "project_id",
+          "handle"
+        ],
+        "additionalProperties": false
+      },
+      "MountsResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "mounts": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "time": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "mounts",
+          "time"
+        ],
+        "additionalProperties": true
+      },
+      "McpManifestResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "server_name": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "string"
+          },
+          "tool_count": {
+            "type": "integer"
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "time": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "server_name",
+          "protocol",
+          "tool_count",
+          "tools",
+          "time"
+        ],
+        "additionalProperties": true
+      },
+      "CapabilityFamilyCard": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "tool_count": {
+            "type": "integer"
+          },
+          "mutating_tools": {
+            "type": "integer"
+          },
+          "approval_required_tools": {
+            "type": "integer"
+          },
+          "effective_approval_required_tools": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Count of family tools whose effective runtime policy requires approval, including requirements derived from mutation/danger policy rather than only declared approval_required metadata."
+          },
+          "danger_tiers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "tool_count",
+          "mutating_tools",
+          "approval_required_tools",
+          "effective_approval_required_tools",
+          "danger_tiers",
+          "tags"
+        ],
+        "additionalProperties": false
+      },
+      "CompactControlSurfaceDescriptor": {
+        "type": "object",
+        "properties": {
+          "operation_budget": {
+            "type": "integer"
+          },
+          "action_count": {
+            "type": "integer"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation_budget",
+          "action_count",
+          "purpose",
+          "note"
+        ],
+        "additionalProperties": false
+      },
+      "ServerCapabilityRouterDescriptor": {
+        "type": "object",
+        "properties": {
+          "dispatch_entrypoint": {
+            "type": "string"
+          },
+          "batch_entrypoint": {
+            "type": "string"
+          },
+          "result_handle_entrypoint": {
+            "type": "string"
+          },
+          "larger_server_native_capability_set": {
+            "type": "boolean"
+          },
+          "families": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CapabilityFamilyCard"
+            }
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "dispatch_entrypoint",
+          "batch_entrypoint",
+          "result_handle_entrypoint",
+          "larger_server_native_capability_set",
+          "families",
+          "notes"
+        ],
+        "additionalProperties": false
+      },
+      "BoundApprovalAuthority": {
+        "type": "object",
+        "description": "Optional runtime authority envelope for a previously issued target/argument/contract-bound approval challenge. Authority is separate from capability arguments.",
+        "properties": {
+          "approval_handle": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Opaque single-use approval challenge handle issued by the runtime."
+          },
+          "permit": {
+            "type": "boolean",
+            "description": "Explicit operator confirmation. A handle alone does not authorize execution."
+          },
+          "operator_id": {
+            "type": "string",
+            "description": "Optional operator identity/provenance label."
+          },
+          "provenance": {
+            "type": "string",
+            "description": "Optional adapter/operator provenance label."
+          }
+        },
+        "required": [
+          "approval_handle",
+          "permit"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectMutationAuthority": {
+        "type": "object",
+        "description": "Generation-fenced project mutation lease authority.",
+        "properties": {
+          "lease_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "generation": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "owner_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "session_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "lease_id",
+          "generation",
+          "owner_id"
+        ],
+        "additionalProperties": false
+      },
+      "RuntimeAuthorityEnvelope": {
+        "type": "object",
+        "description": "Runtime authority envelope. Approval and project mutation authority are independent dimensions and are validated by the runtime as required by the invoked capability.",
+        "properties": {
+          "approval_handle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "permit": {
+            "type": "boolean"
+          },
+          "operator_id": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "project_mutation": {
+            "$ref": "#/components/schemas/ProjectMutationAuthority"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Server health and feature flags"
+      }
+    },
+    "/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CapabilitiesResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Full capability manifest plus compact-to-server capability router contract",
+        "description": "Returns both the compact GPT-safe control surface description and the explicit server-native capability router. This clarifies that the schema action budget is not the server capability budget."
+      }
+    },
+    "/project/execution/submit": {
+      "post": {
+        "operationId": "submitProjectExecution",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecutionSubmitRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecutionJob"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Execution failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Submit async execution job",
+        "description": " 0/-1 may be used for unbounded timeout/output ceilings where the server supports it."
+      }
+    },
+    "/project/execution/status": {
+      "post": {
+        "operationId": "getProjectExecutionStatus",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecutionStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecutionJob"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Poll job status (prefer waitForProjectExecution)"
+      }
+    },
+    "/project/execution/output": {
+      "post": {
+        "operationId": "getProjectExecutionOutput",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecutionOutputRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecutionOutputResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Fetch stdout/stderr for a job"
+      }
+    },
+    "/project/execution/list": {
+      "post": {
+        "operationId": "listProjectExecutionJobs",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecutionListRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecutionListResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "List recent execution jobs"
+      }
+    },
+    "/project/execution/terminate": {
+      "post": {
+        "operationId": "terminateProjectExecution",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecutionStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecutionJob"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Cancel a running job"
+      }
+    },
+    "/project/execution/register": {
+      "post": {
+        "operationId": "registerProjectExecutionArtifact",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecutionRegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Register job output file as artifact"
+      }
+    },
+    "/project/execution/replay": {
+      "post": {
+        "operationId": "replayProjectExecution",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecutionReplayRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecutionJob"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Re-run a prior job with same params"
+      }
+    },
+    "/project/init": {
+      "post": {
+        "operationId": "initProject",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectInitRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Initialize or verify a project directory"
+      }
+    },
+    "/project/info": {
+      "post": {
+        "operationId": "getProjectInfo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectInfoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Project root, manifest, ledger status"
+      }
+    },
+    "/project/manifest": {
+      "post": {
+        "operationId": "getProjectManifest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManifestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManifestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Artifact manifest for a project"
+      }
+    },
+    "/project/status": {
+      "post": {
+        "operationId": "getProjectCommitStatus",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommitStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Status of a prior commit by commit_id"
+      }
+    },
+    "/plan": {
+      "post": {
+        "operationId": "planCommit",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Hash mismatch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Dry-run validate a commit (hash check)"
+      }
+    },
+    "/commit": {
+      "post": {
+        "operationId": "commitToLocal",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommitRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Commit failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Write artifact content to project store"
+      }
+    },
+    "/research/hunt": {
+      "post": {
+        "operationId": "researchHunt",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResearchHuntRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResearchHuntResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Cross-source research hunt"
+      }
+    },
+    "/project/files/list": {
+      "post": {
+        "operationId": "listProjectFiles",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectFilesListRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad path",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "List files in a project directory"
+      }
+    },
+    "/project/files/read": {
+      "post": {
+        "operationId": "readProjectFile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectFilesReadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileReadResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Read a single project file"
+      }
+    },
+    "/project/files/search": {
+      "post": {
+        "operationId": "searchProjectFiles",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectFilesSearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileSearchResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Grep/search within project files"
+      }
+    },
+    "/project/context/rehydrate": {
+      "post": {
+        "operationId": "rehydrateProjectContext",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectContextRehydrateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RehydrateResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Load full project context into prompt"
+      }
+    },
+    "/project/archives/list": {
+      "post": {
+        "operationId": "listProjectArchives",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectArchivesListRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArchiveListResponse"
+                }
+              }
+            }
+          }
+        },
+        "summary": "List archive files in project"
+      }
+    },
+    "/run": {
+      "post": {
+        "operationId": "runSync",
+        "summary": "Synchronous execution — blocks, returns output directly",
+        "description": "Synchronous one-shot execution request. v9 removes mandatory async fallback for >30s requests; the server may execute long runs inline.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncExecRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncExecResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/run/python": {
+      "post": {
+        "operationId": "runPython",
+        "summary": "Execute Python source inline — no shell escaping, UTF-8 clean",
+        "description": "Execute Python source directly. v9 allows long-running inline execution and optional unbounded timeout/output ceilings when supported by the server.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PythonExecRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncExecResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project/files/write": {
+      "post": {
+        "operationId": "writeProjectFile",
+        "summary": "Write text file to project path — no artifact ceremony",
+        "description": "Write UTF-8 content to a project-relative path. Creates parent directories. mode: overwrite (default), create_only, or append.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WriteFileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Written",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WriteFileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad path",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "File exists and mode=create_only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zip/read": {
+      "post": {
+        "operationId": "readZipEntries",
+        "summary": "List and read entries from a zip file in one call",
+        "description": "Always returns listing. If entries array is provided, also returns decoded text content per named entry. Works on zip paths outside the project root.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZipReadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Listing and optional entry contents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZipReadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad path",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Zip file not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project/execution/wait": {
+      "post": {
+        "operationId": "waitForProjectExecution",
+        "summary": "Long-poll async job until done — eliminates sleep+poll loops",
+        "description": "Server blocks until the job reaches a terminal state or timeout_seconds elapses. Returns full stdout/stderr on completion. Use after submitProjectExecution when runSync is not applicable.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecWaitRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Terminal state or wait timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecWaitResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Job not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lab/tools": {
+      "get": {
+        "operationId": "listLabTools",
+        "summary": "List dispatchable lab tools plus server-native capability families",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabToolsResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Lists dispatchable server-side lab tools and exposes the explicit bridge from the compact schema surface into the larger server-native capability set."
+      }
+    },
+    "/lab/dispatch": {
+      "post": {
+        "operationId": "dispatchLabTool",
+        "summary": "Dispatch a server-side lab tool by name",
+        "description": "Dispatch one server-native lab capability through the canonical runtime router. For approval-gated calls, first receive the runtime approval challenge, then retry with the exact challenge in the separate top-level authority envelope; do not embed approval inside payload.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LabDispatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabDispatchResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Approval required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown tool",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lab/batch": {
+      "post": {
+        "operationId": "dispatchLabBatch",
+        "summary": "Run multiple lab tool calls in sequence",
+        "description": "Dispatch up to 30 server-native lab steps. Each step carries capability arguments in payload and, when required, its own separate bound authority envelope. Batch does not imply transaction/atomicity.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LabBatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabBatchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lab/results/get": {
+      "post": {
+        "operationId": "labGetResultHandle",
+        "summary": "Fetch stored result metadata, preview, byte range, auto-bounded content, or explicit full payload",
+        "description": "Prefer auto/metadata/preview/range for bounded model context. full is explicit opt-in. Historical summary_only=true remains an alias for preview.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResultHandleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stored result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Handle not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

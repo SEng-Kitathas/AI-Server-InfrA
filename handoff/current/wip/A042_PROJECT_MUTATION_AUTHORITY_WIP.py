@@ -17,7 +17,14 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterator, Mapping
 
-from shared_core import get_project_root, init_project_layout, load_json, save_json_atomic, utc_now
+from shared_core import (
+    get_project_root,
+    init_project_layout,
+    load_json,
+    save_json_atomic,
+    utc_now,
+    validate_project_id,
+)
 
 LEASE_STORE_VERSION = "1"
 LEASE_DEFAULT_TTL_SECONDS = 120
@@ -205,6 +212,57 @@ def _write(project_id: str, record: dict[str, Any]) -> dict[str, Any]:
     return body
 
 
+def _validate_record_shape(project_id: str, row: Mapping[str, Any]) -> None:
+    if str(row.get("store_version") or "") != LEASE_STORE_VERSION:
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_LEASE_INVALID",
+            "project mutation lease store version is unsupported",
+            500,
+            extra={"project_id": project_id},
+        )
+    if str(row.get("project_id") or "") != project_id:
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_LEASE_INVALID",
+            "project mutation lease belongs to another project",
+            500,
+            extra={"project_id": project_id},
+        )
+    status = str(row.get("status") or "")
+    if status not in {LEASE_STATUS_ACTIVE, LEASE_STATUS_RELEASED, LEASE_STATUS_EXPIRED}:
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_LEASE_INVALID",
+            "project mutation lease status is invalid",
+            500,
+            extra={"project_id": project_id, "status": status},
+        )
+    try:
+        generation = int(row.get("generation"))
+    except (TypeError, ValueError):
+        generation = -1
+    if generation < 1:
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_LEASE_INVALID",
+            "project mutation lease generation is invalid",
+            500,
+            extra={"project_id": project_id},
+        )
+    if status == LEASE_STATUS_ACTIVE:
+        if not str(row.get("lease_id") or "").strip() or not str(row.get("owner_id") or "").strip():
+            raise ProjectMutationAuthorityError(
+                "PROJECT_MUTATION_LEASE_INVALID",
+                "active project mutation lease is missing authority identity",
+                500,
+                extra={"project_id": project_id},
+            )
+        if _parse_time(row.get("expires_at")) is None:
+            raise ProjectMutationAuthorityError(
+                "PROJECT_MUTATION_LEASE_INVALID",
+                "active project mutation lease expiry is invalid",
+                500,
+                extra={"project_id": project_id},
+            )
+
+
 def _load(project_id: str) -> dict[str, Any] | None:
     path = _state_path(project_id)
     if not path.is_file():
@@ -226,6 +284,7 @@ def _load(project_id: str) -> dict[str, Any] | None:
             500,
             extra={"project_id": project_id},
         )
+    _validate_record_shape(project_id, row)
     return row
 
 
@@ -310,7 +369,7 @@ def _validate_active(
     *,
     lease_id: str,
     generation: int,
-    owner_id: str = "",
+    owner_id: str,
     session_id: str = "",
 ) -> dict[str, Any]:
     current = _expire_if_needed(project_id, record)
@@ -336,15 +395,23 @@ def _validate_active(
             extra={"current_lease": _public(current, project_id)},
         )
     owner = str(owner_id or "").strip()
-    if owner and str(current.get("owner_id") or "") != owner:
+    if not owner:
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_OWNER_REQUIRED",
+            "owner_id is required to exercise project mutation authority",
+            400,
+            extra={"current_lease": _public(current, project_id)},
+        )
+    if str(current.get("owner_id") or "") != owner:
         raise ProjectMutationAuthorityError(
             "PROJECT_MUTATION_OWNER_MISMATCH",
             "project mutation lease belongs to another owner",
             403,
             extra={"current_lease": _public(current, project_id)},
         )
+    expected_session = str(current.get("session_id") or "").strip()
     session = str(session_id or "").strip()
-    if session and str(current.get("session_id") or "") != session:
+    if expected_session and session != expected_session:
         raise ProjectMutationAuthorityError(
             "PROJECT_MUTATION_SESSION_MISMATCH",
             "project mutation lease belongs to another session",
@@ -426,6 +493,76 @@ def mutation_guard(
         yield _public(current, project_id)
 
 
+def _authority_generation(value: object) -> int:
+    try:
+        generation = int(value)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_AUTHORITY_INVALID",
+            "mutation authority generation must be an integer",
+            400,
+        ) from exc
+    if generation < 1:
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_AUTHORITY_INVALID",
+            "mutation authority generation must be >= 1",
+            400,
+        )
+    return generation
+
+
+@contextmanager
+def consequence_guard(
+    project_id: str,
+    *,
+    mutation_authority: Mapping[str, Any] | None = None,
+    session_id: str = "",
+    timeout_seconds: float = LEASE_GUARD_TIMEOUT_SECONDS,
+) -> Iterator[dict[str, Any] | None]:
+    """Compose explicit fenced authority with backward-compatible session fencing.
+
+    Explicit mutation authority is canonical.  Legacy callers remain compatible only
+    while no governed lease blocks them, or when their session matches the lease's
+    intentionally bound session.  The cross-process guard is held for the consequence.
+    """
+    project_id = validate_project_id(project_id)
+    if mutation_authority is not None:
+        if not isinstance(mutation_authority, Mapping):
+            raise ProjectMutationAuthorityError(
+                "PROJECT_MUTATION_AUTHORITY_INVALID",
+                "mutation_authority must be an object",
+                400,
+                extra={"project_id": project_id},
+            )
+        lease_id = str(mutation_authority.get("lease_id") or "").strip()
+        owner_id = str(mutation_authority.get("owner_id") or "").strip()
+        if not lease_id or not owner_id:
+            raise ProjectMutationAuthorityError(
+                "PROJECT_MUTATION_AUTHORITY_INVALID",
+                "mutation_authority requires lease_id and owner_id",
+                400,
+                extra={"project_id": project_id},
+            )
+        generation = _authority_generation(mutation_authority.get("generation"))
+        with mutation_guard(
+            project_id,
+            lease_id=lease_id,
+            generation=generation,
+            owner_id=owner_id,
+            session_id=str(mutation_authority.get("session_id") or "").strip(),
+            timeout_seconds=timeout_seconds,
+        ) as receipt:
+            yield receipt
+        return
+
+    with compatibility_session_guard(
+        project_id,
+        session_id=str(session_id or "").strip(),
+        timeout_seconds=timeout_seconds,
+    ) as receipt:
+        yield receipt
+
+
 @contextmanager
 def compatibility_session_guard(
     project_id: str,
@@ -435,21 +572,18 @@ def compatibility_session_guard(
 ) -> Iterator[dict[str, Any] | None]:
     """Backward-compatible guard: active leases fence legacy sessions; no lease means legacy behavior.
 
-    This intentionally does not auto-acquire authority.  It lets the legacy CustomGPT
-    adapter coexist until it can project lease acquisition, while preventing it from
-    bypassing an already-active governed campaign.
+    This intentionally does not auto-acquire authority. Legacy callers remain usable
+    only while no governed lease is active. Once a lease exists, textual session
+    equality is insufficient: explicit lease_id/generation/owner authority is required.
     """
     with _project_guard(project_id, timeout_seconds=timeout_seconds):
         current = _expire_if_needed(project_id, _load(project_id))
         if not current or str(current.get("status") or "") != LEASE_STATUS_ACTIVE:
             yield None
             return
-        expected_session = str(current.get("session_id") or "")
-        if not expected_session or expected_session != str(session_id or "").strip():
-            raise ProjectMutationAuthorityError(
-                "PROJECT_MUTATION_LEASE_BUSY",
-                "active project mutation lease belongs to another session",
-                423,
-                extra={"current_lease": _public(current, project_id)},
-            )
-        yield _public(current, project_id)
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_AUTHORITY_REQUIRED",
+            "active project mutation lease requires explicit fenced authority",
+            423,
+            extra={"current_lease": _public(current, project_id)},
+        )

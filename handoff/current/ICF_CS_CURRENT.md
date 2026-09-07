@@ -1,34 +1,32 @@
 # PCMMAD Receiver Lab — ICF-CS Current Ingress
 
 Status: CURRENT INGRESS POINTER — NAVIGATION, NOT STATE PROOF
-Standard: Intent–Constraint–Frontier Continuity Standard — ICF-CS v1.0
+Standard: Intent–Constraint–Frontier Continuity Standard — ICF-CS v1.1
 Authority: qualified additive doctrine above sealed R4.4
-Updated: 2026-09-05
+Updated: 2026-09-07
 
 `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`
 
 ## Qualified continuity authority
 
-Exact qualified standard:
+Exact current reusable standard:
 `state/doctrine_snapshot/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md`
-SHA-256 `b22b6ba65992bf8e235df9acfb044da772282ae3820a1359af3b5309d1e1051b`
+SHA-256 `62be845da364ae81f59b6320c9b34b136236bf5be8aa8036018da48efcb754f4`
 
-Machine contract:
-`state/doctrine_snapshot/ICF_CS_V1_0_MACHINE.json`
-SHA-256 `527e4fa0926449155a8aa548656b3debc5292262f8cfaab0ca3f0470e7771f5a`
+Receipt-qualified v1.1 identities:
+- machine descriptor SHA-256 `d67726aeb402c280770eeaf314068ed7a1330beb21167d9d6d9b7c4674425bb0`;
+- qualification contract SHA-256 `7d20ed708adb4f7ee147b56da41deac77146b56fc85bd769be3a6d240b3e2029`;
+- payload SHA-256 `f6f4ab2bafdb0ef2a7db1622a00462990baf980284d5b33827807caea1d41f63`;
+- detached release receipt SHA-256 `418346ed6373887b5b924e71ca2bf4b83effad20b7269ab40607f5d2750b970c`;
+- distribution SHA-256 `2bb57b24967f80fc5dcf028eece142150ce5d6a1356f12e13cda26951ae19fe7`.
 
-Claim ceiling:
-`state/doctrine_snapshot/ICF_CS_CLAIM_CEILING.md`
-SHA-256 `079a523d017438cfd9057d5bfe78b4bf47e4550c20fc9bbd3840cbf6d66f245a`
+ICF-CS v1.0 payload `51ed7f424dff7c67534f7e53e8a7c10ebd93bf33ea575eea49dc3f05c24a92a9`, standard `b22b6ba65992bf8e235df9acfb044da772282ae3820a1359af3b5309d1e1051b`, and machine contract `527e4fa0926449155a8aa548656b3debc5292262f8cfaab0ca3f0470e7771f5a` are historical/demoted evidence only. Historical v1.0 receipt/claim/machine artifacts remain preserved as lineage.
 
 Current canonical SOP pointer:
 `state/doctrine_snapshot/CURRENT_CANONICAL_SOP_POINTER.md`
 
-External qualification receipt:
-`checkpoints/ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md`
-
-Qualified overlay outer ZIP SHA-256:
-`51ed7f424dff7c67534f7e53e8a7c10ebd93bf33ea575eea49dc3f05c24a92a9`
+Governance Contact local reconciliation sidecar:
+`state/doctrine_snapshot/GOVERNANCE_CONTACT_V1_0_LOCAL_RECONCILIATION.md`
 
 ## ICF-CS authority separation
 
@@ -123,35 +121,28 @@ This is a project implementation of ICF-CS, not a substitute for the qualified s
 
 ## Current verification ceiling
 
-Current V30 working-tree evidence:
-- **100 native tools / 16 families**;
-- native effects, availability/currentness core, bound authority, bounded result retrieval, plugin currentness, MCP availability projection, and HUD availability/readiness presentation are earned;
-- final HUD+projection currentness cluster **32/32 PASS**;
-- complete V30 suite **245 collected tests GREEN**, existing conditional Windows symlink-privilege skip only.
+Current publication/worktree evidence at emergency rollover:
+- current Git local/remote `main` `77da92c7e8693287c2b541aa89275c062f0af558` / tree `3764bf8fe5caf39e82c36316719a2042f764bff6`;
+- last published engineering feature A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
+- later Git commits are recovery-only;
+- current A-042 worktree has **13** changed/new files and is not engineering-published; Git recovery mirror now contains all 13 byte-matching copies;
+- all changed/new Python compile PASS; compact schema parses;
+- A-042 focused test file **7/8 PASS**, with one unresolved active-lease compatibility-session semantics disagreement;
+- complete dirty-tree suite **331 collected = 328 PASS / 2 FAIL / 1 skip**; second failure is compact-schema `RuntimeAuthorityEnvelope` vs `BoundApprovalAuthority` parity;
+- current dirty-tree full suite NOT RUN / NOT CLAIMED;
+- last published rollover checkpoint full suite 321 GREEN.
 
-A-030 HUD presentation laws:
-- explicit selected-tool native availability probe only; no hidden/catalog-wide scan;
-- ephemeral probe row must match current capability `contract_digest`;
-- browser bridge optional degradation does not collapse core readiness;
-- HUD readiness is presentation, not Runtime availability authority.
+Active Frontier: emergency rollover checkpoint SHALL preserve exact 13-file A-042 WIP bytes and current intent/constraints without mutating A-042. New thread rehydrates, verifies hashes, reproduces both known failures, then derives (1) same-session legacy access vs explicit lease/generation/owner authority and (2) RuntimeAuthorityEnvelope vs BoundApprovalAuthority projection contract.
 
-Current Git evidence before this handoff snapshot mutation:
-- local/remote `main` exact at `f63f31f7f2ae89f9253d21609a1d431df29e0a69`;
-- tree `6dbdc6fa9a42531ae0252b634cfd3f8e0d749ba3`;
-- working tree clean;
-- complete V30 suite 245 collected tests GREEN.
-
-Git-contained ICF-CS recovery mirror publication is COMPLETE:
-- commit/local/remote `cc2802f6d0a0ea24fe036aad9bdb6abfde925566`;
-- tree `b93f7973a3c29c6f6ddfcbc88df9405e0c61d095`;
-- remote `CURRENT_INGRESS.md` readback PASS;
-- handoff focused 6/6 PASS; full suite 251 GREEN.
-
-Active Frontier: A-041 is Git-verified at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`; A-042 is already active WIP at source SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` and remains unqualified. Fresh-thread recovery SHALL read `checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md`, reconcile persisted Current/ICF/Commander/Live + exact Git/worktree/live Runtime before mutation, and SHALL NOT replay A-037..A-041 from stale chat or stale mirror.
+Recovery ordering is binding:
+`CURRENT -> ICF/COMMANDER -> EXACT GIT/WORKTREE -> LIVE RUNTIME WHEN RELEVANT -> WIP HASHES -> RECOVERY MIRROR -> CHAT NARRATIVE`.
 
 The repo handoff mirror is navigation/recovery evidence, not current-state proof or a second durable truth plane.
 
-`CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`, `STALE_GREEN != CURRENT_EVIDENCE`, and `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION` remain binding.
+`CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`.
+`WIP_SOURCE_PRESENT != QUALIFIED_SURVIVOR`.
+`PY_COMPILE_PASS != A042_QUALIFIED`.
+`CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
 
 ## Rollover hardening — 2026-09-06
 
@@ -170,4 +161,17 @@ Cold-start consequence ordering:
 
 Dedicated current server rollover pointer:
 `checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md`.
+## Emergency rollover hardening — 2026-09-07
+
+The visual conversation rolled back behind persisted worktree state and a subsequent continuation attempt reached `this thread is full`. The previous recovery handoff was itself stale relative the newer A-042 integrated worktree.
+
+New binding scars:
+- `WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY`;
+- `PERSISTED_CONTINUITY != CURRENT_WIP_BYTES`;
+- `FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK`;
+- `THREAD_FULL_RECOVERY != CHAT_MEMORY_RECOVERY`;
+- exact WIP byte inventory SHALL be mirrored at rollover when uncommitted consequence-bearing work exists.
+
+The first emergency handoff preserved 11 files; that requirement is superseded for current Frontier recovery. The current handoff SHALL preserve all **13** A-042 WIP files byte-for-byte in a recovery-only namespace and state both current failing tests. It SHALL NOT stage active Runtime WIP into the recovery commit.
+Final freeze supersession: the first emergency snapshot captured 11 A-042 files. Fresh status then showed 13 files because `execution_routes.py` and `power_routes.py` advanced concurrently. Current recovery freeze is V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2` / ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Git mirror now contains all 13 and handoff verifier is 11/11 PASS. Complete dirty tree is 331 collected / 328 PASS / 2 FAIL / 1 skip. This does not promote A-042.
 

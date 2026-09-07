@@ -1,6 +1,6 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-06 22:38 ET**
+Status: **ACTIVE / CURRENT AS OF 2026-09-07 14:36 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
@@ -485,7 +485,17 @@ This project violated that rule once: directories existed but were empty while e
 
 ## 16A. ICF-CS continuity authority
 
-Qualified binding additive overlay above sealed R4.4.
+### Emergency rollover / WIP preservation law
+- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`.
+- `WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY`.
+- `PERSISTED_CONTINUITY != CURRENT_WIP_BYTES`.
+- `FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK`.
+- `THREAD_FULL_RECOVERY != CHAT_MEMORY_RECOVERY`.
+- uncommitted load-bearing WIP SHALL be byte-inventoried and mirrored as recovery material at rollover; recovery copies SHALL NOT become Runtime authority.
+- a recovery/checkpoint Git commit SHALL NOT promote unqualified engineering WIP.
+- when code and test disagree during recovery, checkpoint the disagreement; do not mutate either side merely to produce green.
+
+Current binding additive continuity/process authority above sealed R4.4 is receipt-qualified ICF-CS v1.1.
 
 Core law: **DIRECTION != CONSTRAINTS != FRONTIER != HISTORY**.
 
@@ -493,8 +503,12 @@ Cold start: **CURRENT STATE -> ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/R
 
 Current ingress is navigation, not proof. Historical handoffs, donor material, recency, stale green verification, benchmark keys, and summaries retain explicit authority ceilings under the qualified standard.
 
-Exact overlay outer SHA: `51ed7f424dff7c67534f7e53e8a7c10ebd93bf33ea575eea49dc3f05c24a92a9`.
-Qualification receipt: `checkpoints/ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md`.
+Current v1.1 standard SHA: `62be845da364ae81f59b6320c9b34b136236bf5be8aa8036018da48efcb754f4`.
+Current v1.1 payload SHA: `f6f4ab2bafdb0ef2a7db1622a00462990baf980284d5b33827807caea1d41f63`.
+Detached v1.1 release receipt SHA: `418346ed6373887b5b924e71ca2bf4b83effad20b7269ab40607f5d2750b970c`.
+ICF-CS v1.0 payload `51ed7f424dff7c67534f7e53e8a7c10ebd93bf33ea575eea49dc3f05c24a92a9` remains historical/demoted qualification lineage.
+
+Governance Contact v1.0 is locally reconciled as a published/admitted **NOT ACTIVE** carrier; it does not alter Receiver product/runtime authority.
 
 ---
 
@@ -606,7 +620,7 @@ Before promotion:
 - [~] transfer authority/scope/currentness/integrity hostile slice qualified; immutable export snapshot semantics remain unearned and final release promotion pressure remains.
 - [x] browser optional-vs-core HUD readiness split qualified under A-030; browser remains an optional provider/plane.
 - [~] schema/runtime/policy/imported-action parity audit: bound-authority + MCP/HUD availability + A-031 family effective-approval + **A-032 bounded result-handle request parity earned**; remaining adapter lossiness requires re-census after publication.
-- [x] continuity/rehydration ranking + cache-currentness audit: **ICF-CS v1.0 embodied**, transient noise excluded, all authority roles seeded, cache source-currentness validated, full suite green 209.
+- [x] continuity/rehydration ranking + cache-currentness architecture embodied (first qualified under ICF-CS v1.0; current process authority is v1.1), transient noise excluded, all authority roles seeded, cache source-currentness validated, full suite green 209.
 
 ### Capability/runtime maturation
 - [~] capability availability/currentness core earned; provider expansion remains evidence-driven rather than blanket across all families.
@@ -650,29 +664,33 @@ Before promotion:
 
 ## 21. Current frontier / exact next move
 
-A-041 is current Git truth at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` / tree `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53` with final 318 GREEN.
+Current published Git truth is recovery head `77da92c7e8693287c2b541aa89275c062f0af558` / tree `3764bf8fe5caf39e82c36316719a2042f764bff6`; last published engineering feature remains A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`.
 
-**A-042 project mutation ownership/exclusivity is ACTIVE WIP, not merely next.**
+A-042 project mutation exclusivity has materially progressed as **uncommitted integrated WIP**, not yet earned:
+- 589-line `project_mutation_authority.py` core SHA `5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e`;
+- 280-line native projection `lab_tools_mutation_authority.py` SHA `d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f`;
+- current hostile test file SHA `959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c`;
+- dispatch, Git, project write/archive, protocol mutation, execution registration, power/write, legacy request, and compact schema integration are physically present;
+- all changed Python compile and schema parses;
+- focused A-042 authority result **7/8 PASS**; complete latest dirty-tree suite **331 collected = 328 PASS / 2 FAIL / 1 skip**;
+- blocker 1: same-session legacy compatibility vs explicit fenced lease/generation/owner authority;
+- blocker 2: compact schema `RuntimeAuthorityEnvelope` vs legacy parity expectation `BoundApprovalAuthority`.
+- final observed recovery freeze = **13 WIP files**, V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`, V2 ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; execution/power route integration appeared after the first 11-file freeze.
 
-Existing unqualified source candidate:
-`baseline/pcmmad_receiver/project_mutation_authority.py`
-SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` / 15,838 bytes / 455 lines / AST parse PASS.
+Exact current discriminator: one test expects same-session legacy compatibility under an active governed lease, while the current implementation requires explicit lease ID + generation + owner authority whenever a lease is active. The next thread SHALL derive the lawful survivor from the stale-owner/cross-client threat model and these Commander's Intent laws; it SHALL NOT weaken authority or rewrite the test by convenience.
 
-It already embodies a persistent generation-fenced lease core, cross-process guard locking, bounded expiry, integrity-checked state, acquire/renew/release/inspect, mutation validation, and compatibility-session fencing. A new thread SHALL inspect and hostile-test this candidate before inventing replacement architecture.
-
-Required A-042 progression:
-1. publish current rollover checkpoint/mirror first;
-2. linear audit existing candidate and current mutation chokepoints;
-3. hostile lease-core tests: simultaneous acquire, stale generation/token, expiry/takeover, owner/session mismatch, corrupt state, read nonblocking, crash/guard recovery;
-4. derive minimal native projection and consequence-bearing mutation integration;
-5. reproduce the actual two-tab continuity/Git race and prove only one writer authority survives;
-6. keep optimistic currentness/hash checks in addition to lease authority;
-7. full suite + continuity + Git commit/push/remote readback;
-8. only after A-042, re-derive current-head OBE stale-contract ordinary-invocation seam;
-9. idempotency/Job Object raids remain after that;
+Immediate sequence:
+1. seal emergency rollover continuity + byte-exact WIP mirror without staging Runtime WIP;
+2. fresh thread rehydrates and verifies worktree/WIP hashes;
+3. reproduce both known failures (focused lease/session + compact-schema authority parity);
+4. derive both authority contracts from intent/threat model before changing code/tests;
+5. linear audit A-042 core/projection/integration;
+5. resolve compatibility authority law;
+7. hostile cross-process/cross-client race and long-mutation/expiry tests;
+8. adjacent regression + full suite;
+9. continuity + A-042 engineering commit/push/remote readback;
+9. only then OBE stale-contract/idempotency/Job Object raids;
 10. final schema redesign remains locked last.
-
-Rollover finding: canonical outer state was current while visible chat rolled back and Git handoff mirror lagged at A-041 pre-publication. `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`. Thread saturation/compaction is suspected, not proven exclusive cause.
 
 ## 22. Fresh-thread anti-regression list
 

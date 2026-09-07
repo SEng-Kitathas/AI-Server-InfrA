@@ -1,136 +1,183 @@
 {
-  "authority_ceiling": "commit-bound recovery mirror; A-042 WIP copy is recovery material only; fresh local/Git/live Runtime readback required before mutation",
-  "created_at": "2026-09-06T22:54:00-04:00",
-  "current_handoff_candidate_test_state": "rollover handoff self-nonreferential seal; 9/9 rerun pending; full suite 321 GREEN from qualified checkpoint; A-042 WIP unqualified",
-  "current_step": "thread rollover checkpoint; A-042 project mutation authority WIP preserved/unqualified",
+  "authority_ceiling": "commit-bound recovery mirror; A-042 WIP copies are recovery material only; fresh persisted/Git/worktree/live Runtime readback required before mutation",
+  "created_at": "2026-09-07T14:41:00-04:00",
+  "current_handoff_candidate_test_state": "13-file handoff verifier 11/11 PASS; A-042 compile/schema PASS; focused 7/8; complete dirty tree 331 collected = 328 PASS / 2 FAIL / 1 skip",
+  "current_step": "final 13-file emergency rollover seal; recovery-only Git publication pending; A-042 engineering remains unqualified",
   "files": {
     "COMMANDERS_INTENT_CURRENT.md": {
-      "bytes": 36028,
-      "role": "intent",
-      "sha256": "6d129f37bf1a9f37b291219007c7bb2be7e0a9c3bee4162eef351393cb9a38b8",
-      "source_project_path": "checkpoints/COMMANDERS_INTENT_CURRENT.md"
+      "bytes": 38082,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "0c98b151a20402db3f1ae825a00dc5a0a5bec3c0c025ace35b1cde5ca974bf41"
     },
     "CURRENT_CANONICAL_SOP_POINTER.md": {
-      "bytes": 2128,
-      "role": "doctrine_pointer",
-      "sha256": "5480f9323a19378e2397cb14c820922d5d0371afb2e6028480aff04dd418e3fd",
-      "source_project_path": "state/doctrine_snapshot/CURRENT_CANONICAL_SOP_POINTER.md"
+      "bytes": 2278,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "6cef6401f87008c65258f671e7d32b469c99f7483b9546c799426422b1ed4ecc"
     },
     "CURRENT_STATE.md": {
-      "bytes": 23066,
-      "role": "frontier",
-      "sha256": "88843d3a984578d7e51254247057b4afde9e94ec76822f7524c95d5c1b5a4d2a",
-      "source_project_path": "state/current/CURRENT_STATE.md"
+      "bytes": 29542,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "80965a6d7ec0ffaba70c45848bab04b3d14397781e922aacab26a8e27af3a51b"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 158583,
-      "role": "history_chronology",
-      "sha256": "74763788b6f408196edeee7e6d47203a0c205742d37d93fab92addee721ad40c",
-      "source_project_path": "continuity/design_thread_stream/DESIGN_THREAD_STREAM.md"
+      "bytes": 174549,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "a62a2ba465dbbc4f8e2c597b17f49255a5528cd5a09b25d05cd63933601f933c"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 19530,
-      "role": "constraints",
-      "sha256": "0a5b993d7651bc76d9f51795acd8656337fc0c68cd98bb04271dd63fc48cd771",
-      "source_project_path": "state/doctrine_snapshot/DOCTRINE_SNAPSHOT.md"
+      "bytes": 21871,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "6af283e4f2c671cf9798e04f47e4e3379162de3f0ca2b2aa33400356bf7c4ef1"
     },
     "GIT_PUBLICATION_BASE.md": {
-      "bytes": 1027,
-      "role": "publication_base",
-      "sha256": "d344604ba81768e9f8dcc22f7f8e47b3c586b9da629182fc77d45286a61cda89",
-      "source_project_path": "checkpoints/GIT_PUBLICATION_CURRENT.md"
+      "bytes": 1942,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "da76893399fb25efcb84020e63d7ae59103865009da0a39a21462f8e43a4fb5a"
     },
     "HANDOFF_QUALIFICATION.md": {
-      "bytes": 2124,
-      "claim_ceiling": "rollover checkpoint qualified 9/9 handoff + 321 full suite; A-042 WIP recovery only, not engineering publication",
-      "role": "handoff_qualification",
-      "sha256": "2510d97ea7dead532baf3f8bc799b72d66ee6fd31a7d503be7492dd813e2b2e4",
-      "source_project_path": null
+      "bytes": 1758,
+      "claim_ceiling": "recovery verifier 11/11 PASS; A-042 focused 7/8 and unqualified; Git readback pending",
+      "sha256": "00d43da9674f4e9291f5f9f7b40de9e33369e9939a4b5f60eb50f079fc29978e"
     },
     "ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md": {
       "bytes": 4656,
-      "role": "doctrine_qualification",
-      "sha256": "245390f54148bf93e794904a987c0135df9b737ab484b615b7a51468562cb058",
-      "source_project_path": "checkpoints/ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md"
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "245390f54148bf93e794904a987c0135df9b737ab484b615b7a51468562cb058"
     },
     "ICF_CS_CLAIM_CEILING.md": {
       "bytes": 1353,
-      "role": "qualified_icf_claim_ceiling",
-      "sha256": "079a523d017438cfd9057d5bfe78b4bf47e4550c20fc9bbd3840cbf6d66f245a",
-      "source_project_path": "state/doctrine_snapshot/ICF_CS_CLAIM_CEILING.md"
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "079a523d017438cfd9057d5bfe78b4bf47e4550c20fc9bbd3840cbf6d66f245a"
     },
     "ICF_CS_CURRENT.md": {
-      "bytes": 7348,
-      "role": "current_ingress",
-      "sha256": "80779ecc2361c63c6c35d30d649d8c09b56f3d4f462e4ac0fc27108806e48157",
-      "source_project_path": "checkpoints/ICF_CS_CURRENT.md"
+      "bytes": 9110,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "3172a517ea57915212f0e9750a2693a6cd71adaca439a8e7d9f6ab2a18b23e59"
     },
     "ICF_CS_V1_0_MACHINE.json": {
       "bytes": 2688,
-      "role": "qualified_icf_machine",
-      "sha256": "527e4fa0926449155a8aa548656b3debc5292262f8cfaab0ca3f0470e7771f5a",
-      "source_project_path": "state/doctrine_snapshot/ICF_CS_V1_0_MACHINE.json"
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "527e4fa0926449155a8aa548656b3debc5292262f8cfaab0ca3f0470e7771f5a"
     },
     "INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md": {
-      "bytes": 10032,
-      "role": "qualified_icf_standard",
-      "sha256": "b22b6ba65992bf8e235df9acfb044da772282ae3820a1359af3b5309d1e1051b",
-      "source_project_path": "state/doctrine_snapshot/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md"
+      "bytes": 6316,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "62be845da364ae81f59b6320c9b34b136236bf5be8aa8036018da48efcb754f4"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 10952,
-      "role": "history_active",
-      "sha256": "8fec04abecba6b8aaa00bb710ce05d9506d32eb8375e9a8ba394d8ee87d0d92d",
-      "source_project_path": "continuity/live_shadow/LIVE_SHADOW.md"
+      "bytes": 6431,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "3276d6c9838ff5f198383212b36e52b0297ba22d764b971fef731e7d1583d2b4"
+    },
+    "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
+      "bytes": 5294,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "d43bef57466275b75a032c8078faf7b283a40b851359f95b6d675e9f9b1f4cb4"
     },
     "NEXT_STEPS.md": {
-      "bytes": 11205,
-      "role": "frontier",
-      "sha256": "763d077ababa79f9076ffe64f9e4ffb863960e6385a4013ae4c88441e91d607a",
-      "source_project_path": "state/next_steps/NEXT_STEPS.md"
+      "bytes": 12315,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "3e8abaf88e9ee6d57df27fd9d62071c0902f322d4b82167127e6ea78b47ac1d3"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 27786,
-      "role": "constraints",
-      "sha256": "c5a46e70c1fdae0f0ba5a298cd3a03d96cc4b6d3ab666e540cf134f263ad3db0",
-      "source_project_path": "state/revisit_ledger/REVISIT_LEDGER.md"
+      "bytes": 30286,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "905338a850e3dda9fa70c00f62d0cd72a84698288daa2abbf377d0c3d3cffd9d"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
-      "claim_ceiling": "current architecture/placement handoff; A-042 WIP and OBE stale-contract seam explicitly unqualified/candidate",
-      "derived_from": [
-        "reports/V30_COMMANDERS_INTENT_AND_WORKLIST.md",
-        "reports/PCMMAD_RUNTIME_ADAPTER_COMPATIBILITY_CONTRACT_V0_1.md",
-        "reports/PCMMAD_RUNTIME_ADAPTER_PROJECTION_MATRIX_V0_1.md",
-        "cross-thread Skill research evidence"
-      ],
-      "role": "cross_thread_architecture_handoff",
-      "sha256": "f55a9b7dd1960f5430d5d9612c89253be93775f92d9e123546383fd2f7f2c8e4",
-      "source_project_path": null
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "f55a9b7dd1960f5430d5d9612c89253be93775f92d9e123546383fd2f7f2c8e4"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 13036,
-      "role": "server_thread_rollover_dispatcher",
-      "sha256": "a387983b921bb59e09e7c59270233cdb32c720215f4d528f8b36399a2bbcc0ba",
-      "source_project_path": "checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md"
+      "bytes": 7535,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "e8e46c6e7980c71abc91067aec0f6a26c4ebcc40f11d17382677d0349ea09410"
+    },
+    "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
+      "bytes": 2410,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "9e1787a7f0180bea9bc497723e839570b2f54533b9889c15e4346ca18798861b"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 36929,
-      "role": "constraints_trace",
-      "sha256": "2f424889bb5d1ee35edec72ab5474907c0ebaaf65a9e83a7c7b28d7d5544e58e",
-      "source_project_path": "state/trace_matrix/TRACE_MATRIX.md"
+      "bytes": 40365,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "742f0a4f9e6493ed5f6e81b86309e6b52f0970b189c403ccfb253f4c1d7cbeff"
+    },
+    "wip/A042_API_WIRE_EXECUTION_WIP.py": {
+      "bytes": 8911,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "ab497e79803aa8efb7117faed0b7d81d7fa618923760f0d0fa0e30ac719e9f17"
+    },
+    "wip/A042_API_WIRE_POWER_WIP.py": {
+      "bytes": 10090,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "b6cea2f1cccf74057f7c53485549eb3adf40bfd35df116de793d34a7861892a2"
+    },
+    "wip/A042_COMPACT_ACTION_SCHEMA_WIP.json": {
+      "bytes": 121257,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "65f841072cfdae76df3b4ea38c9217c99daf17f4b5751aa30f9dc9404a90cf9b"
+    },
+    "wip/A042_EXECUTION_ROUTES_WIP.py": {
+      "bytes": 97012,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37"
+    },
+    "wip/A042_LAB_TOOLS_MUTATION_AUTHORITY_WIP.py": {
+      "bytes": 10247,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f"
+    },
+    "wip/A042_LAB_TOOLS_OPS_WIP.py": {
+      "bytes": 33370,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "56728c417fafd82bd1af766ed82fd3d6d20b7310a1dd9c462164e589f4de78f8"
+    },
+    "wip/A042_LAB_TOOLS_PROJECT_WIP.py": {
+      "bytes": 32407,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "cc4c877541f5075e6ca4b56ac2d481316d3e8d4b6105331f6f9bf9042f147475"
+    },
+    "wip/A042_LAB_TOOLS_PROTOCOL_WIP.py": {
+      "bytes": 23416,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "6a27835ee00a7f2477774b610df4af7f7a4e7a8aa8e00c85b57c4dbe9b9189e4"
+    },
+    "wip/A042_LAB_TOOLS_WIP.py": {
+      "bytes": 41251,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "42dffdb3bc124e8bdf0b1911e21d6a8c33535305ef55bd67dac44a44d0c25966"
+    },
+    "wip/A042_LEGACY_ROUTES_WIP.py": {
+      "bytes": 18526,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "636a21ee6489edf949eba73677682dd719d8b7a9372129449ad35bc29c44a79f"
+    },
+    "wip/A042_POWER_ROUTES_WIP.py": {
+      "bytes": 30001,
+      "claim_ceiling": "recovery mirror member; fresh persisted/Git/worktree readback required",
+      "sha256": "8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3"
     },
     "wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py": {
-      "bytes": 15838,
-      "claim_ceiling": "byte-exact recovery copy of untracked A-042 candidate; AST parse only; no integration/qualification claim",
-      "role": "wip_recovery_material_not_runtime_authority",
-      "sha256": "3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1",
-      "source_project_path": "V30_WORKING/PCMMAD_receiver/baseline/pcmmad_receiver/project_mutation_authority.py"
+      "bytes": 20926,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e"
+    },
+    "wip/A042_TEST_PROJECT_MUTATION_AUTHORITY_WIP.py": {
+      "bytes": 16818,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c"
+    },
+    "wip/A042_WIP_INVENTORY.json": {
+      "bytes": 4191,
+      "claim_ceiling": "byte-exact recovery material only; no A-042 engineering authority or qualification claim",
+      "sha256": "3e332dfaebe0ee019b9908ddb3a528ed6bff65eb82851798494fa661cb46a791"
     }
   },
-  "pre_handoff_git_base": "a97a00f67f3b79dbbe18e092d29b8971e588d4a2",
-  "pre_handoff_test_state": "A-041 targeted 20/20; complete suite 318 GREEN",
-  "pre_handoff_tree": "2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53",
+  "pre_handoff_git_base": "77da92c7e8693287c2b541aa89275c062f0af558",
+  "pre_handoff_test_state": "recovery head full suite 321 GREEN on older checkpoint; latest A-042 dirty tree 328 PASS / 2 FAIL / 1 skip",
+  "pre_handoff_tree": "3764bf8fe5caf39e82c36316719a2042f764bff6",
   "project_id": "PCMMAD_RECEIVER_LAB",
   "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
   "schema": "pcmmad.git-handoff-snapshot.v1"

@@ -1,279 +1,110 @@
 # PCMMAD Receiver V30 — NEW SERVER THREAD HANDOFF — CURRENT
 
-Status: **CURRENT ROLLOVER / RECOVERY AUTHORITY POINTER**
-Prepared: 2026-09-06 22:38 ET
+Prepared: 2026-09-07 13:53 ET
+Status: **EMERGENCY ROLLOVER / CURRENT RECOVERY DISPATCHER**
 Project: `PCMMAD_RECEIVER_LAB`
 Repository: `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`
 Branch: `main`
-Authority ceiling: this handoff is a recovery/control surface. It does not replace fresh local/Git/live Runtime readback before consequence-bearing mutation.
+Authority ceiling: recovery/control surface only. Fresh persisted/Git/worktree/live readback outranks this document before mutation.
 
-## 0. Why this handoff exists
+## 0. Incident and supersession
+The visual chat rolled back behind persisted project/worktree reality. A continuation later failed with `this thread is full`. Fresh inspection proved the previous rollover handoff stale: it described A-042 as one 455-line untracked module, then an intermediate recovery pass captured 11 files; the final current worktree freeze is **13 files**.
 
-The saturated server thread visibly rolled back behind persisted project reality more than once. Current evidence supports:
+This handoff supersedes that recovery description. Do not recover from chat memory.
 
-- **VERIFIED:** canonical outer project state remained current through A-041 publication and A-042 activation.
-- **VERIFIED:** Git `handoff/current` had become stale at the A-041 pre-publication candidate and therefore was not a sufficient standalone recovery mirror.
-- **SUSPECTED, NOT PROVEN:** full-thread saturation/compaction caused `CHAT_VISIBLE_FRONTIER` to lag persisted project state.
-
-Carry these laws forward:
-
+Binding laws:
 `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`
-
+`WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY`
 `RECENT_INFERENCE != CURRENT_AUTHORITY`
-
 `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`
+`CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`
 
-`RECENT_TIMESTAMP != CURRENT_AUTHORITY`
+## 1. Mandatory first actions
+Start **RECOVERY/AUDIT**, role **R1 Conservative Auditor**.
+1. project info + manifest;
+2. Current -> ICF -> canonical SOP pointer -> Commander -> Next/Doctrine/Revisit/Trace -> Live -> DTS tail -> this handoff;
+3. fresh Git root/branch/HEAD/tree/status/remote readback;
+4. compare dirty worktree against the **13-file v2** `handoff/current/wip/A042_WIP_INVENTORY.json`;
+5. verify current A-042 hashes;
+6. re-run `tests/test_project_mutation_authority.py`;
+7. only after reproducing the current discriminator may BUILD resume.
 
-`HISTORICAL_HANDOFF != CURRENT_INGRESS`
+## 2. Published lineage — do not replay
+Last engineering publication: A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`.
+Verified recovery HEAD before this emergency seal: `77da92c7e8693287c2b541aa89275c062f0af558` / tree `3764bf8fe5caf39e82c36316719a2042f764bff6`. Resolve current HEAD dynamically because this recovery checkpoint may advance it.
 
-If any material surface disagrees:
+A-037 incremental protocol fold, A-038 deterministic lifecycle replay, A-039 PID identity, A-040 event-driven scheduler wake/resync, and A-041 Merkle receipts are published survivors.
 
-`CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME`
+## 3. A-042 actual WIP
+A-042 is **integrated dirty WIP / uncommitted / unqualified**.
+- core: 20,926 bytes / SHA `5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e`;
+- projection: 10,247 bytes / SHA `d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f`;
+- hostile test: 16,818 bytes / SHA `959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c`.
 
-## 1. FIRST ACTIONS IN THE NEW THREAD — DO NOT SKIP
+All 11 current WIP files and hashes are preserved under `handoff/current/wip/`. Recovery copies are not source authority when current worktree exists.
 
-Start in **RECOVERY / AUDIT**, role **R1 Conservative Auditor**.
+Existing integration includes persistent generation-fenced lease core, native inspect/acquire/renew/release tools, dispatch-level `project_mutation_fenced` scope, fencing traits on Git/project/protocol mutations, authority fields on execution/power/write/legacy requests, and compact schema regeneration.
 
-Before discussing architecture or mutating source:
+### Final observed 13-file freeze
+The first emergency snapshot captured 11 files. Before sealing, fresh Git status showed `execution_routes.py` and `power_routes.py` had also changed. The exact current recovery baseline is therefore:
+- V2 manifest SHA `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
+- V2 ZIP SHA `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`;
+- `execution_routes.py` SHA `08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37`;
+- `power_routes.py` SHA `8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3`.
+Focused A-042 re-run after this expansion remains **7/8 with the same compatibility-authority blocker**.
 
-1. call project info / manifest / bounded rehydrate for `PCMMAD_RECEIVER_LAB`;
-2. read this file;
-3. read Current State -> ICF-CS -> Current Canonical SOP pointer + Commander -> Next/Doctrine/Revisit/Trace -> Live Shadow -> DTS tail;
-4. run exact Git readback:
-   - `git rev-parse --show-toplevel`
-   - `git branch --show-current`
-   - `git rev-parse HEAD`
-   - `git rev-parse HEAD^{tree}`
-   - `git status --short --branch`
-   - `git ls-remote origin refs/heads/main`
-5. call live server health/capabilities if Runtime behavior matters;
-6. verify the A-042 WIP source hash before touching it;
-7. only then continue BUILD work.
+`PERSISTED_CONTINUITY != CURRENT_WIP_BYTES`.
+`FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK`.
+If a fresh worktree differs from V2, do not restore V2 over it; localize whether A-042 advanced after the freeze.
 
-Never resume from the newest-looking chat paragraph alone.
+## 4. Exact qualification state
+- all changed/new A-042 Python files compile: **PASS**;
+- compact WIP schema JSON parses: **PASS**;
+- strengthened 13-file Git handoff verifier: **11/11 PASS**;
+- focused `tests/test_project_mutation_authority.py`: **7/8 PASS, 1 FAIL**;
+- complete current dirty-tree suite: **331 collected = 328 PASS / 2 FAIL / 1 skip**.
 
-## 2. VERIFIED CURRENT GIT TRUTH
+Known blocker 1:
+`test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`
+- code requires explicit fenced lease/generation/owner authority whenever a governed lease is active;
+- one test expects same textual `session_id` legacy compatibility.
 
-At checkpoint creation:
+Known blocker 2:
+`test_compact_schema_authority_parity.py::CompactSchemaAuthorityParityTests::test_dispatch_projects_authority_separately_from_capability_payload`
+- WIP compact schema projects `authority` as `#/components/schemas/RuntimeAuthorityEnvelope`;
+- parity test expects `#/components/schemas/BoundApprovalAuthority`.
 
-- local HEAD = remote `main` = `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
-- tree = `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53`;
-- subject = `Add protocol Merkle proof receipts`;
-- branch was clean except the intentionally untracked A-042 source candidate described below.
+Do not auto-fix either side of either disagreement. Derive the authority/projection boundaries first.
 
-`GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.
-
-Published raid lineage that SHALL NOT be replayed:
-
-| Step | Commit | Earned mechanism | Qualification at publication |
-|---|---|---|---|
-| A-037 | `59b4b5e5d6339127e50e052827f27bc94a14c832` | protocol mutation as incremental verified fold/checkpoint | protocol 18/18; full 284 GREEN |
-| A-038 | `cb2b4ee2c54c2aab02fa29b8feca6c40c666148e` | deterministic execution lifecycle replay harness | focused 39/39; 100/100 current seeds; full 289 GREEN |
-| A-039 | `d887213d8fa341af79e59ac1070ebf66225e107f` | legacy PID identity binding / recycle defense | focused 29/29; 100/100 seeds; full 297 GREEN |
-| A-040 | `486eee4a9c8a053bc5f5f301199010ba1a7f8d42` | event-driven execution wake + slow level-triggered resync | focused 37/37; full 306 GREEN |
-| A-041 | `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` | CT-style Merkle inclusion/consistency protocol receipts | targeted 20/20; full 318 GREEN |
-
-Do not re-derive these as open work unless new evidence specifically demotes them.
-
-## 3. LIVE SERVER CURRENTNESS — SEPARATE SURFACE
-
-Fresh live action-server readback during this checkpoint:
-
-- status: online;
-- scheduler: alive;
-- scheduler interval: 0.25 s;
-- native router: **96 tools / 16 families**;
-- compact imported control surface: **30 operations**;
-- global execution concurrency: 8.
-
-Fresh current-Git working-tree import separately reported **103 native tools**.
-
-Therefore:
-
-`LIVE_ACTION_SERVER_SURFACE != CURRENT_GIT_WORKING_TREE_REGISTRY`
-
-Do not infer live deployment from Git success or tool-count similarity/difference. Live promotion remains a separate gate.
-
-## 4. ACTUAL FRONTIER — A-042 IS ALREADY IN PROGRESS
-
-**A-042 project mutation ownership/exclusivity across tabs/clients is ACTIVE.**
-
-It is not merely “next.” An uncommitted candidate already exists:
-
-`V30_WORKING/PCMMAD_receiver/baseline/pcmmad_receiver/project_mutation_authority.py`
-
-Current exact identity:
-
-- bytes: 15,838;
-- lines: 455;
-- SHA-256: `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`;
-- AST parse: PASS;
-- Git status: untracked;
-- qualification: **NONE YET**;
-- route/tool integration: **NONE VERIFIED YET**;
-- tests referencing this module: **NONE FOUND at checkpoint start**.
-
-A byte-exact recovery copy is carried in the Git handoff at:
-
-`handoff/current/wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py`
-
-That copy is **WIP recovery material, not Runtime authority**.
-
-### What the existing A-042 candidate already implements
-
-Do not reinvent these pieces before auditing them:
-
-- persistent project-scoped lease record under control state;
-- persistent integer **generation fence**;
-- lease ID + owner ID + optional session/client identity;
-- bounded TTL (default 120s, min 10s, max 900s);
-- ACTIVE / RELEASED / EXPIRED / UNOWNED states;
-- record integrity hash;
-- cross-process project guard file with Windows and POSIX locking paths;
-- acquire with `expected_generation` stale-generation rejection;
-- active-owner conflict rejection;
-- expiry transition/recovery;
-- renew;
-- release;
-- active mutation guard validating generation/lease/owner/session;
-- backward-compatibility session guard that fences legacy sessions when a governed lease exists.
-
-Key candidate law already embodied:
-
-**a stale client must not merely wait for a newer owner to finish and then regain authority; the persistent generation fence must make its remembered mutation authority stale.**
-
-### A-042 target law
-
+## 5. Laws to preserve
 `THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY`
+`LEASE_AUTHORITY != OPTIMISTIC_CURRENTNESS`
+`WAITING_FOR_NEW_OWNER_TO_FINISH != REGAINING_OLD_AUTHORITY`
+`SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` is the strongest current candidate at the blocker but requires explicit confirmation.
 
-Consequential project/Git/continuity mutation needs server-native cross-client ownership. Reads should remain nonblocking.
+Reads should remain nonblocking. Process crash must not create immortal lock. Expiry/takeover must recover. Long consequence-bearing mutation must not admit a second writer merely because TTL passes while the guard remains held.
 
-## 5. EXACT A-042 CONTINUATION SEQUENCE
+## 6. Exact continuation
+A. fresh Git/worktree/hash readback; if newer than V2, localize before restore;
+B. reproduce both known failures;
+C. linear audit core/projection/test/integration;
+D. derive lease/session authority law with stale/restarted same-session counterexample;
+E. derive adapter authority-envelope law from native Runtime authority + compatibility contract; preserve authority separation;
+F. confirm minimum authoritative chokepoints and detect bypasses;
+G. hostile simultaneous-process/stale-generation/token/expiry/takeover/corrupt-state/killed-guard/read-nonblocking/long-mutation/legacy-bypass/Git-continuity race tests;
+H. adjacent authority/protocol/project/Git/schema regressions;
+I. full suite must be green before qualification;
+J. update all continuity;
+K. A-042 engineering commit/push/remote readback;
+L. only then OBE stale-contract/idempotency/Job Object raids.
 
-Do not redesign the module from scratch. Start by hostile-qualifying what exists.
+## 7. Claim ceiling
+Do not call A-042 fixed, exclusive, qualified, published, or live. Current dirty tree is explicitly **328 PASS / 2 FAIL / 1 skip**, not green. Do not stage active Runtime WIP into a recovery-only commit.
 
-### A. Inspect first
+## 8. Runtime/OBE/Skills architecture
+PCMMAD = methodology; Runtime = durable truth/state/capability; adapters = projections; OBE/Skills = operator intelligence; model = replaceable co-processor; Project Chat = replaceable mission surface.
+`TRANSPORT IS NOT ARCHITECTURE AUTHORITY`; `MECHANISM LIVES WHERE STATE LIVES`; `EMERGENT CAPABILITY IS ALLOWED; EMERGENT AUTHORITY IS NOT`.
+Final schema redesign remains last.
 
-1. read `project_mutation_authority.py` linearly;
-2. inspect current project/control/Git/continuity mutation chokepoints;
-3. locate existing session/client identity and authority plumbing;
-4. decide the minimum native projection for inspect/acquire/renew/release and mutation-guard use;
-5. do not scatter lease checks across dozens of routes if a smaller authoritative choke point exists.
-
-### B. Required hostile discriminators before integration can be called earned
-
-At minimum prove:
-
-1. two simultaneous owners cannot both acquire generation N;
-2. stale `expected_generation` fails after another campaign advances generation;
-3. old lease ID/generation cannot mutate after release + reacquire;
-4. expired owner can be recovered/taken over without immortal lock;
-5. wrong owner/session is rejected;
-6. malformed or integrity-corrupt lease state fails safely/observably;
-7. file-lock/process crash does not create permanent guard ownership;
-8. reads remain available while a mutation lease is held;
-9. legacy compatibility behavior is explicit and cannot bypass a different active governed session;
-10. two tabs/process clients reproducing the observed continuity/Git race result in exactly one consequence-bearing mutation authority;
-11. current optimistic hash/currentness checks remain in force — lease authority does not replace them;
-12. lease expiry during a long mutation cannot silently allow two simultaneous consequence-bearing writers; derive the renew/fence semantics needed for that boundary.
-
-### C. Only after core semantics survive
-
-Then integrate the smallest justified native surfaces and fence actual consequential project mutation paths. Add telemetry/readback. Run focused hostile tests, full suite, continuity update, Git commit/push/remote readback.
-
-A-042 SHALL be published as its own step before opening the next raid.
-
-## 6. A-042 CLAIM CEILING RIGHT NOW
-
-Current candidate is **implementation evidence only**.
-
-Do NOT say:
-- A-042 is fixed;
-- project mutation is exclusive;
-- routes are protected;
-- the live server uses the lease;
-- the lease survived hostile concurrency;
-- the WIP source is current Git truth.
-
-Those become true only after explicit tests/integration/readback prove them.
-
-## 7. POST-A-042 QUEUE — DO NOT PULL FORWARD
-
-After A-042 is earned/published:
-
-1. **OBE A-001 ordinary-invocation stale-contract discriminator** — current V30 has `contract_digest`, and bound approvals/HUD use it, but current source contains no `expected_contract_digest`, `CAPABILITY_CONTRACT_STALE`, or `BAD_EXPECTED_CONTRACT_DIGEST` ordinary-invocation enforcement. The older OBE patch is donor evidence only; reproduce against then-current HEAD and derive natively.
-2. mutating lab/protocol idempotency expansion (`RESPONSE_LOST != SAFE_TO_REPEAT_MUTATION`);
-3. Windows Job Object resource envelope using already-declared memory/process limit fields;
-4. remaining raid mechanisms only by discriminator;
-5. **final schema redesign is last**, after whole-runtime convergence.
-
-Do not mix these into A-042 merely because they are adjacent authority/safety concerns.
-
-## 8. RUNTIME / OBE / SKILLS DUALITY — KEEP THIS STRAIGHT
-
-- PCMMAD = methodology.
-- Laboratory Runtime = durable machine truth/state/deterministic capability.
-- Adapters = MCP/OpenAPI/CLI/HUD projections.
-- OBE/Skills = reusable operator intelligence/composition judgment.
-- Model = replaceable co-processor.
-- Project Chat = replaceable mission interaction surface.
-
-`TRANSPORT IS NOT ARCHITECTURE AUTHORITY`
-
-`MECHANISM LIVES WHERE STATE LIVES`
-
-`EMERGENT CAPABILITY IS ALLOWED. EMERGENT AUTHORITY IS NOT`
-
-A second PCMMAD ontology SHALL NOT emerge in the Skill thread.
-
-OBE/Skill candidate interfaces remain provisional until reconciled with audited current Runtime semantics.
-
-## 9. LOAD-BEARING ENGINEERING LAWS / SCARS TO PRESERVE
-
-Do not regress these:
-
-- `INTENT IS A CONSTRAINT, NOT A CEILING`;
-- `TOOL_SUCCESS != TASK_SUCCESS`;
-- `SUBMITTED != STARTED != COMPLETED != REGISTERED != PROMOTED`;
-- `DERIVED_STATE_IS_A_FOLD_NOT_A_REBUILD`;
-- `INCREMENTAL_STEADY_STATE != NO_FULL_RECOVERY_PATH`;
-- `CRYPTOGRAPHIC_VALIDITY != CURRENTNESS`;
-- `THREAD_LOCAL_DISCIPLINE != PROJECT_MUTATION_EXCLUSIVITY`;
-- `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`;
-- `V30_WORKING_TREE_SUCCESS != RELEASE_QUALIFICATION != LIVE_DEPLOYMENT`;
-- `LONG-RUNNING WORK SHALL NOT REQUIRE LONG-RUNNING MODEL ATTENTION`;
-- final schema redesign remains locked last;
-- composition before invention; quarry mechanisms, not donor architectures wholesale.
-
-## 10. ROLLOVER / ANTI-ROLLBACK PROCEDURE
-
-For every fresh server thread or recovery event:
-
-1. persisted project surfaces outrank conversational momentum;
-2. exact Git readback outranks handoff prose about Git;
-3. live Runtime readback outranks Git assumptions about deployment;
-4. WIP worktree bytes outrank stale summaries about an active candidate;
-5. the Git handoff mirror is fallback/recovery, not live authority;
-6. if the mirror is stale, repair it before relying on it for another rollover;
-7. append the recovery incident to DTS and update Live Shadow/ICF/Commander/Current/Next/Doctrine/Revisit/Trace together;
-8. never let a “newest-looking” report outrank ICF currentness by timestamp alone.
-
-## 10A. ROLLOVER CHECKPOINT QUALIFICATION
-
-This handoff/mirror repair has now passed:
-- strengthened Git handoff regression: **9 / 9 PASS**;
-- complete V30 suite: **321 collected tests GREEN**;
-- existing conditional Windows symlink-privilege skip only.
-
-The first rollover checkpoint was Git/remote-verified as `86f410b373877dd8cde2b30a388512b928169178`. This handoff may itself be present in that or a later recovery-only commit, so a fresh thread SHALL read current Git dynamically. Recovery/checkpoint commits do **not** imply A-042 engineering publication.
-
-`CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`.
-
-## 11. IMMEDIATE FIRST SENTENCE FOR THE NEXT THREAD
-
-Use something equivalent to:
-
-**“Mode: RECOVERY/AUDIT. I have re-read persisted Current/ICF/Commander/Live and performed fresh Git/worktree readback. A-041 is the last published engineering feature, any newer handoff/checkpoint commit does not promote A-042, and A-042 is active WIP at SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1` and is unqualified. I will inspect/hostile-test the existing A-042 candidate before any new architecture or mutation.”**
-
-That is the lawful resume point.
+## 9. First-response requirement
+New thread first response must state Mode, Role, fresh Git/worktree identities, A-041 engineering baseline vs recovery commits, exact 13-file dirty A-042 state, **both known failing tests**, current 331-test claim ceiling, and immediate no-mutation discriminators.

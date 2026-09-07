@@ -24,6 +24,7 @@ Use the qualified version-agnostic ICF-CS grammar:
 
 Repository mapping:
 0. `handoff/current/SERVER_THREAD_HANDOFF_CURRENT.md` — read first as rollover dispatcher;
+0A. `handoff/current/NEW_THREAD_HANDOFF_PROMPT_CURRENT.md` — paste-ready fresh-thread control block;
 1. `handoff/current/CURRENT_STATE.md`
 2. `handoff/current/ICF_CS_CURRENT.md`
 3. `handoff/current/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md`
@@ -43,6 +44,9 @@ Repository mapping:
 
 Snapshot membership/source hashes are in:
 `handoff/current/SNAPSHOT_MANIFEST_SHA256.json`.
+
+Uncommitted A-042 recovery inventory is in:
+`handoff/current/wip/A042_WIP_INVENTORY.json`.
 
 ## Required fresh readback
 
@@ -69,6 +73,10 @@ If material surfaces disagree:
 
 `RECENT_INFERENCE != CURRENT_AUTHORITY`
 
+`THREAD_FULL_RECOVERY != CHAT_MEMORY_RECOVERY`
+
+`WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY`
+
 ## Architecture in one screen
 
 - **PCMMAD** = methodology.
@@ -94,43 +102,45 @@ Do not stare at an open-ended wait for 45 minutes. Runtime jobs/queues/research/
 
 ## Verified base and current candidate
 
-Current remote-verified Git engineering base:
-- commit `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
-- tree `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53`;
-- A-041 CT/Merkle protocol receipts published;
-- final A-041 targeted 20/20; full 318 GREEN.
+Published engineering base:
+- A-041 commit `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
+- A-041 CT/Merkle protocol receipts published; targeted 20/20 and full 318 GREEN at its engineering publication.
 
-Current local frontier is **A-042 ACTIVE WIP**, not merely next:
-- `baseline/pcmmad_receiver/project_mutation_authority.py`;
-- SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`;
-- 15,838 bytes / 455 lines / AST parse PASS;
-- untracked, uncommitted, unqualified;
-- byte-exact recovery copy at `handoff/current/wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py`.
+Recovery Git head before this emergency rollover seal:
+- local/remote `main` `77da92c7e8693287c2b541aa89275c062f0af558`;
+- tree `3764bf8fe5caf39e82c36316719a2042f764bff6`;
+- recovery commits do not promote A-042.
 
-Do not infer A-042 success from source presence. Inspect/hostile-test/integrate it before publication.
+Current local frontier is **A-042 INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFIED** across **13 files**. Core identities:
+- `project_mutation_authority.py` SHA `5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e`, 20,926 bytes;
+- `lab_tools_mutation_authority.py` SHA `d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f`, 10,247 bytes;
+- `test_project_mutation_authority.py` SHA `959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c`, 16,818 bytes.
 
-Fresh live server readback during rollover: online, scheduler alive 0.25s, 96 native tools / 16 families / 30 compact operations. Current Git working-tree registry separately imports 103 tools. `LIVE_ACTION_SERVER_SURFACE != CURRENT_GIT_WORKING_TREE_REGISTRY`.
+Exact inventory/copies: `handoff/current/wip/A042_WIP_INVENTORY.json`.
+
+Fresh recovery qualification: changed/new Python compile PASS; compact schema JSON parse PASS; strengthened 13-file handoff **11/11 PASS**; focused A-042 authority suite **7/8 PASS**; complete dirty tree **331 collected = 328 PASS / 2 FAIL / 1 skip**. Blocker 1 is active-lease same-session compatibility vs explicit fenced authority. Blocker 2 is compact-schema `RuntimeAuthorityEnvelope` vs legacy parity expectation `BoundApprovalAuthority`.
 
 ## Current handoff-candidate qualification
 
-This is a **rollover/recovery checkpoint**, not an A-042 engineering qualification.
+This is an **emergency rollover/recovery checkpoint**, not A-042 engineering qualification. The previous mirror was stale relative the integrated dirty worktree and has been superseded by a full **13-file v2** byte-exact WIP recovery inventory.
 
-The previous mirror was stale at A-041 pre-publication. It has been refreshed from registered Current/ICF/Commander/Next/Doctrine/Revisit/Trace/Live/DTS and the dedicated server-thread handoff.
+Recovery mirror qualification must prove manifest hashes, prompt/handoff presence, exact WIP inventory membership, and the current A-042 claim ceiling. It SHALL NOT require current A-042 engineering tests to be green.
 
-Qualification: **9 / 9 handoff PASS; complete suite 321 GREEN**. A-042 remains untracked/unqualified engineering WIP; its mirrored copy is recovery material only.
+`CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`.
 
 ## Active engineering frontier
 
-1. publish this rollover checkpoint/mirror without promoting A-042 source;
-2. new thread starts RECOVERY/AUDIT and verifies exact A-042 WIP hash;
-3. linearly audit existing lease/generation candidate and project mutation chokepoints;
-4. hostile two-writer/stale-generation/expiry/takeover/corrupt-state/read-nonblocking tests;
-5. integrate the smallest native mutation authority projection/chokepoint;
-6. reproduce the actual multi-tab continuity/Git race and prove one writer survives;
-7. full suite + continuity + Git publication of A-042;
-8. only then current-head OBE ordinary-invocation stale-contract discriminator;
-9. idempotency / Job Object raids afterward;
-10. final schema redesign remains locked last.
+1. new thread starts RECOVERY/AUDIT and verifies current worktree hashes against the recovery inventory;
+2. reproduce both known failures;
+3. resolve same-session legacy compatibility vs explicit fenced authority from Commander intent/threat model;
+4. resolve `RuntimeAuthorityEnvelope` vs `BoundApprovalAuthority` projection contract from native authority + compatibility contract;
+5. linearly audit current core/projection/integration and locate bypasses/chokepoints;
+6. hostile cross-process/cross-client/stale-generation/expiry/long-mutation/corrupt-state/legacy-bypass qualification;
+7. adjacent authority/protocol/project/Git/schema regression;
+8. full suite GREEN;
+9. continuity + A-042 engineering Git publication/readback;
+10. only afterward OBE stale-contract/idempotency/Job Object raids;
+11. final schema redesign remains locked last.
 
 ## Release/live ceiling
 

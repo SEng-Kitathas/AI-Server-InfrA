@@ -48,7 +48,11 @@ class GitHandoffCurrentTests(unittest.TestCase):
             "ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md",
             "RUNTIME_OBE_SKILLS_DUALITY.md",
             "SERVER_THREAD_HANDOFF_CURRENT.md",
+            "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md",
             "wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py",
+            "wip/A042_EXECUTION_ROUTES_WIP.py",
+            "wip/A042_POWER_ROUTES_WIP.py",
+            "wip/A042_WIP_INVENTORY.json",
         }
         self.assertTrue(required.issubset(set(self.manifest["files"])))
 
@@ -96,20 +100,46 @@ class GitHandoffCurrentTests(unittest.TestCase):
     def test_rollover_frontier_is_current_and_wip_is_not_promoted(self) -> None:
         handoff = (HANDOFF / "SERVER_THREAD_HANDOFF_CURRENT.md").read_text(encoding="utf-8")
         self.assertIn("a97a00f67f3b79dbbe18e092d29b8971e588d4a2", handoff)
-        self.assertIn("A-042 project mutation ownership/exclusivity across tabs/clients is ACTIVE", handoff)
-        self.assertIn("3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1", handoff)
-        self.assertIn("qualification: **NONE YET**", handoff)
+        self.assertIn("A-042 is **integrated dirty WIP / uncommitted / unqualified**", handoff)
+        self.assertIn("5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e", handoff)
+        self.assertIn("7/8 PASS", handoff)
         self.assertIn("CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER", handoff)
+        self.assertIn("WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY", handoff)
 
     def test_wip_recovery_copy_matches_declared_a042_identity(self) -> None:
         path = HANDOFF / "wip" / "A042_PROJECT_MUTATION_AUTHORITY_WIP.py"
         self.assertTrue(path.is_file())
-        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), "3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1")
-        self.assertEqual(path.stat().st_size, 15838)
+        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), "5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e")
+        self.assertEqual(path.stat().st_size, 20926)
+
+    def test_a042_wip_inventory_is_complete_and_hashes_recovery_copies(self) -> None:
+        inventory = json.loads((HANDOFF / "wip" / "A042_WIP_INVENTORY.json").read_text(encoding="utf-8"))
+        self.assertEqual(inventory["schema"], "pcmmad.a042-wip-recovery.v2")
+        self.assertEqual(inventory["file_count"], 13)
+        self.assertEqual(len(inventory["files"]), 13)
+        sources = {row["source_path"] for row in inventory["files"]}
+        self.assertIn("baseline/pcmmad_receiver/execution_routes.py", sources)
+        self.assertIn("baseline/pcmmad_receiver/power_routes.py", sources)
+        for row in inventory["files"]:
+            path = HANDOFF / row["recovery_path"]
+            self.assertTrue(path.is_file(), row["recovery_path"])
+            data = path.read_bytes()
+            self.assertEqual(len(data), row["bytes"], row["recovery_path"])
+            self.assertEqual(hashlib.sha256(data).hexdigest(), row["sha256"], row["recovery_path"])
+
+    def test_new_thread_prompt_preserves_current_blockers_and_claim_ceiling(self) -> None:
+        prompt = (HANDOFF / "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md").read_text(encoding="utf-8")
+        self.assertIn("7/8 PASS", prompt)
+        self.assertIn("331 collected = 328 PASS / 2 FAIL / 1 skip", prompt)
+        self.assertIn("test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active", prompt)
+        self.assertIn("test_dispatch_projects_authority_separately_from_capability_payload", prompt)
+        self.assertIn("RuntimeAuthorityEnvelope", prompt)
+        self.assertIn("BoundApprovalAuthority", prompt)
+        self.assertIn("Final schema redesign remains last", prompt)
 
     def test_ingress_does_not_reopen_published_a041(self) -> None:
         self.assertIn("a97a00f67f3b79dbbe18e092d29b8971e588d4a2", self.ingress)
-        self.assertIn("A-042 ACTIVE WIP", self.ingress)
+        self.assertIn("A-042 INTEGRATED DIRTY WIP / UNCOMMITTED / UNQUALIFIED", self.ingress)
         self.assertNotIn("Resolve current Git identity dynamically; this snapshot does not prove whether A-041 has been pushed", self.ingress)
 
 

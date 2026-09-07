@@ -1,37 +1,36 @@
-# Git Handoff Qualification — Saturated-Thread Rollover Checkpoint
+# Git Handoff Qualification — Emergency Rollover 2026-09-07
 
-Date: 2026-09-06
-Status: **QUALIFIED FOR CHECKPOINT GIT PUBLICATION**
+Status: **QUALIFIED FOR RECOVERY-ONLY GIT PUBLICATION**
 
-## Verified source frontier
-- Git engineering base before checkpoint: `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`
-- tree: `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53`
-- A-041 CT/Merkle receipts published; final targeted 20/20.
+Purpose: preserve exact current continuity and the full **13-file A-042 dirty WIP** as recovery material after visual-thread rollback / full-thread failure.
 
-## Active WIP recovery material
-- A-042 source candidate: `baseline/pcmmad_receiver/project_mutation_authority.py`
-- source/mirror SHA: `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`
-- bytes: 15,838 / 455 lines
-- AST parse: PASS
-- qualification/integration: **NONE CLAIMED**.
+Recovery verifier: **11 / 11 PASS**.
 
-The WIP is mirrored at `wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py` only to prevent reinvention/loss. It is not Runtime/Git source authority.
+Authority ceiling:
+- recovery mirror only;
+- A-041 remains last published engineering feature;
+- A-042 is dirty/uncommitted/unqualified;
+- current worktree outranks recovery copies;
+- no Runtime WIP is staged merely by inclusion under `handoff/current/wip`;
+- this recovery pass resolves neither current A-042 contract discriminator.
 
-## Recovery defect repaired
-The prior Git handoff mirror described A-041 as pre-publication while canonical outer state and Git were already at A-041 published/A-042 active. This mirror was rebuilt from registered canonical surfaces and now includes `SERVER_THREAD_HANDOFF_CURRENT.md` plus byte-exact WIP recovery material.
+Current A-042 representation/qualification evidence:
+- all changed/new Python compile PASS;
+- compact schema parse PASS;
+- focused A-042 authority suite **7 / 8 PASS**;
+- complete dirty tree **331 collected = 328 PASS / 2 FAIL / 1 skip**;
+- blocker 1: `test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`;
+- blocker 2: `test_compact_schema_authority_parity.py::CompactSchemaAuthorityParityTests::test_dispatch_projects_authority_separately_from_capability_payload`;
+- last pre-latest-integration recovery checkpoint full suite 321 GREEN applies only to older checkpoint bytes.
 
-## Qualification
-- strengthened Git handoff regression: **9 / 9 PASS**;
-- complete current V30 suite: **321 collected tests GREEN**;
-- existing conditional Windows symlink-privilege skip only;
-- no Runtime Python source was intentionally modified by the rollover checkpoint;
-- A-042 active source remains untracked/unqualified outside the checkpoint recovery copy.
+Recovery mirror WIP inventory:
+- schema `pcmmad.a042-wip-recovery.v2`;
+- file_count `13`;
+- outer V2 manifest SHA `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
+- outer V2 ZIP SHA `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`.
 
-## Causal ceiling
-Thread saturation/compaction is a plausible cause of visible-chat rollback but is not proven to be the exclusive cause. Stale Git handoff mirror is independently verified as a recovery defect.
-
-## Publication boundary
-Checkpoint Git publication may create a commit newer than A-041. That newer checkpoint commit does not itself promote A-042 engineering state. Fresh threads must read current Git dynamically and preserve the distinction between checkpoint/recovery publication and engineering publication.
+Git commit/push/remote readback of the recovery-only snapshot are still required.
 
 `CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`
-`GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`
+`WIP_SOURCE_PRESENT != QUALIFIED_SURVIVOR`
+`RECOVERY_MIRROR != CURRENT_WIP_AUTHORITY`

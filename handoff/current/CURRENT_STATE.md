@@ -1,20 +1,31 @@
 # PCMMAD Receiver V30 — Current State
 
-Last updated: 2026-09-06 22:38 ET
-Continuity status: **REPAIRED / HANDOFF READY**
-Active project mode on resume: **BUILD-COMMIT / AUDIT**
-Recommended resume role: **R5 Reality Pressure Engine**
+Last updated: 2026-09-07 14:36 ET
+Continuity status: **EMERGENCY ROLLOVER FULLY RECONCILED / 13-FILE RECOVERY MIRROR QUALIFIED / GIT SEAL PENDING**
+Active project mode on resume: **RECOVERY/AUDIT -> BUILD-COMMIT only after A-042 discriminator**
+Recommended resume role: **R1 Conservative Auditor -> R5 Reality Pressure Engine after re-grounding**
 
-## ICF-CS qualified authority update
+## Universal process authority / Governance Contact local reconciliation
 
-The uploaded `RAHL_ENGINEERING_CANONICAL_SOP_R4_4_ICF_CS_V1_0_ADDENDUM_2026-09-05.zip` has been externally qualified on exact bytes and is now **binding additive continuity/process doctrine above sealed R4.4**, within its stated scope ceiling.
+Current universal process authority remains sealed R4.4 + receipt-qualified ICF-CS v1.1.
+- R4.4 SHA-256: `04f3e94efe8c901cc83a12a9c8531be8a9bb350728b8f9eba53db0fd082b3bbc`.
+- ICF-CS v1.1 standard SHA: `62be845da364ae81f59b6320c9b34b136236bf5be8aa8036018da48efcb754f4`.
+- ICF-CS v1.1 payload SHA: `f6f4ab2bafdb0ef2a7db1622a00462990baf980284d5b33827807caea1d41f63`.
+- ICF-CS v1.1 detached release receipt SHA: `418346ed6373887b5b924e71ca2bf4b83effad20b7269ab40607f5d2750b970c`.
+- ICF-CS v1.0 payload `51ed7f424dff7c67534f7e53e8a7c10ebd93bf33ea575eea49dc3f05c24a92a9` is historical/demoted evidence, not current authority.
 
-Qualified outer ZIP SHA-256: `51ed7f424dff7c67534f7e53e8a7c10ebd93bf33ea575eea49dc3f05c24a92a9`.
-Exact registered standard SHA: `b22b6ba65992bf8e235df9acfb044da772282ae3820a1359af3b5309d1e1051b`.
-Qualification receipt: `checkpoints/ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md`.
+Governance Contact v1.0 is locally reconciled as a **published/admitted pending carrier, NOT ACTIVE**.
+- sealed release ZIP SHA: `c4ab4a516e088b6c28b5240d6b3877d2e3fb889a8bbbfd406e8e0c73bebdd1ae`;
+- detached release receipt SHA: `cf2e7bd8e5ed613d3c3a99b7f8645833ddb742ac4939bd1719092b277ef286e6`;
+- package qualification receipt SHA: `509aba0bb859db49d9311e08acae98d8c7bdfbbb1d41cdd157d1675e70f8a302`;
+- local sidecar: `state/doctrine_snapshot/GOVERNANCE_CONTACT_V1_0_LOCAL_RECONCILIATION.md`.
+
 Current canonical SOP pointer: `state/doctrine_snapshot/CURRENT_CANONICAL_SOP_POINTER.md`.
+Current ICF-CS ingress: `checkpoints/ICF_CS_CURRENT.md`.
 
 `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
+`CARRIER_PRESENT != PROJECT_SPECIFIC_AUTHORITY_REWRITE`.
+`POST_PUBLICATION_READBACK != ACTIVE`.
 
 ## Project / mission
 
@@ -253,7 +264,7 @@ Now verified:
 - `rehydrateProjectContext(path="continuity")` selects BOTH `continuity.live_shadow` and `continuity.design_thread_stream` with **no open seams**.
 
 ICF-CS continuity status:
-- **Intent–Constraint–Frontier Continuity Standard (ICF-CS) v1.0 is now active and registered**;
+- **Intent–Constraint–Frontier Continuity Standard (ICF-CS) v1.1 is current and registered; v1.0 is historical/demoted evidence**;
 - generic standard: `state/doctrine_snapshot/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md`;
 - discoverable ingress: `checkpoints/ICF_CS_CURRENT.md`;
 - V30 root rehydration now seeds Current → ICF Standard → Intent → Next/Doctrine/Revisit/Trace → Live Shadow → DTS before topic evidence;
@@ -263,47 +274,103 @@ ICF-CS continuity status:
 
 ## Current frontier / exact resume point
 
-A-041 Certificate-Transparency-style Merkle protocol receipts remain **EARNED, PUSHED, AND REMOTE-VERIFIED**.
+### Published / persisted authority
+- last published engineering feature: **A-041** at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` (`Add protocol Merkle proof receipts`);
+- current Git local HEAD = remote `main` = `77da92c7e8693287c2b541aa89275c062f0af558`; tree `3764bf8fe5caf39e82c36316719a2042f764bff6`;
+- commits `86f410b...` and `77da92c...` are recovery/checkpoint publications only, not A-042 engineering promotion;
+- current worktree is intentionally dirty with **A-042 project mutation ownership/exclusivity WIP**;
+- live Desktop receiver remains a separate, unpromoted surface.
 
-Current Git truth at rollover checkpoint:
-- local/remote `main` `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`;
-- tree `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53`;
-- A-041 final targeted 20/20 + full 318 GREEN;
-- worktree contains one intentional untracked A-042 candidate: `baseline/pcmmad_receiver/project_mutation_authority.py`.
+### Visual-thread rollback incident
+The visible chat rolled back behind persisted project/worktree reality, and a continuation attempt later hit `this thread is full`. The safe recovery ordering is now mandatory:
 
-**Actual Active Frontier: A-042 project mutation ownership/exclusivity is already IN PROGRESS, not merely next.**
+`PERSISTED PROJECT / WORKTREE / GIT READBACK > GIT HANDOFF MIRROR > VISIBLE CHAT NARRATIVE`
 
-A-042 WIP identity:
-- bytes 15,838 / 455 lines;
-- SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`;
-- AST parse PASS;
-- untracked / uncommitted / unqualified;
-- no route/tool integration or tests are yet verified.
+Binding scars:
+- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
+- `THREAD_FULL_RECOVERY != CHAT_MEMORY_RECOVERY`;
+- `WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY`;
+- `PERSISTED_CONTINUITY != CURRENT_WIP_BYTES`;
+- `FRONTIER_CURRENTNESS_REQUIRES_GIT_WORKTREE_TEST_READBACK`;
+- `RECENT_INFERENCE != CURRENT_AUTHORITY`;
+- `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
 
-The candidate already contains persistent generation fencing, bounded TTL lease state, cross-process guard locking, integrity-checked state, acquire/renew/release/inspect, active mutation validation, expiry recovery, and a compatibility-session guard. Do not reinvent these mechanisms; inspect and hostile-test them first.
+Causal attribution to compaction/thread saturation remains **suspected, not proven exclusive**.
 
-Rollover incident findings:
-- canonical outer continuity was current through A-041/A-042;
-- Git `handoff/current` was stale at A-041 pre-publication and is being repaired in this checkpoint;
-- visible chat rollback is suspected to be thread-saturation/compaction drift but causal attribution is NOT proven.
+### A-042 actual WIP state — newer than prior rollover handoff
+The prior handoff recorded only the first 455-line lease module. Fresh worktree readback shows A-042 progressed materially before the visual rollback. Current exact WIP inventory:
 
-New rollover laws:
-`CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
-`RECENT_INFERENCE != CURRENT_AUTHORITY`;
-`CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
+| Path | Git | Bytes | SHA-256 |
+|---|---:|---:|---|
+| `baseline/pcmmad_receiver/project_mutation_authority.py` | ?? | 20,926 | `5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e` |
+| `baseline/pcmmad_receiver/lab_tools_mutation_authority.py` | ?? | 10,247 | `d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f` |
+| `baseline/pcmmad_receiver/api_wire_execution.py` | M | 8,911 | `ab497e79803aa8efb7117faed0b7d81d7fa618923760f0d0fa0e30ac719e9f17` |
+| `baseline/pcmmad_receiver/api_wire_power.py` | M | 10,090 | `b6cea2f1cccf74057f7c53485549eb3adf40bfd35df116de793d34a7861892a2` |
+| `baseline/pcmmad_receiver/execution_routes.py` | M | 97,012 | `08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37` |
+| `baseline/pcmmad_receiver/lab_tools.py` | M | 41,251 | `42dffdb3bc124e8bdf0b1911e21d6a8c33535305ef55bd67dac44a44d0c25966` |
+| `baseline/pcmmad_receiver/lab_tools_ops.py` | M | 33,370 | `56728c417fafd82bd1af766ed82fd3d6d20b7310a1dd9c462164e589f4de78f8` |
+| `baseline/pcmmad_receiver/lab_tools_project.py` | M | 32,407 | `cc4c877541f5075e6ca4b56ac2d481316d3e8d4b6105331f6f9bf9042f147475` |
+| `baseline/pcmmad_receiver/lab_tools_protocol.py` | M | 23,416 | `6a27835ee00a7f2477774b610df4af7f7a4e7a8aa8e00c85b57c4dbe9b9189e4` |
+| `baseline/pcmmad_receiver/legacy_routes.py` | M | 18,526 | `636a21ee6489edf949eba73677682dd719d8b7a9372129449ad35bc29c44a79f` |
+| `baseline/pcmmad_receiver/power_routes.py` | M | 30,001 | `8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3` |
+| compact Actions schema JSON | M | 121,257 | `65f841072cfdae76df3b4ea38c9217c99daf17f4b5751aa30f9dc9404a90cf9b` |
+| `tests/test_project_mutation_authority.py` | ?? | 16,818 | `959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c` |
 
-Live server readback at checkpoint: online, scheduler alive at 0.25s, 96 native tools / 16 families, compact surface 30 operations. Current Git working-tree registry separately imports 103 tools. Do not conflate live deployment and working-tree capability counts.
+Fresh non-mutating representation qualification on these exact bytes:
+- all changed/new Python files `py_compile`: **PASS**;
+- compact schema JSON parse: **PASS**;
+- `tests/test_project_mutation_authority.py`: **7/8 PASS, 1 FAIL**.
 
-Rollover checkpoint qualification: **handoff 9/9 PASS; complete suite 321 GREEN**. No A-042 engineering qualification is implied.
+Exact failing discriminator:
+`test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`
 
-Exact resume:
-1. publish this rollover checkpoint/mirror without adding the unqualified A-042 source as Runtime truth;
-2. next thread rehydrates and verifies the WIP hash;
-3. inspect/hostile-test existing A-042 lease core;
-4. derive minimal integration chokepoints and native projection;
-5. qualify focused + full suite;
-6. continuity + Git push/readback A-042;
-7. only then re-derive OBE stale-contract ordinary invocation seam and later idempotency/Job Object raids.
+Observed disagreement:
+- current implementation: once a governed mutation lease is active, a legacy caller must present **explicit fenced authority**; textual `session_id` equality alone is insufficient;
+- stale test expectation: same textual session may enter through `compatibility_session_guard`.
+
+Checkpointing SHALL NOT choose the winner. The new thread must inspect Commander intent + A-042 authority law and decide whether the test is stale or implementation is over-strict, then hostile-test the survivor.
+
+### A-042 physical integration already present
+Fresh diff proves existing WIP already includes:
+- native `project.mutation.inspect/acquire/renew/release` projection module;
+- `project_mutation_scope` composition at native dispatch for tools carrying `project_mutation_fenced`;
+- explicit mutation-authority plumbing in execution registration, sync/python/write requests, and legacy commit request;
+- fencing traits on Git commit/reset/clean, project write/archive extract, and protocol mutation tools;
+- protocol `session_id` input surface;
+- compact Actions schema regeneration reflecting WIP contracts.
+
+This integration is **implementation evidence, not earned architecture**. No full A-042 suite or Git engineering publication has occurred.
+
+### Final 13-file recovery freeze
+The first emergency inventory captured 11 files. A concurrent writer then added `execution_routes.py` and `power_routes.py` before the checkpoint was sealed. The current immutable recovery freeze therefore supersedes the 11-file intermediate for Frontier recovery:
+- V2 manifest `checkpoints/A042_WIP_RECOVERY_MANIFEST_2026-09-07_V2.json` SHA `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
+- V2 ZIP `checkpoints/A042_WIP_RECOVERY_2026-09-07_V2.zip` SHA `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`;
+- `execution_routes.py` SHA `08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37`;
+- `power_routes.py` SHA `8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3`.
+The older 11-file freeze remains historical evidence only. If a fresh worktree differs from V2, assume newer WIP may exist and localize before restoring anything.
+
+### Exact lawful resume
+1. New thread starts **RECOVERY/AUDIT**, R1 first, not BUILD by conversational memory.
+2. Re-read Current -> ICF-CS -> Commander -> Next/Doctrine/Revisit/Trace -> Live -> DTS tail -> dedicated handoff.
+3. Fresh Git/worktree readback and verify all WIP hashes/inventory.
+4. Re-run the A-042 8-test focused set to confirm the same 7/8 state.
+5. Inspect the compatibility-session disagreement against intended authority semantics; **do not auto-fix test or code**.
+6. Linear audit current 589-line core + 280-line projection + all integration diffs.
+7. Derive smallest authoritative mutation chokepoint set and explicit legacy-compatibility claim ceiling.
+8. Add/repair hostile cross-process/cross-client integration tests.
+9. Only after focused tests are green: run adjacent authority/protocol/project/Git tests, then full suite.
+10. Update all continuity, then commit/push/remote-read **A-042 as its own engineering step**.
+11. Only then resume OBE stale-contract discriminator, idempotency raid, Job Object resource envelope, and remaining raids.
+
+### Current test/publication ceiling
+- last fully published recovery checkpoint suite: **321 GREEN** on checkpoint bytes;
+- strengthened 13-file Git handoff verifier: **11/11 PASS**;
+- current dirty A-042 WIP complete suite: **331 collected = 328 PASS / 2 FAIL / 1 conditional Windows skip**;
+- focused A-042 authority suite: **7/8 PASS**, failing `test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`;
+- second dirty-tree blocker: `test_compact_schema_authority_parity.py::CompactSchemaAuthorityParityTests::test_dispatch_projects_authority_separately_from_capability_payload` because WIP schema projects `RuntimeAuthorityEnvelope` while the parity test expects `BoundApprovalAuthority`;
+- these are **contract/test discriminators**, not recovery-time repair authorization;
+- A-042 engineering publication: **NOT DONE**;
+- live Runtime promotion: **NOT DONE**.
 
 ## Remaining major seams
 

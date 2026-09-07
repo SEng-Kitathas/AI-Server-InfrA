@@ -1,24 +1,32 @@
 # PCMMAD Receiver V30 — Git Publication Receipt
 
-Date: 2026-09-06 22:38 ET
-Status: VERIFIED REMOTE PUBLICATION — CURRENT ENGINEERING SOURCE THROUGH A-041
+Date: 2026-09-07 13:53 ET
+Status: **RECOVERY-ONLY ROLLOVER SEAL QUALIFIED / GIT COMMIT-PUSH PENDING / A-042 DIRTY WIP NOT PUBLISHED**
 
 Repository: `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`
 Branch: `main`
-Commit: `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`
-Tree: `2fa1ffff0d3cf3a8f8cd018f930adbb8862a4a53`
-Subject: `Add protocol Merkle proof receipts`
+Current verified local/remote HEAD before this emergency rollover seal: `77da92c7e8693287c2b541aa89275c062f0af558`
+Tree: `3764bf8fe5caf39e82c36316719a2042f764bff6`
+Subject: `Make rollover handoff self-nonreferential`
 
-Qualification: A-041 targeted 20/20 PASS; complete V30 suite 318 GREEN.
-Remote/local exact at rollover readback.
+Engineering distinction:
+- A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` remains the last published engineering feature;
+- A-042 current 13-file integration exists only in the dirty worktree; V2 outer snapshot + 13-file Git handoff mirror preserve the latest observed bytes without publishing Runtime WIP;
+- recovery checkpoint publication SHALL stage only handoff/recovery material, never the active Runtime WIP;
+- new thread must resolve current Git dynamically because the emergency recovery commit itself will advance HEAD.
 
-Current local work beyond published source:
-- A-042 untracked WIP `baseline/pcmmad_receiver/project_mutation_authority.py`
-- SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`
-- unqualified / not Git authority.
+Current A-042 qualification ceiling:
+- Python compile PASS; schema JSON parse PASS;
+- focused `test_project_mutation_authority.py` 7/8 PASS, one compatibility-authority disagreement;
+- strengthened recovery handoff 11/11 PASS;
+- complete dirty-tree suite 331 collected = 328 PASS / 2 FAIL / 1 skip; second failure is compact-schema RuntimeAuthorityEnvelope vs BoundApprovalAuthority parity;
+- no A-042 engineering commit/push/readback;
+- no live promotion.
 
-This rollover checkpoint will publish recovery documentation and a WIP recovery copy only. It SHALL NOT claim A-042 engineering publication.
-
-Next engineering publication: A-042 only after hostile qualification/integration.
-
+`CHECKPOINT_PUBLICATION != A042_ENGINEERING_PUBLICATION`
 `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`
+
+Latest WIP recovery freeze (not engineering publication):
+- 13-file V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
+- V2 ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`;
+- focused A-042 remains 7/8; complete dirty tree is 328 PASS / 2 FAIL / 1 skip; A-042 remains unqualified.

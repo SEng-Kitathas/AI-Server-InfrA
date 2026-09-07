@@ -1,0 +1,104 @@
+{
+  "a042_status": "UNCOMMITTED_UNQUALIFIED_WIP",
+  "base_head": "77da92c7e8693287c2b541aa89275c062f0af558",
+  "base_tree": "3764bf8fe5caf39e82c36316719a2042f764bff6",
+  "created_at": "2026-09-07T14:25:00-04:00",
+  "file_count": 13,
+  "files": [
+    {
+      "bytes": 8911,
+      "git_state": " M",
+      "recovery_path": "wip/A042_API_WIRE_EXECUTION_WIP.py",
+      "sha256": "ab497e79803aa8efb7117faed0b7d81d7fa618923760f0d0fa0e30ac719e9f17",
+      "source_path": "baseline/pcmmad_receiver/api_wire_execution.py"
+    },
+    {
+      "bytes": 10090,
+      "git_state": " M",
+      "recovery_path": "wip/A042_API_WIRE_POWER_WIP.py",
+      "sha256": "b6cea2f1cccf74057f7c53485549eb3adf40bfd35df116de793d34a7861892a2",
+      "source_path": "baseline/pcmmad_receiver/api_wire_power.py"
+    },
+    {
+      "bytes": 97012,
+      "git_state": " M",
+      "recovery_path": "wip/A042_EXECUTION_ROUTES_WIP.py",
+      "sha256": "08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37",
+      "source_path": "baseline/pcmmad_receiver/execution_routes.py"
+    },
+    {
+      "bytes": 41251,
+      "git_state": " M",
+      "recovery_path": "wip/A042_LAB_TOOLS_WIP.py",
+      "sha256": "42dffdb3bc124e8bdf0b1911e21d6a8c33535305ef55bd67dac44a44d0c25966",
+      "source_path": "baseline/pcmmad_receiver/lab_tools.py"
+    },
+    {
+      "bytes": 33370,
+      "git_state": " M",
+      "recovery_path": "wip/A042_LAB_TOOLS_OPS_WIP.py",
+      "sha256": "56728c417fafd82bd1af766ed82fd3d6d20b7310a1dd9c462164e589f4de78f8",
+      "source_path": "baseline/pcmmad_receiver/lab_tools_ops.py"
+    },
+    {
+      "bytes": 32407,
+      "git_state": " M",
+      "recovery_path": "wip/A042_LAB_TOOLS_PROJECT_WIP.py",
+      "sha256": "cc4c877541f5075e6ca4b56ac2d481316d3e8d4b6105331f6f9bf9042f147475",
+      "source_path": "baseline/pcmmad_receiver/lab_tools_project.py"
+    },
+    {
+      "bytes": 23416,
+      "git_state": " M",
+      "recovery_path": "wip/A042_LAB_TOOLS_PROTOCOL_WIP.py",
+      "sha256": "6a27835ee00a7f2477774b610df4af7f7a4e7a8aa8e00c85b57c4dbe9b9189e4",
+      "source_path": "baseline/pcmmad_receiver/lab_tools_protocol.py"
+    },
+    {
+      "bytes": 18526,
+      "git_state": " M",
+      "recovery_path": "wip/A042_LEGACY_ROUTES_WIP.py",
+      "sha256": "636a21ee6489edf949eba73677682dd719d8b7a9372129449ad35bc29c44a79f",
+      "source_path": "baseline/pcmmad_receiver/legacy_routes.py"
+    },
+    {
+      "bytes": 121257,
+      "git_state": " M",
+      "recovery_path": "wip/A042_COMPACT_ACTION_SCHEMA_WIP.json",
+      "sha256": "65f841072cfdae76df3b4ea38c9217c99daf17f4b5751aa30f9dc9404a90cf9b",
+      "source_path": "baseline/pcmmad_receiver/pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json"
+    },
+    {
+      "bytes": 30001,
+      "git_state": " M",
+      "recovery_path": "wip/A042_POWER_ROUTES_WIP.py",
+      "sha256": "8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3",
+      "source_path": "baseline/pcmmad_receiver/power_routes.py"
+    },
+    {
+      "bytes": 10247,
+      "git_state": "??",
+      "recovery_path": "wip/A042_LAB_TOOLS_MUTATION_AUTHORITY_WIP.py",
+      "sha256": "d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f",
+      "source_path": "baseline/pcmmad_receiver/lab_tools_mutation_authority.py"
+    },
+    {
+      "bytes": 20926,
+      "git_state": "??",
+      "recovery_path": "wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py",
+      "sha256": "5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e",
+      "source_path": "baseline/pcmmad_receiver/project_mutation_authority.py"
+    },
+    {
+      "bytes": 16818,
+      "git_state": "??",
+      "recovery_path": "wip/A042_TEST_PROJECT_MUTATION_AUTHORITY_WIP.py",
+      "sha256": "959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c",
+      "source_path": "tests/test_project_mutation_authority.py"
+    }
+  ],
+  "focused_test": "7 PASS / 1 FAIL",
+  "full_suite": "NOT YET RUN ON V2 FREEZE",
+  "schema": "pcmmad.a042-wip-recovery.v2",
+  "v2_outer_manifest_sha256": "fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2"
+}

@@ -1,27 +1,42 @@
 # PCMMAD Receiver V30 — Next Steps
 
-Last updated: 2026-09-06 22:38 ET
+Last updated: 2026-09-07 14:36 ET
 
-## Immediate — rollover-safe active frontier
+## Immediate — emergency rollover / exact A-042 frontier
 
-Completed / verified:
-- [x] A-041 Git-current at `a97a00f67f3b79dbbe18e092d29b8971e588d4a2`, final 318 GREEN.
-- [x] live server checkpoint readback: online; scheduler alive 0.25s; 96 native tools / 16 families; compact surface 30.
-- [x] A-042 WIP source discovered and byte-identified; AST parse PASS; still unqualified.
-- [x] repaired rollover handoff regression **9/9 PASS**; complete suite **321 GREEN**.
-- [x] rollback localized: outer canonical state current, Git handoff mirror stale; thread saturation/compaction remains suspected causal contributor, not proven.
+Completed / verified this recovery pass:
+- [x] exact Git local/remote readback at `77da92c7e8693287c2b541aa89275c062f0af558`;
+- [x] last engineering publication identified as A-041 `a97a00f...`;
+- [x] current A-042 dirty worktree inventoried byte-for-byte across 13 files;
+- [x] all changed/new Python files compile; compact schema parses;
+- [x] focused A-042 test set executed: **7/8 PASS** with one explicit compatibility-authority disagreement;
+- [x] final current WIP freeze superseded the 11-file intermediate: **13 files**, V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`, V2 ZIP `6bd6aba1a615ebcd90cd6691a62b09554e6e2af6252d8fca27453fc19a6f4a4b`; Git recovery mirror now contains all 13 byte-matching copies.
+- [x] old rollover handoff proven stale relative current WIP;
+- [x] strengthened Git handoff verifier **11/11 PASS** on the 13-file mirror;
+- [x] complete dirty-tree suite run: **331 collected / 328 PASS / 2 FAIL / 1 skip**;
+- [x] second blocker localized: compact schema projects `RuntimeAuthorityEnvelope` while legacy parity test expects `BoundApprovalAuthority`;
+- [x] full continuity refresh + byte-exact WIP recovery mirror initiated.
 
 | Priority | Action | Why | Done when |
 |---|---|---|---|
-| P0 | Publish full rollover checkpoint + repaired Git handoff mirror | new thread must not replay A-037..A-041 or lose A-042 WIP | remote commit contains current mirror, dedicated server handoff, and byte-exact WIP recovery copy |
-| P0 | New thread re-read persisted surfaces + exact Git/live readback | prevent second rollback | it states A-041 published and A-042 active WIP from evidence, not chat memory |
-| P0 | Linear audit existing A-042 module before editing | 455 lines already embody intended lease/generation architecture | invariants, gaps, duplicate mechanisms, and integration points mapped |
-| P0 | Add hostile lease-core tests | project mutation exclusivity is correctness, not convenience | two-writer, stale-generation, expiry/takeover, stale-token, owner/session mismatch, corrupt-state, read-nonblocking tests pass |
-| P0 | Audit consequential mutation chokepoints | avoid scattered symbolic checks | smallest authoritative integration surface identified for project/Git/continuity mutation |
-| P0 | Integrate/projection + hostile cross-client race test | reproduce the real failure mechanism | exactly one writer survives; stale thread cannot regress continuity/Git after newer generation |
-| P0 | Full suite + continuity + Git A-042 | per-step law | remote exact; A-042 claim ceiling explicit |
-| P1 | Re-derive OBE A-001 stale-contract ordinary invocation seam | old donor remains ancestry-stale but current source still lacks expected contract assertion | current-head repro decides native mechanism |
-| P1 | Then idempotency / Job Object resource raids | remain valuable but must not contaminate A-042 | separate discriminators/commits |
+| P0 | Seal this emergency rollover checkpoint | thread is visually rolled back/full; current WIP must survive 1:1 | all continuity registered/read back + Git recovery mirror pushed without staging Runtime WIP |
+| P0 | New thread fresh rehydrate + WIP hash verification | prevent rollback/reinvention | every current WIP source hash matches checkpoint inventory or disagreement is localized |
+| P0 | Reproduce both A-042 discriminators | establish current semantic/projection boundary | same compatibility-session failure + same RuntimeAuthorityEnvelope/BoundApprovalAuthority parity failure reproduced |
+| P0 | Decide compatibility authority law from intent/invariants | current code/test disagree on whether same textual session may exercise active lease | survivor justified by stale-owner/cross-client threat model, not convenience |
+| P0 | Linear audit current core/projection/integration | WIP has advanced far beyond old 455-line core | duplicated authority, bypass paths, missing choke points, lifecycle semantics mapped |
+| P0 | Hostile A-042 integration/race qualification | project exclusivity is consequence-bearing | two client/process writers cannot both mutate; stale generation/token/session cannot regain authority; long mutation exclusion survives lease expiry boundary |
+| P0 | Adjacent + full suite | local green != system green | authority/protocol/project/Git/schema clusters green, then full suite green |
+| P0 | Publish A-042 separately | per-step Git law | engineering commit/push/remote exact; continuity updated; claim ceiling explicit |
+| P1 | OBE ordinary stale-contract discriminator | reserved next after A-042 | current-head repro/derivation only after A-042 publication |
+| P1 | Idempotency + Job Object resource raids | valuable but separate | own discriminator/commit after A-042 |
+
+DO NOT during recovery:
+- replay A-037..A-041;
+- assume A-042 is only one untracked file;
+- stage/commit current Runtime WIP as part of the recovery checkpoint;
+- weaken explicit authority merely to make the one stale test green;
+- promote recovery commit into engineering truth;
+- start final schema redesign.
 
 ## Near-term all-plane audit
 

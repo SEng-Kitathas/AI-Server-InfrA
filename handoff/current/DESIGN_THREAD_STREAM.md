@@ -3619,3 +3619,277 @@ Scope boundary:
 - checkpoint publication SHALL NOT be interpreted as A-042 engineering publication.
 
 Next: refresh mirror from final registered qualification surfaces, final 9/9 readback, stage only checkpoint files, commit/push/remote-read, then roll to the new server thread and resume A-042 hostile qualification from the exact WIP hash.
+
+
+### Rollover checkpoint Git publication complete / thread handoff ready
+
+Checkpoint commit:
+`86f410b373877dd8cde2b30a388512b928169178`
+
+Tree:
+`61c93910adb798dd402eeec2ff19ec53a0cfa01b`.
+
+Subject:
+`Refresh server thread rollover handoff`.
+
+Push:
+`a97a00f..86f410b  main -> main`.
+
+Local/remote `main` matched exactly after push.
+
+Qualification carried into publication:
+- strengthened handoff regression 9/9 PASS;
+- complete V30 suite 321 GREEN;
+- exact A-042 WIP recovery copy in Git handoff;
+- actual A-042 Runtime source remained untracked/unqualified and was not staged.
+
+Publication distinction:
+- `86f410b` = recovery/checkpoint publication;
+- `a97a00f` remains last published engineering feature commit through A-041;
+- A-042 is active WIP only.
+
+The old server thread is now safe to roll. New server thread resumes under RECOVERY/AUDIT from `checkpoints/SERVER_THREAD_HANDOFF_CURRENT.md`, exact Git/live readback, and A-042 source SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`.
+
+
+### Self-nonreferential handoff seal complete / old thread terminal checkpoint
+
+A final stale-reference defect was caught in the rollover handoff itself: its suggested first sentence hard-coded the A-041 engineering commit as “exact Git,” even though recovery-only commits can legitimately be newer.
+
+Repair:
+- handoff now instructs fresh thread to obtain current Git/worktree identity dynamically;
+- A-041 remains separately identified as the last published engineering feature;
+- newer recovery/checkpoint commits explicitly do not promote A-042;
+- first full rollover checkpoint remains recorded as `86f410b373877dd8cde2b30a388512b928169178`;
+- self-nonreferential seal committed/pushed as `77da92c7e8693287c2b541aa89275c062f0af558`, tree `3764bf8fe5caf39e82c36316719a2042f764bff6`;
+- local/remote exact after push;
+- handoff regression remained 9/9 PASS;
+- actual A-042 Runtime WIP remains the only untracked repo item and is still unqualified.
+
+The Git mirror is intentionally NOT rewritten again merely to embed the seal commit ID; doing so would create an infinite self-referential publication loop. Outer canonical project state records the exact seal. Git recovery handoff requires dynamic Git readback.
+
+Old server thread is now terminal for substantive engineering. New server thread SHALL start RECOVERY/AUDIT and resume A-042 from exact WIP SHA `3f5fdc3ab2d9ebf6e1abd17dac36a22600edbae456c8c99afa9a9b966117ebe1`.
+
+
+---
+
+# PHASE MARKER — Governance Contact v1.0 Local Process Reconciliation
+Date: 2026-09-07
+Tags: CONTINUITY, PROCESS-CURRENTNESS, GOVERNANCE-CONTACT, LOCAL-RECONCILIATION
+
+Governance Contact release-origin verification established exact sealed ZIP `c4ab4a516e088b6c28b5240d6b3877d2e3fb889a8bbbfd406e8e0c73bebdd1ae`, detached release receipt `cf2e7bd8e5ed613d3c3a99b7f8645833ddb742ac4939bd1719092b277ef286e6`, package qualification `509aba0bb859db49d9311e08acae98d8c7bdfbbb1d41cdd157d1675e70f8a302`, and verified 11/11 owned Git target publication + repository admission aggregate `9878f090286ee03cee6504c752809c81965981ac520bac1d583a170ef481552e`.
+
+Receiver local audit found its universal-process continuity surfaces still named ICF-CS v1.0 as current/binding while external current authority had advanced to receipt-qualified ICF-CS v1.1. Historical v1.0 qualification artifacts were preserved; current navigation/doctrine/trace/intent surfaces were reconciled additively to v1.1.
+
+Governance Contact v1.0 was added only as a local sidecar/currentness reconciliation and remains **NOT ACTIVE**. Receiver product/runtime/domain authority and active A-042 engineering frontier were preserved.
+
+`SUPERSESSION != SOURCE_REWRITE`
+`PROCESS_CURRENTNESS_REPAIR != DOMAIN_OR_RUNTIME_AUTHORITY_REWRITE`
+`CARRIER_PRESENT != PROJECT_SPECIFIC_AUTHORITY_REWRITE`
+`LOCAL_AUTHORITY_RECONCILED != POST_PUBLICATION_READBACK`
+`POST_PUBLICATION_READBACK != ACTIVE`
+
+
+---
+
+# RECOVERY SCAR — Canonical DTS append registration semantics
+Date: 2026-09-07
+Tags: RECOVERY, CONTINUITY, APPEND-SEMANTICS, READBACK
+
+During Governance Contact local reconciliation, the Receiver project artifact registration plane accepted `operation="append"` for `continuity/design_thread_stream/DESIGN_THREAD_STREAM.md` but registered only the 1,471-byte suffix as the canonical DTS. Manifest/readback immediately exposed canonical DTS truncation from 161,076 bytes to 1,471 bytes.
+
+The truncated canonical SHA was `b77c48cdc0f82520769068a3082a08d4271bec366cca018efbb5f3c8ad4475e6`. Recovery used the exact previously admitted full staged specimen: original DTS prefix 161,076 bytes / SHA `13e53203c26bb112951f0d74d65adb749f82e2580a27f1abc0595b3da8fa0187` plus admitted Governance Contact suffix 1,471 bytes / SHA `b77c48cdc0f82520769068a3082a08d4271bec366cca018efbb5f3c8ad4475e6`, yielding restored full SHA `f3634505aeaad4d4bcf5274eecf816b34c9e778be2507bea2b4d94c8e85e0277`.
+
+Recovery registration commit: `execution-register-299c7cd6`. The destructive append registration was `execution-register-fb3fb12d`. No history was reconstructed from memory.
+
+`REGISTER_OPERATION_APPEND != VERIFIED_CANONICAL_FILE_APPEND`
+`APPEND_REQUEST_ACCEPTED != PREFIX_PRESERVED`
+`MANIFEST_READBACK_CAN_REVEAL_DESTRUCTIVE_APPEND_SEMANTICS`
+`RECOVERY_USES_EXACT_ADMITTED_FULL_SPECIMEN_NOT_RECONSTRUCTION`
+`WHOLE_FILE_UPDATE_WITH_EXPECTED_PREVIOUS_HASH > UNVERIFIED_APPEND_VERB`
+
+
+---
+
+## Phase 48 — Emergency visual-thread rollback / full-thread rollover / A-042 exact-WIP recovery — 2026-09-07
+
+### USER — RECOVERY TRIGGER
+User reported that the visual chat had rolled back and that an attempted continuation ended with `this thread is full`. User requested a **COMPLETE update of ALL continuity surfaces** and a **handoff prompt for a new thread**, emphasizing a clean continue point and full information availability.
+
+### ASSISTANT — MODE / AUTHORITY RESET
+Switched to **RECOVERY -> CHECKPOINT**, role **R1 Conservative Auditor -> R4 Convergence Refiner**.
+
+Recovery rule: visible chat chronology is not trusted as primary authority when it disagrees with persisted project state. Persisted project store, exact Git/worktree bytes, and live readback are preferred.
+
+Binding recovery scars carried forward:
+- `CHAT_VISIBLE_FRONTIER != PERSISTED_PROJECT_FRONTIER`;
+- `RECENT_INFERENCE != CURRENT_AUTHORITY`;
+- `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
+
+New scar earned by this incident:
+- `WIP_WORKTREE_BYTES != LAST_CHECKPOINT_SUMMARY`;
+- `THREAD_FULL_RECOVERY != CHAT_MEMORY_RECOVERY`.
+
+### PROJECT / MANIFEST READBACK
+Project `PCMMAD_RECEIVER_LAB` exists at:
+`E:\new pc\AI_Pushes_Sandbox\projects\PCMMAD_RECEIVER_LAB`.
+
+Manifest + ledger exist. Required canonical continuity artifacts were registered and current through the previous rollover checkpoint.
+
+### GIT / WORKTREE READBACK
+Fresh exact Git readback:
+- Git root: `V30_WORKING/PCMMAD_receiver`;
+- branch: `main`;
+- local HEAD = remote `main` = `77da92c7e8693287c2b541aa89275c062f0af558`;
+- tree `3764bf8fe5caf39e82c36316719a2042f764bff6`;
+- subject `Make rollover handoff self-nonreferential`.
+
+Engineering distinction:
+- A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` remains the last published **engineering** feature;
+- `86f410b...` and `77da92c...` are recovery/checkpoint publications only;
+- A-042 is not engineering-published.
+
+### CRITICAL RECOVERY FINDING — PRIOR HANDOFF WAS STALE RELATIVE WIP
+The prior handoff described A-042 as one untracked 15,838-byte / 455-line module at SHA `3f5fdc...`.
+
+Fresh worktree readback proved A-042 had advanced materially before the visual rollback. Current dirty WIP spans 11 changed/new files:
+
+1. `baseline/pcmmad_receiver/project_mutation_authority.py` — untracked — 20,926 bytes — SHA `5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e`;
+2. `baseline/pcmmad_receiver/lab_tools_mutation_authority.py` — untracked — 10,247 bytes — SHA `d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f`;
+3. `baseline/pcmmad_receiver/api_wire_execution.py` — modified — SHA `ab497e79803aa8efb7117faed0b7d81d7fa618923760f0d0fa0e30ac719e9f17`;
+4. `baseline/pcmmad_receiver/api_wire_power.py` — modified — SHA `b6cea2f1cccf74057f7c53485549eb3adf40bfd35df116de793d34a7861892a2`;
+5. `baseline/pcmmad_receiver/lab_tools.py` — modified — SHA `42dffdb3bc124e8bdf0b1911e21d6a8c33535305ef55bd67dac44a44d0c25966`;
+6. `baseline/pcmmad_receiver/lab_tools_ops.py` — modified — SHA `56728c417fafd82bd1af766ed82fd3d6d20b7310a1dd9c462164e589f4de78f8`;
+7. `baseline/pcmmad_receiver/lab_tools_project.py` — modified — SHA `cc4c877541f5075e6ca4b56ac2d481316d3e8d4b6105331f6f9bf9042f147475`;
+8. `baseline/pcmmad_receiver/lab_tools_protocol.py` — modified — SHA `6a27835ee00a7f2477774b610df4af7f7a4e7a8aa8e00c85b57c4dbe9b9189e4`;
+9. `baseline/pcmmad_receiver/legacy_routes.py` — modified — SHA `636a21ee6489edf949eba73677682dd719d8b7a9372129449ad35bc29c44a79f`;
+10. compact Actions schema JSON — modified — SHA `65f841072cfdae76df3b4ea38c9217c99daf17f4b5751aa30f9dc9404a90cf9b`;
+11. `tests/test_project_mutation_authority.py` — untracked — 16,818 bytes — SHA `959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c`.
+
+### PHYSICAL A-042 INTEGRATION ALREADY PRESENT
+Fresh diff inspection shows the dirty WIP already contains:
+- persistent generation-fenced lease core with cross-process file lock, integrity-checked state, TTL, acquire/renew/release/inspect, mutation/consequence guard;
+- native `project.mutation.inspect/acquire/renew/release` projection;
+- `project_mutation_scope` around native dispatch capabilities carrying `project_mutation_fenced`;
+- project mutation fencing traits on Git commit/reset/clean;
+- project file write and archive extraction fencing;
+- protocol mutation fencing + session ID input;
+- explicit mutation authority plumbing through execution registration, sync/python/write requests, and legacy commit request;
+- regenerated compact Actions schema.
+
+This integration is **implementation evidence only**. It is not yet earned or published.
+
+### NON-MUTATING REPRESENTATION QUALIFICATION
+All changed/new A-042 Python files were compiled with `py_compile`: **PASS**.
+Compact schema JSON parse: **PASS**.
+
+### FOCUSED A-042 TEST RESULT
+`tests/test_project_mutation_authority.py` collected 8 tests:
+- **7 PASS**;
+- **1 FAIL**.
+
+Exact failing test:
+`ProjectMutationAuthorityTests.test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`.
+
+Observed semantic disagreement:
+- current implementation: if a governed mutation lease is ACTIVE, compatibility/legacy entry is rejected unless **explicit fenced authority** (lease ID + generation + owner, optional bound session) is supplied;
+- existing test expectation: a legacy caller with the same textual session ID may enter while that lease is active.
+
+The checkpoint deliberately does **not** alter code or test. This is the exact next-thread discriminator.
+
+Strongest current candidate law:
+`SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`.
+
+But it is not promoted as final A-042 doctrine until derived against Commander intent, stale-owner/restarted-client counterexample, backward compatibility requirements, and hostile cross-client tests.
+
+### TEST / CLAIM CEILING
+- all changed/new Python compile PASS;
+- schema parse PASS;
+- A-042 focused 7/8;
+- latest dirty-tree full suite **NOT RUN / NOT CLAIMED**;
+- prior rollover checkpoint full suite 321 GREEN applies only to checkpoint bytes before latest A-042 integration;
+- no A-042 engineering commit/push/readback;
+- no live promotion.
+
+### CONTINUITY REPAIR EXECUTED
+Updated with hash-checked lineage:
+- Current State;
+- Next Steps;
+- Doctrine Snapshot;
+- Revisit Ledger;
+- Trace Matrix;
+- Live Shadow;
+- ICF-CS Current;
+- Commander's Intent;
+- Git Publication Current;
+- Server Thread Handoff Current.
+
+Created:
+- `checkpoints/NEW_THREAD_HANDOFF_PROMPT_CURRENT.md`;
+- `notes/maintenance/THREAD_ROLLOVER_RECOVERY_2026-09-07.md`.
+
+This DTS phase is the chronological recovery spine for the incident.
+
+### EXACT NEW-THREAD RESUME
+1. RECOVERY/AUDIT, R1 Conservative Auditor.
+2. Re-read persisted Current/ICF/Commander/Next/Doctrine/Revisit/Trace/Live/DTS/handoff.
+3. Fresh Git/worktree readback.
+4. Verify all A-042 WIP hashes/inventory.
+5. Reproduce focused 7/8.
+6. Resolve compatibility-session authority law from intent + threat model; do not auto-fix either side.
+7. Linear audit core/projection/integration.
+8. Hostile cross-process/cross-client/expiry/long-mutation/corruption/legacy-bypass qualification.
+9. Adjacent regression + full suite.
+10. Continuity + A-042 engineering Git commit/push/remote readback.
+11. Only after A-042: OBE stale-contract, idempotency, Job Object resource raids.
+12. Final schema redesign remains last.
+
+### NEXT CHECKPOINT ACTION
+Create Git-contained byte-exact WIP recovery inventory/copies for all 11 A-042 files, refresh `handoff/current`, qualify the recovery mirror, then commit/push **recovery material only** while leaving the active Runtime WIP unstaged.
+
+
+---
+
+## Phase 49 — Final 13-file rollover seal qualification — 2026-09-07
+
+### RECOVERY MIRROR GAP FOUND
+Outer canonical continuity had correctly advanced to the final 13-file A-042 V2 freeze, but Git-contained `handoff/current/wip/` still carried only the intermediate 11-file snapshot. `execution_routes.py` and `power_routes.py` were missing from the Git recovery mirror, and `test_git_handoff_current.py` still asserted inventory length 11.
+
+This proved again: `PERSISTED_CONTINUITY != CURRENT_WIP_BYTES` and also `OUTER_RECOVERY_STATE != GIT_MIRROR_CURRENTNESS`.
+
+### REPAIR
+- copied all 13 current WIP files byte-for-byte from worktree after verifying each against outer V2 manifest `fad436518624dae080a1fb990a5097c9a0d1a55a7438aa43330f62499a6e9fe2`;
+- added `A042_EXECUTION_ROUTES_WIP.py` and `A042_POWER_ROUTES_WIP.py`;
+- upgraded WIP inventory to `pcmmad.a042-wip-recovery.v2`, file_count 13;
+- strengthened Git handoff verifier to require v2/13 and both late files;
+- regenerated handoff snapshot manifest across 34 members.
+
+### RECOVERY VERIFICATION
+`tests/test_git_handoff_current.py`: **11/11 PASS**.
+
+### COMPLETE DIRTY-TREE QUALIFICATION READBACK
+The complete latest A-042 dirty-tree suite was run for recovery truth, not promotion.
+- collected: **331**;
+- passed: **328**;
+- failed: **2**;
+- skipped: **1** conditional Windows skip.
+
+Failure 1:
+`ProjectMutationAuthorityTests.test_compatibility_session_guard_fences_other_legacy_session_only_when_lease_active`
+Current implementation rejects same-session legacy compatibility under an active governed lease unless explicit fenced lease/generation/owner authority is supplied. Test expects same-session passage. Contract discriminator remains open.
+
+Failure 2:
+`CompactSchemaAuthorityParityTests.test_dispatch_projects_authority_separately_from_capability_payload`
+WIP compact schema projects `authority` as `RuntimeAuthorityEnvelope`; legacy parity test expects `BoundApprovalAuthority`. Projection/authority contract discriminator is now explicit.
+
+Neither failure was repaired during recovery.
+
+### EXACT ROLLOVER CLAIM CEILING
+- A-041 remains last published engineering feature.
+- A-042 is 13-file integrated dirty WIP, uncommitted/unqualified/unpromoted.
+- compile/schema parse PASS.
+- recovery handoff 11/11 PASS.
+- dirty suite is explicitly **not green**: 328 PASS / 2 FAIL / 1 skip.
+- recovery checkpoint publication must stage only recovery surfaces, never active Runtime WIP.
+
+### NEW THREAD EXACT START
+RECOVERY/AUDIT -> fresh project/Git/worktree readback -> verify 13-file V2 inventory -> reproduce both failures -> derive both authority contract survivors -> only then mutate A-042.
