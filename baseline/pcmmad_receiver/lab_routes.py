@@ -6,9 +6,11 @@ from typing import Any
 from collections.abc import MutableMapping
 from pathlib import Path
 import hashlib
+import json
 import os
 import atexit
-import tempfile
+import subprocess
+import sys
 from dataclasses import dataclass
 import threading
 import uuid
@@ -105,32 +107,87 @@ def _shutdown_batch_executor() -> None:
 atexit.register(_shutdown_batch_executor)
 
 
-def _probe_mounts() -> list[JsonRecord]:
-    results: list[JsonRecord] = []
-    for mount in mount_summary():
-        path = Path(mount["path"]).resolve()
-        readable = path.exists()
-        writable = False
-        error = None
-        try:
-            path.mkdir(parents=True, exist_ok=True)
-            with tempfile.NamedTemporaryFile("w", delete=False, dir=path, encoding="utf-8") as tmp:
-                tmp.write("probe")
-                probe_path = Path(tmp.name)
-            probe_path.unlink(missing_ok=True)
-            writable = True
-        except (OSError, ValueError, TypeError) as exc:
-            error = f"{type(exc).__name__}: {exc}"
-        results.append(
-            {
-                "name": mount["name"],
-                "path": str(path),
-                "exists": readable,
-                "writable": writable,
-                "error": error,
-            }
+MOUNT_PROBE_TIMEOUT_SECONDS = 1.5
+
+
+_MOUNT_PROBE_SCRIPT = r"""
+import json
+import os
+from pathlib import Path
+import sys
+
+raw = sys.argv[1]
+path = Path(raw)
+exists = False
+writable = False
+error = None
+try:
+    exists = path.exists()
+    if exists and path.is_dir():
+        writable = os.access(raw, os.W_OK)
+except (OSError, ValueError, TypeError) as exc:
+    error = f"{type(exc).__name__}: {exc}"
+print(json.dumps({"exists": bool(exists), "writable": bool(writable), "error": error}))
+"""
+
+
+def _probe_one_mount(mount: JsonRecord) -> JsonRecord:
+    name = str(mount.get("name") or "")
+    raw_path = str(mount.get("path") or "")
+    base: JsonRecord = {
+        "name": name,
+        "path": raw_path,
+        "exists": False,
+        "writable": False,
+        "error": None,
+    }
+    try:
+        completed = subprocess.run(
+            [sys.executable, "-c", _MOUNT_PROBE_SCRIPT, raw_path],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=MOUNT_PROBE_TIMEOUT_SECONDS,
+            check=False,
         )
-    return results
+    except subprocess.TimeoutExpired:
+        base["error"] = (
+            f"TimeoutError: mount probe exceeded {MOUNT_PROBE_TIMEOUT_SECONDS:.1f}s"
+        )
+        return base
+    except (OSError, ValueError, TypeError) as exc:
+        base["error"] = f"{type(exc).__name__}: {exc}"
+        return base
+    if completed.returncode != 0:
+        detail = (completed.stderr or completed.stdout or "mount probe failed").strip()
+        base["error"] = f"ProbeProcessError: {detail[:500]}"
+        return base
+    try:
+        payload = json.loads((completed.stdout or "").strip())
+    except (json.JSONDecodeError, TypeError, ValueError) as exc:
+        base["error"] = f"ProbeDecodeError: {exc}"
+        return base
+    if not isinstance(payload, dict):
+        base["error"] = "ProbeDecodeError: mount probe payload was not an object"
+        return base
+    base["exists"] = bool(payload.get("exists"))
+    base["writable"] = bool(payload.get("writable"))
+    error = payload.get("error")
+    base["error"] = str(error) if error else None
+    return base
+
+
+def _probe_mounts() -> list[JsonRecord]:
+    mounts = [dict(mount) for mount in mount_summary()]
+    if not mounts:
+        return []
+    # Filesystem calls against dead/removable/network mounts can block for tens of
+    # seconds at the OS layer. Probe each mount in an independently killable child
+    # process and run those probes concurrently so aggregate health stays bounded.
+    workers = min(8, len(mounts))
+    with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="pcmmad-mount-probe") as pool:
+        return list(pool.map(_probe_one_mount, mounts))
 
 
 def _merge_lab_status(
