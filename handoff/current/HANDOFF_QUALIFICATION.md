@@ -26,3 +26,9 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - complete suite 352 collected / 351 passed / 0 failed / 1 conditional skip;
 - changed Python compile PASS; compact schema remains 30 ops / runtime-authority-envelope-v1; CRLF-aware diff check PASS;
 - publication pending; OBE/Skills 11-Skill interface unfrozen; final schema last/untriggered.
+
+## A-001 ENGINEERING PUBLICATION
+- engineering commit `a552af9957b99361c3aebf91c7abc65775e0ce43`; tree `e51be9f7fb2f1e125b19d30e9da0e5324b661e4c`; remote `main` independently matched;
+- full qualification `352 collected / 351 passed / 0 failed / 1 conditional skip`;
+- Runtime currentness contract promoted; 11-Skill interface still unfrozen; final schema remains last/untriggered;
+- this handoff refresh is recovery-only and does not alter the engineering feature identity.

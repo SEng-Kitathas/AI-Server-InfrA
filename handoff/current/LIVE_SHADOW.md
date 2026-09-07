@@ -36,17 +36,17 @@
 - `LEASE_STATE_LOCK != MUTATION_CONSEQUENCE_LOCK`.
 - `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`.
 - `RuntimeAuthorityEnvelope` is the invocation authority projection; flat approval sub-contract remains until final schema campaign.
-- A-001 stale-contract binding has been re-derived against published A-042 and is a qualified engineering candidate / Git publication pending.
+- A-001 stale-contract binding is engineering-published / remote-verified at `a552af9957b99361c3aebf91c7abc65775e0ce43`; tree `e51be9f7fb2f1e125b19d30e9da0e5324b661e4c`.
 
 ## Open Loops
 - A-042 engineering publication is complete and remote-verified.
-- Publish qualified A-001 as its own Runtime engineering commit, then independently read remote HEAD.
+- Begin OBE/Skills dogfood against promoted A-001 Runtime currentness semantics; keep 11-Skill interface unfrozen.
 - Preserve idempotency / Job Object / remaining raid queue after A-001.
 - Final schema remains last/untriggered.
 - Do not live-promote unless separately authorized/gated.
 
 ## Immediate Next Step
-- Publish the re-derived A-001 currentness contract; donor patch provenance is no longer the authority basis.
+- Dogfood the OBE/Skills bootstrap against promoted Runtime currentness; any interface change must be re-earned from live behavior.
 
 ## Last 10 Turn Reinforcement Window
 1. USER re-entered under RECOVERY/AUDIT and prohibited replay/restoration over newer WIP.
@@ -79,3 +79,17 @@
 - Status: **QUALIFIED ENGINEERING CANDIDATE / GIT PUBLICATION PENDING**.
 - OBE/Skills 11-Skill interface remains **UNFROZEN** pending dogfood against the promoted Runtime interface.
 - Final schema redesign remains LAST and untriggered; this compact schema field addition is adapter parity, not final schema redesign.
+
+## A-001 ENGINEERING PUBLICATION — 2026-09-07
+- A-001 Runtime contract currentness binding is **ENGINEERING-PUBLISHED / REMOTE-VERIFIED**.
+- Commit: `a552af9957b99361c3aebf91c7abc65775e0ce43`
+- Tree: `e51be9f7fb2f1e125b19d30e9da0e5324b661e4c`
+- Subject: `Bind dispatch to expected capability contract`
+- `origin/main` independently resolves exactly to `a552af9957b99361c3aebf91c7abc65775e0ce43`.
+- Post-push worktree: clean / `main...origin/main`.
+- Final qualification: `352 collected / 351 passed / 0 failed / 1 conditional skip`; focused A-001+continuity 18/18 PASS; broader A-001 adjacency 49/49 PASS; compile/schema/diff checks PASS.
+- Runtime truth now includes optional `expected_contract_digest` with `409 CAPABILITY_CONTRACT_STALE` before authority/provider/handler consequence on mismatch.
+- Legacy omission remains compatible.
+- This publication does not freeze the OBE/Skills 11-Skill interface; real dogfood against this promoted Runtime remains the next integration discriminator.
+- Final schema redesign remains LAST and untriggered; whole-runtime convergence plus explicit user `hells yeah, ready` is still required.
+- `GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`.

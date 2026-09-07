@@ -78,3 +78,9 @@ A-001 expected-contract binding is now **QUALIFIED ENGINEERING CANDIDATE / PUBLI
 - qualification `352 collected / 351 passed / 0 failed / 1 conditional skip`; focused adjacency 49/49 PASS.
 
 This is not final schema redesign. The 11-Skill interface remains unfrozen pending dogfood. Final schema remains LAST and requires explicit `hells yeah, ready`.
+## A-001 publication supersession
+A-001 expected-contract currentness is **ENGINEERING-PUBLISHED / REMOTE-VERIFIED** at `a552af9957b99361c3aebf91c7abc65775e0ce43`, tree `e51be9f7fb2f1e125b19d30e9da0e5324b661e4c`.
+
+Runtime now natively supports optional `expected_contract_digest`; stale mismatch returns `409 CAPABILITY_CONTRACT_STALE` before provider/authority/handler consequence. Legacy omission remains compatible.
+
+Next integration frontier: OBE/Skills dogfood against this promoted interface. The 11-Skill interface remains unfrozen. Final schema redesign remains LAST and requires whole-runtime convergence plus explicit `hells yeah, ready`.
