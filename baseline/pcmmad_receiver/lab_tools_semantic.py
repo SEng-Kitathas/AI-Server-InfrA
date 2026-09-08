@@ -22,7 +22,7 @@ SemanticRegistrar = Callable[
     ..., Callable[[Callable[[ToolPayload], ToolResult]], Callable[[ToolPayload], ToolResult]]
 ]
 
-_REQUIRED_MODULES = ("faiss", "numpy", "torch", "sentence_transformers", "transformers")
+_REQUIRED_MODULES = ("faiss", "numpy", "torch", "sentence_transformers", "transformers", "PIL", "peft", "torchvision")
 _DEFAULT_MINILM_INDEX = Path(r"D:\PCMMAD_TQ2_GEOMETRIC_LAB\data\pcmmad_semantic_index_full")
 _DEFAULT_JINA_INDEX = Path(r"D:\PCMMAD_TQ2_GEOMETRIC_LAB\data\pcmmad_semantic_index_jina_v4")
 _DEFAULT_MINILM_MODEL = (
@@ -182,13 +182,24 @@ def _resolve_jina_index(payload: ToolPayload) -> ResolvedPath:
 
 
 def _resolve_minilm_model(payload: ToolPayload) -> ResolvedPath:
-    return _resolved_payload_or_env_path(
-        payload,
-        "minilm_model_path",
-        "MONSTER_DB_HELPER_MINILM_MODEL_PATH",
-        _DEFAULT_MINILM_MODEL,
-        "user_hf_cache",
-    )
+    explicit = payload_str(payload, "minilm_model_path", "").strip()
+    if explicit:
+        return ResolvedPath(Path(explicit), "payload.minilm_model_path")
+    env_value = _first_nonempty(os.environ.get("MONSTER_DB_HELPER_MINILM_MODEL_PATH"))
+    if env_value:
+        return ResolvedPath(Path(env_value), "env.MONSTER_DB_HELPER_MINILM_MODEL_PATH")
+    root = _projects_root()
+    if root is not None:
+        deployment = (
+            root
+            / "PCMMAD_RECEIVER_LAB"
+            / "runtimes"
+            / "models"
+            / "all-MiniLM-L6-v2"
+        )
+        if deployment.is_dir():
+            return ResolvedPath(deployment, "pcmmad_lab_model_runtime")
+    return ResolvedPath(_DEFAULT_MINILM_MODEL, "user_hf_cache")
 
 
 def _dependency_probe(python_path: Path, cwd: Path) -> PythonProbe:
@@ -240,11 +251,22 @@ def _python_candidates(payload: ToolPayload, script: ResolvedPath) -> list[tuple
     candidates.append((donor_root / ".venv" / "Scripts" / "python.exe", "script_project_venv"))
     root = _projects_root()
     if root is not None:
-        candidates.append(
-            (
-                root / "pcmmad_ingress" / ".venv" / "Scripts" / "python.exe",
-                "pcmmad_ingress_venv",
-            )
+        candidates.extend(
+            [
+                (
+                    root
+                    / "PCMMAD_RECEIVER_LAB"
+                    / "runtimes"
+                    / "semantic_monster_py312"
+                    / "Scripts"
+                    / "python.exe",
+                    "pcmmad_lab_semantic_runtime",
+                ),
+                (
+                    root / "pcmmad_ingress" / ".venv" / "Scripts" / "python.exe",
+                    "pcmmad_ingress_venv",
+                ),
+            ]
         )
     candidates.extend(
         [
@@ -298,6 +320,33 @@ def _probe_python_candidates(payload: ToolPayload, script: ResolvedPath) -> tupl
     return selected, probes
 
 
+def _nonempty_file(path: Path) -> bool:
+    try:
+        return path.is_file() and path.stat().st_size > 0
+    except OSError:
+        return False
+
+
+def _minilm_model_qualification(path: Path) -> dict[str, object]:
+    required_text = [
+        "config.json",
+        "modules.json",
+        "1_Pooling/config.json",
+        "tokenizer_config.json",
+    ]
+    text_ok = {name: _nonempty_file(path / name) for name in required_text}
+    weight_candidates = ["model.safetensors", "pytorch_model.bin"]
+    tokenizer_candidates = ["tokenizer.json", "vocab.txt"]
+    weights_ok = any(_nonempty_file(path / name) for name in weight_candidates)
+    tokenizer_ok = any(_nonempty_file(path / name) for name in tokenizer_candidates)
+    return {
+        "qualified": bool(path.is_dir() and all(text_ok.values()) and weights_ok and tokenizer_ok),
+        "required_text_files": text_ok,
+        "weights_ok": weights_ok,
+        "tokenizer_ok": tokenizer_ok,
+    }
+
+
 def _sha256_if_file(path: Path) -> str | None:
     if not path.is_file():
         return None
@@ -316,17 +365,21 @@ def _semantic_resolution(payload: ToolPayload) -> ToolResult:
     minilm_model = _resolve_minilm_model(payload)
     selected_python, python_probes = _probe_python_candidates(payload, script)
 
+    minilm_model_info = minilm_model.to_dict()
+    minilm_model_info["qualification"] = _minilm_model_qualification(minilm_model.path)
     resources = {
         "script": {**script.to_dict(), "sha256": _sha256_if_file(script.path)},
         "db": db.to_dict(),
         "minilm_index": minilm_index.to_dict(),
         "jina_index": jina_index.to_dict(),
-        "minilm_model": minilm_model.to_dict(),
+        "minilm_model": minilm_model_info,
     }
     blockers: list[str] = []
     for name, info in resources.items():
         if not bool(info.get("exists")):
             blockers.append(f"missing_{name}")
+    if minilm_model.path.exists() and not bool(minilm_model_info["qualification"]["qualified"]):
+        blockers.append("invalid_minilm_model")
     if selected_python is None:
         blockers.append("no_qualified_python_runtime")
 
@@ -442,7 +495,31 @@ def _monster_search_payload(payload: ToolPayload, error_cls: type[Exception]) ->
         stderr_max_bytes=None,
         env=child_env,
     )
+    if not bool(result.get("ok")):
+        raise error_cls(
+            "SEMANTIC_EXECUTION_FAILED",
+            "Monster/Chimera retriever process failed",
+            502,
+            runtime={
+                "python": str(python_path),
+                "script": str(script_path),
+                "script_sha256": resources["script"].get("sha256"),
+            },
+            execution=result,
+        )
     parsed = _parse_monster_stdout(result)
+    if parsed is None:
+        raise error_cls(
+            "SEMANTIC_OUTPUT_INVALID",
+            "Monster/Chimera retriever completed but did not emit valid JSON",
+            502,
+            runtime={
+                "python": str(python_path),
+                "script": str(script_path),
+                "script_sha256": resources["script"].get("sha256"),
+            },
+            execution=result,
+        )
     return {
         "query": query,
         "topk": topk,

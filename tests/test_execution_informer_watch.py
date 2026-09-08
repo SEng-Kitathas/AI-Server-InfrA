@@ -157,6 +157,13 @@ class ExecutionInformerWatchTests(unittest.TestCase):
 
     @unittest.skipUnless(os.name == "nt", "scheduler/watch integration requires Windows")
     def test_idle_scheduler_does_not_poll_at_250ms_and_completion_wakes_it(self) -> None:
+        # Earlier execution tests may have legitimately started the process-global
+        # scheduler. This test owns a manual loop and patches _scheduler_tick, so it
+        # must first quiesce that global loop or full-suite ordering creates duplicate
+        # ticks that cannot occur in the single-scheduler production topology.
+        er._shutdown_scheduler()
+        er._SCHEDULER_STOP.clear()
+        er._SCHEDULER_WAKE.clear()
         with tempfile.TemporaryDirectory(prefix="pcmmad-a040-loop-") as td:
             root = Path(td)
             target_dir = root / "p1" / "system" / "logs" / "execution" / "job1"

@@ -22,6 +22,37 @@ function fmtTime(ts){if(!ts)return '';return new Date(ts*1000).toLocaleTimeStrin
 function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function uid(){return `ui-${Date.now()}-${Math.random().toString(16).slice(2,8)}`;}
 
+function renderCockpitStatus(data){
+  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
+  const coreReady=ready.core_ready!==undefined?!!ready.core_ready:!!(h.ok&&r.ok&&j.ok);
+  const optionalDegraded=Array.isArray(ready.optional_degraded)?ready.optional_degraded:(!b.ok?['browser_bridge']:[]);
+  const assurance=$('cockpitAssurance');
+  if(assurance){
+    assurance.textContent=coreReady?(optionalDegraded.length?'Core ready; optional degradation isolated':'Core ready; required planes nominal'):'Required control-plane evidence is degraded';
+  }
+  const optional=$('cockpitOptional');if(optional)optional.textContent=optionalDegraded.length?`${optionalDegraded.length} DEGRADED`:'NOMINAL';
+  const sessions=data.browser_sessions||[];
+  const sessionSummary=$('cockpitSessionSummary');
+  if(sessionSummary){
+    sessionSummary.innerHTML=sessions.length
+      ? `<strong>${sessions.length}</strong> active session${sessions.length===1?'':'s'}<br>${sessions.slice(0,3).map(x=>escapeHtml(x.session_id||x.id||'session')).join('<br>')}`
+      : `${b.ok?'Bridge online; no active sessions.':'Optional browser bridge unavailable.'}`;
+  }
+}
+
+function renderCockpitTools(){
+  const toolCount=$('cockpitToolCount'),familyCount=$('cockpitFamilyCount'),summary=$('cockpitCapabilitySummary');
+  if(!toolCount||!familyCount||!summary)return;
+  const families=new Set(state.tools.map(t=>t.category||'other'));
+  const mutating=state.tools.filter(t=>t.mutating).length;
+  const approvals=state.tools.filter(toolNeedsApproval).length;
+  const dynamic=state.tools.filter(t=>t.availability?.mode==='dynamic').length;
+  const unavailable=state.tools.filter(t=>String(t.availability?.status||'').toLowerCase()==='unavailable').length;
+  toolCount.textContent=String(state.tools.length);
+  familyCount.textContent=String(families.size);
+  summary.innerHTML=`<strong>${state.tools.length}</strong> native tools<br><strong>${mutating}</strong> mutating · <strong>${approvals}</strong> approval-gated<br><strong>${dynamic}</strong> dynamic availability${unavailable?` · <strong>${unavailable}</strong> unavailable`:''}`;
+}
+
 function renderStatus(data){
   state.status=data;
   const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
@@ -39,7 +70,7 @@ function renderStatus(data){
   else if(corePartiallyAlive){g.className='state-pill degraded';g.textContent='CORE DEGRADED';}
   else{g.className='state-pill bad';g.textContent='CONTROL PLANE DOWN';}
   $('lastRefresh').textContent=`checked ${now()} · ${data.latency_ms??'?'} ms`;
-  renderSessions(sessions); renderEvents(data.events||[]);
+  renderCockpitStatus(data); renderSessions(sessions); renderEvents(data.events||[]);
 }
 
 async function refreshStatus(){
@@ -123,7 +154,7 @@ async function loadTools(){
     if(fresh){state.selected=fresh;$('toolCategory').textContent=fresh.category||'tool';$('toolName').textContent=fresh.name;$('toolDescription').textContent=fresh.description||'';$('toolBadges').innerHTML=badgeMarkup(fresh);renderAvailability(fresh);}
     else{state.selected=null;$('toolDetail').classList.add('hidden');$('toolEmpty').classList.remove('hidden');delete state.availabilityChecks[selectedName];}
   }
-  renderCategories();applyToolFilter();return d;
+  renderCategories();applyToolFilter();renderCockpitTools();return d;
 }
 
 function renderCategories(){
@@ -195,6 +226,28 @@ async function presetAction(name){
   if(name==='upload'){openToolPreset('browser.upload',{session_id:'',selector:'input[type=file]',paths:[],timeout_seconds:60});}
 }
 
+function setUiTier(value){
+  const tier=['full','balanced','minimal'].includes(String(value))?String(value):'balanced';
+  document.body.dataset.uiTier=tier;
+  if($('uiTier'))$('uiTier').value=tier;
+  try{localStorage.setItem('pcmmad-hud-tier',tier);}catch{}
+}
+function restoreUiTier(){
+  let tier='balanced';try{tier=localStorage.getItem('pcmmad-hud-tier')||'balanced';}catch{}
+  setUiTier(tier);
+}
+function runCockpitCommand(){
+  const input=$('cockpitCommand');if(!input)return;const raw=input.value.trim();const q=raw.toLowerCase();if(!q)return;
+  const views={ops:'ops',cockpit:'ops',browser:'browser',sessions:'browser',activity:'activity',journal:'activity',tools:'tools','tool explorer':'tools'};
+  if(views[q]){activateTab(views[q]);input.value='';return;}
+  const exact=state.tools.find(t=>t.name.toLowerCase()===q);
+  const prefix=state.tools.find(t=>t.name.toLowerCase().startsWith(q));
+  const contains=state.tools.find(t=>`${t.name} ${t.description||''}`.toLowerCase().includes(q));
+  const tool=exact||prefix||contains;
+  if(tool){activateTab('tools');selectTool(tool,{});input.value='';$('rawPayload')?.focus();return;}
+  showToast(`No live tool/view match: ${raw}`,false);
+}
+function focusCockpitCommand(){activateTab('ops');const input=$('cockpitCommand');if(input){input.focus();input.select();}}
 function activateTab(name){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.tabpage').forEach(p=>p.classList.toggle('active',p.id===`tab-${name}`));}
 function showData(title,data){$('dataTitle').textContent=title;$('dataBody').textContent=typeof data==='string'?data:JSON.stringify(data,null,2);$('dataModal').classList.remove('hidden');}
 
@@ -207,10 +260,19 @@ function wire(){
   $('refreshAll').onclick=async()=>{await Promise.all([refreshStatus(),loadTools()]);showToast('State refreshed');};
   $('browserRefresh').onclick=refreshStatus;$('activityRefresh').onclick=refreshStatus;$('launchBrowser').onclick=launchBrowser;$('requestUpload').onclick=requestBrowserUpload;$('closeData').onclick=()=>$('dataModal').classList.add('hidden');
   $('toolSearch').oninput=applyToolFilter;$('syncFormBtn').onclick=()=>{try{syncFormToJson();}catch(e){showToast(String(e),false);}};$('dispatchBtn').onclick=rawToolDispatch;$('checkAvailabilityBtn').onclick=checkSelectedAvailability;
+  $('openToolExplorer').onclick=()=>activateTab('tools');$('openRawTools').onclick=()=>activateTab('tools');$('openBrowserView').onclick=()=>activateTab('browser');$('openActivityView').onclick=()=>activateTab('activity');
+  $('runCockpitCommand').onclick=runCockpitCommand;$('cockpitCommand').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();runCockpitCommand();}});
+  $('uiTier').onchange=e=>setUiTier(e.target.value);
   $('rejectApproval').onclick=()=>{const name=state.pendingApproval?.tool?.name;approvalClose();showToast(`Rejected: ${name||'action'}`,false);};
   $('confirmApproval').onclick=()=>{const p=state.pendingApproval;if(!p)return;const cb=p.onApproved;cb();};
-  window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('approvalModal').classList.contains('hidden')){$('rejectApproval').click();}});
+  window.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&!$('approvalModal').classList.contains('hidden')){$('rejectApproval').click();return;}
+    const target=e.target;const editing=target&&(['INPUT','TEXTAREA','SELECT'].includes(target.tagName)||target.isContentEditable);
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();focusCockpitCommand();return;}
+    if(e.altKey&&['1','2','3','4'].includes(e.key)){e.preventDefault();activateTab(['ops','browser','activity','tools'][Number(e.key)-1]);return;}
+    if(!editing&&e.key==='/'){e.preventDefault();focusCockpitCommand();}
+  });
 }
 
-async function init(){wire();const meta=await api('/api/meta');state.hudToken=meta.hud_token||null;if(!state.hudToken)showToast('HUD POST capability token unavailable',false);await Promise.all([loadTools(),refreshStatus()]);setInterval(refreshStatus,5000);}
+async function init(){wire();restoreUiTier();const meta=await api('/api/meta');state.hudToken=meta.hud_token||null;if(!state.hudToken)showToast('HUD POST capability token unavailable',false);await Promise.all([loadTools(),refreshStatus()]);setInterval(refreshStatus,5000);}
 init();

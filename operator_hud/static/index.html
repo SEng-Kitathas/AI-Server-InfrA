@@ -4,85 +4,173 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PCMMAD Operations HUD</title>
-  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260901c">
+  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260908-cockpit-v1">
 </head>
-<body>
-<header class="topbar">
-  <div>
-    <div class="eyebrow">PCMMAD LOCAL CONTROL PLANE</div>
-    <h1>Operations HUD</h1>
-    <div class="sub">live state · explicit approvals · browser sessions · dispatch evidence · tool explorer</div>
+<body data-ui-tier="balanced">
+<div class="ambient-field" aria-hidden="true"></div>
+<header class="topbar corona">
+  <div class="identity-block">
+    <div class="eyebrow holo-label">PCMMAD LOCAL CONTROL PLANE</div>
+    <h1 class="holo-title">Operations HUD</h1>
+    <div class="sub">runtime truth · bounded authority · live evidence · explicit lifecycle</div>
+  </div>
+  <div class="corona-center" aria-label="Keyboard navigation help">
+    <span class="corona-chip">⌘/Ctrl+K COMMAND</span>
+    <span class="corona-chip">ALT+1…4 WINGS</span>
+    <span class="corona-chip">ESC CANCEL</span>
   </div>
   <div class="top-actions">
+    <label class="tier-control" for="uiTier">Material
+      <select id="uiTier" aria-label="HUD material performance tier">
+        <option value="balanced" selected>BALANCED</option>
+        <option value="full">FULL</option>
+        <option value="minimal">MINIMAL</option>
+      </select>
+    </label>
     <button id="refreshAll" class="secondary">Refresh all</button>
-    <div id="globalState" class="state-pill unknown">CHECKING</div>
+    <div id="globalState" class="state-pill unknown" aria-live="polite">CHECKING</div>
   </div>
 </header>
 
-<nav class="tabs">
-  <button class="tab active" data-tab="ops">Operations</button>
-  <button class="tab" data-tab="browser">Browser</button>
-  <button class="tab" data-tab="activity">Activity</button>
-  <button class="tab" data-tab="tools">Tool Explorer</button>
+<nav class="tabs cockpit-nav" aria-label="HUD workspace">
+  <button class="tab active" data-tab="ops">01 · Cockpit</button>
+  <button class="tab" data-tab="browser">02 · Browser</button>
+  <button class="tab" data-tab="activity">03 · Activity</button>
+  <button class="tab" data-tab="tools">04 · Tool Explorer</button>
 </nav>
 
 <main>
 <section id="tab-ops" class="tabpage active">
-  <div class="service-grid">
-    <article class="service-card" id="hudCard">
-      <div class="service-head"><span>HUD</span><span id="hudLamp" class="lamp unknown"></span></div>
-      <div id="hudState" class="service-state">checking</div><div id="hudDetail" class="service-detail">127.0.0.1:5090</div>
-    </article>
-    <article class="service-card" id="receiverCard">
-      <div class="service-head"><span>Receiver</span><span id="receiverLamp" class="lamp unknown"></span></div>
-      <div id="receiverState" class="service-state">checking</div><div id="receiverDetail" class="service-detail">127.0.0.1:5000</div>
-    </article>
-    <article class="service-card" id="bridgeCard">
-      <div class="service-head"><span>Browser Bridge · Optional</span><span id="bridgeLamp" class="lamp unknown"></span></div>
-      <div id="bridgeState" class="service-state">checking</div><div id="bridgeDetail" class="service-detail">127.0.0.1:4471</div>
-    </article>
-    <article class="service-card">
-      <div class="service-head"><span>Active Sessions</span><span id="sessionLamp" class="lamp unknown"></span></div>
-      <div id="sessionCount" class="service-state">0</div><div class="service-detail">browser bridge sessions</div>
-    </article>
-    <article class="service-card" id="journalCard">
-      <div class="service-head"><span>Forensic Journal</span><span id="journalLamp" class="lamp unknown"></span></div>
-      <div id="journalState" class="service-state">checking</div><div id="journalDetail" class="service-detail">durable dispatch evidence</div>
-    </article>
-  </div>
+  <div class="cockpit-grid">
+    <aside class="wing wing-left" aria-label="Left wing status and control">
+      <section class="wing-heading">
+        <div class="eyebrow">LEFT WING · ASSURANCE</div>
+        <h2>State, gates & alerts</h2>
+      </section>
 
-  <div class="ops-grid">
-    <section class="panel action-panel">
-      <div class="panel-head"><div><div class="eyebrow">ACTION CENTER</div><h2>Common operations</h2></div></div>
-      <div class="action-grid">
-        <button class="action-card danger-action" data-preset="duckai">
-          <span class="action-icon">↗</span><span><strong>Start Duck.ai evaluator</strong><small>visible Chrome session · approval required</small></span>
-        </button>
-        <button class="action-card" data-preset="sessions">
-          <span class="action-icon">◉</span><span><strong>Refresh browser sessions</strong><small>read-only</small></span>
-        </button>
-        <button class="action-card" data-preset="mounts">
-          <span class="action-icon">▦</span><span><strong>Inspect mounts</strong><small>read-only</small></span>
-        </button>
-        <button class="action-card" data-preset="upload">
-          <span class="action-icon">⇧</span><span><strong>Upload to browser</strong><small>file input · approval required</small></span>
-        </button>
+      <div class="service-grid cockpit-services">
+        <article class="service-card" id="hudCard">
+          <div class="service-head"><span>HUD</span><span id="hudLamp" class="lamp unknown"></span></div>
+          <div id="hudState" class="service-state">checking</div><div id="hudDetail" class="service-detail">127.0.0.1:5090</div>
+        </article>
+        <article class="service-card" id="receiverCard">
+          <div class="service-head"><span>Receiver</span><span id="receiverLamp" class="lamp unknown"></span></div>
+          <div id="receiverState" class="service-state">checking</div><div id="receiverDetail" class="service-detail">127.0.0.1:5000</div>
+        </article>
+        <article class="service-card" id="journalCard">
+          <div class="service-head"><span>Forensic Journal</span><span id="journalLamp" class="lamp unknown"></span></div>
+          <div id="journalState" class="service-state">checking</div><div id="journalDetail" class="service-detail">durable dispatch evidence</div>
+        </article>
+        <article class="service-card optional-service" id="bridgeCard">
+          <div class="service-head"><span>Browser Bridge · Optional</span><span id="bridgeLamp" class="lamp unknown"></span></div>
+          <div id="bridgeState" class="service-state">checking</div><div id="bridgeDetail" class="service-detail">127.0.0.1:4471</div>
+        </article>
       </div>
+
+      <section class="panel compact-panel">
+        <div class="panel-head"><div><div class="eyebrow">ATTENTION</div><h2>Recent failures</h2></div><span id="failureCount" class="counter">0</span></div>
+        <div id="failures" class="stack empty-note">No HUD dispatch failures recorded.</div>
+      </section>
+
+      <section class="panel compact-panel">
+        <div class="panel-head"><div><div class="eyebrow">QUICK CONTROL</div><h2>Common operations</h2></div></div>
+        <div class="action-grid cockpit-actions">
+          <button class="action-card danger-action" data-preset="duckai">
+            <span class="action-icon">↗</span><span><strong>Duck.ai evaluator</strong><small>visible session · approval</small></span>
+          </button>
+          <button class="action-card" data-preset="sessions">
+            <span class="action-icon">◉</span><span><strong>Browser sessions</strong><small>read-only</small></span>
+          </button>
+          <button class="action-card" data-preset="mounts">
+            <span class="action-icon">▦</span><span><strong>Inspect mounts</strong><small>read-only</small></span>
+          </button>
+          <button class="action-card" data-preset="upload">
+            <span class="action-icon">⇧</span><span><strong>Upload</strong><small>approval required</small></span>
+          </button>
+        </div>
+      </section>
+    </aside>
+
+    <section class="wing wing-center" aria-label="Center wing integrated operator picture">
+      <section class="wing-heading center-heading">
+        <div>
+          <div class="eyebrow holo-label">CENTER WING · INTEGRATED PICTURE</div>
+          <h2>Live operator focus</h2>
+        </div>
+        <span id="lastRefresh" class="muted"></span>
+      </section>
+
+      <section class="focus-surface panel">
+        <div class="focus-assurance">
+          <div>
+            <span class="eyebrow">CURRENT ASSURANCE</span>
+            <strong id="cockpitAssurance">Grounding Runtime…</strong>
+          </div>
+          <div class="focus-metrics">
+            <div><span>TOOLS</span><strong id="cockpitToolCount">—</strong></div>
+            <div><span>SESSIONS</span><strong id="sessionCount">0</strong><span id="sessionLamp" class="lamp unknown"></span></div>
+            <div><span>OPTIONAL</span><strong id="cockpitOptional">—</strong></div>
+          </div>
+        </div>
+        <div class="focus-rule"></div>
+        <div class="panel-head"><div><div class="eyebrow">LIVE ACTIVITY</div><h2>Recent dispatches</h2></div><span class="muted">machine-truth receipts</span></div>
+        <div id="recentActivity" class="activity-list center-stream"></div>
+      </section>
+
+      <section class="panel center-guidance">
+        <div class="eyebrow">OPERATOR DOCTRINE</div>
+        <div class="guidance-grid">
+          <div><strong>Submitted ≠ Started</strong><span>Lifecycle stages remain visually distinct.</span></div>
+          <div><strong>Tool success ≠ Task success</strong><span>Readback and consequence evidence stay visible.</span></div>
+          <div><strong>Optional ≠ Core failure</strong><span>Plane degradation stays local unless required truth fails.</span></div>
+          <div><strong>Approval ≠ Payload</strong><span>Authority remains a separate bound runtime object.</span></div>
+        </div>
+      </section>
     </section>
 
-    <section class="panel">
-      <div class="panel-head"><div><div class="eyebrow">ATTENTION</div><h2>Recent failures</h2></div><span id="failureCount" class="counter">0</span></div>
-      <div id="failures" class="stack empty-note">No HUD dispatch failures recorded.</div>
-    </section>
+    <aside class="wing wing-right" aria-label="Right wing topology and context">
+      <section class="wing-heading">
+        <div class="eyebrow">RIGHT WING · TOPOLOGY</div>
+        <h2>Context & capability</h2>
+      </section>
+
+      <section class="panel compact-panel topology-panel">
+        <div class="eyebrow">CAPABILITY SURFACE</div>
+        <div class="topology-value" id="cockpitFamilyCount">—</div>
+        <div class="service-detail">native tool families</div>
+        <div id="cockpitCapabilitySummary" class="topology-list">Catalog grounding…</div>
+        <button id="openToolExplorer" class="secondary full-button">Open Tool Explorer</button>
+      </section>
+
+      <section class="panel compact-panel">
+        <div class="panel-head"><div><div class="eyebrow">OPTIONAL PLANE</div><h2>Browser presence</h2></div></div>
+        <div id="cockpitSessionSummary" class="topology-list">No session evidence yet.</div>
+        <button id="openBrowserView" class="secondary full-button">Open Browser Runtime</button>
+      </section>
+
+      <section class="panel compact-panel">
+        <div class="eyebrow">FORENSIC ACCESS</div>
+        <p class="hint">The center shows bounded human-readable receipts. Full dispatch history and raw tool contracts stay one action away.</p>
+        <div class="right-actions">
+          <button id="openActivityView" class="secondary">Journal</button>
+          <button id="openRawTools" class="secondary">Raw contracts</button>
+        </div>
+      </section>
+    </aside>
   </div>
 
-  <section class="panel">
-    <div class="panel-head"><div><div class="eyebrow">LIVE ACTIVITY</div><h2>Recent dispatches</h2></div><span id="lastRefresh" class="muted"></span></div>
-    <div id="recentActivity" class="activity-list"></div>
+  <section class="command-dock" aria-label="Command dock">
+    <div class="dock-mark holo-label">PCMMAD //</div>
+    <div class="dock-input-wrap">
+      <input id="cockpitCommand" autocomplete="off" placeholder="Search tools, switch views, or type a tool name…" aria-label="HUD command palette">
+      <div id="commandHint" class="dock-hint">Ctrl/⌘+K · try “semantic.monster.search”, “browser”, “activity”</div>
+    </div>
+    <button id="runCockpitCommand" class="primary">Open</button>
   </section>
 </section>
 
 <section id="tab-browser" class="tabpage">
+  <div class="workspace-heading"><div class="eyebrow">SECONDARY WORKSPACE · BROWSER</div><h2>Browser runtime</h2></div>
   <div class="browser-layout">
     <section class="panel">
       <div class="panel-head"><div><div class="eyebrow">BROWSER RUNTIME</div><h2>Sessions</h2></div><button id="browserRefresh" class="secondary">Refresh</button></div>
@@ -107,6 +195,7 @@
 </section>
 
 <section id="tab-activity" class="tabpage">
+  <div class="workspace-heading"><div class="eyebrow">SECONDARY WORKSPACE · FORENSICS</div><h2>Activity journal</h2></div>
   <section class="panel">
     <div class="panel-head"><div><div class="eyebrow">FORENSIC HUD JOURNAL</div><h2>Dispatch history</h2></div><button id="activityRefresh" class="secondary">Refresh</button></div>
     <div id="activityTable" class="activity-table"></div>
@@ -114,6 +203,7 @@
 </section>
 
 <section id="tab-tools" class="tabpage">
+  <div class="workspace-heading"><div class="eyebrow">SECONDARY WORKSPACE · RAW CONTRACTS</div><h2>Tool Explorer</h2></div>
   <div class="tool-layout">
     <aside class="tool-sidebar">
       <input id="toolSearch" placeholder="Search live tools">
@@ -159,7 +249,7 @@
     <div class="modal-actions"><button id="closeData" class="primary">Close</button></div>
   </div>
 </div>
-<div id="toast" class="toast hidden"></div>
-<script src="/static/app.js?v=ops-hud-20260905-availability-v1"></script>
+<div id="toast" class="toast hidden" aria-live="polite"></div>
+<script src="/static/app.js?v=ops-hud-20260908-cockpit-v1"></script>
 </body>
 </html>

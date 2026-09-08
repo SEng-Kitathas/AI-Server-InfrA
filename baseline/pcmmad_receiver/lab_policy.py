@@ -40,8 +40,10 @@ def policy_mode() -> str:
 
 
 def legacy_inline_approval_enabled() -> bool:
-    raw = os.environ.get("PCMMAD_ALLOW_LEGACY_INLINE_APPROVAL", "1").strip().lower()
-    return raw not in {"0", "false", "no", "off", "disabled"}
+    # Legacy inline approval is unbound to capability contract and arguments.
+    # It is retained only as an explicit migration escape hatch; secure default is off.
+    raw = os.environ.get("PCMMAD_ALLOW_LEGACY_INLINE_APPROVAL", "0").strip().lower()
+    return raw in {"1", "true", "yes", "on", "enabled"}
 
 
 def _approval_present(approval: Any) -> bool:

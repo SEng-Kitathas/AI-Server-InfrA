@@ -30,6 +30,7 @@ from research_arxiv import (
 from research_distill import distill_paper
 from research_predator import dedupe_and_rank, generate_query_family
 from research_starmap import build_evidence_topology
+from shared_core import require_valid_api_key
 
 research_bp = Blueprint("research", __name__, url_prefix="/research")
 
@@ -43,6 +44,14 @@ def _error(error_code: str, message: str, status: int, **extra: object) -> objec
     )
 
 
+def _auth() -> object | None:
+    try:
+        require_valid_api_key(request.headers)
+        return None
+    except PermissionError as exc:
+        return _error("UNAUTHORIZED", str(exc), 401)
+
+
 def _json_body() -> dict:
     data = request.get_json(silent=False, force=True)
     if not isinstance(data, dict):
@@ -52,6 +61,9 @@ def _json_body() -> dict:
 
 @research_bp.get("/health")
 def research_health() -> object:
+    auth_error = _auth()
+    if auth_error:
+        return auth_error
     return jsonify(
         ResearchHealthResponse(
             ok=True,
@@ -68,6 +80,9 @@ def research_health() -> object:
 
 @research_bp.post("/arxiv/search")
 def research_arxiv_search() -> object:
+    auth_error = _auth()
+    if auth_error:
+        return auth_error
     try:
         req = ArxivSearchRequest.from_json(_json_body())
         if not req.query:
@@ -89,6 +104,9 @@ def research_arxiv_search() -> object:
 
 @research_bp.post("/arxiv/paper")
 def research_arxiv_paper() -> object:
+    auth_error = _auth()
+    if auth_error:
+        return auth_error
     try:
         req = ArxivPaperRequest.from_json(_json_body())
         if not req.paper_id:
@@ -145,6 +163,9 @@ def _direct_hunt_payload(req: ResearchHuntRequest) -> ResearchHuntResponse:
 
 @research_bp.post("/hunt")
 def research_hunt() -> object:
+    auth_error = _auth()
+    if auth_error:
+        return auth_error
     try:
         req = ResearchHuntRequest.from_json(_json_body())
         if not req.topic:

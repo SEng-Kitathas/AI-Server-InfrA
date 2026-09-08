@@ -165,6 +165,17 @@ class BoundApprovalDispatchTests(unittest.TestCase):
         self.assertEqual(self.calls, [{"target": "A", "value": 1}])
         self.assertNotIn("approval", result["result"]["received"])
 
+    def test_legacy_inline_is_disabled_by_default(self) -> None:
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("PCMMAD_ALLOW_LEGACY_INLINE_APPROVAL", None)
+            with self.assertRaises(lab_tools.LabToolError) as caught:
+                lab_tools.dispatch_tool(
+                    "test.approved",
+                    {"target": "A", "approval": {"permit": True}},
+                )
+            self.assertEqual(caught.exception.error_code, "LEGACY_APPROVAL_DISABLED")
+            self.assertEqual(self.calls, [])
+
     def test_legacy_inline_can_be_disabled_without_breaking_bound_flow(self) -> None:
         with patch.dict(os.environ, {"PCMMAD_ALLOW_LEGACY_INLINE_APPROVAL": "0"}, clear=False):
             with self.assertRaises(lab_tools.LabToolError) as caught:

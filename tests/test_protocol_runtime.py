@@ -16,6 +16,7 @@ sys.path.insert(0, str(RUNTIME_ROOT))
 
 import shared_core
 import protocol_store
+import approval_authority as approval_authority
 from protocol_models import ProtocolValidationError
 from protocol_store import (
     ProtocolConflictError,
@@ -28,7 +29,7 @@ from protocol_store import (
     transition_mode,
     verify_events,
 )
-from pcmmad_receiver.lab_tools import dispatch_tool, list_tools
+from pcmmad_receiver.lab_tools import LabToolError, dispatch_tool, list_tools
 
 
 class ProtocolRuntimeTests(unittest.TestCase):
@@ -47,6 +48,7 @@ class ProtocolRuntimeTests(unittest.TestCase):
             patch.object(shared_core, "SYSTEM_ROOT", system),
             patch.object(shared_core, "SANDBOX_ROOT", sandbox),
             patch.object(shared_core, "TEMP_ROOT", temp),
+            patch.object(approval_authority, "SYSTEM_ROOT", system),
             patch.object(
                 shared_core,
                 "MOUNT_TABLE",
@@ -185,16 +187,27 @@ class ProtocolRuntimeTests(unittest.TestCase):
             {"PCMMAD_LAB_POLICY_MODE": "strict", "PCMMAD_TOOL_VALIDATION_MODE": "strict"},
             clear=False,
         ):
+            arguments = {
+                "project_id": "alpha",
+                "rigor_level": "STANDARD",
+                "initial_mode": "DISCUSSION",
+            }
+            with self.assertRaises(LabToolError) as approval_required:
+                dispatch_tool("protocol.initialize", arguments)
+            self.assertEqual(approval_required.exception.error_code, "APPROVAL_REQUIRED")
+            challenge = approval_required.exception.extra["approval_challenge"]
             initialized = dispatch_tool(
                 "protocol.initialize",
-                {
-                    "project_id": "alpha",
-                    "rigor_level": "STANDARD",
-                    "initial_mode": "DISCUSSION",
-                    "approval": {"permit": True},
+                arguments,
+                authority={
+                    "approval_handle": challenge["handle"],
+                    "permit": True,
+                    "operator_id": "test-operator",
+                    "provenance": "protocol-runtime-test",
                 },
             )
             self.assertTrue(initialized["ok"])
+            self.assertEqual(initialized["approval_mode"], "bound_challenge")
             status = dispatch_tool("protocol.status", {"project_id": "alpha"})
         self.assertTrue(status["result"]["ok"])
         self.assertEqual(status["result"]["state"]["current_mode"], "DISCUSSION")
@@ -233,6 +246,7 @@ class ProtocolRuntimeTests(unittest.TestCase):
                 "PCMMAD_LAB_POLICY_MODE": "strict",
                 "PCMMAD_TOOL_VALIDATION_MODE": "advisory",
                 "PCMMAD_PROTOCOL_POLICY_MODE": "advisory",
+                "PCMMAD_ALLOW_LEGACY_INLINE_APPROVAL": "1",
             },
             clear=False,
         ):
