@@ -59,7 +59,7 @@ def schedule_restart(delay_seconds: int = 2) -> dict[str, Any]:
         "controller_pid": int(proc.pid),
         "receipt_path": str(receipt),
         "controller": str(RESTART_SCRIPT),
-        "semantic_note": "scheduled != stopped != started != healthy; read restart receipt after reconnect",
+        "semantic_note": "scheduled != permitted-by-intensity-guard != stopped != started != healthy; read restart receipt after reconnect",
     }
 
 
@@ -79,7 +79,7 @@ def latest_receipt() -> dict[str, Any]:
 def register(register_tool: Callable[..., Any]) -> None:
     @register_tool(
         "control.receiver.restart",
-        "Schedule one canonical PCMMAD receiver+ngrok convergent restart. The call returns before shutdown; verify with control.receiver.restart.status after reconnect.",
+        "Schedule one canonical PCMMAD receiver+ngrok convergent restart subject to the canonical restart-intensity guard. The call returns before shutdown; verify the restart receipt after reconnect for ready vs restart_intensity_blocked.",
         "medium",
         category="control",
         tags=["restart", "receiver", "ngrok", "self-restart", "receipt"],

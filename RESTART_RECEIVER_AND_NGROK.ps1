@@ -7,7 +7,9 @@
     [string]$HostAddress = "127.0.0.1",
     [string]$ApiKey = "",
     [switch]$NoNgrok,
-    [string]$ReceiptPath = ""
+    [string]$ReceiptPath = "",
+    [switch]$ForceRestart,
+    [switch]$RestartIntensityReservationOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -22,6 +24,16 @@ if ([string]::IsNullOrWhiteSpace($ReceiptPath)) {
     New-Item -ItemType Directory -Force -Path $ReceiptRoot | Out-Null
     $ReceiptPath = Join-Path $ReceiptRoot ("restart_" + (Get-Date -Format "yyyyMMdd_HHmmss_fff") + ".json")
 }
+# Restart intensity is one canonical service-level authority surface. A custom
+# receipt destination must not create a fresh restart budget. Tests isolate this
+# state by overriding TEMP for the child controller process.
+$IntensityRoot = $ReceiptRoot
+$RestartIntensityStatePath = Join-Path $IntensityRoot "restart_intensity_state.json"
+$RestartIntensityLockPath = Join-Path $IntensityRoot "restart_intensity.lock"
+# Canonical supervisor policy. These are not per-call transport knobs.
+$RestartWindowSeconds = 300
+$RestartMaxAttempts = 3
+$RestartCooldownSeconds = 600
 $Script:Receipt = [ordered]@{
     ok = $false
     action = $Action
@@ -39,6 +51,8 @@ $Script:Receipt = [ordered]@{
     ngrok_pids = @()
     public_url = $null
     error = $null
+    force_restart = [bool]$ForceRestart
+    restart_intensity = $null
 }
 
 function Save-Receipt {
@@ -46,7 +60,7 @@ function Save-Receipt {
     $Script:Receipt.stage = $Stage
     $Script:Receipt.ok = $Ok
     if (-not [string]::IsNullOrWhiteSpace($ErrorText)) { $Script:Receipt.error = $ErrorText }
-    if ($Ok -or $Stage -eq "failed" -or $Stage -eq "stopped" -or $Stage -eq "status") {
+    if ($Ok -or $Stage -eq "failed" -or $Stage -eq "stopped" -or $Stage -eq "status" -or $Stage -eq "restart_intensity_blocked") {
         $Script:Receipt.finished_at = (Get-Date).ToUniversalTime().ToString("o")
     }
     $dir = Split-Path -Parent $ReceiptPath
@@ -60,6 +74,142 @@ function Write-Stage([string]$Message) {
     Write-Host ""
     Write-Host "=== $Message ==="
     Save-Receipt -Stage $Message
+}
+
+function Open-RestartIntensityLock([int]$TimeoutMilliseconds = 5000) {
+    New-Item -ItemType Directory -Force -Path $IntensityRoot | Out-Null
+    $deadline = [DateTime]::UtcNow.AddMilliseconds($TimeoutMilliseconds)
+    do {
+        try {
+            return [System.IO.File]::Open(
+                $RestartIntensityLockPath,
+                [System.IO.FileMode]::OpenOrCreate,
+                [System.IO.FileAccess]::ReadWrite,
+                [System.IO.FileShare]::None
+            )
+        }
+        catch [System.IO.IOException] {
+            Start-Sleep -Milliseconds 50
+        }
+    } while ([DateTime]::UtcNow -lt $deadline)
+    throw "Restart intensity lock is busy: $RestartIntensityLockPath"
+}
+
+function Read-RestartIntensityState {
+    if (-not (Test-Path -LiteralPath $RestartIntensityStatePath)) {
+        return [ordered]@{ attempts = @(); cooldown_until = $null; updated_at = $null }
+    }
+    try {
+        $payload = Get-Content -Raw -LiteralPath $RestartIntensityStatePath | ConvertFrom-Json
+        if ([string]$payload.schema -ne "pcmmad.restart-intensity.v1") {
+            throw "unsupported restart intensity state schema: $($payload.schema)"
+        }
+        return [ordered]@{
+            attempts = @($payload.attempts)
+            cooldown_until = $payload.cooldown_until
+            updated_at = $payload.updated_at
+        }
+    }
+    catch {
+        throw "Restart intensity state is unreadable: $($_.Exception.Message)"
+    }
+}
+
+function Save-RestartIntensityState($State) {
+    New-Item -ItemType Directory -Force -Path $IntensityRoot | Out-Null
+    $tmp = $RestartIntensityStatePath + ".tmp." + [Guid]::NewGuid().ToString("N")
+    try {
+        $State | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $tmp -Encoding UTF8
+        Move-Item -LiteralPath $tmp -Destination $RestartIntensityStatePath -Force
+    }
+    finally {
+        if (Test-Path -LiteralPath $tmp) { Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue }
+    }
+}
+
+function Reserve-RestartAttempt {
+    $lock = Open-RestartIntensityLock
+    try {
+        $now = [DateTime]::UtcNow
+        $windowStart = $now.AddSeconds(-1 * $RestartWindowSeconds)
+        $state = Read-RestartIntensityState
+        $recent = New-Object System.Collections.Generic.List[string]
+        foreach ($rawAttempt in @($state.attempts)) {
+            if ([string]::IsNullOrWhiteSpace([string]$rawAttempt)) {
+                throw "Restart intensity state contains a blank attempt timestamp."
+            }
+            $parsed = [DateTime]::MinValue
+            if (-not [DateTime]::TryParse(
+                [string]$rawAttempt,
+                [Globalization.CultureInfo]::InvariantCulture,
+                [Globalization.DateTimeStyles]::RoundtripKind,
+                [ref]$parsed
+            )) {
+                throw "Restart intensity state contains an invalid attempt timestamp: $rawAttempt"
+            }
+            $utc = $parsed.ToUniversalTime()
+            if ($utc -ge $windowStart -and $utc -le $now.AddSeconds(5)) {
+                [void]$recent.Add($utc.ToString("o"))
+            }
+        }
+
+        $cooldownUntil = $null
+        if (-not [string]::IsNullOrWhiteSpace([string]$state.cooldown_until)) {
+            $parsedCooldown = [DateTime]::MinValue
+            if (-not [DateTime]::TryParse(
+                [string]$state.cooldown_until,
+                [Globalization.CultureInfo]::InvariantCulture,
+                [Globalization.DateTimeStyles]::RoundtripKind,
+                [ref]$parsedCooldown
+            )) {
+                throw "Restart intensity state contains an invalid cooldown timestamp: $($state.cooldown_until)"
+            }
+            $cooldownUntil = $parsedCooldown.ToUniversalTime()
+        }
+        if ($cooldownUntil -and $cooldownUntil -le $now) { $cooldownUntil = $null }
+
+        $attemptsBefore = $recent.Count
+        $allowed = $true
+        $reason = $null
+        if (-not $ForceRestart) {
+            if ($cooldownUntil -and $cooldownUntil -gt $now) {
+                $allowed = $false
+                $reason = "cooldown_active"
+            }
+            elseif ($recent.Count -ge $RestartMaxAttempts) {
+                $allowed = $false
+                $reason = "restart_intensity_exceeded"
+                $cooldownUntil = $now.AddSeconds($RestartCooldownSeconds)
+            }
+        }
+
+        if ($allowed) { [void]$recent.Add($now.ToString("o")) }
+        $newState = [ordered]@{
+            schema = "pcmmad.restart-intensity.v1"
+            attempts = @($recent)
+            cooldown_until = $(if($cooldownUntil){$cooldownUntil.ToString("o")}else{$null})
+            updated_at = $now.ToString("o")
+            window_seconds = $RestartWindowSeconds
+            max_attempts = $RestartMaxAttempts
+            cooldown_seconds = $RestartCooldownSeconds
+        }
+        Save-RestartIntensityState $newState
+        return [ordered]@{
+            allowed = [bool]$allowed
+            forced = [bool]$ForceRestart
+            reason = $reason
+            attempts_before = $attemptsBefore
+            attempts_after = $recent.Count
+            window_seconds = $RestartWindowSeconds
+            max_attempts = $RestartMaxAttempts
+            cooldown_seconds = $RestartCooldownSeconds
+            cooldown_until = $newState.cooldown_until
+            state_path = $RestartIntensityStatePath
+        }
+    }
+    finally {
+        if ($lock) { $lock.Dispose() }
+    }
 }
 
 function Import-UserEnvironment {
@@ -237,11 +387,28 @@ function Refresh-ObservedState {
 
 try {
     if (-not (Test-Path -LiteralPath $ServerPy)) { throw "server.py not found: $ServerPy" }
-    if (-not (Test-Path -LiteralPath $VenvPython)) { throw "Virtual environment missing: $VenvPython" }
+    if (-not $RestartIntensityReservationOnly -and -not (Test-Path -LiteralPath $VenvPython)) { throw "Virtual environment missing: $VenvPython" }
     Import-UserEnvironment
     if (-not [string]::IsNullOrWhiteSpace($env:PCMMAD_BIND_HOST)) { $HostAddress = $env:PCMMAD_BIND_HOST }
     if (-not [string]::IsNullOrWhiteSpace($env:PCMMAD_BIND_PORT)) { $Port = [int]$env:PCMMAD_BIND_PORT }
     $LocalBase = "http://$HostAddress`:$Port"
+
+    if ($Action -in @("Restart", "Start")) {
+        $Script:Receipt.restart_intensity = Reserve-RestartAttempt
+        if (-not $Script:Receipt.restart_intensity.allowed) {
+            $detail = "Restart intensity blocked: reason=$($Script:Receipt.restart_intensity.reason) attempts=$($Script:Receipt.restart_intensity.attempts_before)/$RestartMaxAttempts cooldown_until=$($Script:Receipt.restart_intensity.cooldown_until)"
+            Save-Receipt -Stage "restart_intensity_blocked" -Ok $false -ErrorText $detail
+            [Console]::Error.WriteLine($detail)
+            $Script:Receipt | ConvertTo-Json -Depth 10
+            exit 75
+        }
+        if ($RestartIntensityReservationOnly) {
+            Save-Receipt -Stage "restart_intensity_reserved" -Ok $true
+            $Script:Receipt | ConvertTo-Json -Depth 10
+            exit 0
+        }
+    }
+
     $ResolvedApiKey = Resolve-ApiKey -ExplicitKey $ApiKey
     $env:GITHOME_API_KEY = $ResolvedApiKey
 
