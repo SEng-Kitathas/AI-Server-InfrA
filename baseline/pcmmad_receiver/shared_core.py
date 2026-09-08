@@ -14,6 +14,14 @@ from pathlib import Path
 from collections.abc import Mapping
 from typing import Any
 
+from workload_identity import (
+    WorkloadIdentityError,
+    canonical_target as workload_canonical_target,
+    proof_headers_present as workload_proof_headers_present,
+    verify_workload_proof,
+    workload_identity_mode,
+)
+
 _DEFAULT_ROOT = Path.home() / "Desktop" / "AI_Pushes_Sandbox"
 ROOT = Path(os.environ.get("PCMMAD_ROOT", str(_DEFAULT_ROOT))).resolve()
 PROJECTS_ROOT = Path(os.environ.get("PCMMAD_PROJECTS_ROOT", str(ROOT / "projects"))).resolve()
@@ -308,13 +316,59 @@ def resolve_target(project_id: str, artifact_class: str, logical_name: str) -> P
 
 
 def require_valid_api_key(headers: Mapping[str, object]) -> None:
-    """Require the configured receiver key using constant-time comparison."""
+    """Require bearer auth and, when configured/supplied, workload proof.
+
+    The API key remains the compatibility boundary.  Workload proof is additive:
+    optional mode preserves hosted callers that only possess the receiver key,
+    while required mode is an explicit operator choice.
+    """
 
     expected = os.environ.get("GITHOME_API_KEY", "").strip()
     raw_provided = headers.get("X-GitHome-Key", "")
     provided = raw_provided if isinstance(raw_provided, str) else str(raw_provided)
     if not expected or not provided or not secrets.compare_digest(provided, expected):
         raise PermissionError("Invalid or missing API key")
+
+    try:
+        mode = workload_identity_mode()
+        proof_present = workload_proof_headers_present(headers)
+    except WorkloadIdentityError as exc:
+        raise PermissionError(f"{exc.error_code}: {exc.message}") from exc
+
+    # Preserve non-HTTP/internal compatibility unless the caller explicitly asks
+    # for workload verification or the operator configured proof as mandatory.
+    try:
+        from flask import g, has_request_context, request
+    except ImportError:  # pragma: no cover - Flask is a receiver dependency
+        if proof_present or mode == "required":
+            raise PermissionError("Workload identity verification requires HTTP request context")
+        return
+
+    if not has_request_context():
+        if proof_present or mode == "required":
+            raise PermissionError("Workload identity verification requires HTTP request context")
+        return
+
+    if not proof_present and mode == "optional":
+        setattr(g, "pcmmad_workload_identity", None)
+        return
+
+    try:
+        target = workload_canonical_target(request.path, request.query_string)
+        body = request.get_data(cache=True, as_text=False) if proof_present else b""
+        identity = verify_workload_proof(
+            headers,
+            method=request.method,
+            target=target,
+            body=body,
+            replay_root=TEMP_ROOT / "workload_identity",
+            mode=mode,
+        )
+    except (WorkloadIdentityError, ValueError) as exc:
+        if isinstance(exc, WorkloadIdentityError):
+            raise PermissionError(f"{exc.error_code}: {exc.message}") from exc
+        raise PermissionError(f"WORKLOAD_IDENTITY_BAD_PROOF: {exc}") from exc
+    setattr(g, "pcmmad_workload_identity", identity)
 
 
 CAPABILITY_FLAGS = MappingProxyType(
@@ -341,6 +395,7 @@ CAPABILITY_FLAGS = MappingProxyType(
         "lab_batch": True,
         "lab_sessions": True,
         "approval_gates": True,
+        "workload_identity_proof": True,
         "plugin_autoload": True,
         "git_ops": True,
         "web_fetch": True,
