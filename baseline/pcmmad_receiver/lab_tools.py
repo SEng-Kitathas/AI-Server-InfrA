@@ -72,6 +72,7 @@ from lab_tools_sop import register_sop_tools
 from lab_tools_semantic import register_semantic_tools
 from lab_tools_doctrine import register_doctrine_tools
 from lab_tools_protocol import register_protocol_tools
+from lab_tools_continuity import register_continuity_tools
 from lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
 from project_mutation_authority import project_mutation_authority_context
 from research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
@@ -93,6 +94,8 @@ from shared_core import (
     ensure_parent,
     get_mount_roots,
     get_project_root,
+    commits_ledger_path_for,
+    resolve_target,
     init_project_layout,
     mount_summary,
     resolve_mount_spec,
@@ -1081,6 +1084,15 @@ register_execution_tools(
     submit_job=lambda payload: submit_execution_job(payload, require_mutation_authority=True),
     terminate_job=terminate_execution_job,
     utc_now=utc_now,
+)
+
+register_continuity_tools(
+    register_tool,
+    error_cls=LabToolError,
+    get_project_root=get_project_root,
+    resolve_target=resolve_target,
+    commits_ledger_path_for=commits_ledger_path_for,
+    sha256_file=sha256_file,
 )
 
 register_ops_tools(

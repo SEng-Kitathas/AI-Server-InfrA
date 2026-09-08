@@ -1,0 +1,471 @@
+"""Continuity convergence classifiers for explicit cross-plane observations.
+
+This module does not merge continuity and does not silently reach into remote/live
+planes. Callers bring observations (hashes/commits) with source labels; Runtime
+classifies those observations against durable local registration lineage and
+exactly-grounded Git ancestry.
+"""
+from __future__ import annotations
+
+import json
+import re
+from collections.abc import Callable, MutableMapping
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+from server_hardening import run_subprocess_envelope
+
+JsonObject = MutableMapping[str, Any]
+Registrar = Callable[..., Any]
+_SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+_GIT_COMMIT_RE = re.compile(r"^[0-9a-fA-F]{7,64}$")
+MAX_OBSERVATIONS = 32
+MAX_LINEAGE_TAIL = 16
+
+
+@dataclass(frozen=True)
+class ContinuityDeps:
+    error_cls: type[Exception]
+    get_project_root: Callable[[str], Path]
+    resolve_target: Callable[[str, str, str], Path]
+    commits_ledger_path_for: Callable[[str], Path]
+    sha256_file: Callable[[Path], str]
+
+
+def _deps(raw: JsonObject) -> ContinuityDeps:
+    return ContinuityDeps(
+        error_cls=raw["error_cls"],
+        get_project_root=raw["get_project_root"],
+        resolve_target=raw["resolve_target"],
+        commits_ledger_path_for=raw["commits_ledger_path_for"],
+        sha256_file=raw["sha256_file"],
+    )
+
+
+def _required_text(payload: JsonObject, key: str, error_cls: type[Exception]) -> str:
+    value = str(payload.get(key) or "").strip()
+    if not value:
+        raise error_cls("BAD_REQUEST", f"{key} is required", 400)
+    return value
+
+
+def _sha256(value: object, error_cls: type[Exception], field: str = "sha256") -> str:
+    text = str(value or "").strip().lower()
+    if not _SHA256_RE.fullmatch(text):
+        raise error_cls("BAD_OBSERVATION_SHA256", f"{field} must be exactly 64 hex characters", 400)
+    return text
+
+
+def _claimed_generation(value: object, error_cls: type[Exception]) -> int | None:
+    if value is None or value == "":
+        return None
+    if isinstance(value, bool):
+        raise error_cls("BAD_OBSERVATION_GENERATION", "claimed_generation must be a positive integer", 400)
+    try:
+        generation = int(value)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise error_cls("BAD_OBSERVATION_GENERATION", "claimed_generation must be a positive integer", 400) from exc
+    if generation <= 0:
+        raise error_cls("BAD_OBSERVATION_GENERATION", "claimed_generation must be a positive integer", 400)
+    return generation
+
+
+def _load_registration_lineage(
+    project_id: str,
+    artifact_class: str,
+    logical_name: str,
+    dep: ContinuityDeps,
+) -> list[JsonObject]:
+    ledger = dep.commits_ledger_path_for(project_id)
+    if not ledger.exists():
+        return []
+    transitions: list[JsonObject] = []
+    with ledger.open("r", encoding="utf-8") as handle:
+        for line_no, raw_line in enumerate(handle, 1):
+            text = raw_line.strip()
+            if not text:
+                continue
+            try:
+                row = json.loads(text)
+            except json.JSONDecodeError as exc:
+                raise dep.error_cls(
+                    "CONTINUITY_LEDGER_CORRUPT",
+                    f"commit ledger line {line_no} is invalid JSON",
+                    409,
+                    line_no=line_no,
+                ) from exc
+            if not isinstance(row, dict):
+                raise dep.error_cls(
+                    "CONTINUITY_LEDGER_CORRUPT",
+                    f"commit ledger line {line_no} is not an object",
+                    409,
+                    line_no=line_no,
+                )
+            if str(row.get("artifact_class") or "") != artifact_class:
+                continue
+            if str(row.get("logical_name") or "") != logical_name:
+                continue
+            sha = str(row.get("sha256") or "").strip().lower()
+            if not _SHA256_RE.fullmatch(sha):
+                raise dep.error_cls(
+                    "CONTINUITY_LEDGER_CORRUPT",
+                    f"matching commit ledger line {line_no} has invalid sha256",
+                    409,
+                    line_no=line_no,
+                )
+            # Re-registration of identical bytes is not a new content generation.
+            if transitions and transitions[-1]["sha256"] == sha:
+                continue
+            transitions.append(
+                {
+                    "generation": len(transitions) + 1,
+                    "sha256": sha,
+                    "time": row.get("time"),
+                    "commit_id": row.get("commit_id"),
+                    "operation": row.get("operation"),
+                }
+            )
+    return transitions
+
+
+def _artifact_relation(
+    observation: JsonObject,
+    *,
+    current_sha: str | None,
+    current_generation: int,
+    registration_current: bool,
+    lineage: list[JsonObject],
+    error_cls: type[Exception],
+) -> JsonObject:
+    source = str(observation.get("source") or "").strip()[:200]
+    if not source:
+        raise error_cls("BAD_REQUEST", "each observation requires source", 400)
+    observed_sha = _sha256(observation.get("sha256"), error_cls)
+    claimed = _claimed_generation(observation.get("claimed_generation"), error_cls)
+    result: JsonObject = {
+        "source": source,
+        "sha256": observed_sha,
+        "claimed_generation": claimed,
+        "relation": None,
+        "human_conflict_required": False,
+    }
+    if not registration_current:
+        if current_sha == observed_sha:
+            result["relation"] = "matches_unregistered_local"
+        else:
+            result["relation"] = "local_unregistered"
+        result["human_conflict_required"] = True
+        return result
+    if current_sha == observed_sha:
+        result["relation"] = "equal_current"
+        result["matched_generation"] = current_generation
+        return result
+
+    matches = [item for item in lineage if item["sha256"] == observed_sha]
+    if matches:
+        match = matches[-1]
+        result["matched_generation"] = match["generation"]
+        if int(match["generation"]) < current_generation:
+            result["relation"] = "stale_known_ancestor"
+            return result
+
+    if claimed is not None and claimed > current_generation:
+        result["relation"] = "ahead_or_divergent_unproven"
+        result["human_conflict_required"] = True
+    elif claimed is not None:
+        result["relation"] = "divergent"
+        result["human_conflict_required"] = True
+    else:
+        result["relation"] = "divergent_or_ahead_unknown"
+        result["human_conflict_required"] = True
+    return result
+
+
+def inspect_artifact_lineage(payload: JsonObject, dep: ContinuityDeps) -> JsonObject:
+    project_id = _required_text(payload, "project_id", dep.error_cls)
+    artifact = payload.get("artifact")
+    if not isinstance(artifact, dict):
+        raise dep.error_cls("BAD_REQUEST", "artifact must be an object", 400)
+    artifact_class = _required_text(artifact, "artifact_class", dep.error_cls)
+    logical_name = _required_text(artifact, "logical_name", dep.error_cls)
+    try:
+        target = dep.resolve_target(project_id, artifact_class, logical_name)
+    except ValueError as exc:
+        raise dep.error_cls("BAD_ARTIFACT", str(exc), 400) from exc
+    lineage = _load_registration_lineage(project_id, artifact_class, logical_name, dep)
+    current_sha = dep.sha256_file(target) if target.is_file() else None
+    latest_sha = str(lineage[-1]["sha256"]) if lineage else None
+    current_generation = int(lineage[-1]["generation"]) if lineage else 0
+    registration_current = bool(current_sha is not None and latest_sha == current_sha)
+    observations = payload.get("observations") or []
+    if not isinstance(observations, list):
+        raise dep.error_cls("BAD_REQUEST", "observations must be an array", 400)
+    if len(observations) > MAX_OBSERVATIONS:
+        raise dep.error_cls("BAD_REQUEST", f"observations limit is {MAX_OBSERVATIONS}", 400)
+    observed_results = [
+        _artifact_relation(
+            observation,
+            current_sha=current_sha,
+            current_generation=current_generation,
+            registration_current=registration_current,
+            lineage=lineage,
+            error_cls=dep.error_cls,
+        )
+        for observation in observations
+        if isinstance(observation, dict)
+    ]
+    if len(observed_results) != len(observations):
+        raise dep.error_cls("BAD_REQUEST", "each observation must be an object", 400)
+    return {
+        "project_id": project_id,
+        "artifact_class": artifact_class,
+        "logical_name": logical_name,
+        "path": str(target),
+        "exists": target.is_file(),
+        "current_sha256": current_sha,
+        "latest_registered_sha256": latest_sha,
+        "current_generation": current_generation,
+        "registration_current": registration_current,
+        "lineage_depth": len(lineage),
+        "lineage_tail": lineage[-MAX_LINEAGE_TAIL:],
+        "observations": observed_results,
+    }
+
+
+def _git(root: Path, args: list[str]) -> JsonObject:
+    return run_subprocess_envelope(
+        args,
+        cwd=root,
+        timeout_seconds=10,
+        stdout_max_bytes=32768,
+        stderr_max_bytes=32768,
+    )
+
+
+def _resolve_grounded_repo(project_root: Path, repo_path: str, error_cls: type[Exception]) -> Path:
+    if not repo_path:
+        raise error_cls("BAD_REQUEST", "git.repo_path is required", 400)
+    raw = Path(repo_path)
+    if raw.is_absolute():
+        raise error_cls("BAD_PATH", "git.repo_path must be project-relative", 400)
+    repo = (project_root / raw).resolve()
+    if project_root.resolve() not in [repo, *repo.parents]:
+        raise error_cls("BAD_PATH", "git.repo_path escapes project root", 400)
+    probe = _git(repo, ["git", "rev-parse", "--show-toplevel"])
+    if not probe.get("ok"):
+        raise error_cls(
+            "GIT_REPO_INVALID",
+            str(probe.get("stderr") or probe.get("stdout") or "not a Git repository"),
+            409,
+        )
+    top = Path(str(probe.get("stdout") or "").strip()).resolve()
+    if top != repo:
+        raise error_cls(
+            "GIT_REPO_SCOPE_MISMATCH",
+            "requested path is not the exact Git repository root",
+            409,
+            requested_repo=str(repo),
+            git_toplevel=str(top),
+        )
+    return repo
+
+
+def _commit_token(value: object, error_cls: type[Exception], *, allow_head: bool = False) -> str:
+    token = str(value or "").strip()
+    if allow_head and token == "HEAD":
+        return token
+    if not _GIT_COMMIT_RE.fullmatch(token):
+        raise error_cls("BAD_GIT_COMMIT", "Git observations must be 7-64 hex commit ids", 400)
+    return token
+
+
+def _resolve_commit(repo: Path, token: str) -> str | None:
+    result = _git(repo, ["git", "rev-parse", "--verify", f"{token}^{{commit}}"])
+    if not result.get("ok"):
+        return None
+    resolved = str(result.get("stdout") or "").strip().lower()
+    return resolved if re.fullmatch(r"[0-9a-f]{40,64}", resolved) else None
+
+
+def _is_ancestor(repo: Path, ancestor: str, descendant: str) -> bool | None:
+    result = _git(repo, ["git", "merge-base", "--is-ancestor", ancestor, descendant])
+    rc = result.get("return_code")
+    if rc == 0:
+        return True
+    if rc == 1:
+        return False
+    return None
+
+
+def inspect_git_relations(payload: JsonObject, dep: ContinuityDeps) -> JsonObject | None:
+    git_payload = payload.get("git")
+    if git_payload in (None, {}):
+        return None
+    if not isinstance(git_payload, dict):
+        raise dep.error_cls("BAD_REQUEST", "git must be an object", 400)
+    project_id = _required_text(payload, "project_id", dep.error_cls)
+    project_root = dep.get_project_root(project_id).resolve()
+    repo = _resolve_grounded_repo(project_root, str(git_payload.get("repo_path") or ""), dep.error_cls)
+    target_token = _commit_token(git_payload.get("target_commit") or "HEAD", dep.error_cls, allow_head=True)
+    target = _resolve_commit(repo, target_token)
+    if target is None:
+        raise dep.error_cls("GIT_TARGET_UNKNOWN", "target Git commit could not be resolved", 409)
+    observations = git_payload.get("observations") or []
+    if not isinstance(observations, list):
+        raise dep.error_cls("BAD_REQUEST", "git.observations must be an array", 400)
+    if len(observations) > MAX_OBSERVATIONS:
+        raise dep.error_cls("BAD_REQUEST", f"git.observations limit is {MAX_OBSERVATIONS}", 400)
+    results: list[JsonObject] = []
+    for observation in observations:
+        if not isinstance(observation, dict):
+            raise dep.error_cls("BAD_REQUEST", "each git observation must be an object", 400)
+        source = str(observation.get("source") or "").strip()[:200]
+        if not source:
+            raise dep.error_cls("BAD_REQUEST", "each git observation requires source", 400)
+        token = _commit_token(observation.get("commit"), dep.error_cls)
+        resolved = _resolve_commit(repo, token)
+        row: JsonObject = {
+            "source": source,
+            "commit": token,
+            "resolved_commit": resolved,
+            "relation": None,
+            "human_conflict_required": False,
+        }
+        if resolved is None:
+            row["relation"] = "unknown_commit"
+            row["human_conflict_required"] = True
+        elif resolved == target:
+            row["relation"] = "equal_current"
+        else:
+            older = _is_ancestor(repo, resolved, target)
+            newer = _is_ancestor(repo, target, resolved)
+            if older is True:
+                row["relation"] = "stale_known_ancestor"
+            elif newer is True:
+                row["relation"] = "ahead_known_descendant"
+            elif older is False and newer is False:
+                row["relation"] = "divergent"
+                row["human_conflict_required"] = True
+            else:
+                row["relation"] = "git_relation_unknown"
+                row["human_conflict_required"] = True
+        results.append(row)
+    return {
+        "repo_path": str(repo.relative_to(project_root)),
+        "repo_grounded": True,
+        "target_commit": target,
+        "observations": results,
+    }
+
+
+def _overall_status(artifact: JsonObject, git: JsonObject | None) -> str:
+    if not artifact.get("registration_current"):
+        return "local_unregistered"
+    rows = list(artifact.get("observations") or [])
+    if git:
+        rows.extend(git.get("observations") or [])
+    if any(bool(row.get("human_conflict_required")) for row in rows):
+        return "divergent_or_unproven"
+    relations = {str(row.get("relation") or "") for row in rows}
+    if "ahead_known_descendant" in relations:
+        return "local_stale"
+    if "stale_known_ancestor" in relations:
+        return "stale_observation"
+    return "converged"
+
+
+def inspect_convergence(payload: JsonObject, dep: ContinuityDeps) -> JsonObject:
+    artifact = inspect_artifact_lineage(payload, dep)
+    git = inspect_git_relations(payload, dep)
+    return {
+        "ok": True,
+        "project_id": artifact["project_id"],
+        "status": _overall_status(artifact, git),
+        "artifact": artifact,
+        "git": git,
+        "semantic_note": (
+            "stale_known_ancestor is machine-computable refresh pressure; divergent/unknown relations "
+            "remain conflict evidence and are not auto-merged"
+        ),
+    }
+
+
+INPUT_SCHEMA: JsonObject = {
+    "type": "object",
+    "required": ["project_id", "artifact"],
+    "additionalProperties": False,
+    "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "artifact": {
+            "type": "object",
+            "required": ["artifact_class", "logical_name"],
+            "additionalProperties": False,
+            "properties": {
+                "artifact_class": {"type": "string", "minLength": 1},
+                "logical_name": {"type": "string", "minLength": 1},
+            },
+        },
+        "observations": {
+            "type": "array",
+            "maxItems": MAX_OBSERVATIONS,
+            "items": {
+                "type": "object",
+                "required": ["source", "sha256"],
+                "additionalProperties": False,
+                "properties": {
+                    "source": {"type": "string", "minLength": 1, "maxLength": 200},
+                    "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+                    "claimed_generation": {"type": ["integer", "null"], "minimum": 1},
+                },
+            },
+        },
+        "git": {
+            "type": ["object", "null"],
+            "additionalProperties": False,
+            "required": ["repo_path"],
+            "properties": {
+                "repo_path": {"type": "string", "minLength": 1},
+                "target_commit": {"type": ["string", "null"]},
+                "observations": {
+                    "type": "array",
+                    "maxItems": MAX_OBSERVATIONS,
+                    "items": {
+                        "type": "object",
+                        "required": ["source", "commit"],
+                        "additionalProperties": False,
+                        "properties": {
+                            "source": {"type": "string", "minLength": 1, "maxLength": 200},
+                            "commit": {"type": "string", "pattern": "^[0-9a-fA-F]{7,64}$"},
+                        },
+                    },
+                },
+            },
+        },
+    },
+}
+
+
+def register_continuity_tools(register_tool: Registrar, **raw_deps: Any) -> None:
+    dep = _deps(raw_deps)
+
+    @register_tool(
+        "continuity.convergence.inspect",
+        "Classify explicit continuity hash/commit observations as current, stale-known-ancestor, ahead, or divergent without auto-merging planes.",
+        "low",
+        category="continuity",
+        side_effect_class="read",
+        effect_traits=[
+            "reads_project_ledger",
+            "reads_files",
+            "reads_repo_state",
+            "project_scope_enforced",
+            "requires_exact_repo_identity",
+            "source_currentness_check",
+            "bounded_output",
+        ],
+        input_schema=INPUT_SCHEMA,
+        output_schema={"type": "object"},
+    )
+    def tool_continuity_convergence_inspect(payload: JsonObject) -> JsonObject:
+        return inspect_convergence(payload, dep)
