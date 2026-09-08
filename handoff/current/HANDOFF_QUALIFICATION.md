@@ -71,3 +71,10 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - semantic optional plane truthfully degraded for missing qualified Python;
 - historical v0.3 OBE specimen PASS / 11 Skills / hostile 16/16;
 - next Skill `MCP_CONNECTOR_CAPABILITY_SCOUT_V0_1`; portfolio unfrozen; final schema locked/untriggered.
+
+## SERVER HARDENING / SEMANTIC / COCKPIT
+- engineering feature `c22381b2f02302196f239d0b6205a8005e238177`, tree `ca5b6bda928e8ebbe3dbc02dccac072df16ced15`;
+- full Runtime 434 / 433 PASS / 0 FAIL / 1 skip;
+- semantic real consequence: MiniLM 20 + Jina 20 hits, parsed success, rc=0;
+- auth/approval/HUD/informer seams closed at current claim ceiling;
+- live frozen `4163606459324feaa31252b3c2a6d58d73aaff46`; final schema last/untriggered; Skills/UCM separate/paused.

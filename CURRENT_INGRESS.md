@@ -134,3 +134,17 @@ Convergence/report metadata is remotely verified at `b2f9283eafbd5b0d62b7db08ad5
 - final schema LAST/LOCKED/untriggered; `hells yeah, ready` absent.
 
 Use `handoff/current/OBE_SKILL_THREAD_RESPONSE_2026-09-08.md` as the ready-to-paste response for the waiting Skill thread.
+## Server hardening / semantic / cockpit frontier
+Latest Runtime engineering feature is `c22381b2f02302196f239d0b6205a8005e238177` / tree `ca5b6bda928e8ebbe3dbc02dccac072df16ced15` (`Harden server and qualify operator cockpit`).
+
+- remote `main` independently verified at engineering feature before recovery publication;
+- full Runtime 434 collected / 433 passed / 0 failed / 1 conditional skip;
+- research HTTP auth defect closed;
+- legacy inline approval secure default OFF; bound challenges remain normal authority;
+- semantic executor environment qualified and real dual-lane retrieval proven (MiniLM 20 + Jina 20 hits);
+- operator HUD three-wing cockpit embodied and qualified;
+- Runtime remains 116 native tools / 18 families; imported action budget remains 30;
+- live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- final schema remains LAST/LOCKED/untriggered;
+- Skills/UCM remain separate/paused; real memory not ingested;
+- paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.

@@ -962,3 +962,37 @@ A-042 compact-schema work is limited to current authority projection parity and 
 - Expanded T0/T1/T2/T3 Skill roadmap is current forward direction and remains **UNFROZEN**. Exact next Skill: `MCP_CONNECTOR_CAPABILITY_SCOUT_V0_1`; Skill Forge remains deliberately deferred.
 - Live Runtime remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`; `ENGINEERING_CONVERGENCE != LIVE_PROMOTION`.
 - R10/final schema remains LAST / LOCKED / NOT TRIGGERED; explicit `hells yeah, ready` trigger is absent.
+
+## USER-OWNED CONTINUITY MEMORY — QUALIFIED CANDIDATE (2026-09-08)
+- Status: **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING / REAL USER MEMORY NOT YET INGESTED / LIVE FROZEN**.
+- Candidate: 6 files; inventory `48e61b0bc39d25e4d9231d8e60668f1c82241305f910fefdbcfb1b1409b62aef`.
+- Runtime expands from 108 to **116 native tools** via `memory.add/update/supersede/verify/forget_request/compact_snapshot/read/search`; compact imported schema remains 30 operations.
+- Authority: append-only hash-chained per-profile ledger; derived content-addressed core/sections/target index + atomic snapshot manifest; user continuity never becomes project authority.
+- Hydration: hard-capped 32KiB core + lazy sections + bounded ledger tail; healthy read/search do not full-fold history; stale snapshot fails closed.
+- Mutation: required idempotency, optional head CAS, cross-process serialization, pre-append snapshot ceilings, causal supersession evidence, evidence-independence groups, computed revalidation hazards, mechanical export classes.
+- Qualification: memory `25/25 PASS`; parity/currentness `59/59 PASS`; full `423 collected / 422 passed / 0 failed / 1 skip`; compile/diff checks PASS.
+- Real continuity exports remain donor evidence until mechanism publication/recovery completes.
+- Live remains `4163606459324feaa31252b3c2a6d58d73aaff46`; final schema remains LAST/LOCKED/untriggered.
+
+## USER-OWNED CONTINUITY MEMORY — ENGINEERING PUBLISHED (2026-09-08)
+- Engineering feature **PUBLISHED / REMOTE-VERIFIED** at `e786a5bebc23f9d09e05d417d04579126971d3b3`; tree `a4c198da9441a8335755b95759e05221055535a3`; subject `Add user-owned continuity memory`.
+- Candidate inventory `48e61b0bc39d25e4d9231d8e60668f1c82241305f910fefdbcfb1b1409b62aef`; final full suite `423 collected / 422 passed / 0 failed / 1 skip`; memory hostile `25/25`; parity/currentness `59/59`.
+- Runtime now exposes 116 native tools, including 8 `memory.*` capabilities; compact imported schema remains 30 operations.
+- User continuity authority is a per-profile append-only hash-chained ledger with bounded content-addressed materialization; it remains navigation/context and never project/live proof.
+- Real user/Claude continuity exports remain unmodified donor artifacts and are **not yet ingested**. Next gate is recovery-handoff publication, then semantic v1.1 import.
+- Live Runtime remains frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`; no live promotion occurred.
+- Final schema remains LAST/LOCKED/untriggered.
+
+## SERVER HARDENING / SEMANTIC / COCKPIT — PUBLISHED (2026-09-08)
+- Engineering HEAD `c22381b2f02302196f239d0b6205a8005e238177` / tree `ca5b6bda928e8ebbe3dbc02dccac072df16ced15` is **PUBLISHED and REMOTE-VERIFIED** on `main`; local `main` clean/aligned.
+- Full Runtime `434 collected / 433 passed / 0 failed / 1 conditional skip`; candidate inventory `7ec78ad9bdaf95f23da9ba1be1cfe5ec8b12e67c2eb1dda8f2eb6631cc531615`.
+- Research-route auth defect CLOSED; all four `/research/*` routes now require receiver API key.
+- Legacy inline approval defaults OFF; explicit migration opt-in only; bound challenge remains normal authority.
+- Semantic executor deployment blocker CLOSED: dedicated Python 3.12 runtime qualified; real dual-lane search returned MiniLM 20 + Jina 20 hits after full suite.
+- Semantic health now verifies 8 behavioral dependencies, MiniLM structural validity, and fails outer tool on child/output failure.
+- Operator HUD three-wing cockpit embodied and qualified; existing approval/currentness hooks preserved; HUD tests 27/27.
+- Informer full-suite timing failure localized to duplicate test-owned/global scheduler loops and repaired as test isolation; 20 isolated repeats 0 failures.
+- Runtime remains 116 native tools / 18 families; compact imported action surface remains 30.
+- Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
+- Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
+- No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
