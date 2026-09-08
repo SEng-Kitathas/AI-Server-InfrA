@@ -192,6 +192,9 @@
             "default": 65536,
             "description": "Use 0 or -1 for unbounded when the server supports it."
           },
+          "resource_budget": {
+            "$ref": "#/components/schemas/ExecutionResourceBudget"
+          },
           "env_allowlist": {
             "type": "object",
             "additionalProperties": {
@@ -303,6 +306,12 @@
           },
           "stderr_max_bytes": {
             "type": "integer"
+          },
+          "resource_budget": {
+            "$ref": "#/components/schemas/ExecutionResourceBudget"
+          },
+          "applied_resource_envelope": {
+            "$ref": "#/components/schemas/ExecutionResourceEnvelope"
           },
           "result_artifact_targets": {
             "type": "array",
@@ -3638,6 +3647,62 @@
           }
         },
         "additionalProperties": false
+      },
+      "ExecutionResourceBudget": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Optional OS-enforced Windows Job Object budget. Process membership includes PCMMAD worker/control members plus the user process tree.",
+        "properties": {
+          "process_memory_limit_bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "job_memory_limit_bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "active_process_limit": {
+            "type": "integer",
+            "minimum": 3,
+            "maximum": 65535
+          },
+          "cpu_rate_percent": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        }
+      },
+      "ExecutionResourceEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Kernel readback of the applied Windows Job Object envelope.",
+        "properties": {
+          "kill_on_close": {
+            "type": "boolean"
+          },
+          "process_memory_limit_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true
+          },
+          "job_memory_limit_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true
+          },
+          "active_process_limit": {
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true
+          },
+          "cpu_rate_percent": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "nullable": true
+          }
+        }
       }
     }
   },

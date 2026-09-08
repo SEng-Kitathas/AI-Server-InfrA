@@ -304,6 +304,9 @@ class ExecutionCapabilitiesEnvelope:
     watcher_active: bool
     background_scheduler: bool
     scheduler_alive: bool
+    resource_envelope_supported: bool = False
+    resource_envelope_backend: str = "none"
+    resource_budget_fields: list[str] = field(default_factory=list)
 
     def to_dict(self) -> JsonObject:
         return asdict(self)
@@ -344,6 +347,13 @@ def _env_allowlist(mapped: JsonObject) -> dict[str, str]:
     return {str(env_key): str(env_value) for env_key, env_value in value.items()}
 
 
+def _resource_component(mapped: JsonObject, key: str) -> JsonObject:
+    value = mapped.get(key, {})
+    if not isinstance(value, dict):
+        return {}
+    return dict(value)
+
+
 def _normalized_failure_digest(mapped: JsonObject) -> JsonObject | ExecutionFailureDigest | None:
     failure_digest = _failure_digest_or_none(mapped.get("failure_digest"))
     if isinstance(failure_digest, (dict, ExecutionFailureDigest)) or failure_digest is None:
@@ -375,6 +385,8 @@ def _job_record_runtime_args(mapped: JsonObject) -> JsonObject:
         "stderr_path": _as_str(mapped.get("stderr_path")),
         "stdout_max_bytes": _as_optional_int(mapped.get("stdout_max_bytes")),
         "stderr_max_bytes": _as_optional_int(mapped.get("stderr_max_bytes")),
+        "resource_budget": _resource_component(mapped, "resource_budget"),
+        "applied_resource_envelope": _resource_component(mapped, "applied_resource_envelope"),
         "result_artifact_targets": _result_artifact_targets(mapped),
         "artifact_registration_status": _as_str(
             mapped.get("artifact_registration_status"), "not_attempted"
@@ -452,6 +464,8 @@ class ExecutionJobRecord:
     stderr_path: str = ""
     stdout_max_bytes: int | None = None
     stderr_max_bytes: int | None = None
+    resource_budget: JsonObject = field(default_factory=dict)
+    applied_resource_envelope: JsonObject = field(default_factory=dict)
     result_artifact_targets: list[object] = field(default_factory=list)
     artifact_registration_status: str = "not_attempted"
     truth_gate: str = "not_evaluated"
@@ -538,6 +552,7 @@ class ExecutionSubmitPayload(DictSerializable):
     timeout_seconds: int | None
     stdout_max_bytes: int | None
     stderr_max_bytes: int | None
+    resource_budget: JsonObject = field(default_factory=dict)
     env_allowlist: dict[str, str] = field(default_factory=dict)
     result_artifact_targets: list[object] = field(default_factory=list)
     local_model_id: str | None = None

@@ -95,6 +95,13 @@ MAX_TIMEOUT_SECONDS = EXECUTION_CONFIG.max_timeout_seconds
 DEFAULT_STDOUT_MAX_BYTES = EXECUTION_CONFIG.default_stdout_max_bytes
 DEFAULT_STDERR_MAX_BYTES = EXECUTION_CONFIG.default_stderr_max_bytes
 MAX_OUTPUT_BYTES = EXECUTION_CONFIG.max_output_bytes
+RESOURCE_BUDGET_FIELDS = (
+    "process_memory_limit_bytes",
+    "job_memory_limit_bytes",
+    "active_process_limit",
+    "cpu_rate_percent",
+)
+MAX_ACTIVE_PROCESS_LIMIT = 65535
 DEFAULT_LIST_LIMIT = 20
 
 EXECUTION_MODES = ("one_shot", "bench", "replay", "ablation")
@@ -260,6 +267,9 @@ def execution_capabilities() -> JsonObject:
         watcher_active=_execution_watcher_alive(),
         background_scheduler=True,
         scheduler_alive=bool(_SCHEDULER_THREAD and _SCHEDULER_THREAD.is_alive()),
+        resource_envelope_supported=bool(os.name == "nt" and _wjo is not None),
+        resource_envelope_backend="windows_job_object" if os.name == "nt" and _wjo is not None else "none",
+        resource_budget_fields=list(RESOURCE_BUDGET_FIELDS),
     ).to_dict()
 
 
@@ -625,6 +635,7 @@ def _payload_fingerprint(payload: ExecutionSubmitPayload) -> str:
         "timeout_seconds": payload.timeout_seconds,
         "stdout_max_bytes": payload.stdout_max_bytes,
         "stderr_max_bytes": payload.stderr_max_bytes,
+        "resource_budget": payload.resource_budget,
         "env_allowlist": payload.env_allowlist,
         "result_artifact_targets": payload.result_artifact_targets,
         "local_model_id": payload.local_model_id,
@@ -1032,6 +1043,8 @@ def _write_worker_request(job: ExecutionJobRecord) -> Path:
             "cancel_path": job.worker_cancel_path,
             "ownership_release_path": job.worker_ownership_release_path,
             "job_object_name": job.job_object_name,
+            "resource_budget": dict(job.resource_budget),
+            "applied_resource_envelope": dict(job.applied_resource_envelope),
             "timeout_seconds": job.timeout_seconds,
             "project_id": job.project_id,
             "project_mutation_binding": job.get("project_mutation_binding"),
@@ -1065,7 +1078,19 @@ def _spawn_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
             raise RuntimeError("Windows Job Object support unavailable")
         job.job_object_name = f"Local\\PCMMAD_EXEC_{job.job_id}"
         job_handle = _wjo.create_named_job(job.job_object_name)
-        _wjo.set_kill_on_close(job_handle, True)
+        try:
+            job.applied_resource_envelope = _wjo.configure_resource_envelope(
+                job_handle,
+                kill_on_close=True,
+                process_memory_limit_bytes=job.resource_budget.get("process_memory_limit_bytes"),
+                job_memory_limit_bytes=job.resource_budget.get("job_memory_limit_bytes"),
+                active_process_limit=job.resource_budget.get("active_process_limit"),
+                cpu_rate_percent=job.resource_budget.get("cpu_rate_percent"),
+            )
+            job.resource_gate = "pass"
+        except Exception:
+            job.resource_gate = "fail"
+            raise
     try:
         request_path = _write_worker_request(job)
         _set_job_status(job, JOB_STATUS_STARTING, "worker_request_durable")
@@ -1186,6 +1211,69 @@ def _validated_output_limits(data: JsonObject) -> tuple[int | None, int | None, 
     return timeout_seconds, stdout_max_bytes, stderr_max_bytes
 
 
+def _validated_resource_budget(value: Any) -> JsonObject:
+    if value in (None, ""):
+        return {}
+    if not isinstance(value, dict):
+        raise ExecutionRequestError("BAD_RESOURCE_BUDGET", "resource_budget must be an object", 400)
+    unknown = sorted(set(str(key) for key in value) - set(RESOURCE_BUDGET_FIELDS))
+    if unknown:
+        raise ExecutionRequestError(
+            "BAD_RESOURCE_BUDGET",
+            "resource_budget contains unsupported fields",
+            400,
+            unsupported_fields=unknown,
+            supported_fields=list(RESOURCE_BUDGET_FIELDS),
+        )
+    if os.name != "nt" or _wjo is None:
+        raise ExecutionRequestError(
+            "RESOURCE_ENVELOPE_UNSUPPORTED",
+            "resource_budget requires Windows Job Object support on this runtime",
+            409,
+        )
+    normalized: JsonObject = {}
+    for key in ("process_memory_limit_bytes", "job_memory_limit_bytes"):
+        raw = value.get(key)
+        if raw is None:
+            continue
+        if isinstance(raw, bool):
+            raise ExecutionRequestError("BAD_RESOURCE_BUDGET", f"{key} must be an integer > 0", 400)
+        try:
+            parsed = int(raw)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ExecutionRequestError("BAD_RESOURCE_BUDGET", f"{key} must be an integer > 0", 400) from exc
+        if parsed <= 0 or parsed > sys.maxsize:
+            raise ExecutionRequestError("BAD_RESOURCE_BUDGET", f"{key} must be between 1 and {sys.maxsize}", 400)
+        normalized[key] = parsed
+    raw_active = value.get("active_process_limit")
+    if raw_active is not None:
+        if isinstance(raw_active, bool):
+            raise ExecutionRequestError("BAD_RESOURCE_BUDGET", "active_process_limit must be an integer", 400)
+        try:
+            active = int(raw_active)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ExecutionRequestError("BAD_RESOURCE_BUDGET", "active_process_limit must be an integer", 400) from exc
+        if active < 3 or active > MAX_ACTIVE_PROCESS_LIMIT:
+            raise ExecutionRequestError(
+                "BAD_RESOURCE_BUDGET",
+                f"active_process_limit must be between 3 and {MAX_ACTIVE_PROCESS_LIMIT}; the Job Object includes PCMMAD control members plus the user process tree",
+                400,
+            )
+        normalized["active_process_limit"] = active
+    raw_cpu = value.get("cpu_rate_percent")
+    if raw_cpu is not None:
+        if isinstance(raw_cpu, bool):
+            raise ExecutionRequestError("BAD_RESOURCE_BUDGET", "cpu_rate_percent must be an integer", 400)
+        try:
+            cpu = int(raw_cpu)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ExecutionRequestError("BAD_RESOURCE_BUDGET", "cpu_rate_percent must be an integer", 400) from exc
+        if cpu < 1 or cpu > 100:
+            raise ExecutionRequestError("BAD_RESOURCE_BUDGET", "cpu_rate_percent must be between 1 and 100", 400)
+        normalized["cpu_rate_percent"] = cpu
+    return normalized
+
+
 def _validated_env_allowlist(value: Any) -> dict[str, str]:
     if value in (None, ""):
         return {}
@@ -1278,6 +1366,7 @@ def _submit_payload_record_kwargs(
         "timeout_seconds": timeout_seconds,
         "stdout_max_bytes": stdout_max_bytes,
         "stderr_max_bytes": stderr_max_bytes,
+        "resource_budget": _validated_resource_budget(data.get("resource_budget")),
         "env_allowlist": _validated_env_allowlist(data.get("env_allowlist")),
         "result_artifact_targets": _validated_result_artifact_targets(
             data.get("result_artifact_targets")
@@ -1436,6 +1525,8 @@ def _execution_job_runtime_kwargs(
         "stderr_path": str(spec.stderr_path),
         "stdout_max_bytes": payload.stdout_max_bytes,
         "stderr_max_bytes": payload.stderr_max_bytes,
+        "resource_budget": dict(payload.resource_budget),
+        "applied_resource_envelope": {},
         "result_artifact_targets": payload.result_artifact_targets,
     }
 

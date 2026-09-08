@@ -31,8 +31,15 @@ PROCESS_TERMINATE = 0x0001
 
 JobObjectBasicProcessIdList = 3
 
+JOB_OBJECT_LIMIT_ACTIVE_PROCESS = 0x00000008
+JOB_OBJECT_LIMIT_PROCESS_MEMORY = 0x00000100
+JOB_OBJECT_LIMIT_JOB_MEMORY = 0x00000200
 JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x00002000
 JobObjectExtendedLimitInformation = 9
+
+JOB_OBJECT_CPU_RATE_CONTROL_ENABLE = 0x00000001
+JOB_OBJECT_CPU_RATE_CONTROL_HARD_CAP = 0x00000004
+JobObjectCpuRateControlInformation = 15
 
 class JOBOBJECT_BASIC_LIMIT_INFORMATION(ctypes.Structure):
     _fields_ = [
@@ -66,6 +73,13 @@ class JOBOBJECT_EXTENDED_LIMIT_INFORMATION(ctypes.Structure):
         ("PeakProcessMemoryUsed", ctypes.c_size_t),
         ("PeakJobMemoryUsed", ctypes.c_size_t),
     ]
+
+class JOBOBJECT_CPU_RATE_CONTROL_INFORMATION(ctypes.Structure):
+    _fields_ = [
+        ("ControlFlags", DWORD),
+        ("CpuRate", DWORD),
+    ]
+
 
 kernel32.CreateJobObjectW.argtypes = [LPVOID, wintypes.LPCWSTR]
 kernel32.CreateJobObjectW.restype = HANDLE
@@ -135,8 +149,16 @@ def open_named_job(name: str, *, terminate: bool = True) -> JobObjectHandle:
 
 
 def set_kill_on_close(job: JobObjectHandle, enabled: bool = True) -> None:
-    info = JOBOBJECT_EXTENDED_LIMIT_INFORMATION()
-    info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE if enabled else 0
+    # Preserve any already-applied memory/process limits. KILL_ON_JOB_CLOSE is one
+    # bit in the same ExtendedLimitInformation structure; writing a fresh zeroed
+    # structure here would silently erase the resource envelope.
+    info = _query_extended_limits(job)
+    flags = int(info.BasicLimitInformation.LimitFlags)
+    if enabled:
+        flags |= JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+    else:
+        flags &= ~JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+    info.BasicLimitInformation.LimitFlags = flags
     if not kernel32.SetInformationJobObject(
         HANDLE(job.value),
         JobObjectExtendedLimitInformation,
@@ -144,6 +166,127 @@ def set_kill_on_close(job: JobObjectHandle, enabled: bool = True) -> None:
         ctypes.sizeof(info),
     ):
         _raise_last_error("SetInformationJobObject(KILL_ON_JOB_CLOSE)")
+
+
+def _query_extended_limits(job: JobObjectHandle) -> JOBOBJECT_EXTENDED_LIMIT_INFORMATION:
+    info = JOBOBJECT_EXTENDED_LIMIT_INFORMATION()
+    returned = DWORD(0)
+    if not kernel32.QueryInformationJobObject(
+        HANDLE(job.value),
+        JobObjectExtendedLimitInformation,
+        ctypes.byref(info),
+        ctypes.sizeof(info),
+        ctypes.byref(returned),
+    ):
+        _raise_last_error("QueryInformationJobObject(ExtendedLimitInformation)")
+    return info
+
+
+def _query_cpu_limits(job: JobObjectHandle) -> JOBOBJECT_CPU_RATE_CONTROL_INFORMATION:
+    info = JOBOBJECT_CPU_RATE_CONTROL_INFORMATION()
+    returned = DWORD(0)
+    if not kernel32.QueryInformationJobObject(
+        HANDLE(job.value),
+        JobObjectCpuRateControlInformation,
+        ctypes.byref(info),
+        ctypes.sizeof(info),
+        ctypes.byref(returned),
+    ):
+        _raise_last_error("QueryInformationJobObject(CpuRateControlInformation)")
+    return info
+
+
+def configure_resource_envelope(
+    job: JobObjectHandle,
+    *,
+    kill_on_close: bool = True,
+    process_memory_limit_bytes: int | None = None,
+    job_memory_limit_bytes: int | None = None,
+    active_process_limit: int | None = None,
+    cpu_rate_percent: int | None = None,
+) -> dict[str, int | bool | None]:
+    """Apply and read back an OS-enforced Job Object resource envelope.
+
+    Limits apply to the whole Job Object membership. In PCMMAD async execution
+    that includes the worker capsule plus the user process tree.
+    """
+
+    info = JOBOBJECT_EXTENDED_LIMIT_INFORMATION()
+    flags = 0
+    if kill_on_close:
+        flags |= JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
+    if process_memory_limit_bytes is not None:
+        value = int(process_memory_limit_bytes)
+        if value <= 0:
+            raise ValueError("process_memory_limit_bytes must be > 0")
+        info.ProcessMemoryLimit = value
+        flags |= JOB_OBJECT_LIMIT_PROCESS_MEMORY
+    if job_memory_limit_bytes is not None:
+        value = int(job_memory_limit_bytes)
+        if value <= 0:
+            raise ValueError("job_memory_limit_bytes must be > 0")
+        info.JobMemoryLimit = value
+        flags |= JOB_OBJECT_LIMIT_JOB_MEMORY
+    if active_process_limit is not None:
+        value = int(active_process_limit)
+        if value <= 0:
+            raise ValueError("active_process_limit must be > 0")
+        info.BasicLimitInformation.ActiveProcessLimit = value
+        flags |= JOB_OBJECT_LIMIT_ACTIVE_PROCESS
+    info.BasicLimitInformation.LimitFlags = flags
+    if not kernel32.SetInformationJobObject(
+        HANDLE(job.value),
+        JobObjectExtendedLimitInformation,
+        ctypes.byref(info),
+        ctypes.sizeof(info),
+    ):
+        _raise_last_error("SetInformationJobObject(ResourceEnvelope)")
+
+    if cpu_rate_percent is not None:
+        percent = int(cpu_rate_percent)
+        if percent < 1 or percent > 100:
+            raise ValueError("cpu_rate_percent must be between 1 and 100")
+        cpu = JOBOBJECT_CPU_RATE_CONTROL_INFORMATION()
+        cpu.ControlFlags = JOB_OBJECT_CPU_RATE_CONTROL_ENABLE | JOB_OBJECT_CPU_RATE_CONTROL_HARD_CAP
+        cpu.CpuRate = percent * 100  # Windows uses 1/100 of one percent.
+        if not kernel32.SetInformationJobObject(
+            HANDLE(job.value),
+            JobObjectCpuRateControlInformation,
+            ctypes.byref(cpu),
+            ctypes.sizeof(cpu),
+        ):
+            _raise_last_error("SetInformationJobObject(CpuRateControlInformation)")
+    return query_resource_envelope(job)
+
+
+def query_resource_envelope(job: JobObjectHandle) -> dict[str, int | bool | None]:
+    extended = _query_extended_limits(job)
+    cpu = _query_cpu_limits(job)
+    flags = int(extended.BasicLimitInformation.LimitFlags)
+    cpu_flags = int(cpu.ControlFlags)
+    cpu_enabled = bool(cpu_flags & JOB_OBJECT_CPU_RATE_CONTROL_ENABLE)
+    cpu_hard_cap = bool(cpu_flags & JOB_OBJECT_CPU_RATE_CONTROL_HARD_CAP)
+    return {
+        "kill_on_close": bool(flags & JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE),
+        "process_memory_limit_bytes": (
+            int(extended.ProcessMemoryLimit)
+            if flags & JOB_OBJECT_LIMIT_PROCESS_MEMORY
+            else None
+        ),
+        "job_memory_limit_bytes": (
+            int(extended.JobMemoryLimit)
+            if flags & JOB_OBJECT_LIMIT_JOB_MEMORY
+            else None
+        ),
+        "active_process_limit": (
+            int(extended.BasicLimitInformation.ActiveProcessLimit)
+            if flags & JOB_OBJECT_LIMIT_ACTIVE_PROCESS
+            else None
+        ),
+        "cpu_rate_percent": (
+            int(cpu.CpuRate) // 100 if cpu_enabled and cpu_hard_cap else None
+        ),
+    }
 
 def assign_pid(job: JobObjectHandle, pid: int) -> None:
     access = PROCESS_SET_QUOTA | PROCESS_TERMINATE | PROCESS_QUERY_LIMITED_INFORMATION

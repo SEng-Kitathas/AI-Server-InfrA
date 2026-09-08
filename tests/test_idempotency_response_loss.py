@@ -124,6 +124,9 @@ class ExecutionIdempotencyRecoveryTests(unittest.TestCase):
                 timeout_seconds=30,
                 worker_token=None,
                 queue_position=None,
+                resource_budget={},
+                applied_resource_envelope={},
+                resource_gate="not_evaluated",
             )
             paths = {
                 "control_stdout": root / "control.stdout.log",
@@ -158,7 +161,13 @@ class ExecutionIdempotencyRecoveryTests(unittest.TestCase):
 
             fake_wjo = SimpleNamespace(
                 create_named_job=lambda _name: object(),
-                set_kill_on_close=lambda _handle, _value: None,
+                configure_resource_envelope=lambda _handle, **_kwargs: {
+                    "kill_on_close": True,
+                    "process_memory_limit_bytes": None,
+                    "job_memory_limit_bytes": None,
+                    "active_process_limit": None,
+                    "cpu_rate_percent": None,
+                },
                 assign_pid=lambda _handle, _pid: None,
                 query_process_ids=lambda _handle: [4321],
                 process_creation_time_100ns=lambda _pid: 123456,
