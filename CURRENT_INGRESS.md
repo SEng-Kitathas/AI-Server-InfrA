@@ -121,3 +121,16 @@ Engineering has advanced to `ee8ec16000f1d90eb60d034259f85f3b8b5148e1` / tree `0
 - retained non-schema raids are closed: R8/R11 substantially embodied/retired; R6/R7/R9/R12/R13 engineering-published.
 
 Next authorized frontier is whole-runtime convergence / OBE+Skills dogfood. Final schema R10 remains LAST and still requires explicit `hells yeah, ready`.
+## Whole-runtime / OBE convergence published
+Convergence/report metadata is remotely verified at `b2f9283eafbd5b0d62b7db08ad578a7a2fc5bf47` / tree `e23ca27b81bab4c68a64cce38022faad158914ba` (`Record runtime and skill convergence`).
+
+- last Runtime engineering feature remains `ee8ec16000f1d90eb60d034259f85f3b8b5148e1`;
+- live remains user-frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- engineering convergence gate PASS at current claim ceiling;
+- current Runtime 108 tools / 17 families; parity 31/31, execution 70/70, transfer/health 32/32, ICF rehydration 6/6;
+- semantic plane is explicitly optional CONVERGED-DEGRADED due `no_qualified_python_runtime`;
+- OBE v0.3 historical 11-Skill specimen requalified; expanded portfolio remains unfrozen;
+- exact next Skill artifact `MCP_CONNECTOR_CAPABILITY_SCOUT_V0_1`;
+- final schema LAST/LOCKED/untriggered; `hells yeah, ready` absent.
+
+Use `handoff/current/OBE_SKILL_THREAD_RESPONSE_2026-09-08.md` as the ready-to-paste response for the waiting Skill thread.

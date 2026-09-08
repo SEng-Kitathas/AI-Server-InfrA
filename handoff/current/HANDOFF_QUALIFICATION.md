@@ -63,3 +63,11 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - R13 final suite 398 / 397 PASS / 0 FAIL / 1 skip; candidate inventory `523d113d9069e209d767c0444a2ad1296a35b07bdd786e0bd4faf9897301e2fb`;
 - live deliberately remains `4163606459324feaa31252b3c2a6d58d73aaff46`;
 - next: whole-runtime convergence + OBE/Skills dogfood; final schema last/untriggered.
+
+## WHOLE-RUNTIME / OBE CONVERGENCE
+- convergence metadata `b2f9283eafbd5b0d62b7db08ad578a7a2fc5bf47`, tree `e23ca27b81bab4c68a64cce38022faad158914ba`;
+- last engineering feature `ee8ec16000f1d90eb60d034259f85f3b8b5148e1`; live `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- current Runtime 108 tools / 17 families; convergence slices 31/31 + 70/70 + 32/32 + 6/6;
+- semantic optional plane truthfully degraded for missing qualified Python;
+- historical v0.3 OBE specimen PASS / 11 Skills / hostile 16/16;
+- next Skill `MCP_CONNECTOR_CAPABILITY_SCOUT_V0_1`; portfolio unfrozen; final schema locked/untriggered.

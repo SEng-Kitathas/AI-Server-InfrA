@@ -2,22 +2,23 @@
   "schema": "pcmmad.git-handoff-snapshot.v1",
   "project_id": "PCMMAD_RECEIVER_LAB",
   "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
-  "created_at": "2026-09-08T03:19:00.436999+00:00",
+  "created_at": "2026-09-08T11:27:02.889266+00:00",
   "authority_ceiling": "recovery mirror; fresh Git/project/runtime readback remains authoritative",
+  "convergence_metadata_head": "b2f9283eafbd5b0d62b7db08ad578a7a2fc5bf47",
   "engineering_feature_head": "ee8ec16000f1d90eb60d034259f85f3b8b5148e1",
   "engineering_feature_tree": "0b20eed8220015d26b8315094f5009e2942120f7",
   "live_runtime_feature": "4163606459324feaa31252b3c2a6d58d73aaff46",
-  "raid_status": "retained non-schema raid set closed",
-  "qualification": "398 collected / 397 passed / 0 failed / 1 skipped",
-  "next_step": "whole-runtime convergence + OBE/Skills dogfood; final schema last/untriggered",
+  "convergence_status": "engineering convergence PASS; semantic optional plane degraded; live frozen",
+  "skill_status": "historical v0.3 requalified; expanded portfolio unfrozen; next MCP_CONNECTOR_CAPABILITY_SCOUT_V0_1",
+  "next_step": "Skill thread can proceed with connector scout; server final schema remains last/untriggered",
   "files": {
     "A042_ENGINEERING_QUALIFICATION_2026-09-07.md": {
       "bytes": 1521,
       "sha256": "1e64c62f39681025a400d071d037b23fe508ab841bad2099a3ada2e037255246"
     },
     "COMMANDERS_INTENT_CURRENT.md": {
-      "bytes": 58533,
-      "sha256": "e979bd173b51d604e81a99d7a955b2682a1576d5e486de3138570d84ba27db3a"
+      "bytes": 61567,
+      "sha256": "72f5c83f40b3c1ff3659905a179f2348c00a65060903dde693a520a0429d5d1a"
     },
     "CONTINUITY_CONVERGENCE_CLASSIFIER_QUALIFICATION_2026-09-07.md": {
       "bytes": 4416,
@@ -28,28 +29,28 @@
       "sha256": "90ba40b110dae5b4a533aba059aac483c60c92c4d6846b4286d1562871c0e44c"
     },
     "CURRENT_STATE.md": {
-      "bytes": 51348,
-      "sha256": "0fd186084314c513d3c61bd61666395ce8899d3d371140d64d4eaf3da63b91b8"
+      "bytes": 54382,
+      "sha256": "be7074e127ea33ed17c4d0b334dc8170d871fb2159bca022dd860098dc41dedb"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 203538,
-      "sha256": "9709c77c6250e2b3f5cf797643f08cd117edc725480ca8aa374afaf870468fc9"
+      "bytes": 206572,
+      "sha256": "65e4a8f864d3876ceaa7956e2b20db3a5ce6dce86c6784ac18f62286959deb94"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 44064,
-      "sha256": "c5898ef4a1c77aeab5882823b00bb912cae7f81570ed207b778faef1c60850af"
+      "bytes": 47098,
+      "sha256": "01d25d00893fd33d14e15c1dfe3d9bdf58f8bc147b6044f2acf778f70324d8b5"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
       "sha256": "ea3f4087401bf8c0902c28e190707a5f6bd0b1711813df62c1a9957d49bd58bb"
     },
     "GIT_PUBLICATION_CURRENT.md": {
-      "bytes": 20878,
-      "sha256": "47a9d8cd7bf0007798b5502fd9a6c0dc16528ad9717c445d4d73da1467738a6e"
+      "bytes": 23912,
+      "sha256": "0cc0bf6d3900039203cd49749d96f5bb7e291457759ff42f6141d7f5044dfc9c"
     },
     "HANDOFF_QUALIFICATION.md": {
-      "bytes": 4535,
-      "sha256": "8de9d657fdead00b0eeb3e13133468cba3286ae74ae3e245fea3c1ae2c598768"
+      "bytes": 5152,
+      "sha256": "92bdf2708f0ff64b592aa56cd49cf860e95a6d2bcdb1915e00975f3206775097"
     },
     "ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md": {
       "bytes": 4656,
@@ -60,8 +61,8 @@
       "sha256": "079a523d017438cfd9057d5bfe78b4bf47e4550c20fc9bbd3840cbf6d66f245a"
     },
     "ICF_CS_CURRENT.md": {
-      "bytes": 30741,
-      "sha256": "70e151ba0c9fb442639ef3ec1fb47e15fe6cde004fe281db2de269458e5ca459"
+      "bytes": 33775,
+      "sha256": "35357255c3291a17f2c69e44b9045148ba7802fbfcb9ff30d78864e5e18a0d0b"
     },
     "ICF_CS_V1_0_MACHINE.json": {
       "bytes": 2688,
@@ -80,28 +81,32 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 23968,
-      "sha256": "02a41a6e697a4c89fe8ae82fea8772618af772e3719d8dcdc3d961e7950e8f09"
+      "bytes": 27002,
+      "sha256": "668a436811c7785acfc115777785cb410300f7173983d20c8e895767b641ce64"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 21459,
-      "sha256": "a5b4e8d1e22f0721eed8d9c98e5a97b40190b1ec8f7e81c9b8dd9e3d4b794d98"
+      "bytes": 24493,
+      "sha256": "dfd8f2699ca4e74fbc40706cc062b93972b674a7ff2bde8388d1688ceaf48956"
     },
     "NEXT_STEPS.md": {
-      "bytes": 33241,
-      "sha256": "bb435dbb20a159f1690772e4baccc4e69bd779b0ed1bb40ae702b01cc9389441"
+      "bytes": 36275,
+      "sha256": "cb61507803f838df43c0e27bd094ccce541fbaab1be999be3b0e1a3a1bbfc160"
+    },
+    "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
+      "bytes": 6659,
+      "sha256": "8101c4fa466ac97fdf311ac8970962fab45f8d3cbee15a3cea2fed894a386c21"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 52849,
-      "sha256": "8038ea8319dd28ef5d67b6b2eb27297ceb9e97b36b790aae19ea42e96df08d61"
+      "bytes": 55883,
+      "sha256": "50ba9cca5d8005dceaaf7b1a82c632ddeb162b3a9d6d9a06c2404e649f012959"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
       "sha256": "f55a9b7dd1960f5430d5d9612c89253be93775f92d9e123546383fd2f7f2c8e4"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 22152,
-      "sha256": "9d62fde581c0af32f4fe2faf5ad5e472f1c6e752b3ca5059a7ad91685d1d75e2"
+      "bytes": 25186,
+      "sha256": "7d7f1639dd7428ffd9dff35b4ede2e089583512576e010b87099d48cb4ea4e1b"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -112,8 +117,12 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 65182,
-      "sha256": "a4372bcbab8c825a74f2ca7eb234ca99a88a8c22939a88a1915719037deb7e57"
+      "bytes": 68216,
+      "sha256": "98c657a749d46e614bc6a44970fbab6a3b1c21e09bfa25ba3404fea0db5c3947"
+    },
+    "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
+      "bytes": 7675,
+      "sha256": "bc83ef1e3b96c53f22cc4e7413cc5778584a6647be84c1163a75d577f093c8a3"
     },
     "WINDOWS_JOB_OBJECT_RESOURCE_ENVELOPE_QUALIFICATION_2026-09-07.md": {
       "bytes": 4244,
