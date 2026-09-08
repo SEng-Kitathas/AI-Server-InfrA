@@ -226,6 +226,26 @@ def _binding_from_record(project_id: str, record: Mapping[str, Any]) -> dict[str
     }
 
 
+def _compatibility_binding(project_id: str, session_id: str = "") -> dict[str, Any]:
+    return {
+        "project_id": project_id,
+        "mode": "compatibility_no_lease",
+        "generation": 0,
+        "owner_id": "",
+        "session_id": str(session_id or "").strip(),
+    }
+
+
+@contextmanager
+def _raw_binding_context(binding: Mapping[str, Any]) -> Iterator[dict[str, Any]]:
+    value = dict(binding)
+    token = _CURRENT_MUTATION_BINDING.set(value)
+    try:
+        yield dict(value)
+    finally:
+        _CURRENT_MUTATION_BINDING.reset(token)
+
+
 def current_mutation_binding(project_id: str = "") -> dict[str, Any] | None:
     binding = _CURRENT_MUTATION_BINDING.get()
     if not binding:
@@ -728,6 +748,20 @@ def runtime_bound_mutation_guard(
             400,
             extra={"project_id": project_id},
         )
+    if str(binding.get("mode") or "") == "compatibility_no_lease":
+        with _project_consequence_guard(project_id, timeout_seconds=timeout_seconds):
+            with _project_guard(project_id, timeout_seconds=timeout_seconds):
+                current = _expire_if_needed(project_id, _load(project_id))
+                if current and str(current.get("status") or "") == LEASE_STATUS_ACTIVE:
+                    raise ProjectMutationAuthorityError(
+                        "PROJECT_MUTATION_AUTHORITY_REQUIRED",
+                        "governed project mutation lease appeared before compatibility worker consequence",
+                        423,
+                        extra={"current_lease": _public(current, project_id)},
+                    )
+            with _raw_binding_context(binding):
+                yield _public(current, project_id)
+        return
     with _project_consequence_guard(project_id, timeout_seconds=timeout_seconds):
         with _project_guard(project_id, timeout_seconds=timeout_seconds):
             current = _validate_runtime_binding(
@@ -880,4 +914,6 @@ def compatibility_session_guard(
                     423,
                     extra={"current_lease": _public(current, project_id)},
                 )
-        yield None
+        binding = _compatibility_binding(project_id, session_id)
+        with _raw_binding_context(binding):
+            yield None

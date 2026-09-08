@@ -73,6 +73,69 @@ class ExecutionProjectMutationBindingTests(unittest.TestCase):
             self.assertEqual(row["project_id"], "p1")
             self.assertNotIn("lease_id", request_path.read_text(encoding="utf-8"))
 
+    def test_no_lease_compatibility_guard_exports_worker_binding(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pcmmad-a042-compat-binding-") as td:
+            root = Path(td)
+            with ExitStack() as stack:
+                stack.enter_context(
+                    patch.object(pma, "get_project_root", side_effect=lambda project_id: root / project_id)
+                )
+                stack.enter_context(
+                    patch.object(
+                        pma,
+                        "init_project_layout",
+                        side_effect=lambda project_id: (root / project_id).mkdir(parents=True, exist_ok=True)
+                        or (root / project_id),
+                    )
+                )
+                self.assertIsNone(pma.current_mutation_binding("p1"))
+                with pma.compatibility_session_guard("p1", session_id="legacy-session"):
+                    binding = pma.current_mutation_binding("p1")
+                    self.assertIsNotNone(binding)
+                    assert binding is not None
+                    self.assertEqual(binding["mode"], "compatibility_no_lease")
+                    self.assertEqual(binding["project_id"], "p1")
+                    self.assertEqual(binding["session_id"], "legacy-session")
+                self.assertIsNone(pma.current_mutation_binding("p1"))
+
+    def test_compatibility_worker_enters_only_if_no_governed_lease_appeared(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pcmmad-a042-compat-worker-") as td:
+            root = Path(td)
+            with ExitStack() as stack:
+                stack.enter_context(
+                    patch.object(pma, "get_project_root", side_effect=lambda project_id: root / project_id)
+                )
+                stack.enter_context(
+                    patch.object(
+                        pma,
+                        "init_project_layout",
+                        side_effect=lambda project_id: (root / project_id).mkdir(parents=True, exist_ok=True)
+                        or (root / project_id),
+                    )
+                )
+                request = {
+                    "project_id": "p1",
+                    "project_mutation_binding": {
+                        "project_id": "p1",
+                        "mode": "compatibility_no_lease",
+                        "generation": 0,
+                        "owner_id": "",
+                        "session_id": "legacy-session",
+                    },
+                }
+                with execution_worker._project_mutation_context(request):
+                    self.assertEqual(
+                        pma.current_mutation_binding("p1")["mode"], "compatibility_no_lease"
+                    )
+
+                pma.acquire_lease(
+                    "p1", expected_generation=0, owner_id="owner-new", session_id="new-session"
+                )
+                with self.assertRaises(pma.ProjectMutationAuthorityError) as blocked:
+                    with execution_worker._project_mutation_context(request):
+                        self.fail("compatibility worker crossed a newly active lease")
+                self.assertEqual(blocked.exception.error_code, "PROJECT_MUTATION_AUTHORITY_REQUIRED")
+
     def test_worker_revalidates_stale_binding_before_entering_process_consequence(self) -> None:
         with tempfile.TemporaryDirectory(prefix="pcmmad-a042-worker-stale-") as td:
             root = Path(td)
