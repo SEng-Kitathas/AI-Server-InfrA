@@ -81,3 +81,28 @@ Next action: verify current 23-file hashes/tests are unchanged, refresh Git-cont
 - Public async action is live-functional: `compatibility_no_lease` binding when no governed lease is active; final job `job-4fbdd90dd2f3` completed rc=0; identical same-key resubmission returned same job / `replayed=true`; `completion_journal_status=recorded`.
 - Live health: Runtime online / 107 tools / scheduler+watcher active; aggregate degraded only by optional browser bridge unavailability.
 - `LIVE_PROMOTION_COMPLETE != FINAL_SCHEMA_READY`; OBE/Skills interface remains unfrozen; next server engineering campaign is Windows Job Object resource envelope, then remaining raids; final schema LAST/untriggered.
+
+## LIVE-PROMOTION RECOVERY HEAD — 2026-09-07
+- Current Git/remote `main`: recovery-only handoff `85ae9b6c91616548fab9233e32c5a43471b33b65`; tree `e9b82d0c21aeba8ca9ac6b0a000666cba7758784`; subject `Refresh live promotion handoff`.
+- Last engineering/live Runtime feature remains `4163606459324feaa31252b3c2a6d58d73aaff46`; tree `4b2836e1add4d218748e45b929189d2d72ed839b`; subject `Record completion journal inside worker fence`.
+- `RECOVERY_HANDOFF_HEAD != ENGINEERING_FEATURE_HEAD`.
+- Live curated Runtime remains byte-parity with the engineering feature across 70 promoted files; recovery-only commit changes ingress/handoff metadata only.
+- Worktree is clean / `main...origin/main`.
+
+## WINDOWS JOB OBJECT RESOURCE ENVELOPE — QUALIFIED CANDIDATE (2026-09-07)
+- Status: **QUALIFIED ENGINEERING CANDIDATE / GIT PUBLICATION PENDING / LIVE FROZEN**.
+- Candidate: 7 files; inventory `ccf2f30301eff0182ea0eaa7ab745c427bde7ca06469b5af074090a7e05c0847`.
+- Durable Job `resource_budget` now binds per-process memory, aggregate Job memory, active-process count, and CPU hard-cap percent; Windows kernel readback persists as `applied_resource_envelope`.
+- Laws: `RESOURCE_LIMIT_DECLARATION != RESOURCE_ENFORCEMENT`; `RESOURCE_ENVELOPE_CURRENTNESS_REQUIRES_KERNEL_READBACK`; `IDEMPOTENCY_KEY_BINDS_RESOURCE_BUDGET`; Job Object member limits include PCMMAD worker/control members.
+- Direct active-process enforcement discriminator PASS; memory/CPU native apply+kernel-readback PASS; scheduler applies/readbacks before user execution.
+- Compact schema remains 30 operations; adapter parity added without triggering final schema redesign.
+- Qualification: focused resource `6/6 PASS`; resource+Job Object/ownership `9/9 PASS`; resource+schema parity `23/23 PASS`; full suite `376 collected / 375 passed / 0 failed / 1 skipped`; compile/diff checks PASS.
+- Live Runtime intentionally remains at engineering feature `4163606459324feaa31252b3c2a6d58d73aaff46` until remaining server campaigns finish.
+- After publication: continue remaining cross-domain raids; final schema remains LAST/untriggered.
+
+## WINDOWS JOB OBJECT RESOURCE ENVELOPE — ENGINEERING PUBLISHED (2026-09-07)
+- Engineering feature is **PUBLISHED / REMOTE-VERIFIED** at `0968ea5d9de36d766771c7930d9a0944a61ee546`; tree `810cc429067ff7e546fba732b1d0e5ec1d348c73`; subject `Enforce Windows Job Object resource budgets`.
+- Qualification remains `376 collected / 375 passed / 0 failed / 1 skipped`; candidate inventory `ccf2f30301eff0182ea0eaa7ab745c427bde7ca06469b5af074090a7e05c0847`.
+- Runtime now durably models and kernel-readbacks Job Object budgets for per-process memory, aggregate Job memory, active member count, and CPU hard cap; idempotency fingerprint binds the budget.
+- Live Runtime intentionally remains at `4163606459324feaa31252b3c2a6d58d73aaff46`; **ENGINEERING_FEATURE_HEAD != LIVE_RUNTIME_FEATURE_HEAD** by explicit user direction. No live promotion occurred in this campaign.
+- Next: audit remaining cross-domain raids R6/R8/R9/R11/R12/R13 against current-tree reality. R10/final schema remains LAST/untriggered.

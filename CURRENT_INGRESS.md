@@ -103,3 +103,12 @@ The Desktop Runtime is now **LIVE-PROMOTED / REMOTE-RESTARTED / ASYNC-VERIFIED**
 - live health online / 107 tools / scheduler+watcher active; optional browser bridge remains degraded.
 
 Next server campaign: Windows Job Object resource envelope, then remaining raids. OBE/Skills interface remains unfrozen. Final schema redesign remains LAST and requires explicit `hells yeah, ready`.
+## Windows Job Object resource-envelope publication
+Engineering has advanced beyond live to `0968ea5d9de36d766771c7930d9a0944a61ee546` / tree `810cc429067ff7e546fba732b1d0e5ec1d348c73` (`Enforce Windows Job Object resource budgets`).
+- qualification: 376 collected / 375 passed / 0 failed / 1 skipped;
+- Windows kernel readback persists per-process memory, aggregate Job memory, active-member limit, CPU hard-cap percent;
+- execution idempotency fingerprints bind the resource budget;
+- compact adapter remains exactly 30 operations; this is not final schema redesign;
+- live Runtime intentionally remains at `4163606459324feaa31252b3c2a6d58d73aaff46` until the remaining server campaigns finish.
+
+Therefore `ENGINEERING_FEATURE_HEAD != LIVE_RUNTIME_FEATURE_HEAD`. Next: current-tree audit of remaining cross-domain raids R6/R8/R9/R11/R12/R13; R10/final schema remains LAST/untriggered.

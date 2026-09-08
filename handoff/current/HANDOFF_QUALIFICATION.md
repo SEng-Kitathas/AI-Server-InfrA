@@ -50,3 +50,10 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - public async smoke `job-4fbdd90dd2f3` rc=0; same-key replay same job / `replayed=true`; completion journal `recorded`;
 - live health online; browser bridge optional/degraded;
 - next server campaign Job Object resources; final schema last/untriggered.
+
+## WINDOWS JOB OBJECT RESOURCE ENVELOPE PUBLISHED
+- engineering feature `0968ea5d9de36d766771c7930d9a0944a61ee546`, tree `810cc429067ff7e546fba732b1d0e5ec1d348c73`;
+- 376 collected / 375 passed / 0 failed / 1 skipped;
+- OS-native Job Object resource budget + kernel readback + idempotency binding;
+- live deliberately remains at `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- remaining raids next; final schema last/untriggered.
