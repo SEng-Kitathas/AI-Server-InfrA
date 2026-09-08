@@ -112,3 +112,12 @@ Engineering has advanced beyond live to `0968ea5d9de36d766771c7930d9a0944a61ee54
 - live Runtime intentionally remains at `4163606459324feaa31252b3c2a6d58d73aaff46` until the remaining server campaigns finish.
 
 Therefore `ENGINEERING_FEATURE_HEAD != LIVE_RUNTIME_FEATURE_HEAD`. Next: current-tree audit of remaining cross-domain raids R6/R8/R9/R11/R12/R13; R10/final schema remains LAST/untriggered.
+## Retained non-schema raids closed / convergence frontier
+Engineering has advanced to `ee8ec16000f1d90eb60d034259f85f3b8b5148e1` / tree `0b20eed8220015d26b8315094f5009e2942120f7` (`Add replay-safe workload identity proof`).
+- final R13 qualification: 398 collected / 397 passed / 0 failed / 1 skipped;
+- final R13 candidate inventory: `523d113d9069e209d767c0444a2ad1296a35b07bdd786e0bd4faf9897301e2fb`;
+- native Runtime tools: 108 after R12 continuity convergence classifier;
+- live remains intentionally frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- retained non-schema raids are closed: R8/R11 substantially embodied/retired; R6/R7/R9/R12/R13 engineering-published.
+
+Next authorized frontier is whole-runtime convergence / OBE+Skills dogfood. Final schema R10 remains LAST and still requires explicit `hells yeah, ready`.

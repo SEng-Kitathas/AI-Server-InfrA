@@ -126,3 +126,73 @@ Do not begin final schema redesign. It is LAST and requires whole-runtime conver
 - Runtime now durably models and kernel-readbacks Job Object budgets for per-process memory, aggregate Job memory, active member count, and CPU hard cap; idempotency fingerprint binds the budget.
 - Live Runtime intentionally remains at `4163606459324feaa31252b3c2a6d58d73aaff46`; **ENGINEERING_FEATURE_HEAD != LIVE_RUNTIME_FEATURE_HEAD** by explicit user direction. No live promotion occurred in this campaign.
 - Next: audit remaining cross-domain raids R6/R8/R9/R11/R12/R13 against current-tree reality. R10/final schema remains LAST/untriggered.
+
+## QUEUE SOJOURN ADMISSION SIGNAL — QUALIFIED CANDIDATE (2026-09-07)
+- Status: **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING / LIVE FROZEN**; candidate 4 files, inventory `24264ec3125af3ae29d9d54331bed9b005168ea342b88316b956f93d5caee382`.
+- `QUEUE_DEPTH != QUEUE_SOJOURN`; queue-full admission now carries measured global/project oldest queued age.
+- Numeric `Retry-After` is explicitly not claimed because the Runtime has no observed service-time model.
+- Capacity snapshot cost is reduced to one running census + one queue census.
+- Qualification: focused `12/12 PASS`; full `379 collected / 378 passed / 0 failed / 1 skipped`; compile/diff checks PASS.
+- Current Git/recovery baseline `9a08deeba97f57277225a2a1d3108d2f665fc577`; engineering baseline `0968ea5d9de36d766771c7930d9a0944a61ee546`; live remains `4163606459324feaa31252b3c2a6d58d73aaff46`.
+- R11 cursor semantics retired as already embodied; R8 mutation renewal substantially embodied; continue R6/R12/R13 audits. Final schema remains LAST/untriggered.
+
+## QUEUE SOJOURN ADMISSION SIGNAL — ENGINEERING PUBLISHED (2026-09-07)
+- Engineering feature **PUBLISHED / REMOTE-VERIFIED** at `951a9d6dafbe5e24cf7a2a357fcf50861fdfa0c6`; tree `ad1c945ebb4d76a5695638cf7850e5e55b86326e`; subject `Expose queue sojourn in admission pressure`.
+- Qualification: `379 collected / 378 passed / 0 failed / 1 skipped`; focused queue/admission/scheduler `12/12 PASS`; inventory `24264ec3125af3ae29d9d54331bed9b005168ea342b88316b956f93d5caee382`.
+- Queue-full admission now carries measured global/project oldest queued age; numeric retry ETA remains explicitly unclaimed without an observed service-time model.
+- Live Runtime remains frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`; no live promotion occurred.
+- R11 cursor semantics are retired as already embodied; R8 mutation-lease renewal is substantially embodied by A-042; next current-tree audits are R6 supervisor restart semantics, R12 continuity divergence/convergence, and R13 peer/workload identity. R10/final schema remains LAST/untriggered.
+
+## RESTART INTENSITY SUPERVISION — QUALIFIED CANDIDATE (2026-09-07)
+- Status: **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING / LIVE FROZEN**; 4 files, inventory `cd1a77ae7c7c371336ad33af523b4f0aa265aeb57a7a0a3cc1057441259bd4bd`.
+- Canonical fixed policy: 3 Start/Restart reservations per 300s; next over-intensity request begins 600s cooldown; transport cannot weaken these values.
+- Cross-process locked durable state under canonical restart-receipt root is persisted before restart consequence; corrupt state fails closed.
+- Blocked requests stop nothing, consume no new slot, emit `restart_intensity_blocked`, exit 75. Explicit forced recovery is recorded and does not clear cooldown.
+- Qualification: hostile `4/4 PASS`; restart/control/contract `20/20 PASS`; full `383 collected / 382 passed / 0 failed / 1 skipped`; Python compile / PowerShell parse / diff checks PASS.
+- Git/engineering baseline `951a9d6dafbe5e24cf7a2a357fcf50861fdfa0c6`; live remains `4163606459324feaa31252b3c2a6d58d73aaff46`.
+- Next after publication: R12 continuity divergence/convergence + R13 peer/workload identity; final schema LAST/untriggered.
+
+## RESTART INTENSITY SUPERVISION — ENGINEERING PUBLISHED (2026-09-07)
+- Engineering feature **PUBLISHED / REMOTE-VERIFIED** at `44e80e05944cfb03b1054dd9e73bd1fe86da62e8`; tree `324d239e8ee1529758481b873465bbef842adda5`; subject `Bound canonical restart intensity`.
+- Qualification: `383 collected / 382 passed / 0 failed / 1 skipped`; restart/control/contract adjacency `20/20 PASS`; candidate inventory `cd1a77ae7c7c371336ad33af523b4f0aa265aeb57a7a0a3cc1057441259bd4bd`.
+- Canonical restart controller now enforces fixed 3/300s restart intensity with 600s cooldown through durable cross-process locked state before restart consequence; explicit forced recovery is recorded and does not clear cooldown.
+- Live Runtime remains frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`; no live promotion/restart occurred.
+- Next current-tree audits: R12 continuity divergence/convergence and R13 peer/workload identity. R8/R11 remain substantially embodied/retired. R10/final schema remains LAST/untriggered.
+
+## CONTINUITY CONVERGENCE CLASSIFIER — QUALIFIED CANDIDATE (2026-09-07)
+- Status: **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING / LIVE FROZEN**; 4 files, inventory `0eaf8008fd8215d3080c29420447180d80b40e5c6d509dfe078698213f216296`.
+- New native read-only capability `continuity.convergence.inspect`; native tool count 108.
+- `HASH_MISMATCH != DIVERGENCE_PROOF`; artifact stale ancestry is grounded in registered content lineage; Git stale/ahead/divergent relations use actual commit ancestry.
+- Local unregistered bytes fail closed; unknown hashes are not promoted to known-ahead versions; divergent/unproven observations require human/governed handling and are never auto-merged.
+- Real discriminator: live feature `4163606459324feaa31252b3c2a6d58d73aaff46` is a `stale_known_ancestor` of engineering `44e80e05944cfb03b1054dd9e73bd1fe86da62e8`, conflict=false.
+- Qualification: focused `4/4 PASS`; registry/manifest adjacency `29/29 PASS`; full `387 collected / 386 passed / 0 failed / 1 skipped`; compile/import/diff checks PASS.
+- Live remains frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`.
+- Source correction: R13 is peer/workload identity (WireGuard/Tailscale), not compaction safety. After publication audit R13; final schema LAST/untriggered.
+
+## CONTINUITY CONVERGENCE CLASSIFIER — ENGINEERING PUBLISHED (2026-09-07)
+- Engineering feature **PUBLISHED / REMOTE-VERIFIED** at `b5cf1b9628ef1ff6f3fbec2f215b1d014a9ab32a`; tree `2adc1bef9427febd37242f8dd0ffe149bdeb5ccb`; subject `Classify continuity convergence by lineage`.
+- Qualification: `387 collected / 386 passed / 0 failed / 1 skipped`; focused classifier `4/4 PASS`; registry/manifest/idempotency adjacency `29/29 PASS`; inventory `0eaf8008fd8215d3080c29420447180d80b40e5c6d509dfe078698213f216296`.
+- New native read-only capability `continuity.convergence.inspect`; native tool count 108.
+- Real project discriminator proves live feature `4163606459324feaa31252b3c2a6d58d73aaff46` is `stale_known_ancestor` of engineering `b5cf1b9628ef1ff6f3fbec2f215b1d014a9ab32a`, conflict=false.
+- Live Runtime remains frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`; no live promotion occurred.
+- Next current-tree audit: R13 peer/workload identity (WireGuard/Tailscale). R8/R11 remain substantially embodied/retired. R10/final schema remains LAST/untriggered.
+
+## WORKLOAD IDENTITY PROOF — QUALIFIED CANDIDATE (2026-09-07)
+- Status: **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING / LIVE FROZEN**; 4 files, inventory `523d113d9069e209d767c0444a2ad1296a35b07bdd786e0bd4faf9897301e2fb`.
+- `BEARER_AUTHENTICATION != WORKLOAD_IDENTITY`; mandatory receiver key remains required while optional per-workload HMAC proof binds ID/key/timestamp/nonce/method/path-query/body hash.
+- Default `optional` mode preserves hosted GPT reachability; explicit `required` is operator-controlled; `off` rejects supplied proof rather than silently implying identity.
+- Durable atomic nonce witness rejects replay and records non-secret request-binding hashes; multiple key IDs support rotation overlap.
+- `WORKLOAD_PROOF != AUTHORIZATION_AUTHORITY`; verified identity remains request evidence only.
+- Qualification: focused `11/11 PASS`; full `398 collected / 397 passed / 0 failed / 1 skipped`; compile/diff checks PASS.
+- Engineering baseline `b5cf1b9628ef1ff6f3fbec2f215b1d014a9ab32a`; live remains `4163606459324feaa31252b3c2a6d58d73aaff46`.
+- R13 closes the retained non-schema raid set. Next: whole-runtime convergence + OBE/Skills dogfood. Final schema remains LAST/untriggered.
+
+## WORKLOAD IDENTITY PROOF — ENGINEERING PUBLISHED (2026-09-07)
+- Engineering feature **PUBLISHED / REMOTE-VERIFIED** at `ee8ec16000f1d90eb60d034259f85f3b8b5148e1`; tree `0b20eed8220015d26b8315094f5009e2942120f7`; subject `Add replay-safe workload identity proof`.
+- Final exact candidate inventory `523d113d9069e209d767c0444a2ad1296a35b07bdd786e0bd4faf9897301e2fb`; qualification `398 collected / 397 passed / 0 failed / 1 skipped`; focused workload proof `11/11 PASS`.
+- Mandatory receiver bearer key remains required; optional request-bound workload proof adds identity/replay evidence without silently breaking hosted GPT reachability.
+- HMAC proof binds workload/key/timestamp/nonce/method/path-query/body hash; durable atomic nonce witness makes replay fail closed; multiple key IDs support rotation overlap.
+- `WORKLOAD_IDENTITY != FENCED_MUTATION_AUTHORITY`; proof is request identity evidence only. Claim ceiling remains symmetric proof-of-possession, not mTLS/asymmetric/hardware identity.
+- Live Runtime remains frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`; no live promotion occurred.
+- **Retained non-schema cross-domain raid set is now closed.** R8/R11 are substantially embodied/retired; R6/R7/R9/R12/R13 are engineering-published.
+- Next: whole-runtime convergence + OBE/Skills dogfood against accumulated engineering features while live remains frozen. R10/final schema remains LAST/untriggered and still requires explicit user `hells yeah, ready`.

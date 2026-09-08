@@ -57,3 +57,9 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - OS-native Job Object resource budget + kernel readback + idempotency binding;
 - live deliberately remains at `4163606459324feaa31252b3c2a6d58d73aaff46`;
 - remaining raids next; final schema last/untriggered.
+
+## RETAINED NON-SCHEMA RAIDS CLOSED
+- engineering feature `ee8ec16000f1d90eb60d034259f85f3b8b5148e1`, tree `0b20eed8220015d26b8315094f5009e2942120f7`;
+- R13 final suite 398 / 397 PASS / 0 FAIL / 1 skip; candidate inventory `523d113d9069e209d767c0444a2ad1296a35b07bdd786e0bd4faf9897301e2fb`;
+- live deliberately remains `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- next: whole-runtime convergence + OBE/Skills dogfood; final schema last/untriggered.
