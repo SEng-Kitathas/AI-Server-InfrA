@@ -396,6 +396,7 @@ CAPABILITY_FLAGS = MappingProxyType(
         "lab_sessions": True,
         "approval_gates": True,
         "workload_identity_proof": True,
+        "user_continuity_memory": True,
         "plugin_autoload": True,
         "git_ops": True,
         "web_fetch": True,
