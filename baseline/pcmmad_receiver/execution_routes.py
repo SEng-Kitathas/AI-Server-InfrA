@@ -1035,6 +1035,8 @@ def _write_worker_request(job: ExecutionJobRecord) -> Path:
             "timeout_seconds": job.timeout_seconds,
             "project_id": job.project_id,
             "project_mutation_binding": job.get("project_mutation_binding"),
+            "journal_on_complete": bool(job.journal_on_complete),
+            "journal_on_failure": bool(job.journal_on_failure),
         },
     )
     return paths["request"]
@@ -1919,7 +1921,18 @@ def _apply_worker_completion(
             stdout_excerpt=stdout_excerpt,
             worker_reason=receipt.get("reason"),
         )
-    _record_completion_journal(project_id, job)
+    worker_journal_status = str(receipt.get("completion_journal_status") or "").strip().lower()
+    worker_journal_error = str(receipt.get("completion_journal_error") or "").strip()
+    if worker_journal_status == "recorded":
+        job.extra["completion_journal_status"] = "recorded"
+        job.extra.pop("completion_journal_error", None)
+    elif worker_journal_status == "not_requested":
+        job.extra["completion_journal_status"] = "not_requested"
+        job.extra.pop("completion_journal_error", None)
+    else:
+        _record_completion_journal(project_id, job)
+        if worker_journal_error and job.extra.get("completion_journal_status") != "recorded":
+            job.extra["worker_completion_journal_error"] = worker_journal_error
     _write_job(project_id, job_id, job)
     _scheduler_stat_inc("jobs_completed" if job.status == JOB_STATUS_COMPLETED else "jobs_failed")
     with _RUNNING_LOCK:

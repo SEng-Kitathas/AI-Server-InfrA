@@ -123,6 +123,8 @@ def _completion(
     child_pid: int | None,
     started_at: str,
     reason: str | None = None,
+    completion_journal_status: str | None = None,
+    completion_journal_error: str | None = None,
 ) -> None:
     payload = {
         **_receipt_base(request),
@@ -132,8 +134,48 @@ def _completion(
         "started_at": started_at,
         "finished_at": _utc_now(),
         "reason": reason,
+        "completion_journal_status": completion_journal_status,
+        "completion_journal_error": completion_journal_error,
     }
     _atomic_json(Path(str(request["completion_path"])), payload)
+
+
+def _record_terminal_journal_in_worker(
+    request: dict[str, Any], *, state: str, return_code: int, reason: str | None
+) -> tuple[str, str | None]:
+    wants_success = bool(request.get("journal_on_complete")) and state == "COMPLETED" and return_code == 0
+    wants_failure = bool(request.get("journal_on_failure")) and not (state == "COMPLETED" and return_code == 0)
+    if not wants_success and not wants_failure:
+        return "not_requested", None
+    project_id = str(request.get("project_id") or "").strip()
+    if not project_id:
+        return "failed", "worker request missing project_id for completion journal"
+    try:
+        from shared_core import append_jsonl, get_project_root
+        path = get_project_root(project_id) / "system" / "journal" / "journal.jsonl"
+        command = " ".join(str(item) for item in request.get("command") or [])
+        if wants_success:
+            title = f"execution complete {request['job_id']}"
+            content = f"Command: {command}"
+        else:
+            title = f"execution failed {request['job_id']}"
+            content = json.dumps(
+                {"state": state, "return_code": int(return_code), "reason": reason},
+                sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+            )
+        append_jsonl(
+            path,
+            {
+                "time": _utc_now(),
+                "entry_type": "session_trace",
+                "title": title,
+                "content": content,
+                "tags": ["execution"],
+            },
+        )
+        return "recorded", None
+    except Exception as exc:
+        return "failed", f"{type(exc).__name__}: {exc}"
 
 
 def _child_options(request: dict[str, Any]) -> dict[str, Any]:
@@ -250,13 +292,19 @@ def run_request(request_path: Path) -> int:
                     return_code = proc.poll()
                     if return_code is not None:
                         state = "COMPLETED" if return_code == 0 else "FAILED"
+                        reason = None if return_code == 0 else "NONZERO_EXIT"
+                        journal_status, journal_error = _record_terminal_journal_in_worker(
+                            request, state=state, return_code=int(return_code), reason=reason
+                        )
                         _completion(
                             request,
                             state=state,
                             return_code=int(return_code),
                             child_pid=child_pid,
                             started_at=started_at,
-                            reason=None if return_code == 0 else "NONZERO_EXIT",
+                            reason=reason,
+                            completion_journal_status=journal_status,
+                            completion_journal_error=journal_error,
                         )
                         _heartbeat(request, state=state, child_pid=child_pid, started_at=started_at)
                         return int(return_code)
@@ -264,6 +312,9 @@ def run_request(request_path: Path) -> int:
                     if cancel_path.exists():
                         _kill_process_tree(proc)
                         proc.wait(timeout=10)
+                        journal_status, journal_error = _record_terminal_journal_in_worker(
+                            request, state="TERMINATED", return_code=-9, reason="CANCEL_REQUEST"
+                        )
                         _completion(
                             request,
                             state="TERMINATED",
@@ -271,6 +322,8 @@ def run_request(request_path: Path) -> int:
                             child_pid=child_pid,
                             started_at=started_at,
                             reason="CANCEL_REQUEST",
+                            completion_journal_status=journal_status,
+                            completion_journal_error=journal_error,
                         )
                         _heartbeat(request, state="TERMINATED", child_pid=child_pid, started_at=started_at)
                         return 0
@@ -278,6 +331,9 @@ def run_request(request_path: Path) -> int:
                     if timeout_seconds is not None and (time.monotonic() - start_monotonic) > timeout_seconds:
                         _kill_process_tree(proc)
                         proc.wait(timeout=10)
+                        journal_status, journal_error = _record_terminal_journal_in_worker(
+                            request, state="TIMED_OUT", return_code=-9, reason="TIMEOUT"
+                        )
                         _completion(
                             request,
                             state="TIMED_OUT",
@@ -285,6 +341,8 @@ def run_request(request_path: Path) -> int:
                             child_pid=child_pid,
                             started_at=started_at,
                             reason="TIMEOUT",
+                            completion_journal_status=journal_status,
+                            completion_journal_error=journal_error,
                         )
                         _heartbeat(request, state="TIMED_OUT", child_pid=child_pid, started_at=started_at)
                         return 0
