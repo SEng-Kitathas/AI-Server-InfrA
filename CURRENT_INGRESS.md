@@ -94,3 +94,12 @@ The idempotency response-loss raid is **QUALIFIED ENGINEERING CANDIDATE / PUBLIC
 - hostile response-loss 12/12 PASS; broader adjacency 96/96 PASS; full suite 364 collected / 363 passed / 0 failed / 1 conditional skip; compile + CRLF-aware diff check PASS.
 
 Claim ceiling: the Runtime does not claim every mutation is idempotent. Unearned effects remain `unsafe_retry`. Next server campaign after publication is Windows Job Object resource envelope, then remaining cross-domain raids. Final schema remains LAST/untriggered.
+## Live promotion supersession
+The Desktop Runtime is now **LIVE-PROMOTED / REMOTE-RESTARTED / ASYNC-VERIFIED** at engineering feature `4163606459324feaa31252b3c2a6d58d73aaff46` / tree `4b2836e1add4d218748e45b929189d2d72ed839b`.
+- curated live Runtime parity: 70 files / 0 mismatches;
+- rollback bundle: `C:\Users\ancal\Desktop\PCMMAD_LIVE_ROLLBACKS\20260907_195134_pre_b8b6ca69`;
+- final live async job `job-4fbdd90dd2f3` completed rc=0; same-key replay returned the same job with `replayed=true`;
+- `completion_journal_status=recorded`;
+- live health online / 107 tools / scheduler+watcher active; optional browser bridge remains degraded.
+
+Next server campaign: Windows Job Object resource envelope, then remaining raids. OBE/Skills interface remains unfrozen. Final schema redesign remains LAST and requires explicit `hells yeah, ready`.

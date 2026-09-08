@@ -41,3 +41,12 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - registry census 107 tools: 31 safe-repeat, 73 unsafe-retry, three effectful capabilities with stronger earned replay semantics;
 - hostile response-loss 12/12 PASS; adjacency 96/96 PASS; complete suite 364 collected / 363 passed / 0 failed / 1 conditional skip; compile/diff checks PASS;
 - publication pending; next server campaign Windows Job Object resource envelope; final schema remains last/untriggered.
+
+## LIVE RUNTIME PROMOTION COMPLETE
+- engineering feature `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- 70 curated live Runtime files / 0 hash mismatches;
+- full rollback snapshot + incremental rollback receipts retained;
+- governed receiver+ngrok restart `db9d766b17044cddbeb57474e76518ca` ready/ok;
+- public async smoke `job-4fbdd90dd2f3` rc=0; same-key replay same job / `replayed=true`; completion journal `recorded`;
+- live health online; browser bridge optional/degraded;
+- next server campaign Job Object resources; final schema last/untriggered.

@@ -184,3 +184,11 @@ Mark an item resolved only with explicit evidence and corresponding trace/readba
 - Qualification: hostile response-loss `12/12 PASS`; broader adjacency `96/96 PASS`; full suite `364 collected / 363 passed / 0 failed / 1 conditional skip`; changed Python compile PASS; CRLF-aware diff check PASS.
 - Claim ceiling: this does **not** make every mutation idempotent; unearned effects remain `unsafe_retry`.
 - Next server engineering frontier after publication: Windows Job Object resource envelope, then remaining cross-domain raids. Final schema remains LAST/untriggered.
+
+## LIVE RUNTIME PROMOTION — COMPLETE (2026-09-07)
+- Live Desktop Runtime is now promoted to Git/remote `main` `4163606459324feaa31252b3c2a6d58d73aaff46` / tree `4b2836e1add4d218748e45b929189d2d72ed839b` across the curated 70-file Runtime set; final parity `0 mismatches`.
+- Rollback snapshot: `C:\Users\ancal\Desktop\PCMMAD_LIVE_ROLLBACKS\20260907_195134_pre_b8b6ca69`; archive SHA `0b4b59a8891899b402bee3aac36de553b432e4588098f7f4b90eadd4a81a01b2`; restore script present.
+- Governed receiver+ngrok restart complete; final receipt request `db9d766b17044cddbeb57474e76518ca`, `stage=ready`, `ok=true`; receiver PIDs `8792/15256`; ngrok PID `41744`.
+- Public async action is live-functional: `compatibility_no_lease` binding when no governed lease is active; final job `job-4fbdd90dd2f3` completed rc=0; identical same-key resubmission returned same job / `replayed=true`; `completion_journal_status=recorded`.
+- Live health: Runtime online / 107 tools / scheduler+watcher active; aggregate degraded only by optional browser bridge unavailability.
+- `LIVE_PROMOTION_COMPLETE != FINAL_SCHEMA_READY`; OBE/Skills interface remains unfrozen; next server engineering campaign is Windows Job Object resource envelope, then remaining raids; final schema LAST/untriggered.
