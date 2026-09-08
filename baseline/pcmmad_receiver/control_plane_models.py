@@ -234,6 +234,8 @@ class CapacitySnapshot:
     queued_project: int
     global_queue_limit: int | None
     project_queue_limit: int | None
+    oldest_queued_age_seconds: float | None = None
+    oldest_project_queued_age_seconds: float | None = None
 
     def to_dict(self) -> JsonObject:
         return asdict(self)

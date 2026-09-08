@@ -840,13 +840,29 @@ def _effective_running_count(project_id: str | None = None) -> int:
     return count
 
 
-def _effective_queue_count(project_id: str | None = None) -> int:
-    count = 0
-    for path in _iter_job_files(project_id):
+def _queue_census(project_id: str) -> tuple[int, int, float | None, float | None]:
+    queued_global = 0
+    queued_project = 0
+    oldest_global: float | None = None
+    oldest_project: float | None = None
+    now_epoch = time.time()
+    for path in _iter_job_files(None):
         job, _ = _load_job_file(path)
-        if job and job.status == "QUEUED":
-            count += 1
-    return count
+        if not job or job.status != JOB_STATUS_QUEUED:
+            continue
+        queued_global += 1
+        age = _readiness_queue_age(job, now_epoch)
+        oldest_global = _max_optional_age(oldest_global, age)
+        if str(job.project_id or "") == project_id:
+            queued_project += 1
+            oldest_project = _max_optional_age(oldest_project, age)
+    return queued_global, queued_project, oldest_global, oldest_project
+
+
+def _effective_queue_count(project_id: str | None = None) -> int:
+    target = str(project_id or "")
+    queued_global, queued_project, _oldest_global, _oldest_project = _queue_census(target)
+    return queued_project if project_id is not None else queued_global
 
 
 def _job_belongs_to_project(job_id: str, project_id: str) -> bool:
@@ -858,15 +874,19 @@ def _job_belongs_to_project(job_id: str, project_id: str) -> bool:
 
 
 def _capacity_snapshot(project_id: str) -> CapacitySnapshot:
+    running_global, running_by_project = _running_census()
+    queued_global, queued_project, oldest_global, oldest_project = _queue_census(project_id)
     return CapacitySnapshot(
-        running_global=_effective_running_count(None),
-        running_project=_effective_running_count(project_id),
+        running_global=running_global,
+        running_project=int(running_by_project.get(project_id, 0)),
         global_limit=EXECUTION_GLOBAL_CONCURRENCY,
         project_limit=EXECUTION_PROJECT_CONCURRENCY,
-        queued_global=_effective_queue_count(None),
-        queued_project=_effective_queue_count(project_id),
+        queued_global=queued_global,
+        queued_project=queued_project,
         global_queue_limit=_limit_for_wire(EXECUTION_GLOBAL_QUEUE_LIMIT),
         project_queue_limit=EXECUTION_PROJECT_QUEUE_LIMIT,
+        oldest_queued_age_seconds=oldest_global,
+        oldest_project_queued_age_seconds=oldest_project,
     )
 
 
@@ -1586,9 +1606,16 @@ def _spawn_or_queue_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
                 "SPAWN_FAILURE", str(e), 500, failure_digest=job.failure_digest
             ) from e
     if not _queue_allowed(project_id):
+        capacity = _capacity_snapshot(project_id)
         raise ExecutionOverCapacity(
             "execution queue is full; refusing new work instead of oversubscribing the host",
-            capacity=_capacity_snapshot(project_id),
+            capacity=capacity.to_dict(),
+            queue_sojourn={
+                "oldest_queued_age_seconds": capacity.oldest_queued_age_seconds,
+                "oldest_project_queued_age_seconds": capacity.oldest_project_queued_age_seconds,
+            },
+            retry_after_seconds=None,
+            retry_after_basis="not_claimed_without_observed_service-time_model",
         )
     job.status = JOB_STATUS_QUEUED
     job.stage = "queued"
