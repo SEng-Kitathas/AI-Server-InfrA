@@ -6,6 +6,7 @@ Regression tests for git and gate operation hardening envelopes."""
 
 from __future__ import annotations
 
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -75,6 +76,26 @@ class GitOpsHardeningTests(unittest.TestCase):
             self.assertTrue(result["results"][0]["ok"])
             self.assertIn("duration_ms", result["results"][0])
             self.assertIn("stdout_truncated", result["results"][0])
+
+    def test_git_status_supports_exact_nested_repo_path(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            repo = root / "nested" / "repo"
+            repo.mkdir(parents=True)
+            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+            subprocess.run(["git", "config", "user.email", "pcmmad-test@example.invalid"], cwd=repo, check=True)
+            subprocess.run(["git", "config", "user.name", "PCMMAD Test"], cwd=repo, check=True)
+            (repo / "a.txt").write_text("one", encoding="utf-8")
+            subprocess.run(["git", "add", "."], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-m", "one"], cwd=repo, check=True, capture_output=True)
+            registry = _registry_for(root)
+            result = registry["git.status"](
+                {"project_id": "x", "repo_path": "nested/repo"}
+            )
+            self.assertTrue(result["ok"])
+            self.assertTrue(result["repo_grounded"])
+            self.assertEqual(result["repo_identity"]["repo_path"], "nested/repo")
+            self.assertEqual(Path(result["repo_identity"]["repo_root"]), repo.resolve())
 
     def test_git_status_returns_envelope_even_outside_repo(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

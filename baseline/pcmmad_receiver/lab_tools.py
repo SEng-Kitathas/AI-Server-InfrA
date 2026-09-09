@@ -753,9 +753,18 @@ def _normalize_project_path(payload: JsonObject) -> str:
     return "." if not p else str(p)
 
 
-def _context_wrap(fn: Callable[[], JsonObject]) -> JsonObject:
+def _context_wrap(fn: Callable[[], object]) -> JsonObject:
     try:
-        return fn()
+        result = fn()
+        if hasattr(result, "to_dict"):
+            result = result.to_dict()
+        if not isinstance(result, dict):
+            raise LabToolError(
+                "BAD_CONTEXT_RESULT",
+                f"Context-plane operation returned {type(result).__name__}, expected object",
+                500,
+            )
+        return result
     except BadPathError as e:
         raise LabToolError(e.error_code, str(e), 400)
     except NotFoundError as e:

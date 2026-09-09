@@ -33,9 +33,15 @@ def init_repo(root: Path) -> None:
 
 
 def dep_for(root: Path):
+    def resolve_cwd(_project_id: str, repo_path: str | None):
+        candidate = (root / str(repo_path or ".")).resolve()
+        candidate.relative_to(root.resolve())
+        return candidate
+
     return SimpleNamespace(
         error_cls=lab_tools.LabToolError,
         get_project_root=lambda _project_id: root,
+        resolve_cwd=resolve_cwd,
     )
 
 
@@ -53,6 +59,32 @@ class GitGroundingPostconditionTests(unittest.TestCase):
             with self.assertRaises(lab_tools.LabToolError) as caught:
                 ops._git_repo_identity("child", dep)
         self.assertEqual(caught.exception.error_code, "GIT_REPO_SCOPE_MISMATCH")
+
+    def test_nested_repo_path_is_grounded_exactly_within_project(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            project = Path(td)
+            repo = project / "workspace" / "repo"
+            repo.mkdir(parents=True)
+            init_repo(repo)
+            (repo / "a.txt").write_text("one", encoding="utf-8")
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "one")
+            resolved, identity = ops._git_repo_identity(
+                "alpha", dep_for(project), "workspace/repo"
+            )
+        self.assertEqual(resolved, repo.resolve())
+        self.assertEqual(identity["project_root"], str(project.resolve()))
+        self.assertEqual(identity["repo_path"], "workspace/repo")
+        self.assertEqual(identity["repo_root"], str(repo.resolve()))
+        self.assertTrue(identity["repo_grounded"])
+
+    def test_nested_repo_path_cannot_escape_project_root(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            project = Path(td) / "project"
+            outside = Path(td) / "outside"
+            project.mkdir(); outside.mkdir(); init_repo(outside)
+            with self.assertRaises(ValueError):
+                ops._git_repo_identity("alpha", dep_for(project), "../outside")
 
     def test_unborn_repository_is_valid_identity(self) -> None:
         with tempfile.TemporaryDirectory() as td:

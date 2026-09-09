@@ -225,6 +225,13 @@ ICF_ANCHOR_CLASSES = (
 )
 
 
+ICF_TAIL_SEED_CLASSES = frozenset(
+    artifact_class
+    for artifact_class in ICF_ANCHOR_CLASSES
+    if artifact_class != "continuity.icf_standard"
+)
+
+
 class ContextPlaneError(Exception):
     error_code = "CONTEXT_ERROR"
 
@@ -396,12 +403,16 @@ def _safe_stat(path: Path) -> JsonObject:
 
 def _is_transient_context_dir(name: str) -> bool:
     lowered = name.lower()
-    return lowered in TRANSIENT_CONTEXT_DIR_NAMES or lowered.startswith(".venv")
+    return (
+        lowered in TRANSIENT_CONTEXT_DIR_NAMES
+        or lowered.startswith(".venv")
+        or (lowered.startswith(".pcmmad_") and lowered.endswith("_stage"))
+    )
 
 
 def _is_transient_context_file(name: str) -> bool:
     lowered = name.lower()
-    return lowered.startswith(".pcmmad_tmp_") or lowered.endswith(".tmp")
+    return lowered.startswith(".pcmmad_") or lowered.endswith(".tmp")
 
 
 def _walk(
@@ -532,6 +543,46 @@ def _read_prefix_bounded(path: Path, max_bytes: int) -> tuple[str, int, int]:
         return "", 1, 0
     end_line = max(1, len(content.splitlines()))
     return content, 1, end_line
+
+
+def _read_suffix_bounded(path: Path, max_bytes: int) -> tuple[str, int, int]:
+    limit = max(1, int(max_bytes))
+    try:
+        size = int(path.stat().st_size)
+    except OSError:
+        return "", 1, 0
+    if size <= limit:
+        return _read_prefix_bounded(path, limit)
+    start_offset = max(0, size - limit)
+    newline_count_before = 0
+    with path.open("rb") as handle:
+        remaining = start_offset
+        while remaining > 0:
+            chunk = handle.read(min(65536, remaining))
+            if not chunk:
+                break
+            newline_count_before += chunk.count(b"\n")
+            remaining -= len(chunk)
+        handle.seek(start_offset)
+        data = handle.read(limit)
+    # The byte window normally begins inside a line. Drop that partial line so
+    # the returned currentness window has honest line boundaries.
+    if start_offset > 0:
+        first_newline = data.find(b"\n")
+        if first_newline >= 0:
+            data = data[first_newline + 1 :]
+            start_line = newline_count_before + 2
+        else:
+            data = b""
+            start_line = newline_count_before + 1
+    else:
+        start_line = 1
+    content = _decode_text_bounded(data, limit)
+    content = "\n".join(content.splitlines())
+    if not content:
+        return "", start_line, start_line
+    end_line = start_line + max(0, len(content.splitlines()) - 1)
+    return content, start_line, end_line
 
 
 def _read_line_window_bounded(
@@ -1035,7 +1086,12 @@ def _seed_icf_anchors(state: RehydrateSelectionState, target: Path, budget: int)
             break
         remaining_anchor = anchor_budget - state.used
         excerpt_limit = min(per_anchor, remaining_anchor)
-        excerpt = _clip_excerpt_to_budget(_read_archive_excerpt(path), excerpt_limit)
+        if artifact_class in ICF_TAIL_SEED_CLASSES:
+            excerpt, start_line, end_line = _read_suffix_bounded(path, excerpt_limit)
+            seed_window = "tail"
+        else:
+            excerpt, start_line, end_line = _read_prefix_bounded(path, excerpt_limit)
+            seed_window = "head"
         if not excerpt:
             continue
         size = len(excerpt.encode("utf-8"))
@@ -1055,9 +1111,10 @@ def _seed_icf_anchors(state: RehydrateSelectionState, target: Path, budget: int)
                     else "history"
                 ),
                 "score": ARTIFACT_PRIORS.get(artifact_class, 1.0),
-                "window": {"start_line": 1, "end_line": max(1, len(excerpt.splitlines()))},
+                "window": {"start_line": start_line, "end_line": end_line},
                 "excerpt": excerpt,
                 "seeded": True,
+                "seed_window": seed_window,
             }
         )
         state.used += size

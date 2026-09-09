@@ -31,6 +31,8 @@ class IcfCsRehydrationTests(unittest.TestCase):
             "continuity/live_shadow/LIVE_SHADOW.md": "HISTORY ACTIVE\nlive shadow shadowwarmtoken\n",
             "continuity/design_thread_stream/DESIGN_THREAD_STREAM.md": "HISTORY CHRONOLOGY\nphase sequence\n",
             ".pcmmad_sync_runs/noise.log": "needle needle needle newest misleading transient log\n",
+            ".pcmmad_hardening_postpub_stage/stale.md": "needle needle stale staged recovery replica\n",
+            ".pcmmad_stage_rollover_commanders.md": "needle needle stale root-level stage replica\n",
             ".pcmmad_tmp_fake.md": "needle needle misleading scratch handoff\n",
         }
         for rel, text in files.items():
@@ -53,6 +55,8 @@ class IcfCsRehydrationTests(unittest.TestCase):
             ).to_dict()
         self.assertEqual(result["count"], 0)
         self.assertFalse(any(".pcmmad_sync_runs" in hit["path"] for hit in result["hits"]))
+        self.assertFalse(any(".pcmmad_hardening_postpub_stage" in hit["path"] for hit in result["hits"]))
+        self.assertFalse(any(Path(hit["path"]).name.startswith(".pcmmad_") for hit in result["hits"]))
 
     def test_explicit_internal_path_target_remains_searchable(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -112,7 +116,8 @@ class IcfCsRehydrationTests(unittest.TestCase):
         for expected in ce.ICF_ANCHOR_CLASSES:
             self.assertIn(expected, classes)
         self.assertFalse(any(".pcmmad_sync_runs" in row["path"] for row in result["selected"]))
-        self.assertFalse(any(".pcmmad_tmp_" in row["path"] for row in result["selected"]))
+        self.assertFalse(any(".pcmmad_hardening_postpub_stage" in row["path"] for row in result["selected"]))
+        self.assertFalse(any(Path(row["path"]).name.startswith(".pcmmad_") for row in result["selected"]))
         paths = [row["path"] for row in result["selected"]]
         self.assertEqual(len(paths), len(set(paths)))
         self.assertEqual(result["icf_cs"]["version"], "1.0")
@@ -123,6 +128,32 @@ class IcfCsRehydrationTests(unittest.TestCase):
         self.assertEqual(result["open_seams"], [])
         roles = {row.get("authority_role") for row in result["selected"] if row.get("seeded")}
         self.assertTrue({"frontier", "standard", "intent", "constraints", "history"}.issubset(roles))
+
+    def test_moving_frontier_anchor_seeds_bounded_tail_not_stale_header(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            current = root / "state" / "current" / "CURRENT_STATE.md"
+            current.parent.mkdir(parents=True)
+            current.write_text(
+                "STALE_HEADER A-OLD\n"
+                + "\n".join(f"historical filler {i:04d} xxxxxxxxxxxxxxxxxxxx" for i in range(250))
+                + "\nCURRENT_FRONTIER NEW_HEAD_ABC123\nNEXT current repair qualification\n",
+                encoding="utf-8",
+            )
+            result = ce.rehydrate_context(
+                ce.RehydrateRequest(
+                    topic="current frontier",
+                    base_root=str(root),
+                    path=".",
+                    budget_bytes=1024,
+                )
+            )
+        row = next(item for item in result["selected"] if item["artifact_class"] == "state.current")
+        self.assertTrue(row["seeded"])
+        self.assertEqual(row["seed_window"], "tail")
+        self.assertGreater(row["window"]["start_line"], 1)
+        self.assertIn("CURRENT_FRONTIER NEW_HEAD_ABC123", row["excerpt"])
+        self.assertNotIn("STALE_HEADER A-OLD", row["excerpt"])
 
     def test_live_shadow_update_is_visible_on_next_rehydrate(self) -> None:
         with tempfile.TemporaryDirectory() as td:

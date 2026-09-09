@@ -49,6 +49,10 @@ def _project_id(payload: JsonObject) -> str:
     return str(payload.get("project_id", "")).strip()
 
 
+def _repo_path(payload: JsonObject) -> str:
+    return str(payload.get("repo_path") or ".").strip() or "."
+
+
 def _git_envelope(
     root: Path, args: list[str], timeout_seconds: int = 30, stdout_max_bytes: int = 65536
 ) -> JsonObject:
@@ -74,10 +78,13 @@ def _git_stdout(root: Path, args: list[str], dep: OpsToolDeps, *, timeout_second
     return str(result.get("stdout") or "").strip()
 
 
-def _git_repo_probe(project_id: str, dep: OpsToolDeps) -> tuple[Path, JsonObject | None, JsonObject | None]:
+def _git_repo_probe(
+    project_id: str, dep: OpsToolDeps, repo_path: str = "."
+) -> tuple[Path, JsonObject | None, JsonObject | None]:
     if not project_id:
         raise dep.error_cls("BAD_REQUEST", "project_id is required", 400)
-    root = dep.get_project_root(project_id).resolve()
+    project_root = dep.get_project_root(project_id).resolve()
+    root = dep.resolve_cwd(project_id, repo_path or ".").resolve()
     top_probe = _git_envelope(root, ["git", "rev-parse", "--show-toplevel"])
     if not top_probe.get("ok"):
         failure = dict(top_probe)
@@ -86,6 +93,8 @@ def _git_repo_probe(project_id: str, dep: OpsToolDeps) -> tuple[Path, JsonObject
                 "ok": False,
                 "status": "FAILED",
                 "project_id": project_id,
+                "project_root": str(project_root),
+                "requested_repo_path": repo_path or ".",
                 "repo_grounded": False,
                 "error_code": "GIT_REPO_INVALID",
                 "error": str(
@@ -103,6 +112,8 @@ def _git_repo_probe(project_id: str, dep: OpsToolDeps) -> tuple[Path, JsonObject
         return root, None, {
             "ok": False,
             "project_id": project_id,
+            "project_root": str(project_root),
+            "requested_repo_path": repo_path or ".",
             "repo_grounded": False,
             "error_code": "GIT_REPO_INVALID",
             "error": str(exc),
@@ -117,7 +128,9 @@ def _git_repo_probe(project_id: str, dep: OpsToolDeps) -> tuple[Path, JsonObject
             "repo_grounded": False,
             "error_code": "GIT_REPO_SCOPE_MISMATCH",
             "error": "project root is not the exact Git repository root",
-            "project_root": str(root),
+            "project_root": str(project_root),
+            "requested_repo_path": repo_path or ".",
+            "requested_repo_root": str(root),
             "git_toplevel": str(top),
         }
     head_probe = _git_envelope(root, ["git", "rev-parse", "--verify", "HEAD"])
@@ -126,6 +139,8 @@ def _git_repo_probe(project_id: str, dep: OpsToolDeps) -> tuple[Path, JsonObject
     branch = str(branch_probe.get("stdout") or "").strip() if branch_probe.get("ok") else None
     identity = {
         "project_id": project_id,
+        "project_root": str(project_root),
+        "repo_path": repo_path or ".",
         "repo_root": str(root),
         "head": head,
         "branch": branch,
@@ -135,8 +150,10 @@ def _git_repo_probe(project_id: str, dep: OpsToolDeps) -> tuple[Path, JsonObject
     return root, identity, None
 
 
-def _git_repo_identity(project_id: str, dep: OpsToolDeps) -> tuple[Path, JsonObject]:
-    root, identity, error = _git_repo_probe(project_id, dep)
+def _git_repo_identity(
+    project_id: str, dep: OpsToolDeps, repo_path: str = "."
+) -> tuple[Path, JsonObject]:
+    root, identity, error = _git_repo_probe(project_id, dep, repo_path)
     if identity is not None:
         return root, identity
     assert error is not None
@@ -175,7 +192,7 @@ def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
     )
     def tool_git_status(payload: JsonObject) -> JsonObject:
         project_id = _project_id(payload)
-        root, identity, error = _git_repo_probe(project_id, dep)
+        root, identity, error = _git_repo_probe(project_id, dep, _repo_path(payload))
         if error is not None:
             return error
         result = _git_envelope(root, ["git", "status", "--short", "--branch"])
@@ -187,7 +204,7 @@ def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
     @register_tool("git.diff", "Read a git diff for a project repo.", "medium", category="git", side_effect_class="read", effect_traits=["reads_repo_state", "requires_exact_repo_identity", "bounded_output"])
     def tool_git_diff(payload: JsonObject) -> JsonObject:
         project_id = _project_id(payload)
-        root, identity, error = _git_repo_probe(project_id, dep)
+        root, identity, error = _git_repo_probe(project_id, dep, _repo_path(payload))
         if error is not None:
             return error
         args = ["git", "diff"]
@@ -205,7 +222,8 @@ def _git_commit_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
     message = str(payload.get("message", "")).strip()
     if not message:
         raise dep.error_cls("BAD_REQUEST", "message is required", 400)
-    root, before = _git_repo_identity(project_id, dep)
+    repo_path = _repo_path(payload)
+    root, before = _git_repo_identity(project_id, dep, repo_path)
     status_before = _git_status_snapshot(root)
     add_result = _git_envelope(root, ["git", "add", "."])
     if not add_result.get("ok"):
@@ -247,7 +265,7 @@ def _git_commit_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
             repo_identity=before,
             commit=commit_result,
         )
-    _, after = _git_repo_identity(project_id, dep)
+    _, after = _git_repo_identity(project_id, dep, repo_path)
     status_after = _git_status_snapshot(root)
     if str(after.get("head") or "") == str(before.get("head") or ""):
         raise dep.error_cls(
@@ -287,7 +305,8 @@ def _resolve_commit_target(root: Path, target: str, dep: OpsToolDeps) -> str:
 def _git_reset_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
     project_id = _project_id(payload)
     target = str(payload.get("target", "HEAD")).strip() or "HEAD"
-    root, before = _git_repo_identity(project_id, dep)
+    repo_path = _repo_path(payload)
+    root, before = _git_repo_identity(project_id, dep, repo_path)
     resolved_target = _resolve_commit_target(root, target, dep)
     result = _git_envelope(root, ["git", "reset", "--hard", resolved_target], timeout_seconds=60)
     if not result.get("ok"):
@@ -299,7 +318,7 @@ def _git_reset_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
             resolved_target=resolved_target,
             result=result,
         )
-    _, after = _git_repo_identity(project_id, dep)
+    _, after = _git_repo_identity(project_id, dep, repo_path)
     tracked_status = _git_envelope(root, ["git", "status", "--porcelain=v1", "--untracked-files=no"])
     verified = (
         bool(tracked_status.get("ok"))
@@ -332,7 +351,8 @@ def _git_reset_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
 
 def _git_clean_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
     project_id = _project_id(payload)
-    root, identity = _git_repo_identity(project_id, dep)
+    repo_path = _repo_path(payload)
+    root, identity = _git_repo_identity(project_id, dep, repo_path)
     preview_args = ["git", "clean", "-nd"]
     clean_args = ["git", "clean", "-fd"]
     if payload.get("x"):
