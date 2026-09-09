@@ -209,3 +209,19 @@ Post-publication behavior qualification:
 - stale continuity recovery HEAD `22a38e7...` was explicitly resolved as HISTORICAL relative to fresh Git `fb89bb1...`
 
 This closes the Runtime-repair dogfood cycle at the engineering-feature level. It still does **not** canonically promote the T0.2 Skill, live Runtime, UCM/memory redesign, or final schema.
+
+## Final recovery publication / cold-recovery closure — 2026-09-08
+- recovery-only commit: `19c52e6405e058e6415d760dc10e880d559f8015`
+- recovery tree: `c0c763549a50c50fcce3c96ed89757d6bb13a465`
+- engineering feature parent: `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce`
+- remote `main`: independently read back exactly at recovery commit
+- worktree: clean / aligned
+- Git handoff qualification: **12/12 PASS**
+- final cold RECOVERY_ONLY currentness: **CURRENT_CREDIBLE**
+- final cold receipt: `quarantine/t0_2_dogfood/FINAL_RECOVERY_ONLY_RECEIPT.json`
+- final cold receipt SHA-256: `fda538e1a3dfda118d11fd0cad0033caa3399c652a0e22cb404eeeb83513b70a`
+- recovered split: recovery `19c52e6405e058e6415d760dc10e880d559f8015` / engineering `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce`
+- remaining verification debt: deployed live copy has no Git metadata; do not infer live commit from continuity
+- mutation gate: CLOSED
+
+This closes the server-side T0.2 dogfood + Runtime repair + recovery publication loop. Canonical Skill promotion remains external to this thread and blocked pending the exact bytecode-free package.

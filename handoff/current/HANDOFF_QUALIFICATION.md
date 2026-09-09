@@ -86,3 +86,9 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - remote `main` independently verified at engineering feature before this recovery publication;
 - cold RECOVERY_ONLY credible, receipt `396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844`;
 - Skill canonical promotion NOT claimed; live/UCM/final-schema boundaries unchanged.
+
+## OPERATING LIBRARY v1.0 RUNTIME CONVERGENCE
+- library SHA `b3ac0c538c19e1bb4819569439905fdce707e071b26d9c8d9c58a054de845a7f` independently verified; manifest 50/50, semantic 40/40, hostile 39/39;
+- repaired T0.2 SHA `0805101ceefa8017186842c6a13c69d94523472e3491ef923357e1d2a146f6e0` independently verified; validator PASS, 14/14 semantics, 19/19 hostile, payload-pure;
+- Runtime seam audit failed=0; 116 tools / 18 families; no new Runtime mechanism earned;
+- disposition report SHA `7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e`; no canonical Skill/live/UCM/final-schema promotion claimed.
