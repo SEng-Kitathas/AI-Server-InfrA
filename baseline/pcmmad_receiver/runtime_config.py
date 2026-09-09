@@ -93,7 +93,7 @@ def _execution_output_env_values() -> dict[str, int | None]:
 def _execution_queue_env_values() -> dict[str, int | None]:
     return {
         "global_concurrency": parse_optional_unbounded_int(
-            os.environ.get("PCMMAD_EXECUTION_GLOBAL_CONCURRENCY"), 8
+            os.environ.get("PCMMAD_EXECUTION_GLOBAL_CONCURRENCY"), 12
         ),
         "project_concurrency": parse_optional_unbounded_int(
             os.environ.get("PCMMAD_EXECUTION_PROJECT_CONCURRENCY"), None
@@ -169,7 +169,7 @@ class ExecutionRuntimeConfig:
     default_stdout_max_bytes: int | None = None
     default_stderr_max_bytes: int | None = None
     max_output_bytes: int | None = None
-    global_concurrency: int | None = 8
+    global_concurrency: int | None = 12
     project_concurrency: int | None = None
     global_queue_limit: int | None = None
     project_queue_limit: int | None = None

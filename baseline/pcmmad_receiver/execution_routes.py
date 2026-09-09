@@ -2172,6 +2172,23 @@ def _reconcile_job_locked(job: ExecutionJobRecord) -> None:
     job_id = str(job.job_id).strip()
     if not project_id or not job_id:
         return
+    if job.status == JOB_STATUS_SUBMITTED and not job.worker_token:
+        try:
+            resumed = _spawn_or_queue_job(job)
+        except ExecutionOverCapacity:
+            # Preserve the durable reservation and retry when queue/capacity changes.
+            return
+        except ExecutionRequestError:
+            # Spawn failures are already persisted as terminal failures by the submit path.
+            _scheduler_stat_inc("jobs_failed")
+            _scheduler_stat_inc("jobs_reconciled")
+            return
+        _journal_job_submission(resumed)
+        _write_job(project_id, job_id, resumed)
+        _scheduler_stat_inc("jobs_reconciled")
+        if resumed.status in {JOB_STATUS_STARTING, JOB_STATUS_RUNNING}:
+            _scheduler_stat_inc("jobs_started")
+        return
     if job.worker_token:
         if job.status in JOB_ACTIVE_STATUSES:
             _finalize_worker_job(project_id, job_id, job)

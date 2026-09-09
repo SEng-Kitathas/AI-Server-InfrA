@@ -108,6 +108,45 @@ class ExecutionIdempotencyRecoveryTests(unittest.TestCase):
         self.assertLess(order.index("idempotency_index"), order.index("spawn_or_queue"))
 
 
+    def test_scheduler_recovers_orphaned_submitted_reservation_without_client_retry(self) -> None:
+        job = self._job(status=er.JOB_STATUS_SUBMITTED)
+        job.worker_token = None
+        writes = []
+        journals = []
+        stats = []
+
+        def spawn(candidate):
+            candidate.status = er.JOB_STATUS_QUEUED
+            candidate.stage = "queued"
+            return candidate
+
+        with patch.object(er, "_spawn_or_queue_job", side_effect=spawn), patch.object(
+            er, "_journal_job_submission", side_effect=lambda candidate: journals.append(candidate.status)
+        ), patch.object(er, "_write_job", side_effect=lambda *_args: writes.append(_args[-1].status)), patch.object(
+            er, "_scheduler_stat_inc", side_effect=lambda name, amount=1: stats.append((name, amount))
+        ):
+            er._reconcile_job_locked(job)
+
+        self.assertEqual(job.status, er.JOB_STATUS_QUEUED)
+        self.assertEqual(journals, [er.JOB_STATUS_QUEUED])
+        self.assertEqual(writes, [er.JOB_STATUS_QUEUED])
+        self.assertIn(("jobs_reconciled", 1), stats)
+
+    def test_scheduler_leaves_submitted_reservation_retryable_when_queue_is_full(self) -> None:
+        job = self._job(status=er.JOB_STATUS_SUBMITTED)
+        job.worker_token = None
+        capacity = er.CapacitySnapshot(
+            running_global=12, running_project=12, global_limit=12, project_limit=None,
+            queued_global=1, queued_project=1, global_queue_limit=1, project_queue_limit=1,
+            oldest_queued_age_seconds=1.0, oldest_project_queued_age_seconds=1.0,
+        )
+        with patch.object(
+            er, "_spawn_or_queue_job", side_effect=er.ExecutionOverCapacity("full", capacity=capacity.to_dict())
+        ), patch.object(er, "_write_job") as write_job:
+            er._reconcile_job_locked(job)
+        self.assertEqual(job.status, er.JOB_STATUS_SUBMITTED)
+        write_job.assert_not_called()
+
     def test_worker_starting_record_is_durable_before_process_launch(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

@@ -34,6 +34,12 @@ class RuntimeConfigTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(RuntimeConfigurationError):
                 parse_http_base_url(value, "http://127.0.0.1:4471")
 
+    def test_default_global_concurrency_supports_twelve_workers(self) -> None:
+        with patch.dict(os.environ, {}, clear=True):
+            config = ExecutionRuntimeConfig.from_env()
+        self.assertEqual(config.global_concurrency, 12)
+        self.assertIsNone(config.project_concurrency)
+
     def test_execution_resync_intervals_are_typed_and_clamped(self) -> None:
         with patch.dict(
             os.environ,
