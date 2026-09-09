@@ -1,6 +1,6 @@
 # V30 RES Composition + Enforcement Pressure Campaign — 2026-09-09
 
-Status: **CANONICAL SOURCE QUALIFIED / PUBLICATION PENDING**
+Status: **ENGINEERING FEATURE PUBLISHED / REMOTE-VERIFIED / LIVE UNCHANGED**
 
 Base server HEAD: `016eacee04113be6f499cf00d29af0e04ec8a9ec`
 
@@ -291,3 +291,15 @@ It does not earn:
 - live-process availability before deliberate reload/readback.
 
 Next gate after source publication: live embodiment remains separate and explicitly authorized; ICF-CS overlay reconciliation remains in the doctrine plane.
+
+## Feature publication readback
+
+Engineering feature: `8714dd87d2092e0f4c66f261fcf5cee8b75a0798`
+
+Tree: `0efd6ded722b4a4b63cb0a26c3265318fe06b4e3`
+
+Parent: `016eacee04113be6f499cf00d29af0e04ec8a9ec`
+
+Exact 11-file candidate inventory SHA-256: `fcb838d408f29eb6da2a4d6fab72e885c400da7442dea517bcef2664b0816b23`.
+
+`origin/main` was independently read back at the exact feature commit after push. Repository-front-door documentation is updated in a later child so it can cite this real feature identity without self-referential guessing. Live Runtime and ICF-CS v1.1 remain unchanged.

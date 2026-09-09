@@ -34,18 +34,19 @@ Cross-thread meeting surfaces retained for architecture/evidence reconciliation:
 
 ## Current engineering frontier
 
-Immediately before the repository-front-door documentation refresh:
+Immediately before this repository-front-door documentation refresh:
 
-- remote-published source HEAD: `874b0b3745d1528098956bb499c8de82ee3d79b7`;
-- parent engineering feature: `bfdc7f8b5df5abb07584d010ef6a8c0ff1d5f428` (`Add native governance enforcement mechanics`);
-- source registry: 121 native tools;
-- governance tools: five authority-neutral/read-only tools covering contact resolution/admission and finite lawful exhaustion/evaluation/witness compression;
-- governance hostile/positive suite: 57/57 PASS;
-- existing composition discriminator: 55/55 PASS;
-- combined focused source gate: 112/112 PASS;
-- complete Runtime: 513 collected / 512 passed / 0 failed / 1 conditional skip.
+- remote-published mechanism feature: `8714dd87d2092e0f4c66f261fcf5cee8b75a0798` (`Add native RES continuity enforcement`);
+- parent/source-evaluation frontier: `016eacee04113be6f499cf00d29af0e04ec8a9ec`;
+- source registry: **126 native tools**;
+- governance tools: five authority-neutral/read-only contact/exhaustion tools;
+- RES tools: five authority-neutral/read-only tools in the existing `continuity` family: `continuity.res.addendum.validate`, `continuity.res.addenda.project`, `continuity.res.snapshot.validate`, `continuity.res.materiality.classify`, and `continuity.res.handoff.readiness`;
+- dedicated RES suite: **43/43 PASS**;
+- focused RES/context/protocol/authority/governance source gate: **176 collected / 175 passed / 0 failed / 1 conditional skip**;
+- complete Runtime: **556 collected / 555 passed / 0 failed / 1 conditional skip**;
+- exact RES mechanism candidate inventory SHA: `fcb838d408f29eb6da2a4d6fab72e885c400da7442dea517bcef2664b0816b23`.
 
-The governance pressure campaign found and repaired two defects before source publication: incomplete contact-set re-signing and over-broad local-file recheck scope.
+RES pressure found and repaired defects before publication, including an unwired native capability registration, ambiguity between normalized-content and file-byte hashes, and a handoff-currentness hole where an unrelated fresh RES addendum could otherwise mask the latest material protocol event.
 
 Earlier published Runtime contracts remain part of the current source: ordinary dispatch may bind `expected_contract_digest`, with stale mismatch rejected as `CAPABILITY_CONTRACT_STALE`; project mutation authority preserves `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` and the `runtime-authority-envelope-v1` projection; response-loss work preserves `IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY`, `RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS`, and `UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY`; Windows Job Object resource envelope work is also published in current ancestry.
 
@@ -88,12 +89,13 @@ CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME
 
 ## Current open boundaries
 
-- Live embodiment/reload of the newest source remains separately gated.
+- Live embodiment/reload of the newest source remains separately gated. The loaded process was last observed at global execution limit 8 and without the newer governance/RES source surface.
 - Final schema redesign remains LAST / locked / untriggered.
 - UCM/memory componentization remains paused.
-- The doctrine thread is currently auditing sealed R4.4 doctrine-to-current-embodiment coverage; do not pre-claim its unfinished RES/Global-Scar/Semantic-Read conclusions as completed Runtime work.
+- The R4.4 doctrine-to-embodiment audit is complete and project-side RES was restored at doctrine epoch 42. Server-side RES composition has now been pressure-audited and the smallest earned continuity-policy seam is source-published.
+- **ICF-CS v1.1 is unchanged.** Its omission of explicit RES from the universal cold-start grammar remains a separate doctrine-authority decision. Runtime engineering SHALL NOT silently rewrite or self-release an ICF-CS successor.
 
-That upstream doctrine audit should hand the server a coverage matrix. Server integration should then use composition-before-invention and build only deterministic gaps that survive hostile discrimination.
+Preserve: `RUNTIME_RES_EMBODIMENT != ICF_CS_SUCCESSOR_RELEASE`, `RES_CONTENT != GOVERNING_DOCTRINE`, and `SOURCE QUALIFIED != LIVE PROMOTED`.
 
 ## Claim ceiling
 

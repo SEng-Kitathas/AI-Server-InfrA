@@ -2,7 +2,7 @@
 
 AI-Server-InfrA is the engineering repository for the PCMMAD Laboratory Runtime: a local-first, transport-independent runtime for durable project state, bounded execution, research, continuity, governance, verification, and operator control.
 
-> **Current repository status (2026-09-09):** `main` is the V30 engineering frontier. The last published source commit before this documentation refresh is `874b0b3745d1528098956bb499c8de82ee3d79b7` (`Record governance enforcement publication`). The currently deployed Desktop Runtime is intentionally older and has **not** been implicitly promoted to this source frontier.
+> **Current repository status (2026-09-09):** `main` is the V30 engineering frontier. The latest mechanism feature before this documentation refresh is `8714dd87d2092e0f4c66f261fcf5cee8b75a0798` (`Add native RES continuity enforcement`). The currently deployed Desktop Runtime is intentionally older and has **not** been implicitly promoted to this source frontier.
 
 ## Start here
 
@@ -29,7 +29,8 @@ The Runtime owns machine truth that should survive any particular model, chat, U
 - continuity and rehydration;
 - browser, filesystem, Git, transfer, SOP, doctrine, and verification capabilities;
 - runtime observability and operator HUD telemetry;
-- deterministic governance-contact and finite-exhaustion enforcement mechanics.
+- deterministic governance-contact and finite-exhaustion enforcement mechanics;
+- Research Epistemic Shadow (RES) continuity policy: canonical truth states, visible addendum transitions, snapshot validation, materiality classification, and research-handoff currentness.
 
 PCMMAD is the methodology. The Runtime is the durable state/capability plane. MCP/OpenAPI/CLI/HUD are projections over that plane. AI-side Skills/operating libraries compose Runtime capabilities; they do not become a second state, scheduler, approval, or authority plane.
 
@@ -46,9 +47,9 @@ GIT PUBLICATION != LIVE RUNTIME PROMOTION
 
 ## Current source surface
 
-At the `874b0b3...` source frontier, source introspection registers **121 native tools**. The tool namespace spans browser, project, protocol, lab/control, memory, SOP, execution, filesystem, transfer, Git, governance, doctrine, research, semantic, continuity, procedure, Python, verification, web, and ZIP capabilities.
+At the `8714dd8...` mechanism frontier, source introspection registers **126 native tools**. The tool namespace spans browser, project, protocol, lab/control, memory, SOP, execution, filesystem, transfer, Git, governance, doctrine, research, semantic, continuity, procedure, Python, verification, web, and ZIP capabilities.
 
-The five governance tools added in the current frontier are:
+The five governance tools remain:
 
 - `governance.contacts.resolve`
 - `governance.contacts.admit`
@@ -56,7 +57,15 @@ The five governance tools added in the current frontier are:
 - `governance.exhaustion.evaluate_table`
 - `governance.exhaustion.compress_witnesses`
 
-They are authority-neutral/read-only enforcement mechanics. They do **not** promote donor doctrine or grant governance authority.
+The new RES policy/projection tools are deliberately part of the existing `continuity` family:
+
+- `continuity.res.addendum.validate`
+- `continuity.res.addenda.project`
+- `continuity.res.snapshot.validate`
+- `continuity.res.materiality.classify`
+- `continuity.res.handoff.readiness`
+
+Both sets are authority-neutral/read-only enforcement mechanics. RES persistence still uses existing project/protocol/artifact machinery; no RES database, scheduler, daemon, transport family, or authority plane was introduced. `RES_CONTENT != GOVERNING_DOCTRINE`.
 
 The compact imported Custom GPT action surface remains intentionally bounded at 30 operations; capability growth occurs behind the native Runtime catalog rather than by repeatedly widening the transport schema.
 
@@ -72,21 +81,23 @@ The current V30 source includes, among other work:
 - asynchronous scheduler capacity/recovery hardening;
 - Runtime observability and operator HUD telemetry;
 - native governance-contact and finite lawful-exhaustion mechanics;
+- native RES continuity enforcement composed over existing project/protocol/artifact/currentness/result machinery;
 - Operating Library / Runtime boundary convergence without introducing a second scheduler or authority plane.
 
 The detailed evidence and derivation records are indexed under [`reports/`](reports/README.md).
 
 ## Qualification status
 
-For the governance integration at the current engineering frontier:
+For the RES integration at the current engineering frontier:
 
-- native governance hostile/positive suite: **57/57 PASS**;
-- existing composition discriminator: **55/55 PASS**;
-- combined focused source gate: **112/112 PASS**;
-- full Runtime suite: **513 collected / 512 passed / 0 failed / 1 conditional skip**;
-- large-result smoke: **4,096 lawful cases**, 757,303-byte result retained server-side, with bounded 2,048-byte range retrieval (`eof=false`).
+- dedicated RES policy/hostile suite: **43/43 PASS**;
+- focused RES + context + protocol + authority + governance composition gate: **176 collected / 175 passed / 0 failed / 1 conditional skip**;
+- full Runtime suite: **556 collected / 555 passed / 0 failed / 1 conditional skip**;
+- real epoch-42 RES: **22/22 canonical sections VALID**, exact file SHA `24b0e9899a4388ad905746f897ad6dac20c8c1de9e2d3f7e63f612f6c416aec9`;
+- native handoff smoke: **HANDOFF_READY -> stale after material claim -> HANDOFF_READY only after provenance-bound RES addendum**;
+- 96-addendum projection: **62,418 bytes**, automatically retained server-side behind the existing bounded result-handle mechanism.
 
-Two defects were found by hostile testing before publication and repaired: contact-set self-deletion/re-sign acceptance and an over-broad local-file recheck boundary. See [`reports/V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md`](reports/V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md).
+The earlier governance qualification remains in ancestry: 57/57 governance tests, 55/55 existing-composition discriminator, and the 4,096-case bounded lawful-exhaustion smoke. RES pressure also caught implementation-registration, hash-identity, event-coverage, and EOL/EOF defects before publication. See [`reports/V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md`](reports/V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md).
 
 These are **source qualification claims**, not claims that the currently running Desktop Runtime has been reloaded to this source.
 

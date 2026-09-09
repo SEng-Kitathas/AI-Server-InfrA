@@ -159,9 +159,11 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("Final schema redesign remains LAST", self.ingress)
 
     def test_ingress_tracks_current_published_frontier_not_historical_candidate(self) -> None:
-        self.assertIn("874b0b3745d1528098956bb499c8de82ee3d79b7", self.ingress)
-        self.assertIn("bfdc7f8b5df5abb07584d010ef6a8c0ff1d5f428", self.ingress)
-        self.assertIn("121 native tools", self.ingress)
+        self.assertIn("8714dd87d2092e0f4c66f261fcf5cee8b75a0798", self.ingress)
+        self.assertIn("126 native tools", self.ingress)
+        self.assertIn("continuity.res.handoff.readiness", self.ingress)
+        self.assertIn("RES_CONTENT != GOVERNING_DOCTRINE", self.ingress)
+        self.assertIn("RUNTIME_RES_EMBODIMENT != ICF_CS_SUCCESSOR_RELEASE", self.ingress)
         self.assertIn("SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY", self.ingress)
         self.assertIn("runtime-authority-envelope-v1", self.ingress)
         self.assertIn("Final schema redesign remains LAST", self.ingress)

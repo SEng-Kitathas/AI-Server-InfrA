@@ -12,6 +12,7 @@
     "sha256": "c7cd57a5d56c1f91b14060f088cf3e0a43d82753a2127556977b9115b381c80a",
     "tool_count": 121
   },
+  "candidate_inventory_sha256": "fcb838d408f29eb6da2a4d6fab72e885c400da7442dea517bcef2664b0816b23",
   "date": "2026-09-09",
   "donor": {
     "epoch42_res_file_bytes": 17377,
@@ -35,6 +36,8 @@
     ],
     "tool_count": 126
   },
+  "feature_commit": "8714dd87d2092e0f4c66f261fcf5cee8b75a0798",
+  "feature_tree": "0efd6ded722b4a4b63cb0a26c3265318fe06b4e3",
   "icf_cs": {
     "edited": false,
     "release_decision": "SEPARATE_DOCTRINE_AUTHORITY_PLANE"
@@ -50,9 +53,11 @@
     "claim": "SOURCE QUALIFIED != LIVE PROMOTED",
     "reloaded": false
   },
+  "parent": "016eacee04113be6f499cf00d29af0e04ec8a9ec",
   "post_probe": {
     "sha256": "2b1fb7576aca030400e1c6be2ec2912f1e2f87964f3c067886a5f4d82bb45e9e"
   },
+  "remote_readback": "8714dd87d2092e0f4c66f261fcf5cee8b75a0798",
   "scars": [
     "IMPLEMENTATION_PRESENT != CAPABILITY_REGISTERED",
     "NORMALIZED_CONTENT_HASH != FILE_BYTE_IDENTITY",
@@ -61,7 +66,7 @@
     "RES_HANDOFF_READY != PROJECT_MUTATION_AUTHORITY"
   ],
   "schema": "pcmmad.res-composition-pressure.v1",
-  "status": "SOURCE_QUALIFIED_PUBLICATION_PENDING",
+  "status": "ENGINEERING_FEATURE_PUBLISHED_REMOTE_VERIFIED",
   "tests": {
     "clone_focused": "175 pass / 1 skip / 0 fail",
     "clone_full": "555 pass / 1 skip / 0 fail",

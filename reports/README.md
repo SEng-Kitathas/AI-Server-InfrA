@@ -8,6 +8,8 @@ For an outside evaluation, begin with [`../docs/EXTERNAL_EVALUATION.md`](../docs
 
 Read newest/current integrations before historical V28/V29 material:
 
+- `V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md` — R4.4 RES composition audit, pressure-earned continuity seam, hostile tests, source qualification, and ICF-CS authority boundary.
+- `V30_RES_COMPOSITION_PRESSURE_RESULT_2026-09-09.json` — machine-readable RES campaign receipt.
 - `V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md` — governance contact + finite lawful-exhaustion donor pressure, native embodiment, hostile defects, qualification, and publication boundary.
 - `V30_RUNTIME_OBSERVABILITY_HUD_2026-09-09.md` — Runtime telemetry and HUD projection work.
 - `V30_ASYNC_12_WORKER_AND_SUBMITTED_RECOVERY_2026-09-09.md` — async capacity/source changes and submitted-job recovery.
@@ -26,6 +28,8 @@ EXPECTED FAILURE != ANY FAILURE
 FOCUSED GREEN != WHOLE-RUNTIME GREEN
 GIT PUBLICATION != LIVE RUNTIME PROMOTION
 DONOR MECHANICS QUALIFIED != DOCTRINE PROMOTED
+RES CONTENT != GOVERNING DOCTRINE
+RUNTIME RES EMBODIMENT != ICF-CS SUCCESSOR RELEASE
 ```
 
 Individual reports can contain machine-local paths and timestamps because they are truthful run evidence. Those paths are not deployment configuration.
@@ -41,6 +45,6 @@ Individual reports can contain machine-local paths and timestamps because they a
 
 ## Current source-versus-release boundary
 
-The V30 engineering source has continued beyond the V29 packaged release. At the governance publication frontier, source introspection registered 121 native tools and the complete Runtime qualification recorded 513 collected / 512 passed / 0 failed / 1 conditional skip.
+The V30 engineering source has continued beyond the V29 packaged release. At the RES mechanism frontier, source introspection registers **126 native tools** and the complete Runtime qualification records **556 collected / 555 passed / 0 failed / 1 conditional skip**. The five RES tools extend the existing continuity family; they do not create a new state, execution, transport, or authority plane.
 
 Do not rewrite V29 release identity merely to make it look current: a new release identity must be earned through its own release/promotion process. External source evaluation should bind to the exact Git commit being tested.

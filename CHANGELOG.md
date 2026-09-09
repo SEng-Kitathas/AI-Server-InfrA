@@ -13,9 +13,11 @@ Current `main` has advanced substantially beyond the V29 packaged release candid
 - Runtime observability and operator HUD telemetry;
 - Operating Library / Runtime boundary convergence without creating a duplicate state/scheduler/authority plane;
 - native governance-contact resolution/admission and finite lawful-exhaustion/evaluation/witness mechanics;
-- hostile governance pressure that exposed and repaired incomplete-contact re-signing and over-broad local-file recheck boundaries.
+- native Research Epistemic Shadow continuity enforcement composed over existing project/protocol/artifact/currentness/result machinery, without a new RES database, daemon, capability family, or authority plane;
+- hostile governance pressure that exposed and repaired incomplete-contact re-signing and over-broad local-file recheck boundaries;
+- hostile RES pressure covering canonical truth states, append/supersession currentness, provenance/evidence, 22-section snapshot shape, material-change cadence, handoff staleness, and the RES-to-doctrine authority firewall.
 
-At governance publication source frontier `874b0b3745d1528098956bb499c8de82ee3d79b7`, source introspection registers 121 native tools. Recorded complete Runtime qualification: 513 collected / 512 passed / 0 failed / 1 conditional skip.
+At RES mechanism source frontier `8714dd87d2092e0f4c66f261fcf5cee8b75a0798`, source introspection registers **126 native tools**. Recorded complete Runtime qualification: **556 collected / 555 passed / 0 failed / 1 conditional skip**. Dedicated RES pressure: **43/43 PASS**. The ICF-CS release surface was intentionally not edited; universal RES ingress remains a separate doctrine-authority decision.
 
 This section describes the engineering repository, **not a new packaged release identity**. `VERSION` and `RELEASE.json` continue to identify the last packaged V29 release candidate until a separate release/promotion process earns a successor.
 

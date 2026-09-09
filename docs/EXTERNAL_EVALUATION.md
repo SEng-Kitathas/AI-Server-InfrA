@@ -12,9 +12,9 @@ git status --short --branch
 git remote -v
 ```
 
-The source frontier immediately before this evaluation-documentation refresh is:
+The latest mechanism frontier immediately before this evaluation-documentation refresh is:
 
-`874b0b3745d1528098956bb499c8de82ee3d79b7`
+`8714dd87d2092e0f4c66f261fcf5cee8b75a0798`
 
 Do not substitute a continuity checkpoint, report timestamp, V29 package version, or deployed-process identity for Git source identity.
 
@@ -51,7 +51,7 @@ The project-local packaged-runtime command surface is also available through `PC
 
 The canonical source body is `baseline/pcmmad_receiver/` and the native registry is assembled by `lab_tools.py` plus its family modules.
 
-At source frontier `874b0b3...`, source introspection returns **121 registered native tools**. The five newest governance tools are:
+At the RES mechanism frontier, source introspection returns **126 registered native tools**. The five governance tools remain, and five RES tools are added to the existing `continuity` family:
 
 ```text
 governance.contacts.resolve
@@ -59,11 +59,22 @@ governance.contacts.admit
 governance.exhaustion.enumerate
 governance.exhaustion.evaluate_table
 governance.exhaustion.compress_witnesses
+continuity.res.addendum.validate
+continuity.res.addenda.project
+continuity.res.snapshot.validate
+continuity.res.materiality.classify
+continuity.res.handoff.readiness
 ```
 
-The compact imported action schema remains a deliberately smaller transport surface. Do not treat the compact operation count as the Runtime capability count.
+The RES tools are read-only/authority-neutral. Durable RES writes reuse project/protocol/artifact mutation machinery; there is no RES database, scheduler, daemon, or authority plane. The compact imported action schema remains a deliberately smaller transport surface. Do not treat the compact operation count as the Runtime capability count.
 
 ## 5. Run the most relevant focused tests
+
+RES continuity mechanics:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q tests/test_res_runtime.py tests/test_res_runtime_hostile.py
+```
 
 Governance mechanics:
 
@@ -108,38 +119,42 @@ Then run the complete suite. Focused green is not a substitute for whole-Runtime
 
 For the latest major integrations:
 
-1. `reports/V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md`
-2. `reports/V30_RUNTIME_OBSERVABILITY_HUD_2026-09-09.md`
-3. `reports/V30_ASYNC_12_WORKER_AND_SUBMITTED_RECOVERY_2026-09-09.md`
-4. `reports/V30_SKILL_DYNO_TELEMETRY_AND_GIT_TAXONOMY_2026-09-09.md`
-5. `reports/V30_T0_2_REHYDRATION_DOGFOOD_RUNTIME_REPAIRS_2026-09-08.md`
-6. `reports/V30_SERVER_HARDENING_AND_OPERATOR_COCKPIT_2026-09-08.md`
-7. `reports/V30_WHOLE_RUNTIME_CONVERGENCE_2026-09-08.md`
+1. `reports/V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md`
+2. `reports/V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md`
+3. `reports/V30_RUNTIME_OBSERVABILITY_HUD_2026-09-09.md`
+4. `reports/V30_ASYNC_12_WORKER_AND_SUBMITTED_RECOVERY_2026-09-09.md`
+5. `reports/V30_SKILL_DYNO_TELEMETRY_AND_GIT_TAXONOMY_2026-09-09.md`
+6. `reports/V30_T0_2_REHYDRATION_DOGFOOD_RUNTIME_REPAIRS_2026-09-08.md`
+7. `reports/V30_SERVER_HARDENING_AND_OPERATOR_COCKPIT_2026-09-08.md`
+8. `reports/V30_WHOLE_RUNTIME_CONVERGENCE_2026-09-08.md`
 
 Historical V28/V29 reports remain useful lineage evidence but should not be used as current capability counts.
 
 ## 7. Current qualification claim ceiling
 
-At the governance publication frontier, recorded source qualification was:
+At the RES mechanism frontier, recorded source qualification is:
 
-- governance hostile/positive suite: 57/57 PASS;
-- existing composition discriminator: 55/55 PASS;
-- combined focused source gate: 112/112 PASS;
-- complete Runtime: 513 collected / 512 passed / 0 failed / 1 conditional skip;
-- 4,096-case lawful-exhaustion smoke produced a 757,303-byte result retained server-side and successfully range-read in a bounded 2,048-byte slice.
+- dedicated RES policy/hostile suite: **43/43 PASS**;
+- focused RES/context/protocol/authority/governance composition gate: **176 collected / 175 passed / 0 failed / 1 conditional skip**;
+- complete Runtime: **556 collected / 555 passed / 0 failed / 1 conditional skip**;
+- exact epoch-42 RES snapshot: **22/22 canonical sections VALID**;
+- handoff-currentness smoke: `HANDOFF_READY -> HANDOFF_EPISTEMIC_CONTINUITY_INCOMPLETE -> HANDOFF_READY` only after a provenance-bound RES addendum;
+- 96-addendum projection: 62,418 bytes retained server-side via the existing bounded result mechanism.
 
-The campaign also found and repaired two pre-publication defects:
+The RES campaign caught and repaired multiple pre-publication defects/ambiguities: an unwired tool registration, normalized-content/file-byte hash ambiguity, and a stale-handoff path where a fresh but unrelated addendum could otherwise mask the latest material protocol event.
 
-1. a self-consistent but incomplete contact set could otherwise be re-signed after deleting a mandatory contact;
-2. a local-currentness recheck needed project-root confinement to avoid becoming an arbitrary host-file read.
-
-The important laws are:
+The important added laws are:
 
 ```text
-CONTACT_SET_DIGEST_VALID != CONTACT_SET_COMPLETE
-ADMISSION_REQUIRES_CURRENT_REDERIVATION
-LOCAL_RECHECK != ARBITRARY_HOST_FILE_READ
+IMPLEMENTATION_PRESENT != CAPABILITY_REGISTERED
+NORMALIZED_CONTENT_HASH != FILE_BYTE_IDENTITY
+FRESH_RES_ARTIFACT != MATERIAL_EVENT_COVERAGE
+RES_CONTENT != GOVERNING_DOCTRINE
+RES_HANDOFF_READY != PROJECT_MUTATION_AUTHORITY
+RUNTIME_RES_EMBODIMENT != ICF_CS_SUCCESSOR_RELEASE
 ```
+
+Earlier governance qualification and its contact-set/currentness laws remain valid ancestry evidence.
 
 ## 8. Source versus live deployment
 
@@ -162,9 +177,9 @@ These are not hidden as release-complete claims:
 
 - the final compact/schema redesign remains deliberately locked and has not been triggered;
 - UCM/memory componentization is a separately paused seam;
-- current doctrine-thread R4.4 doctrine-to-embodiment coverage work is upstream/in progress and is not silently represented as completed server work;
-- RES and other doctrine-state embodiment questions should be evaluated only after that coverage handoff is complete;
-- source publication does not itself grant donor doctrine authority.
+- the R4.4 doctrine-to-embodiment audit is complete and project-side RES is restored; the source now contains the pressure-earned RES continuity-policy seam;
+- ICF-CS v1.1 remains unchanged, and any additive successor/compatibility release that makes RES universal ingress is a separate doctrine-authority decision;
+- source publication does not itself grant donor doctrine authority or live-deploy the newest Runtime.
 
 ## 10. What a useful external evaluation should attack
 
@@ -179,6 +194,7 @@ High-value pressure includes:
 - constrained finite grammars that are incorrectly treated as independent Boolean bases;
 - evaluator failure accidentally collapsing into a valid unchanged result;
 - projection/HUD claims that outrun Runtime telemetry truth;
-- recovery surfaces that are stale relative to Git or worktree reality.
+- recovery surfaces that are stale relative to Git or worktree reality;
+- RES addendum deletion/re-sign, silent truth-state rewriting, missing provenance, stale RES at research handoff, unrelated addenda masking material events, or RES synthesis attempting to cross the doctrine-authority firewall.
 
 A failure that exposes a real semantic gap is more valuable than superficial conformance. Please report the exact commit, command, expected invariant, observed result, and any retained artifact/result identity.
