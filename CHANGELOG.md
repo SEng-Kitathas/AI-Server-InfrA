@@ -1,5 +1,26 @@
 # Changelog
 
+## V30 engineering main — 2026-09-09 (unpackaged / not implicitly live-promoted)
+
+Current `main` has advanced substantially beyond the V29 packaged release candidate. Major published engineering work includes:
+
+- project mutation ownership/exclusivity and generation fencing;
+- expected capability-contract digest binding with stale-contract rejection before consequence;
+- idempotency/response-loss hardening and explicit retry semantics;
+- Windows Job Object resource containment, workload identity, execution lifecycle, and recovery work;
+- T0.2 project rehydration and Git-grounding repairs;
+- async scheduler capacity and submitted-job recovery hardening;
+- Runtime observability and operator HUD telemetry;
+- Operating Library / Runtime boundary convergence without creating a duplicate state/scheduler/authority plane;
+- native governance-contact resolution/admission and finite lawful-exhaustion/evaluation/witness mechanics;
+- hostile governance pressure that exposed and repaired incomplete-contact re-signing and over-broad local-file recheck boundaries.
+
+At governance publication source frontier `874b0b3745d1528098956bb499c8de82ee3d79b7`, source introspection registers 121 native tools. Recorded complete Runtime qualification: 513 collected / 512 passed / 0 failed / 1 conditional skip.
+
+This section describes the engineering repository, **not a new packaged release identity**. `VERSION` and `RELEASE.json` continue to identify the last packaged V29 release candidate until a separate release/promotion process earns a successor.
+
+See `docs/EXTERNAL_EVALUATION.md` and `reports/README.md` for the current evaluation path and evidence index.
+
 ## V29.0.0-rc1 — Native PCMMAD Protocol
 
 - Deep-cross-referenced the surviving receiver, V28 parity anchor, unified standards, complete doctrine archive, and main/alternate CSC dumps.
