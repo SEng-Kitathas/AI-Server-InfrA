@@ -78,3 +78,11 @@ This file is a recovery-mirror qualification, not the engineering Git receipt. E
 - semantic real consequence: MiniLM 20 + Jina 20 hits, parsed success, rc=0;
 - auth/approval/HUD/informer seams closed at current claim ceiling;
 - live frozen `4163606459324feaa31252b3c2a6d58d73aaff46`; final schema last/untriggered; Skills/UCM separate/paused.
+
+## T0.2 REHYDRATION RUNTIME REPAIRS
+- engineering feature `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce` / tree `5742bc9b24f6f3973ef79bbbe27170c0153d6596`;
+- staged inventory `f93b9efcf9d7cd0d56df5444a2c56da5d155455c644d7b0720dc5f0bf9ebb61d`;
+- focused project/Git/ICF 21/21 PASS; full Runtime 441/440 PASS/0 FAIL/1 skip;
+- remote `main` independently verified at engineering feature before this recovery publication;
+- cold RECOVERY_ONLY credible, receipt `396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844`;
+- Skill canonical promotion NOT claimed; live/UCM/final-schema boundaries unchanged.

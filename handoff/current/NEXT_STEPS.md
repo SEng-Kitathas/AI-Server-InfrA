@@ -1,5 +1,22 @@
 # PCMMAD Receiver V30 — Next Steps
 
+## CURRENT FRONTIER POINTER — 2026-09-08
+
+**Authority note:** this pointer is the current bounded-recovery entrypoint. Historical sections below are preserved and may describe superseded frontiers. Exact Git/Runtime/deployment readback outranks stale historical prose.
+
+- Current engineering Git HEAD = remote `main`: `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce`; tree `5742bc9b24f6f3973ef79bbbe27170c0153d6596`; subject `Repair T0.2 rehydration runtime gaps`.
+- Previous recovery-only handoff `22a38e7b82994597616c87d6e3cb4aff4b3cb91d` / tree `a17fb715ae100c6528e01d68c5be8e81c9656d3e` is historical pending the next recovery mirror refresh.
+- Engineering worktree is **CLEAN / aligned with `origin/main`** after publication.
+- T0.2-triggered Runtime repairs are published: project context request imports, JSON boundary projection, nested Git `repo_path` grounding, staging-replica exclusion, and append-maintained ICF tail seeding.
+- Exact repair qualification: staged inventory `f93b9efcf9d7cd0d56df5444a2c56da5d155455c644d7b0720dc5f0bf9ebb61d`; focused project/Git/ICF **21/21 PASS**; full Runtime **441 collected / 440 passed / 0 failed / 1 conditional skip**.
+- Post-publication cold `RECOVERY_ONLY` is credible: native nested Git grounds `fb89bb1...`, remote matches, worktree clean, rehydrate handle `res-6d0916afa1a0`, tail seed current, staging replicas excluded. Receipt SHA `396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844`.
+- Runtime catalog readback remains **116 native tools / 18 families**; compact imported action surface remains 30 operations.
+- Desktop live deployment is directly identifiable as `29.0.0-rc1-native-protocol`; deployed copy has **no `.git` metadata**, so live Git commit identity remains UNKNOWN from the live plane. Historical continuity freeze pointer `4163606459324feaa31252b3c2a6d58d73aaff46` is evidence, not fresh live-Git proof.
+- T0.2 Skill semantics remain qualified by dogfood, but canonical Skill promotion is still blocked by the source package's manifested `__pycache__/*.pyc`; disposable bytecode-free repair passes verifier + semantics + hostile suite. Skill thread owns the canonical repair.
+- Skills remain separately governed. UCM/memory refactor/import remains paused.
+- Final schema remains **LAST / LOCKED / untriggered**; exact trigger `hells yeah, ready` has not been given.
+- Immediate server-thread action: refresh/publish recovery-only Git handoff from these current surfaces, then stop mutation and await fresh evidence or the repaired exact Skill package. No live promotion.
+
 ## A-042 publication queue — 2026-09-07
 
 | Priority | Action | Gate / done condition |

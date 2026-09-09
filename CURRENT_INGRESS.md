@@ -148,3 +148,16 @@ Latest Runtime engineering feature is `c22381b2f02302196f239d0b6205a8005e238177`
 - final schema remains LAST/LOCKED/untriggered;
 - Skills/UCM remain separate/paused; real memory not ingested;
 - paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
+
+## T0.2 rehydration Runtime repair publication frontier
+Latest engineering feature is `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce` / tree `5742bc9b24f6f3973ef79bbbe27170c0153d6596` (`Repair T0.2 rehydration runtime gaps`).
+
+- exact 9-file candidate inventory `f93b9efcf9d7cd0d56df5444a2c56da5d155455c644d7b0720dc5f0bf9ebb61d`;
+- full Runtime 441 collected / 440 passed / 0 failed / 1 conditional skip;
+- native nested Git repo grounding, context JSON projection/request imports, staging exclusion, and ICF tail-currentness repairs are published/remote-verified;
+- post-publication cold RECOVERY_ONLY receipt SHA `396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844`; native rehydrate handle `res-6d0916afa1a0`;
+- previous recovery-only HEAD `22a38e7b82994597616c87d6e3cb4aff4b3cb91d` is historical pending this recovery mirror commit;
+- Runtime remains 116 native tools / 18 families / compact 30 imported operations;
+- live deployment has no Git metadata; live Git commit identity UNKNOWN from live plane; no live promotion occurred;
+- T0.2 Skill canonical package remains blocked on manifested interpreter bytecode; Skill thread owns exact repair;
+- UCM/memory remains paused; final schema LAST/LOCKED/untriggered.

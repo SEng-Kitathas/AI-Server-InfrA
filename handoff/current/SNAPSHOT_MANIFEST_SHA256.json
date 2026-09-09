@@ -2,14 +2,16 @@
   "schema": "pcmmad.git-handoff-snapshot.v1",
   "project_id": "PCMMAD_RECEIVER_LAB",
   "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
-  "created_at": "2026-09-08T21:25:54.323518+00:00",
+  "created_at": "2026-09-09T01:33:15.947277+00:00",
   "authority_ceiling": "recovery mirror; fresh Git/project/runtime readback remains authoritative",
-  "engineering_feature_head": "c22381b2f02302196f239d0b6205a8005e238177",
-  "engineering_feature_tree": "ca5b6bda928e8ebbe3dbc02dccac072df16ced15",
-  "live_runtime_feature": "4163606459324feaa31252b3c2a6d58d73aaff46",
-  "hardening_status": "published and qualified; research auth closed; legacy inline default off; semantic dual-lane online; three-wing HUD embodied",
-  "paused_ucm_recovery_head": "26af5ef99426faf0ce6aae31439b614f1b0fe55c",
-  "next_step": "no known non-Skill/non-memory core engineering defect at current claim ceiling; keep live frozen; final schema last/untriggered; await fresh evidence or operator boundary change",
+  "engineering_feature_head": "fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce",
+  "engineering_feature_tree": "5742bc9b24f6f3973ef79bbbe27170c0153d6596",
+  "previous_recovery_head": "22a38e7b82994597616c87d6e3cb4aff4b3cb91d",
+  "post_publication_recovery_receipt_sha256": "396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844",
+  "live_runtime_git_identity": "UNKNOWN_FROM_DEPLOYED_COPY",
+  "live_continuity_freeze_pointer": "4163606459324feaa31252b3c2a6d58d73aaff46",
+  "t0_2_status": "Runtime repairs published; Skill semantic candidate qualified by dogfood; canonical Skill package blocked pending bytecode-free exact artifact",
+  "next_step": "publish this recovery mirror; then stop mutation and await repaired Skill package or fresh operator boundary change",
   "files": {
     "A042_ENGINEERING_QUALIFICATION_2026-09-07.md": {
       "bytes": 1521,
@@ -28,28 +30,28 @@
       "sha256": "90ba40b110dae5b4a533aba059aac483c60c92c4d6846b4286d1562871c0e44c"
     },
     "CURRENT_STATE.md": {
-      "bytes": 59466,
-      "sha256": "00dfe766861d5dfc0d43d943f00898a24b29e99df6a1141a90c596c3dee723e2"
+      "bytes": 62776,
+      "sha256": "08b999ac0571b4ce6896983a9c09bfe27ce7c1f06d646d5b003970c67d008039"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 211656,
-      "sha256": "688cc7e8257d8948ffcdccf825f458d444a916161c7cec71eb5845bada3d0137"
+      "bytes": 213423,
+      "sha256": "41ce8825ebf409fd6f7ca020971d7228c22b91e5550267370393ebb034e1c358"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 51351,
-      "sha256": "574bf09f92a37dcbf4abef6ec5c0799be20f5ddb903eb1dd72679d36e8a8362f"
+      "bytes": 51977,
+      "sha256": "5e04645213cdc8b2bf3b3233ce33e985086cf9719c485872ad65b30066d2770d"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
       "sha256": "ea3f4087401bf8c0902c28e190707a5f6bd0b1711813df62c1a9957d49bd58bb"
     },
     "GIT_PUBLICATION_CURRENT.md": {
-      "bytes": 28996,
-      "sha256": "f33a1c66c560bfe1111fb95a51aa4b98dbe83a9926745435025814b70479c2e2"
+      "bytes": 32306,
+      "sha256": "d25cd1ee6282e3869264c80fc2918550857144c4a5255a05dc7c45b411357fe5"
     },
     "HANDOFF_QUALIFICATION.md": {
-      "bytes": 5627,
-      "sha256": "75460bb971d8ea68d8e60e287fe1316407ed7fddab9e97d66da810b1e04276b2"
+      "bytes": 6242,
+      "sha256": "58edef69b3a143a6a65f67184dafa60ba2b55070bb547b419067b73bd3b80f69"
     },
     "ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md": {
       "bytes": 4656,
@@ -80,36 +82,40 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 32086,
-      "sha256": "5669a22cfdd9cdf1a1e0c0514fedecf75f6912ee5f6c1fa6e1af0c33e98b3dde"
+      "bytes": 35396,
+      "sha256": "f2e42393aac3c96d1b096c373507795179509f3d00c3c956e41b2451c6ab71bb"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 29577,
-      "sha256": "266d4346ca7fce62bcc198924f3b31faae819661190e62d6d2043054bdfaa286"
+      "bytes": 31683,
+      "sha256": "0b17852c8dfa33e84cdc1c70cb0d262d1fbfba97beead066682faee92134f7b5"
     },
     "NEXT_STEPS.md": {
-      "bytes": 40528,
-      "sha256": "fee3443f72b2a0323fc742148e7fdadfdaca26a224b58bbc5af25db4b52f7f99"
+      "bytes": 43104,
+      "sha256": "322c9d6c56f00a747abf456e0db277282c4beddf9f45ba6cb37dc22162c76650"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
       "sha256": "8101c4fa466ac97fdf311ac8970962fab45f8d3cbee15a3cea2fed894a386c21"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 60136,
-      "sha256": "f5ce0fe86378055ab40a9aab0cc0d95c9bb8c81891c3eafb6edc0c5f3ac43a33"
+      "bytes": 60730,
+      "sha256": "e1a19f0dcaafcc5bb57790f77f2330c337b8207e2ab0351bc56065bddf0dfcb6"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
       "sha256": "f55a9b7dd1960f5430d5d9612c89253be93775f92d9e123546383fd2f7f2c8e4"
     },
     "SERVER_HARDENING_SEMANTIC_COCKPIT_2026-09-08.md": {
-      "bytes": 3800,
-      "sha256": "b4df477d9c38d91ece2f814b2922b6abbbf4872f0a03dc388523643f70b369d4"
+      "bytes": 4534,
+      "sha256": "e5e099932e4447aa4679bc329b40396060ee4017de0deb3209cf20b60c7c4308"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 30270,
-      "sha256": "79063509a29421a7b66c8e849b09a568244272da43742b51774598ebcbb9af3f"
+      "bytes": 33580,
+      "sha256": "c64591e56d21e66efb40d27136f8a7bd472cb23abce66c1c153f42de5aefe958"
+    },
+    "T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md": {
+      "bytes": 9759,
+      "sha256": "3da0497229e1fdb03b99204f9e13f03d56ccb3031a9da475faa4591cf46e0c85"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -120,8 +126,8 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 72469,
-      "sha256": "bf8cef0a1f0a6a198f97198a9ba028e9fd5a789c5f9408d364a0c3a19045416b"
+      "bytes": 73442,
+      "sha256": "01c5f291fdd100b6d362ddf67d144f5f03374f75016cf3ed2b1855dcba321b2d"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,

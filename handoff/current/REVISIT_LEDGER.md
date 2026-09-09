@@ -336,3 +336,8 @@ Mark an item resolved only with explicit evidence and corresponding trace/readba
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
+
+## T0.2 remaining revisit — 2026-09-08
+- **P0 / OPEN:** Skill thread must emit an exact bytecode-free T0.2 package; server thread must rerun package verifier + 14 semantic tests + 19 hostile mutants + cold real-project dogfood before canonical Skill promotion.
+- **P1 / OPEN:** deployed live Runtime has no Git metadata; do not treat continuity live commit pointer as fresh live-Git proof. Revisit only at deliberate live-promotion/parity campaign.
+- **RESOLVED:** Runtime rehydration/nested-Git/currentness defects discovered by T0.2 dogfood are engineering-published at `fb89bb1...`.

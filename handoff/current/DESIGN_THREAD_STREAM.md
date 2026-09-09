@@ -4209,3 +4209,16 @@ Final pre-publication candidate: 23 files, inventory SHA `e2dcb52475bf5869b6f3eb
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
+
+## SERVER HARDENING RECOVERY HANDOFF — PUBLISHED (2026-09-08)
+- Recovery-only handoff commit `22a38e7b82994597616c87d6e3cb4aff4b3cb91d` / tree `a17fb715ae100c6528e01d68c5be8e81c9656d3e` is **PUBLISHED and REMOTE-VERIFIED** on `main`.
+- Parent/engineering feature remains `c22381b2f02302196f239d0b6205a8005e238177`; do not confuse recovery HEAD with Runtime feature HEAD.
+- Git handoff qualification: 12/12 PASS.
+- Remote `main` independently read back at `22a38e7b82994597616c87d6e3cb4aff4b3cb91d`.
+- Local `main` is aligned with `origin/main`; paused UCM recovery remains preserved on its separate local holding branch.
+- Live remains frozen; final schema remains LAST/LOCKED/untriggered; Skills/UCM stay separate/paused.
+
+## 2026-09-08 — T0.2 REAL-PROJECT DOGFOOD / RUNTIME REPAIR PUBLICATION
+Tags: DOGFOOD, FAILURE-ANALYSIS, EMBODIMENT, VERIFY, PUBLICATION
+
+T0.2 project-rehydration dogfood against PCMMAD_RECEIVER_LAB found four Runtime gaps: project request imports, typed-response JSON projection, nested Git repo grounding, and semantic-currentness/staging contamination. A separate packaging defect was also reproduced in the Skill candidate: manifested interpreter `.pyc` self-invalidates during verification. Runtime repair candidate independently qualified at 441/440 PASS/0 FAIL/1 skip, exact 9-file inventory `f93b9efc...`, then published as `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce` / tree `5742bc9b24f6f3973ef79bbbe27170c0153d6596` and remote-verified. Cold RECOVERY_ONLY after publication was credible and read-only; receipt SHA `396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844`. Skill canonical promotion remains blocked pending bytecode-free package from Skill thread. Live/UCM/final-schema boundaries unchanged.

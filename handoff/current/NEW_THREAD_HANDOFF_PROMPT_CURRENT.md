@@ -1,5 +1,15 @@
 Re-enter `PCMMAD_RECEIVER_LAB` from persisted project/worktree reality, not chat memory.
 
+## CURRENT ENTRYPOINT — T0.2 RUNTIME REPAIR PUBLICATION — 2026-09-08
+- Engineering feature HEAD / remote `main`: `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce`; tree `5742bc9b24f6f3973ef79bbbe27170c0153d6596`; `Repair T0.2 rehydration runtime gaps`.
+- Worktree clean/aligned after publication; full Runtime **441 collected / 440 passed / 0 failed / 1 conditional skip**.
+- Native nested Git `repo_path` grounding behavior-qualified; project context response projection/request imports repaired; ICF append-maintained anchors tail-seed; staging replicas excluded from default recovery.
+- Post-publication cold RECOVERY_ONLY receipt SHA `396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844`; native rehydrate handle `res-6d0916afa1a0`; stale continuity `22a38e7...` correctly demoted to historical against fresh Git.
+- Runtime remains 116 native tools / 18 families / compact imported 30 operations.
+- Live deployed copy has no `.git`; live Git commit identity UNKNOWN from live plane. Continuity freeze pointer `416360645...` is historical evidence only.
+- T0.2 Skill canonical package still blocked on manifested interpreter bytecode; disposable bytecode-free repair passed verifier + 14/14 semantics + 19/19 hostile. Skill thread owns canonical repair.
+- UCM/memory remains paused. Final schema remains LAST/LOCKED/untriggered. No live promotion.
+
 Mode: BUILD-COMMIT with RECOVERY/AUDIT readback.
 Role: R5 Reality Pressure Engine + R1 publication auditor.
 
@@ -240,3 +250,11 @@ Next action: verify current 23-file hashes/tests are unchanged, refresh Git-cont
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
+
+## SERVER HARDENING RECOVERY HANDOFF — PUBLISHED (2026-09-08)
+- Recovery-only handoff commit `22a38e7b82994597616c87d6e3cb4aff4b3cb91d` / tree `a17fb715ae100c6528e01d68c5be8e81c9656d3e` is **PUBLISHED and REMOTE-VERIFIED** on `main`.
+- Parent/engineering feature remains `c22381b2f02302196f239d0b6205a8005e238177`; do not confuse recovery HEAD with Runtime feature HEAD.
+- Git handoff qualification: 12/12 PASS.
+- Remote `main` independently read back at `22a38e7b82994597616c87d6e3cb4aff4b3cb91d`.
+- Local `main` is aligned with `origin/main`; paused UCM recovery remains preserved on its separate local holding branch.
+- Live remains frozen; final schema remains LAST/LOCKED/untriggered; Skills/UCM stay separate/paused.

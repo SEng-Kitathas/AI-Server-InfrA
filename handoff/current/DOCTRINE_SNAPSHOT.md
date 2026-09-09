@@ -654,3 +654,13 @@ This block does not assert token presence or absence. It remains semantically va
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
+
+## T0.2 dogfood doctrine delta — 2026-09-08
+- `ADVERTISED_CAPABILITY != BEHAVIOR_QUALIFIED_CAPABILITY`.
+- `INTERNAL_TYPED_RESPONSE != ROUTER_JSON_PROJECTION`.
+- `PROJECT_ROOT != NECESSARILY_GIT_REPO_ROOT`.
+- `REPO_PATH_MUST_REMAIN_PROJECT_SCOPED`.
+- `FRESH_FILE_BYTES != CURRENT_SEMANTIC_WINDOW`.
+- `INTERNAL_STAGING_REPLICA != RECOVERY_AUTHORITY`.
+- Bounded recovery must reconcile continuity with owning currentness planes; stale high-authority prose is historical evidence, not current truth.
+- Generated interpreter state (`__pycache__`, `*.pyc`, `*.pyo`) must not be part of a sealed portable Skill payload.

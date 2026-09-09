@@ -51,3 +51,11 @@ Status: **PUBLISHED / REMOTE-VERIFIED / ENGINEERING QUALIFIED / LIVE FROZEN**
 - Live promotion/parity is a deliberate release action, not an engineering defect; keep frozen until operator changes that boundary.
 - Final schema remains the last campaign behind exact trigger `hells yeah, ready`.
 - Any new engineering work should begin from fresh evidence rather than stale roadmap items.
+
+## SERVER HARDENING RECOVERY HANDOFF — PUBLISHED (2026-09-08)
+- Recovery-only handoff commit `22a38e7b82994597616c87d6e3cb4aff4b3cb91d` / tree `a17fb715ae100c6528e01d68c5be8e81c9656d3e` is **PUBLISHED and REMOTE-VERIFIED** on `main`.
+- Parent/engineering feature remains `c22381b2f02302196f239d0b6205a8005e238177`; do not confuse recovery HEAD with Runtime feature HEAD.
+- Git handoff qualification: 12/12 PASS.
+- Remote `main` independently read back at `22a38e7b82994597616c87d6e3cb4aff4b3cb91d`.
+- Local `main` is aligned with `origin/main`; paused UCM recovery remains preserved on its separate local holding branch.
+- Live remains frozen; final schema remains LAST/LOCKED/untriggered; Skills/UCM stay separate/paused.

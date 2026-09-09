@@ -369,3 +369,9 @@ This block does not assert token presence or absence. It remains semantically va
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
+
+## T0.2 dogfood trace — 2026-09-08
+| Artifact / Claim | Upstream evidence | Embodiment | Verification | Status | Demotion trigger |
+|---|---|---|---|---|---|
+| T0.2-triggered Runtime recovery repairs | real-project dogfood + four reproduced defects | engineering feature `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce` / tree `5742bc9b24f6f3973ef79bbbe27170c0153d6596` | focused 21/21; full 441/440 PASS/0 FAIL/1 skip; remote readback exact; cold receipt `396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844` | load-bearing engineering feature | newer Git/tests/runtime evidence contradicts |
+| T0.2 Skill package semantically useful but not canonical | source package 14/14 semantics + 19/19 hostile; validator `.pyc` self-invalidation reproduced | disposable bytecode-free package repair only | repaired verifier PASS + semantics/hostile PASS | provisional Skill candidate | Skill thread returns exact repaired artifact and server dogfood fails/passes |
