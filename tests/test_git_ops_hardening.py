@@ -97,6 +97,32 @@ class GitOpsHardeningTests(unittest.TestCase):
             self.assertEqual(result["repo_identity"]["repo_path"], "nested/repo")
             self.assertEqual(Path(result["repo_identity"]["repo_root"]), repo.resolve())
 
+    def test_git_read_tools_return_typed_failure_for_missing_nested_repo(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = _registry_for(root)
+            for name in ("git.status", "git.diff"):
+                with self.subTest(tool=name):
+                    result = registry[name]({"project_id": "x", "repo_path": "missing/repo"})
+                    self.assertFalse(result["ok"])
+                    self.assertFalse(result["repo_grounded"])
+                    self.assertEqual(result["error_code"], "GIT_REPO_INVALID")
+                    self.assertEqual(result["status"], "FAILED")
+                    self.assertIsNone(result["return_code"])
+                    self.assertIn("does not exist", result["error"])
+
+    def test_git_read_tools_return_typed_failure_for_file_repo_path(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "not-a-dir").write_text("x", encoding="utf-8")
+            registry = _registry_for(root)
+            for name in ("git.status", "git.diff"):
+                with self.subTest(tool=name):
+                    result = registry[name]({"project_id": "x", "repo_path": "not-a-dir"})
+                    self.assertFalse(result["ok"])
+                    self.assertFalse(result["repo_grounded"])
+                    self.assertEqual(result["error_code"], "GIT_REPO_INVALID")
+
     def test_git_status_returns_envelope_even_outside_repo(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

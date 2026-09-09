@@ -85,6 +85,23 @@ def _git_repo_probe(
         raise dep.error_cls("BAD_REQUEST", "project_id is required", 400)
     project_root = dep.get_project_root(project_id).resolve()
     root = dep.resolve_cwd(project_id, repo_path or ".").resolve()
+    if not root.exists() or not root.is_dir():
+        return root, None, {
+            "ok": False,
+            "status": "FAILED",
+            "return_code": None,
+            "project_id": project_id,
+            "project_root": str(project_root),
+            "requested_repo_path": repo_path or ".",
+            "requested_repo_root": str(root),
+            "repo_grounded": False,
+            "error_code": "GIT_REPO_INVALID",
+            "error": "requested repository path does not exist or is not a directory",
+            "stderr": "",
+            "stderr_truncated": False,
+            "stdout": "",
+            "stdout_truncated": False,
+        }
     top_probe = _git_envelope(root, ["git", "rev-parse", "--show-toplevel"])
     if not top_probe.get("ok"):
         failure = dict(top_probe)
