@@ -30,7 +30,7 @@ if ($LASTEXITCODE -ne 0) { throw "pip upgrade failed." }
 & $VenvPython -m pip install -r $Requirements
 if ($LASTEXITCODE -ne 0) { throw "Dependency installation failed." }
 
-& $VenvPython -c "import flask, requests, bs4; print('PCMMAD Python dependencies OK')"
+& $VenvPython -c "import flask, requests, bs4, psutil, prometheus_client, waitress; print('PCMMAD Python dependencies + observability OK')"
 if ($LASTEXITCODE -ne 0) { throw "Dependency import verification failed." }
 
 $key = [Environment]::GetEnvironmentVariable("GITHOME_API_KEY", "User")

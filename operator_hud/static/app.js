@@ -21,6 +21,54 @@ function setLamp(id,mode){const el=$(id);el.className=`lamp ${mode}`;}
 function fmtTime(ts){if(!ts)return '';return new Date(ts*1000).toLocaleTimeString();}
 function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function uid(){return `ui-${Date.now()}-${Math.random().toString(16).slice(2,8)}`;}
+function fmtBytes(value){
+  const n=Number(value);if(!Number.isFinite(n)||n<0)return '—';
+  const units=['B','KiB','MiB','GiB','TiB'];let x=n,i=0;while(x>=1024&&i<units.length-1){x/=1024;i++;}
+  return `${x>=100||i===0?x.toFixed(0):x>=10?x.toFixed(1):x.toFixed(2)} ${units[i]}`;
+}
+function fmtPercent(value,digits=1){const n=Number(value);return Number.isFinite(n)?`${n.toFixed(digits)}%`:'—';}
+function sparkSvg(values){
+  const rows=values.map(Number).filter(Number.isFinite);if(rows.length<2)return '<svg viewBox="0 0 100 30" preserveAspectRatio="none"><line class="spark-base" x1="0" y1="15" x2="100" y2="15"/></svg>';
+  const min=Math.min(...rows),max=Math.max(...rows),span=max-min||1;
+  const points=rows.map((v,i)=>`${(i/(rows.length-1)*100).toFixed(2)},${(27-((v-min)/span)*24).toFixed(2)}`).join(' ');
+  return `<svg viewBox="0 0 100 30" preserveAspectRatio="none"><line class="spark-base" x1="0" y1="27" x2="100" y2="27"/><polyline class="spark-path" points="${points}"/></svg>`;
+}
+function setSpark(id,values,severity='nominal'){const el=$(id);if(!el)return;el.className=`sparkline ${severity}`;el.innerHTML=sparkSvg(values);}
+
+function renderTelemetry(t){
+  const exec=t?.execution||{},g=exec.global||{},proc=t?.process||{},sys=t?.system||{},http=t?.http||{},server=t?.server||{},scheduler=t?.scheduler||{};
+  const pill=$('telemetryState');const severity=String(t?.severity||(!t?.ok?'warning':'nominal'));
+  if(pill){pill.className=`state-pill ${severity==='critical'?'bad':severity==='warning'?'degraded':t?.ok?'good':'unknown'}`;pill.textContent=t?.ok?(severity==='critical'?'ALERT':severity==='warning'?'ATTENTION':'NOMINAL'):'TELEMETRY DEGRADED';}
+  const running=Number(g.running||0),limit=Number(g.global_limit||0),queued=Number(g.queued||0),util=limit>0?running/limit:null;
+  $('telemetryWorkers').textContent=limit>0?`${running} / ${limit}`:`${running} / ∞`;
+  $('telemetryWorkerSub').textContent=util!==null?`${(util*100).toFixed(0)}% utilized · loaded capacity`:'unbounded loaded capacity';
+  $('telemetryQueue').textContent=String(queued);
+  const oldest=g.oldest_queued_age_seconds;$('telemetryQueueSub').textContent=oldest==null?'no queued work':`oldest ${Number(oldest).toFixed(1)} s`;
+  const p95=http.latency_ms?.p95;$('telemetryP95').textContent=p95==null?'—':`${Number(p95).toFixed(p95>=1000?0:1)} ms`;
+  $('telemetryHttpSub').textContent=`${Number(http.request_count||0)} req · ${Number(http.client_error_count||0)} 4xx`;
+  $('telemetryRss').textContent=fmtBytes(proc.rss_bytes);$('telemetryRssSub').textContent=`USS ${fmtBytes(proc.uss_bytes)}`;
+  $('telemetryCpu').textContent=fmtPercent(proc.cpu_percent);
+  $('telemetryHostCpu').textContent=fmtPercent(sys.cpu_percent);
+  $('telemetryHostMem').textContent=fmtPercent(sys.memory_percent);
+  $('telemetryStorage').textContent=`${fmtBytes(sys.storage?.free_bytes)} free`;
+  $('telemetryHandles').textContent=proc.handles??'—';
+  $('telemetryThreads').textContent=proc.threads??'—';
+  $('telemetryDescriptors').textContent=`${proc.connections??'—'} / ${proc.open_files??'—'}`;
+  $('telemetryHttpWorkers').textContent=server.worker_threads!=null?`${server.active_workers??0} / ${server.worker_threads}`:`${server.implementation||'unbound'}`;
+  $('telemetryHttpQueuePeak').textContent=server.queue_peak??'—';
+  $('telemetryRpm').textContent=Number.isFinite(Number(http.requests_per_minute))?Number(http.requests_per_minute).toFixed(1):'—';
+  $('telemetry5xx').textContent=fmtPercent(Number(http.server_error_rate||0)*100,2);
+  $('telemetryScheduler').textContent=`${scheduler.thread_alive?'SCHED ✓':'SCHED !'} · ${scheduler.watcher_alive?'WATCH ✓':'WATCH !'}`;
+  const alerts=Array.isArray(t?.alerts)?t.alerts:[];
+  $('telemetryAlerts').innerHTML=alerts.length?alerts.map(a=>`<span class="telemetry-alert-chip ${escapeHtml(a.severity||'warning')}">${escapeHtml(a.code||'ALERT')} · ${escapeHtml(a.message||'')}</span>`).join(''):'<span class="telemetry-alert-chip nominal">NO ACTIVE INTEGRITY ALARMS</span>';
+  const deps=t?.dependencies||{};
+  $('telemetryDependencies').textContent=`psutil ${deps.psutil||'—'} · Prometheus ${deps.prometheus_client||'—'} · Waitress ${deps.waitress||'—'} · py-spy ${deps.py_spy_available?(deps.py_spy||'available'):'on-demand unavailable'}`;
+  const hist=Array.isArray(t?.history)?t.history:[];
+  setSpark('telemetryWorkerSpark',hist.map(x=>Number(x.worker_utilization||0)*100),severity);
+  setSpark('telemetryQueueSpark',hist.map(x=>Number(x.queued||0)),queued>0?'warning':'nominal');
+  setSpark('telemetryP95Spark',hist.map(x=>x.http_p95_ms).filter(x=>x!=null),p95!=null&&Number(p95)>=2000?'warning':'nominal');
+  setSpark('telemetryRssSpark',hist.map(x=>x.rss_bytes).filter(x=>x!=null),'nominal');
+}
 
 function renderCockpitStatus(data){
   const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
@@ -70,7 +118,7 @@ function renderStatus(data){
   else if(corePartiallyAlive){g.className='state-pill degraded';g.textContent='CORE DEGRADED';}
   else{g.className='state-pill bad';g.textContent='CONTROL PLANE DOWN';}
   $('lastRefresh').textContent=`checked ${now()} · ${data.latency_ms??'?'} ms`;
-  renderCockpitStatus(data); renderSessions(sessions); renderEvents(data.events||[]);
+  renderCockpitStatus(data); renderTelemetry(data.telemetry||{}); renderSessions(sessions); renderEvents(data.events||[]);
 }
 
 async function refreshStatus(){

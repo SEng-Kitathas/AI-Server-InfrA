@@ -139,11 +139,21 @@ class ServerRuntimeConfig:
 
     host: str = "127.0.0.1"
     port: int = 5000
+    http_threads: int = 16
 
     @classmethod
     def from_env(cls) -> "ServerRuntimeConfig":
         host = os.environ.get("PCMMAD_BIND_HOST", "127.0.0.1").strip() or "127.0.0.1"
-        return cls(host=host, port=parse_port(os.environ.get("PCMMAD_BIND_PORT"), 5000))
+        threads = parse_optional_unbounded_int(
+            os.environ.get("PCMMAD_HTTP_THREADS"), 16, minimum=4
+        )
+        if threads is None:
+            raise RuntimeConfigurationError("PCMMAD_HTTP_THREADS must be a finite positive integer")
+        return cls(
+            host=host,
+            port=parse_port(os.environ.get("PCMMAD_BIND_PORT"), 5000),
+            http_threads=threads,
+        )
 
 
 @dataclass(frozen=True)

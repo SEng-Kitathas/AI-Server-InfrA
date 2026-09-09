@@ -38,6 +38,7 @@ BLUEPRINTS: tuple[BlueprintLoadSpec, ...] = (
     BlueprintLoadSpec("transfer_plane", "transfer_bp"),
     BlueprintLoadSpec("research_routes", "research_bp", required=False),
     BlueprintLoadSpec("context_routes", "context_bp", required=False),
+    BlueprintLoadSpec("observability", "observability_bp", required=False),
 )
 
 RUNTIME_STARTERS: tuple[RuntimeStartSpec, ...] = (

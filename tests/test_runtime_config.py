@@ -40,6 +40,16 @@ class RuntimeConfigTests(unittest.TestCase):
         self.assertEqual(config.global_concurrency, 12)
         self.assertIsNone(config.project_concurrency)
 
+    def test_http_control_pool_is_separate_and_defaults_to_sixteen_threads(self) -> None:
+        with patch.dict(os.environ, {}, clear=True):
+            config = ServerRuntimeConfig.from_env()
+        self.assertEqual(config.http_threads, 16)
+        with patch.dict(os.environ, {"PCMMAD_HTTP_THREADS": "24"}, clear=False):
+            self.assertEqual(ServerRuntimeConfig.from_env().http_threads, 24)
+        with patch.dict(os.environ, {"PCMMAD_HTTP_THREADS": "unbounded"}, clear=False):
+            with self.assertRaises(RuntimeConfigurationError):
+                ServerRuntimeConfig.from_env()
+
     def test_execution_resync_intervals_are_typed_and_clamped(self) -> None:
         with patch.dict(
             os.environ,

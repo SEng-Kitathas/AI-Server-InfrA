@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PCMMAD Operations HUD</title>
-  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260908-cockpit-v1">
+  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260909-observability-v1">
 </head>
 <body data-ui-tier="balanced">
 <div class="ambient-field" aria-hidden="true"></div>
@@ -115,6 +115,49 @@
         <div class="focus-rule"></div>
         <div class="panel-head"><div><div class="eyebrow">LIVE ACTIVITY</div><h2>Recent dispatches</h2></div><span class="muted">machine-truth receipts</span></div>
         <div id="recentActivity" class="activity-list center-stream"></div>
+      </section>
+
+      <section class="panel telemetry-panel" id="telemetryPanel">
+        <div class="panel-head telemetry-head">
+          <div><div class="eyebrow">ACTIVE TELEMETRY · RED + USE + SCHEDULER</div><h2>Runtime observability</h2></div>
+          <span id="telemetryState" class="state-pill unknown">GROUNDING</span>
+        </div>
+        <div class="telemetry-primary-grid">
+          <div class="telemetry-primary">
+            <span>EXECUTION WORKERS</span><strong id="telemetryWorkers">—</strong><small id="telemetryWorkerSub">loaded capacity</small>
+            <div id="telemetryWorkerSpark" class="sparkline" aria-label="execution worker utilization history"></div>
+          </div>
+          <div class="telemetry-primary">
+            <span>EXECUTION QUEUE</span><strong id="telemetryQueue">—</strong><small id="telemetryQueueSub">oldest queued age</small>
+            <div id="telemetryQueueSpark" class="sparkline" aria-label="execution queue history"></div>
+          </div>
+          <div class="telemetry-primary">
+            <span>HTTP P95</span><strong id="telemetryP95">—</strong><small id="telemetryHttpSub">5 minute RED window</small>
+            <div id="telemetryP95Spark" class="sparkline" aria-label="HTTP p95 latency history"></div>
+          </div>
+          <div class="telemetry-primary">
+            <span>RECEIVER RSS</span><strong id="telemetryRss">—</strong><small id="telemetryRssSub">USS —</small>
+            <div id="telemetryRssSpark" class="sparkline" aria-label="receiver memory history"></div>
+          </div>
+        </div>
+        <div class="telemetry-resource-grid">
+          <div><span>Receiver CPU</span><strong id="telemetryCpu">—</strong></div>
+          <div><span>Host CPU</span><strong id="telemetryHostCpu">—</strong></div>
+          <div><span>Host memory</span><strong id="telemetryHostMem">—</strong></div>
+          <div><span>Storage free</span><strong id="telemetryStorage">—</strong></div>
+          <div><span>Handles</span><strong id="telemetryHandles">—</strong></div>
+          <div><span>Threads</span><strong id="telemetryThreads">—</strong></div>
+          <div><span>Sockets / files</span><strong id="telemetryDescriptors">—</strong></div>
+          <div><span>HTTP workers</span><strong id="telemetryHttpWorkers">—</strong></div>
+          <div><span>HTTP queue peak</span><strong id="telemetryHttpQueuePeak">—</strong></div>
+          <div><span>Requests / min</span><strong id="telemetryRpm">—</strong></div>
+          <div><span>HTTP 5xx</span><strong id="telemetry5xx">—</strong></div>
+          <div><span>Scheduler / watcher</span><strong id="telemetryScheduler">—</strong></div>
+        </div>
+        <div class="telemetry-integrity">
+          <div><span class="eyebrow">INTEGRITY ALARMS</span><div id="telemetryAlerts" class="telemetry-alerts">Awaiting receiver evidence.</div></div>
+          <div><span class="eyebrow">INSTRUMENTATION</span><div id="telemetryDependencies" class="telemetry-deps">Dependency readback pending.</div></div>
+        </div>
       </section>
 
       <section class="panel center-guidance">
@@ -250,6 +293,6 @@
   </div>
 </div>
 <div id="toast" class="toast hidden" aria-live="polite"></div>
-<script src="/static/app.js?v=ops-hud-20260908-cockpit-v1"></script>
+<script src="/static/app.js?v=ops-hud-20260909-observability-v1"></script>
 </body>
 </html>

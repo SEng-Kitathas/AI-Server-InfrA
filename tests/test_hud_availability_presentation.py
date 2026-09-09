@@ -31,8 +31,11 @@ class HudAvailabilityPresentationTests(unittest.TestCase):
 
     def test_optional_browser_down_keeps_core_ready(self) -> None:
         def receiver_request(path, method="GET", payload=None, timeout=5.0):
-            self.assertEqual(path, "/lab/tools")
-            return 200, {"ok": True, "count": 100, "tools": []}
+            if path == "/lab/health":
+                return 200, {"ok": True, "status": "ok", "tool_count": 100, "execution_readiness": {}}
+            if path == "/observability/telemetry":
+                return 200, {"ok": True, "status": "available", "process": {}, "system": {}, "http": {}, "server": {}, "dependencies": {}}
+            self.fail(f"unexpected receiver status path: {path}")
 
         with patch.object(self.hud, "receiver_request", side_effect=receiver_request), patch.object(
             self.hud,
@@ -73,8 +76,29 @@ class HudAvailabilityPresentationTests(unittest.TestCase):
         body = response.get_json()
         self.assertFalse(body["readiness"]["core_ready"])
         self.assertFalse(body["readiness"]["required"]["receiver"])
-        self.assertEqual(body["readiness"]["optional_degraded"], [])
+        self.assertEqual(body["readiness"]["optional_degraded"], ["observability"])
         self.assertEqual(body["readiness"]["status"], "degraded")
+
+    def test_observability_down_is_optional_not_core_failure(self) -> None:
+        def receiver_request(path, method="GET", payload=None, timeout=5.0):
+            if path == "/lab/health":
+                return 200, {"ok": True, "status": "ok", "tool_count": 100, "execution_readiness": {}}
+            if path == "/observability/telemetry":
+                return 503, {"ok": False, "error_code": "OBS_DOWN"}
+            self.fail(f"unexpected receiver status path: {path}")
+
+        with patch.object(self.hud, "receiver_request", side_effect=receiver_request), patch.object(
+            self.hud, "bridge_request", return_value=(502, {"ok": False, "error": "bridge unavailable"})
+        ), patch.dict(
+            self.hud.JOURNAL_STATE, {"ok": True, "load_integrity_ok": True, "write_ok": True}
+        ):
+            response = self.client.get("/api/status", headers={"Host": "localhost"})
+
+        body = response.get_json()
+        self.assertTrue(body["readiness"]["core_ready"])
+        self.assertEqual(set(body["readiness"]["optional_degraded"]), {"browser_bridge", "observability"})
+        self.assertFalse(body["observability"]["required_for_core"])
+        self.assertFalse(body["telemetry"]["ok"])
 
     def test_api_tools_preserves_native_availability_verbatim(self) -> None:
         availability = {

@@ -463,3 +463,84 @@ button:focus-visible { outline: 2px solid rgba(119,184,255,.74); outline-offset:
   :root { --line: rgba(205,224,244,.48); --line-strong: rgba(230,242,255,.75); --muted: #b7c6d7; }
   .panel, .service-card, .wing, .command-dock { backdrop-filter: none; }
 }
+
+/* Runtime observability: RED + USE + scheduler integrity projection. */
+.telemetry-panel { overflow: hidden; }
+.telemetry-head { align-items: center; }
+.telemetry-primary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+.telemetry-primary {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(126, 173, 224, .17);
+  border-radius: 10px;
+  background: rgba(8, 16, 27, .48);
+}
+.telemetry-primary > span,
+.telemetry-resource-grid span {
+  display: block;
+  color: #8299b2;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.telemetry-primary > strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 20px;
+  letter-spacing: -.035em;
+}
+.telemetry-primary > small { color: var(--muted); font-size: 10px; }
+.sparkline { height: 30px; margin-top: 6px; opacity: .88; }
+.sparkline svg { width: 100%; height: 30px; display: block; overflow: visible; }
+.sparkline .spark-base { stroke: rgba(133, 170, 211, .13); stroke-width: 1; }
+.sparkline .spark-path { fill: none; stroke: var(--cyan); stroke-width: 1.8; vector-effect: non-scaling-stroke; }
+.sparkline.warning .spark-path { stroke: var(--yellow); }
+.sparkline.critical .spark-path { stroke: var(--red); }
+.telemetry-resource-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+}
+.telemetry-resource-grid > div {
+  min-width: 0;
+  padding: 8px 9px;
+  border-left: 2px solid rgba(111, 176, 236, .20);
+  background: rgba(12, 21, 34, .37);
+}
+.telemetry-resource-grid strong { display: block; margin-top: 2px; font-size: 12px; overflow-wrap: anywhere; }
+.telemetry-integrity {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 8px;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(126, 173, 224, .12);
+}
+.telemetry-alerts, .telemetry-deps { margin-top: 5px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+.telemetry-alert-chip {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 5px 5px 0;
+  padding: 3px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(19, 31, 47, .54);
+}
+.telemetry-alert-chip.warning { color: #ffda87; border-color: rgba(241, 198, 101, .28); background: rgba(70, 53, 17, .45); }
+.telemetry-alert-chip.critical { color: #ffb2bc; border-color: rgba(255, 119, 134, .30); background: rgba(66, 27, 37, .52); }
+.telemetry-alert-chip.nominal { color: #9af0bf; border-color: rgba(71, 206, 132, .24); background: rgba(22, 67, 45, .42); }
+
+@media (max-width: 1250px) {
+  .telemetry-primary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .telemetry-resource-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .telemetry-primary-grid, .telemetry-resource-grid, .telemetry-integrity { grid-template-columns: 1fr; }
+}
