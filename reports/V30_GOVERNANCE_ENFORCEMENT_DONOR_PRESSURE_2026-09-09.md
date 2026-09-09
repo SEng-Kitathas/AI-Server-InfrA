@@ -1,6 +1,6 @@
 # V30 Governance Enforcement Donor Pressure Campaign — 2026-09-09
 
-Status: **SOURCE ENGINEERING QUALIFIED / PUBLICATION PENDING**
+Status: **ENGINEERING FEATURE PUBLISHED / REMOTE-VERIFIED / LIVE UNCHANGED**
 
 ## Intent
 
@@ -169,3 +169,19 @@ Preserve:
 ## Next gate
 
 Inspect exact candidate bytes/diff/EOL hygiene, publish engineering source only if the sealed candidate remains green, and independently read back remote `main`. Live reload/promotion remains separately gated.
+
+## Post-publication readback
+
+Engineering feature commit: `bfdc7f8b5df5abb07584d010ef6a8c0ff1d5f428`
+
+Tree: `cf8fd6f992471f93b78d78f36d7328d745caff07`
+
+Parent: `d136695c9493bb0668ab4fbf50f7557281e58768`
+
+Subject: `Add native governance enforcement mechanics`
+
+Remote `origin/main` was independently read back at the exact feature commit after push.
+
+Candidate inventory SHA-256: `6252187c7b559990c943e1e396f3cc7d3aceabe2195bc2e679b743aec4637f4a`.
+
+No live receiver restart/reload or live doctrine promotion occurred.
