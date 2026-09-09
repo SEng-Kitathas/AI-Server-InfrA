@@ -318,6 +318,8 @@ def _artifact_class_from_path(path: Path) -> str:
         return "continuity.live_shadow"
     if "continuity" in parts and "design_thread_stream" in parts:
         return "continuity.design_thread_stream"
+    if "continuity" in parts and "research_epistemic_shadow" in parts:
+        return "continuity.research_epistemic_shadow"
     if "checkpoints" in parts:
         return "continuity.checkpoint"
     if "notes" in parts and "maintenance" in parts:
@@ -353,6 +355,7 @@ ARTIFACT_PRIORS = MappingProxyType(
         "state.revisit_ledger": 3.3,
         "state.trace_matrix": 3.2,
         "continuity.live_shadow": 3.1,
+        "continuity.research_epistemic_shadow": 3.05,
         "continuity.design_thread_stream": 3.0,
         "continuity.checkpoint": 2.5,
         "notes.maintenance": 1.6,

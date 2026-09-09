@@ -65,6 +65,8 @@ ARCHIVE_EXTENSIONS = frozenset({".zip", ".tar", ".tgz", ".gz", ".7z"})
 BASE_DIRS = (
     "continuity/live_shadow",
     "continuity/design_thread_stream",
+    "continuity/research_epistemic_shadow",
+    "continuity/research_epistemic_shadow/addenda",
     "state/current",
     "state/next_steps",
     "state/doctrine_snapshot",
@@ -95,6 +97,7 @@ ARTIFACT_RELATIVE_MAP = MappingProxyType(
     {
         "continuity.live_shadow": Path("continuity/live_shadow"),
         "continuity.design_thread_stream": Path("continuity/design_thread_stream"),
+        "continuity.research_epistemic_shadow": Path("continuity/research_epistemic_shadow"),
         "continuity.checkpoint": Path("checkpoints"),
         "state.current": Path("state/current"),
         "state.next_steps": Path("state/next_steps"),

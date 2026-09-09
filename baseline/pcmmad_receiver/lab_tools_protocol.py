@@ -314,7 +314,7 @@ def _register_constraint_and_continuity_tools(
 
     @context.register_tool(
         "protocol.continuity.record",
-        "Record live-shadow, design-thread, revisit, doctrine, trace, memory, or maintenance continuity.",
+        "Record live-shadow, design-thread, research-epistemic-shadow, revisit, doctrine, trace, memory, or maintenance continuity.",
         "medium",
         category="protocol",
         tags=["pcmmad", "continuity", "state"],

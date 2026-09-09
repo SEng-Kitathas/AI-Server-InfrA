@@ -74,6 +74,7 @@ from lab_tools_doctrine import register_doctrine_tools
 from lab_tools_governance import register_governance_tools
 from lab_tools_protocol import register_protocol_tools
 from lab_tools_continuity import register_continuity_tools
+from lab_tools_res import register_res_tools
 from lab_tools_memory import register_memory_tools
 from lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
 from project_mutation_authority import project_mutation_authority_context
@@ -1104,6 +1105,11 @@ register_continuity_tools(
     resolve_target=resolve_target,
     commits_ledger_path_for=commits_ledger_path_for,
     sha256_file=sha256_file,
+)
+
+register_res_tools(
+    register_tool,
+    error_cls=LabToolError,
 )
 
 register_memory_tools(
