@@ -71,6 +71,7 @@ from lab_tools_ops import register_ops_tools
 from lab_tools_sop import register_sop_tools
 from lab_tools_semantic import register_semantic_tools
 from lab_tools_doctrine import register_doctrine_tools
+from lab_tools_governance import register_governance_tools
 from lab_tools_protocol import register_protocol_tools
 from lab_tools_continuity import register_continuity_tools
 from lab_tools_memory import register_memory_tools
@@ -1163,6 +1164,11 @@ register_semantic_tools(
 )
 
 register_doctrine_tools(
+    register_tool,
+    error_cls=LabToolError,
+)
+
+register_governance_tools(
     register_tool,
     error_cls=LabToolError,
 )
