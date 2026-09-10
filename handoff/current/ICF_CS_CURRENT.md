@@ -80,6 +80,10 @@ The fresh-instance orchestrator is engineering-published and remote-verified:
 Feature commit: `d926e2004b0a5794fb2934200091b836c0780104`
 Tree: `3f3f124f19a379c86e1232a3691319dcf77f3084`
 
+Current warfort hardening feature: `c858914a1a9abac5d29f1943e23fed1e54c516d0`
+Tree: `5b26071756f2798d9ed6f117490edf03f424eaa4`
+Parent: `ecd99d600783dde06da718160c3fa02655fc3897`
+
 It composes exact ICF-CS currentness, explicit RES/UCM applicability, required RES/UCM currentness, bounded project rehydration, and the owning-plane/live-readback next gate. Fresh Git/worktree/test/runtime readback still outranks this navigation pointer for consequence-bearing work.
 
 `SOURCE_QUALIFIED != LIVE_PROMOTED`
@@ -92,7 +96,9 @@ Published source qualification:
 - dedicated v1.2 ingress: **13/13 PASS**;
 - handoff/ingress/budget gate: **37/37 PASS**;
 - wider ICF/context/RES/UCM composition gate: **215 passed / 1 conditional skip / 0 failed**;
-- complete Runtime: **676 collected / 675 passed / 1 conditional skip / 0 failed**;
+- complete Runtime: **742 collected / 740 passed / 2 skips / 0 failed**;
+- warfort-specific pressure: **65 passed / 1 skipped / 17 property subtests**;
+- final four-worker loadscope/worksteal burns: **740 passed / 2 skipped / 103 subtests** each;
 - native candidate tool count: **158**;
 - compact 30-operation schema unchanged, SHA `132dff5967d7b45278d63da11e4ab87a72bd3fbd0507af3b652ffd34ee88787f`.
 

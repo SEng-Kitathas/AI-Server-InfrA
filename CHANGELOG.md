@@ -18,10 +18,11 @@ Current `main` has advanced substantially beyond the V29 packaged release candid
 - bounded canonical UCM derived-snapshot retention after private-scale pressure exposed ~452 MB amplification from a ~1.49 MB authoritative ledger;
 - ICF-CS v1.2 activation carrier and `continuity.ingress.rehydrate` fresh-instance orchestration across Live/DTS/RES/UCM with explicit applicability and owning-plane verification;
 - context-engine boundedness repair separating omitted default budget from explicit unbounded selection and capping single-file allocation to actual file size;
+- warfort consequence-boundary hardening across ICF/RES/UCM TOCTOU, UCM replay recovery, Windows namespace/inode identity, hardlinks, canonical JSON poison, ZIP extraction aliases, atomic replace contention, profile containment, and transfer file-object/content currentness;
 - hostile governance pressure that exposed and repaired incomplete-contact re-signing and over-broad local-file recheck boundaries;
 - hostile RES pressure covering canonical truth states, append/supersession currentness, provenance/evidence, 22-section snapshot shape, material-change cadence, handoff staleness, and the RES-to-doctrine authority firewall.
 
-At ICF-CS v1.2 fresh-ingress mechanism frontier `d926e2004b0a5794fb2934200091b836c0780104`, source introspection registers **158 native tools**. Recorded complete Runtime qualification: **676 collected / 675 passed / 0 failed / 1 conditional skip**. UCM focused qualification is **130/130 PASS**; v1.2 fresh-ingress is **13/13 PASS**; handoff/currentness/ingress/budget is **37/37 PASS**. ICF-CS v1.2 is now active continuity/process doctrine and is carried in `handoff/current/`; live Runtime promotion remains separate.
+At warfort hardening feature frontier `c858914a1a9abac5d29f1943e23fed1e54c516d0`, source introspection remains **158 native tools** while the complete Runtime qualification expands to **742 collected / 740 passed / 0 failed / 2 skips**. Dedicated warfort pressure is **65 passed / 1 skipped / 17 property subtests**, and final four-worker burns pass at **740 passed / 2 skipped / 103 subtests** under both loadscope and worksteal. ICF-CS v1.2 remains active continuity/process doctrine; live Runtime promotion remains separate.
 
 This section describes the engineering repository, **not a new packaged release identity**. `VERSION` and `RELEASE.json` continue to identify the last packaged V29 release candidate until a separate release/promotion process earns a successor.
 

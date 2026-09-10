@@ -1,6 +1,6 @@
 # V30 Warfort Battle-Hardening Campaign — 2026-09-09
 
-Status: **CANONICAL SOURCE QUALIFIED / PUBLICATION PENDING**
+Status: **ENGINEERING FEATURE PUBLISHED / REMOTE-VERIFIED / LIVE UNCHANGED**
 
 Base Git/source head:
 `ecd99d600783dde06da718160c3fa02655fc3897`
@@ -354,3 +354,12 @@ It does **not yet** earn at this report stage:
 - proof that no future hostile class exists.
 
 The campaign intentionally stops adding new feature surface here. Promotion requires exact-byte canonical port + independent sequential and parallel qualification.
+
+## Feature publication readback
+
+Engineering feature: `c858914a1a9abac5d29f1943e23fed1e54c516d0`
+Tree: `5b26071756f2798d9ed6f117490edf03f424eaa4`
+Parent: `ecd99d600783dde06da718160c3fa02655fc3897`
+Exact 21-file canonical candidate inventory SHA-256: `85bd846f5a829f9250602a27d9e8105f12b0816125be72258ee63b5e0c2535d8`.
+
+`origin/main` was independently read back at the exact feature after push. A later repository-front-door child updates current evaluation/navigation prose against this real feature identity. Live Runtime remains unreloaded.

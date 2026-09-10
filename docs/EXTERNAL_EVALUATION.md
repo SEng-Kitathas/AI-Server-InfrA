@@ -11,7 +11,7 @@ git remote -v
 ```
 
 Latest mechanism feature before the documentation refresh:
-`d926e2004b0a5794fb2934200091b836c0780104`
+`c858914a1a9abac5d29f1943e23fed1e54c516d0`
 
 Do not substitute a report/checkpoint/V29 package/live-process identity for Git source identity.
 
@@ -67,20 +67,21 @@ High-value focused gates:
 .\.venv\Scripts\python.exe -m pytest -q tests/test_governance_runtime.py tests/test_governance_runtime_hostile.py
 ```
 
-Then run the entire suite. Current source qualification at the mechanism frontier: **676 collected / 675 passed / 0 failed / 1 conditional skip**.
+Then run the entire suite. Current source qualification at the mechanism frontier: **742 collected / 740 passed / 0 failed / 2 skips**.
 
 ## 5. Read current evidence in order
 
-1. `reports/V30_ICF_CS_V1_2_FRESH_INSTANCE_INGRESS_2026-09-09.md`
-2. `reports/V30_UCM_V1_RUNTIME_INTEGRATION_2026-09-09.md`
-3. `reports/V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md`
-4. `reports/V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md`
-5. `reports/V30_RUNTIME_OBSERVABILITY_HUD_2026-09-09.md`
-6. `reports/V30_ASYNC_12_WORKER_AND_SUBMITTED_RECOVERY_2026-09-09.md`
-7. `reports/V30_SKILL_DYNO_TELEMETRY_AND_GIT_TAXONOMY_2026-09-09.md`
-8. `reports/V30_T0_2_REHYDRATION_DOGFOOD_RUNTIME_REPAIRS_2026-09-08.md`
-9. `reports/V30_SERVER_HARDENING_AND_OPERATOR_COCKPIT_2026-09-08.md`
-10. `reports/V30_WHOLE_RUNTIME_CONVERGENCE_2026-09-08.md`
+1. `reports/V30_WARFORT_BATTLE_HARDENING_2026-09-09.md`
+2. `reports/V30_ICF_CS_V1_2_FRESH_INSTANCE_INGRESS_2026-09-09.md`
+3. `reports/V30_UCM_V1_RUNTIME_INTEGRATION_2026-09-09.md`
+4. `reports/V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md`
+5. `reports/V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md`
+6. `reports/V30_RUNTIME_OBSERVABILITY_HUD_2026-09-09.md`
+7. `reports/V30_ASYNC_12_WORKER_AND_SUBMITTED_RECOVERY_2026-09-09.md`
+8. `reports/V30_SKILL_DYNO_TELEMETRY_AND_GIT_TAXONOMY_2026-09-09.md`
+9. `reports/V30_T0_2_REHYDRATION_DOGFOOD_RUNTIME_REPAIRS_2026-09-08.md`
+10. `reports/V30_SERVER_HARDENING_AND_OPERATOR_COCKPIT_2026-09-08.md`
+11. `reports/V30_WHOLE_RUNTIME_CONVERGENCE_2026-09-08.md`
 
 ## 6. Current qualification ceiling
 
@@ -92,7 +93,9 @@ Verified source evidence includes:
 - realistic private-scale synthetic UCM preserved 7,172-byte ingress while reducing derived profile storage from ~452 MB to ~3.98 MB;
 - ICF-CS v1.2 ingress: **13/13 PASS**;
 - handoff/currentness/ingress/budget: **37/37 PASS**;
-- full Runtime: **675 passed / 1 skipped / 0 failed**.
+- full Runtime: **740 passed / 2 skipped / 0 failed**;
+- warfort-specific adversarial suite: **65 passed / 1 skipped / 17 property subtests**;
+- final four-worker loadscope/worksteal burns: **740 passed / 2 skipped / 103 subtests** each.
 
 Important laws:
 
@@ -110,6 +113,12 @@ DEFAULT_BUDGET_OMITTED != EXPLICIT_UNBOUNDED
 UNBOUNDED_SELECTION_BUDGET != UNBOUNDED_SINGLE_READ_ALLOCATION
 SEARCH_HIT != CLAIM_SUPPORT
 SOURCE_QUALIFIED != LIVE_PROMOTED
+PATH_CONTAINMENT != INODE_OWNERSHIP
+CANONICAL_JSON != PYTHON_JSON_PERMISSIVENESS
+ZIP_MEMBER_STRING != WINDOWS_EXTRACTION_IDENTITY
+ATOMIC_REPLACE != SINGLE_REPLACE_SYSCALL_ON_WINDOWS
+PATH + SIZE + MTIME != FILE_CURRENTNESS
+TRANSFER_STAGE_PATH != TRANSFER_STAGE_OBJECT_IDENTITY
 ```
 
 ## 7. Source versus live deployment

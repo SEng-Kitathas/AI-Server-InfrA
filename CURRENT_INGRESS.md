@@ -29,7 +29,10 @@ Fresh Git/local/runtime readback remains required before consequence.
 ## Current engineering mechanism frontier
 
 Latest remote-verified mechanism feature before this documentation child:
-`d926e2004b0a5794fb2934200091b836c0780104` — `Embody ICF-CS v1.2 fresh-instance ingress`
+`c858914a1a9abac5d29f1943e23fed1e54c516d0` — `Battle-harden Runtime consequence boundaries`
+
+Tree: `5b26071756f2798d9ed6f117490edf03f424eaa4`
+Parent front-door/currentness frontier: `ecd99d600783dde06da718160c3fa02655fc3897`
 
 Tree: `3f3f124f19a379c86e1232a3691319dcf77f3084`
 Parent UCM feature: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
@@ -48,8 +51,28 @@ Current source qualification:
 - UCM focused gate: **130/130 PASS**;
 - v1.2 ingress: **13/13 PASS**;
 - handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- full Runtime: **676 collected / 675 passed / 0 failed / 1 conditional skip**;
-- exact v1.2 Runtime-embodiment feature inventory SHA `480919d3469fb610cdce3dce18753612f0c4270f0f122fed98c293c92d42ac56`.
+- full Runtime: **742 collected / 740 passed / 0 failed / 2 skips**;
+- warfort-specific suite: **65 passed / 1 skipped / 17 property subtests passed**;
+- final four-worker `loadscope` + `worksteal` burns: **740 passed / 2 skipped / 103 subtests passed** each;
+- exact warfort feature inventory SHA `85bd846f5a829f9250602a27d9e8105f12b0816125be72258ee63b5e0c2535d8`.
+
+## Warfort consequence boundaries
+
+Current source additionally fails closed on:
+- end-of-ingress ICF/RES/UCM TOCTOU drift;
+- UCM replay with stale derived snapshot;
+- equal-precedence identity/referent ambiguity;
+- multiple current collaboration contracts;
+- Windows case/device/trailing-dot namespace aliases;
+- project/filesystem/HTTP/legacy hardlink consequence escape;
+- NaN/Infinity/lone-surrogate/excess-depth UCM JSON;
+- Windows ZIP ADS/reserved-device/trailing-dot-space members;
+- transient Win32 atomic-replace contention;
+- transfer stage inode replacement/hardlink swaps and metadata-preserving source mutation.
+
+`PATH_CONTAINMENT != INODE_OWNERSHIP`
+`INGRESS_START_CURRENT != INGRESS_END_CURRENT`
+`PATH + SIZE + MTIME != FILE_CURRENTNESS`
 
 ## Current ICF-CS authority
 

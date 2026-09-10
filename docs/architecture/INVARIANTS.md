@@ -27,3 +27,9 @@ Every promoted change follows **PROBE → DERIVE → VERIFY → EMBODY → RECUR
 19. **Authority bytes, not labels, establish ICF currentness.** Fresh ingress binds the exact active ICF-CS v1.2 standard before RES/UCM hydration. `VERSION_LABEL != CURRENT_AUTHORITY_BYTES`.
 20. **Unbounded selection does not authorize unbounded allocation.** Omitted context budget uses a finite default; explicit unbounded selection still caps individual reads to actual file size.
 21. **Derived snapshots are caches, not history authority.** Canonical UCM retains bounded derived snapshot history while the append-only ledger remains authoritative.
+22. **Path containment does not prove inode ownership.** Existing multiply-linked regular files are rejected before direct write consequences across project/filesystem/power/legacy surfaces.
+23. **Fresh-ingress currentness is end-bound.** ICF, required RES and required UCM are reread/revalidated at the end of composed ingress; packet construction may not straddle authoritative heads silently.
+24. **Canonical UCM JSON is finite UTF-8 and bounded.** NaN/Infinity, invalid surrogates, non-JSON types and excessive depth/node count fail before fingerprint/hash/append.
+25. **Windows namespace identity outranks naïve strings.** Project/profile IDs and ZIP members reject device aliases, ADS/forbidden components, trailing-dot/space aliases and conflicting case identities.
+26. **Atomic JSON publication tolerates transient Windows sharing violations without abandoning atomicity.** Bounded retry is permitted; in-place partial-write fallback is not.
+27. **Transfer tickets bind file-object/content identity.** Import stage inode/link identity and export source inode/metadata/SHA currentness are verified across chunk/finalize boundaries.

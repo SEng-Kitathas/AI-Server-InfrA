@@ -8,6 +8,7 @@ Start external evaluation at [`../docs/EXTERNAL_EVALUATION.md`](../docs/EXTERNAL
 
 Read newest/current work first:
 
+- `V30_WARFORT_BATTLE_HARDENING_2026-09-09.md` / result JSON — adversarial currentness, crash/recovery, filesystem/inode, canonical JSON, ZIP namespace, atomic-replace, transfer-identity and parallel-burn qualification.
 - `V30_ICF_CS_V1_2_FRESH_INSTANCE_INGRESS_2026-09-09.md` / result JSON — active ICF-CS v1.2 carrier, fresh-instance server embodiment, RES/UCM applicability/currentness, context boundedness defect/repair, qualification and publication boundary.
 - `V30_UCM_V1_RUNTIME_INTEGRATION_2026-09-09.md` / result JSON — 31-operation UCM v1 integration, hostile tests, legacy compatibility, private-safe migration, private-scale snapshot-amplification discovery/repair.
 - `V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md` / result JSON — R4.4 RES composition audit and pressure-earned continuity mechanics.
@@ -37,6 +38,6 @@ APPEND_ONLY_HISTORY != UNBOUNDED_DERIVED_SNAPSHOT_HISTORY
 
 ## Current source-versus-release boundary
 
-At the ICF-CS v1.2 fresh-instance mechanism frontier `d926e2004b0a5794fb2934200091b836c0780104`, source introspection registers **158 native tools** and the full Runtime qualification is **676 collected / 675 passed / 0 failed / 1 conditional skip**. The active ICF-CS v1.2 carrier is present under `handoff/current/`; UCM and RES extend existing Runtime families rather than creating duplicate state/authority planes.
+At warfort hardening frontier `c858914a1a9abac5d29f1943e23fed1e54c516d0`, source introspection remains **158 native tools** and the full Runtime qualification is **742 collected / 740 passed / 0 failed / 2 skips**. The active ICF-CS v1.2 carrier is present under `handoff/current/`; UCM and RES extend existing Runtime families rather than creating duplicate state/authority planes.
 
 `VERSION`, `RELEASE.json`, and V29 package manifests still describe the last packaged V29 lineage. External source evaluation must bind to exact Git. Live deployment remains a separate readback claim.

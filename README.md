@@ -2,7 +2,7 @@
 
 AI-Server-InfrA is the engineering repository for the PCMMAD Laboratory Runtime: a local-first, transport-independent runtime for durable project state, bounded execution, research, continuity, governance, verification, and operator control.
 
-> **Current repository status (2026-09-09):** `main` is the V30 engineering frontier. The latest mechanism feature before this documentation refresh is `d926e2004b0a5794fb2934200091b836c0780104` (`Embody ICF-CS v1.2 fresh-instance ingress`). ICF-CS v1.2 is the active continuity/process doctrine carrier in source; the currently deployed Desktop Runtime remains intentionally older and has **not** been implicitly promoted to this frontier.
+> **Current repository status (2026-09-09):** `main` is the V30 engineering frontier. The latest mechanism feature before this documentation refresh is `c858914a1a9abac5d29f1943e23fed1e54c516d0` (`Battle-harden Runtime consequence boundaries`). ICF-CS v1.2 is the active continuity/process doctrine carrier in source; the currently deployed Desktop Runtime remains intentionally older and has **not** been implicitly promoted to this frontier.
 
 ## Start here
 
@@ -106,13 +106,33 @@ At the current ICF-CS v1.2 / RES / UCM engineering frontier:
 - UCM realistic private-scale synthetic: 716 canonical events, 7,172-byte core / 4,828-byte headroom; derived profile reduced from ~452 MB to ~3.98 MB while the append-only ledger remained authoritative;
 - v1.2 fresh-instance ingress suite: **13/13 PASS**;
 - handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- complete Runtime: **676 collected / 675 passed / 0 failed / 1 conditional skip**;
+- complete Runtime: **742 collected / 740 passed / 0 failed / 2 conditional/platform skips**;
+- warfort-specific adversarial suite: **65 passed / 1 skipped / 17 property subtests passed**;
+- final four-worker burns (`loadscope` and `worksteal`): **740 passed / 2 skipped / 103 subtests passed** each;
 - source native capability count: **158**;
 - compact 30-operation schema unchanged.
 
 Fresh-instance ingress now requires exact ICF-CS v1.2 bytes, explicit session applicability, required RES/UCM currentness, bounded project context, and a final owning-plane/live-readback gate before mutation.
 
 These are **source qualification claims**. They do not claim that the loaded Desktop Runtime has been restarted to this source or that the private UCM instance has been imported.
+
+## Warfort hardening
+
+The current source has been pressure-tested for consequence-boundary failures rather than only happy-path behavior. The warfort campaign added deterministic regression coverage for fresh-ingress TOCTOU, UCM crash/replay recovery, semantic ambiguity, Windows path/inode identity, hardlink escapes, canonical-JSON poison, Windows ZIP namespace aliases, atomic-replace contention, cross-process profile containment, and transfer stage/source object identity.
+
+Key laws earned by reproduced failures:
+
+```text
+INGRESS_START_CURRENT != INGRESS_END_CURRENT
+PATH_CONTAINMENT != INODE_OWNERSHIP
+CANONICAL_JSON != PYTHON_JSON_PERMISSIVENESS
+ZIP_MEMBER_STRING != WINDOWS_EXTRACTION_IDENTITY
+ATOMIC_REPLACE != SINGLE_REPLACE_SYSCALL_ON_WINDOWS
+PATH + SIZE + MTIME != FILE_CURRENTNESS
+TRANSFER_STAGE_PATH != TRANSFER_STAGE_OBJECT_IDENTITY
+```
+
+See `reports/V30_WARFORT_BATTLE_HARDENING_2026-09-09.md`.
 
 ## Reproduce the source evaluation
 
