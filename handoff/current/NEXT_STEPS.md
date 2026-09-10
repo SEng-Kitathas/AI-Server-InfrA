@@ -452,3 +452,12 @@ Web and already-audited research slices are qualified. Fix continuity rehydratio
 - Windows public failure is still suite-level only; exact testcase unresolved;
 - earlier Ubuntu `38 != 50` is superseded as current hosted Ubuntu status;
 - fresh Actions on any later currentness child wins.
+
+## Hosted CI precedence — 2026-09-10 final readback
+- Current Git branch/documentation head at this update: `ddc934f015587bafd6af96e07acbf4af830261ad`.
+- Latest Runtime mechanism frontier remains `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4`.
+- GitHub Actions run `34541581729` on `ddc934f015587bafd6af96e07acbf4af830261ad`: Ubuntu **SUCCESS**, Windows **FAILURE**.
+- Windows public annotation remains suite-level `Process completed with exit code 1`; exact testcase is unresolved.
+- Next discriminator: make the Windows full-suite failure externally diagnosable, reproduce it, repair it, then require both hosted OS jobs green before live promotion.
+
+`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`

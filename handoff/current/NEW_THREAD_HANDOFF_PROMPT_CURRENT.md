@@ -11,3 +11,12 @@ Local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc001
 Loaded live Runtime is older; rebuild runtime-only venv before final promotion. After source/hosted CI are green, deploy exact GitHub bytes, canonical restart, read back 158 capabilities/ICF/schema/execution capacity, run >=10 real async pressure, drain queues/orphans/errors, verify HUD/telemetry/project-aware access logs, preserve rollback/promotion receipt.
 
 Preserve: `CAPABILITY_LEASE != CAPABILITY_GRANT`; `DESCRIPTIVE_EFFECT_TRAITS != SCHEDULER_AUTHORITY`; `CONTINUATION != CURRENTNESS`; `LIVE_SHADOW != DTS != RES != UCM`; `LOCAL_GREEN != HOSTED_CLEANBOX_GREEN`; `SOURCE_QUALIFIED != LIVE_PROMOTED`.
+
+## Hosted CI precedence — 2026-09-10 final readback
+- Current Git branch/documentation head at this update: `ddc934f015587bafd6af96e07acbf4af830261ad`.
+- Latest Runtime mechanism frontier remains `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4`.
+- GitHub Actions run `34541581729` on `ddc934f015587bafd6af96e07acbf4af830261ad`: Ubuntu **SUCCESS**, Windows **FAILURE**.
+- Windows public annotation remains suite-level `Process completed with exit code 1`; exact testcase is unresolved.
+- Next discriminator: make the Windows full-suite failure externally diagnosable, reproduce it, repair it, then require both hosted OS jobs green before live promotion.
+
+`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`

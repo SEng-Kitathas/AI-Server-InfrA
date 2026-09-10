@@ -6,7 +6,7 @@
   "created_at": "2026-09-10T23:03:00+00:00",
   "current_icf_cs_standard_sha256": "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92",
   "current_icf_cs_version": "1.2",
-  "current_source_qualification": "HOSTED_CI_RED run 34537723493; Ubuntu exact failure test_hot_scan_cost_is_independent_of_terminal_history_count 38 != 50; Windows suite-level full-suite failure; prior local repaired-byte 995 JUnit / 0 failures / 2 skips serial+loadscope+worksteal",
+  "current_source_qualification": "HOSTED_CI_PARTIAL run 34541581729; Ubuntu SUCCESS; Windows FAILURE suite-level; live promotion blocked",
   "current_source_tool_count": 158,
   "effect_trait_status": "204 distinct / 133 singleton / 4 generic behavior consumers; no arbitrary-trait policy automation",
   "engineering_feature_head": "e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4",
@@ -49,8 +49,8 @@
       "sha256": "ea3f4087401bf8c0902c28e190707a5f6bd0b1711813df62c1a9957d49bd58bb"
     },
     "GIT_PUBLICATION_CURRENT.md": {
-      "bytes": 1376,
-      "sha256": "72374cc21e336c8db3ef59f7809e3592b7f286ac04c7a6fbe50e172ff35b887a"
+      "bytes": 2074,
+      "sha256": "15ecb72b1794054b7f20dd0d836e378dd261eaf595e974df430bf24b2233f4c8"
     },
     "HANDOFF_QUALIFICATION.md": {
       "bytes": 6862,
@@ -101,16 +101,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 42127,
-      "sha256": "c841f26df8f8989c0ffcb66bb9f944cc62f9b755ae3c5c73c9358e1a094d86f3"
+      "bytes": 42825,
+      "sha256": "c9af7ba88cf12bd09c25ab8ab3bae9993a3743b467fda2a49b1f480f8aed3166"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 1962,
-      "sha256": "63e6024abb8e8fefc04026703afcd191d9c5161ca605b810481092779e759241"
+      "bytes": 2660,
+      "sha256": "4044846385cc59c225471cf60065c15061a46a1dda0019cbf17f85b05e691261"
     },
     "NEXT_STEPS.md": {
-      "bytes": 49736,
-      "sha256": "e9f2ad33c336a3ee95c4effc0a3773a40aaef0702fa34978bf6a9def9a3719a8"
+      "bytes": 50434,
+      "sha256": "5a1257ba4b720083357203d9fcc8463106778f09b0701b66cae37a7c5b3ed086"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -145,8 +145,8 @@
       "sha256": "4ccd5d692aa85e049cae60c714298b44f9bf3359fcdfead5b4eb00d869cacda1"
     },
     "THREAD_ROLLOVER_CURRENT.md": {
-      "bytes": 11938,
-      "sha256": "037b04379d944664954f8220ddfdad3a1476d51cf785cb932ce5fc8e335b406c"
+      "bytes": 12636,
+      "sha256": "8d0d003a8644f52fab01c1f1b4f895e35f4616799b546d9bbfa4dac98610d242"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -174,12 +174,12 @@
     }
   },
   "final_schema": "V11_SOURCE_SUCCESSOR_PUBLISHED_PRODUCT_INSTALLATION_PENDING",
-  "latest_completed_ci_parent_head": "fd9b42ad143d70ddda92b22372cbae767b12bea0",
+  "latest_completed_ci_parent_head": "ddc934f015587bafd6af96e07acbf4af830261ad",
   "latest_completed_ci_result": "Ubuntu SUCCESS; Windows FAILURE; Windows exact testcase unresolved",
-  "latest_completed_ci_run": "34541018742",
+  "latest_completed_ci_run": "34541581729",
   "legacy_memory_status": "8 compatibility operations over one UCM store; explicit sunset criterion deferred to schema/migration branch",
   "live_runtime_git_identity": "OLDER_THAN_CURRENT_SOURCE; live health reports compact 30-operation surface and global execution concurrency 8",
-  "next_step": "fresh-read any newer Actions run; diagnose Windows hosted failure; then adaptive guard + wire hardening + live promotion",
+  "next_step": "diagnose Windows hosted full-suite failure; require both hosted OS green; then adaptive guard + wire hardening + live promotion",
   "operating_library_disposition": "KEEP library; NARROW deterministic substrate; KILL duplicate truth/effect planes; no new EMBODY from final replay",
   "operating_library_runtime_convergence_sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e",
   "operating_library_v1_sha256": "b3ac0c538c19e1bb4819569439905fdce707e071b26d9c8d9c58a054de845a7f",
