@@ -36,6 +36,9 @@ def _record(job_id: str, status: str, project_id: str = "p1") -> ExecutionJobRec
 
 @contextmanager
 def _store_root():
+    # This module virtualizes the global execution store. It must not share that
+    # temporary root with a scheduler/watch thread left alive by an earlier test.
+    er._shutdown_scheduler()
     with tempfile.TemporaryDirectory(prefix="pcmmad-a035-") as td:
         root = Path(td)
         projects = root / "projects"
@@ -43,7 +46,10 @@ def _store_root():
         with patch.object(er, "PROJECTS_ROOT", projects), patch.object(
             er, "get_project_root", side_effect=lambda project_id: projects / project_id
         ), patch.object(er, "_EXECUTION_STORE_LAYOUT_READY_ROOTS", set()):
-            yield projects
+            try:
+                yield projects
+            finally:
+                er._shutdown_scheduler()
 
 
 def _legacy_write(projects: Path, job: ExecutionJobRecord, *, filename: str | None = None) -> Path:
