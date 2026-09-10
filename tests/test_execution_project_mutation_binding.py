@@ -73,6 +73,78 @@ class ExecutionProjectMutationBindingTests(unittest.TestCase):
             self.assertEqual(row["project_id"], "p1")
             self.assertNotIn("lease_id", request_path.read_text(encoding="utf-8"))
 
+    def test_submission_binding_validates_without_long_consequence_guard(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pcmmad-submit-short-fence-") as td:
+            root = Path(td)
+            with ExitStack() as stack:
+                stack.enter_context(
+                    patch.object(pma, "get_project_root", side_effect=lambda project_id: root / project_id)
+                )
+                stack.enter_context(
+                    patch.object(
+                        pma,
+                        "init_project_layout",
+                        side_effect=lambda project_id: (root / project_id).mkdir(parents=True, exist_ok=True)
+                        or (root / project_id),
+                    )
+                )
+                lease = pma.acquire_lease(
+                    "p1", expected_generation=0, owner_id="owner-a", session_id="session-a"
+                )
+                authority = {
+                    "lease_id": lease["lease_id"],
+                    "generation": lease["generation"],
+                    "owner_id": "owner-a",
+                    "session_id": "session-a",
+                }
+                stack.enter_context(
+                    patch.object(
+                        pma,
+                        "_project_consequence_guard",
+                        side_effect=AssertionError("enqueue must not enter long consequence guard"),
+                    )
+                )
+                with pma.submission_mutation_binding(
+                    "p1", mutation_authority=authority, session_id="session-a"
+                ) as binding:
+                    self.assertEqual(binding["project_id"], "p1")
+                    self.assertEqual(binding["generation"], lease["generation"])
+                    self.assertEqual(binding["owner_id"], "owner-a")
+                    self.assertEqual(binding["session_id"], "session-a")
+                    self.assertNotIn("lease_id", binding)
+                    self.assertEqual(pma.current_mutation_binding("p1"), binding)
+                self.assertIsNone(pma.current_mutation_binding("p1"))
+
+    def test_submission_binding_compatibility_mode_is_short_and_non_secret(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pcmmad-submit-compat-") as td:
+            root = Path(td)
+            with ExitStack() as stack:
+                stack.enter_context(
+                    patch.object(pma, "get_project_root", side_effect=lambda project_id: root / project_id)
+                )
+                stack.enter_context(
+                    patch.object(
+                        pma,
+                        "init_project_layout",
+                        side_effect=lambda project_id: (root / project_id).mkdir(parents=True, exist_ok=True)
+                        or (root / project_id),
+                    )
+                )
+                stack.enter_context(
+                    patch.object(
+                        pma,
+                        "_project_consequence_guard",
+                        side_effect=AssertionError("compat enqueue must not enter long consequence guard"),
+                    )
+                )
+                with pma.submission_mutation_binding(
+                    "p1", mutation_authority=None, session_id="legacy-session"
+                ) as binding:
+                    self.assertEqual(binding["mode"], "compatibility_no_lease")
+                    self.assertEqual(binding["generation"], 0)
+                    self.assertEqual(binding["session_id"], "legacy-session")
+                    self.assertNotIn("lease_id", binding)
+
     def test_no_lease_compatibility_guard_exports_worker_binding(self) -> None:
         with tempfile.TemporaryDirectory(prefix="pcmmad-a042-compat-binding-") as td:
             root = Path(td)

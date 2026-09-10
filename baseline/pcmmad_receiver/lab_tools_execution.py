@@ -11,6 +11,10 @@ from dataclasses import dataclass
 from .lab_tool_primitives import ToolPayload, ToolResult, payload_str, payload_value
 from pathlib import Path
 from .server_hardening import run_subprocess_envelope
+from .project_mutation_authority import (
+    current_project_mutation_authority,
+    submission_mutation_binding,
+)
 from typing import Any, Callable
 
 
@@ -266,8 +270,20 @@ def _as_tool_result(job: Any) -> ToolResult:
 
 
 def _submit_async_job_payload(payload: ToolPayload, dep: ExecutionToolDeps) -> ToolResult:
-    """Delegate async submission to the canonical durable scheduler."""
-    return _as_tool_result(dep.submit_job(payload))
+    """Validate/bind mutation authority, then delegate to the durable scheduler.
+
+    Queue admission is a short control-plane mutation. The arbitrary-code
+    consequence is fenced later by the worker, so the request thread must not hold
+    the project-wide consequence lock while scheduler admission/queueing occurs.
+    """
+    project_id = str(payload.get("project_id") or "").strip()
+    session_id = str(payload.get("session_id") or "execution").strip() or "execution"
+    with submission_mutation_binding(
+        project_id,
+        mutation_authority=current_project_mutation_authority(),
+        session_id=session_id,
+    ):
+        return _as_tool_result(dep.submit_job(payload))
 
 
 def _register_async_submit_tool(register_tool: Callable[..., Any], dep: ExecutionToolDeps) -> None:
@@ -278,7 +294,7 @@ def _register_async_submit_tool(register_tool: Callable[..., Any], dep: Executio
         category="execution",
         approval_required=True,
         side_effect_class="execution",
-        effect_traits=["creates_durable_state", "queues_work", "executes_code", "arbitrary_process_side_effects", "project_mutation_fenced", "requires_explicit_project_mutation_authority"],
+        effect_traits=["creates_durable_state", "queues_work", "executes_code", "arbitrary_process_side_effects", "mutation_authority_validated_before_enqueue", "requires_explicit_project_mutation_authority"],
         idempotency_semantics="keyed_replay_when_keyed",
     )
     def tool_execution_submit(payload: ToolPayload) -> ToolResult:

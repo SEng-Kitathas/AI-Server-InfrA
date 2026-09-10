@@ -38,6 +38,7 @@ from .project_mutation_authority import (
     consequence_guard,
     current_mutation_binding,
     runtime_bound_mutation_guard,
+    submission_mutation_binding,
 )
 from .server_hardening import ManagedProcess, start_background_process
 from .control_plane_models import (
@@ -983,11 +984,66 @@ def execution_readiness() -> JsonObject:
     ).to_dict()
 
 
-def _can_start_now(project_id: str) -> bool:
-    snap = _capacity_snapshot(project_id)
-    return (snap.global_limit is None or snap.running_global < snap.global_limit) and (
-        snap.project_limit is None or snap.running_project < snap.project_limit
-    )
+@dataclass(frozen=True)
+class _RunningCensusResult:
+    total: int
+    per_project: dict[str, int]
+    exclusive_projects: frozenset[str]
+
+    def __iter__(self):
+        # Backward-compatible two-value unpacking for existing callers/tests.
+        yield self.total
+        yield self.per_project
+
+
+def _job_extra_value(job: object, key: str) -> object:
+    getter = getattr(job, "get", None)
+    if callable(getter):
+        value = getter(key)
+        if value is not None:
+            return value
+    value = getattr(job, key, None)
+    if value is not None:
+        return value
+    extra = getattr(job, "extra", None)
+    if isinstance(extra, dict):
+        return extra.get(key)
+    if callable(getter):
+        extra = getter("extra")
+        if isinstance(extra, dict):
+            return extra.get(key)
+    return None
+
+
+def _job_requires_project_exclusive_execution(job: ExecutionJobRecord) -> bool:
+    explicit = _job_extra_value(job, "execution_project_exclusive")
+    if explicit is not None:
+        return bool(explicit)
+    # Backward compatibility: any durable job carrying a mutation binding was
+    # historically executed while holding the project-wide consequence guard.
+    return isinstance(_job_extra_value(job, "project_mutation_binding"), dict)
+
+
+def _can_start_now(
+    project_id: str,
+    job: ExecutionJobRecord | None = None,
+    *,
+    census: _RunningCensusResult | tuple[int, dict[str, int]] | None = None,
+) -> bool:
+    census = census if census is not None else _running_census()
+    running_global, running_by_project = census
+    if EXECUTION_GLOBAL_CONCURRENCY is not None and running_global >= EXECUTION_GLOBAL_CONCURRENCY:
+        return False
+    if (
+        EXECUTION_PROJECT_CONCURRENCY is not None
+        and int(running_by_project.get(project_id, 0)) >= EXECUTION_PROJECT_CONCURRENCY
+    ):
+        return False
+    if job is not None and _job_requires_project_exclusive_execution(job):
+        exclusive_projects = getattr(census, "exclusive_projects", frozenset())
+        if project_id in exclusive_projects:
+            return False
+    return True
 
 
 def _queue_allowed(project_id: str) -> bool:
@@ -1596,12 +1652,15 @@ def _build_execution_job(
     binding = current_mutation_binding(payload.project_id)
     if binding is not None:
         job.extra["project_mutation_binding"] = binding
+        job.extra["execution_project_exclusive"] = True
+        job.extra["execution_exclusivity_reason"] = "project_mutation_binding"
     return job
 
 
 def _spawn_or_queue_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
     project_id = job.project_id
-    if _can_start_now(project_id):
+    census = _running_census()
+    if _can_start_now(project_id, job, census=census):
         try:
             return _spawn_job(job)
         except (OSError, RuntimeError, ValueError, TypeError) as e:
@@ -1627,7 +1686,15 @@ def _spawn_or_queue_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
             retry_after_basis="not_claimed_without_observed_service-time_model",
         )
     job.status = JOB_STATUS_QUEUED
-    job.stage = "queued"
+    exclusive_projects = getattr(census, "exclusive_projects", frozenset())
+    if _job_requires_project_exclusive_execution(job) and project_id in exclusive_projects:
+        job.stage = "queued_project_exclusive"
+        job.extra["queue_reason"] = "project_exclusive_execution"
+        job.extra["queue_law"] = "ASYNC_JOB != PROJECT_WIDE_EXCLUSION; UNKNOWN_EFFECT_EXECUTION_REMAINS_PROJECT_EXCLUSIVE"
+    else:
+        job.stage = "queued"
+        job.extra.pop("queue_reason", None)
+        job.extra.pop("queue_law", None)
     job.queue_position = _effective_queue_count(project_id) + 1
     return job
 
@@ -1775,7 +1842,7 @@ def submit_execution_job(
         return _submit_job_locked(payload, replay_of)
 
 
-def _running_census() -> tuple[int, dict[str, int]]:
+def _running_census() -> _RunningCensusResult:
     """Return effective global/per-project running counts from one durable-tree pass.
 
     Preserve the existing capacity semantics: live managed processes count even when
@@ -1792,6 +1859,7 @@ def _running_census() -> tuple[int, dict[str, int]]:
     global_seen: set[str] = set(managed_alive)
     per_project_seen: dict[str, set[str]] = {}
     per_project: dict[str, int] = {}
+    exclusive_projects: set[str] = set()
     total = len(global_seen)
 
     for path in _iter_job_files(None):
@@ -1818,8 +1886,14 @@ def _running_census() -> tuple[int, dict[str, int]]:
             continue
         seen.add(job_id)
         per_project[project_key] = per_project.get(project_key, 0) + 1
+        if _job_requires_project_exclusive_execution(job):
+            exclusive_projects.add(project_key)
 
-    return total, per_project
+    return _RunningCensusResult(
+        total=total,
+        per_project=per_project,
+        exclusive_projects=frozenset(exclusive_projects),
+    )
 
 
 def _queued_job_candidates(project_id: str | None = None) -> list[tuple[str, str, str]]:
@@ -1843,7 +1917,9 @@ def _drain_queue_locked(
     # admission lock is held, but one census is enough for the entire drain pass.
     queued_jobs = candidates if candidates is not None else _queued_job_candidates(project_id)
     started: list[str] = []
-    running_global, running_per_project = _running_census()
+    census = _running_census()
+    running_global, running_per_project = census
+    running_exclusive_projects = set(getattr(census, "exclusive_projects", frozenset()))
     global_limit = EXECUTION_GLOBAL_CONCURRENCY
     project_limit = EXECUTION_PROJECT_CONCURRENCY
 
@@ -1862,12 +1938,16 @@ def _drain_queue_locked(
             continue
         if job.status != JOB_STATUS_QUEUED:
             continue
+        if _job_requires_project_exclusive_execution(job) and pid in running_exclusive_projects:
+            continue
         try:
             job = _spawn_job(job)
             _write_job(pid, job.job_id, job)
             started.append(job.job_id)
             running_global += 1
             running_per_project[pid] = running_per_project.get(pid, 0) + 1
+            if _job_requires_project_exclusive_execution(job):
+                running_exclusive_projects.add(pid)
         except (OSError, RuntimeError, ValueError, TypeError) as e:
             _set_job_status(job, JOB_STATUS_FAILED, "spawn")
             job.finished_at = utc_now()
@@ -2423,7 +2503,7 @@ def submit_execution() -> object:
         request_payload = dict(request_payload)
         mutation_authority = request_payload.pop("mutation_authority", None)
         project_id = str(request_payload.get("project_id") or "").strip()
-        with consequence_guard(
+        with submission_mutation_binding(
             project_id,
             mutation_authority=mutation_authority,
             session_id=str(request_payload.get("session_id") or "execution"),

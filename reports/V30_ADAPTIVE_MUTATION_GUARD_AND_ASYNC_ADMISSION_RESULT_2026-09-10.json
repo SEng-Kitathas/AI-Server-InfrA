@@ -1,0 +1,71 @@
+{
+  "base_head": "f38c564c486b03278ba9f10dbc87aa4b1c9c07d1",
+  "laws": [
+    "ASYNC_JOB != PROJECT_WIDE_EXCLUSION",
+    "LEASE_LIFETIME != CONSEQUENCE_LOCK_LIFETIME",
+    "LONG_COMPUTE != LONG_MUTATION_CRITICAL_SECTION",
+    "SCHEDULER_CAPACITY != MUTATION_CONCURRENCY",
+    "WAITED_FOR_LOCK != STILL_CURRENT_AUTHORITY",
+    "CONSEQUENCE_HEARTBEAT != MUTATION_AUTHORITY",
+    "UNKNOWN_EFFECT_EXECUTION_REMAINS_PROJECT_EXCLUSIVE"
+  ],
+  "live_promoted": false,
+  "mechanisms": {
+    "automatic_lease_renewal": false,
+    "bearer_lease_persisted_in_job": false,
+    "consequence_guard_heartbeat": true,
+    "cross_project_concurrency_preserved": true,
+    "enqueue_uses_short_authority_binding": true,
+    "healthy_holder_adaptive_wait": true,
+    "heartbeat_authority_effect": "NONE",
+    "idle_heartbeat_threads": 0,
+    "same_project_exclusive_queue_before_spawn": true,
+    "stale_holder_does_not_extend_wait": true,
+    "worker_revalidates_before_consequence": true
+  },
+  "qualification": {
+    "F821": 0,
+    "compileall": "PASS",
+    "focused_authority_admission": "41/41 PASS",
+    "full_serial": "PASS on rerun",
+    "rebased_focused": "PASS",
+    "rebased_loadscope_4": {
+      "cases": 1012,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "rebased_serial_junit": {
+      "cases": 1012,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "rebased_worksteal_4": {
+      "cases": 1012,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "schema_profile_package_guard": "PASS",
+    "unrelated_transient_ucm_test": "one initial failure; exact test then 2/2 PASS"
+  },
+  "rebased_parent": "e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4",
+  "schema": "pcmmad.adaptive-mutation-guard-async-admission.v1",
+  "schema_profile": {
+    "capability_count": 158,
+    "catalog_digest": "8696add7f622e1fc886de856d17ae75fe15bd560c7c903bed611a1b8dcae6fe5",
+    "effect_truth_verified": 0,
+    "parallel_verified": 0,
+    "profile_digest": "c9aa7e5aa24f0abd54543d9bcb926b1184652704f93fa93d4582a72ecb59c28e",
+    "resume_replay_verified": 0
+  },
+  "status": "REBASED_CURRENT_MAIN_CANDIDATE_QUALIFIED_GITHUB_PUBLICATION_PENDING",
+  "timing_defaults": {
+    "acquire_slice_seconds": 0.2,
+    "healthy_wait_configurable_max_seconds": 900.0,
+    "healthy_wait_max_seconds": 30.0,
+    "heartbeat_fresh_seconds": 2.5,
+    "heartbeat_seconds": 0.5
+  }
+}

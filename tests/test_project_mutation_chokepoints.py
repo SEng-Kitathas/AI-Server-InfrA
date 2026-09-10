@@ -100,7 +100,7 @@ class ProjectMutationChokepointTests(unittest.TestCase):
             "protocol.initialize", "protocol.mode.transition", "protocol.objective.set",
             "protocol.claim.record", "protocol.constraint.record", "protocol.waiver.record",
             "protocol.artifact.register", "protocol.continuity.record", "protocol.promotion.record",
-            "verify.gates", "execution.run", "python.run", "execution.submit",
+            "verify.gates", "execution.run", "python.run",
             "lab.session.start", "lab.session.note", "lab.session.end",
             "lab.andon.pull", "lab.reflexion.append",
             "sop.package.register", "sop.ingest.reset", "sop.ingest.next_chunk",
@@ -109,6 +109,11 @@ class ProjectMutationChokepointTests(unittest.TestCase):
         for name in centrally_fenced:
             self.assertIn(name, rows)
             self.assertIn("project_mutation_fenced", rows[name]["effect_traits"], name)
+
+        submit_traits = rows["execution.submit"]["effect_traits"]
+        self.assertIn("mutation_authority_validated_before_enqueue", submit_traits)
+        self.assertIn("requires_explicit_project_mutation_authority", submit_traits)
+        self.assertNotIn("project_mutation_fenced", submit_traits)
 
         path_fenced = {
             "fs.write", "fs.move", "transfer.import.create",

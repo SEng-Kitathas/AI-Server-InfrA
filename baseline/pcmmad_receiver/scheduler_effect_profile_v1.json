@@ -1,6 +1,6 @@
 {
   "capability_count": 158,
-  "catalog_digest": "1ac52b95171a2eb4487a1b8c702b0b9bc76f0d7800da62e6af7b360bb470b99f",
+  "catalog_digest": "8696add7f622e1fc886de856d17ae75fe15bd560c7c903bed611a1b8dcae6fe5",
   "cost_semantics": "static admission units; exact/computable but not a wall-time SLA",
   "declared_effect_class_is_effect_truth": false,
   "descriptive_effect_traits_are_scheduler_authority": false,
@@ -859,7 +859,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "b56308ead57f10e05bdebd9c6597d1c7342f24fba1bb25330134f007ead2c47f",
+      "contract_digest": "4a3312791d2944b51a3c53de6b122b1bf4e93449ae7d6d6ef6fbda5fa13cc80d",
       "declared_effect_kind": "EXECUTION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3820,7 +3820,7 @@
     "USER_CONTINUITY"
   ],
   "parallel_default": "SERIAL",
-  "profile_digest": "a04a3c761c71515e2aedb1ea8390a3c11f8248ba65322e646ee635def53ed642",
+  "profile_digest": "c9aa7e5aa24f0abd54543d9bcb926b1184652704f93fa93d4582a72ecb59c28e",
   "resume_replay_classes": [
     "RECOMPOSE_REQUIRED",
     "REEXECUTE_READ_VERIFIED"
