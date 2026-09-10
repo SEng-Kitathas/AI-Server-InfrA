@@ -62,6 +62,7 @@ from execution_routes import (
 from project_mutation_authority import ProjectMutationAuthorityError, consequence_guard
 from server_hardening import safe_json_dumps, safe_json_loads
 from shared_core import (
+    ensure_safe_mutation_target_identity,
     ensure_parent,
     get_project_root,
     init_project_layout,
@@ -415,6 +416,7 @@ def _write_file_target(req: WriteFileRequest) -> tuple[Path, bool]:
         raise ValueError("path escapes project root")
     if req.mode not in {"overwrite", "append", "create_only"}:
         raise ValueError("mode must be overwrite, append, or create_only")
+    ensure_safe_mutation_target_identity(target)
     if req.mode == "create_only" and target.exists():
         raise FileExistsError("file exists and mode=create_only")
     existed_before = target.exists()

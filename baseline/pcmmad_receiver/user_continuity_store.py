@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterator
 
-from shared_core import SYSTEM_ROOT, save_json_atomic
+from shared_core import SYSTEM_ROOT, save_json_atomic, validate_filesystem_component_id
 
 SCHEMA_VERSION = "1.1"
 LEDGER_SCHEMA = "pcmmad.user-continuity-ledger.v1.1"
@@ -142,7 +142,17 @@ def _profile_id(value: object | None) -> str:
     text = str(value or DEFAULT_PROFILE_ID).strip()
     if not _SAFE_ID.fullmatch(text):
         raise UserContinuityError("BAD_PROFILE_ID", "profile_id contains invalid characters", 400)
-    return text
+    try:
+        validate_filesystem_component_id(text, field="profile_id")
+    except ValueError as exc:
+        raise UserContinuityError("BAD_PROFILE_ID", str(exc), 400) from exc
+    # Profile IDs are filesystem-backed. Canonicalize ASCII case so a
+    # case-insensitive host cannot map two logically distinct IDs onto one
+    # directory while preserving conflicting ledger profile_id fields.
+    canonical = text.lower()
+    if not _SAFE_ID.fullmatch(canonical):
+        raise UserContinuityError("BAD_PROFILE_ID", "canonical profile_id contains invalid characters", 400)
+    return canonical
 
 
 def _paths(profile_id: str) -> MemoryPaths:
@@ -150,9 +160,19 @@ def _paths(profile_id: str) -> MemoryPaths:
     expected = (MEMORY_ROOT / "profiles").resolve()
     root = (expected / pid).resolve()
     try:
-        root.relative_to(expected)
-    except ValueError as exc:
-        raise UserContinuityError("BAD_PROFILE_ID", "profile path escapes continuity root", 400) from exc
+        expected_norm = os.path.normcase(str(expected))
+        root_norm = os.path.normcase(str(root))
+        common = os.path.commonpath([expected_norm, root_norm])
+    except (OSError, ValueError) as exc:
+        raise UserContinuityError("BAD_PROFILE_ID", "could not establish continuity-root containment", 400) from exc
+    if common != expected_norm:
+        raise UserContinuityError(
+            "BAD_PROFILE_ID",
+            "profile path escapes continuity root",
+            400,
+            expected_root=str(expected),
+            resolved_profile_root=str(root),
+        )
     return MemoryPaths(
         root=root,
         ledger=root / "events.jsonl",
@@ -476,7 +496,12 @@ def _parse_event(raw: object, line_no: int, profile_id: str) -> dict[str, Any]:
         raise UserContinuityLedgerError(
             "MEMORY_LEDGER_CORRUPT", f"ledger line {line_no} missing fields: {missing}", 409
         )
-    if raw.get("schema") != LEDGER_SCHEMA or raw.get("profile_id") != profile_id:
+    raw_profile = str(raw.get("profile_id") or "")
+    try:
+        raw_profile_canonical = _profile_id(raw_profile)
+    except UserContinuityError as exc:
+        raise UserContinuityLedgerError("MEMORY_LEDGER_CORRUPT", f"ledger line {line_no} invalid profile identity", 409) from exc
+    if raw.get("schema") != LEDGER_SCHEMA or raw_profile_canonical != profile_id:
         raise UserContinuityLedgerError("MEMORY_LEDGER_CORRUPT", f"ledger line {line_no} schema/profile mismatch", 409)
     return dict(raw)
 

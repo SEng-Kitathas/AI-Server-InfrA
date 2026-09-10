@@ -15,6 +15,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
+import math
 import re
 from datetime import datetime, timezone
 from pathlib import Path
@@ -196,6 +197,51 @@ class UcmError(RuntimeError):
 
 def _canonical_bytes(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+
+
+def _ensure_canonical_json_value(value: Any, *, field: str = "payload", max_depth: int = 64, max_nodes: int = 50000) -> None:
+    """Reject values that are not portable finite UTF-8 JSON before hashing.
+
+    Python's json module accepts NaN/Infinity and can fail late on lone UTF-16
+    surrogates. Iterative validation also bounds nesting/node count so hostile
+    payloads fail as contract errors instead of recursion/allocation failures.
+    """
+    stack: list[tuple[Any, int, str]] = [(value, 0, field)]
+    nodes = 0
+    while stack:
+        item, depth, path = stack.pop()
+        nodes += 1
+        if nodes > max_nodes:
+            raise UcmError("UCM_CONTRACT_INVALID", f"{field} exceeds canonical JSON node limit {max_nodes}", 400)
+        if depth > max_depth:
+            raise UcmError("UCM_CONTRACT_INVALID", f"{field} exceeds canonical JSON depth limit {max_depth}", 400)
+        if item is None or isinstance(item, bool) or isinstance(item, int):
+            continue
+        if isinstance(item, float):
+            if not math.isfinite(item):
+                raise UcmError("UCM_CONTRACT_INVALID", f"{path} contains non-finite JSON number", 400)
+            continue
+        if isinstance(item, str):
+            try:
+                item.encode("utf-8", "strict")
+            except UnicodeEncodeError as exc:
+                raise UcmError("UCM_CONTRACT_INVALID", f"{path} contains invalid Unicode surrogate data", 400) from exc
+            continue
+        if isinstance(item, list):
+            for index in range(len(item) - 1, -1, -1):
+                stack.append((item[index], depth + 1, f"{path}[{index}]"))
+            continue
+        if isinstance(item, Mapping):
+            for key, child in item.items():
+                if not isinstance(key, str):
+                    raise UcmError("UCM_CONTRACT_INVALID", f"{path} contains non-string object key", 400)
+                try:
+                    key.encode("utf-8", "strict")
+                except UnicodeEncodeError as exc:
+                    raise UcmError("UCM_CONTRACT_INVALID", f"{path} contains invalid Unicode object key", 400) from exc
+                stack.append((child, depth + 1, f"{path}.{key}"))
+            continue
+        raise UcmError("UCM_CONTRACT_INVALID", f"{path} contains non-JSON type {type(item).__name__}", 400)
 
 
 def _digest(value: Any) -> str:
@@ -847,6 +893,15 @@ def _preflight_canonical_core(state: Mapping[str, Any]) -> None:
 
 
 def _replay_receipt(profile_id: str, state: Mapping[str, Any], replay: Mapping[str, Any], semantic_operation: str) -> JsonObject:
+    # Response-loss replay is also a safe derived-state recovery point. The
+    # authoritative append-only ledger already contains the consequence; if
+    # snapshot materialization failed after that append, rebuild the bounded
+    # derived cache before reporting replay success.
+    currentness = backend._snapshot_currentness(profile_id)
+    repaired_snapshot = False
+    if not currentness.get("current"):
+        backend._materialize_locked(profile_id, dict(state), retain_snapshot_count=2)
+        repaired_snapshot = True
     head = backend.ledger_head(profile_id)
     return {
         "ok": True,
@@ -860,6 +915,7 @@ def _replay_receipt(profile_id: str, state: Mapping[str, Any], replay: Mapping[s
         "ledger_head_hash": head["event_hash"],
         "authority_effect": "NONE",
         "post_write_readback": True,
+        "derived_snapshot_repaired": repaired_snapshot,
     }
 
 
@@ -867,6 +923,7 @@ def _append_record(
     payload: Mapping[str, Any], *, record_type: str, record: Mapping[str, Any], semantic_operation: str,
     existing_key: str | None = None, envelope_status: str = "ACTIVE",
 ) -> JsonObject:
+    _ensure_canonical_json_value(payload, field="ucm_write_payload")
     profile_id = _profile_id(payload)
     seq, expected_hash = _require_cas_fields(payload)
     source = _source(payload)
@@ -900,6 +957,12 @@ def _append_record(
         if semantic_operation in {"ADD", "DECISION_ADD"}:
             if backend._active_target_id(state, _target(typ, key)):
                 raise UcmError("UCM_RECORD_EXISTS", f"{typ} record already exists: {key}", 409)
+            if typ == "COLLABORATION_CONTRACT" and _records_from_state(state, "COLLABORATION_CONTRACT"):
+                raise UcmError(
+                    "UCM_COLLABORATION_CONFLICT",
+                    "a current collaboration contract already exists; change it through an explicit update/supersession path",
+                    409,
+                )
             envelope = _backend_envelope(typ, normalized, source)
             event_payload = {"fact": envelope, "ucm_operation": semantic_operation, "ucm_record_type": typ, "ucm_record_key": key}
             event, manifest = backend._append_event_locked(
@@ -1307,7 +1370,21 @@ def resolve_identity_from_records(records: Sequence[Mapping[str, Any]], *, use_f
         if scope is not None and "*" not in scopes and scope not in scopes: continue
         candidates.append(identity)
     candidates.sort(key=lambda x: (int(x["precedence"]), x["identity_key"]), reverse=True)
-    return candidates[0] if candidates else None
+    if not candidates:
+        return None
+    top_precedence = int(candidates[0]["precedence"])
+    top = [item for item in candidates if int(item["precedence"]) == top_precedence]
+    if len({item["value"] for item in top}) > 1:
+        raise UcmError(
+            "UCM_IDENTITY_AMBIGUOUS",
+            "multiple active identity values share the highest applicable precedence",
+            409,
+            use_for=use,
+            scope=scope,
+            precedence=top_precedence,
+            identity_keys=sorted(item["identity_key"] for item in top),
+        )
+    return candidates[0]
 
 
 def resolve_identity(profile_id: str, *, use_for: str, scope: str | None = None) -> JsonObject | None:
@@ -1323,7 +1400,21 @@ def resolve_referent(profile_id: str, *, term: str, scope: str | None = None) ->
         if scope is not None and "*" not in scopes and scope not in scopes: continue
         candidates.append(ref)
     candidates.sort(key=lambda x: (int(x["precedence"]), x["referent_key"]), reverse=True)
-    return candidates[0] if candidates else None
+    if not candidates:
+        return None
+    top_precedence = int(candidates[0]["precedence"])
+    top = [item for item in candidates if int(item["precedence"]) == top_precedence]
+    if len({item["meaning"] for item in top}) > 1:
+        raise UcmError(
+            "UCM_REFERENT_AMBIGUOUS",
+            "multiple active referent meanings share the highest applicable precedence",
+            409,
+            term=wanted,
+            scope=scope,
+            precedence=top_precedence,
+            referent_keys=sorted(item["referent_key"] for item in top),
+        )
+    return candidates[0]
 
 
 def read_decisions(profile_id: str, *, include_historical: bool = False) -> list[JsonObject]:
@@ -1446,6 +1537,22 @@ def _build_ingress(profile_id: str) -> JsonObject:
     encoded=_canonical_bytes(budget_packet); used=len(encoded); headroom=CORE_BUDGET_BYTES-used
     if used>CORE_BUDGET_BYTES or headroom<MIN_HEADROOM_BYTES:
         raise UcmError("UCM_CORE_BUDGET_EXCEEDED","fresh-instance user core exceeds budget/headroom contract",409,core_bytes=used,core_budget_bytes=CORE_BUDGET_BYTES,headroom_bytes=headroom,min_headroom_bytes=MIN_HEADROOM_BYTES)
+    final_head = head(profile_id)
+    if (
+        int(final_head.get("ledger_head_seq") or 0) != int(h.get("ledger_head_seq") or 0)
+        or final_head.get("ledger_head_hash") != h.get("ledger_head_hash")
+        or not final_head.get("snapshot_current")
+    ):
+        raise UcmError(
+            "UCM_CURRENTNESS_FAILURE",
+            "UCM authoritative head changed while assembling the fresh-instance core",
+            409,
+            start_head_seq=h.get("ledger_head_seq"),
+            start_head_hash=h.get("ledger_head_hash"),
+            final_head_seq=final_head.get("ledger_head_seq"),
+            final_head_hash=final_head.get("ledger_head_hash"),
+            snapshot_current=final_head.get("snapshot_current"),
+        )
     return {
         "schema":"pcmmad.ucm-ingress-packet.v1","system_version":SYSTEM_VERSION,
         "SYSTEM_DESCRIPTOR":copy.deepcopy(SYSTEM_DESCRIPTOR),"USER_STORE_HEAD":user_head,**surfaces,

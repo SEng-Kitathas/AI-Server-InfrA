@@ -21,6 +21,8 @@ from context_engine import (
     RehydrateRequest,
 )
 
+from shared_core import ensure_safe_mutation_target_identity
+
 ToolPayload: TypeAlias = JsonObject
 ToolResult: TypeAlias = JsonObject
 
@@ -760,6 +762,10 @@ def _project_write_payload(payload: ToolPayload, dep: ProjectToolDeps) -> ToolRe
     target = (root / request.path).resolve()
     if root.resolve() not in [target, *target.parents]:
         raise dep.error_cls("BAD_PATH", "path escapes project root", 400)
+    try:
+        ensure_safe_mutation_target_identity(target)
+    except ValueError as exc:
+        raise dep.error_cls("BAD_PATH_ALIAS", str(exc), 409) from exc
     if request.mode == "create_only" and target.exists():
         raise dep.error_cls("ALREADY_EXISTS", "file exists and mode=create_only", 409)
     dep.ensure_parent(target)

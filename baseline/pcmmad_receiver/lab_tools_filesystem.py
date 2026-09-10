@@ -15,6 +15,7 @@ from lab_tool_primitives import (
 )
 from server_hardening import tolerant_rglob
 from project_mutation_authority import ProjectMutationAuthorityError, resolved_paths_consequence_guard
+from shared_core import ensure_safe_mutation_target_identity
 from pathlib import Path
 from typing import Any, Callable
 
@@ -165,9 +166,12 @@ def _fs_write_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResu
     path = dep.ensure_within_allowed(dep.resolve_general_path(payload))
     content = payload_str(payload, "content")
     try:
+        ensure_safe_mutation_target_identity(path)
         with resolved_paths_consequence_guard([path], session_id=payload_str(payload, "session_id")):
             dep.ensure_parent(path)
             path.write_text(content, encoding="utf-8")
+    except ValueError as exc:
+        raise dep.error_cls("BAD_PATH_ALIAS", str(exc), 409) from exc
     except ProjectMutationAuthorityError as exc:
         raise dep.error_cls(exc.error_code, exc.message, exc.status, **exc.extra) from exc
     return {"path": str(path), "bytes_written": len(content.encode("utf-8")), "ok": True}

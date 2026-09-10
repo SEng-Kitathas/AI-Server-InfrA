@@ -19,6 +19,7 @@ from api_wire_models import CompactCapabilitiesResponse
 from lab_tools import compact_control_surface_descriptor, server_native_router_descriptor
 from project_mutation_authority import ProjectMutationAuthorityError, consequence_guard
 from shared_core import (
+    ensure_safe_mutation_target_identity,
     ALLOWED_OPERATIONS,
     APPEND_ALLOWED_CLASSES,
     ARTIFACT_RELATIVE_MAP,
@@ -469,6 +470,7 @@ def _validate_legacy_plan(request_model: LegacyPlanRequest) -> LegacyValidationR
         request_model.project_id, request_model.artifact_class, request_model.logical_name
     )
     validate_operation_semantics(request_model.operation, request_model.artifact_class, target)
+    ensure_safe_mutation_target_identity(target)
     current_sha = get_existing_sha(target)
     if request_model.expected_previous_sha and current_sha != request_model.expected_previous_sha:
         raise PermissionError("expected_previous_sha256 did not match existing file")

@@ -138,6 +138,34 @@ def _zip_entry_is_special(info: zipfile.ZipInfo) -> bool:
     return not (stat.S_ISREG(mode) or stat.S_ISDIR(mode))
 
 
+_WINDOWS_RESERVED_DEVICE_NAMES = frozenset(
+    {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}
+)
+_WINDOWS_FORBIDDEN_COMPONENT_CHARS = frozenset('<>:"|?*')
+
+
+def _windows_zip_component_reason(part: str) -> str | None:
+    if not part:
+        return "empty Windows path component"
+    if part.endswith((".", " ")):
+        return "trailing dot/space Windows path alias"
+    if any(ch in part for ch in _WINDOWS_FORBIDDEN_COMPONENT_CHARS):
+        if ":" in part:
+            return "NTFS alternate data stream or colon-qualified path component"
+        return "Windows-forbidden path character"
+    normalized = part.rstrip(". ")
+    stem = normalized.split(".", 1)[0].upper()
+    if stem in _WINDOWS_RESERVED_DEVICE_NAMES:
+        return "reserved Windows device name"
+    return None
+
+
+def _windows_zip_destination_identity(name: str) -> str:
+    normalized = _normalized_zip_name(name).rstrip("/")
+    parts = [part.rstrip(". ").casefold() for part in PurePosixPath(normalized).parts]
+    return "/".join(parts)
+
+
 def _zip_entry_reason(info: zipfile.ZipInfo) -> str | None:
     name = info.filename
     normalized = _normalized_zip_name(name)
@@ -149,6 +177,10 @@ def _zip_entry_reason(info: zipfile.ZipInfo) -> str | None:
         return "absolute, drive-qualified, or UNC entry"
     if any(part in {"", ".", ".."} for part in posix.parts):
         return "ambiguous or traversing path component"
+    for part in posix.parts:
+        windows_reason = _windows_zip_component_reason(part)
+        if windows_reason:
+            return windows_reason
     if _zip_entry_is_special(info):
         return "symlink or special filesystem entry"
     return None
@@ -161,7 +193,7 @@ def inspect_zip_safety(zip_path: Path) -> ZipSafetyResult:
         infos = archive.infolist()
         for info in infos:
             reason = _zip_entry_reason(info)
-            normalized = _normalized_zip_name(info.filename).rstrip("/").casefold()
+            normalized = _windows_zip_destination_identity(info.filename)
             if normalized in normalized_targets:
                 reason = reason or "duplicate normalized destination"
             normalized_targets.add(normalized)

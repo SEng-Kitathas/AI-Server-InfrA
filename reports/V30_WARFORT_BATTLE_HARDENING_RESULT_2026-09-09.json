@@ -1,0 +1,78 @@
+{
+  "authority_effect": "NONE_BEYOND_EXISTING_RUNTIME_CONTRACTS",
+  "base_head": "ecd99d600783dde06da718160c3fa02655fc3897",
+  "current_state_fixture": {
+    "exact_icf_cs_v12_rehydrate": "PASS",
+    "manifest_sha256": "7e3e6946fe88245dffbd738a452451d4ae56e25754bdfb6693acf45dcd802c18"
+  },
+  "laws": [
+    "INGRESS_START_CURRENT != INGRESS_END_CURRENT",
+    "CONSEQUENCE_REPLAY != RECOVERY_COMPLETE WHILE_DERIVED_STATE_STALE",
+    "EQUAL_PRECEDENCE != LICENSE_FOR_ARBITRARY_TIEBREAK",
+    "FILESYSTEM_CASE_VARIANT != DISTINCT_LOGICAL_IDENTITY",
+    "REGEX_VALID_ID != FILESYSTEM_NAMESPACE_SAFE_ID",
+    "PATH_CONTAINMENT != INODE_OWNERSHIP",
+    "CANONICAL_JSON != PYTHON_JSON_PERMISSIVENESS",
+    "ZIP_MEMBER_STRING != WINDOWS_EXTRACTION_IDENTITY",
+    "ATOMIC_REPLACE != SINGLE_REPLACE_SYSCALL_ON_WINDOWS",
+    "PATH + SIZE + MTIME != FILE_CURRENTNESS",
+    "TRANSFER_STAGE_PATH != TRANSFER_STAGE_OBJECT_IDENTITY",
+    "FUZZ_FAILURE != PRODUCT_FAILURE UNTIL ATTACK_CONTRACT_IS_VALID"
+  ],
+  "repaired_classes": [
+    "ICF/RES/UCM fresh-ingress TOCTOU",
+    "UCM read_core mixed-head packet assembly",
+    "idempotent consequence replay leaving stale derived snapshot",
+    "equal-precedence identity ambiguity",
+    "equal-precedence referent ambiguity",
+    "multiple current collaboration contracts",
+    "UCM profile case aliasing on Windows",
+    "project case aliasing on Windows",
+    "filesystem-special project/profile identifiers",
+    "hardlink consequence escape across project/filesystem/power/legacy writers",
+    "non-finite/lone-surrogate/excess-depth canonical UCM JSON",
+    "Windows ZIP ADS/reserved-device/trailing-dot-space aliases",
+    "Windows atomic replace sharing-violation flake",
+    "case-sensitive profile containment on case-insensitive filesystem",
+    "transfer import stage object replacement/hardlink swap",
+    "transfer export same-size/same-mtime content mutation",
+    "transfer export inode replacement"
+  ],
+  "runtime_boundaries": {
+    "compact_schema_changed": false,
+    "live_reloaded": false,
+    "private_ucm_imported": false
+  },
+  "schema": "pcmmad.v30-warfort-battle-hardening-result.v1",
+  "status": "CANONICAL_SOURCE_QUALIFIED_PUBLICATION_PENDING",
+  "tests": {
+    "archive_new_plus_existing": "17/17 PASS",
+    "canonical_full_sequential": "742 collected / 740 passed / 2 skipped / 0 failed",
+    "canonical_parallel_loadscope": "740 passed / 2 skipped / 103 subtests passed",
+    "canonical_parallel_worksteal": "740 passed / 2 skipped / 103 subtests passed",
+    "canonical_warfort": "65 passed / 1 skipped / 17 property subtests passed",
+    "cross_process_ucm_append_stress": "10/10 iterations PASS; six child writers each",
+    "full_sequential": "742 collected / 740 passed / 2 skipped / 0 failed",
+    "parallel_final_loadscope": "740 passed / 2 skipped / 103 subtests passed",
+    "parallel_final_worksteal": "740 passed / 2 skipped / 103 subtests passed",
+    "transfer_new_plus_existing": "15/15 PASS",
+    "warfort_specific": "65 passed / 1 skipped / 17 property subtests passed"
+  },
+  "ucm_canonical_json": {
+    "invalid_utf8_surrogates_rejected": true,
+    "max_depth": 64,
+    "max_nodes": 50000,
+    "nonfinite_rejected": true
+  },
+  "windows_atomic_replace": {
+    "in_place_fallback": false,
+    "initial_delay_seconds": 0.002,
+    "max_delay_seconds": 0.05,
+    "retry_window_seconds": 0.75,
+    "transient_winerrors": [
+      5,
+      32,
+      33
+    ]
+  }
+}

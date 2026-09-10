@@ -8,6 +8,7 @@ import os
 import re
 import secrets
 import tempfile
+import time
 from datetime import datetime, timezone
 from types import MappingProxyType
 from pathlib import Path
@@ -193,18 +194,71 @@ def ensure_parent(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
 
 
+def ensure_safe_mutation_target_identity(path: Path) -> None:
+    """Reject existing multiply-linked regular files before mutation.
+
+    Path containment proves namespace location, not inode ownership. A project-
+    local hardlink can share an inode with data outside the declared boundary.
+    Mutating such a pathname would escape the intended consequence scope.
+    """
+    if not path.exists():
+        return
+    try:
+        stat_result = path.stat()
+    except OSError as exc:
+        raise ValueError(f"could not inspect mutation target identity: {exc}") from exc
+    if path.is_file() and int(getattr(stat_result, "st_nlink", 1)) > 1:
+        raise ValueError(
+            f"multiply-linked mutation target is not uniquely owned by this pathname (link_count={stat_result.st_nlink})"
+        )
+
+
 def load_json(path: Path, default: Any) -> Any:
     if not path.exists():
         return default
     return parse_json_boundary(path.read_text(encoding="utf-8"))
 
 
+_ATOMIC_REPLACE_RETRY_SECONDS = 0.75
+_ATOMIC_REPLACE_RETRY_INITIAL_DELAY_SECONDS = 0.002
+_ATOMIC_REPLACE_RETRY_MAX_DELAY_SECONDS = 0.05
+_ATOMIC_REPLACE_TRANSIENT_WINERRORS = frozenset({5, 32, 33})
+
+
+def _atomic_replace_transient(exc: OSError) -> bool:
+    winerror = getattr(exc, "winerror", None)
+    if winerror in _ATOMIC_REPLACE_TRANSIENT_WINERRORS:
+        return True
+    # PermissionError maps common sharing/access violations to EACCES on Python/Windows.
+    return isinstance(exc, PermissionError) and os.name == "nt"
+
+
 def save_json_atomic(path: Path, data: Any) -> None:
     ensure_parent(path)
-    with tempfile.NamedTemporaryFile("w", delete=False, dir=path.parent, encoding="utf-8") as tmp:
-        tmp.write(render_json_boundary(data))
-        tmp_path = Path(tmp.name)
-    tmp_path.replace(path)
+    tmp_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile("w", delete=False, dir=path.parent, encoding="utf-8") as tmp:
+            tmp.write(render_json_boundary(data))
+            tmp.flush()
+            os.fsync(tmp.fileno())
+            tmp_path = Path(tmp.name)
+        deadline = time.monotonic() + _ATOMIC_REPLACE_RETRY_SECONDS
+        delay = _ATOMIC_REPLACE_RETRY_INITIAL_DELAY_SECONDS
+        while True:
+            try:
+                tmp_path.replace(path)
+                return
+            except OSError as exc:
+                if not _atomic_replace_transient(exc) or time.monotonic() >= deadline:
+                    raise
+                time.sleep(delay)
+                delay = min(delay * 2.0, _ATOMIC_REPLACE_RETRY_MAX_DELAY_SECONDS)
+    finally:
+        if tmp_path is not None and tmp_path.exists():
+            try:
+                tmp_path.unlink()
+            except OSError:
+                pass
 
 
 def _json_ready(value: Any) -> Any:
@@ -222,11 +276,31 @@ def append_jsonl(path: Path, record: Any) -> None:
         os.fsync(f.fileno())
 
 
+_WINDOWS_RESERVED_COMPONENT_NAMES = frozenset(
+    {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}
+)
+
+
+def validate_filesystem_component_id(value: str, *, field: str) -> str:
+    text = str(value or "").strip()
+    if not text or text in {".", ".."}:
+        raise ValueError(f"{field} is empty or aliases a parent/current directory")
+    if text.endswith((".", " ")):
+        raise ValueError(f"{field} has a trailing dot/space filesystem alias")
+    if any(ch in text for ch in '<>:"/\\|?*'):
+        raise ValueError(f"{field} contains a Windows-reserved path character")
+    stem = text.rstrip(". ").split(".", 1)[0].upper()
+    if stem in _WINDOWS_RESERVED_COMPONENT_NAMES:
+        raise ValueError(f"{field} is a reserved Windows device name")
+    return text
+
+
 def validate_project_id(project_id: str) -> str:
     if not project_id:
         raise ValueError("project_id is required")
     if not SAFE_PROJECT_RE.fullmatch(project_id):
         raise ValueError("project_id contains invalid characters")
+    validate_filesystem_component_id(project_id, field="project_id")
     return project_id
 
 
@@ -266,8 +340,18 @@ def resolve_mount_spec(
 
 def get_project_root(project_id: str) -> Path:
     pid = validate_project_id(project_id)
-    root = (PROJECTS_ROOT / pid).resolve()
-    if PROJECTS_ROOT.resolve() not in [root, *root.parents]:
+    projects_root = PROJECTS_ROOT.resolve()
+    if projects_root.exists():
+        try:
+            for child in projects_root.iterdir():
+                if child.name.casefold() == pid.casefold() and child.name != pid:
+                    raise ValueError(
+                        f"project_id case conflicts with existing filesystem identity: requested={pid!r} existing={child.name!r}"
+                    )
+        except OSError as exc:
+            raise ValueError(f"could not inspect project namespace identity: {exc}") from exc
+    root = (projects_root / pid).resolve()
+    if projects_root not in [root, *root.parents]:
         raise ValueError("project root escaped projects root")
     return root
 

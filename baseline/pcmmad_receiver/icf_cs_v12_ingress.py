@@ -14,7 +14,7 @@ from typing import Any
 from context_engine import RehydrateRequest, rehydrate_context
 from res_runtime import handoff_readiness
 from shared_core import get_project_root
-from ucm_v1_runtime import UcmError, read_core
+from ucm_v1_runtime import UcmError, head as ucm_head, read_core
 
 ICF_CS_VERSION = "1.2"
 ICF_CS_STANDARD_REL = "state/doctrine_snapshot/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md"
@@ -188,6 +188,49 @@ def rehydrate_icf_v12(
             debug=bool(debug),
         )
     )
+
+    # Final consequence readback closes the ingress TOCTOU window across the
+    # composed authority/RES/UCM/context reads. The returned packet is bound to
+    # the exact end-of-ingress state, not merely the state observed at start.
+    standard_after = _standard_current(root)
+    if standard_after["sha256"] != standard["sha256"]:
+        raise IcfIngressError(
+            "ICF_CS_CURRENTNESS_FAILURE",
+            "ICF-CS authority bytes changed during fresh-instance rehydration",
+            409,
+            before_sha256=standard["sha256"],
+            after_sha256=standard_after["sha256"],
+        )
+    if applicability["RES"]["state"] == "REQUIRED":
+        res_after = handoff_readiness(pid, research_intensive=True)
+        if not res_after.get("ready"):
+            raise IcfIngressError(
+                "HANDOFF_EPISTEMIC_CONTINUITY_INCOMPLETE",
+                "required RES became stale or invalid during fresh-instance rehydration",
+                409,
+                res_reasons=res_after.get("reasons") or [],
+                res_status=res_after.get("status"),
+            )
+        res = res_after
+    if applicability["UCM"]["state"] == "REQUIRED":
+        profile = str(ucm_profile_id or "").strip()
+        current_head = ucm_head(profile)
+        bound_head = ucm.get("USER_STORE_HEAD") or {}
+        if (
+            int(current_head.get("ledger_head_seq") or 0) != int(bound_head.get("ledger_head_seq") or 0)
+            or current_head.get("ledger_head_hash") != bound_head.get("ledger_head_hash")
+            or not current_head.get("snapshot_current")
+        ):
+            raise IcfIngressError(
+                "UCM_CURRENTNESS_FAILURE",
+                "UCM authoritative head changed during fresh-instance rehydration",
+                409,
+                packet_head_seq=bound_head.get("ledger_head_seq"),
+                packet_head_hash=bound_head.get("ledger_head_hash"),
+                current_head_seq=current_head.get("ledger_head_seq"),
+                current_head_hash=current_head.get("ledger_head_hash"),
+                snapshot_current=current_head.get("snapshot_current"),
+            )
     return {
         "schema": "pcmmad.icf-cs.v1.2-ingress.v1",
         "status": "FRESH_INSTANCE_CONTINUITY_READY",
