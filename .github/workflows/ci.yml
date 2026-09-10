@@ -48,7 +48,10 @@ jobs:
           python -m pytest -q --tb=short --junitxml=pytest-results.xml *>&1 | Tee-Object -FilePath pytest-output.txt
           $pytestCode = $LASTEXITCODE
           python tools/emit_ci_test_annotations.py pytest-results.xml pytest-output.txt
-          exit $pytestCode
+          $diagnosticCode = $LASTEXITCODE
+          if ($pytestCode -ne 0) { exit $pytestCode }
+          if ($diagnosticCode -ne 0) { exit $diagnosticCode }
+          exit 0
       - name: Upload pytest diagnostics
         if: always()
         uses: actions/upload-artifact@v4
