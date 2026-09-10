@@ -221,6 +221,7 @@ ICF_ANCHOR_CLASSES = (
     "state.revisit_ledger",
     "state.trace_matrix",
     "continuity.live_shadow",
+    "continuity.research_epistemic_shadow",
     "continuity.design_thread_stream",
 )
 
@@ -539,9 +540,15 @@ def _decode_text_bounded(data: bytes, max_bytes: int) -> str:
 
 
 def _read_prefix_bounded(path: Path, max_bytes: int) -> tuple[str, int, int]:
+    limit = max(1, int(max_bytes))
+    try:
+        file_size = int(path.stat().st_size)
+    except OSError:
+        return "", 1, 0
+    read_size = min(limit + 1, file_size + 1)
     with path.open("rb") as handle:
-        data = handle.read(max_bytes + 1)
-    content = _decode_text_bounded(data[:max_bytes], max_bytes)
+        data = handle.read(read_size)
+    content = _decode_text_bounded(data[:limit], limit)
     if not content:
         return "", 1, 0
     end_line = max(1, len(content.splitlines()))
@@ -894,7 +901,9 @@ class RehydrateSelectionState:
 
 
 def _rehydrate_budget(request: RehydrateRequest) -> int:
-    if request.budget_bytes in (None, 0, -1):
+    if request.budget_bytes is None:
+        return max(1, min(DEFAULT_REHYDRATE_BUDGET_BYTES, MAX_REHYDRATE_BUDGET_BYTES))
+    if request.budget_bytes in (0, -1):
         return MAX_REHYDRATE_BUDGET_BYTES
     return max(1, min(request.budget_bytes, MAX_REHYDRATE_BUDGET_BYTES))
 
@@ -1031,7 +1040,7 @@ def _icf_anchor_directories(target: Path) -> list[Path]:
             for child in ("current", "next_steps", "doctrine_snapshot", "revisit_ledger", "trace_matrix")
         )
     elif name == "continuity":
-        candidates.extend(target / child for child in ("live_shadow", "design_thread_stream"))
+        candidates.extend(target / child for child in ("live_shadow", "research_epistemic_shadow", "design_thread_stream"))
     elif name == "checkpoints":
         candidates.append(target)
     else:
@@ -1044,6 +1053,7 @@ def _icf_anchor_directories(target: Path) -> list[Path]:
                 target / "state" / "revisit_ledger",
                 target / "state" / "trace_matrix",
                 target / "continuity" / "live_shadow",
+                target / "continuity" / "research_epistemic_shadow",
                 target / "continuity" / "design_thread_stream",
             ]
         )
@@ -1111,6 +1121,8 @@ def _seed_icf_anchors(state: RehydrateSelectionState, target: Path, budget: int)
                     if artifact_class == "continuity.icf_standard"
                     else "constraints"
                     if artifact_class in {"state.doctrine_snapshot", "state.revisit_ledger", "state.trace_matrix"}
+                    else "epistemic"
+                    if artifact_class == "continuity.research_epistemic_shadow"
                     else "history"
                 ),
                 "score": ARTIFACT_PRIORS.get(artifact_class, 1.0),

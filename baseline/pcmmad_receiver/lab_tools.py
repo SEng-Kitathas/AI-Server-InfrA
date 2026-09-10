@@ -74,6 +74,7 @@ from lab_tools_doctrine import register_doctrine_tools
 from lab_tools_governance import register_governance_tools
 from lab_tools_protocol import register_protocol_tools
 from lab_tools_continuity import register_continuity_tools
+from lab_tools_icf_ingress import register_icf_ingress_tool
 from lab_tools_res import register_res_tools
 from lab_tools_memory import register_memory_tools
 from lab_tools_ucm import register_ucm_tools
@@ -1106,6 +1107,11 @@ register_continuity_tools(
     resolve_target=resolve_target,
     commits_ledger_path_for=commits_ledger_path_for,
     sha256_file=sha256_file,
+)
+
+register_icf_ingress_tool(
+    register_tool,
+    error_cls=LabToolError,
 )
 
 register_res_tools(

@@ -62,6 +62,20 @@ class RehydrateBudgetStrictTests(unittest.TestCase):
         clipped = context_engine._clip_excerpt_to_budget("界" * 100, 10)
         self.assertLessEqual(len(clipped.encode("utf-8")), 10)
 
+    def test_omitted_budget_uses_finite_default_not_unbounded_sentinel(self) -> None:
+        request = context_engine.RehydrateRequest(topic="frontier", budget_bytes=None)
+        self.assertEqual(context_engine._rehydrate_budget(request), 40_000)
+
+    def test_explicit_unbounded_budget_does_not_request_absurd_single_file_read(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "small.md"
+            path.write_text("alpha\nbeta\n", encoding="utf-8")
+            content, start, end = context_engine._read_prefix_bounded(
+                path, context_engine.MAX_REHYDRATE_BUDGET_BYTES
+            )
+        self.assertEqual(content, "alpha\nbeta\n")
+        self.assertEqual((start, end), (1, 2))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,37 @@
+{
+  "archive": {
+    "bytes": 2584782,
+    "crc": "PASS",
+    "name": "RAHL_ENGINEERING_CANONICAL_SOP_R4_4_ICF_CS_V1_2_ADDENDUM_2026-09-09.zip",
+    "sha256": "b82803be3ebd37f6ac58fb95beb3df5a043f5167e66b94846419817bbf8d5606"
+  },
+  "artifact_id": "RAHL_ENGINEERING_CANONICAL_SOP_R4_4_ICF_CS_V1_2_ADDENDUM_2026-09-09",
+  "authority_effect": "NONE_UNTIL_GOVERNED_ACTIVATION",
+  "decision": "QUALIFIED_BINDING_ADDITIVE_DOCTRINE_SUCCESSOR_PENDING_ACTIVATION",
+  "generated_at_utc": "2026-09-10T02:00:00Z",
+  "parent": {
+    "decision": "ACTIVE_BINDING_ADDITIVE_DOCTRINE",
+    "name": "RAHL_ENGINEERING_CANONICAL_SOP_R4_4_ICF_CS_V1_1_DISTRIBUTION_2026-09-05.zip",
+    "sha256": "2bb57b24967f80fc5dcf028eece142150ce5d6a1356f12e13cda26951ae19fe7"
+  },
+  "qualification": {
+    "clean_extraction": "PASS",
+    "contract_sha256": "e5ea4f36039882ab091396c4b53130f2d88e99e09f088e06b7a1ac4ab8f0a58f",
+    "critical_tool_hashes": {
+      "tests/hostile_v1_2.py": "513ef6aacedfb8fd88f4b7932a9d433db31dc136be3359759f48ba53ebf0306f",
+      "tools/verify_icf_cs_v1_2.py": "a7eeec429425b75b68703e27ad058e2cb366c64066bbc23893ea59156821456d",
+      "tools/verify_qualification_surface.py": "672caf469ea8a3cee7874e16d46f77082b222772598839acba7757398d4bec38"
+    },
+    "deterministic_double_seal": true,
+    "hostile": "34/34 REJECTED",
+    "manifest_sha256": "cc8485d5aceb25d24a2c1ddccbd483e20755fdb8087a31e0a2407314160e2e14",
+    "primary_verifier": "PASS parent/currentness/RES/UCM semantics; hostile_contract=34",
+    "qualification_surface": "PASS hostile names=34 critical hashes exact",
+    "semantic_read_ledger_sha256": "dc35d1cf0bbd2e6c6bcca1165600836bcc66be5c62a2414f07d3d78910819f39",
+    "server_bindings": {
+      "res_feature_commit": "8714dd87d2092e0f4c66f261fcf5cee8b75a0798",
+      "ucm_feature_commit": "f01418c546e449acb3f98f4b64f5b4a7ad3f0960"
+    }
+  },
+  "schema_version": "0.1"
+}

@@ -1,0 +1,56 @@
+{
+  "applicability_states": [
+    "REQUIRED",
+    "NOT_APPLICABLE_WITH_BASIS"
+  ],
+  "failure_taxonomy": {
+    "authority": "AUTHORITY_FIREWALL",
+    "missing_res": "HANDOFF_EPISTEMIC_CONTINUITY_INCOMPLETE",
+    "missing_ucm": "USER_CONTINUITY_INCOMPLETE",
+    "stale_ucm": "UCM_CURRENTNESS_FAILURE",
+    "ucm_budget": "UCM_CORE_BUDGET_EXCEEDED",
+    "ucm_provenance": "UCM_PROVENANCE_FAILURE"
+  },
+  "owning_plane_verification_required_for": [
+    "PROJECT",
+    "RUNTIME",
+    "DEPLOYMENT"
+  ],
+  "required_ucm_surfaces": [
+    "SYSTEM_DESCRIPTOR",
+    "USER_STORE_HEAD",
+    "CORE_SNAPSHOT",
+    "IDENTITY_INDEX",
+    "COLLABORATION_CONTRACT",
+    "REFERENT_INDEX",
+    "DECISION_INDEX",
+    "CONTROL_STATE",
+    "VERIFICATION_DEBT",
+    "CANDIDATE_QUEUE_HEAD"
+  ],
+  "schema": "rahl.icf-cs.fresh-instance-contract.v1.2",
+  "session_modes": {
+    "INTERACTIVE_NONRESEARCH_USER_SESSION": {
+      "res": "NOT_APPLICABLE_WITH_BASIS_OR_PROJECT_OVERRIDE",
+      "ucm": "REQUIRED"
+    },
+    "INTERACTIVE_RESEARCH_USER_SESSION": {
+      "res": "REQUIRED",
+      "ucm": "REQUIRED"
+    },
+    "NONUSER_NONRESEARCH_AUTOMATION": {
+      "res": "NOT_APPLICABLE_WITH_BASIS",
+      "ucm": "NOT_APPLICABLE_WITH_BASIS"
+    },
+    "NONUSER_RESEARCH_AUTOMATION": {
+      "res": "REQUIRED",
+      "ucm": "NOT_APPLICABLE_WITH_BASIS"
+    }
+  },
+  "ucm_budget": {
+    "core_bytes_max": 12000,
+    "headroom_bytes_min": 2000,
+    "system_descriptor_excluded": true
+  },
+  "version": "1.2"
+}

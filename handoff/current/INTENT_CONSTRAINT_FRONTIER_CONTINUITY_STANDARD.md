@@ -1,84 +1,118 @@
-# Intent–Constraint–Frontier Continuity Standard — ICF-CS v1.1
+# Intent–Constraint–Frontier Continuity Standard — ICF-CS v1.2
 
-Date: 2026-09-05
+Date: 2026-09-09
 Status: BINDING ADDITIVE DOCTRINE ONLY WHEN ACCOMPANIED BY A VALID DETACHED RELEASE RECEIPT
-Scope: project-agnostic/thread-agnostic continuity, rehydration, current-ingress, currentness conflict handling, and continuity-adjacent evaluation-data hygiene.
+Scope: project/thread-agnostic continuity, fresh-instance rehydration, current-ingress, currentness conflict handling, RES/UCM continuity-plane integration, and continuity-adjacent evaluation-data hygiene.
 
-## Standard definition
-ICF-CS prevents fresh-instance rollback by separating three live continuity classes that age at different rates while keeping history as a distinct chronological/forensic lineage class:
+## 1. Inheritance
+ICF-CS v1.2 inherits the exact receipt-qualified ICF-CS v1.1 distribution as parent and does not rewrite its released bytes. All v1.1 laws remain unless this successor explicitly strengthens them.
 
-1. **Intent** — what the project is ultimately trying to become and what success means.
-2. **Constraints** — load-bearing decisions, authority ceilings, sequencing laws, scars, and anti-regressions not casually reopened.
-3. **Frontier** — what is verified/earned, provisional, blocked, deferred, and next right now.
-4. **History** — chronological/forensic lineage used for recovery and provenance, not automatic current authority.
+`PARENT_RELEASE_INHERITED != PARENT_BYTES_REWRITTEN`
 
+## 2. Core continuity law
 `DIRECTION != CONSTRAINTS != FRONTIER != HISTORY`
 
-Intent can remain durable while frontier changes quickly. Constraints can remain load-bearing while their evidence/scope remains valid. History can remain valuable after losing current authority.
+Intent, Constraints, Frontier, and History remain distinct. v1.2 additionally makes the continuity instruments used to reconstruct those classes explicit at fresh-instance ingress.
 
-## Current-ingress requirement
-A governed project SHALL expose at least one explicit discoverable current-ingress pointer from a manifest/bootstrap/start surface or equivalent. The pointer is navigation, not proof.
+## 3. Continuity-plane separation
+`LIVE_SHADOW != DTS != RES != UCM`
 
-`HISTORICAL_HANDOFF != CURRENT_INGRESS`
-`DONOR != AUTHORITY`
-`RECENT_TIMESTAMP != CURRENT_AUTHORITY`
-`STALE_GREEN != CURRENT_EVIDENCE`
-`CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`
+- Live Shadow answers what matters now for the project.
+- DTS answers what happened and why.
+- RES answers what the project/research learned, with epistemic status/provenance and no automatic doctrine authority.
+- UCM answers what user-owned/global continuity is relevant, with no automatic project/runtime/doctrine authority.
 
-A polished or complete imported/donor account SHALL NOT acquire governing authority merely because it is easier to retrieve than the current project state. A recent timestamp SHALL NOT resolve an authority conflict. Prior passing evidence SHALL be revalidated whenever consequence-bearing bytes/state within its assurance scope changed.
+`RES_CONTENT != GOVERNING_DOCTRINE`
+`UCM != PROJECT_AUTHORITY`
+`UCM != RUNTIME_TRUTH`
+`UCM != DOCTRINE_AUTHORITY`
 
-## Version-agnostic cold-start grammar
-`CURRENT STATE -> ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> LIVE READBACK BEFORE MUTATION`
+## 4. Applicability contract
+Every fresh-instance ingress SHALL classify both RES and UCM as exactly one of:
+- `REQUIRED`;
+- `NOT_APPLICABLE_WITH_BASIS`.
+
+Missing classification is a continuity failure. `NOT_APPLICABLE_WITH_BASIS` SHALL contain a non-empty reason grounded in session/project mode.
+
+RES SHALL be `REQUIRED` for research-intensive workstreams and whenever a governing project contract declares RES required. A non-research workflow may classify RES `NOT_APPLICABLE_WITH_BASIS`; it SHALL NOT silently infer absence from a missing file.
+
+UCM SHALL be `REQUIRED` for interactive user-session ingress when a governed user continuity profile is declared/available. Non-user automation may classify UCM `NOT_APPLICABLE_WITH_BASIS`; it SHALL NOT synthesize an empty user profile and call continuity complete.
+
+`MISSING != NOT_APPLICABLE`
+
+## 5. Version-agnostic cold-start grammar
+`CURRENT STATE -> CURRENT ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> RES APPLICABILITY/CURRENTNESS -> UCM APPLICABILITY + SYSTEM DESCRIPTOR + USER STORE HEAD -> BOUNDED UCM CORE -> TASK-RELEVANT LAZY UCM HYDRATION -> OWNING-PLANE LIVE VERIFICATION -> LIVE READBACK BEFORE MUTATION`
 
 1. Current State establishes the compact claimed present.
-2. ICF-CS recovers Intent, Constraints, and Frontier separately.
-3. Current canonical SOP plus applicable Next Steps, Doctrine Snapshot, Revisit Ledger, and Trace Matrix recover governing process and open obligations without hard-coding an obsolete SOP version.
-4. Live Shadow restores minimum high-fidelity active state.
-5. DTS restores chronology and decision lineage.
-6. Before consequential mutation, live consequence-bearing state SHALL be read back: exact bytes, source-control head, runtime/process state, remote state, manifests, receipts, or equivalent.
+2. Current ICF-CS establishes the active continuity contract.
+3. Current canonical SOP plus Next/Doctrine/Revisit/Trace recover governing process/open obligations.
+4. Live Shadow restores minimum high-fidelity active project state.
+5. DTS restores chronological/decision lineage.
+6. RES applicability is classified. If required, current RES is loaded/validated before research handoff or consequential research mutation.
+7. UCM applicability is classified. If required, the UCS/UCM system descriptor and authoritative user-store head are read first.
+8. UCM snapshot/head currentness is verified before hydration.
+9. The bounded ten-surface UCM core is hydrated under the current UCS contract.
+10. Project/personal-sensitive/deployment/historical/task-specific UCM groups are hydrated lazily only when task relevant and authorized.
+11. UCM assertions about project/runtime/deployment state are verified through their owning live planes before consequence.
+12. Consequence-bearing project/runtime/remote bytes/state are read back before mutation.
 
-Missing surfaces are reported missing. They are not reconstructed from memory, donor prose, or the newest-looking file.
+Missing required surfaces are reported missing; they are not reconstructed from chat memory, donor prose, or newest-looking files.
 
-## Material disagreement protocol
+## 6. RES requirements
+When RES is required:
+- canonical truth-state/provenance/transition contract SHALL be enforced;
+- current consolidated snapshot/addenda SHALL pass the current project/server RES validation contract;
+- research handoff after material epistemic change SHALL fail closed if RES is stale/missing/unbound;
+- RES synthesis SHALL NOT promote itself into Doctrine Snapshot or project authority.
+
+Required failure class for missing/stale required RES at research handoff: `HANDOFF_EPISTEMIC_CONTINUITY_INCOMPLETE` or a more specific current RES taxonomy.
+
+## 7. UCM requirements
+When UCM is required, fresh-instance ingress SHALL read and validate:
+- SYSTEM_DESCRIPTOR;
+- USER_STORE_HEAD;
+- CORE_SNAPSHOT;
+- IDENTITY_INDEX;
+- COLLABORATION_CONTRACT;
+- REFERENT_INDEX;
+- DECISION_INDEX;
+- CONTROL_STATE;
+- VERIFICATION_DEBT;
+- CANDIDATE_QUEUE_HEAD.
+
+The user core SHALL be bounded by the active UCS/UCM contract. For UCS v1.0, the current server contract is 12,000 bytes maximum with at least 2,000 bytes unused headroom, excluding SYSTEM_DESCRIPTOR from the user-core budget.
+
+Task-relevant lazy hydration SHALL remain bounded and SHALL distinguish OFFERED/HYDRATED from CONSUMED/USED_IN_DECISION where the Runtime exposes those states.
+
+Required failure taxonomy:
+- required UCM omitted/incomplete -> `USER_CONTINUITY_INCOMPLETE`;
+- snapshot/head currentness failure -> `UCM_CURRENTNESS_FAILURE`;
+- required provenance absent/invalid -> `UCM_PROVENANCE_FAILURE`;
+- core/headroom contract exceeded -> `UCM_CORE_BUDGET_EXCEEDED`;
+- UCM attempts project/runtime/doctrine authority -> `AUTHORITY_FIREWALL`.
+
+## 8. Owning-plane verification
+A UCM fact may carry a useful project/runtime/deployment pointer without becoming authority for that plane. Before consequence, assertions whose verification component requires owning-plane readback SHALL be verified against the owning live project/runtime/deployment surface.
+
+`VERIFIER_AVAILABLE != ASSERTION_VERIFIED`
+`RETRIEVAL_PACKET != AUTHORITY`
+
+## 9. Conflict/recovery
 `CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME`
 
-- **RECOVERY/AUDIT:** identify strongest surviving evidence and authority surfaces; separate verified, provisional, historical, inferred, and unknown.
-- **LOCALIZE:** name the exact disagreement class: intent, constraint, frontier, history, currentness, authority, provenance, or embodiment.
-- **REPAIR/SUPERSEDE:** repair the lowest necessary surface or create an explicit successor/superseding pointer; preserve append-only lineage where required.
-- **READBACK:** verify consequence-bearing state after repair.
-- **RESUME:** return to work only after the conflict is localized and current state re-established.
+Conflicts are localized by plane: intent, constraint, frontier, history, RES epistemic state, UCM user continuity, project/runtime truth, provenance/currentness, or authority. Do not smooth cross-plane disagreement into fake coherence.
 
-## Evaluation/steering-data extension
-Steering sets, benchmark prompts, expected labels, adjudication keys, and evaluation records can alter model/operator behavior and therefore require provenance, currentness, explicit scope, and authority class.
-
+## 10. Evaluation-data hygiene
+All inherited v1.1 steering/evaluation-data laws remain, including:
 `EXPECTED_LABEL != PROMPT_CONTENT`
 `BENCHMARK_ITEM != DOCTRINE_AUTHORITY`
 `FORMAT_FAILURE != SEMANTIC_FAILURE`
 `SEMANTIC_AGREEMENT != AUTHORITY_FIDELITY`
 
-Expected labels/adjudication keys SHALL NOT be exposed to the evaluated input unless label visibility is the property under test. Copying a scoring key into model input changes the measurement and SHALL NOT be treated as a clean semantic evaluation.
-
-A benchmark answer key is an evaluation instrument, not governing doctrine. When authority fidelity is being tested, expected answers SHALL be validated against the current governing authority surface.
-
-Formatting failure and semantic failure SHALL be recorded separately when separable. Agreement with an answer key measures agreement with that key; it does not prove fidelity to current authority or reality.
-
-Minimum recoverable metadata for consequence-bearing steering/evaluation data: provenance, scope, authority class, currentness basis/last validation point, expected-label source when labels exist, and supersession/deprecation state when known.
-
-## Mechanized currentness profile
-Where durable local state and deterministic tooling are available, projects SHOULD prefer the mechanized profile in `MECHANIZED_EPOCH_PROFILE.md` over operator-memory-only currentness checks. This preference is about reducing stale-read risk, not granting semantic authority to counters.
-
-`TOKEN_MATCH != FACTUAL_TRUTH`
-`EPOCH_MATCH != AUTHORITY_MATCH`
-`CAS_SUCCESS != SEMANTIC_VALIDITY`
-
-## Release authority
-ICF-CS v1.1 payload bytes do not activate themselves.
+## 11. Release authority
+This payload does not activate itself. A detached release receipt SHALL pin the parent distribution, payload, manifest, semantic-read ledger, qualification contract, verifier/hostile hashes, deterministic seal, CRC, and clean-extraction replay.
 
 `SELF_VERIFYING_PACKAGE != VERIFIED_PACKAGE`
 
-A detached release receipt produced outside the specimen is required for active binding status. The receipt must pin at least payload SHA-256, canonical-base SHA-256, manifest SHA-256, semantic-ledger SHA-256, qualification-contract SHA-256, release-critical file hashes, hostile case set/count, CRC, deterministic seal result, and clean-extraction replay result.
-
-## Authority ceiling
-ICF-CS is continuity/process doctrine, not a truth oracle. Authorized intent may govern direction without proving external facts. Constraints remain scoped to the evidence and authority that earned them. Frontier claims must remain current or explicitly provisional. History preserves lineage without automatic authority promotion.
-
-ICF-CS adds no product/domain/architecture/legal/regulatory/scientific-result authority merely by inclusion.
+## 12. Authority ceiling
+ICF-CS remains continuity/process doctrine. It does not acquire product/domain/architecture/legal/regulatory/scientific-result authority. RES remains epistemic synthesis subject to its own authority firewall. UCM remains user-owned continuity subject to its own authority firewall.

@@ -1,19 +1,8 @@
 {
-  "schema": "pcmmad.git-handoff-snapshot.v1",
-  "project_id": "PCMMAD_RECEIVER_LAB",
-  "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
-  "created_at": "2026-09-09T15:31:37.220623+00:00",
   "authority_ceiling": "recovery mirror; fresh Git/project/runtime readback remains authoritative",
+  "created_at": "2026-09-09T15:31:37.220623+00:00",
   "engineering_feature_head": "fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce",
   "engineering_feature_tree": "5742bc9b24f6f3973ef79bbbe27170c0153d6596",
-  "previous_recovery_head": "19c52e6405e058e6415d760dc10e880d559f8015",
-  "operating_library_v1_sha256": "b3ac0c538c19e1bb4819569439905fdce707e071b26d9c8d9c58a054de845a7f",
-  "repaired_t0_2_sha256": "0805101ceefa8017186842c6a13c69d94523472e3491ef923357e1d2a146f6e0",
-  "operating_library_runtime_convergence_sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e",
-  "operating_library_disposition": "KEEP library; NARROW deterministic substrate; KILL duplicate truth/effect planes; no new EMBODY from final replay",
-  "live_runtime_git_identity": "UNKNOWN_FROM_DEPLOYED_COPY",
-  "final_schema": "LAST_LOCKED_UNTRIGGERED",
-  "next_step": "opportunistic independent real-world Skill dogfood; no Runtime architecture mutation without a new deterministic defect",
   "files": {
     "A042_ENGINEERING_QUALIFICATION_2026-09-07.md": {
       "bytes": 1521,
@@ -64,20 +53,36 @@
       "sha256": "079a523d017438cfd9057d5bfe78b4bf47e4550c20fc9bbd3840cbf6d66f245a"
     },
     "ICF_CS_CURRENT.md": {
-      "bytes": 38028,
-      "sha256": "0ae2483efcb6b5614328fab82f7a02d3f0cd5c622b99a943aca7d6d9039c3550"
+      "bytes": 4446,
+      "sha256": "10087e8ce9cb67eefd1890320b331cfdea19f93effb80910c2a6dc7dda7176a6"
     },
     "ICF_CS_V1_0_MACHINE.json": {
       "bytes": 2688,
       "sha256": "527e4fa0926449155a8aa548656b3debc5292262f8cfaab0ca3f0470e7771f5a"
+    },
+    "ICF_CS_V1_2_ACTIVATION_RECEIPT_2026-09-09.json": {
+      "bytes": 2304,
+      "sha256": "893409f28ea181c60ca9e3681eb9a1a4d08fa279befac4d679d2cfdb958d7279"
+    },
+    "ICF_CS_V1_2_DETACHED_RELEASE_RECEIPT_2026-09-09.json": {
+      "bytes": 1884,
+      "sha256": "59f66d7707508faa4015df86c728302961c0a13e2f4e8655425ce783248cbc7e"
+    },
+    "ICF_CS_V1_2_FRESH_INSTANCE_CONTRACT.json": {
+      "bytes": 1472,
+      "sha256": "4fdee32a990791ff2b70bacdf6fed07c75a7fc5a8feb662e36dcb81e700c2519"
+    },
+    "ICF_CS_V1_2_MACHINE.json": {
+      "bytes": 2914,
+      "sha256": "4ae30568317de49f9613e226b7601b0de440ba35becb9f5d817870c3c598747c"
     },
     "IDEMPOTENCY_RAID_QUALIFICATION_2026-09-07.md": {
       "bytes": 2909,
       "sha256": "ab8ff86b365d0e38760bba1c2bc306358858e1098206afb98e8b63f2eb46736d"
     },
     "INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md": {
-      "bytes": 6316,
-      "sha256": "62be845da364ae81f59b6320c9b34b136236bf5be8aa8036018da48efcb754f4"
+      "bytes": 7108,
+      "sha256": "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92"
     },
     "LIVE_RUNTIME_PROMOTION_RECEIPT_2026-09-07.md": {
       "bytes": 3590,
@@ -143,6 +148,10 @@
       "bytes": 4244,
       "sha256": "e3bdd23ef764cf1aae3943fbac51520a1fec302283c14d2691a3dbbb67e86dab"
     },
+    "WORKLOAD_IDENTITY_PROOF_QUALIFICATION_2026-09-07.md": {
+      "bytes": 4851,
+      "sha256": "bd2a1981ae6be1306fdc06e3241d59cc33bb61187d9c0c637e2f2adc8665bc7f"
+    },
     "wip/A042_API_WIRE_EXECUTION_WIP.py": {
       "bytes": 8911,
       "sha256": "ab497e79803aa8efb7117faed0b7d81d7fa618923760f0d0fa0e30ac719e9f17"
@@ -198,10 +207,17 @@
     "wip/A042_WIP_INVENTORY.json": {
       "bytes": 4191,
       "sha256": "3e332dfaebe0ee019b9908ddb3a528ed6bff65eb82851798494fa661cb46a791"
-    },
-    "WORKLOAD_IDENTITY_PROOF_QUALIFICATION_2026-09-07.md": {
-      "bytes": 4851,
-      "sha256": "bd2a1981ae6be1306fdc06e3241d59cc33bb61187d9c0c637e2f2adc8665bc7f"
     }
-  }
+  },
+  "final_schema": "LAST_LOCKED_UNTRIGGERED",
+  "live_runtime_git_identity": "UNKNOWN_FROM_DEPLOYED_COPY",
+  "next_step": "opportunistic independent real-world Skill dogfood; no Runtime architecture mutation without a new deterministic defect",
+  "operating_library_disposition": "KEEP library; NARROW deterministic substrate; KILL duplicate truth/effect planes; no new EMBODY from final replay",
+  "operating_library_runtime_convergence_sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e",
+  "operating_library_v1_sha256": "b3ac0c538c19e1bb4819569439905fdce707e071b26d9c8d9c58a054de845a7f",
+  "previous_recovery_head": "19c52e6405e058e6415d760dc10e880d559f8015",
+  "project_id": "PCMMAD_RECEIVER_LAB",
+  "repaired_t0_2_sha256": "0805101ceefa8017186842c6a13c69d94523472e3491ef923357e1d2a146f6e0",
+  "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
+  "schema": "pcmmad.git-handoff-snapshot.v1"
 }

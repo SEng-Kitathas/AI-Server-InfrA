@@ -1,0 +1,77 @@
+{
+  "authority_effect": "NONE_BEYOND_EXISTING_CONTINUITY_PROCESS_DOCTRINE",
+  "base_head": "f01418c546e449acb3f98f4b64f5b4a7ad3f0960",
+  "boundedness_repair": {
+    "explicit_zero_or_minus_one_retains_unbounded_selection_semantics": true,
+    "omitted_budget_default_bytes": 40000,
+    "scars": [
+      "DEFAULT_BUDGET_OMITTED != EXPLICIT_UNBOUNDED",
+      "UNBOUNDED_SELECTION_BUDGET != UNBOUNDED_SINGLE_READ_ALLOCATION"
+    ],
+    "single_file_read_capped_to_actual_file_size": true
+  },
+  "doctrine": {
+    "activation_receipt_sha256": "893409f28ea181c60ca9e3681eb9a1a4d08fa279befac4d679d2cfdb958d7279",
+    "current_standard_sha256": "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92",
+    "detached_release_receipt_sha256": "59f66d7707508faa4015df86c728302961c0a13e2f4e8655425ce783248cbc7e",
+    "rahl_close_receipt_sha256": "ebb10e71fd31ec51a83ed41ec2c98cc027ca3065c98f4a2c22aca34298d0d06f",
+    "rahl_closure_id": "edef92465daa7e28fb64600d096ad709",
+    "rahl_epoch": 43,
+    "sealed_archive_sha256": "b82803be3ebd37f6ac58fb95beb3df5a043f5167e66b94846419817bbf8d5606",
+    "version": "1.2"
+  },
+  "embodiment": {
+    "exact_icf_currentness": true,
+    "explicit_session_applicability": true,
+    "explicit_ucm_profile_required_for_user_sessions": true,
+    "live_readback_required_next": true,
+    "owning_plane_verification_required_next": true,
+    "project_context_composed": true,
+    "res_context_anchor": true,
+    "res_required_gate": true,
+    "ucm_required_gate": true
+  },
+  "handoff_carrier": {
+    "activation_receipt_embedded": true,
+    "active_standard_embedded": true,
+    "detached_release_receipt_embedded": true,
+    "fresh_instance_contract_embedded": true,
+    "machine_contract_embedded": true,
+    "snapshot_manifest_updated": true
+  },
+  "laws": [
+    "RES_AND_UCM_CAPABILITIES_PRESENT != FRESH_INSTANCE_INGRESS_EMBODIED",
+    "VERSION_LABEL != CURRENT_AUTHORITY_BYTES",
+    "MISSING != NOT_APPLICABLE",
+    "LIVE_SHADOW != DTS != RES != UCM",
+    "RES_CONTENT != GOVERNING_DOCTRINE",
+    "UCM != PROJECT_AUTHORITY",
+    "RETRIEVAL_PACKET != AUTHORITY",
+    "SOURCE_QUALIFIED != LIVE_PROMOTED"
+  ],
+  "live": {
+    "claim": "ENGINEERING_CANDIDATE != LOADED_PROCESS_TRUTH",
+    "reloaded": false
+  },
+  "runtime": {
+    "category": "continuity",
+    "compact_schema_changed": false,
+    "compact_schema_sha256": "132dff5967d7b45278d63da11e4ab87a72bd3fbd0507af3b652ffd34ee88787f",
+    "mutating": false,
+    "native_tool_count": 158,
+    "new_capability_family": false,
+    "new_persistence_engine": false,
+    "new_tool": "continuity.ingress.rehydrate",
+    "source_native_tool_count": 158
+  },
+  "schema": "pcmmad.icf-cs-v1.2-runtime-embodiment-result.v1",
+  "status": "CANONICAL_SOURCE_QUALIFIED_PUBLICATION_PENDING",
+  "tests": {
+    "dedicated_ingress": "13/13 PASS",
+    "full_clone": "676 collected / 675 passed / 1 conditional skip / 0 failed",
+    "handoff_ingress_budget_gate": "37/37 PASS",
+    "source_full": "676 collected / 675 passed / 1 conditional skip / 0 failed",
+    "source_handoff_ingress_budget_gate": "37/37 PASS",
+    "wider_composition_gate": "215 passed / 1 conditional skip / 0 failed"
+  }
+}
