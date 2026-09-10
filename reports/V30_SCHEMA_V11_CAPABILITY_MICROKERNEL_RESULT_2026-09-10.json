@@ -1,0 +1,145 @@
+{
+  "authority_effect": "NONE",
+  "base_head": "92010b57dfc275dd6f9753121cd8def98792ed41",
+  "compose_execute": {
+    "automatic_parallelism_default": false,
+    "default_static_cost_units": 120,
+    "deterministic_plan_shape": true,
+    "effect_profile_currentness_revalidated": true,
+    "goal_mode_planner": false,
+    "max_static_cost_units": 320,
+    "native_contract_currentness_revalidated": true,
+    "plan_max_nodes": 32,
+    "plan_max_serialized_bytes": 65536,
+    "resolved_argument_max_bytes": 65536
+  },
+  "continuations": {
+    "authority_effect": "NONE",
+    "cached_reads_count_as_currentness": false,
+    "production_replay_witnesses": 0,
+    "reexecute_completed_read_requires_exact_effect_truth_and_replay_witness": true,
+    "single_use": true,
+    "unwitnessed_completed_node_requires_recovery_recompose": true
+  },
+  "deferred": [
+    "goal-to-plan synthesis",
+    "speculative/hedged read racing",
+    "production parallel witnesses",
+    "production resume-replay witnesses",
+    "v10.3 removal",
+    "product-side ChatGPT Action installation",
+    "live Runtime promotion"
+  ],
+  "effect_profile": {
+    "bytes": 124319,
+    "capability_count": 158,
+    "catalog_digest": "1ac52b95171a2eb4487a1b8c702b0b9bc76f0d7800da62e6af7b360bb470b99f",
+    "declared_effect_class_is_effect_truth": false,
+    "descriptive_effect_traits_are_scheduler_authority": false,
+    "effect_truth_verified_count": 0,
+    "name": "scheduler_effect_profile_v1.json",
+    "parallel_verified_count": 0,
+    "profile_digest": "a04a3c761c71515e2aedb1ea8390a3c11f8248ba65322e646ee635def53ed642",
+    "resume_replay_verified_count": 0,
+    "sha256": "a7ee841edb47010978a13d884e899520c6bd6e22d2907a9ba4bbb169f8e58ce3",
+    "unverified_effect_cost_units": 10
+  },
+  "external_schema": {
+    "bytes": 33844,
+    "generator_byte_deterministic": true,
+    "name": "pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json",
+    "operation_ids": [
+      "orientCapabilities",
+      "invokeCapability",
+      "flowCapabilities",
+      "composePlan",
+      "executePlan",
+      "observeRuntime",
+      "resumeContinuation",
+      "transferData"
+    ],
+    "operations": 8,
+    "sha256": "ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010",
+    "size_reduction_percent": 73.73,
+    "unresolved_local_component_refs": 0,
+    "v10_3_bytes": 128843,
+    "v10_3_operations": 30,
+    "v10_3_sha256": "132dff5967d7b45278d63da11e4ab87a72bd3fbd0507af3b652ffd34ee88787f"
+  },
+  "flow": {
+    "assistant_projected_max_steps": 12,
+    "assistant_projected_parallelism": 1,
+    "authority_refs_forbidden": true,
+    "backward_only_payload_refs": true,
+    "expected_contract_digest_required": true,
+    "legacy_no_ref_batch_parallelism_retained_for_v10": true,
+    "new_scheduler": false,
+    "resolved_payload_max_bytes": 65536,
+    "route": "/lab/batch"
+  },
+  "laws": [
+    "SCHEMA_OPERATION_COUNT != SERVER_CAPABILITY_COUNT",
+    "DESCRIPTIVE_EFFECT_TRAITS != SCHEDULER_AUTHORITY",
+    "DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH",
+    "CAPABILITY_LEASE != CAPABILITY_GRANT",
+    "FLOW_DATA_REF != AUTHORITY_REF",
+    "V11_FLOW != LEGACY_PARALLEL_BATCH",
+    "GOAL_TEXT != EXECUTABLE_PLAN",
+    "STATIC_PLAN_COST != WALL_TIME_SLA",
+    "COMPACT_PLAN != UNBOUNDED_RESOLVED_ARGUMENTS",
+    "SEMANTIC_HASH != PYTHON_INSERTION_ORDER",
+    "EFFECT_TRUTH_VERIFIED != PARALLELISM_VERIFIED",
+    "EFFECT_TRUTH_VERIFIED != RESUME_REPLAY_VERIFIED",
+    "CONTINUATION != CURRENTNESS",
+    "SPECULATIVE_READ != SPECULATIVE_EFFECT",
+    "UNIFORM_ALGEBRA_REQUIRES_EXPLICIT_ESCAPE_HATCH",
+    "PLAN_VM != SECOND_JOB_SCHEDULER",
+    "ADAPTER != AUTHORITY"
+  ],
+  "native_runtime": {
+    "capability_count": 158,
+    "new_authority_plane": false,
+    "new_job_plane": false,
+    "new_result_plane": false,
+    "new_transfer_plane": false,
+    "plugin_errors": 0,
+    "v10_3_compatibility_retained": true
+  },
+  "observation": {
+    "assistant_full_result_mode_exposed": false,
+    "bounded_modes": [
+      "auto",
+      "metadata",
+      "preview",
+      "range",
+      "status",
+      "progress",
+      "wait",
+      "output"
+    ],
+    "effect_profile_summary_supported": true
+  },
+  "packaging": {
+    "canonical_modules": true,
+    "clean_wheel_import_and_profile_verification": "PASS",
+    "effect_profile_json_packaged": true,
+    "legacy_alias_shims": true,
+    "schema_json_packaged": true
+  },
+  "schema": "pcmmad.v30-schema-v11-capability-microkernel-result.v1",
+  "status": "CANONICAL_SOURCE_QUALIFIED_PUBLICATION_PENDING",
+  "tests": {
+    "canonical_full_sequential": "878 collected / 876 passed / 2 skipped / 0 failed",
+    "canonical_parallel_loadscope": "876 passed / 2 skipped / 103 subtests passed",
+    "canonical_parallel_worksteal": "876 passed / 2 skipped / 103 subtests passed",
+    "canonical_schema_package_compatibility_gate": "127/127 PASS",
+    "full_sequential": "872 collected / 870 passed / 2 skipped / 0 failed",
+    "parallel_loadscope": "870 passed / 2 skipped / 103 subtests passed",
+    "parallel_worksteal": "870 passed / 2 skipped / 103 subtests passed",
+    "rebased_full_sequential": "878 collected / 876 passed / 2 skipped / 0 failed",
+    "rebased_parallel_loadscope": "876 passed / 2 skipped / 103 subtests passed",
+    "rebased_parallel_worksteal": "876 passed / 2 skipped / 103 subtests passed",
+    "rebased_schema_package_compatibility_gate": "127/127 PASS",
+    "schema_package_compatibility_gate": "127/127 PASS"
+  }
+}

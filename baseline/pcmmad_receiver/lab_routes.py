@@ -8,6 +8,7 @@ from pathlib import Path
 import hashlib
 import json
 import os
+import re
 import atexit
 import subprocess
 import sys
@@ -32,6 +33,15 @@ from .lab_results import (
     summarize_payload,
 )
 from .server_hardening import safe_json_dumps
+from .schema_vnext_runtime import (
+    compose as schema_vnext_compose,
+    execute as schema_vnext_execute,
+    invoke as schema_vnext_invoke,
+    observe as schema_vnext_observe,
+    orient as schema_vnext_orient,
+    resume as schema_vnext_resume,
+    transfer as schema_vnext_transfer,
+)
 from .lab_tools import (
     LabToolError,
     dispatch_tool,
@@ -55,6 +65,10 @@ _BACKGROUND_BATCHES_SUBMITTED = 0
 
 _BATCH_EXECUTOR_STATS_LOCK = threading.RLock()
 _BATCH_EXECUTOR_TELEMETRY = BatchExecutorTelemetry()
+
+BATCH_DATAFLOW_MAX_STEPS = 30
+BATCH_DATAFLOW_MAX_RESOLVED_PAYLOAD_BYTES = 65_536
+BATCH_STEP_ID_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_.-]{0,63}$")
 
 
 def _batch_stat_inc(name: str, amount: int = 1) -> None:
@@ -262,14 +276,110 @@ def _parallel_map_ordered(steps: list[dict], worker: object, parallelism: int) -
     return [ordered[i] for i in sorted(ordered)]
 
 
-def _batch_step_result(idx: int, step: dict) -> dict:
+def _batch_ref_paths(value: object) -> set[str]:
+    refs: set[str] = set()
+    if isinstance(value, dict):
+        if set(value) == {"$ref"} and isinstance(value.get("$ref"), str):
+            refs.add(str(value["$ref"]).strip())
+        else:
+            for child in value.values():
+                refs.update(_batch_ref_paths(child))
+    elif isinstance(value, list):
+        for child in value:
+            refs.update(_batch_ref_paths(child))
+    return refs
+
+
+def _batch_lookup_ref(ref: str, prior: dict[str, dict]) -> object:
+    parts = [part for part in str(ref).split(".") if part]
+    if len(parts) < 2:
+        raise LabToolError("BATCH_REF_INVALID", f"dataflow reference must include step id and field path: {ref!r}", 400)
+    step_id = parts[0]
+    if step_id not in prior:
+        raise LabToolError("BATCH_REF_UNRESOLVED", f"dataflow reference is not a completed prior step: {ref}", 409)
+    value: object = prior[step_id]
+    for part in parts[1:]:
+        if isinstance(value, dict) and part in value:
+            value = value[part]
+        elif isinstance(value, list) and part.isdigit() and int(part) < len(value):
+            value = value[int(part)]
+        else:
+            raise LabToolError("BATCH_REF_UNRESOLVED", f"dataflow reference field cannot be resolved: {ref}", 409)
+    return value
+
+
+def _batch_resolve_refs(value: object, prior: dict[str, dict]) -> object:
+    if isinstance(value, dict):
+        if set(value) == {"$ref"}:
+            return _batch_lookup_ref(str(value["$ref"]), prior)
+        return {str(key): _batch_resolve_refs(child, prior) for key, child in value.items()}
+    if isinstance(value, list):
+        return [_batch_resolve_refs(child, prior) for child in value]
+    return value
+
+
+def _batch_contains_dataflow(steps: list[dict]) -> bool:
+    return any(
+        bool(_batch_ref_paths(step.get("payload") or {}))
+        for step in steps
+        if isinstance(step, dict)
+    )
+
+
+def _validate_batch_dataflow_shape(steps: list[dict], parallelism: int) -> None:
+    if len(steps) > BATCH_DATAFLOW_MAX_STEPS:
+        raise LabToolError("BATCH_LIMIT_EXCEEDED", f"batch exceeds maximum {BATCH_DATAFLOW_MAX_STEPS} steps", 400)
+    seen: set[str] = set()
+    has_refs = False
+    for idx, raw in enumerate(steps):
+        step = _validate_batch_step(idx, raw)
+        step_id = str(step.get("id") or "").strip()
+        if step_id:
+            if step_id in seen:
+                raise LabToolError("BAD_REQUEST", f"step {idx} id is duplicate: {step_id!r}", 400)
+        refs = _batch_ref_paths(step.get("payload") or {})
+        if refs:
+            has_refs = True
+            if not step_id:
+                raise LabToolError("BATCH_REF_INVALID", f"dataflow step {idx} must have an id", 400)
+            for ref in refs:
+                source_id = ref.split(".", 1)[0]
+                if source_id not in seen:
+                    raise LabToolError(
+                        "BATCH_REF_FORWARD_OR_UNKNOWN",
+                        f"step {step_id or idx} references non-prior step {source_id}",
+                        400,
+                    )
+        if step_id:
+            seen.add(step_id)
+    if has_refs and parallelism != 1:
+        raise LabToolError(
+            "BATCH_DATAFLOW_REQUIRES_SEQUENTIAL",
+            "dataflow batches remain sequential until the closed scheduler-effect profile is qualified",
+            409,
+        )
+
+
+def _batch_step_result(idx: int, step: dict, prior: dict[str, dict] | None = None) -> dict:
     tool_name = str(step.get("tool_name", "")).strip()
     payload = step.get("payload") or {}
+    if prior is not None:
+        payload = _batch_resolve_refs(payload, prior)
+        resolved_bytes = len(safe_json_dumps(payload).encode("utf-8"))
+        if resolved_bytes > BATCH_DATAFLOW_MAX_RESOLVED_PAYLOAD_BYTES:
+            raise LabToolError(
+                "BATCH_DATAFLOW_PAYLOAD_TOO_LARGE",
+                f"resolved step payload exceeds {BATCH_DATAFLOW_MAX_RESOLVED_PAYLOAD_BYTES} bytes; pass a result handle instead",
+                413,
+                resolved_bytes=resolved_bytes,
+            )
     authority = step.get("authority") or {}
     expected_contract_digest = step.get("expected_contract_digest")
+    identity = {"id": str(step.get("id"))} if step.get("id") else {}
     try:
         return {
             "index": idx,
+            **identity,
             **dispatch_tool(
                 tool_name,
                 payload,
@@ -280,6 +390,7 @@ def _batch_step_result(idx: int, step: dict) -> dict:
     except LabToolError as exc:
         return {
             "index": idx,
+            **identity,
             "ok": False,
             "tool": tool_name,
             "error_code": exc.error_code,
@@ -296,6 +407,11 @@ def _validate_batch_step(idx: int, step: object) -> dict:
         raise LabToolError("BAD_REQUEST", f"step {idx} missing tool_name", 400)
     if "authority" in step and not isinstance(step.get("authority"), dict):
         raise LabToolError("BAD_REQUEST", f"step {idx} authority must be an object", 400)
+    step_id = str(step.get("id") or "").strip()
+    if step_id and not BATCH_STEP_ID_RE.fullmatch(step_id):
+        raise LabToolError("BAD_REQUEST", f"step {idx} id is invalid: {step_id!r}", 400)
+    if _batch_ref_paths(step.get("authority") or {}):
+        raise LabToolError("BATCH_AUTHORITY_REF_FORBIDDEN", "dataflow references are forbidden in authority envelopes", 400)
     return step
 
 
@@ -350,13 +466,18 @@ def _batch_request_payload() -> dict:
 
 
 def _execute_batch_steps(steps: list[dict], stop_on_error: bool, parallelism: int) -> list[dict]:
+    _validate_batch_dataflow_shape(steps, parallelism)
     if parallelism > 1 and not stop_on_error:
         return _parallel_map_ordered(steps, _batch_step_result, parallelism)
     results: list[dict] = []
+    prior: dict[str, dict] = {}
     for idx, raw_step in enumerate(steps):
         step = _validate_batch_step(idx, raw_step)
-        result = _batch_step_result(idx, step)
+        result = _batch_step_result(idx, step, prior)
         results.append(result)
+        step_id = str(step.get("id") or "").strip()
+        if step_id:
+            prior[step_id] = result
         if stop_on_error and not result.get("ok", False):
             break
     return results
@@ -673,6 +794,7 @@ def lab_batch() -> object:
         parallelism = max(1, int(request_payload.get("parallelism", 1)))
         if not isinstance(steps, list) or not steps:
             return _error("BAD_REQUEST", "steps must be a non-empty array", 400)
+        _validate_batch_dataflow_shape(steps, parallelism)
         if background:
             project_id = str(request_payload.get("project_id", "")).strip()
             if not project_id:
@@ -686,3 +808,58 @@ def lab_batch() -> object:
         return _error(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
         return _error("LAB_BATCH_FAILED", str(e), 500)
+
+def _schema_vnext_request_payload() -> JsonRecord:
+    request_payload = request.get_json(silent=False, force=True)
+    if not isinstance(request_payload, dict):
+        raise LabToolError("BAD_JSON", "JSON body must be an object", 400)
+    return request_payload
+
+
+def _schema_vnext_http_call(fn) -> object:
+    ae = _auth()
+    if ae:
+        return ae
+    try:
+        return jsonify(fn(_schema_vnext_request_payload()))
+    except LabToolError as exc:
+        return _error(exc.error_code, exc.message, exc.status, **exc.extra)
+    except FileNotFoundError:
+        return _error("NOT_FOUND", "referenced Runtime object was not found", 404)
+    except (OSError, RuntimeError, ValueError, TypeError, KeyError) as exc:
+        return _error("SCHEMA_VNEXT_FAILED", str(exc), 500)
+
+
+@lab_bp.post("/vnext/orient")
+def lab_vnext_orient() -> object:
+    return _schema_vnext_http_call(schema_vnext_orient)
+
+
+@lab_bp.post("/vnext/invoke")
+def lab_vnext_invoke() -> object:
+    return _schema_vnext_http_call(schema_vnext_invoke)
+
+
+@lab_bp.post("/vnext/compose")
+def lab_vnext_compose() -> object:
+    return _schema_vnext_http_call(schema_vnext_compose)
+
+
+@lab_bp.post("/vnext/execute")
+def lab_vnext_execute() -> object:
+    return _schema_vnext_http_call(schema_vnext_execute)
+
+
+@lab_bp.post("/vnext/observe")
+def lab_vnext_observe() -> object:
+    return _schema_vnext_http_call(schema_vnext_observe)
+
+
+@lab_bp.post("/vnext/resume")
+def lab_vnext_resume() -> object:
+    return _schema_vnext_http_call(schema_vnext_resume)
+
+
+@lab_bp.post("/vnext/transfer")
+def lab_vnext_transfer() -> object:
+    return _schema_vnext_http_call(schema_vnext_transfer)

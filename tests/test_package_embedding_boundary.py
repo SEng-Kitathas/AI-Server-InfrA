@@ -83,6 +83,22 @@ print(json.dumps({
             {"tools_same": True, "core_same": True, "registry_same": True},
         )
 
+    def test_vnext_package_and_legacy_shims_share_single_module_identity(self) -> None:
+        code = r'''
+import importlib, json
+package_runtime=importlib.import_module("pcmmad_receiver.schema_vnext_runtime")
+legacy_runtime=importlib.import_module("schema_vnext_runtime")
+package_effect=importlib.import_module("pcmmad_receiver.scheduler_effect_profile")
+legacy_effect=importlib.import_module("scheduler_effect_profile")
+print(json.dumps({
+  "runtime_same": package_runtime is legacy_runtime,
+  "effect_same": package_effect is legacy_effect,
+}))
+'''
+        result = self._run(code)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout), {"runtime_same": True, "effect_same": True})
+
     def test_direct_execution_worker_entrypoint_bootstraps_package_imports(self) -> None:
         missing = PROJECT_ROOT / ".missing-worker-request.json"
         result = subprocess.run(
@@ -151,6 +167,12 @@ with tempfile.TemporaryDirectory() as td:
             self.assertIn("pcmmad_receiver/lab_tools.py", names)
             self.assertIn("pcmmad_receiver/lab_plugins/transfer.py", names)
             self.assertIn("lab_tools.py", names)
+            self.assertIn("pcmmad_receiver/schema_vnext_runtime.py", names)
+            self.assertIn("pcmmad_receiver/scheduler_effect_profile.py", names)
+            self.assertIn("pcmmad_receiver/scheduler_effect_profile_v1.json", names)
+            self.assertIn("pcmmad_receiver/pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json", names)
+            self.assertIn("schema_vnext_runtime.py", names)
+            self.assertIn("scheduler_effect_profile.py", names)
             install = subprocess.run(
                 [
                     sys.executable,
@@ -167,16 +189,26 @@ with tempfile.TemporaryDirectory() as td:
                 timeout=90,
             )
             self.assertEqual(install.returncode, 0, install.stdout + install.stderr)
-            result = self._run(
-                "import json, pcmmad_receiver.lab_tools as x; "
-                "print(json.dumps({'count': len(x.list_tools()), 'plugin_errors': x._PLUGIN_ERRORS}))",
-                pythonpath=target,
-                cwd=root,
+            code = (
+                "import json; from pathlib import Path; "
+                "import pcmmad_receiver.lab_tools as x; "
+                "import pcmmad_receiver.schema_vnext_runtime as v; "
+                "import pcmmad_receiver.scheduler_effect_profile as e; "
+                "cards={row['name']:row for row in x.list_tools()}; "
+                "profile=e.load_profile(); verification=e.verify_profile(profile,cards); "
+                "base=Path(v.__file__).parent; "
+                "print(json.dumps({'count':len(cards),'plugin_errors':x._PLUGIN_ERRORS,"
+                "'profile_current':verification['current'],'profile_count':verification['capability_count'],"
+                "'v11_schema_present':(base/'pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json').is_file()}))"
             )
+            result = self._run(code, pythonpath=target, cwd=root)
             self.assertEqual(result.returncode, 0, result.stderr)
             observed = json.loads(result.stdout)
             self.assertEqual(observed["count"], 158)
             self.assertEqual(observed["plugin_errors"], [])
+            self.assertTrue(observed["profile_current"])
+            self.assertEqual(observed["profile_count"], 158)
+            self.assertTrue(observed["v11_schema_present"])
 
 
 if __name__ == "__main__":
