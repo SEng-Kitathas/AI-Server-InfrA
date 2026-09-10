@@ -1,0 +1,95 @@
+{
+  "architecture_closure": {
+    "core_runtime_architecture": "CONVERGED_AT_CURRENT_CLAIM_CEILING",
+    "final_composition_schema": "SEPARATE_BRANCH_NOT_COMPLETE",
+    "live_promotion_at_audit_start": "NO_GO_PENDING_CURRENTNESS_RECONCILIATION",
+    "new_core_truth_plane_required": false
+  },
+  "compact_surface": {
+    "count_verified": true,
+    "eligibility_rule_found": false,
+    "generator_from_native_registry_found": false,
+    "membership": "CURATED_AND_TESTED_NOT_DERIVED",
+    "schema_branch_gate": "DECLARE_COMPACT_ELIGIBILITY_AND_DERIVE_OR_EXHAUSTIVELY_VERIFY_MEMBERSHIP"
+  },
+  "continuity_boundaries": {
+    "dts": "TYPED_HISTORY_STRUCTURAL_BOUNDARY_DIRECT_CONTINUITY_PROMOTION_REJECTED",
+    "dts_direct_promotion_probe": "ProtocolValidationError: target_type must be claim or artifact",
+    "dts_named_firewall": false,
+    "res": "MECHANISM_ENFORCED_RES_AUTHORITY_FIREWALL",
+    "ucm": "MECHANISM_ENFORCED_NONAUTHORITY"
+  },
+  "currentness_defects": {
+    "canonical_sop_pointer_stale_icf": "v1.1",
+    "low_level_rehydrate_icf_version_before": "1.0",
+    "low_level_rehydrate_icf_version_candidate": "1.2",
+    "readme_current_source_subsection_stale_feature": "d926e20...",
+    "stale_current_handoff_surfaces": true,
+    "stale_snapshot_manifest_metadata": true,
+    "unversioned_claim_ceiling_stale_icf": "v1.0"
+  },
+  "effect_traits": {
+    "behavior_consumed_traits": [
+      "project_mutation_fenced",
+      "idempotent_replay_while_unacked",
+      "exact_offset_required",
+      "requires_chunk_hash"
+    ],
+    "contract_digest_includes_all_effect_traits": true,
+    "distinct_strings": 204,
+    "generic_effect_scheduler_present": false,
+    "multi_use_strings": 71,
+    "named_guarantee_checks": {
+      "atomic_replace": "PROPERTY_CURRENTLY_HELD_BY_TRANSFER_FINALIZE",
+      "fsync": "PROPERTY_CURRENTLY_HELD_BY_TRANSFER_CHUNK_WRITE",
+      "snapshot_cas_supported": "PROPERTY_CURRENTLY_HELD_BY_MEMORY_COMPACTION"
+    },
+    "schema_branch_gate": "SPLIT_ENFORCED_CLOSED_EFFECT_ALGEBRA_FROM_DESCRIPTIVE_ANNOTATIONS_BEFORE_EFFECT_AWARE_COMPOSE",
+    "single_use_strings": 133,
+    "tool_card_field_is_mixed_namespace": true
+  },
+  "laws": [
+    "CORE_RUNTIME_ARCHITECTURE_CONVERGED != FINAL_COMPOSITION_SCHEMA_COMPLETE",
+    "TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM",
+    "DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY",
+    "COMPACT_COUNT_CORRECT != COMPACT_MEMBERSHIP_DERIVED",
+    "MIGRATION_STATE_WITHOUT_EXIT_CRITERION != CLOSED_MIGRATION",
+    "LIVE_SHADOW != DTS != RES != UCM",
+    "LOW_LEVEL_PROJECTION_VERSION != HISTORICAL_IMPLEMENTATION_VERSION"
+  ],
+  "legacy_memory": {
+    "authoritative_store_count": 1,
+    "canonical_ucm_operations": 31,
+    "classification": "MIGRATION_GOVERNANCE_DEBT_NOT_SECOND_TRUTH_PLANE",
+    "legacy_memory_operations": 8,
+    "sunset_clock_found": false
+  },
+  "qualification": {
+    "focused_icf_currentness": "32/32 PASS",
+    "focused_source": "32/32 PASS",
+    "full_detached": "769 collected / 767 passed / 2 skipped / 0 failed",
+    "full_source": "769 collected / 767 passed / 2 skipped / 0 failed"
+  },
+  "schema": "pcmmad.architecture-closure-effect-trait-truth-audit.v1",
+  "schema_branch_prerequisites": [
+    "effect trait split before effect-aware automatic parallelism",
+    "dataflow references first",
+    "CAPABILITY_LEASE != CAPABILITY_GRANT",
+    "static plan cost bound before compose/execute",
+    "per-node continuation currentness and resume revalidation",
+    "compact eligibility derivation",
+    "legacy memory compatibility exit criterion",
+    "explicit bounded observe escape hatch",
+    "delayed/pressure-aware hedged reads",
+    "goal mode last"
+  ],
+  "source": {
+    "compact_operations": 30,
+    "current_engineering_feature": "673e3b15fa16053e6da6594604d9ce6db7faad1c",
+    "current_engineering_tree": "e39f0a6a3d3c3ba5ece16a04c48289186318096a",
+    "fresh_full_suite_before_repair": "769 collected / 767 passed / 2 skipped / 0 failed",
+    "main_head": "9be7ad603f50c079acc92d542add6a011a2ea2d7",
+    "native_tools": 158
+  },
+  "status": "AUDIT_COMPLETE_LOW_LEVEL_ICF_FIX_CANONICAL_SOURCE_QUALIFIED"
+}

@@ -121,7 +121,7 @@ class IcfCsRehydrationTests(unittest.TestCase):
         self.assertFalse(any(Path(row["path"]).name.startswith(".pcmmad_") for row in result["selected"]))
         paths = [row["path"] for row in result["selected"]]
         self.assertEqual(len(paths), len(set(paths)))
-        self.assertEqual(result["icf_cs"]["version"], "1.0")
+        self.assertEqual(result["icf_cs"]["version"], "1.2")
         self.assertEqual(
             result["icf_cs"]["cold_start_law"],
             "DIRECTION != CONSTRAINTS != FRONTIER != HISTORY",

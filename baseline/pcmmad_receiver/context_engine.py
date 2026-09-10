@@ -1163,7 +1163,7 @@ def _rehydrate_response(spec: RehydrateResponseSpec) -> JsonObject:
         "selected": spec.state.selected,
         "open_seams": _rehydrate_open_seams(spec.state),
         "icf_cs": {
-            "version": "1.0",
+            "version": "1.2",
             "selected_classes": [
                 artifact_class
                 for artifact_class in ICF_ANCHOR_CLASSES
