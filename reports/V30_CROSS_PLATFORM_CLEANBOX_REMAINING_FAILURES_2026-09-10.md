@@ -59,3 +59,40 @@ Not yet earned:
 - GitHub Windows CI green on published bytes;
 - GitHub Ubuntu CI green on published bytes;
 - live Runtime promotion.
+
+## Hosted CI exact-failure diagnosis — run 34533978802
+
+A permanent CI diagnostic layer was added so unauthenticated/public Actions metadata exposes failing testcase names and traceback tails through check annotations, while JUnit is retained as an artifact. Runtime fingerprinting also records Python/pip/platform/checkout identity.
+
+GitHub run `34533978802` at diagnostic commit `529345e26751acba239c946ac57b3bdfdb17aec3` exposed the exact Ubuntu failures under Python **3.12.14**:
+
+1. `test_export_same_size_same_mtime_content_change_is_detected` — mechanism detected the change but error wording lost the `source changed` contract phrase;
+2. `test_happy_import_finalizes_atomically_after_full_hash` — POSIX ctime changed after an authorized chunk write, so creation-time identity was incorrectly reused as the current stage witness;
+3. `test_destination_change_after_overwrite_ticket_creation_blocks_finalize` — same stale stage-generation witness masked the intended destination-currentness check;
+4. `test_observe_validates_lease_plan_and_capability` — schema-v11 temp root teardown raced process-global scheduler activity;
+5. `test_goal_is_sealed_metadata_but_does_not_synthesize_or_change_execution_shape` — same scheduler/temp-root ownership race;
+6. `test_telemetry_is_authenticated_and_contains_red_use_fields` — one platform collector degraded, making `ok=false` even though section-isolated RED/USE fields remained present;
+7. `test_current_seed_replays_byte_identical_result` — deterministic lifecycle simulator did not quiesce the real process-global scheduler and also imported `execution_routes` through an order-dependent top-level path;
+8. `test_capabilities_expose_policy_while_telemetry_exposes_live_wait_mode` — test conflated platform watcher support with an explicitly injected alive watcher object.
+
+The Windows hosted job exposed only a suite-level failure before the diagnostic emitter was enhanced. The emitter now reports suite/collection failures plus retained pytest output tails as public annotations.
+
+## CI-proven repair set
+
+- import stage keeps immutable `stage_identity_at_create` for provenance and mutable `stage_identity_current` for authorized-write generation tracking; the current witness advances only after fsynced chunk writes;
+- export identity errors preserve both `source changed` and `source identity` semantics;
+- schema-v11 fixture explicitly shuts down the process-global execution scheduler before temporary-root ownership and before cleanup;
+- lifecycle simulator shuts down the global scheduler before virtualizing state and imports Runtime modules through the `pcmmad_receiver` package namespace;
+- watcher tests distinguish `watcher_supported` from an injected live `watcher_active` object;
+- telemetry tests require RED/USE structural continuity under section degradation rather than requiring every optional platform collector to be healthy;
+- CI diagnostics retain pytest output and emit suite-level annotations.
+
+Local sanitized verification on the repaired bytes:
+- exact eight Ubuntu failures: **8/8 PASS**;
+- full serial: **995 JUnit cases / 0 failures / 0 errors / 2 skips**;
+- four-worker loadscope: **995 / 0 / 0 / 2**;
+- four-worker worksteal: **995 / 0 / 0 / 2**.
+
+`DETERMINISTIC_SIMULATION != LIVE_BACKGROUND_SCHEDULER_INTERLEAVING`.
+`PLATFORM_SUPPORT != INJECTED_WATCHER_LIVENESS`.
+`AUTHORIZED_STAGE_WRITE_ADVANCES_GENERATION_WITNESS`.

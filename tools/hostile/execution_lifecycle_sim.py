@@ -13,12 +13,12 @@ from typing import Any, Callable
 from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
-if str(RUNTIME_ROOT) not in sys.path:
-    sys.path.insert(0, str(RUNTIME_ROOT))
+BASELINE_ROOT = PROJECT_ROOT / "baseline"
+if str(BASELINE_ROOT) not in sys.path:
+    sys.path.insert(0, str(BASELINE_ROOT))
 
-import execution_routes as er
-from control_plane_models import ExecutionJobRecord, SchedulerTelemetry
+from pcmmad_receiver import execution_routes as er
+from pcmmad_receiver.control_plane_models import ExecutionJobRecord, SchedulerTelemetry
 
 Json = dict[str, Any]
 
@@ -87,6 +87,10 @@ class DeterministicExecutionLifecycleSim:
         self._base_spawn: Callable[[ExecutionJobRecord], ExecutionJobRecord] = self._fake_spawn
 
     def __enter__(self) -> "DeterministicExecutionLifecycleSim":
+        # Deterministic simulation cannot share state with the process-global live
+        # scheduler. Hosted-suite ordering can otherwise interleave real ticks with
+        # the virtual clock/process model and destroy replay identity.
+        er._shutdown_scheduler()
         self._temp = tempfile.TemporaryDirectory(prefix=f"pcmmad-a038-{self.seed}-")
         root = Path(self._temp.name)
         self.projects_root = root / "projects"
@@ -136,6 +140,7 @@ class DeterministicExecutionLifecycleSim:
         return self
 
     def __exit__(self, exc_type, exc, tb) -> None:
+        er._shutdown_scheduler()
         if self._stack is not None:
             self._stack.close()
         if self._temp is not None:

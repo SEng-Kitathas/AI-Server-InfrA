@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "baseline"))
 
 from pcmmad_receiver import approval_authority as aa
+from pcmmad_receiver import execution_routes as er
 from pcmmad_receiver import lab_routes
 from pcmmad_receiver import lab_tools
 from pcmmad_receiver import schema_vnext_runtime as vnext
@@ -26,6 +27,9 @@ from pcmmad_receiver import scheduler_effect_profile as effect_profile
 
 class SchemaVNextFixture(unittest.TestCase):
     def setUp(self) -> None:
+        # Schema tests own temporary project roots; a scheduler left running by an
+        # earlier module must not write into those roots during or after cleanup.
+        er._shutdown_scheduler()
         self.temp = tempfile.TemporaryDirectory(prefix="pcmmad-schema-vnext-")
         self.root = Path(self.temp.name)
         self.old_projects = shared_core.PROJECTS_ROOT
@@ -56,6 +60,7 @@ class SchemaVNextFixture(unittest.TestCase):
         self.effect_profile_patch.start()
 
     def tearDown(self) -> None:
+        er._shutdown_scheduler()
         with lab_tools._REGISTRY_LOCK:
             lab_tools._TOOL_REGISTRY.clear()
             lab_tools._TOOL_REGISTRY.update(self.original_registry)

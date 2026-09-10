@@ -98,8 +98,9 @@ class ExecutionInformerWatchTests(unittest.TestCase):
     def test_capabilities_expose_policy_while_telemetry_exposes_live_wait_mode(self) -> None:
         with patch.object(er, "_EXECUTION_WATCHER", _AliveWatcher()):
             capabilities = er.execution_capabilities()
-        self.assertTrue(capabilities["watcher_supported"] if os.name == "nt" else True)
-        self.assertTrue(capabilities["watcher_active"] if os.name == "nt" else not capabilities["watcher_active"])
+        self.assertEqual(capabilities["watcher_supported"], bool(os.name == "nt" and er._WindowsRecursiveDirectoryWatcher is not None))
+        # watcher_active reports the live watcher object, not platform capability.
+        self.assertTrue(capabilities["watcher_active"])
         self.assertEqual(
             capabilities["scheduler_active_resync_seconds"],
             er.EXECUTION_SCHEDULER_ACTIVE_RESYNC_SECONDS,

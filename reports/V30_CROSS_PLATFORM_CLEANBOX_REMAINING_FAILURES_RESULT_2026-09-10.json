@@ -1,23 +1,72 @@
 {
-  "schema": "pcmmad.cross-platform-cleanbox-remaining-failures.v1",
-  "status": "DETACHED_CANDIDATE_QUALIFIED_GITHUB_CI_PENDING",
   "base_head": "f38c564c486b03278ba9f10dbc87aa4b1c9c07d1",
-  "repairs": {
-    "transfer_identity": "st_dev + st_ino + st_ctime_ns + optional st_birthtime_ns; st_nlink retained",
-    "observability": "section-isolated process/system/http/server/execution collectors with section_errors",
-    "hot_scan_test": "explicit execution-store layout warmup before steady-state cost measurement"
+  "ci_proven_repairs": [
+    "rolling authorized import-stage identity witness after fsynced writes",
+    "schema-v11 fixture owns scheduler shutdown before temp cleanup",
+    "deterministic lifecycle simulator quiesces scheduler and uses package imports",
+    "watcher support separated from injected active watcher state",
+    "telemetry structural RED/USE contract tolerates section degradation",
+    "suite-level pytest diagnostics retained and annotated"
+  ],
+  "cross_platform_oracle": "GitHub Actions windows-latest + ubuntu-latest",
+  "diagnostic_run": {
+    "head_sha": "529345e26751acba239c946ac57b3bdfdb17aec3",
+    "run_id": 34533978802,
+    "ubuntu_exact_failures": 8,
+    "ubuntu_python": "3.12.14",
+    "windows_failure": "suite-level; enhanced diagnostics added for next run"
   },
   "laws": [
     "INODE_NUMBER != FILE_OBJECT_GENERATION",
     "ONE_COLLECTOR_FAILURE != TOTAL_TELEMETRY_ERASURE",
     "MIGRATION_COST != STEADY_STATE_HOT_SCAN_COST"
   ],
+  "live_promoted": false,
   "qualification": {
+    "exact_hosted_ubuntu_failures": "8/8 PASS locally on repaired bytes",
+    "repaired_windows_loadscope_4": {
+      "cases": 995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "repaired_windows_serial_junit": {
+      "cases": 995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "repaired_windows_worksteal_4": {
+      "cases": 995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
     "targeted": "35/35 PASS",
-    "windows_serial_junit": {"cases": 995, "failures": 0, "errors": 0, "skipped": 2},
-    "windows_loadscope_4": {"cases": 995, "failures": 0, "errors": 0, "skipped": 2},
-    "windows_worksteal_4": {"cases": 995, "failures": 0, "errors": 0, "skipped": 2}
+    "windows_loadscope_4": {
+      "cases": 995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "windows_serial_junit": {
+      "cases": 995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "windows_worksteal_4": {
+      "cases": 995,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    }
   },
-  "cross_platform_oracle": "GitHub Actions windows-latest + ubuntu-latest",
-  "live_promoted": false
+  "repairs": {
+    "hot_scan_test": "explicit execution-store layout warmup before steady-state cost measurement",
+    "observability": "section-isolated process/system/http/server/execution collectors with section_errors",
+    "transfer_identity": "st_dev + st_ino + st_ctime_ns + optional st_birthtime_ns; st_nlink retained"
+  },
+  "schema": "pcmmad.cross-platform-cleanbox-remaining-failures.v1",
+  "status": "CI_PROVEN_REPAIR_CANDIDATE_LOCAL_GREEN_GITHUB_RERUN_PENDING"
 }

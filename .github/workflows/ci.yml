@@ -45,9 +45,9 @@ jobs:
       - name: Full clean-box suite
         shell: pwsh
         run: |
-          python -m pytest -q --tb=short --junitxml=pytest-results.xml
+          python -m pytest -q --tb=short --junitxml=pytest-results.xml *>&1 | Tee-Object -FilePath pytest-output.txt
           $pytestCode = $LASTEXITCODE
-          python tools/emit_ci_test_annotations.py pytest-results.xml
+          python tools/emit_ci_test_annotations.py pytest-results.xml pytest-output.txt
           exit $pytestCode
       - name: Upload pytest diagnostics
         if: always()

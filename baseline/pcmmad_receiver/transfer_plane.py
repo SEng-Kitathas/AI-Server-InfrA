@@ -170,7 +170,7 @@ def _require_export_source_identity(path: Path, ticket: dict[str, Any]) -> None:
     current_object = current.get("file_object") or {}
     original_object = original.get("file_object") or {}
     if not _same_file_object_identity(current_object, original_object):
-        raise ValueError("source identity changed after export ticket creation")
+        raise ValueError("source changed: source identity changed after export ticket creation")
     if current.get("size") != original.get("size") or current.get("mtime_ns") != original.get("mtime_ns"):
         raise ValueError("source changed after export ticket creation")
     if current.get("sha256") != original.get("sha256"):
@@ -208,7 +208,8 @@ def create_import(path: str, expected_size: int, expected_sha256: str, project_i
                    "project_id": resolved_project_id, "path": str(dst), "stage": str(stage), "name": dst.name, "size": size, "sha256": digest,
                    "chunk_bytes": chunk, "offset": 0, "complete": False, "overwrite": bool(overwrite),
                    "destination_identity_at_create": destination_identity,
-                   "stage_identity_at_create": stage_identity}
+                   "stage_identity_at_create": stage_identity,
+                   "stage_identity_current": stage_identity}
             with _LOCK: _save(obj)
     except ProjectMutationAuthorityError:
         raise
@@ -251,9 +252,15 @@ def append_chunk(ticket: str, offset: int, data_b64: str, chunk_sha256: str | No
             if actual != expected_chunk:
                 raise ValueError("chunk sha256 mismatch")
             stage = Path(obj["stage"])
-            _require_stage_identity(stage, obj.get("stage_identity_at_create") or {})
+            _require_stage_identity(
+                stage,
+                obj.get("stage_identity_current") or obj.get("stage_identity_at_create") or {},
+            )
             with stage.open("r+b") as f:
                 f.seek(off); f.write(data); f.flush(); os.fsync(f.fileno())
+            # Authorized writes legitimately advance POSIX ctime. Persist the new
+            # object-generation witness only after the fsynced write succeeds.
+            obj["stage_identity_current"] = _file_object_identity(stage)
             obj["offset"] = off + len(data); _save(obj)
             return {**_public(obj), "chunk_bytes_written": len(data), "chunk_sha256": actual}
 
@@ -268,7 +275,10 @@ def finalize_import(ticket: str) -> dict[str, Any]:
             obj = _load(ticket)
             if obj["direction"] != "import": raise ValueError("not an import ticket")
             if int(obj["offset"]) != int(obj["size"]): raise ValueError(f"incomplete: {obj['offset']} of {obj['size']} bytes")
-            stage = Path(obj["stage"]); _require_stage_identity(stage, obj.get("stage_identity_at_create") or {}); actual = _sha(stage)
+            stage = Path(obj["stage"]); _require_stage_identity(
+                stage,
+                obj.get("stage_identity_current") or obj.get("stage_identity_at_create") or {},
+            ); actual = _sha(stage)
             if actual != obj["sha256"]: raise ValueError(f"full sha256 mismatch: {actual}")
             dst = Path(obj["path"]); dst.parent.mkdir(parents=True, exist_ok=True)
             if dst.exists() and not obj["overwrite"]: raise FileExistsError("destination exists")
