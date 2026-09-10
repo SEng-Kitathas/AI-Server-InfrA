@@ -14,6 +14,24 @@ GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION
 HANDOFF_MIRROR != RUNTIME_AUTHORITY
 ```
 
+## Rollover precedence — 2026-09-10 18:40 ET
+
+This block supersedes lower present-tense Git/qualification statements where they conflict. Historical evidence remains lineage.
+
+- current GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7` / parent `2753e87b9cc8f3309666ab479413306ba85e9b11`;
+- project-aware access logging is source-published at `e1b2b8e`;
+- v11 schema mechanism remains `7e4c66a769884269d71babdb92217ba80eb66e74` / canonical SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities;
+- GitHub Actions run `34537723493` is **RED** on Windows + Ubuntu full-suite steps; Ubuntu exact current failure is `test_hot_scan_cost_is_independent_of_terminal_history_count` -> `38 != 50`;
+- local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed and not GitHub authority;
+- older schema-wire hardening WIP is donor evidence only and must be re-derived against current source;
+- loaded Desktop Runtime remains older and is not implicitly promoted.
+
+Current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
+
+`GIT_HEAD > STALE_CURRENT_POINTER`
+`LOCAL_GREEN != HOSTED_CLEANBOX_GREEN`
+`SOURCE_QUALIFIED != LIVE_PROMOTED`
+
 ## External evaluation
 
 Start with `README.md`, `docs/EXTERNAL_EVALUATION.md`, `docs/architecture/INVARIANTS.md`, then `reports/README.md`. Fresh Git/worktree/test/runtime readback outranks this prose.
@@ -29,18 +47,18 @@ Fresh Git/local/runtime readback remains required before consequence.
 ## Current engineering mechanism frontier
 
 Latest remote-verified source mechanism before this current-surface refresh:
-`0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` — `Make Runtime clean-box reproducible`
+`e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` — `Add project-aware access logging`
 
 Current v11 schema mechanism in ancestry:
 `7e4c66a769884269d71babdb92217ba80eb66e74` — `Add v11 capability microkernel schema`
 
-Current source tree: `ed939b1dbfd1dc570966c46f200618551b893503`
+Current source tree: `8fbded01e519a938ded1f2177378cd6693d788b7`
 Schema mechanism tree: `967f108f235b4b42097f4b2d9d48ee61c591017c`
 Schema mechanism parent: `92010b57dfc275dd6f9753121cd8def98792ed41`
 Substrate durability feature in ancestry: `673e3b15fa16053e6da6594604d9ce6db7faad1c` / tree `e39f0a6a3d3c3ba5ece16a04c48289186318096a`.
 
 Tree: `e39f0a6a3d3c3ba5ece16a04c48289186318096a`
-Immediate parent/currentness frontier: `01a5e1d75ccb6e1da310c7a2aa47922ccbe25bdc`
+Immediate parent/currentness frontier: `2753e87b9cc8f3309666ab479413306ba85e9b11`
 Prior warfort feature: `c858914a1a9abac5d29f1943e23fed1e54c516d0`
 ICF-CS v1.2 fresh-ingress feature: `d926e2004b0a5794fb2934200091b836c0780104`
 UCM feature: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
@@ -55,15 +73,13 @@ Current continuity surfaces include:
 
 Source schema successor is **v11.0 / 8 Assistant-facing operations / 33,844 bytes**. v10.3 remains the exact **30-operation compatibility/import surface** until separate product/live promotion.
 
-Current source qualification:
-- UCM focused gate: **130/130 PASS**;
-- v1.2 ingress: **13/13 PASS**;
-- handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- current combined source after clean-box + v11 current-surface reconciliation: **890 collected / 888 passed / 0 failed / 2 skips**;
-- warfort-specific suite: **65 passed / 1 skipped / 17 property subtests passed**;
-- v11 focused schema/package/compatibility gate: **127/127 PASS**;
-- v11 mechanism four-worker `loadscope` + `worksteal`: **876 passed / 2 skipped / 103 subtests** each;
-- substrate/package feature staged inventory SHA `ca06ea7bed376e11c489d6479812d1573f0ba03c0a4863166767c3e9c25be9a2`.
+Current source qualification / release gate:
+- prior local repaired-byte suite: **995 JUnit / 0 failures / 0 errors / 2 skips** in serial, loadscope and worksteal;
+- current GitHub Actions run `34537723493` at `e1b2b8e`: **FAILURE** on Windows and Ubuntu full-suite steps;
+- Ubuntu current public annotation: `test_hot_scan_cost_is_independent_of_terminal_history_count` -> `AssertionError: 38 != 50`;
+- Windows current public annotation remains suite-level only;
+- canonical v11 schema identity remains `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations;
+- live promotion is blocked until hosted clean-box is green.
 
 ## Substrate / embedding hardening
 
@@ -189,7 +205,7 @@ Ordinary dispatch may bind `expected_contract_digest`; stale mismatch is `CAPABI
 
 `VERSION` / `RELEASE.json` still identify the last packaged V29 release. Current Git is V30 engineering source.
 
-The loaded Desktop Runtime was last observed behind source: global execution concurrency 8 and an older capability router. It has **not** been silently restarted/reloaded.
+The loaded Desktop Runtime is still observed behind source: global execution concurrency 8 and the compact 30-operation control surface. It has **not** been silently restarted/reloaded.
 
 `SOURCE_QUALIFIED != LIVE_PROMOTED`
 
@@ -205,5 +221,7 @@ If persisted prose conflicts with current Git/worktree/runtime reality:
 `CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME`
 
 ## Claim ceiling
+
+Latest rollover checkpoint: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
 
 `V30_WORKING_TREE_SUCCESS != RELEASE_QUALIFICATION != LIVE_DEPLOYMENT`

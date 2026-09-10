@@ -1029,3 +1029,11 @@ A-042 compact-schema work is limited to current authority projection parity and 
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
+## ROLLOVER PRECEDENCE — 2026-09-10 18:40 ET
+- GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7`; project-aware access logging published.
+- v11 canonical schema unchanged: `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities.
+- GitHub Actions run `34537723493` is **RED** on Windows + Ubuntu; Ubuntu exact current failure is hot-scan queued count `38 != 50`; live promotion blocked.
+- local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed donor/qualified WIP; schema-wire WIP is older donor material.
+- loaded Desktop Runtime remains behind source; source != live.
+- current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
+- This block wins on current Git/release frontier over older present-tense text in this file; historical evidence remains lineage.

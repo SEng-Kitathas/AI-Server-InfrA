@@ -26,6 +26,7 @@ class GitHandoffCurrentTests(unittest.TestCase):
         cls.new_thread = (HANDOFF / "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md").read_text(encoding="utf-8")
         cls.git_current = (HANDOFF / "GIT_PUBLICATION_CURRENT.md").read_text(encoding="utf-8")
         cls.schema_current = (HANDOFF / "SCHEMA_CURRENT.md").read_text(encoding="utf-8")
+        cls.rollover = (HANDOFF / "THREAD_ROLLOVER_CURRENT.md").read_text(encoding="utf-8")
 
     def test_snapshot_manifest_hashes_all_declared_members(self) -> None:
         self.assertEqual(self.manifest["schema"], "pcmmad.git-handoff-snapshot.v1")
@@ -109,15 +110,14 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("V30_WORKING_TREE_SUCCESS != RELEASE_QUALIFICATION != LIVE_DEPLOYMENT", combined)
 
     def test_current_server_handoff_tracks_v11_schema_successor_frontier(self) -> None:
+        self.assertIn("e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4", self.server_handoff)
         self.assertIn("7e4c66a769884269d71babdb92217ba80eb66e74", self.server_handoff)
-        self.assertIn("0cc7894ffc766ac729c56d4abb8698bb3b6c78cb", self.server_handoff)
-        self.assertIn("158 native capabilities", self.server_handoff)
-        self.assertIn("v11.0 source successor 8 Assistant operations", self.server_handoff)
-        self.assertIn("890 collected / 888 passed / 2 skipped / 0 failed", self.server_handoff)
-        self.assertIn("128/128 PASS", self.server_handoff)
+        self.assertIn("8 operations / 158 native capabilities", self.server_handoff)
+        self.assertIn("34537723493", self.server_handoff)
+        self.assertIn("38 != 50", self.server_handoff)
         self.assertIn("ICF-CS: v1.2", self.server_handoff)
-        self.assertIn("zero effect-truth witnesses", self.server_handoff)
-        self.assertIn("Product-side ChatGPT Action installation", self.server_handoff)
+        self.assertIn("project-aware access logging", self.server_handoff)
+        self.assertIn("12ccc208ec2e9183e3b280618f266211cc00179b", self.server_handoff)
         self.assertIn("SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED", self.server_handoff)
         self.assertIn("SOURCE_QUALIFIED != LIVE_PROMOTED", self.server_handoff)
 
@@ -145,18 +145,33 @@ class GitHandoffCurrentTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256(data).hexdigest(), row["sha256"], row["recovery_path"])
 
     def test_new_thread_prompt_preserves_v11_frontier_and_claim_ceiling(self) -> None:
+        self.assertIn("e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4", self.new_thread)
         self.assertIn("7e4c66a769884269d71babdb92217ba80eb66e74", self.new_thread)
-        self.assertIn("0cc7894ffc766ac729c56d4abb8698bb3b6c78cb", self.new_thread)
-        self.assertIn("158 native capabilities", self.new_thread)
-        self.assertIn("v11.0 source successor", self.new_thread)
-        self.assertIn("890 collected / 888 passed / 2 skipped / 0 failed", self.new_thread)
-        self.assertIn("schema branch has been explicitly triggered, built, qualified and source-published", self.new_thread)
-        self.assertIn("zero effect-truth, parallel-read and resume-replay witnesses", self.new_thread)
-        self.assertIn("Product-side ChatGPT Action installation", self.new_thread)
-        self.assertIn("SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED", self.new_thread)
+        self.assertIn("8 operations over 158 native capabilities", self.new_thread)
+        self.assertIn("34537723493", self.new_thread)
+        self.assertIn("38 != 50", self.new_thread)
+        self.assertIn("12ccc208ec2e9183e3b280618f266211cc00179b", self.new_thread)
+        self.assertIn("schema-wire WIP is stale donor material", self.new_thread)
+        self.assertIn("Loaded live Runtime is older", self.new_thread)
+        self.assertIn("LOCAL_GREEN != HOSTED_CLEANBOX_GREEN", self.new_thread)
         self.assertIn("SOURCE_QUALIFIED != LIVE_PROMOTED", self.new_thread)
 
 
+
+    def test_rollover_frontier_is_current_and_release_blocker_is_explicit(self) -> None:
+        head = "e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4"
+        tree = "8fbded01e519a938ded1f2177378cd6693d788b7"
+        for text in (self.ingress, self.server_handoff, self.new_thread, self.git_current, self.rollover):
+            self.assertIn(head, text)
+        self.assertIn(tree, self.ingress)
+        self.assertIn(tree, self.git_current)
+        for text in (self.ingress, self.server_handoff, self.new_thread, self.git_current, self.rollover):
+            self.assertIn("34537723493", text)
+            self.assertIn("38 != 50", text)
+        self.assertIn("Add project-aware access logging", self.git_current)
+        self.assertIn("12ccc208ec2e9183e3b280618f266211cc00179b", self.rollover)
+        self.assertIn("SOURCE_QUALIFIED != LIVE_PROMOTED", self.server_handoff)
+        self.assertIn("LOCAL_GREEN != HOSTED_CLEANBOX_GREEN", self.new_thread)
 
     def test_historical_a001_lineage_is_preserved_without_forcing_old_state_into_current_pointers(self) -> None:
         qualification = (HANDOFF / "HANDOFF_QUALIFICATION.md").read_text(encoding="utf-8")
@@ -229,26 +244,24 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("UCM != PROJECT_AUTHORITY", self.claim_ceiling)
 
     def test_commander_current_precedence_supersedes_retained_historical_body(self) -> None:
-        marker = "## 0. Current precedence — 2026-09-10"
+        marker = "## ROLLOVER PRECEDENCE — 2026-09-10 18:40 ET"
         self.assertIn(marker, self.commander)
-        self.assertIn("0cc7894ffc766ac729c56d4abb8698bb3b6c78cb", self.commander)
-        self.assertIn("7e4c66a769884269d71babdb92217ba80eb66e74", self.commander)
-        self.assertIn("ICF-CS **v1.2**", self.commander)
-        self.assertIn("CONVERGED AT THE CURRENT CLAIM CEILING", self.commander)
-        self.assertIn("### Current schema successor", self.commander)
-        self.assertIn("0 effect-truth", self.commander)
-        self.assertIn("SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED", self.commander)
-        self.assertLess(self.commander.index(marker), self.commander.index("Current v1.1 standard SHA"))
+        self.assertIn("e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4", self.commander)
+        self.assertIn("34537723493", self.commander)
+        self.assertIn("38 != 50", self.commander)
+        self.assertIn("12ccc208ec2e9183e3b280618f266211cc00179b", self.commander)
+        self.assertIn("checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md", self.commander)
+
 
 
     def test_manifest_top_level_metadata_tracks_v11_source_successor(self) -> None:
-        self.assertEqual(self.manifest["engineering_feature_head"], "0cc7894ffc766ac729c56d4abb8698bb3b6c78cb")
-        self.assertEqual(self.manifest["engineering_feature_tree"], "ed939b1dbfd1dc570966c46f200618551b893503")
+        self.assertEqual(self.manifest["engineering_feature_head"], "e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4")
+        self.assertEqual(self.manifest["engineering_feature_tree"], "8fbded01e519a938ded1f2177378cd6693d788b7")
         self.assertEqual(self.manifest["substrate_feature_head"], "673e3b15fa16053e6da6594604d9ce6db7faad1c")
         self.assertEqual(self.manifest["current_source_tool_count"], 158)
         self.assertEqual(self.manifest["current_icf_cs_version"], "1.2")
         self.assertEqual(self.manifest["current_icf_cs_standard_sha256"], "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92")
-        self.assertIn("888 passed", self.manifest["current_source_qualification"])
+        self.assertIn("HOSTED_CI_RED", self.manifest["current_source_qualification"])
         self.assertEqual(self.manifest["final_schema"], "V11_SOURCE_SUCCESSOR_PUBLISHED_PRODUCT_INSTALLATION_PENDING")
         self.assertEqual(self.manifest["schema_v11"]["operations"], 8)
         self.assertEqual(self.manifest["schema_v11"]["native_capabilities"], 158)
@@ -259,12 +272,14 @@ class GitHandoffCurrentTests(unittest.TestCase):
 
     def test_current_pointer_set_has_current_source_and_v11_schema_boundaries(self) -> None:
         for text in (self.git_current, self.server_handoff, self.new_thread):
-            self.assertIn("0cc7894ffc766ac729c56d4abb8698bb3b6c78cb", text)
+            self.assertIn("e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4", text)
             self.assertIn("7e4c66a769884269d71babdb92217ba80eb66e74", text)
-        self.assertIn("live Runtime promotion/restart", self.server_handoff)
-        self.assertIn("live Runtime promotion/restart", self.new_thread)
+            self.assertIn("34537723493", text)
+        self.assertIn("final exact-Git live promotion/restart/readback", self.server_handoff)
+        self.assertIn("canonical restart", self.new_thread)
         self.assertIn("GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION", self.git_current)
-        self.assertIn("SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED", self.git_current)
+        self.assertIn("SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED", self.server_handoff)
+
 
 
     def test_runtime_skill_duality_supersedes_obsolete_contract_digest_gap(self) -> None:

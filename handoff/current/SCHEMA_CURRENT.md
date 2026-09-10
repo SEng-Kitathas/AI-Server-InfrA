@@ -44,3 +44,9 @@ The currently loaded/product-installed surface has **not** been implicitly switc
 
 `SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`
 `SOURCE_QUALIFIED != LIVE_PROMOTED`
+
+## Rollover currentness — 2026-09-10
+
+GitHub mechanism frontier `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` does **not** change the canonical v11 JSON/generator/schema runtime files from schema mechanism `7e4c66a`. Canonical SHA remains `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`. Clean-box, transfer, telemetry and project-aware access-log repairs are schema-neutral.
+
+A separate unpublished real-wire hardening donor would require documenting HTTP 413/415 and a 1 MiB `/lab/vnext/*` request ceiling if it is re-earned and promoted on current source. That donor is **not** current schema authority.

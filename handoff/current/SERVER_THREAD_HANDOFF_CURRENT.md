@@ -1,32 +1,26 @@
 # Server Thread Handoff — Current
 
-Status: **CURRENT / CORE RUNTIME CONVERGED / V11 SOURCE SCHEMA PUBLISHED / PRODUCT+LIVE PROMOTION SEPARATE**
+Status: **CURRENT ROLLOVER / CORE ARCHITECTURE CONVERGED / RELEASE GATES OPEN / LIVE UNCHANGED**
 
-Latest current-source mechanism before this current-surface child: `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` / tree `ed939b1dbfd1dc570966c46f200618551b893503`.
-Schema mechanism feature: `7e4c66a769884269d71babdb92217ba80eb66e74` / tree `967f108f235b4b42097f4b2d9d48ee61c591017c`.
-Current source: 158 native capabilities; v11.0 source successor 8 Assistant operations; v10.3 compatibility/import surface 30 operations.
-Current combined qualification: **890 collected / 888 passed / 2 skipped / 0 failed**.
-Current v11 currentness+schema focused gate: **128/128 PASS**.
-Current four-worker `loadscope`: **888 passed / 2 skipped / 103 subtests**.
-Current ICF-CS: v1.2 / `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`.
+GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7` / parent `2753e87b9cc8f3309666ab479413306ba85e9b11`.
+Schema mechanism: `7e4c66a769884269d71babdb92217ba80eb66e74`; canonical v11 SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`; **8 operations / 158 native capabilities**.
+ICF-CS: v1.2 / `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`.
 
-Read first:
-- `CURRENT_INGRESS.md`;
-- `handoff/current/SCHEMA_CURRENT.md`;
-- `reports/V30_SCHEMA_V11_CURRENT_SURFACE_FINALIZATION_2026-09-10.md`;
-- `reports/V30_SCHEMA_V11_CAPABILITY_MICROKERNEL_2026-09-10.md`;
-- `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`;
-- `handoff/current/COMMANDERS_INTENT_CURRENT.md`;
-- `handoff/current/ICF_CS_CURRENT.md`.
+Read first: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`, then `CURRENT_INGRESS.md` and `handoff/current/SCHEMA_CURRENT.md`.
 
-Current verdict: core Runtime architecture is converged at current claim ceiling; v11.0 is source-published; clean-box reproducibility hardening is also current source. v11 creates no second job/result/authority/transfer plane.
+Current release blocker: GitHub Actions run `34537723493` is red on both hosted OSes. Ubuntu exact current failure: `test_hot_scan_cost_is_independent_of_terminal_history_count` -> `38 != 50`. Windows still needs exact testcase readback if the next run remains red.
 
-Production v11 scheduler truth remains intentionally conservative: 158 capabilities covered, zero effect-truth witnesses, zero automatic parallel-read witnesses, zero automatic resume-replay witnesses.
+Published current source includes project-aware access logging (`[PROJECT] [job:SHORT] METHOD PATH STATUS latency`).
 
-Product-side ChatGPT Action installation and live Runtime promotion/restart remain separate consequences.
+Local-only donor/work branches:
+- adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` directly on `e1b2b8e`; not remote authority;
+- schema-wire hardening WIP based on stale `f38c564`; reproduce/rebase before use.
 
-`CAPABILITY_LEASE != CAPABILITY_GRANT`
-`DESCRIPTIVE_EFFECT_TRAITS != SCHEDULER_AUTHORITY`
-`CONTINUATION != CURRENTNESS`
+Loaded Desktop Runtime remains older (observed compact 30-operation surface, global execution concurrency 8). Rebuild the contaminated live venv before final promotion.
+
+Next: close hosted CI -> reconcile/publish adaptive guard if still green -> re-derive wire hardening -> final exact-Git live promotion/restart/readback.
+
+`GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION`
 `SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`
+`LOCAL_GREEN != HOSTED_CLEANBOX_GREEN`
 `SOURCE_QUALIFIED != LIVE_PROMOTED`

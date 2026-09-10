@@ -407,3 +407,11 @@ This block does not assert token presence or absence. It remains semantically va
 - Combined current-source qualification: **890 collected / 888 passed / 2 skipped / 0 failed**; focused currentness+schema **128/128 PASS**; four-worker loadscope **888 passed / 2 skipped / 103 subtests**.
 - `CAPABILITY_LEASE != CAPABILITY_GRANT`; `DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`; `CONTINUATION != CURRENTNESS`; `PLAN_VM != SECOND_JOB_SCHEDULER`.
 - Product-side ChatGPT Action installation and live Runtime promotion remain separate. `SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`; `SOURCE_QUALIFIED != LIVE_PROMOTED`.
+## ROLLOVER PRECEDENCE — 2026-09-10 18:40 ET
+- GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7`; project-aware access logging published.
+- v11 canonical schema unchanged: `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities.
+- GitHub Actions run `34537723493` is **RED** on Windows + Ubuntu; Ubuntu exact current failure is hot-scan queued count `38 != 50`; live promotion blocked.
+- local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed donor/qualified WIP; schema-wire WIP is older donor material.
+- loaded Desktop Runtime remains behind source; source != live.
+- current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
+- This block wins on current Git/release frontier over older present-tense text in this file; historical evidence remains lineage.

@@ -1,15 +1,16 @@
 {
+  "adaptive_mutation_guard_local_commit": "12ccc208ec2e9183e3b280618f266211cc00179b",
   "architecture_status": "CORE_RUNTIME_ARCHITECTURE_CONVERGED_AT_CURRENT_CLAIM_CEILING",
   "authority_ceiling": "recovery mirror; fresh Git/project/runtime readback remains authoritative",
   "compact_surface_status": "v11.0 source successor = 8 microkernel operations; v10.3 compatibility/import surface = 30 operations until separate product/live promotion",
-  "created_at": "2026-09-10T16:55:00+00:00",
+  "created_at": "2026-09-10T23:03:00+00:00",
   "current_icf_cs_standard_sha256": "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92",
   "current_icf_cs_version": "1.2",
-  "current_source_qualification": "890 collected / 888 passed / 2 skipped / 0 failed; v11 currentness+schema focused 128/128 PASS; four-worker loadscope 888 passed / 2 skipped / 103 subtests",
+  "current_source_qualification": "HOSTED_CI_RED run 34537723493; Ubuntu exact failure test_hot_scan_cost_is_independent_of_terminal_history_count 38 != 50; Windows suite-level full-suite failure; prior local repaired-byte 995 JUnit / 0 failures / 2 skips serial+loadscope+worksteal",
   "current_source_tool_count": 158,
   "effect_trait_status": "204 distinct / 133 singleton / 4 generic behavior consumers; no arbitrary-trait policy automation",
-  "engineering_feature_head": "0cc7894ffc766ac729c56d4abb8698bb3b6c78cb",
-  "engineering_feature_tree": "ed939b1dbfd1dc570966c46f200618551b893503",
+  "engineering_feature_head": "e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4",
+  "engineering_feature_tree": "8fbded01e519a938ded1f2177378cd6693d788b7",
   "files": {
     "A042_ENGINEERING_QUALIFICATION_2026-09-07.md": {
       "bytes": 1521,
@@ -20,8 +21,8 @@
       "sha256": "92cf73b0ebc0e97dfad8dac6b9759300cbee560c8938f7857c99142ae2f28668"
     },
     "COMMANDERS_INTENT_CURRENT.md": {
-      "bytes": 67136,
-      "sha256": "0fd075e53e99dd6a97bc73953a8ab4e080a3883bce205ddfa04e3da584a722f7"
+      "bytes": 68087,
+      "sha256": "c555a4cbd1a16a4b3c8c026250456af19b50371ad4ce3e196ba1cd0de1305081"
     },
     "CONTINUITY_CONVERGENCE_CLASSIFIER_QUALIFICATION_2026-09-07.md": {
       "bytes": 4416,
@@ -32,24 +33,24 @@
       "sha256": "3e260036201ea8b96aa1bc325d682ed4ef0e9d694722235cdbcf535ebcf9aa67"
     },
     "CURRENT_STATE.md": {
-      "bytes": 67824,
-      "sha256": "f7cea2dd38afe75dbd8d8b6d54c2f62e6046ece34758ec9e6158d968fdf08893"
+      "bytes": 68775,
+      "sha256": "228973de6d48cf21b6e8e9de7be8f0bac59526eafc2cb42c421ac751abecb6b8"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 215447,
-      "sha256": "4c60e408b213e416631e264de4152f35232602e78960e1fe38bb362c8ba8b6f9"
+      "bytes": 216398,
+      "sha256": "067ec8e716b2f2743f11735917bccab831eeda2af0733dc59745b873770d1f4f"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 56828,
-      "sha256": "09a2314b356161a0bbfa38a5e6885b0dd1fdd86d692070b020b4cfa1af606745"
+      "bytes": 57779,
+      "sha256": "735b76beedf7d852f056c26c2493b3d7ec58ebd182dfad03bdb5604892aeaea6"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
       "sha256": "ea3f4087401bf8c0902c28e190707a5f6bd0b1711813df62c1a9957d49bd58bb"
     },
     "GIT_PUBLICATION_CURRENT.md": {
-      "bytes": 1463,
-      "sha256": "9242581a517e8716f2a6d72186d93e46f35098177a30d7a853c5c4c88fb19121"
+      "bytes": 1144,
+      "sha256": "ea948bc1800a69887784539db8c19820c1df09f96e2eaa8c81c6c0263596de0b"
     },
     "HANDOFF_QUALIFICATION.md": {
       "bytes": 6862,
@@ -100,16 +101,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 40789,
-      "sha256": "f2c82ff8cc10407dca2e53e5e6faa46be8bc310e1ce0603186b4e1311a227212"
+      "bytes": 41740,
+      "sha256": "7d74004105ebf223ca54b2ea3222f5ce17cd9d0063d347a17620568a9bd49af4"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 1847,
-      "sha256": "6946f9c125ec2210141676ab7b6947f3e3fb757e0712523176b285cfb4ff2be4"
+      "bytes": 1864,
+      "sha256": "ae7174df93da3bafa5c60197565d74b50490422c99b28b2e2ecdbbf3bf644ac1"
     },
     "NEXT_STEPS.md": {
-      "bytes": 48398,
-      "sha256": "b23447c0b0c10b3c1988a48ff73df0bdefa8ccbe409767a9c94e5f969652e22d"
+      "bytes": 49349,
+      "sha256": "c017c8f7ccec0a6c781885d774060d304917bccce0bf9e0dc89bcf1b31046d8b"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -120,28 +121,32 @@
       "sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 65904,
-      "sha256": "98c425bfa668a6f328e5695bdb81df7c84d7f83a223f31b93e7532df23c39b49"
+      "bytes": 66855,
+      "sha256": "538283e69143e773984c3081bb72c50550bc0c0046d864c3984957707a3460d4"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 11117,
       "sha256": "ba136c36f1f21fa2336d2d7e1d78a4fdb0e33899946060ecc1b432aa4e12dc0e"
     },
     "SCHEMA_CURRENT.md": {
-      "bytes": 2184,
-      "sha256": "4b078d26c03b1cc6cc5271447e6a015673373a4bb566be29b1b11119ff5787ba"
+      "bytes": 2810,
+      "sha256": "78b0859f2ba30577d5e1807036514f9c28bc1b65713657641e8582e511d2b245"
     },
     "SERVER_HARDENING_SEMANTIC_COCKPIT_2026-09-08.md": {
       "bytes": 4534,
       "sha256": "e5e099932e4447aa4679bc329b40396060ee4017de0deb3209cf20b60c7c4308"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 2011,
-      "sha256": "8f2791af5e2dac67fa0b3b614538f3e340969e75fe841462257366e44ecb10df"
+      "bytes": 1870,
+      "sha256": "3f72d5c4028385833e8a5926ff07834ca68bb2aac35fe9a2548df2363e939d9f"
     },
     "T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md": {
       "bytes": 10887,
       "sha256": "4ccd5d692aa85e049cae60c714298b44f9bf3359fcdfead5b4eb00d869cacda1"
+    },
+    "THREAD_ROLLOVER_CURRENT.md": {
+      "bytes": 11076,
+      "sha256": "b6186eedcb8370e62004717d38a4ca2b47fc582dcfbeb9c8c6df8cd3f00305ae"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -152,8 +157,8 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 78582,
-      "sha256": "8482b53ec62d3ae1bc0d73a7249bf81d31df34fff4e2c7f376c6844ad6c78593"
+      "bytes": 79533,
+      "sha256": "7e317a463e26310fe41bf933aac6162e336c2fdf8b240cfe8c3f18cf9b8f9531"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,
@@ -170,8 +175,8 @@
   },
   "final_schema": "V11_SOURCE_SUCCESSOR_PUBLISHED_PRODUCT_INSTALLATION_PENDING",
   "legacy_memory_status": "8 compatibility operations over one UCM store; explicit sunset criterion deferred to schema/migration branch",
-  "live_runtime_git_identity": "UNKNOWN_FROM_DEPLOYED_COPY",
-  "next_step": "publish/read back isolated v11 current-surface child on current source; then register project continuity; product-side schema installation and live Runtime promotion remain separate",
+  "live_runtime_git_identity": "OLDER_THAN_CURRENT_SOURCE; live health reports compact 30-operation surface and global execution concurrency 8",
+  "next_step": "close hosted CI; reconcile local adaptive mutation guard 12ccc208; re-derive stale schema-wire donor; then exact-Git live promotion/restart/readback",
   "operating_library_disposition": "KEEP library; NARROW deterministic substrate; KILL duplicate truth/effect planes; no new EMBODY from final replay",
   "operating_library_runtime_convergence_sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e",
   "operating_library_v1_sha256": "b3ac0c538c19e1bb4819569439905fdce707e071b26d9c8d9c58a054de845a7f",
@@ -180,6 +185,8 @@
   "published_front_door_base": "9be7ad603f50c079acc92d542add6a011a2ea2d7",
   "repaired_t0_2_sha256": "0805101ceefa8017186842c6a13c69d94523472e3491ef923357e1d2a146f6e0",
   "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
+  "rollover_checkpoint": "checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md",
+  "rollover_ci_run": "34537723493",
   "schema": "pcmmad.git-handoff-snapshot.v1",
   "schema_v11": {
     "bytes": 33844,

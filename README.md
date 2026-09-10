@@ -2,7 +2,7 @@
 
 AI-Server-InfrA is the engineering repository for the PCMMAD Laboratory Runtime: a local-first, transport-independent runtime for durable project state, bounded execution, research, continuity, governance, verification, and operator control.
 
-> **Current repository status (2026-09-10):** `main` is the V30 engineering frontier. The latest source mechanism before this documentation refresh is `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` (`Make Runtime clean-box reproducible`); v11 schema mechanism `7e4c66a769884269d71babdb92217ba80eb66e74` remains its direct parent and current schema authority. ICF-CS v1.2 remains the active continuity/process doctrine carrier in source; the currently deployed Desktop Runtime remains intentionally older and has **not** been implicitly promoted to this frontier.
+> **Current repository status (2026-09-10 rollover):** GitHub `main` mechanism frontier is `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` (`Add project-aware access logging`), tree `8fbded01e519a938ded1f2177378cd6693d788b7`. v11 schema authority remains `7e4c66a769884269d71babdb92217ba80eb66e74` with canonical SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`. Hosted clean-box CI for `e1b2b8e` is **not green yet**; run `34537723493` fails the full-suite step on Windows and Ubuntu. The loaded Desktop Runtime remains older and has not been implicitly promoted.
 
 ## Start here
 
@@ -13,7 +13,8 @@ If you are evaluating the project from outside the development thread, use these
 3. [`docs/architecture/INVARIANTS.md`](docs/architecture/INVARIANTS.md) — architecture invariants.
 4. [`docs/pcmmad_doctrine/PCMMAD_CANONICAL_RUNTIME_SPECIFICATION.md`](docs/pcmmad_doctrine/PCMMAD_CANONICAL_RUNTIME_SPECIFICATION.md) — Runtime doctrine.
 5. [`reports/README.md`](reports/README.md) — evidence index and interpretation rules.
-6. [`CURRENT_INGRESS.md`](CURRENT_INGRESS.md) — internal continuity/recovery ingress. This is useful for lineage, but is not required to understand or test the repository.
+6. [`CURRENT_INGRESS.md`](CURRENT_INGRESS.md) — internal continuity/recovery ingress.
+7. [`checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`](checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md) — latest thread rollover/currentness checkpoint; fresh Git still outranks it.
 
 ## What this repository is
 
@@ -96,6 +97,12 @@ The current V30 source includes, among other work:
 - Operating Library / Runtime boundary convergence without introducing a second scheduler or authority plane.
 
 The detailed evidence and derivation records are indexed under [`reports/`](reports/README.md).
+
+## Rollover release gate — 2026-09-10
+
+Current GitHub head `e1b2b8e` is source-published but **hosted-CI red**. Ubuntu's current public failure is `test_hot_scan_cost_is_independent_of_terminal_history_count` (`38 != 50`); Windows still exposes only a suite-level full-suite failure. Prior local green does not override hosted clean-box red.
+
+`LOCAL_GREEN != HOSTED_CLEANBOX_GREEN`
 
 ## Qualification status
 

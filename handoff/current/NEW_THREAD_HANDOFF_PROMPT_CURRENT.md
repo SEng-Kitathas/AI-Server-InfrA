@@ -1,13 +1,13 @@
-Re-enter PCMMAD server work from GitHub/source truth, not historical handoff prose.
+Re-enter PCMMAD Laboratory Runtime server work in RECOVERY/AUDIT.
 
-Fresh-read `git rev-parse HEAD`, `git status --short --branch`, and `git ls-remote origin refs/heads/main` first. Latest remote-verified source mechanism before the current-surface child is `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` / tree `ed939b1dbfd1dc570966c46f200618551b893503` (`Make Runtime clean-box reproducible`). v11 schema mechanism is `7e4c66a769884269d71babdb92217ba80eb66e74` / tree `967f108f235b4b42097f4b2d9d48ee61c591017c`. Current source is 158 native capabilities; v11.0 source successor has 8 Assistant-facing operations; v10.3 compatibility/import remains 30 operations. Current combined qualification is **890 collected / 888 passed / 2 skipped / 0 failed**; focused currentness+schema gate **128/128 PASS**; four-worker loadscope **888 passed / 2 skipped / 103 subtests**.
+Fresh-read Git before trusting handoff prose. Rollover GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7` (`Add project-aware access logging`). Read `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md` first after Git/Actions/local-health readback.
 
-Read `handoff/current/SCHEMA_CURRENT.md` and `reports/V30_SCHEMA_V11_CURRENT_SURFACE_FINALIZATION_2026-09-10.md`. The schema branch has been explicitly triggered, built, qualified and source-published. Do not reopen it as locked/untriggered.
+Do not reopen core architecture. v11 schema mechanism remains `7e4c66a769884269d71babdb92217ba80eb66e74`; canonical v11 SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`; 8 operations over 158 native capabilities; v10.3 compatibility remains 30 operations. ICF-CS v1.2 remains current.
 
-Production v11.0 currently has zero effect-truth, parallel-read and resume-replay witnesses; this conservative state is intentional. Goal-to-plan synthesis is deferred.
+Immediate release blocker: GitHub Actions run `34537723493` is red on Windows + Ubuntu. Ubuntu exact current failure is `test_hot_scan_cost_is_independent_of_terminal_history_count` (`38 != 50`). Windows current failure remains suite-level. Close hosted CI before live promotion.
 
-ICF-CS v1.2 is current at standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`. Use `continuity.ingress.rehydrate` for current fresh-instance orchestration.
+Local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed on top of `e1b2b8e`; inspect/rebase/qualify it rather than recreating it. Older schema-wire WIP is stale donor material and must be reproduced against current source.
 
-Product-side ChatGPT Action installation and live Runtime promotion/restart are separate consequences.
+Loaded live Runtime is older; rebuild runtime-only venv before final promotion. After source/hosted CI are green, deploy exact GitHub bytes, canonical restart, read back 158 capabilities/ICF/schema/execution capacity, run >=10 real async pressure, drain queues/orphans/errors, verify HUD/telemetry/project-aware access logs, preserve rollback/promotion receipt.
 
-Preserve `CAPABILITY_LEASE != CAPABILITY_GRANT`, `DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`, `CONTINUATION != CURRENTNESS`, `LIVE_SHADOW != DTS != RES != UCM`, `SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`, and `SOURCE_QUALIFIED != LIVE_PROMOTED`.
+Preserve: `CAPABILITY_LEASE != CAPABILITY_GRANT`; `DESCRIPTIVE_EFFECT_TRAITS != SCHEDULER_AUTHORITY`; `CONTINUATION != CURRENTNESS`; `LIVE_SHADOW != DTS != RES != UCM`; `LOCAL_GREEN != HOSTED_CLEANBOX_GREEN`; `SOURCE_QUALIFIED != LIVE_PROMOTED`.
