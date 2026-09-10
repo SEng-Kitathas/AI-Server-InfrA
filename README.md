@@ -2,7 +2,7 @@
 
 AI-Server-InfrA is the engineering repository for the PCMMAD Laboratory Runtime: a local-first, transport-independent runtime for durable project state, bounded execution, research, continuity, governance, verification, and operator control.
 
-> **Current repository status (2026-09-10):** `main` is the V30 engineering frontier. The latest mechanism feature before this documentation refresh is `673e3b15fa16053e6da6594604d9ce6db7faad1c` (`Harden substrate durability and package embedding`). ICF-CS v1.2 remains the active continuity/process doctrine carrier in source; the currently deployed Desktop Runtime remains intentionally older and has **not** been implicitly promoted to this frontier.
+> **Current repository status (2026-09-10):** `main` is the V30 engineering frontier. The latest source mechanism before this documentation refresh is `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` (`Make Runtime clean-box reproducible`); v11 schema mechanism `7e4c66a769884269d71babdb92217ba80eb66e74` remains its direct parent and current schema authority. ICF-CS v1.2 remains the active continuity/process doctrine carrier in source; the currently deployed Desktop Runtime remains intentionally older and has **not** been implicitly promoted to this frontier.
 
 ## Start here
 
@@ -49,7 +49,7 @@ GIT PUBLICATION != LIVE RUNTIME PROMOTION
 
 ## Current source surface
 
-At the `2c8b320...` currentness/audit feature frontier over substrate feature `673e3b1...`, source introspection registers **158 native tools**. The compact imported Custom GPT action surface remains intentionally bounded at **30 operations**; native capability growth does not widen the transport schema.
+At the `7e4c66a...` schema-mechanism frontier, source introspection registers **158 native capabilities**. Source schema successor **v11.0** exposes **8 Assistant-facing microkernel operations**; v10.3 remains the **30-operation compatibility/import surface** until separate product/live promotion.
 
 Recent continuity/governance additions include:
 
@@ -106,11 +106,13 @@ At the current ICF-CS v1.2 / RES / UCM engineering frontier:
 - UCM realistic private-scale synthetic: 716 canonical events, 7,172-byte core / 4,828-byte headroom; derived profile reduced from ~452 MB to ~3.98 MB while the append-only ledger remained authoritative;
 - v1.2 fresh-instance ingress suite: **13/13 PASS**;
 - handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- complete Runtime: **775 collected / 773 passed / 0 failed / 2 conditional/platform skips**;
+- current combined source after clean-box + v11 current-surface reconciliation: **890 collected / 888 passed / 0 failed / 2 conditional/platform skips**;
 - warfort-specific adversarial suite: **65 passed / 1 skipped / 17 property subtests passed**;
-- final four-worker current-surface burn (`loadscope`): **773 passed / 2 skipped / 103 subtests passed**;
+- v11 focused schema/package/compatibility gate: **127/127 PASS**;
+- four-worker v11 mechanism burns (`loadscope` and `worksteal`): **876 passed / 2 skipped / 103 subtests passed** each;
 - source native capability count: **158**;
-- compact 30-operation schema unchanged.
+- v11 schema: **8 operations / 33,844 bytes / SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`**;
+- v10.3 compatibility schema retained: **30 operations / SHA `132dff5967d7b45278d63da11e4ab87a72bd3fbd0507af3b652ffd34ee88787f`**.
 
 Fresh-instance ingress now requires exact ICF-CS v1.2 bytes, explicit session applicability, required RES/UCM currentness, bounded project context, and a final owning-plane/live-readback gate before mutation.
 
@@ -160,9 +162,9 @@ TRANSFER_STAGE_PATH != TRANSFER_STAGE_OBJECT_IDENTITY
 
 See `reports/V30_WARFORT_BATTLE_HARDENING_2026-09-09.md`.
 
-## Architecture closure and schema-branch boundary
+## Architecture closure and schema successor
 
-A 2026-09-10 source-grounded audit against current Git confirms the **core Runtime architecture is converged at the current claim ceiling**. This means the durable state/authority/execution/continuity substrate has native homes and no currently reproduced defect requires another truth plane, scheduler, or authority system. It does **not** mean the separate compositional schema/planner branch is complete.
+A 2026-09-10 source-grounded audit against current Git confirms the **core Runtime architecture is converged at the current claim ceiling**. This means the durable state/authority/execution/continuity substrate has native homes and no currently reproduced defect requires another truth plane, scheduler, or authority system. The separately gated schema branch has now been explicitly triggered, built, qualified and source-published as v11.0.
 
 Current effect metadata is intentionally **not** a generic scheduling algebra: the 158-tool registry contains 204 distinct `effect_traits` strings (133 single-use), but only four currently alter Runtime behavior: `project_mutation_fenced`, `idempotent_replay_while_unacked`, `exact_offset_required`, and `requires_chunk_hash`. Other traits may describe properties independently enforced by mechanisms/tests, but the trait declaration itself is not proof.
 
@@ -173,7 +175,7 @@ DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY
 COMPACT_COUNT_CORRECT != COMPACT_MEMBERSHIP_DERIVED
 ```
 
-The separate schema/composition branch is gated on splitting enforced predicates from descriptive annotations before effect-aware automatic parallelism, static plan-cost bounds, continuation currentness revalidation, `CAPABILITY_LEASE != CAPABILITY_GRANT`, an explicit compact-eligibility rule, and an exit criterion for the eight legacy `memory.*` compatibility operations. None of those are silently half-implemented on server `main`.
+v11 closes the schema-side gates conservatively: server-side dataflow lands first; leases are explicitly non-authoritative; compose is deterministic and statically cost-admitted; continuations do not manufacture currentness; and automatic parallel/replay behavior requires separate exact-digest effect-truth + optimization witnesses. Production v11.0 intentionally has zero effect-truth, parallel-read and resume-replay witnesses. Goal-to-plan synthesis remains deferred. The eight legacy `memory.*` compatibility operations still share the same UCM store and retain their separate sunset question.
 
 See [`reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`](reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md).
 

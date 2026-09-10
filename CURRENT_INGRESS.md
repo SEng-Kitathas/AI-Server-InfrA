@@ -28,11 +28,15 @@ Fresh Git/local/runtime readback remains required before consequence.
 
 ## Current engineering mechanism frontier
 
-Latest remote-verified Runtime/currentness feature before this current-surface refresh:
-`2c8b3205ce92ff09eb5b0cc213a0d211a3666969` — `Reconcile ICF currentness and architecture closure audit`
+Latest remote-verified source mechanism before this current-surface refresh:
+`0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` — `Make Runtime clean-box reproducible`
 
-Tree: `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`
-Parent/front-door base: `9be7ad603f50c079acc92d542add6a011a2ea2d7`
+Current v11 schema mechanism in ancestry:
+`7e4c66a769884269d71babdb92217ba80eb66e74` — `Add v11 capability microkernel schema`
+
+Current source tree: `ed939b1dbfd1dc570966c46f200618551b893503`
+Schema mechanism tree: `967f108f235b4b42097f4b2d9d48ee61c591017c`
+Schema mechanism parent: `92010b57dfc275dd6f9753121cd8def98792ed41`
 Substrate durability feature in ancestry: `673e3b15fa16053e6da6594604d9ce6db7faad1c` / tree `e39f0a6a3d3c3ba5ece16a04c48289186318096a`.
 
 Tree: `e39f0a6a3d3c3ba5ece16a04c48289186318096a`
@@ -49,15 +53,16 @@ Current continuity surfaces include:
 - 31 canonical `ucm.*` tools plus eight legacy `memory.*` compatibility tools;
 - `continuity.ingress.rehydrate` for current ICF-CS v1.2 fresh-instance orchestration.
 
-The compact imported action schema remains exactly 30 operations.
+Source schema successor is **v11.0 / 8 Assistant-facing operations / 33,844 bytes**. v10.3 remains the exact **30-operation compatibility/import surface** until separate product/live promotion.
 
 Current source qualification:
 - UCM focused gate: **130/130 PASS**;
 - v1.2 ingress: **13/13 PASS**;
 - handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- full Runtime: **775 collected / 773 passed / 0 failed / 2 skips**;
+- current combined source after clean-box + v11 current-surface reconciliation: **890 collected / 888 passed / 0 failed / 2 skips**;
 - warfort-specific suite: **65 passed / 1 skipped / 17 property subtests passed**;
-- current-surface four-worker `loadscope` burn: **773 passed / 2 skipped / 103 subtests passed**;
+- v11 focused schema/package/compatibility gate: **127/127 PASS**;
+- v11 mechanism four-worker `loadscope` + `worksteal`: **876 passed / 2 skipped / 103 subtests** each;
 - substrate/package feature staged inventory SHA `ca06ea7bed376e11c489d6479812d1573f0ba03c0a4863166767c3e9c25be9a2`.
 
 ## Substrate / embedding hardening
@@ -95,7 +100,7 @@ Current source additionally fails closed on:
 
 ## Architecture-closure audit
 
-Current source audit result: **core Runtime architecture converged at the current claim ceiling; final schema/composition work remains a separate branch/campaign**.
+Current source audit result: **core Runtime architecture converged at the current claim ceiling; the separately gated schema campaign has now produced and published v11.0**.
 
 Effect-trait truth on the 158-tool source surface:
 - 204 distinct trait strings;
@@ -106,9 +111,30 @@ Effect-trait truth on the 158-tool source surface:
 `TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`.
 `DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY`.
 
-Compact-30 membership is curated + parity-tested, not derived from a machine-readable eligibility rule. The 31 canonical `ucm.*` + eight legacy `memory.*` compatibility operations share one authoritative store, but the legacy surface has no sunset clock yet. Those are explicit gates for the separate schema/migration branch, not reasons to invent new server truth planes before live promotion.
+v11 no longer depends on deriving a flat compact membership list: eight static microkernel operations reach current native capabilities through exact contract digests. Effect truth remains separately witnessed and conservative. The 31 canonical `ucm.*` + eight legacy `memory.*` compatibility operations still share one authoritative store; the legacy-surface sunset remains a separate migration question.
 
 Full audit: `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`.
+
+## Schema v11 capability microkernel
+
+Current schema pointer: `handoff/current/SCHEMA_CURRENT.md`.
+
+Source successor: `baseline/pcmmad_receiver/pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json` / SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`.
+
+Eight static primitives: `orient / invoke / flow / compose / execute / observe / resume / transfer`. They project the 158-capability Runtime without creating a second job/result/authority/transfer plane.
+
+Production scheduler profile covers all 158 capabilities but currently trusts **zero** declarations as verified effect truth and enables **zero** automatic parallel/replay entries. Unwitnessed capabilities are `UNVERIFIED`, serial, recomposition-required, and conservatively costed.
+
+`CAPABILITY_LEASE != CAPABILITY_GRANT`
+`DESCRIPTIVE_EFFECT_TRAITS != SCHEDULER_AUTHORITY`
+`DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`
+`CONTINUATION != CURRENTNESS`
+`COMPACT_PLAN != UNBOUNDED_RESOLVED_ARGUMENTS`
+`PLAN_VM != SECOND_JOB_SCHEDULER`
+
+Source mechanism qualification: focused **127/127 PASS**; complete Runtime **878 collected / 876 passed / 2 skipped / 0 failures**; four-worker loadscope/worksteal **876 passed / 2 skipped / 103 subtests** each.
+
+`SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`
 
 ## Current ICF-CS authority
 
@@ -171,7 +197,7 @@ The loaded Desktop Runtime was last observed behind source: global execution con
 
 - actual private UCM instance is structurally verified and a private-safe importer is source-published, but the private instance has **not** been imported into the loaded Runtime;
 - live Runtime reload/promotion remains separately gated;
-- **Final schema redesign remains LAST / locked / untriggered**; compact/schema redesign is still deliberately untriggered;
+- the explicit schema redesign trigger has been consumed and v11.0 is source-published; product-side Action installation and live Runtime promotion remain separately gated;
 - V30 source is not being mislabeled as a packaged release.
 
 If persisted prose conflicts with current Git/worktree/runtime reality:

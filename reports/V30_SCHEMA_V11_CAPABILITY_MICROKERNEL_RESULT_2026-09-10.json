@@ -1,6 +1,7 @@
 {
   "authority_effect": "NONE",
   "base_head": "92010b57dfc275dd6f9753121cd8def98792ed41",
+  "candidate_inventory_sha256": "52571ba349a3de0fdca0c3a60d15c7780a7f1373289c31779762a1c673cf1cc7",
   "compose_execute": {
     "automatic_parallelism_default": false,
     "default_static_cost_units": 120,
@@ -66,6 +67,8 @@
     "v10_3_operations": 30,
     "v10_3_sha256": "132dff5967d7b45278d63da11e4ab87a72bd3fbd0507af3b652ffd34ee88787f"
   },
+  "feature_commit": "7e4c66a769884269d71babdb92217ba80eb66e74",
+  "feature_tree": "967f108f235b4b42097f4b2d9d48ee61c591017c",
   "flow": {
     "assistant_projected_max_steps": 12,
     "assistant_projected_parallelism": 1,
@@ -126,8 +129,10 @@
     "legacy_alias_shims": true,
     "schema_json_packaged": true
   },
+  "parent": "92010b57dfc275dd6f9753121cd8def98792ed41",
+  "remote_readback": "7e4c66a769884269d71babdb92217ba80eb66e74",
   "schema": "pcmmad.v30-schema-v11-capability-microkernel-result.v1",
-  "status": "CANONICAL_SOURCE_QUALIFIED_PUBLICATION_PENDING",
+  "status": "ENGINEERING_FEATURE_PUBLISHED_REMOTE_VERIFIED",
   "tests": {
     "canonical_full_sequential": "878 collected / 876 passed / 2 skipped / 0 failed",
     "canonical_parallel_loadscope": "876 passed / 2 skipped / 103 subtests passed",

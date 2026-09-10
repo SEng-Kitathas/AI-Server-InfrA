@@ -8,6 +8,7 @@ Start external evaluation at [`../docs/EXTERNAL_EVALUATION.md`](../docs/EXTERNAL
 
 Read newest/current work first:
 
+- `V30_SCHEMA_V11_CAPABILITY_MICROKERNEL_2026-09-10.md` / result JSON — 8-operation capability microkernel, Stage-A server dataflow, closed effect-truth/scheduler gates, deterministic cost-admitted plans, continuation currentness, clean wheel embedding and v10 compatibility.
 - `V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md` / result JSON — current Git architecture-closure verdict, exact effect-trait census/consumers, compact-30 selection audit, legacy-memory sunset finding, RES/UCM/DTS authority enforcement, current-surface drift and schema-branch gates.
 - `V30_SUBSTRATE_DURABILITY_AND_PACKAGE_EMBEDDING_2026-09-10.md` / result JSON — session/Andon durability, observation-vs-reconciliation, package embedding, execution wire serialization, and A-042 historical recovery placement.
 - `V30_WARFORT_BATTLE_HARDENING_2026-09-09.md` / result JSON — adversarial currentness, crash/recovery, filesystem/inode, canonical JSON, ZIP namespace, atomic-replace, transfer-identity and parallel-burn qualification.
@@ -40,6 +41,6 @@ APPEND_ONLY_HISTORY != UNBOUNDED_DERIVED_SNAPSHOT_HISTORY
 
 ## Current source-versus-release boundary
 
-At substrate/package hardening frontier `673e3b15fa16053e6da6594604d9ce6db7faad1c`, source introspection remains **158 native tools** and the full Runtime qualification is **769 collected / 767 passed / 0 failed / 2 skips**. The active ICF-CS v1.2 carrier is present under `handoff/current/`; UCM and RES extend existing Runtime families rather than creating duplicate state/authority planes.
+At schema v11 mechanism frontier `7e4c66a769884269d71babdb92217ba80eb66e74`, source introspection remains **158 native capabilities**; v11 exposes **8 Assistant-facing operations** while v10.3 remains a 30-operation compatibility surface. Current combined source qualification is **890 collected / 888 passed / 0 failed / 2 skips**. The active ICF-CS v1.2 carrier is present under `handoff/current/`; UCM and RES extend existing Runtime families rather than creating duplicate state/authority planes.
 
 `VERSION`, `RELEASE.json`, and V29 package manifests still describe the last packaged V29 lineage. External source evaluation must bind to exact Git. Live deployment remains a separate readback claim.

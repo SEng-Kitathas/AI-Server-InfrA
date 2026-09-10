@@ -1,6 +1,6 @@
 # V30 Schema v11 Capability Microkernel — 2026-09-10
 
-Status: **CANONICAL SOURCE QUALIFIED / PUBLICATION PENDING**
+Status: **ENGINEERING FEATURE PUBLISHED / REMOTE-VERIFIED / PRODUCT+LIVE PROMOTION SEPARATE**
 
 Base Git/source head: `92010b57dfc275dd6f9753121cd8def98792ed41`
 
@@ -388,3 +388,12 @@ Not yet earned at this report stage:
 - live Runtime promotion;
 - any production effect-truth/parallel/replay witness set;
 - natural-language planner correctness.
+
+## Feature publication readback
+
+Engineering feature: `7e4c66a769884269d71babdb92217ba80eb66e74`
+Tree: `967f108f235b4b42097f4b2d9d48ee61c591017c`
+Parent: `92010b57dfc275dd6f9753121cd8def98792ed41`
+Exact canonical candidate inventory SHA-256: `52571ba349a3de0fdca0c3a60d15c7780a7f1373289c31779762a1c673cf1cc7`.
+
+`origin/main` was independently read back at the exact feature after push. This current-surface child records v11 as the current source schema successor. Product-side ChatGPT Action installation and live Runtime reload remain separate consequences.

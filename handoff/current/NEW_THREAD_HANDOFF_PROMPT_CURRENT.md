@@ -1,11 +1,13 @@
 Re-enter PCMMAD server work from GitHub/source truth, not historical handoff prose.
 
-Fresh-read `git rev-parse HEAD`, `git status --short --branch`, and `git ls-remote origin refs/heads/main` first. The latest remote-verified Runtime/currentness mechanism before the current-surface refresh is `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` / tree `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`; substrate feature `673e3b15fa16053e6da6594604d9ce6db7faad1c` is in ancestry. Current source is 158 native tools / 30 compact operations / 775 collected / 773 passed / 2 skipped / 0 failed.
+Fresh-read `git rev-parse HEAD`, `git status --short --branch`, and `git ls-remote origin refs/heads/main` first. Latest remote-verified source mechanism before the current-surface child is `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` / tree `ed939b1dbfd1dc570966c46f200618551b893503` (`Make Runtime clean-box reproducible`). v11 schema mechanism is `7e4c66a769884269d71babdb92217ba80eb66e74` / tree `967f108f235b4b42097f4b2d9d48ee61c591017c`. Current source is 158 native capabilities; v11.0 source successor has 8 Assistant-facing operations; v10.3 compatibility/import remains 30 operations. Current combined qualification is **890 collected / 888 passed / 2 skipped / 0 failed**; focused currentness+schema gate **128/128 PASS**; four-worker loadscope **888 passed / 2 skipped / 103 subtests**.
+
+Read `handoff/current/SCHEMA_CURRENT.md` and `reports/V30_SCHEMA_V11_CURRENT_SURFACE_FINALIZATION_2026-09-10.md`. The schema branch has been explicitly triggered, built, qualified and source-published. Do not reopen it as locked/untriggered.
+
+Production v11.0 currently has zero effect-truth, parallel-read and resume-replay witnesses; this conservative state is intentional. Goal-to-plan synthesis is deferred.
 
 ICF-CS v1.2 is current at standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`. Use `continuity.ingress.rehydrate` for current fresh-instance orchestration.
 
-Read `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`. Its verdict is: core Runtime architecture converged at current claim ceiling; the effect-trait split/Plan VM/compose/compact derivation and legacy-memory exit criterion belong to the separate schema/migration branch. Do not implement them opportunistically on server main.
+Product-side ChatGPT Action installation and live Runtime promotion/restart are separate consequences.
 
-After current Git surfaces are remotely verified, live Runtime promotion/restart is the next server operation if still authorized. Live promotion must end in source/capability/ICF/execution/HUD/scheduler/job readback.
-
-Preserve `LIVE_SHADOW != DTS != RES != UCM`, `TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`, `DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY`, `CAPABILITY_LEASE != CAPABILITY_GRANT`, and `SOURCE_QUALIFIED != LIVE_PROMOTED`.
+Preserve `CAPABILITY_LEASE != CAPABILITY_GRANT`, `DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`, `CONTINUATION != CURRENTNESS`, `LIVE_SHADOW != DTS != RES != UCM`, `SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`, and `SOURCE_QUALIFIED != LIVE_PROMOTED`.

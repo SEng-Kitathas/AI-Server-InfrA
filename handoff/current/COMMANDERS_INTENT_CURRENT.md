@@ -10,29 +10,33 @@ This file supersedes older status/checklist readings inside prior revisions of `
 
 Where older present-tense statements in the retained historical body conflict with this block, **this block wins for current engineering direction**. Dated historical facts remain lineage.
 
-Current Git/Runtime source frontier before this current-surface refresh:
-- currentness/audit feature `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` / tree `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`;
-- parent front door `9be7ad603f50c079acc92d542add6a011a2ea2d7`;
-- substrate durability feature `673e3b15fa16053e6da6594604d9ce6db7faad1c`;
-- 158 native tools; compact transport remains 30 operations;
-- full source qualification **775 collected / 773 passed / 2 skipped / 0 failed**;
-- ICF-CS **v1.2** current standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`;
-- low-level `rehydrate_context()` now reports ICF-CS v1.2 rather than historical 1.0.
+Current source frontier before this current-surface child:
+- latest remote-verified source mechanism `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` / tree `ed939b1dbfd1dc570966c46f200618551b893503` (`Make Runtime clean-box reproducible`);
+- v11 schema mechanism `7e4c66a769884269d71babdb92217ba80eb66e74` / tree `967f108f235b4b42097f4b2d9d48ee61c591017c`;
+- 158 native capabilities; v11.0 source schema successor **8 Assistant-facing operations**; v10.3 compatibility/import surface **30 operations**;
+- current combined qualification **890 collected / 888 passed / 2 skipped / 0 failed**;
+- v11 currentness+schema focused gate **128/128 PASS**;
+- four-worker `loadscope` **888 passed / 2 skipped / 103 subtests**;
+- ICF-CS **v1.2** current standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`.
 
 ### Architecture closure
-The core Runtime substrate is **CONVERGED AT THE CURRENT CLAIM CEILING**. No currently reproduced defect requires another durable truth plane, scheduler, project authority plane, UCM store, RES store, or adapter-owned lifecycle. New bugs may still be discovered and hardened; that is not the same as an open architecture placement question.
+The core Runtime substrate remains **CONVERGED AT THE CURRENT CLAIM CEILING**. The separately gated schema branch has been explicitly triggered, built, qualified and source-published. Subsequent clean-box reproducibility hardening remains part of the same Runtime substrate and does not replace the v11 schema contract.
 
-### Separate final schema/composition branch
-The final schema/Plan-VM/compositional surface remains separate. Current `effect_traits` are **not** a generic machine effect algebra: 204 distinct strings / 133 singleton; only `project_mutation_fenced`, `idempotent_replay_while_unacked`, `exact_offset_required`, and `requires_chunk_hash` currently alter generic Runtime behavior.
+### Current schema successor
+Current source schema pointer: `handoff/current/SCHEMA_CURRENT.md`. v11.0 uses eight static primitives: `orient / invoke / flow / compose / execute / observe / resume / transfer`. The scheduler/effect gate remains conservative: **0 effect-truth / 0 parallel-read / 0 resume-replay witnesses** in production.
 
-Before effect-aware automatic composition, the schema branch must split enforced predicates from descriptive annotations, statically bound plan cost, preserve `CAPABILITY_LEASE != CAPABILITY_GRANT`, revalidate continuation-node currentness, declare compact eligibility, and give legacy `memory.*` an exit criterion.
-
-`CORE_RUNTIME_ARCHITECTURE_CONVERGED != FINAL_COMPOSITION_SCHEMA_COMPLETE`
-`TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`
-`DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY`
+`CAPABILITY_LEASE != CAPABILITY_GRANT`
+`DESCRIPTIVE_EFFECT_TRAITS != SCHEDULER_AUTHORITY`
+`DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`
+`CONTINUATION != CURRENTNESS`
+`COMPACT_PLAN != UNBOUNDED_RESOLVED_ARGUMENTS`
+`PLAN_VM != SECOND_JOB_SCHEDULER`
 
 ### Current operational next step
-After this Git current-surface reconciliation is source-qualified and remote-read back, **live promotion/restart is the next server operation** if the operator keeps that direction. The schema branch remains unmerged until separately ready.
+Publish/read back this isolated current-surface child. Product-side ChatGPT Action installation and live Runtime promotion/restart remain separate consequences.
+
+`SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`
+`SOURCE_QUALIFIED != LIVE_PROMOTED`
 
 ---
 

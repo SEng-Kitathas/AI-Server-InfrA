@@ -1,0 +1,32 @@
+{
+  "assistant_schema_operations": 8,
+  "canonical_mixed_worktree_absorbed": false,
+  "current_remote_parent": "0cc7894ffc766ac729c56d4abb8698bb3b6c78cb",
+  "current_remote_parent_tree": "ed939b1dbfd1dc570966c46f200618551b893503",
+  "effect_profile_sha256": "a7ee841edb47010978a13d884e899520c6bd6e22d2907a9ba4bbb169f8e58ce3",
+  "effect_truth_verified": 0,
+  "force_push_used": false,
+  "live_runtime_promoted": false,
+  "native_capabilities": 158,
+  "parallel_verified": 0,
+  "parent_feature": "7e4c66a769884269d71babdb92217ba80eb66e74",
+  "parent_tree": "967f108f235b4b42097f4b2d9d48ee61c591017c",
+  "product_schema_installed": false,
+  "remote_advanced_during_qualification": true,
+  "resume_replay_verified": 0,
+  "schema": "pcmmad.v30-schema-v11-current-surface-finalization.v1",
+  "schema_sha256": "ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010",
+  "status": "ISOLATED_FRONT_DOOR_CHILD_QUALIFIED_PUBLICATION_PENDING",
+  "tests": {
+    "combined_focused": "128/128 PASS",
+    "first_full": "879 collected / 876 passed / 2 skipped / 1 intermittent UCM cross-process failure",
+    "handoff_current": "19/19 PASS",
+    "parallel_loadscope": "877 passed / 2 skipped / 103 subtests passed",
+    "rebased_combined_focused": "128/128 PASS",
+    "rebased_combined_full": "890 collected / 888 passed / 2 skipped / 0 failed",
+    "rebased_combined_parallel_loadscope": "888 passed / 2 skipped / 103 subtests passed",
+    "second_full": "879 collected / 877 passed / 2 skipped / 0 failed",
+    "ucm_cross_process_stress": "12/12 consecutive PASS after isolated full-suite flake"
+  },
+  "v10_3_compatibility_operations": 30
+}

@@ -2,7 +2,7 @@
 
 ## V30 engineering main — 2026-09-09 (unpackaged / not implicitly live-promoted)
 
-- 2026-09-10 effect-trait/current-surface truth audit: core Runtime architecture confirmed converged at current claim ceiling; low-level ICF rehydration version corrected from stale 1.0 to current 1.2; effect-trait split/compact eligibility/legacy-memory exit explicitly deferred as schema/migration-branch gates; current Git recovery surfaces reconciled separately before live promotion.
+- 2026-09-10 schema v11: after the effect-trait/current-surface audit confirmed core Runtime convergence, the explicitly triggered schema campaign produced an 8-operation capability microkernel over 158 native capabilities with server-side dataflow, closed conservative effect truth, static plan cost, continuation currentness, and retained v10.3 compatibility.
 Current `main` has advanced substantially beyond the V29 packaged release candidate. Major published engineering work includes:
 
 - project mutation ownership/exclusivity and generation fencing;
@@ -24,7 +24,7 @@ Current `main` has advanced substantially beyond the V29 packaged release candid
 - hostile governance pressure that exposed and repaired incomplete-contact re-signing and over-broad local-file recheck boundaries;
 - hostile RES pressure covering canonical truth states, append/supersession currentness, provenance/evidence, 22-section snapshot shape, material-change cadence, handoff staleness, and the RES-to-doctrine authority firewall.
 
-At currentness/audit feature frontier `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` over substrate feature `673e3b15fa16053e6da6594604d9ce6db7faad1c`, source introspection remains **158 native tools** while the reconciled current-surface qualification is **775 collected / 773 passed / 0 failed / 2 skips**. The current-surface four-worker loadscope burn passes at **773 passed / 2 skipped / 103 subtests**. ICF-CS v1.2 remains active continuity/process doctrine; live Runtime promotion remains separate.
+At schema mechanism frontier `7e4c66a769884269d71babdb92217ba80eb66e74`, source introspection remains **158 native capabilities**. Source schema v11.0 exposes **8 Assistant-facing operations** while v10.3 remains a **30-operation compatibility/import surface**. Current combined source qualification is **890 collected / 888 passed / 0 failed / 2 skips**; focused v11 schema/package compatibility is **127/127 PASS**; four-worker loadscope/worksteal each pass at **876 passed / 2 skipped / 103 subtests**. ICF-CS v1.2 remains active continuity/process doctrine; product-side schema installation and live Runtime promotion remain separate.
 
 This section describes the engineering repository, **not a new packaged release identity**. `VERSION` and `RELEASE.json` continue to identify the last packaged V29 release candidate until a separate release/promotion process earns a successor.
 

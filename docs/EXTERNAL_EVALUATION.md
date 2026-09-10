@@ -11,7 +11,7 @@ git remote -v
 ```
 
 Latest mechanism feature before the documentation refresh:
-`673e3b15fa16053e6da6594604d9ce6db7faad1c`
+`7e4c66a769884269d71babdb92217ba80eb66e74`
 
 Do not substitute a report/checkpoint/V29 package/live-process identity for Git source identity.
 
@@ -50,7 +50,7 @@ continuity.res.handoff.readiness
 continuity.ingress.rehydrate
 ```
 
-UCS/UCM v1 adds **31 `ucm.*` operations** in the existing `memory` family; eight legacy `memory.*` compatibility operations remain. The compact imported action schema remains 30 operations.
+UCS/UCM v1 adds **31 `ucm.*` operations** in the existing `memory` family; eight legacy `memory.*` compatibility operations remain. Source schema v11.0 now exposes **8 Assistant-facing microkernel operations** over the 158-capability Runtime; v10.3 retains **30 operations** as a compatibility/import surface until product/live promotion.
 
 No RES/UCM/ICF work created a second persistence engine, scheduler, daemon, or authority plane.
 
@@ -73,11 +73,12 @@ High-value focused gates:
 .\.venv\Scripts\python.exe -m pytest -q tests/test_governance_runtime.py tests/test_governance_runtime_hostile.py
 ```
 
-Then run the entire suite. Current source/current-surface qualification: **775 collected / 773 passed / 0 failed / 2 skips**.
+Then run the entire suite. Current combined source qualification: **890 collected / 888 passed / 0 failed / 2 skips**.
 
 ## 5. Read current evidence in order
 
-1. `reports/V30_SUBSTRATE_DURABILITY_AND_PACKAGE_EMBEDDING_2026-09-10.md`
+1. `reports/V30_SCHEMA_V11_CAPABILITY_MICROKERNEL_2026-09-10.md`
+2. `reports/V30_SUBSTRATE_DURABILITY_AND_PACKAGE_EMBEDDING_2026-09-10.md`
 2. `reports/V30_WARFORT_BATTLE_HARDENING_2026-09-09.md`
 3. `reports/V30_ICF_CS_V1_2_FRESH_INSTANCE_INGRESS_2026-09-09.md`
 4. `reports/V30_UCM_V1_RUNTIME_INTEGRATION_2026-09-09.md`
@@ -100,10 +101,11 @@ Verified source evidence includes:
 - realistic private-scale synthetic UCM preserved 7,172-byte ingress while reducing derived profile storage from ~452 MB to ~3.98 MB;
 - ICF-CS v1.2 ingress: **13/13 PASS**;
 - handoff/currentness/ingress/budget: **37/37 PASS**;
-- full Runtime/current-surface candidate: **773 passed / 2 skipped / 0 failed**;
+- v11 focused schema/package/compatibility gate: **127/127 PASS**;
+- full Runtime with v11 mechanism: **876 passed / 2 skipped / 0 failed**;
 - substrate/package focused gate: **63 passed / 13 subtests**;
 - warfort-specific adversarial suite: **65 passed / 1 skipped / 17 property subtests**;
-- current-surface four-worker loadscope burn: **773 passed / 2 skipped / 103 subtests**.
+- v11 mechanism four-worker `loadscope` and `worksteal`: **876 passed / 2 skipped / 103 subtests** each.
 
 Important laws:
 
@@ -141,7 +143,7 @@ A live-deployment evaluator must independently inspect the running process after
 
 - the actual private UCM instance is not in Git and has not been imported into the loaded Runtime; source contains a private-safe administrative verifier/importer;
 - live Runtime reload/promotion remains separate;
-- final compact/schema redesign remains deliberately locked;
+- v11 schema successor is source-published; product-side ChatGPT Action installation and live Runtime promotion remain separate;
 - current V30 engineering source has not been relabeled as a packaged V30 release.
 
 ## 9. Useful hostile targets
