@@ -1,12 +1,15 @@
 {
   "authority_effect": "NONE_BEYOND_EXISTING_SERVER_RUNTIME_CONTRACTS",
   "base_head": "01a5e1d75ccb6e1da310c7a2aa47922ccbe25bdc",
+  "candidate_inventory_sha256": "ca06ea7bed376e11c489d6479812d1573f0ba03c0a4863166767c3e9c25be9a2",
   "claim_ceiling": {
     "all_repository_writers_durability_classified": false,
-    "canonical_source_published": false,
-    "github_remote_verified": false,
+    "canonical_source_published": true,
+    "github_remote_verified": true,
     "live_runtime_reloaded": false
   },
+  "feature_commit": "673e3b15fa16053e6da6594604d9ce6db7faad1c",
+  "feature_tree": "e39f0a6a3d3c3ba5ece16a04c48289186318096a",
   "laws": [
     "AUTHORITY_RIGOR != SUBSTRATE_RIGOR",
     "AUTHORIZATION != CONCURRENCY_CONTROL != DURABLE_ACKNOWLEDGEMENT != INTERRUPTION_RECOVERY != CONSEQUENCE_READBACK",
@@ -19,6 +22,7 @@
     "PROJECTION_READ != HIDDEN_RECONCILIATION",
     "DIAGNOSTIC_PATH != SERIALIZATION_EXCEPTION"
   ],
+  "parent": "01a5e1d75ccb6e1da310c7a2aa47922ccbe25bdc",
   "pre_repair": {
     "bare_internal_import_edges": 178,
     "explicit_relative_internal_imports": 0,
@@ -28,6 +32,7 @@
     "runtime_module_count": 74,
     "wheel_build": "FAILED package discovery"
   },
+  "remote_readback": "673e3b15fa16053e6da6594604d9ce6db7faad1c",
   "repairs": {
     "a042_historical_archive_move_exact_bytes": true,
     "andon_masking_attribute_error_removed": true,
@@ -57,7 +62,7 @@
     "schema_redesign": false,
     "server_only": true
   },
-  "status": "DETACHED_SOURCE_CANDIDATE_QUALIFIED",
+  "status": "ENGINEERING_FEATURE_PUBLISHED_REMOTE_VERIFIED",
   "structural": {
     "a042_all_hashes_match": true,
     "a042_payload_count": 13,

@@ -1,6 +1,6 @@
 # V30 Substrate Durability + Package Embedding — 2026-09-10
 
-Status: **DETACHED SOURCE CANDIDATE QUALIFIED / PUBLICATION PENDING**
+Status: **ENGINEERING FEATURE PUBLISHED / REMOTE-VERIFIED / LIVE UNCHANGED**
 
 Base Git/source head:
 `01a5e1d75ccb6e1da310c7a2aa47922ccbe25bdc`
@@ -263,3 +263,12 @@ Not yet earned at this report stage:
 - actual private UCM import;
 - schema redesign;
 - claim that every direct writer in the repository has undergone a complete durability classification.
+
+## Feature publication readback
+
+Engineering feature: `673e3b15fa16053e6da6594604d9ce6db7faad1c`
+Tree: `e39f0a6a3d3c3ba5ece16a04c48289186318096a`
+Parent: `01a5e1d75ccb6e1da310c7a2aa47922ccbe25bdc`
+Pre-commit materialized candidate inventory SHA-256: `ca06ea7bed376e11c489d6479812d1573f0ba03c0a4863166767c3e9c25be9a2`.
+
+`origin/main` was independently read back at the exact feature after push. A later front-door child updates current navigation/reporting against this real feature identity. Live Runtime remains unreloaded.

@@ -33,3 +33,9 @@ Every promoted change follows **PROBE → DERIVE → VERIFY → EMBODY → RECUR
 25. **Windows namespace identity outranks naïve strings.** Project/profile IDs and ZIP members reject device aliases, ADS/forbidden components, trailing-dot/space aliases and conflicting case identities.
 26. **Atomic JSON publication tolerates transient Windows sharing violations without abandoning atomicity.** Bounded retry is permitted; in-place partial-write fallback is not.
 27. **Transfer tickets bind file-object/content identity.** Import stage inode/link identity and export source inode/metadata/SHA currentness are verified across chunk/finalize boundaries.
+28. **Storage serialization is not mutation authority.** Byte-level cross-process serialization may be shared substrate; lease/generation/session semantics remain separate authority.
+29. **Observation is not reconciliation.** Status/output/list/wait/inspect reads must not hide queue advancement, expiry persistence, or other mutation; reconciliation belongs to explicit lifecycle/supervisor surfaces.
+30. **Session note append is not session snapshot rewrite.** Notes use durable append journals and are folded into the read model; bounded mutable session metadata is atomically published separately.
+31. **Package import success is insufficient without single Runtime identity.** Legacy and package entrypoints must resolve the same state/registry/lock module objects.
+32. **Historical recovery evidence is not current WIP.** Frozen recovery payloads remain exact and discoverable under archive namespace rather than appearing adjacent to current source.
+33. **Diagnostic paths must serialize.** Bounded text windows and corrupt-job diagnostics may not turn intended read/error reporting into secondary serialization failures.

@@ -156,10 +156,12 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("Final schema redesign remains LAST", self.ingress)
 
     def test_ingress_tracks_current_published_frontier_not_historical_candidate(self) -> None:
-        self.assertIn("c858914a1a9abac5d29f1943e23fed1e54c516d0", self.ingress)
+        self.assertIn("673e3b15fa16053e6da6594604d9ce6db7faad1c", self.ingress)
         self.assertIn("158 native tools", self.ingress)
-        self.assertIn("740 passed", self.ingress)
+        self.assertIn("767 passed", self.ingress)
         self.assertIn("PATH_CONTAINMENT != INODE_OWNERSHIP", self.ingress)
+        self.assertIn("PACKAGE_IMPORT_WORKS != SINGLE_RUNTIME_IDENTITY", self.ingress)
+        self.assertIn("OBSERVATION != RECONCILIATION", self.ingress)
         self.assertIn("continuity.ingress.rehydrate", self.ingress)
         self.assertIn("31 canonical `ucm.*` tools", self.ingress)
         self.assertIn("ICF-CS v1.2", self.ingress)

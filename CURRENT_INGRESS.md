@@ -29,13 +29,13 @@ Fresh Git/local/runtime readback remains required before consequence.
 ## Current engineering mechanism frontier
 
 Latest remote-verified mechanism feature before this documentation child:
-`c858914a1a9abac5d29f1943e23fed1e54c516d0` — `Battle-harden Runtime consequence boundaries`
+`673e3b15fa16053e6da6594604d9ce6db7faad1c` — `Harden substrate durability and package embedding`
 
-Tree: `5b26071756f2798d9ed6f117490edf03f424eaa4`
-Parent front-door/currentness frontier: `ecd99d600783dde06da718160c3fa02655fc3897`
-
-Tree: `3f3f124f19a379c86e1232a3691319dcf77f3084`
-Parent UCM feature: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
+Tree: `e39f0a6a3d3c3ba5ece16a04c48289186318096a`
+Immediate parent/currentness frontier: `01a5e1d75ccb6e1da310c7a2aa47922ccbe25bdc`
+Prior warfort feature: `c858914a1a9abac5d29f1943e23fed1e54c516d0`
+ICF-CS v1.2 fresh-ingress feature: `d926e2004b0a5794fb2934200091b836c0780104`
+UCM feature: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
 RES feature: `8714dd87d2092e0f4c66f261fcf5cee8b75a0798`
 
 Current source registry: **158 native tools**.
@@ -51,10 +51,25 @@ Current source qualification:
 - UCM focused gate: **130/130 PASS**;
 - v1.2 ingress: **13/13 PASS**;
 - handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- full Runtime: **742 collected / 740 passed / 0 failed / 2 skips**;
+- full Runtime: **769 collected / 767 passed / 0 failed / 2 skips**;
 - warfort-specific suite: **65 passed / 1 skipped / 17 property subtests passed**;
-- final four-worker `loadscope` + `worksteal` burns: **740 passed / 2 skipped / 103 subtests passed** each;
-- exact warfort feature inventory SHA `85bd846f5a829f9250602a27d9e8105f12b0816125be72258ee63b5e0c2535d8`.
+- final four-worker `loadscope` + `worksteal` burns: **767 passed / 2 skipped / 103 subtests passed** each;
+- substrate/package feature staged inventory SHA `ca06ea7bed376e11c489d6479812d1573f0ba03c0a4863166767c3e9c25be9a2`.
+
+## Substrate / embedding hardening
+
+Current source additionally guarantees:
+- durable, serialized session metadata and append-journal notes;
+- independently observable Andon stop vs session-pause projection;
+- observation-only lease/execution status/output/list/wait projections;
+- canonical installable package imports with one module/registry identity across legacy and package entrypoints;
+- exact-byte A-042 recovery evidence archived outside the current source namespace.
+
+`AUTHORITY_RIGOR != SUBSTRATE_RIGOR`
+`SESSION_NOTE_APPEND != SESSION_SNAPSHOT_REWRITE`
+`OBSERVATION != RECONCILIATION`
+`PROJECTION_READ != HIDDEN_RECONCILIATION`
+`PACKAGE_IMPORT_WORKS != SINGLE_RUNTIME_IDENTITY`
 
 ## Warfort consequence boundaries
 

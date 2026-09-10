@@ -2,7 +2,7 @@
 
 AI-Server-InfrA is the engineering repository for the PCMMAD Laboratory Runtime: a local-first, transport-independent runtime for durable project state, bounded execution, research, continuity, governance, verification, and operator control.
 
-> **Current repository status (2026-09-09):** `main` is the V30 engineering frontier. The latest mechanism feature before this documentation refresh is `c858914a1a9abac5d29f1943e23fed1e54c516d0` (`Battle-harden Runtime consequence boundaries`). ICF-CS v1.2 is the active continuity/process doctrine carrier in source; the currently deployed Desktop Runtime remains intentionally older and has **not** been implicitly promoted to this frontier.
+> **Current repository status (2026-09-10):** `main` is the V30 engineering frontier. The latest mechanism feature before this documentation refresh is `673e3b15fa16053e6da6594604d9ce6db7faad1c` (`Harden substrate durability and package embedding`). ICF-CS v1.2 remains the active continuity/process doctrine carrier in source; the currently deployed Desktop Runtime remains intentionally older and has **not** been implicitly promoted to this frontier.
 
 ## Start here
 
@@ -106,15 +106,41 @@ At the current ICF-CS v1.2 / RES / UCM engineering frontier:
 - UCM realistic private-scale synthetic: 716 canonical events, 7,172-byte core / 4,828-byte headroom; derived profile reduced from ~452 MB to ~3.98 MB while the append-only ledger remained authoritative;
 - v1.2 fresh-instance ingress suite: **13/13 PASS**;
 - handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- complete Runtime: **742 collected / 740 passed / 0 failed / 2 conditional/platform skips**;
+- complete Runtime: **769 collected / 767 passed / 0 failed / 2 conditional/platform skips**;
 - warfort-specific adversarial suite: **65 passed / 1 skipped / 17 property subtests passed**;
-- final four-worker burns (`loadscope` and `worksteal`): **740 passed / 2 skipped / 103 subtests passed** each;
+- final four-worker burns (`loadscope` and `worksteal`): **767 passed / 2 skipped / 103 subtests passed** each;
 - source native capability count: **158**;
 - compact 30-operation schema unchanged.
 
 Fresh-instance ingress now requires exact ICF-CS v1.2 bytes, explicit session applicability, required RES/UCM currentness, bounded project context, and a final owning-plane/live-readback gate before mutation.
 
 These are **source qualification claims**. They do not claim that the loaded Desktop Runtime has been restarted to this source or that the private UCM instance has been imported.
+
+## Substrate durability and package embedding
+
+Current source closes the architecture-review defects found after the warfort campaign:
+
+- session metadata uses atomic publication and cross-process serialization;
+- session notes use a durable append-only journal, so note writes are O(1) with respect to prior note history;
+- shared JSONL append is serialized, flushed and fsynced;
+- Andon reports durable stop recording separately from session-pause projection;
+- read observation is separated from reconciliation across mutation authority and execution projections;
+- direct execution status/output/list and power wait no longer finalize jobs or advance queues during reads;
+- response windows/corrupt-job diagnostics serialize correctly;
+- the Runtime is installable/importable as `pcmmad_receiver` while legacy flat imports resolve to the same module/registry identity;
+- all 178 internal imports are package-relative with zero bare internal imports;
+- frozen A-042 recovery payloads moved byte-for-byte out of `handoff/current/wip` into `handoff/archive/`, leaving only a current locator.
+
+```text
+AUTHORITY_RIGOR != SUBSTRATE_RIGOR
+STORAGE_SERIALIZATION != MUTATION_AUTHORITY
+STOP_EVENT_RECORDED != SESSION_PAUSE_PROJECTED
+OBSERVATION != RECONCILIATION
+PACKAGE_IMPORT_WORKS != SINGLE_RUNTIME_IDENTITY
+HISTORICAL_RECOVERY_EVIDENCE != CURRENT_WIP
+```
+
+See `reports/V30_SUBSTRATE_DURABILITY_AND_PACKAGE_EMBEDDING_2026-09-10.md`.
 
 ## Warfort hardening
 
