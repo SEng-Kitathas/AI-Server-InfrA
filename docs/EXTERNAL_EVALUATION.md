@@ -29,6 +29,12 @@ handoff/current                Git-contained current/recovery carrier, not Runti
 
 Current ICF-CS v1.2 standard SHA: `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`. Its carrier, activation receipt, detached qualification receipt, machine contract and fresh-instance contract are all under `handoff/current/`.
 
+## 2A. Architecture-closure / effect metadata audit
+
+Read `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md` before interpreting `effect_traits` as machine guarantees. Current source has 204 distinct trait strings but only four generic Runtime consumers. Arbitrary descriptive traits are **not** scheduling/authorization truth.
+
+The same audit confirms RES/UCM/DTS continuity separation is embodied independently of those trait strings, while compact-30 selection remains curated and legacy `memory.*` has no sunset clock. Those latter two belong to the separate schema/migration branch.
+
 ## 3. Source capability surface
 
 Current source introspection: **158 native tools**.
@@ -67,7 +73,7 @@ High-value focused gates:
 .\.venv\Scripts\python.exe -m pytest -q tests/test_governance_runtime.py tests/test_governance_runtime_hostile.py
 ```
 
-Then run the entire suite. Current source qualification at the mechanism frontier: **769 collected / 767 passed / 0 failed / 2 skips**.
+Then run the entire suite. Current source/current-surface qualification: **775 collected / 773 passed / 0 failed / 2 skips**.
 
 ## 5. Read current evidence in order
 
@@ -94,10 +100,10 @@ Verified source evidence includes:
 - realistic private-scale synthetic UCM preserved 7,172-byte ingress while reducing derived profile storage from ~452 MB to ~3.98 MB;
 - ICF-CS v1.2 ingress: **13/13 PASS**;
 - handoff/currentness/ingress/budget: **37/37 PASS**;
-- full Runtime: **767 passed / 2 skipped / 0 failed**;
+- full Runtime/current-surface candidate: **773 passed / 2 skipped / 0 failed**;
 - substrate/package focused gate: **63 passed / 13 subtests**;
 - warfort-specific adversarial suite: **65 passed / 1 skipped / 17 property subtests**;
-- final four-worker loadscope/worksteal burns: **767 passed / 2 skipped / 103 subtests** each.
+- current-surface four-worker loadscope burn: **773 passed / 2 skipped / 103 subtests**.
 
 Important laws:
 

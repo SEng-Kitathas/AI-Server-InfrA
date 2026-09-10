@@ -1,8 +1,15 @@
 {
+  "architecture_status": "CORE_RUNTIME_ARCHITECTURE_CONVERGED_AT_CURRENT_CLAIM_CEILING",
   "authority_ceiling": "recovery mirror; fresh Git/project/runtime readback remains authoritative",
-  "created_at": "2026-09-09T15:31:37.220623+00:00",
-  "engineering_feature_head": "fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce",
-  "engineering_feature_tree": "5742bc9b24f6f3973ef79bbbe27170c0153d6596",
+  "compact_surface_status": "30 operations; curated + parity-tested; eligibility derivation deferred to schema branch",
+  "created_at": "2026-09-10T16:55:00+00:00",
+  "current_icf_cs_standard_sha256": "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92",
+  "current_icf_cs_version": "1.2",
+  "current_source_qualification": "775 collected / 773 passed / 2 skipped / 0 failed",
+  "current_source_tool_count": 158,
+  "effect_trait_status": "204 distinct / 133 singleton / 4 generic behavior consumers; no arbitrary-trait policy automation",
+  "engineering_feature_head": "2c8b3205ce92ff09eb5b0cc213a0d211a3666969",
+  "engineering_feature_tree": "a3fb8b3e4ce3d2bb0cd94e552d659208744fa312",
   "files": {
     "A042_ENGINEERING_QUALIFICATION_2026-09-07.md": {
       "bytes": 1521,
@@ -13,36 +20,36 @@
       "sha256": "92cf73b0ebc0e97dfad8dac6b9759300cbee560c8938f7857c99142ae2f28668"
     },
     "COMMANDERS_INTENT_CURRENT.md": {
-      "bytes": 65820,
-      "sha256": "b0117b859adcefa1c2dc335d1ba35acbc0211f1962bf20e47420d45dd459634e"
+      "bytes": 68303,
+      "sha256": "17f49dffc03b4f109f5240692af869d69fa9ea929b392b3ca3914b0c2bfb7b6b"
     },
     "CONTINUITY_CONVERGENCE_CLASSIFIER_QUALIFICATION_2026-09-07.md": {
       "bytes": 4416,
       "sha256": "9b4c29e5459d8cf21c2bacaa1d15cc3583355b81cd0b1d6d3d3fab8b553877bd"
     },
     "CURRENT_CANONICAL_SOP_POINTER.md": {
-      "bytes": 3923,
-      "sha256": "90ba40b110dae5b4a533aba059aac483c60c92c4d6846b4286d1562871c0e44c"
+      "bytes": 1880,
+      "sha256": "3e260036201ea8b96aa1bc325d682ed4ef0e9d694722235cdbcf535ebcf9aa67"
     },
     "CURRENT_STATE.md": {
-      "bytes": 65238,
-      "sha256": "5584e78b7b957d1ee5affb96f1655411a49b32c1582ae9d5b2c8610233d6f8a6"
+      "bytes": 66933,
+      "sha256": "972618116e0a66bca6791e8db31f08968702d73e57a451e03b4c564aed5769dc"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 216436,
-      "sha256": "c063bf310d82ac758940071d96fe966fd35e889b02aa2fbbd465b5053eab7541"
+      "bytes": 218131,
+      "sha256": "da1601fc55bcb1dd6300de1cff18219c53f037aff7c2d0cc97a398fdc332fa4a"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 54254,
-      "sha256": "550f3ec8cf4fdf1e88b15f262a0ce754546d48c3741d0987798a15ed801a7cb8"
+      "bytes": 55949,
+      "sha256": "971cc14b864825555faae90d8a530ce94e6f9428db144f7f3274a40b47697fbc"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
       "sha256": "ea3f4087401bf8c0902c28e190707a5f6bd0b1711813df62c1a9957d49bd58bb"
     },
     "GIT_PUBLICATION_CURRENT.md": {
-      "bytes": 34768,
-      "sha256": "34e1676b6d4b9a152fb31953a4dd71351960a2c0d54969ca472207b462fc8a6d"
+      "bytes": 951,
+      "sha256": "8610491cd7de21f377f15ac075ac55e2dcd9f887cd6e21f9b5b48afc07f23ae5"
     },
     "HANDOFF_QUALIFICATION.md": {
       "bytes": 6862,
@@ -53,12 +60,12 @@
       "sha256": "245390f54148bf93e794904a987c0135df9b737ab484b615b7a51468562cb058"
     },
     "ICF_CS_CLAIM_CEILING.md": {
-      "bytes": 1353,
-      "sha256": "079a523d017438cfd9057d5bfe78b4bf47e4550c20fc9bbd3840cbf6d66f245a"
+      "bytes": 1015,
+      "sha256": "a34e1c4bb97daa9e5c603888993264702ac089f9ce35c7854e93af28716ff720"
     },
     "ICF_CS_CURRENT.md": {
-      "bytes": 4852,
-      "sha256": "1538af470a1a98bac35bc7913297fe5dce81176d25865c7c0d2901b8ad23249d"
+      "bytes": 5450,
+      "sha256": "789b6e98e1a505d10319814afe25ac89ab578fb5c1f813994b15f30f8c17a590"
     },
     "ICF_CS_V1_0_MACHINE.json": {
       "bytes": 2688,
@@ -93,16 +100,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 37858,
-      "sha256": "e9c6996a5d935b59ab275ef7726d4c5e8313a6e7dcca4deac98ba94f9f1effc1"
+      "bytes": 39553,
+      "sha256": "5959fcaa43b88e79baa78f493657cb2d3d7f3628974ef89a0688973ba8312623"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 33601,
-      "sha256": "8d448c9b1a54cac86650e41f81b66ce93dd6feb2208e8116a0ccc6f7e145085b"
+      "bytes": 1569,
+      "sha256": "3afc72fa0a2671d74d07ef586ab62e648ebe3b752420568cea28071a6f18799e"
     },
     "NEXT_STEPS.md": {
-      "bytes": 45566,
-      "sha256": "b224fa0cc974f8919192ec48343f6d67220840446b2a11b93e3fb899c7d392e1"
+      "bytes": 47261,
+      "sha256": "9a3b38749319f55c267dd03a355e9c6537ecd6a14f027e52f4a00ccfee7b50b4"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -113,20 +120,20 @@
       "sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 63007,
-      "sha256": "8c8e0f27606ea37b7683c2c938da740515f50fc6e1da1033f1aa2d503f163baa"
+      "bytes": 64702,
+      "sha256": "372fb3651042f85489edb118c431586ee4470874033ec53681be082b2f10473c"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
-      "bytes": 10131,
-      "sha256": "f55a9b7dd1960f5430d5d9612c89253be93775f92d9e123546383fd2f7f2c8e4"
+      "bytes": 11117,
+      "sha256": "ba136c36f1f21fa2336d2d7e1d78a4fdb0e33899946060ecc1b432aa4e12dc0e"
     },
     "SERVER_HARDENING_SEMANTIC_COCKPIT_2026-09-08.md": {
       "bytes": 4534,
       "sha256": "e5e099932e4447aa4679bc329b40396060ee4017de0deb3209cf20b60c7c4308"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 36042,
-      "sha256": "95ef3f7a820b2b1475139327d8b720fe94f61dc737d164946e731129d68bf63c"
+      "bytes": 1405,
+      "sha256": "6f0ff0e320cf1ce920ffbfba65f34f4b7d01b96174fe3bb7d5e03a5912e92e14"
     },
     "T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md": {
       "bytes": 10887,
@@ -141,8 +148,8 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 75719,
-      "sha256": "40b582fd815434aba3bfafed0ebd3d8855fb1141a0013014812d38a626ce2ce0"
+      "bytes": 77414,
+      "sha256": "93b7ce2b80ef06afc8eaba76626f512371ec61daeb2686c9af7a1e420bf5cbb7"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,
@@ -158,14 +165,17 @@
     }
   },
   "final_schema": "LAST_LOCKED_UNTRIGGERED",
+  "legacy_memory_status": "8 compatibility operations over one UCM store; explicit sunset criterion deferred to schema/migration branch",
   "live_runtime_git_identity": "UNKNOWN_FROM_DEPLOYED_COPY",
-  "next_step": "opportunistic independent real-world Skill dogfood; no Runtime architecture mutation without a new deterministic defect",
+  "next_step": "publish/read back current-surface reconciliation, then live Runtime promotion/restart; schema/composition branch remains separate",
   "operating_library_disposition": "KEEP library; NARROW deterministic substrate; KILL duplicate truth/effect planes; no new EMBODY from final replay",
   "operating_library_runtime_convergence_sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e",
   "operating_library_v1_sha256": "b3ac0c538c19e1bb4819569439905fdce707e071b26d9c8d9c58a054de845a7f",
   "previous_recovery_head": "19c52e6405e058e6415d760dc10e880d559f8015",
   "project_id": "PCMMAD_RECEIVER_LAB",
+  "published_front_door_base": "9be7ad603f50c079acc92d542add6a011a2ea2d7",
   "repaired_t0_2_sha256": "0805101ceefa8017186842c6a13c69d94523472e3491ef923357e1d2a146f6e0",
   "repository": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
-  "schema": "pcmmad.git-handoff-snapshot.v1"
+  "schema": "pcmmad.git-handoff-snapshot.v1",
+  "substrate_feature_head": "673e3b15fa16053e6da6594604d9ce6db7faad1c"
 }

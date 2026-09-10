@@ -107,3 +107,11 @@ Published source qualification:
 - compact 30-operation schema unchanged, SHA `132dff5967d7b45278d63da11e4ab87a72bd3fbd0507af3b652ffd34ee88787f`.
 
 Git/worktree/remote readback remains the final source-currentness authority.
+
+## 2026-09-10 Runtime currentness reconciliation
+- low-level project rehydration now reports ICF-CS version **1.2** instead of stale 1.0;
+- current Runtime/currentness feature `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` / tree `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`;
+- full source qualification 775 collected / 773 passed / 2 skipped / 0 failed;
+- architecture/effect-trait audit `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`.
+
+This does not alter ICF-CS v1.2 doctrine bytes or authority; it aligns the lower-level Runtime projection with already-current authority.

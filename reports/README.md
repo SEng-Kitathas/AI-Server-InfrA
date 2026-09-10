@@ -8,6 +8,7 @@ Start external evaluation at [`../docs/EXTERNAL_EVALUATION.md`](../docs/EXTERNAL
 
 Read newest/current work first:
 
+- `V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md` / result JSON — current Git architecture-closure verdict, exact effect-trait census/consumers, compact-30 selection audit, legacy-memory sunset finding, RES/UCM/DTS authority enforcement, current-surface drift and schema-branch gates.
 - `V30_SUBSTRATE_DURABILITY_AND_PACKAGE_EMBEDDING_2026-09-10.md` / result JSON — session/Andon durability, observation-vs-reconciliation, package embedding, execution wire serialization, and A-042 historical recovery placement.
 - `V30_WARFORT_BATTLE_HARDENING_2026-09-09.md` / result JSON — adversarial currentness, crash/recovery, filesystem/inode, canonical JSON, ZIP namespace, atomic-replace, transfer-identity and parallel-burn qualification.
 - `V30_ICF_CS_V1_2_FRESH_INSTANCE_INGRESS_2026-09-09.md` / result JSON — active ICF-CS v1.2 carrier, fresh-instance server embodiment, RES/UCM applicability/currentness, context boundedness defect/repair, qualification and publication boundary.

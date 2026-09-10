@@ -28,8 +28,12 @@ Fresh Git/local/runtime readback remains required before consequence.
 
 ## Current engineering mechanism frontier
 
-Latest remote-verified mechanism feature before this documentation child:
-`673e3b15fa16053e6da6594604d9ce6db7faad1c` — `Harden substrate durability and package embedding`
+Latest remote-verified Runtime/currentness feature before this current-surface refresh:
+`2c8b3205ce92ff09eb5b0cc213a0d211a3666969` — `Reconcile ICF currentness and architecture closure audit`
+
+Tree: `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`
+Parent/front-door base: `9be7ad603f50c079acc92d542add6a011a2ea2d7`
+Substrate durability feature in ancestry: `673e3b15fa16053e6da6594604d9ce6db7faad1c` / tree `e39f0a6a3d3c3ba5ece16a04c48289186318096a`.
 
 Tree: `e39f0a6a3d3c3ba5ece16a04c48289186318096a`
 Immediate parent/currentness frontier: `01a5e1d75ccb6e1da310c7a2aa47922ccbe25bdc`
@@ -51,9 +55,9 @@ Current source qualification:
 - UCM focused gate: **130/130 PASS**;
 - v1.2 ingress: **13/13 PASS**;
 - handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- full Runtime: **769 collected / 767 passed / 0 failed / 2 skips**;
+- full Runtime: **775 collected / 773 passed / 0 failed / 2 skips**;
 - warfort-specific suite: **65 passed / 1 skipped / 17 property subtests passed**;
-- final four-worker `loadscope` + `worksteal` burns: **767 passed / 2 skipped / 103 subtests passed** each;
+- current-surface four-worker `loadscope` burn: **773 passed / 2 skipped / 103 subtests passed**;
 - substrate/package feature staged inventory SHA `ca06ea7bed376e11c489d6479812d1573f0ba03c0a4863166767c3e9c25be9a2`.
 
 ## Substrate / embedding hardening
@@ -88,6 +92,23 @@ Current source additionally fails closed on:
 `PATH_CONTAINMENT != INODE_OWNERSHIP`
 `INGRESS_START_CURRENT != INGRESS_END_CURRENT`
 `PATH + SIZE + MTIME != FILE_CURRENTNESS`
+
+## Architecture-closure audit
+
+Current source audit result: **core Runtime architecture converged at the current claim ceiling; final schema/composition work remains a separate branch/campaign**.
+
+Effect-trait truth on the 158-tool source surface:
+- 204 distinct trait strings;
+- 133 occur on exactly one tool;
+- only four currently alter Runtime behavior: `project_mutation_fenced`, `idempotent_replay_while_unacked`, `exact_offset_required`, `requires_chunk_hash`;
+- no generic Plan-VM/effect scheduler currently infers safety or parallelism from arbitrary traits.
+
+`TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`.
+`DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY`.
+
+Compact-30 membership is curated + parity-tested, not derived from a machine-readable eligibility rule. The 31 canonical `ucm.*` + eight legacy `memory.*` compatibility operations share one authoritative store, but the legacy surface has no sunset clock yet. Those are explicit gates for the separate schema/migration branch, not reasons to invent new server truth planes before live promotion.
+
+Full audit: `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`.
 
 ## Current ICF-CS authority
 

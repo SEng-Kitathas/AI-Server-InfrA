@@ -1,9 +1,38 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT AS OF 2026-09-07 15:21 ET**
+Status: **ACTIVE / CURRENT PRECEDENCE REFRESHED 2026-09-10 — HISTORICAL BODY RETAINED BELOW**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
+
+
+## 0. Current precedence — 2026-09-10
+
+Where older present-tense statements in the retained historical body conflict with this block, **this block wins for current engineering direction**. Dated historical facts remain lineage.
+
+Current Git/Runtime source frontier before this current-surface refresh:
+- currentness/audit feature `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` / tree `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`;
+- parent front door `9be7ad603f50c079acc92d542add6a011a2ea2d7`;
+- substrate durability feature `673e3b15fa16053e6da6594604d9ce6db7faad1c`;
+- 158 native tools; compact transport remains 30 operations;
+- full source qualification **775 collected / 773 passed / 2 skipped / 0 failed**;
+- ICF-CS **v1.2** current standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`;
+- low-level `rehydrate_context()` now reports ICF-CS v1.2 rather than historical 1.0.
+
+### Architecture closure
+The core Runtime substrate is **CONVERGED AT THE CURRENT CLAIM CEILING**. No currently reproduced defect requires another durable truth plane, scheduler, project authority plane, UCM store, RES store, or adapter-owned lifecycle. New bugs may still be discovered and hardened; that is not the same as an open architecture placement question.
+
+### Separate final schema/composition branch
+The final schema/Plan-VM/compositional surface remains separate. Current `effect_traits` are **not** a generic machine effect algebra: 204 distinct strings / 133 singleton; only `project_mutation_fenced`, `idempotent_replay_while_unacked`, `exact_offset_required`, and `requires_chunk_hash` currently alter generic Runtime behavior.
+
+Before effect-aware automatic composition, the schema branch must split enforced predicates from descriptive annotations, statically bound plan cost, preserve `CAPABILITY_LEASE != CAPABILITY_GRANT`, revalidate continuation-node currentness, declare compact eligibility, and give legacy `memory.*` an exit criterion.
+
+`CORE_RUNTIME_ARCHITECTURE_CONVERGED != FINAL_COMPOSITION_SCHEMA_COMPLETE`
+`TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`
+`DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY`
+
+### Current operational next step
+After this Git current-surface reconciliation is source-qualified and remote-read back, **live promotion/restart is the next server operation** if the operator keeps that direction. The schema branch remains unmerged until separately ready.
 
 ---
 

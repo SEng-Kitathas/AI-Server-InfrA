@@ -239,3 +239,13 @@ A fresh model/thread shall read this file after Current/ICF/Commander/Doctrine s
 Then perform fresh Git/local/runtime readback.
 
 `CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF`.
+
+## 2026-09-10 current reconciliation
+
+Earlier open-seam text stating ordinary `expected_contract_digest` / `CAPABILITY_CONTRACT_STALE` enforcement was absent is **historical and superseded**. Current Runtime implements and tests that binding.
+
+Current source frontier: feature `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` over substrate `673e3b15fa16053e6da6594604d9ce6db7faad1c`, 158 native tools, ICF-CS v1.2. Core Runtime architecture is converged at current claim ceiling.
+
+The remaining OBE/schema meeting seam is not a missing Runtime state plane. It is the future compositional contract: effect metadata must distinguish closed enforced predicates from descriptive annotations before automatic effect-aware planning; compact membership must gain an explicit eligibility rule; continuations must revalidate currentness; capability leases must remain non-grant; legacy `memory.*` needs an exit criterion.
+
+`CORE_RUNTIME_ARCHITECTURE_CONVERGED != FINAL_COMPOSITION_SCHEMA_COMPLETE`.

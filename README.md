@@ -49,7 +49,7 @@ GIT PUBLICATION != LIVE RUNTIME PROMOTION
 
 ## Current source surface
 
-At the `d926e20...` mechanism frontier, source introspection registers **158 native tools**. The compact imported Custom GPT action surface remains intentionally bounded at **30 operations**; native capability growth does not widen the transport schema.
+At the `2c8b320...` currentness/audit feature frontier over substrate feature `673e3b1...`, source introspection registers **158 native tools**. The compact imported Custom GPT action surface remains intentionally bounded at **30 operations**; native capability growth does not widen the transport schema.
 
 Recent continuity/governance additions include:
 
@@ -106,9 +106,9 @@ At the current ICF-CS v1.2 / RES / UCM engineering frontier:
 - UCM realistic private-scale synthetic: 716 canonical events, 7,172-byte core / 4,828-byte headroom; derived profile reduced from ~452 MB to ~3.98 MB while the append-only ledger remained authoritative;
 - v1.2 fresh-instance ingress suite: **13/13 PASS**;
 - handoff/currentness/ingress/budget gate: **37/37 PASS**;
-- complete Runtime: **769 collected / 767 passed / 0 failed / 2 conditional/platform skips**;
+- complete Runtime: **775 collected / 773 passed / 0 failed / 2 conditional/platform skips**;
 - warfort-specific adversarial suite: **65 passed / 1 skipped / 17 property subtests passed**;
-- final four-worker burns (`loadscope` and `worksteal`): **767 passed / 2 skipped / 103 subtests passed** each;
+- final four-worker current-surface burn (`loadscope`): **773 passed / 2 skipped / 103 subtests passed**;
 - source native capability count: **158**;
 - compact 30-operation schema unchanged.
 
@@ -159,6 +159,23 @@ TRANSFER_STAGE_PATH != TRANSFER_STAGE_OBJECT_IDENTITY
 ```
 
 See `reports/V30_WARFORT_BATTLE_HARDENING_2026-09-09.md`.
+
+## Architecture closure and schema-branch boundary
+
+A 2026-09-10 source-grounded audit against current Git confirms the **core Runtime architecture is converged at the current claim ceiling**. This means the durable state/authority/execution/continuity substrate has native homes and no currently reproduced defect requires another truth plane, scheduler, or authority system. It does **not** mean the separate compositional schema/planner branch is complete.
+
+Current effect metadata is intentionally **not** a generic scheduling algebra: the 158-tool registry contains 204 distinct `effect_traits` strings (133 single-use), but only four currently alter Runtime behavior: `project_mutation_fenced`, `idempotent_replay_while_unacked`, `exact_offset_required`, and `requires_chunk_hash`. Other traits may describe properties independently enforced by mechanisms/tests, but the trait declaration itself is not proof.
+
+```text
+CORE_RUNTIME_ARCHITECTURE_CONVERGED != FINAL_COMPOSITION_SCHEMA_COMPLETE
+TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM
+DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY
+COMPACT_COUNT_CORRECT != COMPACT_MEMBERSHIP_DERIVED
+```
+
+The separate schema/composition branch is gated on splitting enforced predicates from descriptive annotations before effect-aware automatic parallelism, static plan-cost bounds, continuation currentness revalidation, `CAPABILITY_LEASE != CAPABILITY_GRANT`, an explicit compact-eligibility rule, and an exit criterion for the eight legacy `memory.*` compatibility operations. None of those are silently half-implemented on server `main`.
+
+See [`reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`](reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md).
 
 ## Reproduce the source evaluation
 
