@@ -11,7 +11,7 @@ from unittest.mock import patch
 
 import sys
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "baseline" / "pcmmad_receiver"))
+sys.path.insert(0, str(ROOT / "baseline"))
 
 import ucm_v1_runtime as ucm
 import user_continuity_store as backend
@@ -19,7 +19,7 @@ from test_ucm_v1_runtime import collaboration, fact, source_provenance
 
 
 def _proc_same_cas(memory_root: str, profile: str, payload: dict, start_event, queue) -> None:
-    sys.path.insert(0, str(ROOT / "baseline" / "pcmmad_receiver"))
+    sys.path.insert(0, str(ROOT / "baseline"))
     import ucm_v1_runtime as child_ucm
     import user_continuity_store as child_backend
     child_backend.MEMORY_ROOT = Path(memory_root)

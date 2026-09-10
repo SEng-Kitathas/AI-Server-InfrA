@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any
 from collections.abc import Iterator, MutableMapping, Callable
 
-from context_engine import (
+from .context_engine import (
     BadPathError,
     ContextPlaneError,
     NotFoundError,
@@ -39,7 +39,7 @@ from context_engine import (
 JsonRecord = MutableMapping[str, Any]
 JsonObject = MutableMapping[str, Any]
 
-from execution_routes import (
+from .execution_routes import (
     DEFAULT_STDERR_MAX_BYTES,
     DEFAULT_STDOUT_MAX_BYTES,
     DEFAULT_TIMEOUT_SECONDS,
@@ -57,35 +57,35 @@ from execution_routes import (
     submit_execution_job,
     terminate_execution_job,
 )
-from lab_plugins import load_plugins
-from lab_policy import evaluate_tool_call, policy_mode
-from protocol_policy import evaluate_protocol_tool_call
-from lab_schema_validation import validate_payload_schema
-from lab_tools_browser import register_browser_tools
-from lab_tools_execution import register_execution_tools
-from lab_tools_filesystem import register_filesystem_tools
-from lab_tools_project import register_project_tools
-from lab_tools_state import register_state_tools
-from lab_tools_research import register_research_tools
-from lab_tools_ops import register_ops_tools
-from lab_tools_sop import register_sop_tools
-from lab_tools_semantic import register_semantic_tools
-from lab_tools_doctrine import register_doctrine_tools
-from lab_tools_governance import register_governance_tools
-from lab_tools_protocol import register_protocol_tools
-from lab_tools_continuity import register_continuity_tools
-from lab_tools_icf_ingress import register_icf_ingress_tool
-from lab_tools_res import register_res_tools
-from lab_tools_memory import register_memory_tools
-from lab_tools_ucm import register_ucm_tools
-from lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
-from project_mutation_authority import project_mutation_authority_context
-from research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
-from research_arxiv import get_cache_stats
-from server_hardening import safe_json_dumps, safe_json_loads
-from runtime_axioms import constitutional_seed
-from lab_results import get_result, store_result, summarize_payload
-from lab_state import (
+from .lab_plugins import load_plugins
+from .lab_policy import evaluate_tool_call, policy_mode
+from .protocol_policy import evaluate_protocol_tool_call
+from .lab_schema_validation import validate_payload_schema
+from .lab_tools_browser import register_browser_tools
+from .lab_tools_execution import register_execution_tools
+from .lab_tools_filesystem import register_filesystem_tools
+from .lab_tools_project import register_project_tools
+from .lab_tools_state import register_state_tools
+from .lab_tools_research import register_research_tools
+from .lab_tools_ops import register_ops_tools
+from .lab_tools_sop import register_sop_tools
+from .lab_tools_semantic import register_semantic_tools
+from .lab_tools_doctrine import register_doctrine_tools
+from .lab_tools_governance import register_governance_tools
+from .lab_tools_protocol import register_protocol_tools
+from .lab_tools_continuity import register_continuity_tools
+from .lab_tools_icf_ingress import register_icf_ingress_tool
+from .lab_tools_res import register_res_tools
+from .lab_tools_memory import register_memory_tools
+from .lab_tools_ucm import register_ucm_tools
+from .lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
+from .project_mutation_authority import project_mutation_authority_context
+from .research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
+from .research_arxiv import get_cache_stats
+from .server_hardening import safe_json_dumps, safe_json_loads
+from .runtime_axioms import constitutional_seed
+from .lab_results import get_result, store_result, summarize_payload
+from .lab_state import (
     append_reflexion,
     append_session_note,
     end_session,
@@ -94,7 +94,7 @@ from lab_state import (
     read_reflexion,
     start_session,
 )
-from shared_core import (
+from .shared_core import (
     TEXT_EXTENSIONS,
     ensure_parent,
     get_mount_roots,
@@ -108,7 +108,7 @@ from shared_core import (
     utc_now,
     validate_project_id,
 )
-from sop_ingest import (
+from .sop_ingest import (
     ack_chunk as sop_ack_chunk,
     complete_file as sop_complete_file,
     guard_check as sop_guard_check,
@@ -118,7 +118,7 @@ from sop_ingest import (
     register_package as sop_register_package,
     reset_ingestion as sop_reset_ingestion,
 )
-from control_plane_models import (
+from .control_plane_models import (
     CapabilityFamilyCard,
     CompactControlSurfaceDescriptor,
     PluginLoadRecord,

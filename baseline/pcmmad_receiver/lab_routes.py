@@ -18,9 +18,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 from flask import Blueprint, current_app, jsonify, request
 
-from execution_routes import execution_readiness
-from runtime_config import LAB_BATCH_CONFIG
-from lab_results import (
+from .execution_routes import execution_readiness
+from .runtime_config import LAB_BATCH_CONFIG
+from .lab_results import (
     RESULT_INLINE_SAFE_BYTES,
     RESULT_PREVIEW_MAX_CHARS,
     RESULT_RANGE_MAX_BYTES,
@@ -31,8 +31,8 @@ from lab_results import (
     store_result,
     summarize_payload,
 )
-from server_hardening import safe_json_dumps
-from lab_tools import (
+from .server_hardening import safe_json_dumps
+from .lab_tools import (
     LabToolError,
     dispatch_tool,
     list_tools,
@@ -42,8 +42,8 @@ from lab_tools import (
 )
 
 JsonRecord = MutableMapping[str, Any]
-from shared_core import ensure_parent, mount_summary, require_valid_api_key, utc_now
-from control_plane_models import BatchExecutorTelemetry, BackgroundResultEnvelope
+from .shared_core import ensure_parent, mount_summary, require_valid_api_key, utc_now
+from .control_plane_models import BatchExecutorTelemetry, BackgroundResultEnvelope
 
 lab_bp = Blueprint("lab", __name__, url_prefix="/lab")
 

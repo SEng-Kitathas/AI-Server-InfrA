@@ -1,0 +1,83 @@
+{
+  "authority_effect": "NONE_BEYOND_EXISTING_SERVER_RUNTIME_CONTRACTS",
+  "base_head": "01a5e1d75ccb6e1da310c7a2aa47922ccbe25bdc",
+  "claim_ceiling": {
+    "all_repository_writers_durability_classified": false,
+    "canonical_source_published": false,
+    "github_remote_verified": false,
+    "live_runtime_reloaded": false
+  },
+  "laws": [
+    "AUTHORITY_RIGOR != SUBSTRATE_RIGOR",
+    "AUTHORIZATION != CONCURRENCY_CONTROL != DURABLE_ACKNOWLEDGEMENT != INTERRUPTION_RECOVERY != CONSEQUENCE_READBACK",
+    "STORAGE_SERIALIZATION != MUTATION_AUTHORITY",
+    "STOP_EVENT_RECORDED != SESSION_PAUSE_PROJECTED",
+    "SESSION_NOTE_APPEND != SESSION_SNAPSHOT_REWRITE",
+    "OBSERVATION != RECONCILIATION",
+    "PACKAGE_IMPORT_WORKS != SINGLE_RUNTIME_IDENTITY",
+    "HISTORICAL_RECOVERY_EVIDENCE != CURRENT_WIP",
+    "PROJECTION_READ != HIDDEN_RECONCILIATION",
+    "DIAGNOSTIC_PATH != SERIALIZATION_EXCEPTION"
+  ],
+  "pre_repair": {
+    "bare_internal_import_edges": 178,
+    "explicit_relative_internal_imports": 0,
+    "full_suite": "742 collected / 740 passed / 2 skipped / 0 failed",
+    "package_import": "FAILED ModuleNotFoundError",
+    "runtime_loc": 34592,
+    "runtime_module_count": 74,
+    "wheel_build": "FAILED package discovery"
+  },
+  "repairs": {
+    "a042_historical_archive_move_exact_bytes": true,
+    "andon_masking_attribute_error_removed": true,
+    "andon_stop_projection_split": true,
+    "bare_internal_imports": 0,
+    "clean_wheel_install_tool_count": 158,
+    "clean_wheel_plugin_errors": 0,
+    "corrupt_job_diagnostic_serialization": true,
+    "current_wip_absent": true,
+    "direct_execution_status_output_list_non_reconciling": true,
+    "execution_observation_non_reconciling": true,
+    "lease_observation_non_reconciling": true,
+    "package_legacy_single_identity": true,
+    "package_relative_internal_imports": 178,
+    "power_wait_non_reconciling": true,
+    "session_cross_process_serialization": true,
+    "session_metadata_atomic": true,
+    "session_note_o1_journal_write": true,
+    "shared_jsonl_append_serialized_fsync": true,
+    "text_window_wire_serialization": true
+  },
+  "schema": "pcmmad.v30-substrate-package-embedding-result.v1",
+  "scope": {
+    "live_reload": false,
+    "microseed_work": false,
+    "private_ucm_import": false,
+    "schema_redesign": false,
+    "server_only": true
+  },
+  "status": "DETACHED_SOURCE_CANDIDATE_QUALIFIED",
+  "structural": {
+    "a042_all_hashes_match": true,
+    "a042_payload_count": 13,
+    "current_manifest_wip_entries": 0,
+    "cycle_components": [
+      [
+        "lab_tools",
+        "lab_tools_filesystem"
+      ]
+    ],
+    "original_runtime_module_count_excluding_init": 74,
+    "package_py_count_including_init": 75
+  },
+  "tests": {
+    "focused_substrate_package_authority_execution": "63 passed / 13 subtests passed",
+    "full_sequential": "769 collected / 767 passed / 2 skipped / 0 failed",
+    "lab_state_durability": "9/9 PASS",
+    "package_embedding": "6/6 PASS",
+    "parallel_loadscope": "767 passed / 2 skipped / 103 subtests passed",
+    "parallel_worksteal": "767 passed / 2 skipped / 103 subtests passed",
+    "read_projection_independence": "9/9 PASS"
+  }
+}

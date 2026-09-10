@@ -29,7 +29,7 @@ from prometheus_client import (
     generate_latest,
 )
 
-from shared_core import require_valid_api_key
+from .shared_core import require_valid_api_key
 
 JsonObject = dict[str, Any]
 
@@ -361,7 +361,7 @@ def _refresh_gauges(process: JsonObject, system: JsonObject, server: JsonObject)
 
 def _execution_snapshot() -> JsonObject:
     try:
-        from execution_routes import execution_readiness
+        from .execution_routes import execution_readiness
         execution = execution_readiness()
     except Exception as exc:
         return {"status": "unavailable", "error": f"{type(exc).__name__}: {exc}"}

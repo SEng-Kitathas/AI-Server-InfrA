@@ -97,7 +97,7 @@ def _route_methods(rule: object) -> list[str]:
 
 def _load_app_factory(config: RouteGateConfig) -> tuple[str, object]:
     sys.path.insert(0, str(config.baseline_root))
-    sys.path.insert(0, str(config.baseline_root / "pcmmad_receiver"))
+    sys.path.insert(0, str(config.baseline_root))
     from pcmmad_receiver.app_factory import create_app
 
     return "pcmmad_receiver.app_factory.create_app", create_app

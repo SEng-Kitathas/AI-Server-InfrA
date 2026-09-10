@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 from collections.abc import MutableMapping
 
-from control_plane_models import (
+from .control_plane_models import (
     CapacitySnapshot,
     CompactControlSurfaceDescriptor,
     CorruptJobFileRecord,

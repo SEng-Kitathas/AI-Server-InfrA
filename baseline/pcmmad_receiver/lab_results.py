@@ -8,8 +8,8 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from server_hardening import safe_json_dumps, safe_json_loads
-from shared_core import ensure_parent, get_project_root, sha256_bytes, sha256_file, utc_now, validate_project_id
+from .server_hardening import safe_json_dumps, safe_json_loads
+from .shared_core import ensure_parent, get_project_root, sha256_bytes, sha256_file, utc_now, validate_project_id
 
 JsonObject = MutableMapping[str, Any]
 

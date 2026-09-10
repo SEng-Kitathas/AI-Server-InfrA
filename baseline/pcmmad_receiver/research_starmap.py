@@ -6,7 +6,7 @@ from collections.abc import Mapping
 from typing import Any
 from typing import TypeAlias
 
-from research_models import EvidenceTopology, TopHit, TopologyCluster, TopologySummary
+from .research_models import EvidenceTopology, TopHit, TopologyCluster, TopologySummary
 
 PaperValue: TypeAlias = str | int | float | list[str] | None
 PaperRecord: TypeAlias = Mapping[str, PaperValue]

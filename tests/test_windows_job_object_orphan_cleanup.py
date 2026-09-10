@@ -11,7 +11,7 @@ from pathlib import Path
 
 if os.name == "nt":
     RUNTIME_ROOT = Path(__file__).resolve().parents[1] / "baseline" / "pcmmad_receiver"
-    sys.path.insert(0, str(RUNTIME_ROOT))
+    sys.path.insert(0, str(RUNTIME_ROOT.parent))
     import windows_job_object as wjo
 
 
@@ -26,7 +26,7 @@ class WindowsJobObjectOrphanCleanupTests(unittest.TestCase):
             child_pid_file = td_path / "child_pid.txt"
             code = (
                 "import sys,time,subprocess,pathlib; "
-                f"sys.path.insert(0, r'{RUNTIME_ROOT}'); "
+                f"sys.path.insert(0, r'{RUNTIME_ROOT.parent}'); "
                 "import windows_job_object as wjo; "
                 f"j=wjo.open_named_job(r'{name}', terminate=False); "
                 f"pathlib.Path(r'{ready}').write_text('ready'); "

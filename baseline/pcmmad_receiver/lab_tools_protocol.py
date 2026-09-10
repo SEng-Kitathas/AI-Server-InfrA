@@ -6,7 +6,7 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from typing import Any
 
-from lab_tool_primitives import (
+from .lab_tool_primitives import (
     ToolPayload,
     ToolResult,
     payload_bool,
@@ -16,13 +16,13 @@ from lab_tool_primitives import (
     payload_str,
     payload_value,
 )
-from protocol_models import ProtocolValidationError
-from protocol_merkle import (
+from .protocol_models import ProtocolValidationError
+from .protocol_merkle import (
     merkle_consistency_receipt,
     merkle_inclusion_receipt,
     merkle_root_receipt,
 )
-from protocol_store import (
+from .protocol_store import (
     ProtocolConflictError,
     ProtocolLedgerError,
     ensure_protocol,

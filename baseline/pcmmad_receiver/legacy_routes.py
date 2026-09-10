@@ -13,12 +13,12 @@ from collections.abc import MutableMapping
 
 from flask import Blueprint, jsonify, request
 
-from control_plane_models import CommitLedgerRecord, ManifestDocument, ManifestEntryRecord
-from execution_routes import execution_capabilities
-from api_wire_models import CompactCapabilitiesResponse
-from lab_tools import compact_control_surface_descriptor, server_native_router_descriptor
-from project_mutation_authority import ProjectMutationAuthorityError, consequence_guard
-from shared_core import (
+from .control_plane_models import CommitLedgerRecord, ManifestDocument, ManifestEntryRecord
+from .execution_routes import execution_capabilities
+from .api_wire_models import CompactCapabilitiesResponse
+from .lab_tools import compact_control_surface_descriptor, server_native_router_descriptor
+from .project_mutation_authority import ProjectMutationAuthorityError, consequence_guard
+from .shared_core import (
     ensure_safe_mutation_target_identity,
     ALLOWED_OPERATIONS,
     APPEND_ALLOWED_CLASSES,
@@ -43,7 +43,7 @@ from shared_core import (
     utc_now,
 )
 
-from runtime_axioms import constitutional_seed
+from .runtime_axioms import constitutional_seed
 
 legacy_bp = Blueprint("legacy", __name__, url_prefix="")
 

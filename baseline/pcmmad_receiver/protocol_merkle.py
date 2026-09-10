@@ -11,8 +11,8 @@ from __future__ import annotations
 import hashlib
 from typing import Any, Iterable, Sequence
 
-from protocol_models import ProtocolEvent
-from protocol_store import ProtocolLedgerError, read_events, verify_events
+from .protocol_models import ProtocolEvent
+from .protocol_store import ProtocolLedgerError, read_events, verify_events
 
 MERKLE_ALGORITHM = "PCMMAD-CT-SHA256-V1"
 EMPTY_ROOT = hashlib.sha256(b"").digest()

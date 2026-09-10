@@ -9,7 +9,7 @@ from types import SimpleNamespace
 
 import sys
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "baseline" / "pcmmad_receiver"))
+sys.path.insert(0, str(ROOT / "baseline"))
 
 import lab_tools_project
 import lab_tools_filesystem

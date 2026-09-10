@@ -15,9 +15,9 @@ from pathlib import Path
 from typing import Any
 
 if os.name == "nt":
-    import windows_job_object as _wjo
+    from . import windows_job_object as _wjo
     try:
-        from windows_directory_watch import (
+        from .windows_directory_watch import (
             DirectoryChangeEvent as _DirectoryChangeEvent,
             WindowsRecursiveDirectoryWatcher as _WindowsRecursiveDirectoryWatcher,
         )
@@ -31,15 +31,15 @@ else:
 from collections.abc import MutableMapping
 
 from flask import Blueprint, jsonify, request
-from runtime_config import EXECUTION_CONFIG
-from project_mutation_authority import (
+from .runtime_config import EXECUTION_CONFIG
+from .project_mutation_authority import (
     ProjectMutationAuthorityError,
     consequence_guard,
     current_mutation_binding,
     runtime_bound_mutation_guard,
 )
-from server_hardening import ManagedProcess, start_background_process
-from control_plane_models import (
+from .server_hardening import ManagedProcess, start_background_process
+from .control_plane_models import (
     CapacitySnapshot,
     CorruptJobFileRecord,
     ExecutionCapabilitiesEnvelope,
@@ -57,7 +57,7 @@ from control_plane_models import (
 
 JsonObject = MutableMapping[str, Any]
 
-from api_wire_models import (
+from .api_wire_models import (
     ExecutionListRequest,
     ExecutionListResponse,
     ExecutionOutputRequest,
@@ -69,8 +69,8 @@ from api_wire_models import (
     ExecutionStatusResponse,
     ExecutionTerminateRequest,
 )
-from server_hardening import safe_json_dumps, safe_json_loads, safe_project_cwd
-from shared_core import (
+from .server_hardening import safe_json_dumps, safe_json_loads, safe_project_cwd
+from .shared_core import (
     PROJECTS_ROOT,
     commits_ledger_path_for,
     ensure_parent,
@@ -2430,11 +2430,7 @@ def submit_execution() -> object:
 
 
 def _status_payload(status_request: ExecutionStatusRequest) -> JsonObject:
-    job = _finalize(
-        status_request.project_id,
-        status_request.job_id,
-        _read_job(status_request.project_id, status_request.job_id),
-    )
+    job = _read_job(status_request.project_id, status_request.job_id)
     return ExecutionStatusResponse(ok=True, job=job).to_dict()
 
 
@@ -2482,9 +2478,8 @@ def _job_output_windows(
     )
 
 
-def _finalized_output_job(output_request: ExecutionOutputRequest) -> ExecutionJobRecord:
-    job = _read_job(output_request.project_id, output_request.job_id)
-    return _finalize(output_request.project_id, output_request.job_id, job)
+def _observed_output_job(output_request: ExecutionOutputRequest) -> ExecutionJobRecord:
+    return _read_job(output_request.project_id, output_request.job_id)
 
 
 def _output_response(
@@ -2514,7 +2509,7 @@ def _output_response(
 
 
 def _output_payload(output_request: ExecutionOutputRequest) -> JsonObject:
-    job = _finalized_output_job(output_request)
+    job = _observed_output_job(output_request)
     windows = _job_output_windows(job, output_request)
     return _output_response(output_request, job, windows).to_dict()
 
@@ -2522,7 +2517,6 @@ def _output_payload(output_request: ExecutionOutputRequest) -> JsonObject:
 def _list_payload(list_request: ExecutionListRequest) -> JsonObject:
     project_id = list_request.project_id
     limit = _request_optional_positive_int(list_request.limit, DEFAULT_LIST_LIMIT, minimum=1)
-    _drain_queue(project_id)
     jobs: list[ExecutionJobRecord] = []
     corrupt_job_files: list[CorruptJobFileRecord] = []
     job_files = sorted(
@@ -2534,7 +2528,7 @@ def _list_payload(list_request: ExecutionListRequest) -> JsonObject:
             corrupt_job_files.append(CorruptJobFileRecord(path=str(path), error=error))
             continue
         if job:
-            jobs.append(_finalize(project_id, job.job_id, job) if job.job_id else job)
+            jobs.append(job)
     return ExecutionListResponse(
         ok=True,
         project_id=project_id,

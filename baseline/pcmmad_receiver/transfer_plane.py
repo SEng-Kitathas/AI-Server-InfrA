@@ -4,8 +4,8 @@ import base64, hashlib, json, os, secrets, tempfile, threading, time
 from pathlib import Path
 from typing import Any, Callable
 from flask import Blueprint, jsonify, request, send_file
-from shared_core import get_mount_roots, get_project_root, resolve_mount_spec, utc_now, require_valid_api_key
-from project_mutation_authority import (
+from .shared_core import get_mount_roots, get_project_root, resolve_mount_spec, utc_now, require_valid_api_key
+from .project_mutation_authority import (
     ProjectMutationAuthorityError,
     project_id_for_resolved_path,
     resolved_paths_consequence_guard,
@@ -315,7 +315,7 @@ def _lab_error_response(exc: Exception):
 
 def _dispatch_transfer_mutation(tool_name: str, payload: dict[str, Any], authority: dict[str, Any] | None):
     try:
-        from lab_tools import dispatch_tool
+        from .lab_tools import dispatch_tool
         envelope = dispatch_tool(tool_name, payload, authority=authority or {})
         result = envelope.get("result") if isinstance(envelope, dict) else None
         body = {"ok": True, **(result if isinstance(result, dict) else {})}

@@ -2,9 +2,17 @@
 
 from __future__ import annotations
 
-from app_factory import create_app
-from runtime_config import SERVER_CONFIG
-from operator_plane import ensure_hud_running
+if __package__ in (None, ""):
+    import sys as _sys
+    from pathlib import Path as _BootstrapPath
+
+    _sys.path.insert(0, str(_BootstrapPath(__file__).resolve().parents[1]))
+    __package__ = "pcmmad_receiver"
+
+
+from .app_factory import create_app
+from .runtime_config import SERVER_CONFIG
+from .operator_plane import ensure_hud_running
 
 app = create_app()
 
@@ -12,7 +20,7 @@ app = create_app()
 def _serve() -> None:
     try:
         from waitress import create_server
-        from observability import bind_waitress_server
+        from .observability import bind_waitress_server
     except ImportError as exc:
         print(
             f"[PCMMAD] Waitress unavailable; falling back to Flask development server: {exc}",

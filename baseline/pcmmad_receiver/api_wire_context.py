@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 from collections.abc import MutableMapping
 
-from control_plane_models import (
+from .control_plane_models import (
     CapacitySnapshot,
     CompactControlSurfaceDescriptor,
     CorruptJobFileRecord,
@@ -14,7 +14,7 @@ from control_plane_models import (
     ServerCapabilityRouterDescriptor,
     TextWindow,
 )
-from api_wire_common import (
+from .api_wire_common import (
     ErrorEnvelope,
     WarningItem,
     IndexCacheStats,

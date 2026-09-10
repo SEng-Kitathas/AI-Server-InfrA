@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections.abc import Callable, MutableMapping
 from typing import Any
 
-from icf_cs_v12_ingress import IcfIngressError, SESSION_MODES, rehydrate_icf_v12
+from .icf_cs_v12_ingress import IcfIngressError, SESSION_MODES, rehydrate_icf_v12
 
 JsonObject = MutableMapping[str, Any]
 Registrar = Callable[..., Any]

@@ -6,16 +6,16 @@ import glob
 import shutil
 import zipfile
 from dataclasses import dataclass
-from lab_tool_primitives import (
+from .lab_tool_primitives import (
     ToolPayload,
     ToolResult,
     payload_bool,
     payload_list_of_str,
     payload_str,
 )
-from server_hardening import tolerant_rglob
-from project_mutation_authority import ProjectMutationAuthorityError, resolved_paths_consequence_guard
-from shared_core import ensure_safe_mutation_target_identity
+from .server_hardening import tolerant_rglob
+from .project_mutation_authority import ProjectMutationAuthorityError, resolved_paths_consequence_guard
+from .shared_core import ensure_safe_mutation_target_identity
 from pathlib import Path
 from typing import Any, Callable
 
@@ -332,7 +332,7 @@ def _grep_path(path: Path, request: FsGrepRequest, dep: FilesystemToolDeps) -> T
 
 
 def _fs_tree_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResult:
-    from power_routes import TreeIterSpec, _iter_tree
+    from .power_routes import TreeIterSpec, _iter_tree
 
     root = dep.ensure_within_allowed(dep.resolve_general_path(payload))
     if not root.exists():
@@ -372,7 +372,7 @@ def _zip_listing(zf: zipfile.ZipFile) -> list[ToolResult]:
 def _zip_contents(
     zf: zipfile.ZipFile, request: FsZipReadRequest, dep: FilesystemToolDeps
 ) -> ToolResult:
-    from lab_tools import _bounded_zip_entry_text
+    from .lab_tools import _bounded_zip_entry_text
 
     contents: ToolResult = {}
     for name in request.entries:

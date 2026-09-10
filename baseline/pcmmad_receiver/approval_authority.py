@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Mapping
 
-from shared_core import SYSTEM_ROOT, load_json, save_json_atomic, utc_now
+from .shared_core import SYSTEM_ROOT, load_json, save_json_atomic, utc_now
 
 APPROVAL_DEFAULT_TTL_SECONDS = 300
 APPROVAL_MAX_TTL_SECONDS = 900

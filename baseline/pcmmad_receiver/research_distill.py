@@ -5,8 +5,8 @@ from collections.abc import MutableMapping
 
 from typing import Any
 
-from research_config import PARSER_VERSION
-from research_models import paper_summary, claim, method, isomorphic_abstraction
+from .research_config import PARSER_VERSION
+from .research_models import paper_summary, claim, method, isomorphic_abstraction
 
 JsonObject = MutableMapping[str, Any]
 

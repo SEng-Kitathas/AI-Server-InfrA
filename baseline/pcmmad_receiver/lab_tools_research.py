@@ -9,7 +9,7 @@ from dataclasses import dataclass
 
 from typing import Any, Callable
 
-from research_arxiv import (
+from .research_arxiv import (
     ArxivBadResponseError,
     ArxivRateLimitedError,
     ArxivUnavailableError,
@@ -17,15 +17,15 @@ from research_arxiv import (
     get_cache_stats,
     search_arxiv,
 )
-from research_config import (
+from .research_config import (
     PER_QUERY_MAX_RESULTS,
     RESEARCH_HUNT_DEFAULT_WALL_SECONDS,
     RESEARCH_HUNT_MAX_WALL_SECONDS,
     REQUEST_TIMEOUT_SECONDS,
 )
-from research_distill import distill_paper
-from research_predator import dedupe_and_rank, generate_query_family
-from research_starmap import build_evidence_topology
+from .research_distill import distill_paper
+from .research_predator import dedupe_and_rank, generate_query_family
+from .research_starmap import build_evidence_topology
 
 JsonObject = MutableMapping[str, Any]
 ResearchRegistrar = Callable[

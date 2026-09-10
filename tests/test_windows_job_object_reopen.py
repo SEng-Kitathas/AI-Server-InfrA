@@ -9,7 +9,7 @@ from pathlib import Path
 
 if os.name == "nt":
     RUNTIME_ROOT = Path(__file__).resolve().parents[1] / "baseline" / "pcmmad_receiver"
-    sys.path.insert(0, str(RUNTIME_ROOT))
+    sys.path.insert(0, str(RUNTIME_ROOT.parent))
     import windows_job_object as wjo
 
 

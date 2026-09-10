@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 
-from protocol_models import (
+from .protocol_models import (
     AdjudicationDecision,
     ClaimKind,
     ConstraintStrength,
@@ -34,7 +34,7 @@ from protocol_models import (
     RuntimeMode,
     WaiverStatus,
 )
-from shared_core import (
+from .shared_core import (
     get_project_root,
     init_project_layout,
     render_jsonl_boundary,

@@ -7,7 +7,7 @@ import re
 from collections import OrderedDict
 from typing import Any
 
-from research_models import QueryFamilyEntry, RankedResearchHit
+from .research_models import QueryFamilyEntry, RankedResearchHit
 
 JsonObject = MutableMapping[str, Any]
 

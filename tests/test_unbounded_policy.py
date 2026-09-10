@@ -12,7 +12,7 @@ from pathlib import Path
 import sys
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
+sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
 
 from execution_routes import _request_optional_positive_int
 from server_hardening import read_text_window, run_subprocess_envelope

@@ -6,9 +6,9 @@ import threading
 import time
 import xml.etree.ElementTree as ET
 from typing import Any
-from api_wire_models import ArxivPaperRecord, ArxivSearchResponse
+from .api_wire_models import ArxivPaperRecord, ArxivSearchResponse
 import requests
-from research_config import (
+from .research_config import (
     ARXIV_API_URL,
     ARXIV_MAX_RESPONSE_BYTES,
     ARXIV_XML_NAMESPACES,

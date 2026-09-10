@@ -8,8 +8,8 @@ from types import MappingProxyType
 from pathlib import Path
 from typing import Any
 from collections.abc import MutableMapping
-from api_wire_common import IndexCacheStats, WarningItem
-from api_wire_context import (
+from .api_wire_common import IndexCacheStats, WarningItem
+from .api_wire_context import (
     ArchiveExtractResponse,
     ArchiveInspectResponse,
     ArchiveItem,
@@ -25,15 +25,15 @@ from api_wire_context import (
     SearchHit,
     SearchWindow,
 )
-from server_hardening import safe_json_dumps, safe_json_loads
-from shared_core import (
+from .server_hardening import safe_json_dumps, safe_json_loads
+from .shared_core import (
     ARCHIVE_EXTENSIONS,
     MODEL_EXTENSIONS,
     TEXT_EXTENSIONS,
     get_mount_roots,
     get_project_root,
 )
-from context_config import (
+from .context_config import (
     ARCHIVE_INSPECT_DEFAULT_MAX_ENTRIES,
     ARCHIVE_LIST_DEFAULT_LIMIT,
     DEFAULT_ALLOWED_ROOTS,

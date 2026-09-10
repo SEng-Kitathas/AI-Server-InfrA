@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 import sys
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "baseline" / "pcmmad_receiver"))
+sys.path.insert(0, str(ROOT / "baseline"))
 
 import ucm_private_migration as migration
 import ucm_v1_runtime as ucm

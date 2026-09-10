@@ -7,6 +7,14 @@ heartbeat/completion receipts that survive receiver-process restarts.
 
 from __future__ import annotations
 
+if __package__ in (None, ""):
+    import sys as _sys
+    from pathlib import Path as _BootstrapPath
+
+    _sys.path.insert(0, str(_BootstrapPath(__file__).resolve().parents[1]))
+    __package__ = "pcmmad_receiver"
+
+
 import json
 import os
 import signal
@@ -151,7 +159,7 @@ def _record_terminal_journal_in_worker(
     if not project_id:
         return "failed", "worker request missing project_id for completion journal"
     try:
-        from shared_core import append_jsonl, get_project_root
+        from .shared_core import append_jsonl, get_project_root
         path = get_project_root(project_id) / "system" / "journal" / "journal.jsonl"
         command = " ".join(str(item) for item in request.get("command") or [])
         if wants_success:
@@ -200,7 +208,7 @@ def _open_ownership_anchor(request: dict[str, Any]):
     job_object_name = str(request.get("job_object_name") or "").strip()
     if os.name != "nt" or not job_object_name:
         return None
-    import windows_job_object as wjo
+    from . import windows_job_object as wjo
     return wjo.open_named_job(job_object_name, terminate=False)
 
 
@@ -237,7 +245,7 @@ def _project_mutation_context(request: dict[str, Any]):
     project_id = str(request.get("project_id") or "").strip()
     if not project_id:
         raise ValueError("bound execution worker request missing project_id")
-    from project_mutation_authority import runtime_bound_mutation_guard
+    from .project_mutation_authority import runtime_bound_mutation_guard
     return runtime_bound_mutation_guard(project_id, binding)
 
 

@@ -12,9 +12,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from protocol_models import MutationDomain
-from protocol_store import evaluate_mode_gate
-from shared_core import get_project_root, validate_project_id
+from .protocol_models import MutationDomain
+from .protocol_store import evaluate_mode_gate
+from .shared_core import get_project_root, validate_project_id
 
 
 @dataclass(frozen=True)

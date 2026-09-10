@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterator
 
-from shared_core import SYSTEM_ROOT, save_json_atomic, validate_filesystem_component_id
+from .shared_core import SYSTEM_ROOT, save_json_atomic, validate_filesystem_component_id
 
 SCHEMA_VERSION = "1.1"
 LEDGER_SCHEMA = "pcmmad.user-continuity-ledger.v1.1"

@@ -14,9 +14,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from protocol_models import ProtocolEventKind
-from protocol_store import build_snapshot, read_events
-from shared_core import get_project_root, sha256_file
+from .protocol_models import ProtocolEventKind
+from .protocol_store import build_snapshot, read_events
+from .shared_core import get_project_root, sha256_file
 
 JsonObject = dict[str, Any]
 

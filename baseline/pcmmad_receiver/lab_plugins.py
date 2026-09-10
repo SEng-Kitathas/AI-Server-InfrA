@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 from typing import Callable
 
-from control_plane_models import PluginLoadRecord
+from .control_plane_models import PluginLoadRecord
 
 
 class PluginLoadError(Exception):

@@ -15,7 +15,7 @@ from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
-sys.path.insert(0, str(RUNTIME_ROOT))
+sys.path.insert(0, str(RUNTIME_ROOT.parent))
 
 import project_mutation_authority as pma
 
@@ -376,7 +376,7 @@ with pma._project_guard("p1", timeout_seconds=1.0):
     time.sleep(60)
 '''
             child = subprocess.Popen(
-                [sys.executable, "-c", code, str(RUNTIME_ROOT), str(root)],
+                [sys.executable, "-c", code, str(RUNTIME_ROOT.parent), str(root)],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
@@ -425,7 +425,7 @@ except pma.ProjectMutationAuthorityError as exc:
                         sys.executable,
                         "-c",
                         code,
-                        str(RUNTIME_ROOT),
+                        str(RUNTIME_ROOT.parent),
                         str(root),
                         str(gate),
                         owner,

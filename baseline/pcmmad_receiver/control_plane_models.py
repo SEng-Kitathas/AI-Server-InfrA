@@ -258,6 +258,9 @@ class CorruptJobFileRecord:
     path: str
     error: str
 
+    def to_dict(self) -> JsonObject:
+        return asdict(self)
+
 
 @dataclass(frozen=True)
 class ExecutionReadinessEnvelope:
@@ -321,6 +324,9 @@ class TextWindow:
     requested_bytes: int | None
     returned_bytes: int
     offset_bytes: int | None = None
+
+    def to_dict(self) -> JsonObject:
+        return asdict(self)
 
 
 @dataclass
@@ -1042,6 +1048,9 @@ class AndonEventRecord(DictSerializable):
     session_id: str | None = None
     reason: str = ""
     details: str = ""
+    stop_recorded: bool = True
+    session_pause_projected: bool = False
+    session_update_error: str | None = None
 
     @classmethod
     def from_dict(cls, raw: JsonObject) -> "AndonEventRecord":
@@ -1051,6 +1060,9 @@ class AndonEventRecord(DictSerializable):
             session_id=_as_optional_str(data.get("session_id")),
             reason=_as_str(data.get("reason")),
             details=_as_str(data.get("details")),
+            stop_recorded=_as_bool(data.get("stop_recorded"), True),
+            session_pause_projected=_as_bool(data.get("session_pause_projected"), False),
+            session_update_error=_as_optional_str(data.get("session_update_error")),
         )
 
 

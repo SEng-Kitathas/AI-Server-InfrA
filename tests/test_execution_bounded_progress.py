@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
-sys.path.insert(0, str(RUNTIME_ROOT))
+sys.path.insert(0, str(RUNTIME_ROOT.parent))
 
 import lab_tools_execution as lte
 
@@ -153,7 +153,7 @@ class ExecutionBoundedProgressTests(unittest.TestCase):
             "artifact_registration_status": "not_attempted",
         }
         dep = SimpleNamespace()
-        with patch.object(lte, "_finalized_job", return_value=job), patch.object(
+        with patch.object(lte, "_observed_job", return_value=job), patch.object(
             lte.time, "sleep", return_value=None
         ), patch.object(lte.time, "time", side_effect=[0.0, 0.1, 1.1, 1.1, 1.1, 1.1]):
             result = lte._wait_until_done(request, dep)

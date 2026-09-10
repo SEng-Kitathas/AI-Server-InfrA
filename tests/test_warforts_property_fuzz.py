@@ -11,7 +11,7 @@ from hypothesis import given, settings, strategies as st
 
 import sys
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "baseline" / "pcmmad_receiver"))
+sys.path.insert(0, str(ROOT / "baseline"))
 
 import server_hardening
 import shared_core

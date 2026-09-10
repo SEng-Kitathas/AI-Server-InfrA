@@ -8,6 +8,10 @@
       "bytes": 1521,
       "sha256": "1e64c62f39681025a400d071d037b23fe508ab841bad2099a3ada2e037255246"
     },
+    "A042_HISTORICAL_WIP_RECOVERY_POINTER.md": {
+      "bytes": 561,
+      "sha256": "92cf73b0ebc0e97dfad8dac6b9759300cbee560c8938f7857c99142ae2f28668"
+    },
     "COMMANDERS_INTENT_CURRENT.md": {
       "bytes": 65820,
       "sha256": "b0117b859adcefa1c2dc335d1ba35acbc0211f1962bf20e47420d45dd459634e"
@@ -151,62 +155,6 @@
     "WORKLOAD_IDENTITY_PROOF_QUALIFICATION_2026-09-07.md": {
       "bytes": 4851,
       "sha256": "bd2a1981ae6be1306fdc06e3241d59cc33bb61187d9c0c637e2f2adc8665bc7f"
-    },
-    "wip/A042_API_WIRE_EXECUTION_WIP.py": {
-      "bytes": 8911,
-      "sha256": "ab497e79803aa8efb7117faed0b7d81d7fa618923760f0d0fa0e30ac719e9f17"
-    },
-    "wip/A042_API_WIRE_POWER_WIP.py": {
-      "bytes": 10090,
-      "sha256": "b6cea2f1cccf74057f7c53485549eb3adf40bfd35df116de793d34a7861892a2"
-    },
-    "wip/A042_COMPACT_ACTION_SCHEMA_WIP.json": {
-      "bytes": 121257,
-      "sha256": "65f841072cfdae76df3b4ea38c9217c99daf17f4b5751aa30f9dc9404a90cf9b"
-    },
-    "wip/A042_EXECUTION_ROUTES_WIP.py": {
-      "bytes": 97012,
-      "sha256": "08279eeddae69f5c51177df40043f2399f9d490345caa5f050d400f76c19ed37"
-    },
-    "wip/A042_LAB_TOOLS_MUTATION_AUTHORITY_WIP.py": {
-      "bytes": 10247,
-      "sha256": "d638688c2f47c09972ef70487ec0742d94b487c71bec254f7d95c05284e3411f"
-    },
-    "wip/A042_LAB_TOOLS_OPS_WIP.py": {
-      "bytes": 33370,
-      "sha256": "56728c417fafd82bd1af766ed82fd3d6d20b7310a1dd9c462164e589f4de78f8"
-    },
-    "wip/A042_LAB_TOOLS_PROJECT_WIP.py": {
-      "bytes": 32407,
-      "sha256": "cc4c877541f5075e6ca4b56ac2d481316d3e8d4b6105331f6f9bf9042f147475"
-    },
-    "wip/A042_LAB_TOOLS_PROTOCOL_WIP.py": {
-      "bytes": 23416,
-      "sha256": "6a27835ee00a7f2477774b610df4af7f7a4e7a8aa8e00c85b57c4dbe9b9189e4"
-    },
-    "wip/A042_LAB_TOOLS_WIP.py": {
-      "bytes": 41251,
-      "sha256": "42dffdb3bc124e8bdf0b1911e21d6a8c33535305ef55bd67dac44a44d0c25966"
-    },
-    "wip/A042_LEGACY_ROUTES_WIP.py": {
-      "bytes": 18526,
-      "sha256": "636a21ee6489edf949eba73677682dd719d8b7a9372129449ad35bc29c44a79f"
-    },
-    "wip/A042_POWER_ROUTES_WIP.py": {
-      "bytes": 30001,
-      "sha256": "8df583f4d679a0652ae71e06d84e270eb923bed12b1d83d9a86e1e4afed513a3"
-    },
-    "wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py": {
-      "bytes": 20926,
-      "sha256": "5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e"
-    },
-    "wip/A042_TEST_PROJECT_MUTATION_AUTHORITY_WIP.py": {
-      "bytes": 16818,
-      "sha256": "959849fd4b02bd8e577e1a704150c0fe811fa3d6ad4dabedea789b57f2748b4c"
-    },
-    "wip/A042_WIP_INVENTORY.json": {
-      "bytes": 4191,
-      "sha256": "3e332dfaebe0ee019b9908ddb3a528ed6bff65eb82851798494fa661cb46a791"
     }
   },
   "final_schema": "LAST_LOCKED_UNTRIGGERED",

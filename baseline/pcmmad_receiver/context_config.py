@@ -1,7 +1,7 @@
 """Context subsystem cache, traversal, and bounded read configuration constants."""
 
 from __future__ import annotations
-from shared_core import get_mount_roots
+from .shared_core import get_mount_roots
 
 DEFAULT_ALLOWED_ROOTS = get_mount_roots()
 MAX_LIST_RESULTS = 500

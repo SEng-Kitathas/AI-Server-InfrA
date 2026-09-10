@@ -11,7 +11,7 @@ from typing import Any, Callable, TypeAlias
 
 JsonObject = MutableMapping[str, Any]
 
-from context_engine import (
+from .context_engine import (
     ArchiveExtractRequest,
     ArchiveListRequest,
     FileListRequest,
@@ -21,7 +21,7 @@ from context_engine import (
     RehydrateRequest,
 )
 
-from shared_core import ensure_safe_mutation_target_identity
+from .shared_core import ensure_safe_mutation_target_identity
 
 ToolPayload: TypeAlias = JsonObject
 ToolResult: TypeAlias = JsonObject

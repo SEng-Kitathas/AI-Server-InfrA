@@ -11,10 +11,10 @@ import hashlib
 from pathlib import Path
 from typing import Any
 
-from context_engine import RehydrateRequest, rehydrate_context
-from res_runtime import handoff_readiness
-from shared_core import get_project_root
-from ucm_v1_runtime import UcmError, head as ucm_head, read_core
+from .context_engine import RehydrateRequest, rehydrate_context
+from .res_runtime import handoff_readiness
+from .shared_core import get_project_root
+from .ucm_v1_runtime import UcmError, head as ucm_head, read_core
 
 ICF_CS_VERSION = "1.2"
 ICF_CS_STANDARD_REL = "state/doctrine_snapshot/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md"

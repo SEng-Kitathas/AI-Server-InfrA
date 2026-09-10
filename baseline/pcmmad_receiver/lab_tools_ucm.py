@@ -8,8 +8,8 @@ from __future__ import annotations
 from collections.abc import Callable, MutableMapping
 from typing import Any
 
-import user_continuity_store as backend
-import ucm_v1_runtime as ucm
+from . import user_continuity_store as backend
+from . import ucm_v1_runtime as ucm
 
 JsonObject = MutableMapping[str, Any]
 Registrar = Callable[..., Any]

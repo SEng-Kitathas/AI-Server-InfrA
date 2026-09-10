@@ -14,7 +14,7 @@ from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
-sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
+sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
 
 from pcmmad_receiver.lab_tools import LabToolError, dispatch_tool, list_tools
 import pcmmad_receiver.lab_tools_semantic as semantic

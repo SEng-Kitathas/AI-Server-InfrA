@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections.abc import Callable, MutableMapping
 from typing import Any
 
-from user_continuity_store import (
+from .user_continuity_store import (
     ACTORS,
     CONFIDENCE,
     EXPORT_CLASSES,

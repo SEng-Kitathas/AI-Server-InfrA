@@ -12,7 +12,7 @@ SCHEMA_PATH = (
     RUNTIME_ROOT
     / "pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json"
 )
-sys.path.insert(0, str(RUNTIME_ROOT))
+sys.path.insert(0, str(RUNTIME_ROOT.parent))
 
 import lab_tools
 

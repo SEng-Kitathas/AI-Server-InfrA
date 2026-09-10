@@ -8,9 +8,9 @@ import tempfile
 import time
 from datetime import datetime, timezone
 from dataclasses import dataclass
-from lab_tool_primitives import ToolPayload, ToolResult, payload_str, payload_value
+from .lab_tool_primitives import ToolPayload, ToolResult, payload_str, payload_value
 from pathlib import Path
-from server_hardening import run_subprocess_envelope
+from .server_hardening import run_subprocess_envelope
 from typing import Any, Callable
 
 
@@ -439,6 +439,14 @@ def _wait_request_from_payload(payload: ToolPayload, dep: ExecutionToolDeps) -> 
     )
 
 
+def _observed_job(identity: JobIdentity, dep: ExecutionToolDeps) -> ToolResult:
+    try:
+        job = dep.read_job(identity.project_id, identity.job_id)
+        return job.to_dict() if hasattr(job, "to_dict") else job
+    except FileNotFoundError:
+        raise dep.error_cls("NOT_FOUND", "job not found", 404)
+
+
 def _finalized_job(identity: JobIdentity, dep: ExecutionToolDeps) -> ToolResult:
     try:
         return dep.finalize_job(
@@ -457,38 +465,38 @@ def _wait_until_done(request: WaitRequest, dep: ExecutionToolDeps) -> ToolResult
     )
     deadline = time.time() + timeout_seconds
     while time.time() < deadline:
-        job = _finalized_job(request.identity, dep)
+        job = _observed_job(request.identity, dep)
         if str(job.get("status") or "").upper() not in ACTIVE_JOB_STATUSES:
             return _completed_wait_payload(request, job, dep)
         time.sleep(0.5)
     return _timed_out_wait_payload(
-        request, _finalized_job(request.identity, dep), dep
+        request, _observed_job(request.identity, dep), dep
     )
 
 
 def _register_async_status_tools(register_tool: Callable[..., Any], dep: ExecutionToolDeps) -> None:
     @register_tool(
         "execution.status",
-        "Read and finalize async execution job status.",
+        "Read persisted async execution job status without reconciling or advancing the queue.",
         "medium",
         category="execution",
-        side_effect_class="read_reconcile",
-        effect_traits=["reads_state", "reconciles_state", "may_advance_queue"],
+        side_effect_class="read",
+        effect_traits=["reads_state", "non_reconciling"],
     )
     def tool_execution_status(payload: ToolPayload) -> ToolResult:
-        return _finalized_job(_require_identity(dep.error_cls, payload), dep)
+        return _observed_job(_require_identity(dep.error_cls, payload), dep)
 
     @register_tool(
         "execution.output",
         "Read bounded stdout/stderr for an async execution job.",
         "medium",
         category="execution",
-        side_effect_class="read_reconcile",
-        effect_traits=["reads_state", "reads_logs", "reconciles_state", "may_advance_queue"],
+        side_effect_class="read",
+        effect_traits=["reads_state", "reads_logs", "non_reconciling"],
     )
     def tool_execution_output(payload: ToolPayload) -> ToolResult:
         request = _wait_request_from_payload(payload, dep)
-        return _job_output_payload(request, _finalized_job(request.identity, dep), dep)
+        return _job_output_payload(request, _observed_job(request.identity, dep), dep)
 
     @register_tool(
         "execution.progress",
@@ -496,12 +504,12 @@ def _register_async_status_tools(register_tool: Callable[..., Any], dep: Executi
         "low",
         category="execution",
         tags=["progress", "bounded", "ai-control"],
-        side_effect_class="read_reconcile",
-        effect_traits=["reads_state", "reconciles_state", "may_advance_queue"],
+        side_effect_class="read",
+        effect_traits=["reads_state", "non_reconciling"],
     )
     def tool_execution_progress(payload: ToolPayload) -> ToolResult:
         identity = _require_identity(dep.error_cls, payload)
-        return _progress_receipt(identity, _finalized_job(identity, dep), dep)
+        return _progress_receipt(identity, _observed_job(identity, dep), dep)
 
     @register_tool(
         "execution.wait",
@@ -509,8 +517,8 @@ def _register_async_status_tools(register_tool: Callable[..., Any], dep: Executi
         "medium",
         category="execution",
         tags=["wait", "progress", "bounded", "ai-control"],
-        side_effect_class="read_reconcile",
-        effect_traits=["reads_state", "bounded_wait", "reconciles_state", "may_advance_queue"],
+        side_effect_class="read",
+        effect_traits=["reads_state", "bounded_wait", "non_reconciling"],
     )
     def tool_execution_wait(payload: ToolPayload) -> ToolResult:
         return _wait_until_done(_wait_request_from_payload(payload, dep), dep)

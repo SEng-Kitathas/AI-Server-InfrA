@@ -7,7 +7,7 @@ from collections.abc import MutableMapping
 from dataclasses import dataclass
 from typing import Any, Callable, TypeAlias
 
-from project_mutation_authority import (
+from .project_mutation_authority import (
     ProjectMutationAuthorityError,
     consequence_guard,
     current_project_mutation_authority,

@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from server_hardening import run_subprocess_envelope
+from .server_hardening import run_subprocess_envelope
 
 JsonObject = MutableMapping[str, Any]
 OpsRegistrar = Callable[..., Any]

@@ -8,7 +8,7 @@ from __future__ import annotations
 from collections.abc import Callable, MutableMapping
 from typing import Any
 
-from res_runtime import (
+from .res_runtime import (
     ResPolicyError,
     classify_material_change,
     handoff_readiness,

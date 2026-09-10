@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from flask import Blueprint, jsonify, request
 
-from context_engine import (
+from .context_engine import (
     ArchiveExtractRequest,
     ArchiveListRequest,
     BadPathError,
@@ -28,8 +28,8 @@ from context_engine import (
     rehydrate_context,
     search_files,
 )
-from shared_core import require_valid_api_key
-from api_wire_models import (
+from .shared_core import require_valid_api_key
+from .api_wire_models import (
     ContextHealthResponse,
     ErrorEnvelope,
     ProjectArchivesExtractRequest,

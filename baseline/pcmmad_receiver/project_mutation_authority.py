@@ -18,8 +18,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterator, Mapping
 
-from shared_core import (
+from .shared_core import (
     PROJECTS_ROOT,
+    cross_process_file_guard,
     get_project_root,
     init_project_layout,
     load_json,
@@ -115,34 +116,6 @@ def _new_lease_id() -> str:
     return f"pml-{secrets.token_hex(12)}"
 
 
-def _lock_file_windows(handle: Any, *, blocking: bool) -> None:
-    import msvcrt
-
-    mode = msvcrt.LK_LOCK if blocking else msvcrt.LK_NBLCK
-    handle.seek(0)
-    msvcrt.locking(handle.fileno(), mode, 1)
-
-
-def _unlock_file_windows(handle: Any) -> None:
-    import msvcrt
-
-    handle.seek(0)
-    msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
-
-
-def _lock_file_posix(handle: Any, *, blocking: bool) -> None:
-    import fcntl
-
-    flags = fcntl.LOCK_EX | (0 if blocking else fcntl.LOCK_NB)
-    fcntl.flock(handle.fileno(), flags)
-
-
-def _unlock_file_posix(handle: Any) -> None:
-    import fcntl
-
-    fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
-
-
 @contextmanager
 def _file_guard(
     project_id: str,
@@ -151,37 +124,16 @@ def _file_guard(
     timeout_seconds: float = LEASE_GUARD_TIMEOUT_SECONDS,
 ) -> Iterator[None]:
     init_project_layout(project_id)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    deadline = time.monotonic() + max(0.05, float(timeout_seconds))
-    with path.open("a+b") as handle:
-        handle.seek(0, os.SEEK_END)
-        if handle.tell() == 0:
-            handle.write(b"\0")
-            handle.flush()
-        acquired = False
-        while not acquired:
-            try:
-                if os.name == "nt":
-                    _lock_file_windows(handle, blocking=False)
-                else:
-                    _lock_file_posix(handle, blocking=False)
-                acquired = True
-            except (OSError, BlockingIOError):
-                if time.monotonic() >= deadline:
-                    raise ProjectMutationAuthorityError(
-                        "PROJECT_MUTATION_GUARD_BUSY",
-                        "project mutation authority transition is busy",
-                        423,
-                        extra={"project_id": project_id},
-                    )
-                time.sleep(0.01)
-        try:
+    try:
+        with cross_process_file_guard(path, timeout_seconds=timeout_seconds):
             yield
-        finally:
-            if os.name == "nt":
-                _unlock_file_windows(handle)
-            else:
-                _unlock_file_posix(handle)
+    except TimeoutError as exc:
+        raise ProjectMutationAuthorityError(
+            "PROJECT_MUTATION_GUARD_BUSY",
+            "project mutation authority transition is busy",
+            423,
+            extra={"project_id": project_id},
+        ) from exc
 
 
 @contextmanager
@@ -480,7 +432,13 @@ def _expire_if_needed(project_id: str, record: dict[str, Any] | None) -> dict[st
     return _write(project_id, record)
 
 
+def observe_lease(project_id: str) -> dict[str, Any]:
+    """Observe persisted lease state without acquiring the transition guard or writing."""
+    return _public(_load(project_id), project_id)
+
+
 def inspect_lease(project_id: str) -> dict[str, Any]:
+    """Reconcile persisted expiry under the short-lived transition guard."""
     with _project_guard(project_id):
         record = _expire_if_needed(project_id, _load(project_id))
         return _public(record, project_id)

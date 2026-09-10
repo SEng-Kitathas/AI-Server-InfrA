@@ -12,7 +12,7 @@ from collections.abc import MutableMapping
 from dataclasses import dataclass, field
 from typing import Any
 
-from approval_authority import (
+from .approval_authority import (
     ApprovalAuthorityError,
     create_challenge,
     validate_and_consume,

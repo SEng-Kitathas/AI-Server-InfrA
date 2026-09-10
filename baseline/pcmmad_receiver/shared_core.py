@@ -9,13 +9,14 @@ import re
 import secrets
 import tempfile
 import time
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from types import MappingProxyType
 from pathlib import Path
-from collections.abc import Mapping
+from collections.abc import Iterator, Mapping
 from typing import Any
 
-from workload_identity import (
+from .workload_identity import (
     WorkloadIdentityError,
     canonical_target as workload_canonical_target,
     proof_headers_present as workload_proof_headers_present,
@@ -194,6 +195,54 @@ def ensure_parent(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
 
 
+def _lock_one_byte(handle: Any, *, blocking: bool) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        handle.seek(0)
+        msvcrt.locking(handle.fileno(), msvcrt.LK_LOCK if blocking else msvcrt.LK_NBLCK, 1)
+    else:
+        import fcntl
+
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX | (0 if blocking else fcntl.LOCK_NB))
+
+
+def _unlock_one_byte(handle: Any) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        handle.seek(0)
+        msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+    else:
+        import fcntl
+
+        fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
+@contextmanager
+def cross_process_file_guard(path: Path, *, timeout_seconds: float = 5.0) -> Iterator[None]:
+    """Serialize a state transition without importing authority semantics."""
+    ensure_parent(path)
+    deadline = time.monotonic() + max(0.05, float(timeout_seconds))
+    with path.open("a+b") as handle:
+        handle.seek(0, os.SEEK_END)
+        if handle.tell() == 0:
+            handle.write(b"\0")
+            handle.flush()
+        while True:
+            try:
+                _lock_one_byte(handle, blocking=False)
+                break
+            except (OSError, BlockingIOError) as exc:
+                if time.monotonic() >= deadline:
+                    raise TimeoutError(f"state transition guard is busy: {path}") from exc
+                time.sleep(0.01)
+        try:
+            yield
+        finally:
+            _unlock_one_byte(handle)
+
+
 def ensure_safe_mutation_target_identity(path: Path) -> None:
     """Reject existing multiply-linked regular files before mutation.
 
@@ -270,10 +319,12 @@ def _json_ready(value: Any) -> Any:
 def append_jsonl(path: Path, record: Any) -> None:
     ensure_parent(path)
     payload = _json_ready(record)
-    with path.open("a", encoding="utf-8") as f:
-        f.write(render_jsonl_boundary(payload) + "\n")
-        f.flush()
-        os.fsync(f.fileno())
+    guard = path.with_name(f".{path.name}.append.guard")
+    with cross_process_file_guard(guard, timeout_seconds=5.0):
+        with path.open("a", encoding="utf-8") as f:
+            f.write(render_jsonl_boundary(payload) + "\n")
+            f.flush()
+            os.fsync(f.fileno())
 
 
 _WINDOWS_RESERVED_COMPONENT_NAMES = frozenset(

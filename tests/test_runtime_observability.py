@@ -11,7 +11,7 @@ from unittest.mock import patch
 from flask import Flask, jsonify
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
+sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
 
 import observability as obs
 

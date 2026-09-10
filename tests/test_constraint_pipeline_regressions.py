@@ -16,7 +16,7 @@ if str(PROJECT_ROOT / "tools" / "csc_native") not in sys.path:
 if str(PROJECT_ROOT / "system" / "constraint_pipeline") not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT / "system" / "constraint_pipeline"))
 if str(PROJECT_ROOT / "baseline" / "pcmmad_receiver") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
+    sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
 
 import receiver_schema_authority_gate as schema_gate
 import semantic_footgun_dataflow_gate as footgun_gate

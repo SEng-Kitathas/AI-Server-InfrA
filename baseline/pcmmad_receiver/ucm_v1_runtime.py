@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-import user_continuity_store as backend
+from . import user_continuity_store as backend
 
 JsonObject = dict[str, Any]
 

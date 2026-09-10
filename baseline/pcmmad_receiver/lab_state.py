@@ -7,14 +7,14 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from control_plane_models import (
+from .control_plane_models import (
     AndonEventRecord,
     LabSessionRecord,
     ReflexionRecord,
     SessionNoteRecord,
 )
-from server_hardening import safe_json_dumps, safe_json_loads
-from shared_core import ensure_parent, get_project_root, utc_now
+from .server_hardening import safe_json_dumps, safe_json_loads
+from .shared_core import append_jsonl, cross_process_file_guard, ensure_parent, get_project_root, save_json_atomic, utc_now
 
 JsonObject = MutableMapping[str, Any]
 
@@ -47,6 +47,52 @@ def _session_path(project_id: str, session_id: str) -> Path:
     return _sessions_root(project_id) / f"{session_id}.json"
 
 
+def _session_notes_path(project_id: str, session_id: str) -> Path:
+    return _sessions_root(project_id) / f"{session_id}.notes.jsonl"
+
+
+def _session_guard_path(project_id: str, session_id: str) -> Path:
+    return _sessions_root(project_id) / f".{session_id}.state.guard"
+
+
+def _load_session_snapshot(project_id: str, session_id: str) -> LabSessionRecord:
+    path = _session_path(project_id, session_id)
+    if not path.exists():
+        raise FileNotFoundError("session not found")
+    return LabSessionRecord.from_dict(safe_json_loads(path.read_text(encoding="utf-8")))
+
+
+def _read_session_notes(project_id: str, session_id: str) -> list[SessionNoteRecord]:
+    path = _session_notes_path(project_id, session_id)
+    if not path.exists():
+        return []
+    notes: list[SessionNoteRecord] = []
+    for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        try:
+            notes.append(SessionNoteRecord.from_dict(safe_json_loads(line)))
+        except (TypeError, ValueError, KeyError) as exc:
+            raise ValueError(f"session note journal corrupt at line {line_no}") from exc
+    return notes
+
+
+def _write_session_snapshot(
+    project_id: str, session_id: str, record: LabSessionRecord
+) -> LabSessionRecord:
+    record.updated_at = utc_now()
+    save_json_atomic(_session_path(project_id, session_id), record.to_dict())
+    return record
+
+
+def _mutate_session_snapshot(project_id: str, session_id: str, mutate) -> LabSessionRecord:
+    with cross_process_file_guard(_session_guard_path(project_id, session_id), timeout_seconds=5.0):
+        record = _load_session_snapshot(project_id, session_id)
+        mutate(record)
+        _write_session_snapshot(project_id, session_id, record)
+    return get_session(project_id, session_id)
+
+
 def start_session(
     project_id: str, title: str = "", meta: JsonObject | None = None
 ) -> LabSessionRecord:
@@ -63,43 +109,50 @@ def start_session(
         notes=[],
         andon_events=[],
     )
-    path = _session_path(project_id, session_id)
-    path.write_text(safe_json_dumps(record.to_dict()), encoding="utf-8")
+    with cross_process_file_guard(_session_guard_path(project_id, session_id), timeout_seconds=5.0):
+        save_json_atomic(_session_path(project_id, session_id), record.to_dict())
     return record
 
 
 def get_session(project_id: str, session_id: str) -> LabSessionRecord:
-    path = _session_path(project_id, session_id)
-    if not path.exists():
-        raise FileNotFoundError("session not found")
-    return LabSessionRecord.from_dict(safe_json_loads(path.read_text(encoding="utf-8")))
+    record = _load_session_snapshot(project_id, session_id)
+    journal_notes = _read_session_notes(project_id, session_id)
+    if journal_notes:
+        record.notes.extend(journal_notes)
+        latest = journal_notes[-1].time
+        if latest and latest > record.updated_at:
+            record.updated_at = latest
+    return record
 
 
 def save_session(project_id: str, session_id: str, record: LabSessionRecord) -> LabSessionRecord:
-    record.updated_at = utc_now()
-    path = _session_path(project_id, session_id)
-    path.write_text(safe_json_dumps(record.to_dict()), encoding="utf-8")
-    return record
+    # Compatibility save: once a note journal exists, preserve only legacy embedded
+    # notes in the snapshot so journal notes cannot be duplicated on the next read.
+    with cross_process_file_guard(_session_guard_path(project_id, session_id), timeout_seconds=5.0):
+        journal_exists = _session_notes_path(project_id, session_id).exists()
+        if journal_exists:
+            legacy = _load_session_snapshot(project_id, session_id)
+            record.notes = list(legacy.notes)
+        _write_session_snapshot(project_id, session_id, record)
+    return get_session(project_id, session_id)
 
 
 def append_session_note(
     project_id: str, session_id: str, note: str, note_type: str = "note"
 ) -> LabSessionRecord:
-    record = get_session(project_id, session_id)
-    record.notes.append(SessionNoteRecord(time=utc_now(), type=note_type, note=note))
-    return save_session(project_id, session_id, record)
+    # O(1) write path with respect to session history: append one durable journal row.
+    row = SessionNoteRecord(time=utc_now(), type=note_type, note=note)
+    with cross_process_file_guard(_session_guard_path(project_id, session_id), timeout_seconds=5.0):
+        _load_session_snapshot(project_id, session_id)  # existence/current JSON check before append
+        append_jsonl(_session_notes_path(project_id, session_id), row)
+    return get_session(project_id, session_id)
 
 
 def end_session(project_id: str, session_id: str, status: str = "closed") -> LabSessionRecord:
-    record = get_session(project_id, session_id)
-    record.status = status
-    return save_session(project_id, session_id, record)
+    def mutate(record: LabSessionRecord) -> None:
+        record.status = status
 
-
-def append_jsonl(path: Path, record: JsonObject) -> None:
-    ensure_parent(path)
-    with path.open("a", encoding="utf-8") as f:
-        f.write(safe_json_dumps(record) + "\n")
+    return _mutate_session_snapshot(project_id, session_id, mutate)
 
 
 def append_reflexion(project_id: str, record: JsonObject) -> ReflexionRecord:
@@ -138,15 +191,26 @@ def pull_andon(project_id: str, record: JsonObject) -> AndonEventRecord:
         session_id=str(record.get("session_id")) if record.get("session_id") is not None else None,
         reason=str(record.get("reason", "")),
         details=str(record.get("details", "")),
+        stop_recorded=True,
+        session_pause_projected=False,
+        session_update_error=None,
     )
     append_jsonl(_andon_path(project_id), row)
-    session_id = row.session_id
-    if session_id:
-        try:
-            session = get_session(project_id, str(session_id))
+    if not row.session_id:
+        return row
+    try:
+        def pause(session: LabSessionRecord) -> None:
             session.andon_events.append(row)
             session.status = "paused"
-            save_session(project_id, str(session_id), session)
-        except (OSError, ValueError, KeyError, TypeError):
-            row.payload["session_update_error"] = "session andon propagation failed"
-    return row
+
+        _mutate_session_snapshot(project_id, str(row.session_id), pause)
+        return AndonEventRecord(
+            time=row.time, session_id=row.session_id, reason=row.reason, details=row.details,
+            stop_recorded=True, session_pause_projected=True, session_update_error=None,
+        )
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        return AndonEventRecord(
+            time=row.time, session_id=row.session_id, reason=row.reason, details=row.details,
+            stop_recorded=True, session_pause_projected=False,
+            session_update_error=f"{type(exc).__name__}: {exc}",
+        )

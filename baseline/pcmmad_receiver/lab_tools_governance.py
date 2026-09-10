@@ -4,7 +4,7 @@ from __future__ import annotations
 from collections.abc import Callable, MutableMapping
 from typing import Any
 
-from governance_runtime import (
+from .governance_runtime import (
     GovernanceError,
     admit_contact_set,
     derive_contact_set,
@@ -12,7 +12,7 @@ from governance_runtime import (
     evaluate_effect_table,
     compress_minimal_witnesses,
 )
-from shared_core import get_project_root
+from .shared_core import get_project_root
 
 JsonObject = MutableMapping[str, Any]
 Registrar = Callable[..., Any]

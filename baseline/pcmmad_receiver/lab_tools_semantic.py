@@ -15,8 +15,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-from lab_tool_primitives import ToolPayload, ToolResult, payload_optional_int, payload_str
-from server_hardening import run_subprocess_envelope, safe_json_loads
+from .lab_tool_primitives import ToolPayload, ToolResult, payload_optional_int, payload_str
+from .server_hardening import run_subprocess_envelope, safe_json_loads
 
 SemanticRegistrar = Callable[
     ..., Callable[[Callable[[ToolPayload], ToolResult]], Callable[[ToolPayload], ToolResult]]

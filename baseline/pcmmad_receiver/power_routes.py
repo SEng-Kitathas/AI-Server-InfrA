@@ -18,7 +18,7 @@ from collections.abc import MutableMapping
 
 from flask import Blueprint, jsonify, request
 
-from api_wire_models import (
+from .api_wire_models import (
     CheckpointCreateRequest,
     CheckpointCreateResponse,
     ErrorEnvelope,
@@ -46,9 +46,9 @@ from api_wire_models import (
 
 JsonObject = MutableMapping[str, Any]
 
-from context_engine import FileReadRequest, read_file
-from control_plane_models import TextWindow
-from execution_routes import (
+from .context_engine import FileReadRequest, read_file
+from .control_plane_models import TextWindow
+from .execution_routes import (
     MAX_OUTPUT_BYTES,
     _finalize,
     _limit_for_wire,
@@ -59,9 +59,9 @@ from execution_routes import (
     ExecutionRequestError,
     submit_execution_job,
 )
-from project_mutation_authority import ProjectMutationAuthorityError, consequence_guard
-from server_hardening import safe_json_dumps, safe_json_loads
-from shared_core import (
+from .project_mutation_authority import ProjectMutationAuthorityError, consequence_guard
+from .server_hardening import safe_json_dumps, safe_json_loads
+from .shared_core import (
     ensure_safe_mutation_target_identity,
     ensure_parent,
     get_project_root,
@@ -630,13 +630,13 @@ def wait_for_project_execution() -> object:
         )
         deadline = None if timeout_seconds is None else (time.time() + timeout_seconds)
         while deadline is None or time.time() < deadline:
-            job = _finalize(req.project_id, req.job_id, _read_job(req.project_id, req.job_id))
+            job = _read_job(req.project_id, req.job_id).to_dict()
             if job.get("status") not in {"RUNNING", "SUBMITTED", "QUEUED", "STARTING"}:
                 return jsonify(
                     _wait_execution_response(req, job, max_bytes, timed_out=False).to_dict()
                 )
             time.sleep(0.5)
-        job = _finalize(req.project_id, req.job_id, _read_job(req.project_id, req.job_id))
+        job = _read_job(req.project_id, req.job_id).to_dict()
         return jsonify(_wait_execution_response(req, job, max_bytes, timed_out=True).to_dict())
     except FileNotFoundError:
         return _error("NOT_FOUND", "job not found", 404)

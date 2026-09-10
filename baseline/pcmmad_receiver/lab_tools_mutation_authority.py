@@ -6,11 +6,12 @@ from collections.abc import Callable, Mapping, MutableMapping
 from contextlib import contextmanager
 from typing import Any, Iterator, TypeAlias
 
-from project_mutation_authority import (
+from .project_mutation_authority import (
     ProjectMutationAuthorityError,
     acquire_lease,
     consequence_guard,
     inspect_lease,
+    observe_lease,
     release_lease,
     renew_lease,
 )
@@ -154,24 +155,19 @@ def register_mutation_authority_tools(
 
     @register_tool(
         "project.mutation.inspect",
-        "Inspect current project mutation lease/generation authority; expiry may be reconciled.",
-        "medium",
+        "Observe persisted project mutation lease/generation authority without reconciling state.",
+        "low",
         category="project",
-        tags=["project", "authority", "lease", "generation", "currentness"],
-        mutating=True,
-        side_effect_class="reconcile",
-        effect_traits=[
-            "reads_project_authority",
-            "may_reconcile_expiry",
-            "project_scope_enforced",
-            "bounded_output",
-        ],
+        tags=["project", "authority", "lease", "generation", "currentness", "observation"],
+        mutating=False,
+        side_effect_class="read",
+        effect_traits=["reads_project_authority", "non_reconciling", "project_scope_enforced", "bounded_output"],
         input_schema=_schema(["project_id"], project),
         output_schema=output_schema,
     )
     def tool_project_mutation_inspect(payload: ToolPayload) -> ToolResult:
         project_id = _str(payload, "project_id")
-        return translate(lambda: inspect_lease(project_id))
+        return translate(lambda: observe_lease(project_id))
 
     @register_tool(
         "project.mutation.acquire",

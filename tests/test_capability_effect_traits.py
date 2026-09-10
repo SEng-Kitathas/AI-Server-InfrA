@@ -6,7 +6,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
-sys.path.insert(0, str(RUNTIME_ROOT))
+sys.path.insert(0, str(RUNTIME_ROOT.parent))
 
 from control_plane_models import ToolSpec
 from lab_tools import list_tools
@@ -38,9 +38,9 @@ class CapabilityEffectTraitTests(unittest.TestCase):
             "execution.run": ("execution", {"executes_code", "arbitrary_process_side_effects"}),
             "python.run": ("execution", {"executes_code", "arbitrary_process_side_effects"}),
             "execution.submit": ("execution", {"creates_durable_state", "queues_work", "executes_code"}),
-            "execution.status": ("read_reconcile", {"reads_state", "reconciles_state", "may_advance_queue"}),
-            "execution.progress": ("read_reconcile", {"reads_state", "reconciles_state", "may_advance_queue"}),
-            "execution.wait": ("read_reconcile", {"reads_state", "bounded_wait", "reconciles_state"}),
+            "execution.status": ("read", {"reads_state", "non_reconciling"}),
+            "execution.progress": ("read", {"reads_state", "non_reconciling"}),
+            "execution.wait": ("read", {"reads_state", "bounded_wait", "non_reconciling"}),
             "browser.evaluate": ("external_interaction", {"executes_code", "external_interaction", "may_mutate_external_state"}),
             "research.arxiv.search": ("external_read", {"network_io", "reads_external_state", "may_write_cache"}),
             "research.arxiv.paper": ("external_read", {"network_io", "reads_external_state", "may_write_cache"}),

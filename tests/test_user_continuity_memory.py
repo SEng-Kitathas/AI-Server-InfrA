@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
-sys.path.insert(0, str(RUNTIME_ROOT))
+sys.path.insert(0, str(RUNTIME_ROOT.parent))
 
 import user_continuity_store as ucs
 
@@ -536,7 +536,7 @@ print(json.dumps({"seq":r["event"]["event_seq"],"id":r["event"]["event_id"]}))
 '''
         env = dict(os.environ)
         env["PCMMAD_USER_CONTINUITY_ROOT"] = str(shared_root)
-        env["PCMMAD_TEST_RUNTIME_ROOT"] = str(RUNTIME_ROOT)
+        env["PCMMAD_TEST_RUNTIME_ROOT"] = str(RUNTIME_ROOT.parent)
         procs = [
             subprocess.Popen(
                 [python, "-c", code, str(i)],

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from flask import Blueprint, jsonify, request
 
-from api_wire_models import (
+from .api_wire_models import (
     ArxivPaperRequest,
     ArxivPaperResponse,
     ArxivSearchRequest,
@@ -13,13 +13,13 @@ from api_wire_models import (
     ResearchHuntRequest,
     ResearchHuntResponse,
 )
-from research_config import (
+from .research_config import (
     ENABLED_HUNT_MODES,
     ENABLED_SOURCES,
     PARSER_VERSION,
     PER_QUERY_MAX_RESULTS,
 )
-from research_arxiv import (
+from .research_arxiv import (
     ArxivBadResponseError,
     ArxivRateLimitedError,
     ArxivUnavailableError,
@@ -27,10 +27,10 @@ from research_arxiv import (
     get_cache_stats,
     search_arxiv,
 )
-from research_distill import distill_paper
-from research_predator import dedupe_and_rank, generate_query_family
-from research_starmap import build_evidence_topology
-from shared_core import require_valid_api_key
+from .research_distill import distill_paper
+from .research_predator import dedupe_and_rank, generate_query_family
+from .research_starmap import build_evidence_topology
+from .shared_core import require_valid_api_key
 
 research_bp = Blueprint("research", __name__, url_prefix="/research")
 

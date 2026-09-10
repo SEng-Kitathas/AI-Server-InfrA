@@ -8,7 +8,7 @@ from typing import Callable
 
 from flask import Blueprint, Flask
 
-from control_plane_models import BlueprintFailureSpec, BootReport, BootRuntimeStatus
+from .control_plane_models import BlueprintFailureSpec, BootReport, BootRuntimeStatus
 
 
 class RequiredBlueprintLoadError(RuntimeError):

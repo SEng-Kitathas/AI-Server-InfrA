@@ -51,10 +51,7 @@ class GitHandoffCurrentTests(unittest.TestCase):
             "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md",
             "GIT_PUBLICATION_CURRENT.md",
             "A042_ENGINEERING_QUALIFICATION_2026-09-07.md",
-            "wip/A042_PROJECT_MUTATION_AUTHORITY_WIP.py",
-            "wip/A042_EXECUTION_ROUTES_WIP.py",
-            "wip/A042_POWER_ROUTES_WIP.py",
-            "wip/A042_WIP_INVENTORY.json",
+            "A042_HISTORICAL_WIP_RECOVERY_POINTER.md",
         }
         self.assertTrue(required.issubset(set(self.manifest["files"])))
 
@@ -110,13 +107,13 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("Final schema", handoff)
 
     def test_wip_recovery_copy_matches_declared_a042_identity(self) -> None:
-        path = HANDOFF / "wip" / "A042_PROJECT_MUTATION_AUTHORITY_WIP.py"
+        path = PROJECT_ROOT / "handoff" / "archive" / "a042_wip_recovery_2026-09-07" / "A042_PROJECT_MUTATION_AUTHORITY_WIP.py"
         self.assertTrue(path.is_file())
         self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), "5e294d1ae20601d9a5404f5b4712d82c676ca6acc55c9530a5787dc6239ed04e")
         self.assertEqual(path.stat().st_size, 20926)
 
     def test_a042_wip_inventory_is_complete_and_hashes_recovery_copies(self) -> None:
-        inventory = json.loads((HANDOFF / "wip" / "A042_WIP_INVENTORY.json").read_text(encoding="utf-8"))
+        inventory = json.loads((PROJECT_ROOT / "handoff" / "archive" / "a042_wip_recovery_2026-09-07" / "A042_WIP_INVENTORY.json").read_text(encoding="utf-8"))
         self.assertEqual(inventory["schema"], "pcmmad.a042-wip-recovery.v2")
         self.assertEqual(inventory["file_count"], 13)
         self.assertEqual(len(inventory["files"]), 13)
@@ -124,7 +121,7 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("baseline/pcmmad_receiver/execution_routes.py", sources)
         self.assertIn("baseline/pcmmad_receiver/power_routes.py", sources)
         for row in inventory["files"]:
-            path = HANDOFF / row["recovery_path"]
+            path = PROJECT_ROOT / "handoff" / "archive" / "a042_wip_recovery_2026-09-07" / Path(row["recovery_path"]).name
             self.assertTrue(path.is_file(), row["recovery_path"])
             data = path.read_bytes()
             self.assertEqual(len(data), row["bytes"], row["recovery_path"])

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
-from lab_tool_primitives import (
+from .lab_tool_primitives import (
     ToolPayload,
     ToolResult,
     payload_bool,

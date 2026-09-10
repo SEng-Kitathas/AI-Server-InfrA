@@ -27,8 +27,8 @@ import zipfile
 from pathlib import Path, PurePosixPath
 from typing import Any, Mapping, Sequence
 
-import ucm_v1_runtime as ucm
-import user_continuity_store as backend
+from . import ucm_v1_runtime as ucm
+from . import user_continuity_store as backend
 
 JsonObject = dict[str, Any]
 
