@@ -74,12 +74,13 @@ Published prerequisite features:
 - RES Runtime feature `8714dd87d2092e0f4c66f261fcf5cee8b75a0798`;
 - UCM Runtime feature `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`.
 
-This checkout additionally contains the qualified fresh-instance orchestrator candidate:
+The fresh-instance orchestrator is engineering-published and remote-verified:
 `continuity.ingress.rehydrate`
 
-It composes exact ICF-CS currentness, explicit RES/UCM applicability, required RES/UCM currentness, bounded project rehydration, and the owning-plane/live-readback next gate.
+Feature commit: `d926e2004b0a5794fb2934200091b836c0780104`
+Tree: `3f3f124f19a379c86e1232a3691319dcf77f3084`
 
-Before using this pointer as Git publication evidence, independently read `git rev-parse HEAD`, worktree status, tests, and `origin/main`. Do not infer publication identity from this document.
+It composes exact ICF-CS currentness, explicit RES/UCM applicability, required RES/UCM currentness, bounded project rehydration, and the owning-plane/live-readback next gate. Fresh Git/worktree/test/runtime readback still outranks this navigation pointer for consequence-bearing work.
 
 `SOURCE_QUALIFIED != LIVE_PROMOTED`
 
@@ -87,7 +88,7 @@ Live Runtime was not reloaded by the ICF-CS v1.2 doctrine activation or by this 
 
 ## Current verification ceiling
 
-Detached candidate qualification on the current source worktree:
+Published source qualification:
 - dedicated v1.2 ingress: **13/13 PASS**;
 - handoff/ingress/budget gate: **37/37 PASS**;
 - wider ICF/context/RES/UCM composition gate: **215 passed / 1 conditional skip / 0 failed**;
@@ -95,4 +96,4 @@ Detached candidate qualification on the current source worktree:
 - native candidate tool count: **158**;
 - compact 30-operation schema unchanged, SHA `132dff5967d7b45278d63da11e4ab87a72bd3fbd0507af3b652ffd34ee88787f`.
 
-A later publication child may bind the exact Git feature commit after it exists. Until then, Git/worktree/remote readback outranks this navigation pointer.
+Git/worktree/remote readback remains the final source-currentness authority.

@@ -1,10 +1,10 @@
 # AI-Server-InfrA — Current Ingress
 
-Status: **V30 ENGINEERING SOURCE / GIT-PUBLISHED / LIVE PROMOTION SEPARATE**
+Status: **V30 ENGINEERING SOURCE / GIT-PUBLISHED / ICF-CS v1.2 CURRENT / LIVE PROMOTION SEPARATE**
 Repository: `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`
 Branch: `main`
 
-This is the bounded repository ingress and recovery mirror pointer, not a second Runtime truth plane.
+This is a bounded repository ingress/recovery pointer and **recovery mirror**, not a second Runtime truth plane.
 
 **INTENT IS A CONSTRAINT, NOT A CEILING.**
 
@@ -16,86 +16,108 @@ HANDOFF_MIRROR != RUNTIME_AUTHORITY
 
 ## External evaluation
 
-Outside evaluators should start at:
-
-1. `README.md`
-2. `docs/EXTERNAL_EVALUATION.md`
-3. `docs/architecture/INVARIANTS.md`
-4. `reports/README.md`
-
-The `handoff/current/` tree is retained for continuity/recovery lineage and may contain chronological historical sections. It is not required to evaluate the source and must not outrank fresh Git/worktree/test/runtime readback.
+Start with `README.md`, `docs/EXTERNAL_EVALUATION.md`, `docs/architecture/INVARIANTS.md`, then `reports/README.md`. Fresh Git/worktree/test/runtime readback outranks this prose.
 
 Cross-thread meeting surfaces retained for architecture/evidence reconciliation:
-
 - `reports/PCMMAD_RUNTIME_ADAPTER_COMPATIBILITY_CONTRACT_V0_1.md`
 - `reports/PCMMAD_RUNTIME_ADAPTER_PROJECTION_MATRIX_V0_1.md`
 - `reports/PCMMAD_RUNTIME_ADAPTER_PROJECTION_MATRIX_V0_1.json`
 - `handoff/current/RUNTIME_OBE_SKILLS_DUALITY.md`
 
-## Current engineering frontier
+Fresh Git/local/runtime readback remains required before consequence.
 
-Immediately before this repository-front-door documentation refresh:
+## Current engineering mechanism frontier
 
-- remote-published mechanism feature: `8714dd87d2092e0f4c66f261fcf5cee8b75a0798` (`Add native RES continuity enforcement`);
-- parent/source-evaluation frontier: `016eacee04113be6f499cf00d29af0e04ec8a9ec`;
-- source registry: **126 native tools**;
-- governance tools: five authority-neutral/read-only contact/exhaustion tools;
-- RES tools: five authority-neutral/read-only tools in the existing `continuity` family: `continuity.res.addendum.validate`, `continuity.res.addenda.project`, `continuity.res.snapshot.validate`, `continuity.res.materiality.classify`, and `continuity.res.handoff.readiness`;
-- dedicated RES suite: **43/43 PASS**;
-- focused RES/context/protocol/authority/governance source gate: **176 collected / 175 passed / 0 failed / 1 conditional skip**;
-- complete Runtime: **556 collected / 555 passed / 0 failed / 1 conditional skip**;
-- exact RES mechanism candidate inventory SHA: `fcb838d408f29eb6da2a4d6fab72e885c400da7442dea517bcef2664b0816b23`.
+Latest remote-verified mechanism feature before this documentation child:
+`d926e2004b0a5794fb2934200091b836c0780104` — `Embody ICF-CS v1.2 fresh-instance ingress`
 
-RES pressure found and repaired defects before publication, including an unwired native capability registration, ambiguity between normalized-content and file-byte hashes, and a handoff-currentness hole where an unrelated fresh RES addendum could otherwise mask the latest material protocol event.
+Tree: `3f3f124f19a379c86e1232a3691319dcf77f3084`
+Parent UCM feature: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
+RES feature: `8714dd87d2092e0f4c66f261fcf5cee8b75a0798`
 
-Earlier published Runtime contracts remain part of the current source: ordinary dispatch may bind `expected_contract_digest`, with stale mismatch rejected as `CAPABILITY_CONTRACT_STALE`; project mutation authority preserves `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` and the `runtime-authority-envelope-v1` projection; response-loss work preserves `IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY`, `RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS`, and `UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY`; Windows Job Object resource envelope work is also published in current ancestry.
+Current source registry: **158 native tools**.
 
-## Architecture
+Current continuity surfaces include:
+- five `continuity.res.*` RES tools;
+- 31 canonical `ucm.*` tools plus eight legacy `memory.*` compatibility tools;
+- `continuity.ingress.rehydrate` for current ICF-CS v1.2 fresh-instance orchestration.
 
-- PCMMAD = methodology/process.
-- Laboratory Runtime = durable truth/state/capability and deterministic authority mechanisms.
-- MCP/OpenAPI/CLI/HUD = transport/presentation projections.
-- Skills/operating libraries = AI/operator composition intelligence.
-- Reports/donors = evidence, not automatic authority.
+The compact imported action schema remains exactly 30 operations.
 
-```text
-TRANSPORT IS NOT ARCHITECTURE AUTHORITY
-MECHANISM LIVES WHERE STATE LIVES
-EMERGENT CAPABILITY IS ALLOWED; EMERGENT AUTHORITY IS NOT
-COMPOSITION BEFORE INVENTION
-```
+Current source qualification:
+- UCM focused gate: **130/130 PASS**;
+- v1.2 ingress: **13/13 PASS**;
+- handoff/currentness/ingress/budget gate: **37/37 PASS**;
+- full Runtime: **676 collected / 675 passed / 0 failed / 1 conditional skip**;
+- exact v1.2 Runtime-embodiment feature inventory SHA `480919d3469fb610cdce3dce18753612f0c4270f0f122fed98c293c92d42ac56`.
 
-## Source versus packaged/live identity
+## Current ICF-CS authority
 
-`VERSION` and `RELEASE.json` still identify the last packaged V29 release candidate. That is intentional: the repository must not counterfeit a V30 release identity before a separate release/promotion process earns one.
+ICF-CS v1.2 is active binding additive **continuity/process doctrine**. R4.4 remains the sealed canonical parent and was not rewritten.
 
-The currently running Desktop Runtime was last read back as older than current Git source and has not been silently restarted/reloaded. Evaluate source and live deployment as separate claims.
+Current carrier:
+- `handoff/current/ICF_CS_CURRENT.md`;
+- `handoff/current/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md` SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`;
+- activation receipt SHA `893409f28ea181c60ca9e3681eb9a1a4d08fa279befac4d679d2cfdb958d7279`;
+- detached qualification receipt SHA `59f66d7707508faa4015df86c728302961c0a13e2f4e8655425ce783248cbc7e`;
+- machine and fresh-instance contracts under `handoff/current/`.
 
-## Internal recovery order
+Rahl activation closed at continuity epoch **43**, closure `edef92465daa7e28fb64600d096ad709`.
 
-For an internal PCMMAD thread recovering engineering continuity, preserve the qualified version-agnostic order:
+## Binding cold-start grammar
 
-```text
-CURRENT STATE -> ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> LIVE READBACK BEFORE MUTATION
-```
+Canonical one-line grammar:
 
-First establish fresh Git/worktree identity; after recovery, perform fresh Git/local/runtime readback before consequence.
-
-If persisted prose conflicts with fresh Git/worktree/runtime reality:
+`CURRENT STATE -> CURRENT ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> RES APPLICABILITY/CURRENTNESS -> UCM APPLICABILITY + SYSTEM DESCRIPTOR + USER STORE HEAD -> BOUNDED UCM CORE -> TASK-RELEVANT LAZY UCM HYDRATION -> OWNING-PLANE LIVE VERIFICATION -> LIVE READBACK BEFORE MUTATION`
 
 ```text
-CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME
+CURRENT STATE
+-> CURRENT ICF-CS
+-> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE
+-> LIVE SHADOW
+-> DTS
+-> RES APPLICABILITY/CURRENTNESS
+-> UCM APPLICABILITY + SYSTEM DESCRIPTOR + USER STORE HEAD
+-> BOUNDED UCM CORE
+-> TASK-RELEVANT LAZY UCM HYDRATION
+-> OWNING-PLANE LIVE VERIFICATION
+-> LIVE READBACK BEFORE MUTATION
 ```
 
-## Current open boundaries
+Runtime requires an explicit session mode; it SHALL NOT guess a user/UCM profile.
 
-- Live embodiment/reload of the newest source remains separately gated. The loaded process was last observed at global execution limit 8 and without the newer governance/RES source surface.
-- Final schema redesign remains LAST / locked / untriggered.
-- UCM/memory componentization remains paused.
-- The R4.4 doctrine-to-embodiment audit is complete and project-side RES was restored at doctrine epoch 42. Server-side RES composition has now been pressure-audited and the smallest earned continuity-policy seam is source-published.
-- **ICF-CS v1.1 is unchanged.** Its omission of explicit RES from the universal cold-start grammar remains a separate doctrine-authority decision. Runtime engineering SHALL NOT silently rewrite or self-release an ICF-CS successor.
+```text
+LIVE_SHADOW != DTS != RES != UCM
+MISSING != NOT_APPLICABLE
+RES_CONTENT != GOVERNING_DOCTRINE
+UCM != PROJECT_AUTHORITY
+UCM != RUNTIME_TRUTH
+UCM != DOCTRINE_AUTHORITY
+RETRIEVAL_PACKET != AUTHORITY
+```
 
-Preserve: `RUNTIME_RES_EMBODIMENT != ICF_CS_SUCCESSOR_RELEASE`, `RES_CONTENT != GOVERNING_DOCTRINE`, and `SOURCE QUALIFIED != LIVE PROMOTED`.
+## Earlier Runtime contracts still active
+
+Ordinary dispatch may bind `expected_contract_digest`; stale mismatch is `CAPABILITY_CONTRACT_STALE`. Project mutation authority preserves `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` and the `runtime-authority-envelope-v1` projection. Response-loss work preserves `IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY`, `RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS`, and `UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY`. Windows Job Object resource envelope work remains published ancestry.
+
+## Source versus live identity
+
+`VERSION` / `RELEASE.json` still identify the last packaged V29 release. Current Git is V30 engineering source.
+
+The loaded Desktop Runtime was last observed behind source: global execution concurrency 8 and an older capability router. It has **not** been silently restarted/reloaded.
+
+`SOURCE_QUALIFIED != LIVE_PROMOTED`
+
+## Open boundaries
+
+- actual private UCM instance is structurally verified and a private-safe importer is source-published, but the private instance has **not** been imported into the loaded Runtime;
+- live Runtime reload/promotion remains separately gated;
+- **Final schema redesign remains LAST / locked / untriggered**; compact/schema redesign is still deliberately untriggered;
+- V30 source is not being mislabeled as a packaged release.
+
+If persisted prose conflicts with current Git/worktree/runtime reality:
+
+`CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME`
 
 ## Claim ceiling
 

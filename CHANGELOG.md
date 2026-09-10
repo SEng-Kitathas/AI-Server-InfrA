@@ -14,10 +14,14 @@ Current `main` has advanced substantially beyond the V29 packaged release candid
 - Operating Library / Runtime boundary convergence without creating a duplicate state/scheduler/authority plane;
 - native governance-contact resolution/admission and finite lawful-exhaustion/evaluation/witness mechanics;
 - native Research Epistemic Shadow continuity enforcement composed over existing project/protocol/artifact/currentness/result machinery, without a new RES database, daemon, capability family, or authority plane;
+- UCS/UCM v1 integration with 31 canonical operations over the existing user-continuity ledger, mandatory seq+hash CAS, exact authority/currentness components, identity/referent/decision/control/candidate semantics, bounded ingress, and private-safe migration;
+- bounded canonical UCM derived-snapshot retention after private-scale pressure exposed ~452 MB amplification from a ~1.49 MB authoritative ledger;
+- ICF-CS v1.2 activation carrier and `continuity.ingress.rehydrate` fresh-instance orchestration across Live/DTS/RES/UCM with explicit applicability and owning-plane verification;
+- context-engine boundedness repair separating omitted default budget from explicit unbounded selection and capping single-file allocation to actual file size;
 - hostile governance pressure that exposed and repaired incomplete-contact re-signing and over-broad local-file recheck boundaries;
 - hostile RES pressure covering canonical truth states, append/supersession currentness, provenance/evidence, 22-section snapshot shape, material-change cadence, handoff staleness, and the RES-to-doctrine authority firewall.
 
-At RES mechanism source frontier `8714dd87d2092e0f4c66f261fcf5cee8b75a0798`, source introspection registers **126 native tools**. Recorded complete Runtime qualification: **556 collected / 555 passed / 0 failed / 1 conditional skip**. Dedicated RES pressure: **43/43 PASS**. The ICF-CS release surface was intentionally not edited; universal RES ingress remains a separate doctrine-authority decision.
+At ICF-CS v1.2 fresh-ingress mechanism frontier `d926e2004b0a5794fb2934200091b836c0780104`, source introspection registers **158 native tools**. Recorded complete Runtime qualification: **676 collected / 675 passed / 0 failed / 1 conditional skip**. UCM focused qualification is **130/130 PASS**; v1.2 fresh-ingress is **13/13 PASS**; handoff/currentness/ingress/budget is **37/37 PASS**. ICF-CS v1.2 is now active continuity/process doctrine and is carried in `handoff/current/`; live Runtime promotion remains separate.
 
 This section describes the engineering repository, **not a new packaged release identity**. `VERSION` and `RELEASE.json` continue to identify the last packaged V29 release candidate until a separate release/promotion process earns a successor.
 

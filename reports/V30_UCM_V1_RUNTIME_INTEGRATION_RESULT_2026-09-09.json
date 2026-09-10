@@ -16,6 +16,8 @@
     "new_scheduler": false,
     "source_native_tool_count": 157
   },
+  "feature_commit": "f01418c546e449acb3f98f4b64f5b4a7ad3f0960",
+  "feature_tree": "606017f70004a17063515d82f35578deff869efc",
   "icf_cs": {
     "relationship_law": "RES != UCM",
     "successor_release_completed": false,
@@ -78,6 +80,7 @@
     "before_sha256": "9e4495df016f91015863a4ee285483ea5b391f72452b0139b96cd120c3422bd8",
     "private_structural_audit_sha256": "a52ffd23736dc1710990f4b3d070d35e8422f6e7cb7905e8f3a3e197f1d12a11"
   },
+  "remote_readback": "f01418c546e449acb3f98f4b64f5b4a7ad3f0960",
   "scars": [
     "DESCRIPTIVE_CLASS != BEHAVIORAL_POLICY",
     "VERIFIER_AVAILABLE != ASSERTION_VERIFIED",
@@ -89,7 +92,7 @@
     "SEARCH_HIT != CLAIM_SUPPORT"
   ],
   "schema": "pcmmad.ucm-v1-runtime-integration-result.v1",
-  "status": "CANONICAL_SOURCE_QUALIFIED_PUBLICATION_PENDING",
+  "status": "ENGINEERING_FEATURE_PUBLISHED_REMOTE_VERIFIED",
   "tests": {
     "canonical_plus_hostile_plus_legacy_plus_migration": "130/130 PASS",
     "full_clone": "661 collected / 660 passed / 1 conditional skip / 0 failed",

@@ -10,6 +10,7 @@
     ],
     "single_file_read_capped_to_actual_file_size": true
   },
+  "candidate_inventory_sha256": "480919d3469fb610cdce3dce18753612f0c4270f0f122fed98c293c92d42ac56",
   "doctrine": {
     "activation_receipt_sha256": "893409f28ea181c60ca9e3681eb9a1a4d08fa279befac4d679d2cfdb958d7279",
     "current_standard_sha256": "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92",
@@ -31,6 +32,8 @@
     "res_required_gate": true,
     "ucm_required_gate": true
   },
+  "feature_commit": "d926e2004b0a5794fb2934200091b836c0780104",
+  "feature_tree": "3f3f124f19a379c86e1232a3691319dcf77f3084",
   "handoff_carrier": {
     "activation_receipt_embedded": true,
     "active_standard_embedded": true,
@@ -53,6 +56,8 @@
     "claim": "ENGINEERING_CANDIDATE != LOADED_PROCESS_TRUTH",
     "reloaded": false
   },
+  "parent": "f01418c546e449acb3f98f4b64f5b4a7ad3f0960",
+  "remote_readback": "d926e2004b0a5794fb2934200091b836c0780104",
   "runtime": {
     "category": "continuity",
     "compact_schema_changed": false,
@@ -65,7 +70,7 @@
     "source_native_tool_count": 158
   },
   "schema": "pcmmad.icf-cs-v1.2-runtime-embodiment-result.v1",
-  "status": "CANONICAL_SOURCE_QUALIFIED_PUBLICATION_PENDING",
+  "status": "ENGINEERING_FEATURE_PUBLISHED_REMOTE_VERIFIED",
   "tests": {
     "dedicated_ingress": "13/13 PASS",
     "full_clone": "676 collected / 675 passed / 1 conditional skip / 0 failed",

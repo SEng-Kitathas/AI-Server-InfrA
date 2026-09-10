@@ -60,7 +60,7 @@ class GitHandoffCurrentTests(unittest.TestCase):
 
     def test_ingress_uses_qualified_version_agnostic_cold_start(self) -> None:
         self.assertIn(
-            "CURRENT STATE -> ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> LIVE READBACK BEFORE MUTATION",
+            "CURRENT STATE -> CURRENT ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> RES APPLICABILITY/CURRENTNESS -> UCM APPLICABILITY + SYSTEM DESCRIPTOR + USER STORE HEAD -> BOUNDED UCM CORE -> TASK-RELEVANT LAZY UCM HYDRATION -> OWNING-PLANE LIVE VERIFICATION -> LIVE READBACK BEFORE MUTATION",
             self.ingress,
         )
         self.assertIn(
@@ -159,14 +159,18 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("Final schema redesign remains LAST", self.ingress)
 
     def test_ingress_tracks_current_published_frontier_not_historical_candidate(self) -> None:
-        self.assertIn("8714dd87d2092e0f4c66f261fcf5cee8b75a0798", self.ingress)
-        self.assertIn("126 native tools", self.ingress)
-        self.assertIn("continuity.res.handoff.readiness", self.ingress)
+        self.assertIn("d926e2004b0a5794fb2934200091b836c0780104", self.ingress)
+        self.assertIn("158 native tools", self.ingress)
+        self.assertIn("continuity.ingress.rehydrate", self.ingress)
+        self.assertIn("31 canonical `ucm.*` tools", self.ingress)
+        self.assertIn("ICF-CS v1.2", self.ingress)
+        self.assertIn("f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92", self.ingress)
         self.assertIn("RES_CONTENT != GOVERNING_DOCTRINE", self.ingress)
-        self.assertIn("RUNTIME_RES_EMBODIMENT != ICF_CS_SUCCESSOR_RELEASE", self.ingress)
+        self.assertIn("UCM != PROJECT_AUTHORITY", self.ingress)
+        self.assertIn("MISSING != NOT_APPLICABLE", self.ingress)
         self.assertIn("SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY", self.ingress)
         self.assertIn("runtime-authority-envelope-v1", self.ingress)
-        self.assertIn("Final schema redesign remains LAST", self.ingress)
+        self.assertIn("Final schema redesign remains", self.ingress)
         self.assertNotIn("7/8 PASS", self.ingress)
         self.assertNotIn("328 PASS / 2 FAIL", self.ingress)
 

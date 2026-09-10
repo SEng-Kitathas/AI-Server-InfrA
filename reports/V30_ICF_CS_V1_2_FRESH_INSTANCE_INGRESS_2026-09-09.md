@@ -1,6 +1,6 @@
 # V30 ICF-CS v1.2 Fresh-Instance Runtime Embodiment — 2026-09-09
 
-Status: **CANONICAL SOURCE QUALIFIED / PUBLICATION PENDING**
+Status: **ENGINEERING FEATURE PUBLISHED / REMOTE-VERIFIED / LIVE UNCHANGED**
 
 Base Runtime HEAD: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
 
@@ -220,3 +220,12 @@ It does not yet earn at this report stage:
 - live Runtime reload;
 - actual private UCM import;
 - a claim that continuity hydration itself verifies live project/runtime/deployment truth.
+
+## Feature publication readback
+
+Engineering feature: `d926e2004b0a5794fb2934200091b836c0780104`
+Tree: `3f3f124f19a379c86e1232a3691319dcf77f3084`
+Parent: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
+Exact 17-file source candidate inventory SHA-256: `480919d3469fb610cdce3dce18753612f0c4270f0f122fed98c293c92d42ac56`.
+
+`origin/main` was independently read back at the exact feature after push. A later repository-front-door child updates public evaluation prose and the current ICF navigation pointer against this real commit. Live Runtime remains unreloaded.

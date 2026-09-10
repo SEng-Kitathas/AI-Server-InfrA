@@ -1,6 +1,6 @@
 # V30 User Continuity System v1.0 Runtime Integration — 2026-09-09
 
-Status: **CANONICAL SOURCE QUALIFIED / PUBLICATION PENDING**
+Status: **ENGINEERING FEATURE PUBLISHED / REMOTE-VERIFIED / LIVE UNCHANGED**
 
 Base server HEAD: `36b146eef72980638fa5d438af3fb36cfaf999a6`
 
@@ -476,3 +476,11 @@ Not yet earned at this report stage:
 - live Runtime UCM availability;
 - ICF-CS successor qualification/release;
 - claim that UCM facts become project/runtime/doctrine authority.
+
+## Feature publication readback
+
+Engineering feature: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
+Tree: `606017f70004a17063515d82f35578deff869efc`
+Parent: `36b146eef72980638fa5d438af3fb36cfaf999a6`
+
+`origin/main` was independently read back at the exact feature after push. Later ICF-CS v1.2 fresh-ingress work composes this published UCM mechanism; live Runtime/private-instance import remain separate.

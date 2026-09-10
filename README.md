@@ -2,7 +2,7 @@
 
 AI-Server-InfrA is the engineering repository for the PCMMAD Laboratory Runtime: a local-first, transport-independent runtime for durable project state, bounded execution, research, continuity, governance, verification, and operator control.
 
-> **Current repository status (2026-09-09):** `main` is the V30 engineering frontier. The latest mechanism feature before this documentation refresh is `8714dd87d2092e0f4c66f261fcf5cee8b75a0798` (`Add native RES continuity enforcement`). The currently deployed Desktop Runtime is intentionally older and has **not** been implicitly promoted to this source frontier.
+> **Current repository status (2026-09-09):** `main` is the V30 engineering frontier. The latest mechanism feature before this documentation refresh is `d926e2004b0a5794fb2934200091b836c0780104` (`Embody ICF-CS v1.2 fresh-instance ingress`). ICF-CS v1.2 is the active continuity/process doctrine carrier in source; the currently deployed Desktop Runtime remains intentionally older and has **not** been implicitly promoted to this frontier.
 
 ## Start here
 
@@ -30,7 +30,9 @@ The Runtime owns machine truth that should survive any particular model, chat, U
 - browser, filesystem, Git, transfer, SOP, doctrine, and verification capabilities;
 - runtime observability and operator HUD telemetry;
 - deterministic governance-contact and finite-exhaustion enforcement mechanics;
-- Research Epistemic Shadow (RES) continuity policy: canonical truth states, visible addendum transitions, snapshot validation, materiality classification, and research-handoff currentness.
+- Research Epistemic Shadow (RES) continuity policy: canonical truth states, visible addendum transitions, snapshot validation, materiality classification, and research-handoff currentness;
+- User Continuity System (UCS/UCM) v1: 31 canonical `ucm.*` operations over the existing user-continuity ledger, with exact CAS/currentness, bounded hydration, identity/referent/decision/control/candidate semantics, private-safe migration, and strict authority firewalls;
+- ICF-CS v1.2 fresh-instance orchestration that explicitly composes Current/ICF/SOP/Live/DTS/RES/UCM and requires owning-plane verification before consequence.
 
 PCMMAD is the methodology. The Runtime is the durable state/capability plane. MCP/OpenAPI/CLI/HUD are projections over that plane. AI-side Skills/operating libraries compose Runtime capabilities; they do not become a second state, scheduler, approval, or authority plane.
 
@@ -47,27 +49,34 @@ GIT PUBLICATION != LIVE RUNTIME PROMOTION
 
 ## Current source surface
 
-At the `8714dd8...` mechanism frontier, source introspection registers **126 native tools**. The tool namespace spans browser, project, protocol, lab/control, memory, SOP, execution, filesystem, transfer, Git, governance, doctrine, research, semantic, continuity, procedure, Python, verification, web, and ZIP capabilities.
+At the `d926e20...` mechanism frontier, source introspection registers **158 native tools**. The compact imported Custom GPT action surface remains intentionally bounded at **30 operations**; native capability growth does not widen the transport schema.
 
-The five governance tools remain:
+Recent continuity/governance additions include:
 
-- `governance.contacts.resolve`
-- `governance.contacts.admit`
-- `governance.exhaustion.enumerate`
-- `governance.exhaustion.evaluate_table`
-- `governance.exhaustion.compress_witnesses`
+- five governance contact/exhaustion tools;
+- five RES policy/projection tools in the existing `continuity` family;
+- **31 canonical `ucm.*` operations** in the existing `memory` family, while eight legacy `memory.*` compatibility tools remain;
+- `continuity.ingress.rehydrate`, the current ICF-CS v1.2 fresh-instance orchestrator.
 
-The new RES policy/projection tools are deliberately part of the existing `continuity` family:
+The active ICF-CS carrier is embedded under `handoff/current/`:
 
-- `continuity.res.addendum.validate`
-- `continuity.res.addenda.project`
-- `continuity.res.snapshot.validate`
-- `continuity.res.materiality.classify`
-- `continuity.res.handoff.readiness`
+- current standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`;
+- activation receipt SHA `893409f28ea181c60ca9e3681eb9a1a4d08fa279befac4d679d2cfdb958d7279`;
+- detached qualification receipt SHA `59f66d7707508faa4015df86c728302961c0a13e2f4e8655425ce783248cbc7e`.
 
-Both sets are authority-neutral/read-only enforcement mechanics. RES persistence still uses existing project/protocol/artifact machinery; no RES database, scheduler, daemon, transport family, or authority plane was introduced. `RES_CONTENT != GOVERNING_DOCTRINE`.
+Core separation laws:
 
-The compact imported Custom GPT action surface remains intentionally bounded at 30 operations; capability growth occurs behind the native Runtime catalog rather than by repeatedly widening the transport schema.
+```text
+LIVE_SHADOW != DTS != RES != UCM
+RES_CONTENT != GOVERNING_DOCTRINE
+UCM != PROJECT_AUTHORITY
+UCM != RUNTIME_TRUTH
+UCM != DOCTRINE_AUTHORITY
+MISSING != NOT_APPLICABLE
+SOURCE_QUALIFIED != LIVE_PROMOTED
+```
+
+The source remains one Runtime: UCM reuses the existing authoritative user-continuity ledger; RES reuses project/protocol/artifact/currentness/result machinery; ICF-CS ingress composes those planes rather than creating another database, scheduler, daemon, authority plane, or transport family.
 
 ## Recent engineering convergence
 
@@ -82,24 +91,28 @@ The current V30 source includes, among other work:
 - Runtime observability and operator HUD telemetry;
 - native governance-contact and finite lawful-exhaustion mechanics;
 - native RES continuity enforcement composed over existing project/protocol/artifact/currentness/result machinery;
+- UCS/UCM v1 integration with 31 canonical operations, mandatory seq+hash CAS, bounded ten-surface ingress, private-safe importer, and bounded derived-snapshot retention;
+- active ICF-CS v1.2 RES+UCM successor carrier and server-native fresh-instance ingress orchestration;
 - Operating Library / Runtime boundary convergence without introducing a second scheduler or authority plane.
 
 The detailed evidence and derivation records are indexed under [`reports/`](reports/README.md).
 
 ## Qualification status
 
-For the RES integration at the current engineering frontier:
+At the current ICF-CS v1.2 / RES / UCM engineering frontier:
 
-- dedicated RES policy/hostile suite: **43/43 PASS**;
-- focused RES + context + protocol + authority + governance composition gate: **176 collected / 175 passed / 0 failed / 1 conditional skip**;
-- full Runtime suite: **556 collected / 555 passed / 0 failed / 1 conditional skip**;
-- real epoch-42 RES: **22/22 canonical sections VALID**, exact file SHA `24b0e9899a4388ad905746f897ad6dac20c8c1de9e2d3f7e63f612f6c416aec9`;
-- native handoff smoke: **HANDOFF_READY -> stale after material claim -> HANDOFF_READY only after provenance-bound RES addendum**;
-- 96-addendum projection: **62,418 bytes**, automatically retained server-side behind the existing bounded result-handle mechanism.
+- ICF-CS v1.2 doctrine qualification: primary verifier PASS, meta-verifier PASS, **34/34 re-signed hostile mutants rejected**, deterministic double-seal/CRC/clean-extraction replay PASS;
+- UCM canonical + hostile + legacy-memory + migration gate: **130/130 PASS**;
+- UCM realistic private-scale synthetic: 716 canonical events, 7,172-byte core / 4,828-byte headroom; derived profile reduced from ~452 MB to ~3.98 MB while the append-only ledger remained authoritative;
+- v1.2 fresh-instance ingress suite: **13/13 PASS**;
+- handoff/currentness/ingress/budget gate: **37/37 PASS**;
+- complete Runtime: **676 collected / 675 passed / 0 failed / 1 conditional skip**;
+- source native capability count: **158**;
+- compact 30-operation schema unchanged.
 
-The earlier governance qualification remains in ancestry: 57/57 governance tests, 55/55 existing-composition discriminator, and the 4,096-case bounded lawful-exhaustion smoke. RES pressure also caught implementation-registration, hash-identity, event-coverage, and EOL/EOF defects before publication. See [`reports/V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md`](reports/V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md).
+Fresh-instance ingress now requires exact ICF-CS v1.2 bytes, explicit session applicability, required RES/UCM currentness, bounded project context, and a final owning-plane/live-readback gate before mutation.
 
-These are **source qualification claims**, not claims that the currently running Desktop Runtime has been reloaded to this source.
+These are **source qualification claims**. They do not claim that the loaded Desktop Runtime has been restarted to this source or that the private UCM instance has been imported.
 
 ## Reproduce the source evaluation
 

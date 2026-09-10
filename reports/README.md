@@ -1,50 +1,42 @@
 # Verification, derivation, and lineage reports
 
-This directory is the repository's engineering evidence sidecar. Reports document what was tested, derived, attacked, qualified, or historically inherited; they do not outrank current source, current Runtime state, or explicit authority/promotion machinery.
+This directory is the engineering evidence sidecar. Reports do not outrank current source, current Runtime state, or explicit authority/promotion machinery.
 
-For an outside evaluation, begin with [`../docs/EXTERNAL_EVALUATION.md`](../docs/EXTERNAL_EVALUATION.md).
+Start external evaluation at [`../docs/EXTERNAL_EVALUATION.md`](../docs/EXTERNAL_EVALUATION.md).
 
 ## Current V30 evidence entrypoints
 
-Read newest/current integrations before historical V28/V29 material:
+Read newest/current work first:
 
-- `V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md` — R4.4 RES composition audit, pressure-earned continuity seam, hostile tests, source qualification, and ICF-CS authority boundary.
-- `V30_RES_COMPOSITION_PRESSURE_RESULT_2026-09-09.json` — machine-readable RES campaign receipt.
-- `V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md` — governance contact + finite lawful-exhaustion donor pressure, native embodiment, hostile defects, qualification, and publication boundary.
-- `V30_RUNTIME_OBSERVABILITY_HUD_2026-09-09.md` — Runtime telemetry and HUD projection work.
-- `V30_ASYNC_12_WORKER_AND_SUBMITTED_RECOVERY_2026-09-09.md` — async capacity/source changes and submitted-job recovery.
-- `V30_SKILL_DYNO_TELEMETRY_AND_GIT_TAXONOMY_2026-09-09.md` — Skill dyno pressure, telemetry, and Git taxonomy hardening.
-- `V30_T0_2_REHYDRATION_DOGFOOD_RUNTIME_REPAIRS_2026-09-08.md` — rehydration dogfood and earned Runtime repairs.
-- `V30_SERVER_HARDENING_AND_OPERATOR_COCKPIT_2026-09-08.md` — server hardening/operator cockpit campaign.
-- `V30_WHOLE_RUNTIME_CONVERGENCE_2026-09-08.md` — whole-Runtime convergence evidence.
-- `V30_BUILD_GOVERNANCE_CONTRACT.md` and `V30_COMMANDERS_INTENT_AND_WORKLIST.md` — build-governance/intent context; interpret historical sections against newer evidence.
+- `V30_ICF_CS_V1_2_FRESH_INSTANCE_INGRESS_2026-09-09.md` / result JSON — active ICF-CS v1.2 carrier, fresh-instance server embodiment, RES/UCM applicability/currentness, context boundedness defect/repair, qualification and publication boundary.
+- `V30_UCM_V1_RUNTIME_INTEGRATION_2026-09-09.md` / result JSON — 31-operation UCM v1 integration, hostile tests, legacy compatibility, private-safe migration, private-scale snapshot-amplification discovery/repair.
+- `V30_RES_COMPOSITION_AND_ENFORCEMENT_2026-09-09.md` / result JSON — R4.4 RES composition audit and pressure-earned continuity mechanics.
+- `V30_GOVERNANCE_ENFORCEMENT_DONOR_PRESSURE_2026-09-09.md` — governance contact + finite lawful-exhaustion pressure and native embodiment.
+- `V30_RUNTIME_OBSERVABILITY_HUD_2026-09-09.md`
+- `V30_ASYNC_12_WORKER_AND_SUBMITTED_RECOVERY_2026-09-09.md`
+- `V30_SKILL_DYNO_TELEMETRY_AND_GIT_TAXONOMY_2026-09-09.md`
+- `V30_T0_2_REHYDRATION_DOGFOOD_RUNTIME_REPAIRS_2026-09-08.md`
+- `V30_SERVER_HARDENING_AND_OPERATOR_COCKPIT_2026-09-08.md`
+- `V30_WHOLE_RUNTIME_CONVERGENCE_2026-09-08.md`
 
 ## Evidence interpretation rules
 
 ```text
 REPORT != RUNTIME AUTHORITY
-SEARCH HIT != CLAIM SUPPORT
-EXPECTED FAILURE != ANY FAILURE
 FOCUSED GREEN != WHOLE-RUNTIME GREEN
+EXPECTED FAILURE != ANY FAILURE
+SEARCH HIT != CLAIM SUPPORT
 GIT PUBLICATION != LIVE RUNTIME PROMOTION
 DONOR MECHANICS QUALIFIED != DOCTRINE PROMOTED
+LIVE_SHADOW != DTS != RES != UCM
 RES CONTENT != GOVERNING DOCTRINE
-RUNTIME RES EMBODIMENT != ICF-CS SUCCESSOR RELEASE
+UCM != PROJECT AUTHORITY
+MISSING != NOT APPLICABLE
+APPEND_ONLY_HISTORY != UNBOUNDED_DERIVED_SNAPSHOT_HISTORY
 ```
-
-Individual reports can contain machine-local paths and timestamps because they are truthful run evidence. Those paths are not deployment configuration.
-
-## Historical release evidence
-
-- `V29_REFACTOR_AUDIT.*` is the V29 human/machine promotion audit.
-- `V29_RELEASE_VERIFICATION.json` is the V29 aggregate executable gate result.
-- `source_review/` contains corpus inventory, hazard inventory, CSC comparison, and V28-to-V29 body differences.
-- `lineage/` retains historical schemas/manifests and prior package evidence for provenance.
-
-`PACKAGE_MANIFEST_V29.json`, `MANIFEST.sha256`, `VERSION`, and `RELEASE.json` describe the last packaged V29 release lineage. They are not a current V30 Git capability manifest.
 
 ## Current source-versus-release boundary
 
-The V30 engineering source has continued beyond the V29 packaged release. At the RES mechanism frontier, source introspection registers **126 native tools** and the complete Runtime qualification records **556 collected / 555 passed / 0 failed / 1 conditional skip**. The five RES tools extend the existing continuity family; they do not create a new state, execution, transport, or authority plane.
+At the ICF-CS v1.2 fresh-instance mechanism frontier `d926e2004b0a5794fb2934200091b836c0780104`, source introspection registers **158 native tools** and the full Runtime qualification is **676 collected / 675 passed / 0 failed / 1 conditional skip**. The active ICF-CS v1.2 carrier is present under `handoff/current/`; UCM and RES extend existing Runtime families rather than creating duplicate state/authority planes.
 
-Do not rewrite V29 release identity merely to make it look current: a new release identity must be earned through its own release/promotion process. External source evaluation should bind to the exact Git commit being tested.
+`VERSION`, `RELEASE.json`, and V29 package manifests still describe the last packaged V29 lineage. External source evaluation must bind to exact Git. Live deployment remains a separate readback claim.
