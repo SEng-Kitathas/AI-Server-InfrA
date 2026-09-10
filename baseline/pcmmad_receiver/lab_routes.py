@@ -33,6 +33,7 @@ from .lab_results import (
     summarize_payload,
 )
 from .server_hardening import safe_json_dumps
+from .lab_schema_validation import validate_schema_value
 from .schema_vnext_runtime import (
     compose as schema_vnext_compose,
     execute as schema_vnext_execute,
@@ -809,57 +810,151 @@ def lab_batch() -> object:
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
         return _error("LAB_BATCH_FAILED", str(e), 500)
 
-def _schema_vnext_request_payload() -> JsonRecord:
-    request_payload = request.get_json(silent=False, force=True)
+_SCHEMA_VNEXT_OPENAPI_PATH = Path(__file__).resolve().with_name(
+    "pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json"
+)
+_SCHEMA_VNEXT_REQUEST_COMPONENTS = {
+    "orient": "OrientRequest",
+    "invoke": "InvokeRequest",
+    "compose": "ComposeRequest",
+    "execute": "ExecuteRequest",
+    "observe": "ObserveRequest",
+    "resume": "ResumeRequest",
+    "transfer": "TransferRequest",
+}
+_SCHEMA_VNEXT_OPENAPI_CACHE: JsonRecord | None = None
+SCHEMA_VNEXT_MAX_REQUEST_BYTES = 1024 * 1024
+
+
+def _schema_vnext_openapi() -> JsonRecord:
+    global _SCHEMA_VNEXT_OPENAPI_CACHE
+    if _SCHEMA_VNEXT_OPENAPI_CACHE is None:
+        loaded = json.loads(_SCHEMA_VNEXT_OPENAPI_PATH.read_text(encoding="utf-8"))
+        if not isinstance(loaded, dict):
+            raise LabToolError("SCHEMA_INVALID", "v11 OpenAPI root must be an object", 500)
+        _SCHEMA_VNEXT_OPENAPI_CACHE = loaded
+    return _SCHEMA_VNEXT_OPENAPI_CACHE
+
+
+def _schema_vnext_resolve_refs(value: object, *, stack: tuple[str, ...] = ()) -> object:
+    if isinstance(value, list):
+        return [_schema_vnext_resolve_refs(item, stack=stack) for item in value]
+    if not isinstance(value, dict):
+        return value
+    ref = value.get("$ref")
+    if ref is not None:
+        ref_text = str(ref)
+        prefix = "#/components/schemas/"
+        if not ref_text.startswith(prefix):
+            raise LabToolError("SCHEMA_INVALID", f"unsupported v11 schema reference: {ref_text}", 500)
+        name = ref_text[len(prefix):]
+        if name in stack:
+            raise LabToolError("SCHEMA_INVALID", f"cyclic v11 schema reference: {name}", 500)
+        components = (_schema_vnext_openapi().get("components") or {}).get("schemas") or {}
+        target = components.get(name)
+        if not isinstance(target, dict):
+            raise LabToolError("SCHEMA_INVALID", f"missing v11 schema component: {name}", 500)
+        resolved = _schema_vnext_resolve_refs(target, stack=(*stack, name))
+        if len(value) == 1:
+            return resolved
+        merged = dict(resolved) if isinstance(resolved, dict) else {}
+        for key, child in value.items():
+            if key != "$ref":
+                merged[key] = _schema_vnext_resolve_refs(child, stack=stack)
+        return merged
+    return {str(key): _schema_vnext_resolve_refs(child, stack=stack) for key, child in value.items()}
+
+
+def _schema_vnext_raise_validation(code: str, message: str, status: int) -> None:
+    raise LabToolError(code, message, status)
+
+
+def _schema_vnext_request_payload(operation: str) -> JsonRecord:
+    if not request.is_json:
+        raise LabToolError("UNSUPPORTED_MEDIA_TYPE", "v11 request body must use application/json", 415)
+    content_length = request.content_length
+    if content_length is not None and int(content_length) > SCHEMA_VNEXT_MAX_REQUEST_BYTES:
+        raise LabToolError(
+            "REQUEST_TOO_LARGE",
+            f"v11 request body exceeds {SCHEMA_VNEXT_MAX_REQUEST_BYTES} bytes",
+            413,
+        )
+    raw = request.stream.read(SCHEMA_VNEXT_MAX_REQUEST_BYTES + 1)
+    if len(raw) > SCHEMA_VNEXT_MAX_REQUEST_BYTES:
+        raise LabToolError(
+            "REQUEST_TOO_LARGE",
+            f"v11 request body exceeds {SCHEMA_VNEXT_MAX_REQUEST_BYTES} bytes",
+            413,
+        )
+    try:
+        request_payload = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise LabToolError("BAD_JSON", "request body is not valid UTF-8 JSON", 400) from exc
     if not isinstance(request_payload, dict):
         raise LabToolError("BAD_JSON", "JSON body must be an object", 400)
+    component_name = _SCHEMA_VNEXT_REQUEST_COMPONENTS.get(operation)
+    if component_name is None:
+        raise LabToolError("SCHEMA_INVALID", f"unknown v11 route schema: {operation}", 500)
+    components = (_schema_vnext_openapi().get("components") or {}).get("schemas") or {}
+    component = components.get(component_name)
+    if not isinstance(component, dict):
+        raise LabToolError("SCHEMA_INVALID", f"missing v11 request schema: {component_name}", 500)
+    resolved = _schema_vnext_resolve_refs(component)
+    if not isinstance(resolved, dict):
+        raise LabToolError("SCHEMA_INVALID", f"resolved v11 request schema is invalid: {component_name}", 500)
+    validate_schema_value(resolved, request_payload, "payload", raise_error=_schema_vnext_raise_validation)
     return request_payload
 
 
-def _schema_vnext_http_call(fn) -> object:
+def _schema_vnext_http_call(fn, operation: str) -> object:
     ae = _auth()
     if ae:
         return ae
     try:
-        return jsonify(fn(_schema_vnext_request_payload()))
+        return jsonify(fn(_schema_vnext_request_payload(operation)))
     except LabToolError as exc:
         return _error(exc.error_code, exc.message, exc.status, **exc.extra)
     except FileNotFoundError:
         return _error("NOT_FOUND", "referenced Runtime object was not found", 404)
-    except (OSError, RuntimeError, ValueError, TypeError, KeyError) as exc:
+    except RuntimeError as exc:
+        message = str(exc)
+        if message.startswith("NOT_FOUND:"):
+            return _error("NOT_FOUND", message.split(":", 1)[1].strip(), 404)
+        return _error("SCHEMA_VNEXT_FAILED", message, 500)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
         return _error("SCHEMA_VNEXT_FAILED", str(exc), 500)
 
 
 @lab_bp.post("/vnext/orient")
 def lab_vnext_orient() -> object:
-    return _schema_vnext_http_call(schema_vnext_orient)
+    return _schema_vnext_http_call(schema_vnext_orient, "orient")
 
 
 @lab_bp.post("/vnext/invoke")
 def lab_vnext_invoke() -> object:
-    return _schema_vnext_http_call(schema_vnext_invoke)
+    return _schema_vnext_http_call(schema_vnext_invoke, "invoke")
 
 
 @lab_bp.post("/vnext/compose")
 def lab_vnext_compose() -> object:
-    return _schema_vnext_http_call(schema_vnext_compose)
+    return _schema_vnext_http_call(schema_vnext_compose, "compose")
 
 
 @lab_bp.post("/vnext/execute")
 def lab_vnext_execute() -> object:
-    return _schema_vnext_http_call(schema_vnext_execute)
+    return _schema_vnext_http_call(schema_vnext_execute, "execute")
 
 
 @lab_bp.post("/vnext/observe")
 def lab_vnext_observe() -> object:
-    return _schema_vnext_http_call(schema_vnext_observe)
+    return _schema_vnext_http_call(schema_vnext_observe, "observe")
 
 
 @lab_bp.post("/vnext/resume")
 def lab_vnext_resume() -> object:
-    return _schema_vnext_http_call(schema_vnext_resume)
+    return _schema_vnext_http_call(schema_vnext_resume, "resume")
 
 
 @lab_bp.post("/vnext/transfer")
 def lab_vnext_transfer() -> object:
-    return _schema_vnext_http_call(schema_vnext_transfer)
+    return _schema_vnext_http_call(schema_vnext_transfer, "transfer")
