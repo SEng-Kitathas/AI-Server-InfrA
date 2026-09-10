@@ -20,8 +20,10 @@ Do not widen or promote live until those agree.
 
 ## 2. GitHub source truth at rollover
 
+This section binds the latest **Runtime mechanism frontier** observed before the currentness/checkpoint child. The branch may legitimately advance through documentation/currentness-only children; fresh `git rev-parse HEAD` + remote readback always wins for branch identity.
+
 Repository: `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`
-Remote `main`: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4`
+Runtime mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4`
 Tree: `8fbded01e519a938ded1f2177378cd6693d788b7`
 Parent: `2753e87b9cc8f3309666ab479413306ba85e9b11`
 Title: `Add project-aware access logging`
