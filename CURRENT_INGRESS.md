@@ -32,6 +32,17 @@ Current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md
 `LOCAL_GREEN != HOSTED_CLEANBOX_GREEN`
 `SOURCE_QUALIFIED != LIVE_PROMOTED`
 
+
+### Hosted CI supersession — completed parent run
+
+Latest completed tested head at this currentness update: `fd9b42ad143d70ddda92b22372cbae767b12bea0` / run `34541018742`.
+- Ubuntu: **SUCCESS**.
+- Windows: **FAILURE**; public annotation remains generic exit code 1.
+- The earlier Ubuntu `38 != 50` hot-scan failure is therefore no longer the current hosted Ubuntu blocker.
+- Any Actions run spawned by this documentation/currentness child must be read live and supersedes this parent-run snapshot.
+
+`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`
+
 ## External evaluation
 
 Start with `README.md`, `docs/EXTERNAL_EVALUATION.md`, `docs/architecture/INVARIANTS.md`, then `reports/README.md`. Fresh Git/worktree/test/runtime readback outranks this prose.

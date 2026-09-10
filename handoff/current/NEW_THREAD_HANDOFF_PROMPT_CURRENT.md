@@ -4,7 +4,7 @@ Fresh-read Git before trusting handoff prose. Rollover GitHub mechanism frontier
 
 Do not reopen core architecture. v11 schema mechanism remains `7e4c66a769884269d71babdb92217ba80eb66e74`; canonical v11 SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`; 8 operations over 158 native capabilities; v10.3 compatibility remains 30 operations. ICF-CS v1.2 remains current.
 
-Immediate release blocker: GitHub Actions run `34537723493` is red on Windows + Ubuntu. Ubuntu exact current failure is `test_hot_scan_cost_is_independent_of_terminal_history_count` (`38 != 50`). Windows current failure remains suite-level. Close hosted CI before live promotion.
+Immediate release blocker from latest completed tested head `fd9b42ad143d70ddda92b22372cbae767b12bea0` / run `34541018742`: Ubuntu cleanbox **SUCCESS**; Windows cleanbox **FAILURE** with only generic exit-code annotation. Diagnose Windows next. Any newer currentness-child run must be fresh-read; do not assume this parent-run status persists. Close hosted Windows CI before live promotion.
 
 Local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed on top of `e1b2b8e`; inspect/rebase/qualify it rather than recreating it. Older schema-wire WIP is stale donor material and must be reproduced against current source.
 

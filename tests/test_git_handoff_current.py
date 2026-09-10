@@ -113,8 +113,9 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4", self.server_handoff)
         self.assertIn("7e4c66a769884269d71babdb92217ba80eb66e74", self.server_handoff)
         self.assertIn("8 operations / 158 native capabilities", self.server_handoff)
-        self.assertIn("34537723493", self.server_handoff)
-        self.assertIn("38 != 50", self.server_handoff)
+        self.assertIn("34541018742", self.server_handoff)
+        self.assertIn("Ubuntu cleanbox: **SUCCESS**", self.server_handoff)
+        self.assertIn("Windows cleanbox: **FAILURE**", self.server_handoff)
         self.assertIn("ICF-CS: v1.2", self.server_handoff)
         self.assertIn("project-aware access logging", self.server_handoff)
         self.assertIn("12ccc208ec2e9183e3b280618f266211cc00179b", self.server_handoff)
@@ -148,8 +149,9 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn("e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4", self.new_thread)
         self.assertIn("7e4c66a769884269d71babdb92217ba80eb66e74", self.new_thread)
         self.assertIn("8 operations over 158 native capabilities", self.new_thread)
-        self.assertIn("34537723493", self.new_thread)
-        self.assertIn("38 != 50", self.new_thread)
+        self.assertIn("34541018742", self.new_thread)
+        self.assertIn("Ubuntu cleanbox **SUCCESS**", self.new_thread)
+        self.assertIn("Windows cleanbox **FAILURE**", self.new_thread)
         self.assertIn("12ccc208ec2e9183e3b280618f266211cc00179b", self.new_thread)
         self.assertIn("schema-wire WIP is stale donor material", self.new_thread)
         self.assertIn("Loaded live Runtime is older", self.new_thread)
@@ -166,12 +168,23 @@ class GitHandoffCurrentTests(unittest.TestCase):
         self.assertIn(tree, self.ingress)
         self.assertIn(tree, self.git_current)
         for text in (self.ingress, self.server_handoff, self.new_thread, self.git_current, self.rollover):
-            self.assertIn("34537723493", text)
-            self.assertIn("38 != 50", text)
+            self.assertIn("34541018742", text)
         self.assertIn("Add project-aware access logging", self.git_current)
         self.assertIn("12ccc208ec2e9183e3b280618f266211cc00179b", self.rollover)
+        self.assertIn("HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN", self.rollover)
         self.assertIn("SOURCE_QUALIFIED != LIVE_PROMOTED", self.server_handoff)
         self.assertIn("LOCAL_GREEN != HOSTED_CLEANBOX_GREEN", self.new_thread)
+
+
+    def test_latest_completed_hosted_parent_run_supersedes_old_both_red_status(self) -> None:
+        for text in (self.ingress, self.server_handoff, self.new_thread, self.git_current, self.rollover):
+            self.assertIn("fd9b42ad143d70ddda92b22372cbae767b12bea0", text)
+            self.assertIn("34541018742", text)
+        self.assertIn("Ubuntu cleanbox: **SUCCESS**", self.git_current)
+        self.assertIn("Windows cleanbox: **FAILURE**", self.git_current)
+        self.assertIn("Ubuntu cleanbox **SUCCESS**", self.new_thread)
+        self.assertIn("Windows cleanbox **FAILURE**", self.new_thread)
+        self.assertIn("generic exit code 1", self.rollover)
 
     def test_historical_a001_lineage_is_preserved_without_forcing_old_state_into_current_pointers(self) -> None:
         qualification = (HANDOFF / "HANDOFF_QUALIFICATION.md").read_text(encoding="utf-8")
@@ -274,7 +287,9 @@ class GitHandoffCurrentTests(unittest.TestCase):
         for text in (self.git_current, self.server_handoff, self.new_thread):
             self.assertIn("e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4", text)
             self.assertIn("7e4c66a769884269d71babdb92217ba80eb66e74", text)
-            self.assertIn("34537723493", text)
+            self.assertIn("34541018742", text)
+        self.assertIn("Ubuntu cleanbox: **SUCCESS**", self.git_current)
+        self.assertIn("Windows cleanbox: **FAILURE**", self.git_current)
         self.assertIn("final exact-Git live promotion/restart/readback", self.server_handoff)
         self.assertIn("canonical restart", self.new_thread)
         self.assertIn("GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION", self.git_current)

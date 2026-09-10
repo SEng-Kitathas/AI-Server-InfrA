@@ -9,9 +9,16 @@ Title: `Add project-aware access logging`
 
 Schema mechanism: `7e4c66a769884269d71babdb92217ba80eb66e74` / canonical v11 SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities.
 
-GitHub Actions run `34537723493` for the current mechanism frontier is red on Windows and Ubuntu full-suite steps. Ubuntu exact failure: queued count `38 != 50` in `test_hot_scan_cost_is_independent_of_terminal_history_count`.
+Latest completed hosted clean-box result captured by this currentness child:
+- tested head: `fd9b42ad143d70ddda92b22372cbae767b12bea0`;
+- run: `34541018742`;
+- Ubuntu cleanbox: **SUCCESS**;
+- Windows cleanbox: **FAILURE**;
+- Windows public annotation remains suite-level `Process completed with exit code 1`; exact testcase still unresolved.
 
-Recovery/currentness checkpoint: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
+This status is evidence about the tested parent head, not a promise about later documentation/currentness children. Fresh GitHub Actions readback always wins.
+
+`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`
 
 This file is a Git recovery pointer, not live Runtime authority. A later documentation/checkpoint child may advance Git HEAD without becoming a new Runtime mechanism feature. Always fresh-read `git rev-parse HEAD` and remote `main`.
 

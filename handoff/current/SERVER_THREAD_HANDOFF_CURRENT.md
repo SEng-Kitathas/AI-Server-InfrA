@@ -8,7 +8,18 @@ ICF-CS: v1.2 / `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92
 
 Read first: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`, then `CURRENT_INGRESS.md` and `handoff/current/SCHEMA_CURRENT.md`.
 
-Current release blocker: GitHub Actions run `34537723493` is red on both hosted OSes. Ubuntu exact current failure: `test_hot_scan_cost_is_independent_of_terminal_history_count` -> `38 != 50`. Windows still needs exact testcase readback if the next run remains red.
+Current release blocker after completed parent-run readback:
+
+Latest completed hosted clean-box result captured by this currentness child:
+- tested head: `fd9b42ad143d70ddda92b22372cbae767b12bea0`;
+- run: `34541018742`;
+- Ubuntu cleanbox: **SUCCESS**;
+- Windows cleanbox: **FAILURE**;
+- Windows public annotation remains suite-level `Process completed with exit code 1`; exact testcase still unresolved.
+
+This status is evidence about the tested parent head, not a promise about later documentation/currentness children. Fresh GitHub Actions readback always wins.
+
+`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`
 
 Published current source includes project-aware access logging (`[PROJECT] [job:SHORT] METHOD PATH STATUS latency`).
 

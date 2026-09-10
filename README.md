@@ -4,6 +4,9 @@ AI-Server-InfrA is the engineering repository for the PCMMAD Laboratory Runtime:
 
 > **Current repository status (2026-09-10 rollover):** GitHub `main` mechanism frontier is `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` (`Add project-aware access logging`), tree `8fbded01e519a938ded1f2177378cd6693d788b7`. v11 schema authority remains `7e4c66a769884269d71babdb92217ba80eb66e74` with canonical SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`. Hosted clean-box CI for `e1b2b8e` is **not green yet**; run `34537723493` fails the full-suite step on Windows and Ubuntu. The loaded Desktop Runtime remains older and has not been implicitly promoted.
 
+
+> **Latest completed clean-box parent-run:** `fd9b42a` / Actions `34541018742` -> Ubuntu **SUCCESS**, Windows **FAILURE**. Windows still lacks an exact testcase annotation. A newer currentness-child run, if present, supersedes this snapshot.
+
 ## Start here
 
 If you are evaluating the project from outside the development thread, use these surfaces in order:

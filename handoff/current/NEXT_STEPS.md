@@ -446,3 +446,9 @@ Web and already-audited research slices are qualified. Fix continuity rehydratio
 - loaded Desktop Runtime remains behind source; source != live.
 - current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
 - This block wins on current Git/release frontier over older present-tense text in this file; historical evidence remains lineage.
+
+## HOSTED CI SUPERSESSION — 2026-09-10 19:13 ET
+- completed tested head `fd9b42ad143d70ddda92b22372cbae767b12bea0` / run `34541018742`: Ubuntu **SUCCESS**, Windows **FAILURE**;
+- Windows public failure is still suite-level only; exact testcase unresolved;
+- earlier Ubuntu `38 != 50` is superseded as current hosted Ubuntu status;
+- fresh Actions on any later currentness child wins.

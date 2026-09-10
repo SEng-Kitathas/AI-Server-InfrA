@@ -79,6 +79,17 @@ Prior local repaired-byte qualification reached 995 JUnit cases / 0 failures / 2
 
 `LOCAL_GREEN != HOSTED_CLEANBOX_GREEN`
 
+## 4A. Hosted CI final parent-run supersession
+
+The earlier run `34537723493` is historical diagnostic evidence. The latest completed tested head before this currentness-only child is `fd9b42ad143d70ddda92b22372cbae767b12bea0` / Actions `34541018742`:
+- Ubuntu cleanbox: **SUCCESS**;
+- Windows cleanbox: **FAILURE**;
+- Windows public annotation remains generic exit code 1, so exact testcase diagnosis is still open.
+
+Any Actions run triggered by the currentness/checkpoint child supersedes this status and must be read live.
+
+`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`
+
 ## 5. Published project-aware access logging
 
 Commit `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` is published source and directly answers the operator's busy-console request.
