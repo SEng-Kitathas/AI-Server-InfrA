@@ -18,7 +18,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any, Callable, Iterator
 
 from shared_core import SYSTEM_ROOT, save_json_atomic
 
@@ -52,6 +52,7 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 MEMORY_CLASSES = frozenset(
     {
         "USER_STATED",
+        "UCM_RECORD",
         "USER_PREFERENCE",
         "USER_CONSTRAINT",
         "PROJECT_STATE",
@@ -843,7 +844,42 @@ def _write_object(paths: MemoryPaths, document: dict[str, Any], encoded: bytes |
     return {"sha256": sha, "bytes": len(payload), "object": f"objects/{sha}.json"}
 
 
-def _materialize_locked(profile_id: str, state: dict[str, Any]) -> dict[str, Any]:
+def _manifest_object_paths(manifest: dict[str, Any]) -> set[str]:
+    refs=[]
+    for key in ("core","target_index"):
+        ref=manifest.get(key)
+        if isinstance(ref,dict) and ref.get("object"): refs.append(str(ref["object"]))
+    for ref in (manifest.get("sections") or {}).values():
+        if isinstance(ref,dict) and ref.get("object"): refs.append(str(ref["object"]))
+    return set(refs)
+
+
+def _prune_derived_snapshot_cache(paths: MemoryPaths, current_manifest: dict[str, Any], retain_count: int) -> dict[str, int]:
+    """Bound derived snapshot/cache history; the append-only ledger remains history authority."""
+    keep=max(1,int(retain_count))
+    snapshot_paths=sorted(paths.snapshots.glob("*.json")) if paths.snapshots.exists() else []
+    keep_paths=set(snapshot_paths[-keep:])
+    referenced=_manifest_object_paths(current_manifest)
+    for path in keep_paths:
+        try:
+            raw=json.loads(path.read_text(encoding="utf-8"))
+        except (OSError,json.JSONDecodeError):
+            continue
+        if isinstance(raw,dict): referenced.update(_manifest_object_paths(raw))
+    removed_snapshots=0
+    for path in snapshot_paths:
+        if path in keep_paths: continue
+        path.unlink(missing_ok=True); removed_snapshots += 1
+    removed_objects=0
+    if paths.objects.exists():
+        for path in paths.objects.glob("*.json"):
+            rel=f"objects/{path.name}"
+            if rel in referenced: continue
+            path.unlink(missing_ok=True); removed_objects += 1
+    return {"removed_snapshot_manifests":removed_snapshots,"removed_snapshot_objects":removed_objects}
+
+
+def _materialize_locked(profile_id: str, state: dict[str, Any], *, retain_snapshot_count: int | None = None) -> dict[str, Any]:
     paths = _paths(profile_id)
     _preflight_snapshot_limits(state)
     core, core_bytes = _preflight_core(state)
@@ -885,7 +921,12 @@ def _materialize_locked(profile_id: str, state: dict[str, Any]) -> dict[str, Any
     if not immutable.exists():
         save_json_atomic(immutable, manifest)
     save_json_atomic(paths.current, manifest)
-    return {**manifest, "manifest_sha256": manifest_hash, "manifest_path": str(paths.current)}
+    pruning = _prune_derived_snapshot_cache(paths, manifest, retain_snapshot_count) if retain_snapshot_count is not None else None
+    result={**manifest, "manifest_sha256": manifest_hash, "manifest_path": str(paths.current)}
+    if pruning is not None:
+        result["derived_cache_pruning"] = pruning
+        result["derived_snapshot_retention"] = max(1,int(retain_snapshot_count))
+    return result
 
 
 def _load_current_manifest(profile_id: str) -> dict[str, Any] | None:
@@ -984,6 +1025,8 @@ def _append_event_locked(
     provenance: dict[str, Any],
     idempotency_key: str,
     request_fingerprint: str,
+    preflight_hook: Callable[[dict[str, Any]], None] | None = None,
+    snapshot_retention: int | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     paths = _paths(profile_id)
     event_seq = int(state["event_count"]) + 1
@@ -1007,6 +1050,8 @@ def _append_event_locked(
 
     projected = copy.deepcopy(state)
     _apply_event(projected, event)
+    if preflight_hook is not None:
+        preflight_hook(projected)
     _preflight_snapshot_limits(projected)
 
     paths.ledger.parent.mkdir(parents=True, exist_ok=True)
@@ -1015,7 +1060,7 @@ def _append_event_locked(
         handle.flush()
         os.fsync(handle.fileno())
 
-    manifest = _materialize_locked(profile_id, projected)
+    manifest = _materialize_locked(profile_id, projected, retain_snapshot_count=snapshot_retention)
     _cache_state(profile_id, projected)
     return event, manifest
 

@@ -1,0 +1,99 @@
+{
+  "authority_effect": "NONE",
+  "base_head": "36b146eef72980638fa5d438af3fb36cfaf999a6",
+  "composition": {
+    "candidate_native_tool_count": 157,
+    "canonical_ucm_tools_added": 31,
+    "capability_category": "memory",
+    "existing_authoritative_store_reused": true,
+    "legacy_memory_tools_retained": 8,
+    "new_capability_family": false,
+    "new_compact_schema_operation": false,
+    "new_daemon": false,
+    "new_database": false,
+    "new_doctrine_authority": false,
+    "new_project_authority": false,
+    "new_scheduler": false,
+    "source_native_tool_count": 157
+  },
+  "icf_cs": {
+    "relationship_law": "RES != UCM",
+    "successor_release_completed": false,
+    "successor_required": true
+  },
+  "live": {
+    "claim": "ENGINEERING_CANDIDATE != LIVE_PROCESS_TRUTH",
+    "private_instance_imported": false,
+    "reloaded": false
+  },
+  "migration": {
+    "administrative_cli": "tools/import_private_ucm_v1.py",
+    "donor_event_chain_preserved_as_evidence": true,
+    "empty_target_required": true,
+    "exact_release_and_manifest_verification": true,
+    "model_facing_import_capability": false,
+    "post_import_ingress_required": true,
+    "server_native_lineage_distinct": true
+  },
+  "neutral_release": {
+    "bytes": 60620,
+    "clean_replay": {
+      "hostile": "31/31 REJECTED",
+      "hostile_recovered": "17/17 REJECTED",
+      "recovered_mechanisms": "25/25 PASS",
+      "semantics": "66/66 PASS"
+    },
+    "sha256": "055a25fd8c02856d2a875aadc714dfa4ff49c0edeb0e63dd4d67415849fd5909"
+  },
+  "private_release": {
+    "bytes": 388252,
+    "clean_replay": "PASS private UCS instance / 11/11 hostile REJECTED",
+    "decisions": 10,
+    "events": 683,
+    "facts": 683,
+    "identities": 10,
+    "private_values_embedded_in_server_candidate": false,
+    "qualified_headroom_bytes": 4749,
+    "qualified_ingress_bytes": 7251,
+    "referents": 12,
+    "sha256": "997d09e0691526cc5924e22fb5b5557a0de91b73c474d2261c093c4b4eb1a731",
+    "source_assertions": 661,
+    "source_manifest_entries": 5
+  },
+  "private_scale": {
+    "approx_reduction": "113x",
+    "authoritative_ledger_bytes": 1491882,
+    "canonical_events": 716,
+    "final_scale_receipt_sha256": "55b03e2bf4f4eb7e6665bdaaea499b462079c5ed7fd68d858cbd42c71627313d",
+    "headroom_bytes": 4828,
+    "ingress_bytes": 7172,
+    "post_repair_profile_bytes": 3982992,
+    "post_repair_snapshot_manifests": 2,
+    "post_repair_snapshot_objects": 14,
+    "pre_repair_profile_bytes": 452347608,
+    "shape": "683 facts + 10 identities + 12 referents + 10 decisions + collaboration"
+  },
+  "probes": {
+    "after_sha256": "91a71b87ba0a7f434c5f424f2b32048cc80dc14ef4763011f3b0028a4fba633b",
+    "before_sha256": "9e4495df016f91015863a4ee285483ea5b391f72452b0139b96cd120c3422bd8",
+    "private_structural_audit_sha256": "a52ffd23736dc1710990f4b3d070d35e8422f6e7cb7905e8f3a3e197f1d12a11"
+  },
+  "scars": [
+    "DESCRIPTIVE_CLASS != BEHAVIORAL_POLICY",
+    "VERIFIER_AVAILABLE != ASSERTION_VERIFIED",
+    "NORMALIZED_SOURCE_ASSERTION != SOURCE_MANIFEST_ENTRY",
+    "APPEND_ONLY_HISTORY != UNBOUNDED_DERIVED_SNAPSHOT_HISTORY",
+    "DONOR_EVENT_HASH != SERVER_NATIVE_EVENT_HASH_AFTER_MIGRATION",
+    "SESSION_RESET != DURABLE_MEMORY_DELETE",
+    "USER_AUTONOMY_PREFERENCE != TOOL_AUTHORIZATION",
+    "SEARCH_HIT != CLAIM_SUPPORT"
+  ],
+  "schema": "pcmmad.ucm-v1-runtime-integration-result.v1",
+  "status": "CANONICAL_SOURCE_QUALIFIED_PUBLICATION_PENDING",
+  "tests": {
+    "canonical_plus_hostile_plus_legacy_plus_migration": "130/130 PASS",
+    "full_clone": "661 collected / 660 passed / 1 conditional skip / 0 failed",
+    "source_focused": "130/130 PASS",
+    "source_full": "661 collected / 660 passed / 1 conditional skip / 0 failed"
+  }
+}
