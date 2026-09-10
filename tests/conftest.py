@@ -26,6 +26,7 @@ os.environ["PCMMAD_PROJECTS_ROOT"] = str(_TEST_RUNTIME_ROOT / "projects")
 os.environ["PCMMAD_SYSTEM_ROOT"] = str(_TEST_RUNTIME_ROOT / "system")
 os.environ["PCMMAD_SANDBOX_ROOT"] = str(_TEST_RUNTIME_ROOT / "sandbox")
 os.environ["PCMMAD_TEMP_ROOT"] = str(_TEST_RUNTIME_ROOT / "temp")
+os.environ["PCMMAD_ACCESS_LOG"] = "0"
 os.environ["PCMMAD_MOUNTS_JSON"] = json.dumps(
     {
         "pytest_runtime": str(_TEST_RUNTIME_ROOT),

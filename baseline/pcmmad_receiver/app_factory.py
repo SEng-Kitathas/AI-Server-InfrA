@@ -8,6 +8,7 @@ from typing import Callable
 
 from flask import Blueprint, Flask
 
+from .access_logging import install_access_logging
 from .control_plane_models import BlueprintFailureSpec, BootReport, BootRuntimeStatus
 
 
@@ -117,6 +118,7 @@ def create_app() -> Flask:
     """Create one receiver app; required route-family failures are never silently degraded."""
 
     app = Flask(__name__)
+    install_access_logging(app)
     boot_report = BootReport()
     for spec in BLUEPRINTS:
         _register_blueprint(app, spec, boot_report)
