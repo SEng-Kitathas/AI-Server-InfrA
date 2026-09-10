@@ -370,7 +370,7 @@ def _zip_listing(zf: zipfile.ZipFile) -> list[ToolResult]:
 
 
 def _zip_contents(
-    zf: zipfile.ZipFile, request: FsZipReadRequest, dep: FilesystemToolDeps
+    zf: zipfile.ZipFile, request: ZipReadRequest, dep: FilesystemToolDeps
 ) -> ToolResult:
     from .lab_tools import _bounded_zip_entry_text
 

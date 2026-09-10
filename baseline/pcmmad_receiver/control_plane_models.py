@@ -24,6 +24,20 @@ def _as_optional_str(value: Any) -> str | None:
     return None if value is None else str(value)
 
 
+def _as_bool(value: Any, default: bool = False) -> bool:
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return default
+    if isinstance(value, str):
+        lowered = value.strip().lower()
+        if lowered in {"1", "true", "yes", "on"}:
+            return True
+        if lowered in {"0", "false", "no", "off"}:
+            return False
+    return bool(value)
+
+
 def _as_int(value: Any, default: int = 0) -> int:
     try:
         return int(value if value is not None else default)

@@ -16,6 +16,8 @@ import sys
 import tempfile
 from typing import Any, Iterable, Iterator, Sequence, TypedDict
 
+JsonObject = MutableMapping[str, Any]
+
 
 class WalkErrorRecord(TypedDict):
     path: str
@@ -498,6 +500,35 @@ def read_text_window(path: Path, **options: Any) -> TextWindowResult:
     return _partial_text_window(path, mode, request, file_size)
 
 
+def resolve_command_executable_for_cwd(command: Sequence[str], cwd: Path) -> list[str]:
+    """Resolve a path-like relative executable against the requested child cwd.
+
+    Windows CreateProcess/Python subprocess executable lookup can otherwise resolve
+    a token such as ``.venv/Scripts/python.exe`` against the receiver process
+    working directory rather than the supplied child ``cwd``. Bare command names
+    remain PATH-resolved. Absolute executable paths remain unchanged.
+    """
+    items = [str(item) for item in command]
+    if not items:
+        raise ValueError("command must be non-empty")
+    executable = items[0]
+    windows_path = PureWindowsPath(executable)
+    path_like = "/" in executable or "\\" in executable or bool(windows_path.drive)
+    if not path_like or Path(executable).is_absolute():
+        return items
+    if windows_path.drive and not windows_path.is_absolute():
+        raise ValueError(
+            f"drive-relative executable is ambiguous; use an absolute path: {executable!r}"
+        )
+    candidate = (Path(cwd).resolve() / executable).resolve()
+    if not candidate.exists() or not candidate.is_file():
+        raise FileNotFoundError(
+            f"relative executable does not exist under requested cwd: {executable!r} -> {candidate}"
+        )
+    items[0] = str(candidate)
+    return items
+
+
 def command_preflight(
     project_root: Path, command: Sequence[str], cwd_path: str | None
 ) -> CommandPreflightResult:
@@ -510,11 +541,12 @@ def command_preflight(
         )
     try:
         cwd = safe_project_cwd(project_root, cwd_path)
+        resolved_command = resolve_command_executable_for_cwd(command, cwd)
     except (OSError, ValueError, TypeError) as exc:
         return CommandPreflightResult(
             ok=False, command=list(command), cwd=str(project_root), error=str(exc)
         )
-    return CommandPreflightResult(ok=True, command=list(command), cwd=str(cwd), error=None)
+    return CommandPreflightResult(ok=True, command=resolved_command, cwd=str(cwd), error=None)
 
 
 def _subprocess_success_envelope(
@@ -604,6 +636,7 @@ def run_subprocess_envelope(command: Sequence[str], **options: Any) -> Subproces
         stdout_max_bytes=options.get("stdout_max_bytes"),
         stderr_max_bytes=options.get("stderr_max_bytes"),
     )
+    resolved_command = resolve_command_executable_for_cwd(command, Path(spec.cwd))
     import time as _time
 
     started = _time.time()
@@ -615,7 +648,7 @@ def run_subprocess_envelope(command: Sequence[str], **options: Any) -> Subproces
     try:
         with stdout_path.open("wb") as stdout_handle, stderr_path.open("wb") as stderr_handle:
             proc = subprocess.Popen(
-                list(command),
+                resolved_command,
                 cwd=str(spec.cwd),
                 stdout=stdout_handle,
                 stderr=stderr_handle,

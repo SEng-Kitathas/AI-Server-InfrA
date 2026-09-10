@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import subprocess
@@ -15,7 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
 sys.path.insert(0, str(RUNTIME_ROOT.parent))
 
-import execution_routes as er
+import execution_routes as er  # noqa: E402
 
 if os.name == "nt":
     import windows_job_object as wjo
@@ -75,9 +76,10 @@ class ExecutionResourceEnvelopeTests(unittest.TestCase):
                 "except Exception as exc:\n"
                 " outcome.write_text('blocked:'+type(exc).__name__)\n"
             )
+            python_executable = str(getattr(sys, "_base_executable", None) or sys.executable)
             with wjo.create_named_job(name) as job:
                 wjo.configure_resource_envelope(job, active_process_limit=1)
-                proc = subprocess.Popen([sys.executable, "-c", parent_code])
+                proc = subprocess.Popen([python_executable, "-c", parent_code])
                 try:
                     wjo.assign_pid(job, proc.pid)
                     release.write_text("go", encoding="utf-8")
@@ -90,10 +92,8 @@ class ExecutionResourceEnvelopeTests(unittest.TestCase):
                         f"active process limit failed to block descendant creation: {text!r}",
                     )
                 finally:
-                    try:
+                    with contextlib.suppress(OSError):
                         wjo.terminate(job, exit_code=9)
-                    except OSError:
-                        pass
                     try:
                         proc.wait(timeout=3)
                     except subprocess.TimeoutExpired:

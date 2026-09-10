@@ -11,6 +11,8 @@ from pathlib import Path
 from typing import Any
 from collections.abc import MutableMapping
 
+JsonObject = MutableMapping[str, Any]
+
 from flask import Blueprint, jsonify, request
 
 from .control_plane_models import CommitLedgerRecord, ManifestDocument, ManifestEntryRecord

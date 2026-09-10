@@ -13,6 +13,9 @@ from .lab_tool_primitives import (
     payload_str,
 )
 from typing import Any, Callable
+from collections.abc import MutableMapping
+
+JsonObject = MutableMapping[str, Any]
 
 
 @dataclass(frozen=True)

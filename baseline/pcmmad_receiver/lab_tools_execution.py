@@ -439,7 +439,7 @@ def _wait_request_from_payload(payload: ToolPayload, dep: ExecutionToolDeps) -> 
     )
 
 
-def _observed_job(identity: JobIdentity, dep: ExecutionToolDeps) -> ToolResult:
+def _observed_job(identity: ExecutionIdentity, dep: ExecutionToolDeps) -> ToolResult:
     try:
         job = dep.read_job(identity.project_id, identity.job_id)
         return job.to_dict() if hasattr(job, "to_dict") else job
@@ -447,7 +447,7 @@ def _observed_job(identity: JobIdentity, dep: ExecutionToolDeps) -> ToolResult:
         raise dep.error_cls("NOT_FOUND", "job not found", 404)
 
 
-def _finalized_job(identity: JobIdentity, dep: ExecutionToolDeps) -> ToolResult:
+def _finalized_job(identity: ExecutionIdentity, dep: ExecutionToolDeps) -> ToolResult:
     try:
         return dep.finalize_job(
             identity.project_id,

@@ -932,7 +932,7 @@ def _window_for_excerpt(window: SearchWindow, excerpt: str) -> dict[str, int]:
     return {"start_line": start, "end_line": end}
 
 
-def _select_hit(state: RehydrateSelectionState, hit: FileSearchHit, budget: int) -> None:
+def _select_hit(state: RehydrateSelectionState, hit: SearchHit, budget: int) -> None:
     if any(str(row.get("path")) == str(hit.path) for row in state.selected):
         return
     remaining = max(0, int(budget) - int(state.used))
@@ -953,7 +953,7 @@ def _select_hit(state: RehydrateSelectionState, hit: FileSearchHit, budget: int)
     state.picked.add(hit.artifact_class)
 
 
-def _select_search_hits(hits: list[FileSearchHit], budget: int) -> RehydrateSelectionState:
+def _select_search_hits(hits: list[SearchHit], budget: int) -> RehydrateSelectionState:
     state = RehydrateSelectionState([], 0, set())
     for art in _rehydrate_priority():
         art_hits = [hit for hit in hits if hit.artifact_class == art]

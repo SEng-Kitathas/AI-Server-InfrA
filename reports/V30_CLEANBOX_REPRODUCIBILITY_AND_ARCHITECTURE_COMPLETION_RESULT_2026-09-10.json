@@ -1,0 +1,197 @@
+{
+  "architecture_completion_gate": {
+    "cleanbox_reproducibility_required_before_live": true,
+    "compact_eligibility": "SCHEMA_BRANCH_GATE",
+    "compose_plan_vm": "SCHEMA_BRANCH_GATE",
+    "effect_trait_split": "SCHEMA_BRANCH_GATE",
+    "github_ci_required_before_live": true,
+    "legacy_memory_exit": "SCHEMA_MIGRATION_BRANCH_GATE",
+    "new_runtime_truth_plane_required": false,
+    "schema_v11_conservative_defaults": {
+      "automatic_parallelism_default": false,
+      "effect_truth_verified_count": 0,
+      "goal_mode_planner": false,
+      "production_parallel_witnesses": 0,
+      "production_resume_replay_witnesses": 0,
+      "v10_3_compatibility_retained": true
+    },
+    "schema_v11_current_on_main": true
+  },
+  "cleanbox_repair": {
+    "ci_os_matrix": [
+      "windows-latest",
+      "ubuntu-latest"
+    ],
+    "dev_dependencies_added": [
+      "hypothesis>=6,<7",
+      "pytest-xdist>=3,<4"
+    ],
+    "github_actions_workflow": ".github/workflows/ci.yml",
+    "job_object_test_uses_base_interpreter": true,
+    "test_environment_replaces": [
+      "PCMMAD_ROOT",
+      "PCMMAD_PROJECTS_ROOT",
+      "PCMMAD_SYSTEM_ROOT",
+      "PCMMAD_SANDBOX_ROOT",
+      "PCMMAD_TEMP_ROOT",
+      "PCMMAD_MOUNTS_JSON"
+    ],
+    "windows_parallel_burns": [
+      "loadscope",
+      "worksteal"
+    ]
+  },
+  "combined_qualification": {
+    "F821": "0",
+    "compileall": "PASS",
+    "loadscope_4_workers": {
+      "errors": 0,
+      "failures": 0,
+      "junit_cases": 992,
+      "skipped": 2
+    },
+    "schema_gate": {
+      "errors": 0,
+      "failures": 0,
+      "junit_cases": 109,
+      "skipped": 0
+    },
+    "serial": {
+      "errors": 0,
+      "failures": 0,
+      "junit_cases": 992,
+      "skipped": 2
+    },
+    "worksteal_4_workers": {
+      "errors": 0,
+      "failures": 0,
+      "junit_cases": 992,
+      "skipped": 2
+    }
+  },
+  "false_green_causes": [
+    "hypothesis used by committed tests but absent from requirements-dev.txt",
+    "tests/conftest.py inherited operator PCMMAD_MOUNTS_JSON and PCMMAD_ROOT",
+    "Windows venv redirector made the active-process-limit test environment-sensitive",
+    "project execution wrapper resolved relative .venv executable against live Desktop tree before requested cwd"
+  ],
+  "final_cleanbox": {
+    "junit_cases": 881,
+    "loadscope_4_workers": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "operator_pcmmad_environment_removed": true,
+    "ordinary_collected_test_functions": 778,
+    "pip_check": "PASS",
+    "serial": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "test_files": 101,
+    "touched_test_ruff": "PASS",
+    "worksteal_4_workers": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    }
+  },
+  "final_cleanbox_after_all_runtime_repairs": {
+    "junit_cases": 889,
+    "loadscope_4_workers": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "normal_inherited_operator_environment": "PASS",
+    "serial": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    },
+    "worksteal_4_workers": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 2
+    }
+  },
+  "installed_package": {
+    "clean_install": "PASS",
+    "combined_v11_final_wheel": {
+      "bytes": 396065,
+      "default_execution_concurrency": 12,
+      "effect_profile_bytes": 124319,
+      "name": "pcmmad_receiver-29.0.0rc1-py3-none-any.whl",
+      "native_tool_count": 158,
+      "pip_check": "PASS",
+      "schema_v11_bytes": 33844,
+      "sha256": "dfe19fdc057273563eb945cc856ce52974f078742a05a3d6c1678dbfcf877083"
+    },
+    "final_wheel": {
+      "bytes": 361974,
+      "name": "pcmmad_receiver-29.0.0rc1-py3-none-any.whl",
+      "relative_exec_helper_present": true,
+      "sha256": "01d5c6ecf8d85f03a220d58b072b998e3043850c61dfcb53c8742e531d181ede"
+    },
+    "icf_ingress_present": true,
+    "native_tool_count": 158,
+    "package_import_from_site_packages": true,
+    "pep517_wheel_build": "PASS",
+    "pip_check": "PASS",
+    "resource_envelope_backend": "windows_job_object",
+    "source_default_execution_concurrency": 12
+  },
+  "laws": [
+    "LOCAL_ENVIRONMENT_GREEN != RELEASE_REPRODUCIBLE_GREEN",
+    "TEST_ISOLATION_CLAIM != TEST_ISOLATION_HELD",
+    "REQUESTED_CWD != EXECUTABLE_RESOLUTION_CONTEXT",
+    "CORE_RUNTIME_ARCHITECTURE_CONVERGED != FINAL_COMPOSITION_SCHEMA_COMPLETE"
+  ],
+  "live": {
+    "code_copied": false,
+    "must_rebuild_or_restore_runtime_only_venv_before_promotion": true,
+    "restarted": false,
+    "venv_dev_dependency_contamination_detected": true
+  },
+  "pre_repair_cleanbox": {
+    "after_manual_hypothesis_with_operator_environment_removed": {
+      "failures": 22,
+      "primary_cluster": "21 context/ICF tests depended on inherited mount authorization",
+      "remaining_cluster": "Windows venv redirector Job Object harness"
+    },
+    "declared_dependencies_only": "COLLECTION_ERROR_MISSING_HYPOTHESIS"
+  },
+  "relative_executable_hardening": {
+    "bare_path_lookup_preserved": true,
+    "drive_relative_rejected": true,
+    "focused_gate": "25/25 PASS",
+    "relative_path_bound_to_requested_cwd": true,
+    "sync_async": true
+  },
+  "runtime_architecture": "CONVERGED_AT_CURRENT_CLAIM_CEILING",
+  "schema": "pcmmad.cleanbox-reproducibility-architecture-completion.v1",
+  "schema_branch": "SEPARATE_AND_UNMERGED",
+  "schema_branch_isolation": {
+    "long_lived_worktree_contains_non_main_schema_vnext_material": true,
+    "schema_vnext_included_in_candidate": false,
+    "server_main_commit_source": "pristine_github_derived_clone"
+  },
+  "schema_v11_rebase": {
+    "base_commit": "7e4c66a769884269d71babdb92217ba80eb66e74",
+    "base_tree": "967f108f235b4b42097f4b2d9d48ee61c591017c",
+    "pre_schema_backup_branch": "cleanbox-pre-schema-0c7ba39",
+    "rebase_conflicts": 0,
+    "schema_now_current_on_main": true
+  },
+  "source_base": "92010b57dfc275dd6f9753121cd8def98792ed41",
+  "static_correctness": {
+    "compileall": "PASS",
+    "full_ruff_clean_claimed": false,
+    "production_test_F821_final": 0,
+    "production_test_F821_initial": 53,
+    "remaining_B_F841_audited": 31
+  },
+  "status": "CURRENT_GITHUB_V11_PLUS_CLEANBOX_COMBINED_CANDIDATE_QUALIFIED_PUBLICATION_PENDING"
+}

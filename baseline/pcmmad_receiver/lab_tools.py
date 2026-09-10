@@ -15,6 +15,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import uuid
+import zipfile
 from pathlib import Path
 from typing import Any
 from collections.abc import Iterator, MutableMapping, Callable
@@ -58,7 +59,7 @@ from .execution_routes import (
     terminate_execution_job,
 )
 from .lab_plugins import load_plugins
-from .lab_policy import evaluate_tool_call, policy_mode
+from .lab_policy import PolicyDecision, evaluate_tool_call, policy_mode
 from .protocol_policy import evaluate_protocol_tool_call
 from .lab_schema_validation import validate_payload_schema
 from .lab_tools_browser import register_browser_tools
@@ -109,6 +110,7 @@ from .shared_core import (
     validate_project_id,
 )
 from .sop_ingest import (
+    SopError,
     ack_chunk as sop_ack_chunk,
     complete_file as sop_complete_file,
     guard_check as sop_guard_check,
@@ -595,7 +597,7 @@ def _dispatch_decision(
     spec: ToolSpec,
     payload: JsonObject,
     authority: JsonObject | None,
-) -> ToolCallDecision:
+) -> PolicyDecision:
     decision = evaluate_tool_call(spec, payload, authority)
     if decision.allowed:
         return decision

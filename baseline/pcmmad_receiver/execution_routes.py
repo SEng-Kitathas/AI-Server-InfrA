@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import shutil
 import sys
@@ -69,7 +70,12 @@ from .api_wire_models import (
     ExecutionStatusResponse,
     ExecutionTerminateRequest,
 )
-from .server_hardening import safe_json_dumps, safe_json_loads, safe_project_cwd
+from .server_hardening import (
+    resolve_command_executable_for_cwd,
+    safe_json_dumps,
+    safe_json_loads,
+    safe_project_cwd,
+)
 from .shared_core import (
     PROJECTS_ROOT,
     commits_ledger_path_for,
@@ -1355,6 +1361,9 @@ def _submit_payload_core(
     )
     try:
         cwd = _resolve_cwd(project_id, data.get("cwd"))
+        command = resolve_command_executable_for_cwd(command, cwd)
+    except FileNotFoundError as e:
+        raise ExecutionRequestError("COMMAND_NOT_FOUND", str(e), 400) from e
     except (OSError, ValueError, TypeError) as e:
         raise ExecutionRequestError("WORKDIR_INVALID", str(e), 400) from e
     return project_id, execution_mode, command, output_limits, str(cwd)
