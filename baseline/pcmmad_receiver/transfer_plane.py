@@ -109,11 +109,31 @@ def create_export(path: str, project_id: str | None = None, ttl_seconds: int = D
 
 def _file_object_identity(path: Path) -> dict[str, Any]:
     st = path.stat()
-    return {
+    identity = {
         "st_dev": int(getattr(st, "st_dev", 0)),
         "st_ino": int(getattr(st, "st_ino", 0)),
         "st_nlink": int(getattr(st, "st_nlink", 1)),
+        # st_ino alone is not a stable generation witness: filesystems may reuse
+        # an inode immediately after unlink/recreate. ctime changes when the inode
+        # metadata generation changes and therefore closes that substitution hole.
+        "st_ctime_ns": int(getattr(st, "st_ctime_ns", int(getattr(st, "st_ctime", 0.0) * 1_000_000_000))),
     }
+    birth_ns = getattr(st, "st_birthtime_ns", None)
+    if birth_ns is not None:
+        identity["st_birthtime_ns"] = int(birth_ns)
+    elif getattr(st, "st_birthtime", None) is not None:
+        identity["st_birthtime_ns"] = int(float(st.st_birthtime) * 1_000_000_000)
+    return identity
+
+
+def _same_file_object_identity(current: dict[str, Any], expected: dict[str, Any]) -> bool:
+    required = ("st_dev", "st_ino", "st_ctime_ns")
+    if any(current.get(key) != expected.get(key) for key in required):
+        return False
+    expected_birth = expected.get("st_birthtime_ns")
+    if expected_birth is not None and current.get("st_birthtime_ns") != expected_birth:
+        return False
+    return True
 
 
 def _path_identity(path: Path) -> dict[str, Any]:
@@ -136,7 +156,7 @@ def _require_stage_identity(path: Path, expected: dict[str, Any]) -> None:
     if not path.exists() or not path.is_file():
         raise ValueError("import stage identity changed after ticket creation")
     current = _file_object_identity(path)
-    if current.get("st_dev") != expected.get("st_dev") or current.get("st_ino") != expected.get("st_ino"):
+    if not _same_file_object_identity(current, expected):
         raise ValueError("import stage identity changed after ticket creation")
     if int(current.get("st_nlink", 1)) != 1:
         raise ValueError("import stage identity is multiply linked")
@@ -149,10 +169,7 @@ def _require_export_source_identity(path: Path, ticket: dict[str, Any]) -> None:
     original = ticket.get("source_identity_at_create") or {}
     current_object = current.get("file_object") or {}
     original_object = original.get("file_object") or {}
-    if (
-        current_object.get("st_dev") != original_object.get("st_dev")
-        or current_object.get("st_ino") != original_object.get("st_ino")
-    ):
+    if not _same_file_object_identity(current_object, original_object):
         raise ValueError("source identity changed after export ticket creation")
     if current.get("size") != original.get("size") or current.get("mtime_ns") != original.get("mtime_ns"):
         raise ValueError("source changed after export ticket creation")

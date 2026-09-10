@@ -377,36 +377,85 @@ def _execution_snapshot() -> JsonObject:
     return execution
 
 
-def telemetry_snapshot() -> JsonObject:
+def _collect_observability_section(name: str, fn, fallback: JsonObject) -> tuple[JsonObject, str | None]:
     try:
-        process = _process_snapshot()
-        system = _system_snapshot()
-        server = _waitress_snapshot()
-        http = _http_summary()
-        execution = _execution_snapshot()
-        _refresh_gauges(process, system, server)
-        return {
-            "ok": True,
-            "status": "available",
-            "checked_at": time.time(),
-            "basis": "receiver_owned_observability",
-            "dependencies": dependency_snapshot(),
-            "process": process,
-            "system": system,
-            "http": http,
-            "server": server,
-            "execution": execution,
-        }
-    except Exception as exc:  # telemetry failure must not crash the authority plane
+        value = fn()
+        if isinstance(value, dict):
+            return value, None
+        raise TypeError(f"{name} collector returned non-object {type(value).__name__}")
+    except Exception as exc:  # section failures must not erase unrelated telemetry
         _OBSERVATION_ERRORS.inc()
-        return {
-            "ok": False,
-            "status": "degraded",
-            "checked_at": time.time(),
-            "basis": "receiver_owned_observability",
-            "error": f"{type(exc).__name__}: {exc}",
-            "dependencies": dependency_snapshot(),
-        }
+        degraded = dict(fallback)
+        degraded.setdefault("status", "unavailable")
+        degraded["error"] = f"{type(exc).__name__}: {exc}"
+        return degraded, degraded["error"]
+
+
+def telemetry_snapshot() -> JsonObject:
+    process, process_error = _collect_observability_section(
+        "process", _process_snapshot, {"pid": os.getpid(), "rss_bytes": None}
+    )
+    system, system_error = _collect_observability_section(
+        "system",
+        _system_snapshot,
+        {
+            "memory_total_bytes": None,
+            "memory_available_bytes": None,
+            "storage": {"root": str(Path(os.environ.get("PCMMAD_ROOT", str(Path.cwd()))).resolve()), "total_bytes": None, "used_bytes": None, "free_bytes": None, "percent": None},
+        },
+    )
+    server, server_error = _collect_observability_section(
+        "server", _waitress_snapshot, {"implementation": "unavailable", "instrumented": False, "queue_depth": None, "active_workers": None, "worker_threads": None, "queue_peak": None, "active_peak": None}
+    )
+    http, http_error = _collect_observability_section(
+        "http",
+        _http_summary,
+        {
+            "window_seconds": 300,
+            "request_count": 0,
+            "requests_per_minute": 0.0,
+            "client_error_count": 0,
+            "server_error_count": 0,
+            "client_error_rate": 0.0,
+            "server_error_rate": 0.0,
+            "latency_ms": {"p50": None, "p95": None, "p99": None, "max": None},
+        },
+    )
+    execution, execution_error = _collect_observability_section(
+        "execution", _execution_snapshot, {"status": "unavailable"}
+    )
+    try:
+        _refresh_gauges(process, system, server)
+    except Exception as exc:
+        _OBSERVATION_ERRORS.inc()
+        gauge_error = f"{type(exc).__name__}: {exc}"
+    else:
+        gauge_error = None
+    errors = {
+        name: error
+        for name, error in (
+            ("process", process_error),
+            ("system", system_error),
+            ("server", server_error),
+            ("http", http_error),
+            ("execution", execution_error),
+            ("gauges", gauge_error),
+        )
+        if error is not None
+    }
+    return {
+        "ok": not errors,
+        "status": "available" if not errors else "degraded",
+        "checked_at": time.time(),
+        "basis": "receiver_owned_observability",
+        "dependencies": dependency_snapshot(),
+        "process": process,
+        "system": system,
+        "http": http,
+        "server": server,
+        "execution": execution,
+        "section_errors": errors,
+    }
 
 
 def _require_auth():

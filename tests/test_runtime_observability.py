@@ -82,6 +82,38 @@ class RuntimeObservabilityTests(unittest.TestCase):
         self.assertGreater(http["client_error_rate"], 0)
         self.assertGreater(http["server_error_rate"], 0)
 
+    def test_one_failed_collector_does_not_erase_red_or_use_sections(self) -> None:
+        original = obs._process_snapshot
+        try:
+            obs._process_snapshot = lambda: (_ for _ in ()).throw(RuntimeError("boom"))
+            body = obs.telemetry_snapshot()
+        finally:
+            obs._process_snapshot = original
+        self.assertFalse(body["ok"])
+        self.assertEqual(body["status"], "degraded")
+        self.assertIn("process", body["section_errors"])
+        self.assertIn("http", body)
+        self.assertIn("server", body)
+        self.assertIn("execution", body)
+        self.assertIn("request_count", body["http"])
+        self.assertIn("latency_ms", body["http"])
+        self.assertIn("queue_depth", body["server"])
+
+    def test_http_collector_failure_preserves_process_system_and_server(self) -> None:
+        original = obs._http_summary
+        try:
+            obs._http_summary = lambda: (_ for _ in ()).throw(RuntimeError("http boom"))
+            body = obs.telemetry_snapshot()
+        finally:
+            obs._http_summary = original
+        self.assertFalse(body["ok"])
+        self.assertIn("http", body["section_errors"])
+        self.assertIn("rss_bytes", body["process"])
+        self.assertIn("memory_total_bytes", body["system"])
+        self.assertIn("worker_threads", body["server"])
+        self.assertEqual(body["http"]["request_count"], 0)
+        self.assertIn("latency_ms", body["http"])
+
     def test_prometheus_scrape_is_authenticated_and_route_labels_are_bounded(self) -> None:
         self.client.get("/probe/alpha")
         self.client.get("/probe/beta")

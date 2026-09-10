@@ -183,6 +183,10 @@ class ExecutionActiveTerminalPartitionTests(unittest.TestCase):
             for i in range(50):
                 er._write_job("p1", f"job-q{i}", _record(f"job-q{i}", "QUEUED"))
 
+            # Hot-path cost is defined after the one-time partition/layout migration gate.
+            # Do not mix migration work into the steady-state scan-cost assertion.
+            er._ensure_execution_store_layout()
+
             loads = 0
             real_load = er._load_job_file
 
