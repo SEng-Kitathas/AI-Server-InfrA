@@ -12,12 +12,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "baseline"))
 
 from pcmmad_receiver import approval_authority as aa
+from pcmmad_receiver import execution_routes as er
 from pcmmad_receiver import shared_core
 from pcmmad_receiver.app_factory import create_app
 
 
 class SchemaVNextHttpConformanceTests(unittest.TestCase):
     def setUp(self) -> None:
+        er._shutdown_scheduler()
         self.temp = tempfile.TemporaryDirectory(prefix="pcmmad-v11-http-")
         self.root = Path(self.temp.name)
         self.old_projects = shared_core.PROJECTS_ROOT
@@ -39,6 +41,7 @@ class SchemaVNextHttpConformanceTests(unittest.TestCase):
         self.headers = {"X-GitHome-Key": "v11-http-test-key"}
 
     def tearDown(self) -> None:
+        er._shutdown_scheduler()
         self.env_patch.stop()
         self.approval_patch.stop()
         shared_core.PROJECTS_ROOT = self.old_projects
