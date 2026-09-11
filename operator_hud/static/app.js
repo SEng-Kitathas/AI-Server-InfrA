@@ -139,10 +139,19 @@ function renderStatus(data){
   const coreReady=ready.core_ready!==undefined?!!ready.core_ready:!!(h.ok&&r.ok&&j.ok);
   const optionalDegraded=ready.optional_degraded||[];
   const corePartiallyAlive=!!(h.ok&&(r.ok||j.ok));
-  const g=$('globalState');
-  if(coreReady){g.className=`state-pill ${optionalDegraded.length?'degraded':'good'}`;g.textContent=optionalDegraded.length?'CORE READY · OPTIONAL DEGRADED':'CORE READY';}
-  else if(corePartiallyAlive){g.className='state-pill degraded';g.textContent='CORE DEGRADED';}
-  else{g.className='state-pill bad';g.textContent='CORE DOWN';}
+  const coreState=$('coreState'),optionalState=$('optionalState');
+  if(coreState){
+    const coreClass=coreReady?'good':(corePartiallyAlive?'degraded':'bad');
+    coreState.className=`readiness-orb core ${coreClass}`;
+    const label=coreState.querySelector('strong');
+    if(label)label.textContent=coreReady?'READY':(corePartiallyAlive?'DEGRADED':'DOWN');
+  }
+  if(optionalState){
+    const optionalClass=optionalDegraded.length?'degraded':'good';
+    optionalState.className=`readiness-orb optional ${optionalClass}`;
+    const label=optionalState.querySelector('strong');
+    if(label)label.textContent=optionalDegraded.length?'DEGRADED':'NOMINAL';
+  }
   $('lastRefresh').textContent=`checked ${now()} · ${data.latency_ms??'?'} ms`;
   renderCockpitStatus(data); renderTelemetry(data.telemetry||{}); renderSessions(sessions,{observable:sessionsObservable,error:b.detail?.error||b.error||null}); ingestRuntimePulse(data); renderEvents(data.events||[]);
 }
@@ -179,10 +188,14 @@ function parseAuthorityRules(text){
 }
 function authorityRulesText(sel){sel=sel||{};return [...(sel.capabilities||[]),...(sel.categories||[]).map(x=>`category:${x}`),...(sel.effect_traits||[]).map(x=>`effect:${x}`),...(sel.danger_tiers||[]).map(x=>`tier:${x}`)].join(', ');}
 function authorityModeChanged(){const custom=$('authorityMode').value==='custom';$('authorityDefault').disabled=!custom;}
+const UNIVERSAL_AUTHORITY_PROJECT='__ALL_PROJECTS__';
+function authorityScopeChanged(){const universal=$('authorityScope')?.value==='universal';const input=$('authorityProject');if(input){if(universal){input.dataset.projectValue=input.value;input.disabled=true;}else{input.disabled=false;if(input.dataset.projectValue)input.value=input.dataset.projectValue;}}loadAuthorityProfile();}
+function authorityTargetProject(){return $('authorityScope')?.value==='universal'?UNIVERSAL_AUTHORITY_PROJECT:$('authorityProject').value.trim();}
+function authorityTargetLabel(){return $('authorityScope')?.value==='universal'?'ALL PROJECTS':$('authorityProject').value.trim();}
 function renderAuthorityProfile(profile){const st=$('authorityProfileState');if(!profile){st.className='state-pill unknown';st.textContent='SERVER FALLBACK';$('authorityMode').value='standing';$('authorityDefault').value='allow';$('authorityAsk').value='';$('authorityAllow').value='';$('authorityDeny').value='';authorityModeChanged();return;}$('authorityMode').value=profile.mode||'standing';$('authorityDefault').value=profile.default_action||'allow';$('authorityAsk').value=authorityRulesText(profile.ask);$('authorityAllow').value=authorityRulesText(profile.allow);$('authorityDeny').value=authorityRulesText(profile.deny);authorityModeChanged();st.className='state-pill good';st.textContent=`${String(profile.mode||'standing').toUpperCase()} · ${String(profile.default_action||'allow').toUpperCase()}`;}
-async function loadAuthorityProfile(){const project=$('authorityProject').value.trim();if(!project)return;const d=await api(`/api/authority?project_id=${encodeURIComponent(project)}`,{timeoutMs:4000});if(d?.ok){state.authorityProfile=d.profile||null;renderAuthorityProfile(state.authorityProfile);}else showToast(`Authority read failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
-async function saveAuthorityProfile(){const project=$('authorityProject').value.trim();if(!project)return showToast('Project is required',false);const body={project_id:project,mode:$('authorityMode').value,default_action:$('authorityDefault').value,ask:parseAuthorityRules($('authorityAsk').value),allow:parseAuthorityRules($('authorityAllow').value),deny:parseAuthorityRules($('authorityDeny').value),operator_id:'local-hud-operator',provenance:'pcmmad-local-hud:standing-authority'};const d=await api('/api/authority',{method:'POST',body:JSON.stringify(body),timeoutMs:8000});if(d?.ok){state.authorityProfile=d.profile;renderAuthorityProfile(d.profile);showToast(`Standing authority saved for ${project}`);}else showToast(`Authority save failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
-async function resetAuthorityProfile(){const project=$('authorityProject').value.trim();if(!project)return;const d=await api('/api/authority/reset',{method:'POST',body:JSON.stringify({project_id:project}),timeoutMs:8000});if(d?.ok){state.authorityProfile=null;renderAuthorityProfile(null);showToast(`Server fallback restored for ${project}`);}else showToast(`Authority reset failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
+async function loadAuthorityProfile(){const project=authorityTargetProject();if(!project)return;const d=await api(`/api/authority?project_id=${encodeURIComponent(project)}`,{timeoutMs:4000});if(d?.ok){state.authorityProfile=d.profile||null;renderAuthorityProfile(state.authorityProfile);}else showToast(`Authority read failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
+async function saveAuthorityProfile(){const project=authorityTargetProject();if(!project)return showToast('Project is required',false);const body={project_id:project,mode:$('authorityMode').value,default_action:$('authorityDefault').value,ask:parseAuthorityRules($('authorityAsk').value),allow:parseAuthorityRules($('authorityAllow').value),deny:parseAuthorityRules($('authorityDeny').value),operator_id:'local-hud-operator',provenance:'pcmmad-local-hud:standing-authority'};const d=await api('/api/authority',{method:'POST',body:JSON.stringify(body),timeoutMs:8000});if(d?.ok){state.authorityProfile=d.profile;renderAuthorityProfile(d.profile);showToast(`Standing authority saved for ${authorityTargetLabel()}`);}else showToast(`Authority save failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
+async function resetAuthorityProfile(){const project=authorityTargetProject();if(!project)return;const d=await api('/api/authority/reset',{method:'POST',body:JSON.stringify({project_id:project}),timeoutMs:8000});if(d?.ok){state.authorityProfile=null;renderAuthorityProfile(null);showToast(`Server fallback restored for ${authorityTargetLabel()}`);}else showToast(`Authority reset failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
 
 async function loadApprovals(){const d=await api('/api/approvals',{timeoutMs:4000});if(d?.ok)renderApprovalInbox(d);else renderApprovalInbox({approvals:[]});return d;}
 async function decideInboxApproval(handle,action){if(!handle)return;const d=await api(`/api/approvals/${action}`,{method:'POST',body:JSON.stringify({handle}),timeoutMs:8000});showToast(d.ok?`${action==='grant'?'Granted':'Revoked'} ${handle}`:`Approval ${action} failed: ${d.error_code||d.message||'unknown'}`,!d.ok);await loadApprovals();return d;}
@@ -376,7 +389,7 @@ function wire(){
   $('runCockpitCommand').onclick=runCockpitCommand;$('cockpitCommand').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();runCockpitCommand();}});
   $('uiTier').onchange=e=>setUiTier(e.target.value);
   $('rejectApproval').onclick=()=>{const name=state.pendingApproval?.tool?.name;approvalClose();showToast(`Rejected: ${name||'action'}`,false);};
-  $('authorityMode').onchange=authorityModeChanged;$('authorityProject').onchange=loadAuthorityProfile;$('saveAuthorityProfile').onclick=saveAuthorityProfile;$('resetAuthorityProfile').onclick=resetAuthorityProfile;
+  $('authorityMode').onchange=authorityModeChanged;$('authorityScope').onchange=authorityScopeChanged;$('authorityProject').onchange=loadAuthorityProfile;$('saveAuthorityProfile').onclick=saveAuthorityProfile;$('resetAuthorityProfile').onclick=resetAuthorityProfile;
   $('approvalInbox')?.addEventListener('click',e=>{const grant=e.target.closest('[data-approval-grant]');if(grant){decideInboxApproval(grant.dataset.approvalGrant,'grant');return;}const revoke=e.target.closest('[data-approval-revoke]');if(revoke)decideInboxApproval(revoke.dataset.approvalRevoke,'revoke');});
   $('confirmApproval').onclick=()=>{const p=state.pendingApproval;if(!p)return;const cb=p.onApproved;cb();};
   window.addEventListener('keydown',e=>{

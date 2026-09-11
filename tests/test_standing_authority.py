@@ -43,6 +43,23 @@ class StandingAuthorityTests(unittest.TestCase):
         self.assertEqual(d.mode, "operator")
         self.assertEqual(d.approval_mode, "standing_authority")
 
+    def test_universal_standing_profile_applies_when_project_has_no_profile(self) -> None:
+        sa.save_profile({"project_id":sa.UNIVERSAL_PROJECT_ID,"mode":"standing"})
+        d=evaluate_tool_call(spec(), {"project_id":"UNSEEN-PROJECT"}, {})
+        self.assertTrue(d.allowed)
+        self.assertEqual(d.approval_mode, "standing_authority")
+        self.assertEqual(d.details["standing_authority"]["scope"], "universal")
+        self.assertEqual(d.details["standing_authority"]["profile_project_id"], sa.UNIVERSAL_PROJECT_ID)
+
+    def test_project_profile_overrides_universal_profile(self) -> None:
+        sa.save_profile({"project_id":sa.UNIVERSAL_PROJECT_ID,"mode":"standing"})
+        sa.save_profile({"project_id":"P","mode":"hitl"})
+        d=evaluate_tool_call(spec(), {"project_id":"P"}, {})
+        self.assertFalse(d.allowed)
+        self.assertEqual(d.error_code, "APPROVAL_REQUIRED")
+        self.assertEqual(d.details["standing_authority"]["scope"], "project")
+        self.assertEqual(d.details["standing_authority"]["profile_project_id"], "P")
+
     def test_hitl_selector_overrides_standing_default_allow(self) -> None:
         sa.save_profile({"project_id":"P","mode":"standing","ask":{"capabilities":["execution.terminate"]}})
         d=evaluate_tool_call(spec("execution.terminate", danger="critical"), {"project_id":"P","job_id":"fake"}, {})
@@ -79,6 +96,32 @@ class StandingAuthorityTests(unittest.TestCase):
         self.assertTrue(sa.delete_profile("P"))
         self.assertIsNone(sa.load_profile("P"))
 
+
+    def test_universal_profile_applies_to_projects_without_specific_profile(self) -> None:
+        sa.save_profile({"project_id":sa.UNIVERSAL_PROJECT_ID,"mode":"standing"})
+        for project_id in ("P","OTHER"):
+            d=evaluate_tool_call(spec(), {"project_id":project_id}, {})
+            self.assertTrue(d.allowed)
+            self.assertEqual(d.approval_mode, "standing_authority")
+            self.assertEqual(d.details["standing_authority"]["scope"], "universal")
+            self.assertEqual(d.details["standing_authority"]["profile_project_id"], sa.UNIVERSAL_PROJECT_ID)
+
+    def test_project_profile_overrides_universal_profile(self) -> None:
+        sa.save_profile({"project_id":sa.UNIVERSAL_PROJECT_ID,"mode":"standing"})
+        sa.save_profile({"project_id":"P","mode":"hitl"})
+        d=evaluate_tool_call(spec(), {"project_id":"P"}, {})
+        self.assertFalse(d.allowed)
+        self.assertEqual(d.error_code, "APPROVAL_REQUIRED")
+        self.assertEqual(d.details["standing_authority"]["scope"], "project")
+        other=evaluate_tool_call(spec(), {"project_id":"OTHER"}, {})
+        self.assertTrue(other.allowed)
+        self.assertEqual(other.details["standing_authority"]["scope"], "universal")
+
+    def test_universal_profile_does_not_apply_to_unscoped_calls(self) -> None:
+        sa.save_profile({"project_id":sa.UNIVERSAL_PROJECT_ID,"mode":"standing"})
+        d=evaluate_tool_call(spec(), {}, {})
+        self.assertFalse(d.allowed)
+        self.assertEqual(d.error_code, "APPROVAL_REQUIRED")
 
 if __name__ == "__main__":
     unittest.main()

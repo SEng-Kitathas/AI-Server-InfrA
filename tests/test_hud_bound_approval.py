@@ -199,7 +199,7 @@ class HudBoundApprovalTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         body = response.get_json()
         self.assertIn("target/argument/contract-bound challenge", body["approval_model"])
-        self.assertEqual(body["ui_version"], "ops-hud-20260911-live-activity-v5")
+        self.assertEqual(body["ui_version"], "ops-hud-20260911-readiness-authority-v7")
         self.assertEqual(body["telemetry_model"], "receiver-owned RED+USE+scheduler projection")
 
     def test_frontend_uses_effective_approval_and_runtime_challenge_not_local_approve_bit(self) -> None:

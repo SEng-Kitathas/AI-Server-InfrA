@@ -139,9 +139,13 @@ class HudAvailabilityPresentationTests(unittest.TestCase):
     def test_frontend_labels_optional_degradation_without_core_failure(self) -> None:
         js = (HUD_ROOT / "static" / "app.js").read_text(encoding="utf-8")
         html = (HUD_ROOT / "static" / "index.html").read_text(encoding="utf-8")
-        self.assertIn("CORE READY · OPTIONAL DEGRADED", js)
+        self.assertNotIn("CORE READY · OPTIONAL DEGRADED", js)
         self.assertIn("core_ready", js)
         self.assertIn("optional_degraded", js)
+        self.assertIn('id="coreState"', html)
+        self.assertIn('id="optionalState"', html)
+        self.assertIn("readiness-orb core", html)
+        self.assertIn("readiness-orb optional", html)
         self.assertIn("Browser Bridge", html)
         self.assertIn("OPTIONAL", html)
 

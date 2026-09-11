@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PCMMAD Operations HUD</title>
-  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260911-live-activity-v5">
+  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260911-readiness-authority-v7">
 </head>
 <body data-ui-tier="balanced">
 <div class="ambient-field" aria-hidden="true"></div>
@@ -30,7 +30,10 @@
       </select>
     </label>
     <button id="refreshAll" class="secondary">Refresh all</button>
-    <div id="globalState" class="state-pill unknown" aria-live="polite">CHECKING</div>
+    <div class="readiness-cluster" aria-live="polite" aria-label="Runtime readiness">
+      <div id="coreState" class="readiness-orb core unknown"><span class="readiness-kicker">CORE</span><strong>CHECKING</strong></div>
+      <div id="optionalState" class="readiness-orb optional unknown"><span class="readiness-kicker">OPTIONAL</span><strong>CHECKING</strong></div>
+    </div>
   </div>
 </header>
 
@@ -93,6 +96,7 @@
         </div>
         <div class="authority-profile">
           <div class="authority-profile-grid">
+            <label><span>SCOPE</span><select id="authorityScope"><option value="project">PROJECT</option><option value="universal">UNIVERSAL · ALL PROJECTS</option></select></label>
             <label><span>PROJECT</span><input id="authorityProject" value="RECEIVER-LAB" spellcheck="false"></label>
             <label><span>POSTURE</span><select id="authorityMode"><option value="standing">STANDING · allow unless HITL</option><option value="hitl">HITL · ask by default</option><option value="custom">CUSTOM</option></select></label>
             <label><span>CUSTOM DEFAULT</span><select id="authorityDefault"><option value="allow">ALLOW</option><option value="ask">ASK</option></select></label>
@@ -335,6 +339,6 @@
   </div>
 </div>
 <div id="toast" class="toast hidden" aria-live="polite"></div>
-<script src="/static/app.js?v=ops-hud-20260911-live-activity-v5"></script>
+<script src="/static/app.js?v=ops-hud-20260911-readiness-authority-v7"></script>
 </body>
 </html>

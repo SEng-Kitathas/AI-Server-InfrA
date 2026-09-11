@@ -1,10 +1,10 @@
-"""Operator-owned per-project standing authority profiles."""
+"""Operator-owned project and universal standing authority profiles."""
 from __future__ import annotations
 import fnmatch, hashlib
 from pathlib import Path
 from typing import Any, Mapping
 from .shared_core import SYSTEM_ROOT, load_json, save_json_atomic, utc_now
-PROFILE_VERSION="1"; MODES={"standing","hitl","custom"}
+PROFILE_VERSION="2"; MODES={"standing","hitl","custom"}; UNIVERSAL_PROJECT_ID="__ALL_PROJECTS__"
 def _root(): return SYSTEM_ROOT/"lab"/"standing_authority"
 def _key(project_id):
  raw=str(project_id or "").strip();
@@ -61,9 +61,11 @@ def project_id_from_payload(payload):
 def resolve(spec,payload):
  project_id=project_id_from_payload(payload)
  if not project_id:return None
- profile=load_profile(project_id)
+ profile=load_profile(project_id); scope="project"
+ if profile is None:
+  profile=load_profile(UNIVERSAL_PROJECT_ID); scope="universal"
  if profile is None:return None
  for action in ("deny","ask","allow"):
   hit=_selector_match(profile[action],spec)
-  if hit:return {"action":action,"project_id":project_id,"mode":profile["mode"],"matched":hit,"profile":profile}
- return {"action":profile["default_action"],"project_id":project_id,"mode":profile["mode"],"matched":{"selector":"default","pattern":profile["default_action"]},"profile":profile}
+  if hit:return {"action":action,"project_id":project_id,"profile_project_id":profile["project_id"],"scope":scope,"mode":profile["mode"],"matched":hit,"profile":profile}
+ return {"action":profile["default_action"],"project_id":project_id,"profile_project_id":profile["project_id"],"scope":scope,"mode":profile["mode"],"matched":{"selector":"default","pattern":profile["default_action"]},"profile":profile}

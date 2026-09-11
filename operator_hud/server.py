@@ -681,7 +681,7 @@ def api_results_get():
 
 @app.get("/api/meta")
 def api_meta():
-    return jsonify({"ok":True,"hud":"PCMMAD Operations HUD","receiver_base":RECEIVER_BASE,"api_key_available":bool(API_KEY),"api_key_exposed_to_browser":False,"hud_token":HUD_TOKEN,"hud_token_scope":"local UI POST capability; rotates on HUD process restart","approval_model":"runtime-issued target/argument/contract-bound challenge; HUD supports inline confirmation and durable pending grants; consume remains exact and single-use","ui_version":"ops-hud-20260911-live-activity-v5","telemetry_model":"receiver-owned RED+USE+scheduler projection"})
+    return jsonify({"ok":True,"hud":"PCMMAD Operations HUD","receiver_base":RECEIVER_BASE,"api_key_available":bool(API_KEY),"api_key_exposed_to_browser":False,"hud_token":HUD_TOKEN,"hud_token_scope":"local UI POST capability; rotates on HUD process restart","approval_model":"runtime-issued target/argument/contract-bound challenge; HUD supports inline confirmation and durable pending grants; consume remains exact and single-use","ui_version":"ops-hud-20260911-readiness-authority-v7","telemetry_model":"receiver-owned RED+USE+scheduler projection"})
 
 
 if __name__ == "__main__":

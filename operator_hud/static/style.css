@@ -138,6 +138,28 @@ body[data-ui-tier="full"] .command-dock { box-shadow: var(--shadow), inset 0 1px
 .state-pill.bad { color: #ffb2bc; background: rgba(66, 27, 37, .80); border-color: rgba(255, 119, 134, .34); }
 .state-pill.unknown { color: #c1cedd; background: rgba(24, 35, 49, .76); }
 
+/* Canonical Liquid-Aero readiness cluster: state projection stays separate from command controls. */
+.readiness-cluster { display:flex; align-items:stretch; gap:8px; }
+.readiness-orb {
+  position:relative; min-width:96px; padding:7px 11px 8px; overflow:hidden; isolation:isolate;
+  border:1px solid rgba(170,202,255,.24); border-radius:12px;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.012) 38%),rgba(8,7,17,.58);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 7px 22px rgba(0,0,0,.22);
+  backdrop-filter:blur(24px) saturate(138%); -webkit-backdrop-filter:blur(24px) saturate(138%);
+}
+.readiness-orb::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(110deg,rgba(255,255,255,.07),transparent 28%,transparent 72%,rgba(124,58,237,.055)); mix-blend-mode:screen; }
+.readiness-kicker { display:block; color:#8094ad; font:800 8px/1.15 Consolas,"Cascadia Mono",monospace; letter-spacing:.115em; text-transform:uppercase; margin-bottom:3px; }
+.readiness-orb strong { position:relative; z-index:1; font-size:10px; line-height:1; letter-spacing:.075em; text-shadow:0 1px 0 rgba(255,255,255,.10),0 0 13px currentColor; }
+.readiness-orb.core.good { color:#9af0bf; border-color:rgba(89,217,150,.30); box-shadow:inset 0 1px rgba(255,255,255,.08),0 0 20px rgba(89,217,150,.10),0 7px 22px rgba(0,0,0,.22); }
+.readiness-orb.core.degraded { color:#ffda87; border-color:rgba(241,198,101,.34); box-shadow:inset 0 1px rgba(255,255,255,.08),0 0 20px rgba(241,198,101,.10),0 7px 22px rgba(0,0,0,.22); }
+.readiness-orb.core.bad { color:#ffb2bc; border-color:rgba(255,119,134,.34); box-shadow:inset 0 1px rgba(255,255,255,.08),0 0 22px rgba(255,91,111,.13),0 7px 22px rgba(0,0,0,.22); }
+.readiness-orb.optional.good { color:#b9d9ff; border-color:rgba(118,185,255,.28); }
+.readiness-orb.optional.degraded { color:#ffda87; border-color:rgba(241,198,101,.34); box-shadow:inset 0 1px rgba(255,255,255,.08),0 0 20px rgba(241,198,101,.10),0 7px 22px rgba(0,0,0,.22); }
+.readiness-orb.unknown { color:#c1cedd; }
+body[data-ui-tier="balanced"] .readiness-orb { backdrop-filter:blur(var(--blur)) saturate(128%); -webkit-backdrop-filter:blur(var(--blur)) saturate(128%); }
+body[data-ui-tier="minimal"] .readiness-orb { backdrop-filter:none; -webkit-backdrop-filter:none; }
+
+
 .tabs {
   display: flex;
   gap: 4px;

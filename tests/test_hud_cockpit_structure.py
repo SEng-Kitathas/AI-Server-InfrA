@@ -27,7 +27,8 @@ class HudCockpitStructureTests(unittest.TestCase):
 
     def test_existing_security_and_runtime_truth_hooks_survive_visual_recomposition(self) -> None:
         for token in (
-            'id="globalState"',
+            'id="coreState"',
+            'id="optionalState"',
             'id="approvalModal"',
             'id="approvalPayload"',
             'id="confirmApproval"',
@@ -41,6 +42,13 @@ class HudCockpitStructureTests(unittest.TestCase):
             self.assertIn(token, self.html)
         self.assertIn("approval_challenge", self.js)
         self.assertIn("approval_handle:challenge.handle", self.js)
+        self.assertIn('id="authorityScope"', self.html)
+        self.assertIn("UNIVERSAL · ALL PROJECTS", self.html)
+        self.assertIn("UNIVERSAL_AUTHORITY_PROJECT", self.js)
+        self.assertNotIn('id="globalState"', self.html)
+        self.assertNotIn("CORE READY · OPTIONAL DEGRADED", self.js)
+        self.assertIn("readiness-orb core", self.html)
+        self.assertIn("readiness-orb optional", self.html)
 
     def test_quick_browser_control_is_provider_neutral_and_capability_driven(self) -> None:
         combined = (self.html + "\n" + self.js).lower()
