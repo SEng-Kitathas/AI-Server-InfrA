@@ -50,6 +50,7 @@ $Script:Receipt = [ordered]@{
     receiver_process_pids = @()
     ngrok_pids = @()
     public_url = $null
+    preferred_public_url = $null
     error = $null
     force_restart = [bool]$ForceRestart
     restart_intensity = $null
@@ -349,11 +350,15 @@ function Wait-ReceiverHealth([string]$Url, [string]$Key, [int]$TimeoutSeconds = 
     throw "Receiver did not become healthy at $Url within $TimeoutSeconds seconds."
 }
 
-function Start-Ngrok([string]$TargetUrl) {
+function Start-Ngrok([string]$TargetUrl, [string]$EndpointUrl = "") {
     $exe = Resolve-NgrokExe
     try { & $exe version *> $null } catch { throw "ngrok failed version preflight: $exe" }
     if ($LASTEXITCODE -ne 0) { throw "ngrok failed version preflight: $exe" }
-    $proc = Start-Process -FilePath $exe -ArgumentList @("http", $TargetUrl) -PassThru
+    $args = @("http", $TargetUrl)
+    if (-not [string]::IsNullOrWhiteSpace($EndpointUrl)) {
+        $args += @("--url", $EndpointUrl)
+    }
+    $proc = Start-Process -FilePath $exe -ArgumentList $args -PassThru
     Write-Host "ngrok PID: $($proc.Id)"
 }
 
@@ -392,6 +397,14 @@ try {
     if (-not [string]::IsNullOrWhiteSpace($env:PCMMAD_BIND_HOST)) { $HostAddress = $env:PCMMAD_BIND_HOST }
     if (-not [string]::IsNullOrWhiteSpace($env:PCMMAD_BIND_PORT)) { $Port = [int]$env:PCMMAD_BIND_PORT }
     $LocalBase = "http://$HostAddress`:$Port"
+    $PreferredNgrokUrl = $null
+    if (-not $NoNgrok -and $Action -eq "Restart" -and (Get-NgrokProcesses).Count -gt 0) {
+        try { $PreferredNgrokUrl = Get-NgrokPublicUrl -TimeoutSeconds 3 } catch { }
+    }
+    if (-not [string]::IsNullOrWhiteSpace($env:PCMMAD_NGROK_URL)) {
+        $PreferredNgrokUrl = $env:PCMMAD_NGROK_URL.Trim()
+    }
+    $Script:Receipt.preferred_public_url = $PreferredNgrokUrl
 
     if ($Action -in @("Restart", "Start")) {
         $Script:Receipt.restart_intensity = Reserve-RestartAttempt
@@ -449,8 +462,11 @@ try {
 
         if (-not $NoNgrok) {
             Write-Stage "starting_ngrok"
-            Start-Ngrok -TargetUrl $LocalBase
+            Start-Ngrok -TargetUrl $LocalBase -EndpointUrl $PreferredNgrokUrl
             $PublicUrl = Get-NgrokPublicUrl -TimeoutSeconds 20
+            if (-not [string]::IsNullOrWhiteSpace($PreferredNgrokUrl) -and $PublicUrl -ne $PreferredNgrokUrl) {
+                throw "ngrok endpoint currentness mismatch: expected $PreferredNgrokUrl but observed $PublicUrl"
+            }
             $Script:Receipt.public_url = $PublicUrl
             Write-ActiveSchema -PublicUrl $PublicUrl
             Write-Host "Public URL: $PublicUrl"

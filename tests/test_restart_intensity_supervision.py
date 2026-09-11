@@ -182,5 +182,16 @@ class RestartIntensitySupervisionTests(unittest.TestCase):
             self.assertEqual(len(state["attempts"]), 3)
 
 
+class RestartNgrokEndpointContractTests(unittest.TestCase):
+    def test_restart_preserves_or_explicitly_pins_current_ngrok_endpoint(self) -> None:
+        text = RESTART_SCRIPT.read_text(encoding="utf-8-sig")
+        self.assertIn("PCMMAD_NGROK_URL", text)
+        self.assertIn("Get-NgrokPublicUrl -TimeoutSeconds 3", text)
+        self.assertIn("--url", text)
+        self.assertIn("preferred_public_url", text)
+        self.assertIn("ngrok endpoint currentness mismatch", text)
+
+
+
 if __name__ == "__main__":
     unittest.main()
