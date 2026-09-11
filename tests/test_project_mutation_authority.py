@@ -495,6 +495,54 @@ except pma.ProjectMutationAuthorityError as exc:
                 )
                 self.assertEqual(takeover["generation"], 2)
 
+    def test_distinct_projects_hold_leases_and_mutation_guards_concurrently(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pcmmad-a042-multiproject-") as td:
+            root = Path(td)
+            with self._patched_project(root):
+                leases = {
+                    project_id: pma.acquire_lease(
+                        project_id,
+                        expected_generation=0,
+                        owner_id=f"owner-{project_id}",
+                        session_id=f"session-{project_id}",
+                    )
+                    for project_id in ("p1", "p2")
+                }
+                entered = {"p1": threading.Event(), "p2": threading.Event()}
+                release = threading.Event()
+                errors: list[BaseException] = []
+
+                def worker(project_id: str) -> None:
+                    try:
+                        lease = leases[project_id]
+                        with pma.mutation_guard(
+                            project_id,
+                            lease_id=str(lease["lease_id"]),
+                            generation=1,
+                            owner_id=f"owner-{project_id}",
+                            session_id=f"session-{project_id}",
+                            timeout_seconds=0.5,
+                        ):
+                            entered[project_id].set()
+                            release.wait(timeout=2)
+                    except BaseException as exc:  # pragma: no cover - surfaced below
+                        errors.append(exc)
+
+                threads = [threading.Thread(target=worker, args=(project_id,), daemon=True) for project_id in ("p1", "p2")]
+                for thread in threads:
+                    thread.start()
+                self.assertTrue(entered["p1"].wait(timeout=1))
+                self.assertTrue(entered["p2"].wait(timeout=1), "distinct projects must not serialize on a global mutation guard")
+                self.assertTrue(pma.observe_lease("p1")["consequence_guard"]["active"])
+                self.assertTrue(pma.observe_lease("p2")["consequence_guard"]["active"])
+                release.set()
+                for thread in threads:
+                    thread.join(timeout=2)
+                    self.assertFalse(thread.is_alive())
+                self.assertEqual(errors, [])
+                self.assertFalse(pma.observe_lease("p1")["consequence_guard"]["active"])
+                self.assertFalse(pma.observe_lease("p2")["consequence_guard"]["active"])
+
 
 if __name__ == "__main__":
     unittest.main()
