@@ -204,8 +204,7 @@ class HostileMutationTests(UcmFixture):
         self.assert_code("AUTHORITY_FIREWALL", lambda: ucm.memory_candidate_confirm(p))
 
     def test_core_headroom_failure_is_preappend_not_postappend(self):
-        c = collaboration(); c["communication"] = {"blob": "x" * 10000}
-        p = self.write(record_type="COLLABORATION_CONTRACT", record=c)
+        p = self.write(record_type="FACT", record=fact("fact.huge-core", value="x" * 10000))
         self.assert_code("UCM_CORE_BUDGET_EXCEEDED", lambda: ucm.add(p))
         self.assertEqual(self.head()["ledger_head_seq"], 0)
 

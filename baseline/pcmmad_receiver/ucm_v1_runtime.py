@@ -832,6 +832,70 @@ def _records_from_state(state: Mapping[str, Any], record_type: str) -> list[Json
     return rows
 
 
+def _ingress_fact_projection(fact: Mapping[str, Any]) -> JsonObject:
+    source_refs = [
+        f"{row['source_artifact']}#{row['source_pointer']}"
+        for row in fact.get("provenance", [])
+        if isinstance(row, Mapping) and row.get("source_artifact") and row.get("source_pointer")
+    ]
+    return {
+        "fact_key": fact["fact_key"],
+        "value": copy.deepcopy(fact.get("value")),
+        "currentness": fact["currentness"]["status"],
+        "verification_requirement": fact["verification"]["requirement"],
+        "source_refs": source_refs,
+        "full_record": f"ucm:FACT:{fact['fact_key']}",
+    }
+
+
+def _ingress_identity_projection(identity: Mapping[str, Any]) -> list[Any]:
+    return [identity["identity_key"], identity["status"], int(identity["precedence"])]
+
+
+def _ingress_referent_projection(referent: Mapping[str, Any]) -> list[Any]:
+    return [referent["term"], referent["referent_key"], referent["status"]]
+
+
+def _ingress_decision_projection(decision: Mapping[str, Any]) -> list[Any]:
+    return [decision["decision_id"], decision["status"]]
+
+
+def _ingress_collaboration_projection(collaboration: Mapping[str, Any] | None) -> JsonObject | None:
+    if collaboration is None:
+        return None
+    return {
+        "v": 1,
+        "contract_key": collaboration["contract_key"],
+        "addressing": copy.deepcopy(collaboration["addressing"]),
+        "signals": [
+            {
+                "signal": item["signal"],
+                "urgency_implied": bool(item.get("urgency_implied", False)),
+                "authorization_effect": "NONE",
+            }
+            for item in collaboration.get("control_signals", [])
+        ],
+        "initiative": copy.deepcopy(collaboration["initiative"]),
+        "correction": copy.deepcopy(collaboration.get("correction")),
+        "teaching": copy.deepcopy(collaboration.get("teaching")),
+        "authority_boundary": copy.deepcopy(collaboration["authority_boundary"]),
+        "full": f"ucm:COLLABORATION_CONTRACT:{collaboration['contract_key']}",
+    }
+
+
+def _ingress_candidate_head_from_rows(rows: Sequence[Mapping[str, Any]]) -> JsonObject:
+    ordered = sorted(
+        ({"candidate_id": row["candidate_id"], "status": row["status"]} for row in rows),
+        key=lambda row: row["candidate_id"],
+    )
+    pending_count = sum(1 for row in ordered if row["status"] == "PENDING_USER_CONFIRMATION")
+    return {
+        "candidate_count": len(ordered),
+        "pending_count": pending_count,
+        "queue_sha256": _digest(ordered),
+    }
+
+
 def _budget_surfaces_from_state(state: Mapping[str, Any]) -> JsonObject:
     facts=[]
     for raw in _records_from_state(state,"FACT"):
@@ -841,20 +905,19 @@ def _budget_surfaces_from_state(state: Mapping[str, Any]) -> JsonObject:
     facts.sort(key=lambda x:(derive_hydration_score(x.get("assistant_utility")),x["fact_key"]),reverse=True)
     identities=[]
     for raw in _records_from_state(state,"IDENTITY"):
-        x=_validate_identity(raw); identities.append({k:x[k] for k in ("identity_key","kind","value","status","use_for","scope","precedence")})
+        identities.append(_validate_identity(raw))
     identities.sort(key=lambda x:x["identity_key"])
     referents=[]
     for raw in _records_from_state(state,"REFERENT"):
-        x=_validate_referent(raw); referents.append({k:x[k] for k in ("referent_key","term","meaning","status","scope","precedence")})
+        referents.append(_validate_referent(raw))
     referents.sort(key=lambda x:x["referent_key"])
     decisions=[]
     for raw in _records_from_state(state,"DECISION"):
-        x=_validate_decision(raw); decisions.append({"decision_id":x["decision_id"],"status":x["status"],"statement":x["statement"],"scope":x["scope"]})
+        decisions.append(_validate_decision(raw))
     decisions.sort(key=lambda x:x["decision_id"])
     collaborations=[_validate_collaboration(x) for x in _records_from_state(state,"COLLABORATION_CONTRACT")]
     collaboration=sorted(collaborations,key=lambda x:x["contract_key"])[-1] if collaborations else None
     candidates=[_validate_candidate(x) for x in _records_from_state(state,"MEMORY_CANDIDATE")]
-    pending=sorted(x["candidate_id"] for x in candidates if x["status"]=="PENDING_USER_CONFIRMATION")
     controls=[_validate_control(x) for x in _records_from_state(state,"CONTROL_STATE")]; control=controls[-1] if controls else default_control_state()
     debt=[]
     for fact in facts:
@@ -870,14 +933,18 @@ def _budget_surfaces_from_state(state: Mapping[str, Any]) -> JsonObject:
         "ledger_head_hash":state.get("head_hash"),"snapshot_from_seq":int(state.get("event_count") or 0),
     }
     surfaces={
-        "CORE_SNAPSHOT":{"snapshot_from_seq":int(state.get("event_count") or 0),"facts":{x["fact_key"]:x for x in facts}},
-        "IDENTITY_INDEX":{"identities":identities},"COLLABORATION_CONTRACT":collaboration,"REFERENT_INDEX":{"referents":referents},
-        "VERIFICATION_DEBT":{"items":debt},"CONTROL_STATE":control,"DECISION_INDEX":{"decisions":decisions},
-        "CANDIDATE_QUEUE_HEAD":{"count":len(candidates),"pending_count":len(pending),"pending_ids":pending},
+        "CORE_SNAPSHOT":{"snapshot_from_seq":int(state.get("event_count") or 0),"facts":{x["fact_key"]:_ingress_fact_projection(x) for x in facts}},
+        "IDENTITY_INDEX":{"v":1,"e":[_ingress_identity_projection(x) for x in identities],"full":"ucm:IDENTITY"},
+        "COLLABORATION_CONTRACT":_ingress_collaboration_projection(collaboration),
+        "REFERENT_INDEX":{"v":1,"e":[_ingress_referent_projection(x) for x in referents],"full":"ucm:REFERENT"},
+        "VERIFICATION_DEBT":{"items":debt},
+        "CONTROL_STATE":control,
+        "DECISION_INDEX":{"v":1,"e":[_ingress_decision_projection(x) for x in decisions],"full":"ucm:DECISION"},
+        "CANDIDATE_QUEUE_HEAD":_ingress_candidate_head_from_rows(candidates),
     }
     user_head.update({
         "core_snapshot_sha256":_digest(surfaces["CORE_SNAPSHOT"]),"identity_index_sha256":_digest(surfaces["IDENTITY_INDEX"]),
-        "collaboration_contract_sha256":_digest(collaboration),"referent_index_sha256":_digest(surfaces["REFERENT_INDEX"]),
+        "collaboration_contract_sha256":_digest(surfaces["COLLABORATION_CONTRACT"]),"referent_index_sha256":_digest(surfaces["REFERENT_INDEX"]),
         "decision_index_sha256":_digest(surfaces["DECISION_INDEX"]),"verification_debt_sha256":_digest(surfaces["VERIFICATION_DEBT"]),
         "control_state_sha256":_digest(control),"candidate_queue_head_sha256":_digest(surfaces["CANDIDATE_QUEUE_HEAD"]),
         "source_manifest_sha256":_digest(source_rows),
@@ -1483,6 +1550,10 @@ def _candidate_head(profile_id: str) -> JsonObject:
 
 
 def _core_facts(profile_id: str) -> dict[str,JsonObject]:
+    return {fact["fact_key"]:fact for fact in _core_fact_records(profile_id)}
+
+
+def _core_fact_records(profile_id: str) -> list[JsonObject]:
     candidates=[]
     for raw in _records(profile_id,"FACT"):
         fact=validate_fact(raw)
@@ -1491,7 +1562,30 @@ def _core_facts(profile_id: str) -> dict[str,JsonObject]:
         if not groups.intersection(CORE_HYDRATION_GROUPS): continue
         candidates.append((derive_hydration_score(fact.get("assistant_utility")),fact["fact_key"],fact))
     candidates.sort(key=lambda x:(x[0],x[1]),reverse=True)
-    return {fact["fact_key"]:fact for _,_,fact in candidates}
+    return [fact for _,_,fact in candidates]
+
+
+def _ingress_identity_index(profile_id: str) -> JsonObject:
+    rows=[_validate_identity(raw) for raw in _records(profile_id,"IDENTITY")]
+    rows.sort(key=lambda x:x["identity_key"])
+    return {"v":1,"e":[_ingress_identity_projection(x) for x in rows],"full":"ucm:IDENTITY"}
+
+
+def _ingress_referent_index(profile_id: str) -> JsonObject:
+    rows=[_validate_referent(raw) for raw in _records(profile_id,"REFERENT")]
+    rows.sort(key=lambda x:x["referent_key"])
+    return {"v":1,"e":[_ingress_referent_projection(x) for x in rows],"full":"ucm:REFERENT"}
+
+
+def _ingress_decision_index(profile_id: str) -> JsonObject:
+    rows=[_validate_decision(raw) for raw in _records(profile_id,"DECISION")]
+    rows.sort(key=lambda x:x["decision_id"])
+    return {"v":1,"e":[_ingress_decision_projection(x) for x in rows],"full":"ucm:DECISION"}
+
+
+def _ingress_candidate_head(profile_id: str) -> JsonObject:
+    rows=[_validate_candidate(raw) for raw in _records(profile_id,"MEMORY_CANDIDATE")]
+    return _ingress_candidate_head_from_rows(rows)
 
 
 def _head_surface(profile_id: str) -> JsonObject:
@@ -1505,25 +1599,25 @@ def _build_ingress(profile_id: str) -> JsonObject:
         raise UcmError("USER_CONTINUITY_INCOMPLETE", "user continuity store is not initialized", 409, missing=sorted(REQUIRED_INGRESS_SURFACES - {"SYSTEM_DESCRIPTOR"}))
     if not h["snapshot_current"] or int(h["snapshot_from_seq"] or 0) < int(h["ledger_head_seq"]):
         raise UcmError("UCM_CURRENTNESS_FAILURE", "UCM snapshot trails authoritative ledger head", 409, **h)
+    full_core_facts = _core_fact_records(profile_id)
+    collaboration = _collaboration(profile_id)
     surfaces: JsonObject = {
-        "CORE_SNAPSHOT": {"snapshot_from_seq":h["snapshot_from_seq"],"facts":_core_facts(profile_id)},
-        "IDENTITY_INDEX": _identity_index(profile_id),
-        "COLLABORATION_CONTRACT": _collaboration(profile_id),
-        "REFERENT_INDEX": _referent_index(profile_id),
+        "CORE_SNAPSHOT": {"snapshot_from_seq":h["snapshot_from_seq"],"facts":{x["fact_key"]:_ingress_fact_projection(x) for x in full_core_facts}},
+        "IDENTITY_INDEX": _ingress_identity_index(profile_id),
+        "COLLABORATION_CONTRACT": _ingress_collaboration_projection(collaboration),
+        "REFERENT_INDEX": _ingress_referent_index(profile_id),
         "VERIFICATION_DEBT": {"items":verification_debt(profile_id)},
         "CONTROL_STATE": _current_control(profile_id),
-        "DECISION_INDEX": _decision_index(profile_id),
-        "CANDIDATE_QUEUE_HEAD": _candidate_head(profile_id),
+        "DECISION_INDEX": _ingress_decision_index(profile_id),
+        "CANDIDATE_QUEUE_HEAD": _ingress_candidate_head(profile_id),
     }
     missing=[]
     if surfaces["COLLABORATION_CONTRACT"] is None: missing.append("COLLABORATION_CONTRACT")
     present={"SYSTEM_DESCRIPTOR","USER_STORE_HEAD",*surfaces.keys()}
     missing.extend(sorted(REQUIRED_INGRESS_SURFACES-present))
     if missing: raise UcmError("USER_CONTINUITY_INCOMPLETE","required fresh-instance surfaces are missing",409,missing=sorted(set(missing)))
-    provenance_ok=True
-    for fact in surfaces["CORE_SNAPSHOT"]["facts"].values():
-        provenance_ok = provenance_ok and bool(fact.get("provenance"))
-    if not provenance_ok: raise UcmError("UCM_PROVENANCE_FAILURE","required core fact provenance missing",409)
+    if any(not fact.get("provenance") for fact in full_core_facts):
+        raise UcmError("UCM_PROVENANCE_FAILURE","required core fact provenance missing",409)
     user_head=_head_surface(profile_id)
     digest_fields={
         "core_snapshot_sha256":_digest(surfaces["CORE_SNAPSHOT"]),"identity_index_sha256":_digest(surfaces["IDENTITY_INDEX"]),
@@ -1602,7 +1696,7 @@ def compile_context_packet(profile_id: str, *, groups: Sequence[str] | None=None
     pid=backend._profile_id(profile_id); max_bytes=int(max_bytes)
     if max_bytes<=0 or max_bytes>MAX_CONTEXT_PACKET_BYTES: raise UcmError("UCM_CONTRACT_INVALID",f"max_bytes must be 1-{MAX_CONTEXT_PACKET_BYTES}",400)
     ingress=_build_ingress(pid)
-    facts=copy.deepcopy(ingress["CORE_SNAPSHOT"]["facts"])
+    facts={fact["fact_key"]:copy.deepcopy(fact) for fact in _core_fact_records(pid)}
     if groups:
         facts.update(read_sections(pid,list(groups))["facts"])
     if query:

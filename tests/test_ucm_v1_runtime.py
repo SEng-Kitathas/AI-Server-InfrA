@@ -435,8 +435,8 @@ class IngressHydrationExportTests(UcmFixture):
         self.assertEqual(out["SYSTEM_DESCRIPTOR"]["authority_traits"], list(ucm.AUTHORITY_TRAITS))
 
     def test_canonical_core_budget_fails_before_authoritative_append(self):
-        huge = collaboration(); huge["communication"] = {"blob": "x" * 11000}
-        payload = self.write(record_type="COLLABORATION_CONTRACT", record=huge)
+        huge = fact("fact.huge-core", value="x" * 11000)
+        payload = self.write(record_type="FACT", record=huge)
         with self.assertRaises(ucm.UcmError) as ctx:
             ucm.add(payload)
         self.assertEqual(ctx.exception.error_code, "UCM_CORE_BUDGET_EXCEEDED")
@@ -450,6 +450,60 @@ class IngressHydrationExportTests(UcmFixture):
         self.assertEqual(telemetry["HYDRATED"], 1)
         self.assertEqual(telemetry["CONSUMED"], 0)
         self.assertTrue(telemetry["read_is_nonmutating"])
+
+    def test_populated_ingress_uses_compact_indexes_and_preserves_rich_lazy_records(self):
+        self.initialize_ingress()
+        for idx in range(10):
+            self.add_record(
+                "IDENTITY",
+                identity(f"identity.{idx}", f"Display Name {idx} " + "x" * 300, precedence=50 + idx),
+                idempotency_key=f"identity-{idx}",
+            )
+        for idx in range(12):
+            self.add_record(
+                "REFERENT",
+                referent(f"referent.{idx}", f"term-{idx}", "meaning " + "y" * 450, precedence=40 + idx),
+                idempotency_key=f"referent-{idx}",
+            )
+        for idx in range(10):
+            row = decision(f"decision.{idx}")
+            row["statement"] = "decision statement " + "z" * 350
+            ucm.decision_add(self.write(decision=row, idempotency_key=f"decision-{idx}"))
+        for idx in range(6):
+            self.add_record("FACT", fact(f"fact.core.{idx}", value=f"core-{idx}"), idempotency_key=f"fact-{idx}")
+
+        ingress = ucm.read_core(self.profile)
+        self.assertEqual(ingress["ingress_status"], "PASS")
+        self.assertGreaterEqual(ingress["headroom_bytes"], ucm.MIN_HEADROOM_BYTES)
+
+        core_row = next(iter(ingress["CORE_SNAPSHOT"]["facts"].values()))
+        self.assertEqual(
+            set(core_row),
+            {"fact_key", "value", "currentness", "verification_requirement", "source_refs", "full_record"},
+        )
+        self.assertNotIn("provenance", core_row)
+        self.assertNotIn("lifecycle", core_row)
+
+        identity_entry = ingress["IDENTITY_INDEX"]["e"][0]
+        referent_entry = ingress["REFERENT_INDEX"]["e"][0]
+        decision_entry = ingress["DECISION_INDEX"]["e"][0]
+        self.assertEqual(len(identity_entry), 3)
+        self.assertEqual(len(referent_entry), 3)
+        self.assertEqual(len(decision_entry), 2)
+        self.assertEqual(ingress["IDENTITY_INDEX"]["full"], "ucm:IDENTITY")
+        self.assertEqual(ingress["REFERENT_INDEX"]["full"], "ucm:REFERENT")
+        self.assertEqual(ingress["DECISION_INDEX"]["full"], "ucm:DECISION")
+        self.assertNotIn("communication", ingress["COLLABORATION_CONTRACT"])
+        self.assertNotIn("provenance", ingress["COLLABORATION_CONTRACT"])
+        self.assertIn("full", ingress["COLLABORATION_CONTRACT"])
+
+        resolved_identity = ucm.resolve_identity(self.profile, use_for="NORMAL_ADDRESS")
+        self.assertIn("value", resolved_identity)
+        resolved_referent = ucm.resolve_referent(self.profile, term="term-0")
+        self.assertIn("meaning", resolved_referent)
+        decisions = ucm.read_decisions(self.profile, include_historical=True)
+        self.assertTrue(decisions)
+        self.assertIn("statement", decisions[0])
 
     def test_lazy_groups_do_not_auto_hydrate_into_core(self):
         self.initialize_ingress()

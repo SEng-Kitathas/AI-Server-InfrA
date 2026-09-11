@@ -151,13 +151,13 @@ class IcfIngressRaceTests(WarfortFixture):
 class UcmPacketRaceTests(WarfortFixture):
     def test_ucm_read_core_rejects_head_change_during_packet_assembly(self):
         profile = self.write_ucm()
-        original_core = ucm._core_facts
+        original_core = ucm._core_fact_records
 
         def mutate_after_head(pid):
             ucm.add(self.ucm_payload(profile, idem="racing-fact", record_type="FACT", record=fact("racing.fact")))
             return original_core(pid)
 
-        with patch.object(ucm, "_core_facts", side_effect=mutate_after_head):
+        with patch.object(ucm, "_core_fact_records", side_effect=mutate_after_head):
             with self.assertRaises(ucm.UcmError) as ctx:
                 ucm.read_core(profile)
         self.assertEqual(ctx.exception.error_code, "UCM_CURRENTNESS_FAILURE")
