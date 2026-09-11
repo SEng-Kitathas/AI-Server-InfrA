@@ -13,6 +13,7 @@ import unittest
 import zipfile
 from pathlib import Path
 import sys
+from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
@@ -23,6 +24,7 @@ from server_hardening import (
     read_text_window,
     resolve_command_executable_for_cwd,
     run_subprocess_envelope,
+    start_background_process,
     safe_extract_zip,
     safe_json_dumps,
     safe_project_cwd,
@@ -32,6 +34,27 @@ from server_hardening import (
 
 
 class ServerHardeningTests(unittest.TestCase):
+    def test_background_process_isolated_from_supervising_windows_process_group(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp, patch(
+            "server_hardening.subprocess.Popen"
+        ) as popen:
+            start_background_process(
+                [sys.executable, "-c", "print('ok')"],
+                cwd=tmp,
+                stdout=None,
+                stderr=None,
+                env=os.environ.copy(),
+            )
+        kwargs = popen.call_args.kwargs
+        if os.name == "nt":
+            import subprocess
+
+            expected = int(getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
+            self.assertNotEqual(expected, 0)
+            self.assertEqual(int(kwargs["creationflags"]) & expected, expected)
+        else:
+            self.assertEqual(kwargs["creationflags"], 0)
+
     def test_safe_json_dumps_stringifies_non_string_keys(self) -> None:
         text = safe_json_dumps({1: Path("x/y")})
         self.assertIn('"1"', text)

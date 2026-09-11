@@ -99,6 +99,9 @@ function renderCockpitTools(){
   toolCount.textContent=String(state.tools.length);
   familyCount.textContent=String(families.size);
   summary.innerHTML=`<strong>${state.tools.length}</strong> native tools<br><strong>${mutating}</strong> mutating · <strong>${approvals}</strong> approval-gated<br><strong>${dynamic}</strong> dynamic availability${unavailable?` · <strong>${unavailable}</strong> unavailable`:''}`;
+  const browserStart=state.tools.find(t=>t.name==='browser.session.start');
+  const quickBrowser=$('quickBrowserAction');
+  if(quickBrowser){quickBrowser.classList.toggle('hidden',!browserStart);quickBrowser.disabled=!browserStart;}
 }
 
 function renderStatus(data){
@@ -270,7 +273,7 @@ async function rawToolDispatch(){if(!state.selected)return;let payload;try{paylo
 async function presetAction(name){
   if(name==='sessions'){await refreshStatus();activateTab('browser');return;}
   if(name==='mounts'){const d=await api('/api/mounts');showData('Mounted roots',d);showToast(d.ok?'Mounts loaded':'Mounts failed',!!d.ok);return;}
-  if(name==='duckai'){const t=state.tools.find(x=>x.name==='browser.session.start');if(!t)return showToast('browser.session.start unavailable',false);return dispatchTool(t,{browser:'chrome',headless:false,persistent:false,profile_name:'da001_duckai_operator',url:'https://duck.ai/',timeout_seconds:60});}
+  if(name==='browser'){const t=state.tools.find(x=>x.name==='browser.session.start');if(!t)return showToast('browser.session.start unavailable',false);activateTab('browser');$('launchUrl')?.focus();return;}
   if(name==='upload'){openToolPreset('browser.upload',{session_id:'',selector:'input[type=file]',paths:[],timeout_seconds:60});}
 }
 

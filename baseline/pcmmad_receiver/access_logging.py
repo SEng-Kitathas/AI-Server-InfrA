@@ -35,6 +35,18 @@ _KNOWN_PROJECT_PREFIXES: tuple[tuple[str, str], ...] = (
     ("OBE", "OBE"),
 )
 
+_TARGET_PATH_KEYS = {
+    "cwd",
+    "path",
+    "source_path",
+    "target_path",
+    "destination_path",
+    "repo_path",
+    "project_root",
+    "root",
+    "archive_path",
+}
+
 
 def _access_logger() -> logging.Logger:
     logger = logging.getLogger(ACCESS_LOGGER_NAME)
@@ -112,6 +124,54 @@ def _collect_project_ids(value: Any, *, depth: int = 0, found: set[str] | None =
     return result
 
 
+def _collect_nested_project_ids(value: Any) -> set[str]:
+    """Collect operational target project ids below the outer request envelope."""
+    if not isinstance(value, dict):
+        return set()
+    result: set[str] = set()
+    for key in ("payload", "arguments", "plan", "steps", "nodes", "items"):
+        if key in value:
+            _collect_project_ids(value[key], depth=1, found=result)
+    return result
+
+
+def _project_folder_from_path(value: str) -> str | None:
+    text = str(value or "").strip()
+    if not text or "://" in text:
+        return None
+    normalized = re.sub(r"/+", "/", text.replace("\\", "/")).rstrip("/")
+    root_raw = str(os.environ.get("PCMMAD_PROJECTS_ROOT", "")).strip()
+    if root_raw:
+        root = re.sub(r"/+", "/", root_raw.replace("\\", "/")).rstrip("/")
+        prefix = root + "/"
+        if normalized.lower().startswith(prefix.lower()):
+            remainder = normalized[len(prefix):]
+            project = remainder.split("/", 1)[0].strip()
+            return project or None
+    match = re.search(r"(?:^|/)projects/([^/]+)(?:/|$)", normalized, flags=re.IGNORECASE)
+    return match.group(1).strip() if match and match.group(1).strip() else None
+
+
+def _collect_target_project_folders(
+    value: Any, *, depth: int = 0, found: set[str] | None = None
+) -> set[str]:
+    result = found if found is not None else set()
+    if depth > 5 or len(result) > 8:
+        return result
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if key in _TARGET_PATH_KEYS and isinstance(child, str):
+                project = _project_folder_from_path(child)
+                if project:
+                    result.add(project)
+            elif key in ("payload", "arguments", "plan", "steps", "nodes", "items"):
+                _collect_target_project_folders(child, depth=depth + 1, found=result)
+    elif isinstance(value, list):
+        for item in value[:32]:
+            _collect_target_project_folders(item, depth=depth + 1, found=result)
+    return result
+
+
 def _collect_job_ids(value: Any, *, depth: int = 0, found: set[str] | None = None) -> set[str]:
     result = found if found is not None else set()
     if depth > 4 or len(result) > 4:
@@ -172,22 +232,34 @@ def _short_job_tag(job_ids: set[str]) -> str | None:
 
 
 def _request_project_tag() -> tuple[str, set[str]]:
-    project_ids: set[str] = set()
+    outer_project_ids: set[str] = set()
     for source in (request.view_args or {}, request.args):
         candidate = source.get("project_id") if hasattr(source, "get") else None
         if isinstance(candidate, str) and candidate.strip():
-            project_ids.add(candidate.strip())
+            outer_project_ids.add(candidate.strip())
     header_project = request.headers.get("X-PCMMAD-Project")
     if header_project and header_project.strip():
-        project_ids.add(header_project.strip())
+        outer_project_ids.add(header_project.strip())
+
     body = _bounded_json_request_body()
-    if body is not None:
-        _collect_project_ids(body, found=project_ids)
-    if len(project_ids) > 1:
-        return "MULTI", project_ids
-    project_id = next(iter(project_ids)) if project_ids else None
+    nested_project_ids: set[str] = set()
+    target_folders: set[str] = set()
+    if isinstance(body, dict):
+        body_project = body.get("project_id")
+        if isinstance(body_project, str) and body_project.strip():
+            outer_project_ids.add(body_project.strip())
+        nested_project_ids = _collect_nested_project_ids(body)
+        target_folders = _collect_target_project_folders(body)
+
+    # The operator needs to know what project folder a call is actually touching.
+    # A path-grounded project therefore outranks an outer control/session project,
+    # followed by a nested tool target, then the outer request project.
+    effective = target_folders or nested_project_ids or outer_project_ids
+    if len(effective) > 1:
+        return "MULTI", effective
+    project_id = next(iter(effective)) if effective else None
     aliases = g.get("_pcmmad_access_aliases", {})
-    return project_log_tag(project_id, aliases), project_ids
+    return project_log_tag(project_id, aliases), effective
 
 
 def install_access_logging(app: Flask) -> None:

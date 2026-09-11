@@ -75,8 +75,8 @@
       <section class="panel compact-panel">
         <div class="panel-head"><div><div class="eyebrow">QUICK CONTROL</div><h2>Common operations</h2></div></div>
         <div class="action-grid cockpit-actions">
-          <button class="action-card danger-action" data-preset="duckai">
-            <span class="action-icon">↗</span><span><strong>Duck.ai evaluator</strong><small>visible session · approval</small></span>
+          <button class="action-card" id="quickBrowserAction" data-preset="browser">
+            <span class="action-icon">↗</span><span><strong>Browser launcher</strong><small>current Runtime capability</small></span>
           </button>
           <button class="action-card" data-preset="sessions">
             <span class="action-icon">◉</span><span><strong>Browser sessions</strong><small>read-only</small></span>
@@ -221,7 +221,7 @@
     </section>
     <section class="panel">
       <div class="eyebrow">NEW SESSION</div><h2>Launch browser</h2>
-      <label>URL<input id="launchUrl" value="https://duck.ai/"></label>
+      <label>URL<input id="launchUrl" value="about:blank"></label>
       <label>Profile name<input id="launchProfile" value="pcmmad_operator"></label>
       <div class="split"><label><input id="launchHeadless" type="checkbox"> headless</label><label><input id="launchPersistent" type="checkbox"> persistent</label></div>
       <button id="launchBrowser" class="primary danger-button">Request browser launch</button>

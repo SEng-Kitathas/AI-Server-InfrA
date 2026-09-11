@@ -41,6 +41,16 @@ class HudCockpitStructureTests(unittest.TestCase):
         self.assertIn("approval_challenge", self.js)
         self.assertIn("approval_handle:challenge.handle", self.js)
 
+    def test_quick_browser_control_is_provider_neutral_and_capability_driven(self) -> None:
+        combined = (self.html + "\n" + self.js).lower()
+        self.assertNotIn("duckai", combined)
+        self.assertNotIn("duck.ai", combined)
+        self.assertIn('id="quickBrowserAction"', self.html)
+        self.assertIn('data-preset="browser"', self.html)
+        self.assertIn('value="about:blank"', self.html)
+        self.assertIn("browser.session.start", self.js)
+        self.assertIn("quickBrowser.classList.toggle('hidden',!browserStart)", self.js)
+
     def test_keyboard_first_navigation_and_presentation_only_tiers_exist(self) -> None:
         self.assertIn("focusCockpitCommand", self.js)
         self.assertIn("e.altKey&&['1','2','3','4'].includes(e.key)", self.js)

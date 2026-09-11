@@ -79,6 +79,44 @@ class AccessLoggingMiddlewareTests(unittest.TestCase):
         self.assertEqual(args[3:6], ("POST", "/echo", 200))
         self.assertGreaterEqual(args[6], 0.0)
 
+    def test_target_project_folder_outranks_outer_control_project(self) -> None:
+        app = self._app()
+        target = r"E:\new pc\AI_Pushes_Sandbox\projects\CFE\src"
+        with patch.dict(
+            "os.environ",
+            {
+                "PCMMAD_ACCESS_LOG": "1",
+                "PCMMAD_PROJECTS_ROOT": r"E:\new pc\AI_Pushes_Sandbox\projects",
+            },
+            clear=False,
+        ), patch.object(al._access_logger(), "info") as info:
+            al.install_access_logging(app)
+            response = app.test_client().post(
+                "/echo",
+                json={
+                    "project_id": "PCMMAD_RECEIVER_LAB",
+                    "arguments": {"cwd": target},
+                },
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(info.call_args.args[1], "CFE")
+
+    def test_nested_tool_project_outranks_outer_control_project(self) -> None:
+        app = self._app()
+        with patch.dict("os.environ", {"PCMMAD_ACCESS_LOG": "1"}, clear=False), patch.object(
+            al._access_logger(), "info"
+        ) as info:
+            al.install_access_logging(app)
+            response = app.test_client().post(
+                "/echo",
+                json={
+                    "project_id": "PCMMAD_RECEIVER_LAB",
+                    "arguments": {"project_id": "FORGE"},
+                },
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(info.call_args.args[1], "FORGE")
+
     def test_alias_map_applies_without_exposing_full_project_id(self) -> None:
         app = self._app()
         aliases = json.dumps({"extremely-long-secret-ish-project-name": "LABX"})

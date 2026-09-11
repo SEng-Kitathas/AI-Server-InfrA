@@ -391,6 +391,14 @@ def start_background_process(command: Sequence[str], **options: Any) -> ManagedP
         stderr=options["stderr"],
         env=options.get("env"),
     )
+    creationflags = 0
+    if os.name == "nt":
+        # Worker capsules must not share the supervising receiver/pytest console
+        # process group. Restart/timeout/termination tests intentionally kill
+        # descendants; without a distinct group, Windows control events can
+        # escape upward and interrupt the supervisor itself.
+        creationflags |= int(getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
+        creationflags |= int(getattr(subprocess, "CREATE_NO_WINDOW", 0))
     return subprocess.Popen(
         list(command),
         cwd=str(spec.cwd),
@@ -399,6 +407,7 @@ def start_background_process(command: Sequence[str], **options: Any) -> ManagedP
         stdin=subprocess.DEVNULL,
         shell=False,
         env=spec.env,
+        creationflags=creationflags,
     )
 
 
