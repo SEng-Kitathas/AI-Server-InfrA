@@ -93,10 +93,12 @@ class CompactSchemaAuthorityParityTests(unittest.TestCase):
         self.assertIn("separate runtime authority envelope", batch)
         self.assertIn("does not imply transaction", batch)
 
-    def test_restart_controller_still_publishes_this_compact_template(self) -> None:
+    def test_restart_controller_publishes_v11_actions_profile_as_active(self) -> None:
         text = RESTART_SCRIPT.read_text(encoding="utf-8-sig")
-        self.assertIn(SCHEMA_PATH.name, text)
+        self.assertIn("pcmmad_lab_action_schema_v11_0_actions_compat_8.json", text)
         self.assertIn("pcmmad_lab_action_schema_ACTIVE.json", text)
+        self.assertNotIn(f'$SchemaTemplate = Join-Path $Runtime "{SCHEMA_PATH.name}"', text)
+        self.assertTrue(SCHEMA_PATH.is_file(), "v10.3 compatibility schema must remain as explicit legacy artifact")
 
 
 if __name__ == "__main__":
