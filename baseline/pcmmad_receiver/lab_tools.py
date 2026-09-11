@@ -1250,6 +1250,7 @@ def tool_lab_health() -> JsonRecord:
     """Compatibility health surface expected by lab_routes."""
     return {
         "ok": True,
+        "status": "online",
         "tool_count": len(_registry_snapshot()),
         "plugin_load_count": len(_PLUGIN_LOADS),
         "plugin_error_count": len(_PLUGIN_ERRORS),

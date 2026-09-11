@@ -9,7 +9,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "baseline"))
 
-from pcmmad_receiver import lab_routes
+from pcmmad_receiver import lab_routes, lab_tools
 
 
 class RuntimeIdentityProjectionTests(unittest.TestCase):
@@ -24,6 +24,12 @@ class RuntimeIdentityProjectionTests(unittest.TestCase):
         head = identity.get("source_head")
         if head is not None:
             self.assertEqual(len(head), 40)
+
+    def test_native_lab_health_projects_online_status_explicitly(self) -> None:
+        health = lab_tools.tool_lab_health()
+        self.assertTrue(health["ok"])
+        self.assertEqual(health["status"], "online")
+        self.assertGreaterEqual(health["tool_count"], 1)
 
     def test_project_catalog_is_bounded_and_uses_authoritative_projects_root(self) -> None:
         with tempfile.TemporaryDirectory(prefix="pcmmad-project-catalog-") as td:
