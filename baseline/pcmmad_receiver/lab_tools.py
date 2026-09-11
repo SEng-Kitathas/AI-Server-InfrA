@@ -63,6 +63,7 @@ from .lab_plugins import load_plugins
 from .lab_policy import PolicyDecision, evaluate_tool_call, policy_mode
 from .protocol_policy import evaluate_protocol_tool_call
 from .lab_schema_validation import validate_payload_schema
+from .lab_errors import LabToolError
 from .lab_tools_browser import register_browser_tools
 from .lab_tools_execution import register_execution_tools
 from .lab_tools_filesystem import register_filesystem_tools
@@ -140,15 +141,6 @@ try:
     from bs4 import BeautifulSoup
 except ImportError:  # pragma: no cover
     BeautifulSoup = None
-
-
-class LabToolError(Exception):
-    def __init__(self, error_code: str, message: str, status: int = 400, **extra: Any) -> None:
-        super().__init__(message)
-        self.error_code = error_code
-        self.message = message
-        self.status = status
-        self.extra = extra
 
 
 _TOOL_REGISTRY: dict[str, ToolSpec] = {}

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Callable
 from flask import Blueprint, jsonify, request, send_file
 from .shared_core import get_mount_roots, get_project_root, resolve_mount_spec, utc_now, require_valid_api_key
+from .lab_errors import LabToolError
 from .project_mutation_authority import (
     ProjectMutationAuthorityError,
     project_id_for_resolved_path,
@@ -442,9 +443,13 @@ def r_cleanup():
 
 def register(register_tool: Callable[..., Any]) -> None:
     def wrap(fn, *a, **kw):
-        try: return fn(*a, **kw)
-        except FileNotFoundError as e: raise RuntimeError(f"NOT_FOUND: {e}")
-        except Exception as e: raise RuntimeError(f"TRANSFER_ERROR: {e}")
+        try:
+            return fn(*a, **kw)
+        except FileNotFoundError as exc:
+            raise LabToolError("NOT_FOUND", str(exc), 404, transfer_exception=type(exc).__name__) from exc
+        except Exception as exc:
+            status = 410 if isinstance(exc, TimeoutError) else 409 if isinstance(exc, FileExistsError) else 400
+            raise LabToolError("TRANSFER_ERROR", str(exc), status, transfer_exception=type(exc).__name__) from exc
 
     @register_tool("transfer.export.create", "Create one short-lived, resumable, hash-verified export ticket.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="ephemeral_mutation", effect_traits=["creates_ephemeral_state","reads_files","hashes_content"])
     def _export(p): return wrap(create_export, str(p.get("path","")), str(p.get("project_id","")) or None, int(p.get("ttl_seconds",DEFAULT_TTL)), int(p.get("chunk_bytes",DEFAULT_CHUNK)))
