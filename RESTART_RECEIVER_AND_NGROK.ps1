@@ -17,7 +17,7 @@ $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Runtime = Join-Path $Root "baseline\pcmmad_receiver"
 $ServerPy = Join-Path $Runtime "server.py"
 $VenvPython = Join-Path $Runtime ".venv\Scripts\python.exe"
-$SchemaTemplate = Join-Path $Runtime "pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json"
+$SchemaTemplate = Join-Path $Runtime "pcmmad_lab_action_schema_v11_0_actions_compat_8.json"
 $ActiveSchema = Join-Path $Runtime "pcmmad_lab_action_schema_ACTIVE.json"
 $ReceiptRoot = Join-Path $env:TEMP "pcmmad_restart_receipts"
 if ([string]::IsNullOrWhiteSpace($ReceiptPath)) {
