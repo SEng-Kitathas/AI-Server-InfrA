@@ -879,7 +879,12 @@ def _schema_vnext_request_payload(operation: str) -> JsonRecord:
             f"v11 request body exceeds {SCHEMA_VNEXT_MAX_REQUEST_BYTES} bytes",
             413,
         )
-    raw = request.stream.read(SCHEMA_VNEXT_MAX_REQUEST_BYTES + 1)
+    cached = getattr(request, "_cached_data", None)
+    raw = (
+        bytes(cached)
+        if isinstance(cached, (bytes, bytearray))
+        else request.stream.read(SCHEMA_VNEXT_MAX_REQUEST_BYTES + 1)
+    )
     if len(raw) > SCHEMA_VNEXT_MAX_REQUEST_BYTES:
         raise LabToolError(
             "REQUEST_TOO_LARGE",

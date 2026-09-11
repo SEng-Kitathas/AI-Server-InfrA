@@ -32,6 +32,7 @@ class SchemaVNextHttpConformanceTests(unittest.TestCase):
                 "GITHOME_API_KEY": "v11-http-test-key",
                 "PCMMAD_LAB_POLICY_MODE": "strict",
                 "PCMMAD_ALLOW_LEGACY_INLINE_APPROVAL": "0",
+                "PCMMAD_ACCESS_LOG": "1",
             },
             clear=False,
         )
