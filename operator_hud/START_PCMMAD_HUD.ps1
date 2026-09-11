@@ -1,6 +1,8 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$Python = 'C:\Users\ancal\Desktop\PCMMAD_RECEIVER_V29_NATIVE_PROTOCOL_RC1\PCMMAD_receiver\baseline\pcmmad_receiver\.venv\Scripts\python.exe'
+$RepoRoot = Split-Path -Parent $Here
+$Python = Join-Path $RepoRoot 'baseline\pcmmad_receiver\.venv\Scripts\python.exe'
+if (-not (Test-Path -LiteralPath $Python)) { $Python = (Get-Command python.exe -ErrorAction Stop).Source }
 $HudUrl = 'http://127.0.0.1:5090/'
 
 if (-not $env:GITHOME_API_KEY) {

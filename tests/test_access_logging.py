@@ -16,7 +16,7 @@ from pcmmad_receiver import access_logging as al
 
 class AccessLoggingUnitTests(unittest.TestCase):
     def test_known_and_explicit_project_aliases_are_bounded(self) -> None:
-        self.assertEqual(al.project_log_tag("PCMMAD_RECEIVER_LAB"), "PCMMAD")
+        self.assertEqual(al.project_log_tag("PCMMAD_RECEIVER_LAB"), "RECEIVER-LAB")
         self.assertEqual(al.project_log_tag("rahl-engineering-canonical-sop"), "RAHL")
         self.assertEqual(
             al.project_log_tag("a-very-long-project-identifier", {"a-very-long-project-identifier": "forge-main"}),
@@ -74,7 +74,7 @@ class AccessLoggingMiddlewareTests(unittest.TestCase):
         self.assertEqual(response.get_json()["project_id"], "PCMMAD_RECEIVER_LAB")
         args = info.call_args.args
         self.assertEqual(args[0], "[%s]%s %s %s %s %.1fms")
-        self.assertEqual(args[1], "PCMMAD")
+        self.assertEqual(args[1], "RECEIVER-LAB")
         self.assertEqual(args[2], " [job:DEADBEEF12]")
         self.assertEqual(args[3:6], ("POST", "/echo", 200))
         self.assertGreaterEqual(args[6], 0.0)
@@ -100,6 +100,25 @@ class AccessLoggingMiddlewareTests(unittest.TestCase):
             )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(info.call_args.args[1], "CFE")
+
+    def test_pcmmad_namespace_path_uses_attached_project_folder_designator(self) -> None:
+        app = self._app()
+        target = r"E:\new pc\AI_Pushes_Sandbox\projects\PCMMAD\HOSTILE_OS\src"
+        with patch.dict(
+            "os.environ",
+            {
+                "PCMMAD_ACCESS_LOG": "1",
+                "PCMMAD_PROJECTS_ROOT": r"E:\new pc\AI_Pushes_Sandbox\projects",
+            },
+            clear=False,
+        ), patch.object(al._access_logger(), "info") as info:
+            al.install_access_logging(app)
+            response = app.test_client().post(
+                "/echo",
+                json={"project_id": "PCMMAD_RECEIVER_LAB", "arguments": {"cwd": target}},
+            )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(info.call_args.args[1], "HOSTILE-OS")
 
     def test_nested_tool_project_outranks_outer_control_project(self) -> None:
         app = self._app()

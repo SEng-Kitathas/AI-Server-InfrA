@@ -16,7 +16,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 REPORT = ROOT / "state" / "trace_matrix" / "HUD_HOSTILE_SUITE_V2_REPORT_2026-09-01.json"
 UPLOAD_PROBE = ROOT / "state" / "trace_matrix" / "HUD_UPLOAD_PROBE_V2.txt"
-RECEIVER_DIR = Path(r"C:\Users\ancal\Desktop\PCMMAD_RECEIVER_V29_NATIVE_PROTOCOL_RC1\PCMMAD_receiver\baseline\pcmmad_receiver")
+RECEIVER_DIR = ROOT / "baseline" / "pcmmad_receiver"
 RECEIVER_PY = RECEIVER_DIR / ".venv" / "Scripts" / "python.exe"
 BUILD_FILES = [HERE / "server.py", HERE / "static" / "app.js", HERE / "static" / "index.html", HERE / "static" / "style.css"]
 

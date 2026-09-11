@@ -27,7 +27,6 @@ JOB_TAG_MAX_CHARS = 10
 
 _PROJECT_TOKEN_RE = re.compile(r"[^A-Za-z0-9]+")
 _KNOWN_PROJECT_PREFIXES: tuple[tuple[str, str], ...] = (
-    ("PCMMAD", "PCMMAD"),
     ("RAHL", "RAHL"),
     ("FORGE", "FORGE"),
     ("CFE", "CFE"),
@@ -83,6 +82,23 @@ def _sanitize_tag(value: str) -> str:
     return cleaned[:PROJECT_TAG_MAX_CHARS]
 
 
+def _bounded_project_designator(text: str) -> str:
+    tokens = [token for token in _PROJECT_TOKEN_RE.split(str(text).strip()) if token]
+    if not tokens:
+        return "GLOBAL"
+    # PCMMAD is the laboratory namespace. The operator needs the attached project
+    # folder beneath that namespace, not the fact that every caller uses PCMMAD Lab.
+    if tokens[0].upper() == "PCMMAD" and len(tokens) > 1:
+        tokens = tokens[1:]
+    candidate = _sanitize_tag("-".join(tokens))
+    raw_candidate = "-".join(tokens).upper()
+    if raw_candidate and len(raw_candidate) <= PROJECT_TAG_MAX_CHARS:
+        return candidate or "GLOBAL"
+    digest = hashlib.sha256(str(text).encode("utf-8", errors="replace")).hexdigest()[:3].upper()
+    prefix = (candidate or "PROJECT")[: max(1, PROJECT_TAG_MAX_CHARS - 4)]
+    return f"{prefix}~{digest}"
+
+
 def project_log_tag(project_id: str | None, aliases: Mapping[str, str] | None = None) -> str:
     if project_id is None or not str(project_id).strip():
         return "GLOBAL"
@@ -92,19 +108,12 @@ def project_log_tag(project_id: str | None, aliases: Mapping[str, str] | None = 
     if explicit:
         return _sanitize_tag(explicit) or "GLOBAL"
     upper = text.upper()
+    if upper == "PCMMAD":
+        return "PCMMAD"
     for prefix, tag in _KNOWN_PROJECT_PREFIXES:
         if upper.startswith(prefix):
             return tag
-    tokens = [token for token in _PROJECT_TOKEN_RE.split(text) if token]
-    if not tokens:
-        return "GLOBAL"
-    first = _sanitize_tag(tokens[0])
-    if len(first) <= PROJECT_TAG_MAX_CHARS and len(text) <= PROJECT_TAG_MAX_CHARS:
-        return first
-    # Long/ambiguous ids keep a human prefix plus stable collision suffix.
-    digest = hashlib.sha256(text.encode("utf-8", errors="replace")).hexdigest()[:3].upper()
-    prefix = (first or "PROJECT")[: max(1, PROJECT_TAG_MAX_CHARS - 4)]
-    return f"{prefix}~{digest}"
+    return _bounded_project_designator(text)
 
 
 def _collect_project_ids(value: Any, *, depth: int = 0, found: set[str] | None = None) -> set[str]:
@@ -146,10 +155,18 @@ def _project_folder_from_path(value: str) -> str | None:
         prefix = root + "/"
         if normalized.lower().startswith(prefix.lower()):
             remainder = normalized[len(prefix):]
-            project = remainder.split("/", 1)[0].strip()
-            return project or None
-    match = re.search(r"(?:^|/)projects/([^/]+)(?:/|$)", normalized, flags=re.IGNORECASE)
-    return match.group(1).strip() if match and match.group(1).strip() else None
+            parts = [part.strip() for part in remainder.split("/") if part.strip()]
+            if parts and parts[0].upper() == "PCMMAD" and len(parts) > 1:
+                return parts[1]
+            return parts[0] if parts else None
+    match = re.search(r"(?:^|/)projects/([^/]+)(?:/([^/]+))?(?:/|$)", normalized, flags=re.IGNORECASE)
+    if not match:
+        return None
+    first = (match.group(1) or "").strip()
+    second = (match.group(2) or "").strip()
+    if first.upper() == "PCMMAD" and second:
+        return second
+    return first or None
 
 
 def _collect_target_project_folders(

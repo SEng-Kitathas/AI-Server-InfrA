@@ -22,7 +22,6 @@ HUD_PORT = int(os.environ.get("PCMMAD_HUD_PORT", "5090"))
 RUNTIME_ROOT = Path(__file__).resolve().parent
 PACKAGE_ROOT = RUNTIME_ROOT.parents[1]
 RECEIVER_LOCAL_HUD = PACKAGE_ROOT / "operator_hud" / "server.py"
-LEGACY_HUD = Path(r"E:\new pc\AI_Pushes_Sandbox\projects\rahl-authorship-2026-08-29\hud\server.py")
 
 
 def _hud_server_candidates() -> list[tuple[Path, str]]:
@@ -30,12 +29,7 @@ def _hud_server_candidates() -> list[tuple[Path, str]]:
     raw: list[tuple[Path, str]] = []
     if override:
         raw.append((Path(override).expanduser(), "env_override"))
-    raw.extend(
-        [
-            (RECEIVER_LOCAL_HUD, "receiver_local"),
-            (LEGACY_HUD, "legacy_rahl_fallback"),
-        ]
-    )
+    raw.append((RECEIVER_LOCAL_HUD, "receiver_local"))
     found: list[tuple[Path, str]] = []
     seen: set[str] = set()
     for path, source in raw:

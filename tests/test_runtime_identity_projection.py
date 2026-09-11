@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import tempfile
+import json
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -45,6 +46,19 @@ class RuntimeIdentityProjectionTests(unittest.TestCase):
         self.assertFalse(catalog["partial"])
         self.assertIsNone(catalog["error"])
 
+
+
+
+class ReleaseIdentityTests(unittest.TestCase):
+    def test_active_package_identity_is_v30_laboratory_runtime(self) -> None:
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        release = json.loads((ROOT / "RELEASE.json").read_text(encoding="utf-8"))
+        current = (ROOT / "baseline" / "pcmmad_receiver" / "README_CURRENT.txt").read_text(encoding="utf-8")
+        self.assertTrue(version.startswith("30."), version)
+        self.assertEqual(release["runtime_generation"], "V30")
+        self.assertIn("Laboratory Runtime", release["name"])
+        self.assertIn("V30", current)
+        self.assertNotIn("V29 Native Protocol Release Candidate 1\n", current)
 
 if __name__ == "__main__":
     unittest.main()

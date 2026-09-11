@@ -66,15 +66,16 @@ class HudProcessOwnershipTests(unittest.TestCase):
         self.assertFalse(status["ok"])
         self.assertIn("unrecognized process", status["reason"])
 
-    def test_recognized_process_with_valid_meta_is_owned_and_healthy(self) -> None:
+    def test_receiver_local_process_with_valid_meta_is_owned_and_healthy(self) -> None:
+        preferred = Path(r"E:\preferred\server.py")
         identity = {
             "recognized": True,
             "listener": {"pid": 10},
-            "running_server_path": r"E:\hud\server.py",
-            "running_server_source": "legacy_rahl_fallback",
+            "running_server_path": str(preferred),
+            "running_server_source": "receiver_local",
             "kill_root": {"pid": 10},
         }
-        with patch.object(op, "resolve_hud_server", return_value=(Path(r"E:\preferred\server.py"), "receiver_local")), patch.object(
+        with patch.object(op, "resolve_hud_server", return_value=(preferred, "receiver_local")), patch.object(
             op, "_port_open", return_value=True
         ), patch.object(op, "_port_owner_pid", return_value=10), patch.object(
             op, "_hud_process_identity", return_value=identity
@@ -85,7 +86,15 @@ class HudProcessOwnershipTests(unittest.TestCase):
         self.assertTrue(status["healthy"])
         self.assertTrue(status["owned"])
         self.assertTrue(status["ok"])
-        self.assertEqual(status["running_server_source"], "legacy_rahl_fallback")
+        self.assertEqual(status["running_server_source"], "receiver_local")
+
+    def test_legacy_rahl_hud_is_not_a_candidate(self) -> None:
+        with patch.dict("os.environ", {"PCMMAD_HUD_SERVER": ""}, clear=False), patch.object(
+            op, "RECEIVER_LOCAL_HUD", Path(r"Z:\missing\operator_hud\server.py")
+        ):
+            candidates = op._hud_server_candidates()
+        self.assertEqual(candidates, [])
+        self.assertEqual(op.resolve_hud_server()[1] if candidates else "missing", "missing")
 
     def test_stop_refuses_unrecognized_port_owner_without_taskkill(self) -> None:
         status = {"listener_pid": 777, "owned": False, "process_identity": {}}
@@ -135,7 +144,7 @@ class HudProcessOwnershipTests(unittest.TestCase):
             states = iter(
                 [
                     {"ok": False},
-                    {"ok": True, "running_server_path": str(server)},
+                    {"ok": True, "running_server_path": str(server.resolve())},
                 ]
             )
             with patch.dict(
