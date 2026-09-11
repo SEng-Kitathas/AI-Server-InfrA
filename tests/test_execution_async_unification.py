@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import sys
 import unittest
+from contextlib import nullcontext
+from unittest.mock import patch
 from pathlib import Path
 from typing import Any
 
@@ -79,10 +81,25 @@ class AsyncUnificationTests(unittest.TestCase):
             "idempotency_key": "same-request",
             "timeout_seconds": 30,
         }
-        result = handlers["execution.submit"](payload)
+        authority = {"project_id": "alpha", "mode": "lease", "generation": 1, "owner_id": "test-owner", "lease_id": "lease-test"}
+        with patch.object(lab_tools_execution, "current_project_mutation_authority", return_value=authority), patch.object(
+            lab_tools_execution, "submission_mutation_binding", return_value=nullcontext()
+        ):
+            result = handlers["execution.submit"](payload)
         self.assertEqual(result["job_id"], "job-canonical")
         self.assertEqual(result["status"], "QUEUED")
         self.assertEqual(submitted, [payload])
+
+
+    def test_async_submit_without_explicit_authority_fails_before_scheduler(self) -> None:
+        handlers, submitted, _ = self._registry()
+        payload = {"project_id": "alpha", "command": ["python", "-V"], "execution_mode": "one_shot"}
+        with patch.object(lab_tools_execution, "current_project_mutation_authority", return_value=None):
+            with self.assertRaises(Exception) as ctx:
+                handlers["execution.submit"](payload)
+        self.assertEqual(getattr(ctx.exception, "code", None), "PROJECT_MUTATION_AUTHORITY_REQUIRED")
+        self.assertEqual(getattr(ctx.exception, "status", None), 423)
+        self.assertEqual(submitted, [])
 
     def test_async_terminate_delegates_to_canonical_lifecycle(self) -> None:
         handlers, _, terminated = self._registry()

@@ -278,11 +278,10 @@ def _submit_async_job_payload(payload: ToolPayload, dep: ExecutionToolDeps) -> T
     """
     project_id = str(payload.get("project_id") or "").strip()
     session_id = str(payload.get("session_id") or "execution").strip() or "execution"
-    with submission_mutation_binding(
-        project_id,
-        mutation_authority=current_project_mutation_authority(),
-        session_id=session_id,
-    ):
+    mutation_authority = current_project_mutation_authority()
+    if mutation_authority is None:
+        raise dep.error_cls("PROJECT_MUTATION_AUTHORITY_REQUIRED", "async project execution requires explicit fenced project mutation authority", 423)
+    with submission_mutation_binding(project_id, mutation_authority=mutation_authority, session_id=session_id):
         return _as_tool_result(dep.submit_job(payload))
 
 

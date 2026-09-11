@@ -57,6 +57,7 @@ from .execution_routes import (
     _write_job,
     submit_execution_job,
     terminate_execution_job,
+    ExecutionRequestError,
 )
 from .lab_plugins import load_plugins
 from .lab_policy import PolicyDecision, evaluate_tool_call, policy_mode
@@ -1082,6 +1083,13 @@ register_project_tools(
 )
 
 
+def _submit_execution_job_for_lab(payload: JsonObject):
+    try:
+        return submit_execution_job(payload, require_mutation_authority=True)
+    except ExecutionRequestError as exc:
+        raise LabToolError(exc.error_code, exc.message, exc.status, **exc.extra) from exc
+
+
 register_execution_tools(
     register_tool,
     error_cls=LabToolError,
@@ -1097,7 +1105,7 @@ register_execution_tools(
     default_stdout_max_bytes=DEFAULT_STDOUT_MAX_BYTES,
     default_stderr_max_bytes=DEFAULT_STDERR_MAX_BYTES,
     max_timeout_seconds=MAX_TIMEOUT_SECONDS,
-    submit_job=lambda payload: submit_execution_job(payload, require_mutation_authority=True),
+    submit_job=_submit_execution_job_for_lab,
     terminate_job=terminate_execution_job,
     utc_now=utc_now,
 )

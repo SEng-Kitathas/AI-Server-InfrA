@@ -4,6 +4,7 @@ import json
 import os
 import tempfile
 import unittest
+from contextlib import nullcontext
 from pathlib import Path
 from unittest.mock import patch
 
@@ -13,6 +14,9 @@ sys.path.insert(0, str(ROOT / "baseline"))
 
 from pcmmad_receiver import approval_authority as aa
 from pcmmad_receiver import execution_routes as er
+from pcmmad_receiver import lab_tools
+from pcmmad_receiver import lab_tools_execution as lte
+from pcmmad_receiver.execution_routes import ExecutionRequestError
 from pcmmad_receiver import shared_core
 from pcmmad_receiver.app_factory import create_app
 
@@ -197,6 +201,62 @@ class SchemaVNextHttpConformanceTests(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.get_json()["error_code"], "NOT_FOUND")
+
+    def _approved_invoke(self, capability: str, arguments: dict, *, patches=()):
+        orient = self.post("/lab/vnext/orient", {"capabilities": [capability]})
+        self.assertEqual(orient.status_code, 200)
+        card = orient.get_json()["capabilities"][0]
+        first = self.post(
+            "/lab/vnext/invoke",
+            {"capability": capability, "arguments": arguments, "expected_contract_digest": card["contract_digest"]},
+        )
+        self.assertEqual(first.status_code, 403)
+        challenge = first.get_json()["approval_challenge"]
+        authority = {"approval_handle": challenge["handle"], "permit": True, "operator_id": "warfort-http"}
+        stack = []
+        try:
+            for cm in patches:
+                stack.append(cm); cm.__enter__()
+            return self.post(
+                "/lab/vnext/invoke",
+                {"capability": capability, "arguments": arguments, "authority": authority, "expected_contract_digest": card["contract_digest"]},
+            )
+        finally:
+            for cm in reversed(stack): cm.__exit__(None, None, None)
+
+    def test_execution_submit_without_project_authority_fails_before_enqueue(self) -> None:
+        arguments = {"project_id": "p", "command": ["python", "-c", "print('x')"], "idempotency_key": "no-authority"}
+        with patch.object(lab_tools, "submit_execution_job") as submit:
+            response = self._approved_invoke("execution.submit", arguments)
+        self.assertEqual(response.status_code, 423)
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.get_json()["error_code"], "PROJECT_MUTATION_AUTHORITY_REQUIRED")
+        submit.assert_not_called()
+
+    def test_execution_idempotency_conflict_is_structured_409_not_raw_500(self) -> None:
+        arguments = {"project_id": "p", "command": ["python", "-c", "print('different')"], "idempotency_key": "same-key"}
+        authority = {"project_id": "p", "mode": "lease", "generation": 1, "owner_id": "owner", "lease_id": "lease"}
+        conflict = ExecutionRequestError(
+            "IDEMPOTENCY_KEY_CONFLICT",
+            "idempotency_key already used for a different execution payload",
+            409,
+            existing_job_id="job-existing",
+        )
+        response = self._approved_invoke(
+            "execution.submit",
+            arguments,
+            patches=(
+                patch.object(lte, "current_project_mutation_authority", return_value=authority),
+                patch.object(lte, "submission_mutation_binding", return_value=nullcontext()),
+                patch.object(lab_tools, "submit_execution_job", side_effect=conflict),
+            ),
+        )
+        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.content_type, "application/json")
+        body = response.get_json()
+        self.assertEqual(body["error_code"], "IDEMPOTENCY_KEY_CONFLICT")
+        self.assertEqual(body["existing_job_id"], "job-existing")
+        self.assertNotIn("Internal Server Error", response.get_data(as_text=True))
 
     def test_real_orient_and_invoke_still_work(self) -> None:
         orient = self.post(
