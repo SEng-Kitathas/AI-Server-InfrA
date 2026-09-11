@@ -273,7 +273,7 @@ class SchemaVNextHttpConformanceTests(unittest.TestCase):
                 "lease": lease,
             },
         )
-        self.assertEqual(invoked.status_code, 200)
+        self.assertEqual(invoked.status_code, 200, invoked.get_json())
         self.assertEqual(invoked.get_json()["result"]["status"], "UNOWNED")
 
 
