@@ -81,7 +81,11 @@ from .lab_tools_res import register_res_tools
 from .lab_tools_memory import register_memory_tools
 from .lab_tools_ucm import register_ucm_tools
 from .lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
-from .project_mutation_authority import project_mutation_authority_context
+from .project_mutation_authority import (
+    ProjectMutationAuthorityError,
+    project_mutation_authority_context,
+    validate_consequence_authority,
+)
 from .research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
 from .research_arxiv import get_cache_stats
 from .server_hardening import safe_json_dumps, safe_json_loads
@@ -639,6 +643,35 @@ def _project_mutation_fenced(spec: ToolSpec) -> bool:
     return "project_mutation_fenced" in set(spec.effect_traits or [])
 
 
+def _preflight_present_project_mutation_authority(
+    spec: ToolSpec, arguments: JsonObject, authority_data: JsonObject
+) -> None:
+    """Reject stale/invalid supplied project authority before consuming approval.
+
+    Missing project mutation authority intentionally remains a later consequence-time
+    concern so an unapproved request can still receive its exact bound approval
+    challenge. When a caller does present project authority, validating its current
+    generation/ownership is independent of approval consumption and must fail first
+    if stale.
+    """
+    if not _project_mutation_fenced(spec):
+        return
+    mutation_authority = authority_data.get("project_mutation")
+    if mutation_authority is None:
+        return
+    project_id = str(arguments.get("project_id") or "").strip()
+    if not project_id:
+        return
+    try:
+        validate_consequence_authority(
+            project_id,
+            mutation_authority=mutation_authority,
+            session_id=str(arguments.get("session_id") or "").strip(),
+        )
+    except ProjectMutationAuthorityError as exc:
+        raise LabToolError(exc.error_code, exc.message, exc.status, **exc.extra) from exc
+
+
 def _dispatch_result(tool_name: str, spec: ToolSpec, payload: JsonObject) -> JsonObject:
     if spec.handler is None:
         raise LabToolError("BAD_TOOL_HANDLER", f"Tool {tool_name} has no handler", 500)
@@ -728,8 +761,11 @@ def dispatch_tool(
     arguments, authority_data = _split_authority(payload, authority)
     if router_validation.validation_mode == "strict":
         _validate_payload_schema(tool_name, spec.input_schema, arguments)
-    # Protocol eligibility is checked before consuming single-use approval authority.
+    # Protocol eligibility and any supplied project-mutation authority are checked
+    # before consuming single-use approval authority. Independent stale authority
+    # must not burn an otherwise-valid approval challenge.
     protocol_decision = _dispatch_protocol_decision(tool_name, spec, arguments)
+    _preflight_present_project_mutation_authority(spec, arguments, authority_data)
     decision = _dispatch_decision(tool_name, spec, arguments, authority_data)
     with project_mutation_authority_context(authority_data.get("project_mutation")):
         if _project_mutation_fenced(spec):
