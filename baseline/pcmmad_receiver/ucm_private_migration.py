@@ -155,6 +155,62 @@ def _verify_donor_events(events: Sequence[Mapping[str, Any]]) -> JsonObject:
     return {"event_count": len(events), "ledger_head_seq": len(events), "ledger_head_hash": previous}
 
 
+def _recover_source_assertion_text(
+    zf: zipfile.ZipFile,
+    prefix: str,
+    item: Mapping[str, Any],
+    source_manifest_by_artifact: Mapping[str, Mapping[str, Any]],
+) -> str:
+    artifact = str(item.get("source_artifact") or "").strip()
+    entry = source_manifest_by_artifact.get(artifact)
+    if not entry:
+        raise UcmMigrationError(
+            "UCM_PRIVATE_ASSERTION_SOURCE_MISSING",
+            "empty-text source assertion cannot be recovered because its source artifact is absent from the manifest",
+        )
+    blob_path = str(entry.get("blob_path") or "").strip()
+    if not blob_path:
+        raise UcmMigrationError(
+            "UCM_PRIVATE_ASSERTION_SOURCE_MISSING",
+            "empty-text source assertion cannot be recovered because its source blob path is absent",
+        )
+    member = prefix + blob_path
+    try:
+        data = zf.read(member)
+    except KeyError as exc:
+        raise UcmMigrationError(
+            "UCM_PRIVATE_ASSERTION_SOURCE_MISSING",
+            "empty-text source assertion references a missing sealed source blob",
+        ) from exc
+    if _sha256_bytes(data) != str(entry.get("sha256") or "").lower() or len(data) != int(entry.get("bytes") or -1):
+        raise UcmMigrationError(
+            "UCM_PRIVATE_ASSERTION_SOURCE_INVALID",
+            "sealed source blob identity does not match source manifest during assertion recovery",
+        )
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise UcmMigrationError(
+            "UCM_PRIVATE_ASSERTION_SOURCE_INVALID",
+            "sealed source blob is not valid UTF-8 for assertion recovery",
+        ) from exc
+    start = int(item.get("line_start") or 0)
+    end = int(item.get("line_end") or 0)
+    lines = text.splitlines()
+    if start < 1 or end < start or end > len(lines):
+        raise UcmMigrationError(
+            "UCM_PRIVATE_ASSERTION_RANGE_INVALID",
+            "empty-text source assertion line range is outside the sealed source artifact",
+        )
+    recovered = "\n".join(lines[start - 1:end]).strip()
+    if not recovered:
+        raise UcmMigrationError(
+            "UCM_PRIVATE_ASSERTION_TEXT_UNRECOVERABLE",
+            "empty-text source assertion resolves only to blank sealed source lines",
+        )
+    return recovered
+
+
 def _records_from_private(zf: zipfile.ZipFile, prefix: str) -> JsonObject:
     facts_raw = _load_json(zf.read(prefix + "normalized/facts.json"), "normalized/facts.json")
     if not isinstance(facts_raw, Mapping):
@@ -184,7 +240,6 @@ def _records_from_private(zf: zipfile.ZipFile, prefix: str) -> JsonObject:
     identities = list_records("normalized/identities.json", ucm._validate_identity, "identity")
     referents = list_records("normalized/referents.json", ucm._validate_referent, "referent")
     decisions = list_records("normalized/decisions.json", ucm._validate_decision, "decision")
-    assertions = list_records("normalized/source_assertions.json", ucm._validate_source_assertion, "source assertion")
     source_manifest_raw = _load_json(zf.read(prefix + "sources/SOURCE_MANIFEST.json"), "sources/SOURCE_MANIFEST.json")
     if not isinstance(source_manifest_raw, list):
         raise UcmMigrationError("UCM_PRIVATE_NORMALIZATION_INVALID", "source manifest must be a list")
@@ -194,6 +249,23 @@ def _records_from_private(zf: zipfile.ZipFile, prefix: str) -> JsonObject:
             source_manifest.append(ucm._validate_source_manifest(item))
         except ucm.UcmError as exc:
             raise UcmMigrationError("UCM_PRIVATE_NORMALIZATION_INVALID", f"invalid source manifest row {idx}", cause=exc.error_code) from exc
+    source_manifest_by_artifact = {str(item["artifact"]): item for item in source_manifest}
+    assertions_raw = _load_json(zf.read(prefix + "normalized/source_assertions.json"), "normalized/source_assertions.json")
+    if not isinstance(assertions_raw, list):
+        raise UcmMigrationError("UCM_PRIVATE_NORMALIZATION_INVALID", "source assertion must be a list")
+    assertions = []
+    recovered_assertion_text_count = 0
+    for idx, item in enumerate(assertions_raw):
+        if not isinstance(item, Mapping):
+            raise UcmMigrationError("UCM_PRIVATE_NORMALIZATION_INVALID", f"invalid source assertion row {idx}")
+        candidate = dict(item)
+        if not str(candidate.get("text") or "").strip():
+            candidate["text"] = _recover_source_assertion_text(zf, prefix, candidate, source_manifest_by_artifact)
+            recovered_assertion_text_count += 1
+        try:
+            assertions.append(ucm._validate_source_assertion(candidate))
+        except ucm.UcmError as exc:
+            raise UcmMigrationError("UCM_PRIVATE_NORMALIZATION_INVALID", f"invalid source assertion row {idx}", cause=exc.error_code) from exc
     collaboration_raw = _load_json(zf.read(prefix + "normalized/collaboration_contract.json"), "normalized/collaboration_contract.json")
     control_raw = _load_json(zf.read(prefix + "control/CONTROL_STATE.json"), "control/CONTROL_STATE.json")
     candidates_raw = _load_json(zf.read(prefix + "candidates/memory_candidates.json"), "candidates/memory_candidates.json")
@@ -213,6 +285,7 @@ def _records_from_private(zf: zipfile.ZipFile, prefix: str) -> JsonObject:
         "collaboration": collaboration,
         "control": control,
         "candidates": candidates,
+        "compatibility_recovered_source_assertion_text_count": recovered_assertion_text_count,
     }
 
 
@@ -378,6 +451,7 @@ def verify_private_release(archive_path: Path, detached_receipt_path: Path | Non
             "manifest": manifest,
             "donor_event_chain": event_chain,
             "normalized_counts": {**actual_counts, "collaboration": 1, "control": 1, "candidates": len(records["candidates"]), "source_manifest": len(records["source_manifest"])},
+            "compatibility": {"recovered_source_assertion_text_count": int(records.get("compatibility_recovered_source_assertion_text_count") or 0)},
             "source_evidence": {"source_count": sources["source_count"], "all_originals_match_content_addressed_blobs": True},
             "bindings": bindings,
             "authority_effect": "NONE",

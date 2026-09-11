@@ -278,6 +278,55 @@ class PrivateMigrationTests(unittest.TestCase):
         self.assertEqual(len(ucm.source_manifest("dest")), 2)
         self.assertEqual(len(ucm._records("dest", "SOURCE_ASSERTION")), 1)
 
+    def test_empty_donor_assertion_text_recovers_from_manifest_bound_source_lines(self):
+        source = b"first\nrecovered assertion text\nthird\n"
+        digest = sha(source)
+        zpath = self.base / "recover.zip"
+        with zipfile.ZipFile(zpath, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+            zf.writestr(f"{PRIVATE_ROOT}/sources/blobs/sha256/{digest}", source)
+        item = {
+            "source_artifact": "donor.md",
+            "line_start": 2,
+            "line_end": 2,
+        }
+        manifest = {
+            "donor.md": {
+                "artifact": "donor.md",
+                "blob_path": f"sources/blobs/sha256/{digest}",
+                "sha256": digest,
+                "bytes": len(source),
+            }
+        }
+        with zipfile.ZipFile(zpath, "r") as zf:
+            recovered = migration._recover_source_assertion_text(zf, PRIVATE_ROOT + "/", item, manifest)
+        self.assertEqual(recovered, "recovered assertion text")
+
+    def test_empty_donor_assertion_text_recovery_fails_closed_on_blank_source_slice(self):
+        source = b"first\n   \nthird\n"
+        digest = sha(source)
+        zpath = self.base / "blank.zip"
+        with zipfile.ZipFile(zpath, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+            zf.writestr(f"{PRIVATE_ROOT}/sources/blobs/sha256/{digest}", source)
+        item = {"source_artifact": "donor.md", "line_start": 2, "line_end": 2}
+        manifest = {
+            "donor.md": {
+                "artifact": "donor.md",
+                "blob_path": f"sources/blobs/sha256/{digest}",
+                "sha256": digest,
+                "bytes": len(source),
+            }
+        }
+        with zipfile.ZipFile(zpath, "r") as zf:
+            with self.assertRaises(migration.UcmMigrationError) as ctx:
+                migration._recover_source_assertion_text(zf, PRIVATE_ROOT + "/", item, manifest)
+        self.assertEqual(ctx.exception.error_code, "UCM_PRIVATE_ASSERTION_TEXT_UNRECOVERABLE")
+
+    def test_private_verification_report_exposes_recovery_count_not_recovered_values(self):
+        out = migration.verify_private_release(self.archive)
+        self.assertIn("compatibility", out)
+        self.assertEqual(out["compatibility"]["recovered_source_assertion_text_count"], 0)
+        self.assertFalse(out["private_values_emitted"])
+
 
 if __name__ == "__main__":
     unittest.main()
