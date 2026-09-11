@@ -278,6 +278,20 @@ class PrivateMigrationTests(unittest.TestCase):
         self.assertEqual(len(ucm.source_manifest("dest")), 2)
         self.assertEqual(len(ucm._records("dest", "SOURCE_ASSERTION")), 1)
 
+    def test_failed_post_materialization_readback_restores_empty_derived_snapshot_state(self):
+        paths = backend._paths("dest")
+        self.assertFalse(paths.ledger.exists())
+        self.assertFalse(paths.current.exists())
+        self.assertFalse(paths.snapshots.exists())
+        with patch.object(ucm, "read_core", side_effect=ucm.UcmError("UCM_CORE_BUDGET_EXCEEDED", "synthetic final readback failure", 409)):
+            with self.assertRaises(ucm.UcmError) as ctx:
+                migration.import_private_release(self.archive, profile_id="dest")
+        self.assertEqual(ctx.exception.error_code, "UCM_CORE_BUDGET_EXCEEDED")
+        self.assertFalse(paths.ledger.exists())
+        self.assertFalse(paths.current.exists())
+        self.assertEqual(list(paths.snapshots.glob("*.json")) if paths.snapshots.exists() else [], [])
+        self.assertEqual(ucm.head("dest")["ledger_head_seq"], 0)
+
     def test_empty_donor_assertion_text_recovers_from_manifest_bound_source_lines(self):
         source = b"first\nrecovered assertion text\nthird\n"
         digest = sha(source)

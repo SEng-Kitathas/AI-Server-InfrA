@@ -496,6 +496,11 @@ class IngressHydrationExportTests(UcmFixture):
         self.assertNotIn("communication", ingress["COLLABORATION_CONTRACT"])
         self.assertNotIn("provenance", ingress["COLLABORATION_CONTRACT"])
         self.assertIn("full", ingress["COLLABORATION_CONTRACT"])
+        self.assertIn("required_unverified_count", ingress["VERIFICATION_DEBT"])
+        self.assertIn("by_plane", ingress["VERIFICATION_DEBT"])
+        self.assertEqual(ingress["VERIFICATION_DEBT"]["full_index"], "ucm.verification_debt")
+        self.assertNotIn("items", ingress["VERIFICATION_DEBT"])
+        self.assertIsInstance(ucm.verification_debt(self.profile), list)
 
         resolved_identity = ucm.resolve_identity(self.profile, use_for="NORMAL_ADDRESS")
         self.assertIn("value", resolved_identity)

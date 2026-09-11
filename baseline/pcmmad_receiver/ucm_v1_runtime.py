@@ -897,10 +897,14 @@ def _ingress_candidate_head_from_rows(rows: Sequence[Mapping[str, Any]]) -> Json
 
 
 def _budget_surfaces_from_state(state: Mapping[str, Any]) -> JsonObject:
+    all_facts=[]
     facts=[]
     for raw in _records_from_state(state,"FACT"):
         fact=validate_fact(raw)
-        if _fact_visible(fact) and set(fact["hydration_groups"]).intersection(CORE_HYDRATION_GROUPS):
+        if not _fact_visible(fact):
+            continue
+        all_facts.append(fact)
+        if set(fact["hydration_groups"]).intersection(CORE_HYDRATION_GROUPS):
             facts.append(fact)
     facts.sort(key=lambda x:(derive_hydration_score(x.get("assistant_utility")),x["fact_key"]),reverse=True)
     identities=[]
@@ -919,13 +923,6 @@ def _budget_surfaces_from_state(state: Mapping[str, Any]) -> JsonObject:
     collaboration=sorted(collaborations,key=lambda x:x["contract_key"])[-1] if collaborations else None
     candidates=[_validate_candidate(x) for x in _records_from_state(state,"MEMORY_CANDIDATE")]
     controls=[_validate_control(x) for x in _records_from_state(state,"CONTROL_STATE")]; control=controls[-1] if controls else default_control_state()
-    debt=[]
-    for fact in facts:
-        reasons=[]
-        if verification_requirement(fact)=="REQUIRED" and not current_usable(fact): reasons.append("required_live_verification_missing")
-        if due_for_revalidation(fact): reasons.append("revalidation_due")
-        if fact["currentness"]["status"] in {"UNKNOWN","UNVERIFIED","CONFLICT"}: reasons.append(f"currentness_{fact['currentness']['status'].lower()}")
-        if reasons: debt.append({"fact_key":fact["fact_key"],"reasons":sorted(set(reasons))})
     source_rows=[_validate_source_manifest(x) for x in _records_from_state(state,"SOURCE_MANIFEST")]; source_rows.sort(key=lambda x:(x["source_instance"],x["artifact"],x["sha256"]))
     user_head={
         "schema":"pcmmad.ucm-user-store-head.v1","system_version":SYSTEM_VERSION,"user_store_id":str(state.get("profile_id") or ""),
@@ -937,7 +934,7 @@ def _budget_surfaces_from_state(state: Mapping[str, Any]) -> JsonObject:
         "IDENTITY_INDEX":{"v":1,"e":[_ingress_identity_projection(x) for x in identities],"full":"ucm:IDENTITY"},
         "COLLABORATION_CONTRACT":_ingress_collaboration_projection(collaboration),
         "REFERENT_INDEX":{"v":1,"e":[_ingress_referent_projection(x) for x in referents],"full":"ucm:REFERENT"},
-        "VERIFICATION_DEBT":{"items":debt},
+        "VERIFICATION_DEBT":_compact_verification_debt(all_facts, snapshot_from_seq=int(state.get("event_count") or 0)),
         "CONTROL_STATE":control,
         "DECISION_INDEX":{"v":1,"e":[_ingress_decision_projection(x) for x in decisions],"full":"ucm:DECISION"},
         "CANDIDATE_QUEUE_HEAD":_ingress_candidate_head_from_rows(candidates),
@@ -1505,18 +1502,55 @@ def source_manifest(profile_id: str) -> list[JsonObject]:
     rows.sort(key=lambda x:(x["source_instance"],x["artifact"],x["sha256"])); return rows
 
 
-def verification_debt(profile_id: str, *, condition_tokens: set[str] | None = None) -> list[JsonObject]:
+def _verification_debt_rows_from_facts(facts: Sequence[Mapping[str, Any]], *, condition_tokens: set[str] | None = None) -> list[JsonObject]:
     debt=[]
-    for row in _records(backend._profile_id(profile_id), "FACT"):
-        fact=validate_fact(row)
-        if not _fact_visible(fact): continue
+    for fact in facts:
+        if not _fact_visible(fact):
+            continue
         reasons=[]
-        if verification_requirement(fact)=="REQUIRED" and not current_usable(fact): reasons.append("required_live_verification_missing")
-        if due_for_revalidation(fact, condition_tokens=condition_tokens): reasons.append("revalidation_due")
-        if fact["currentness"]["status"] in {"UNKNOWN","UNVERIFIED","CONFLICT"}: reasons.append(f"currentness_{fact['currentness']['status'].lower()}")
-        if reasons: debt.append({"fact_key":fact["fact_key"],"reasons":sorted(set(reasons)),"currentness":fact["currentness"],"verification":fact["verification"]})
-    debt.sort(key=lambda x:x["fact_key"]); return debt
+        if verification_requirement(fact)=="REQUIRED" and not current_usable(fact):
+            reasons.append("required_live_verification_missing")
+        if due_for_revalidation(fact, condition_tokens=condition_tokens):
+            reasons.append("revalidation_due")
+        if fact["currentness"]["status"] in {"UNKNOWN","UNVERIFIED","CONFLICT"}:
+            reasons.append(f"currentness_{fact['currentness']['status'].lower()}")
+        if reasons:
+            debt.append({
+                "fact_key":fact["fact_key"],
+                "reasons":sorted(set(reasons)),
+                "currentness":copy.deepcopy(fact["currentness"]),
+                "verification":copy.deepcopy(fact["verification"]),
+            })
+    debt.sort(key=lambda x:x["fact_key"])
+    return debt
 
+
+def _compact_verification_debt(facts: Sequence[Mapping[str, Any]], *, snapshot_from_seq: int) -> JsonObject:
+    debt=_verification_debt_rows_from_facts(facts)
+    fact_by_key={str(fact["fact_key"]):fact for fact in facts}
+    by_plane={"DEPLOYMENT":0,"PROJECT":0,"RUNTIME":0}
+    for item in debt:
+        fact=fact_by_key.get(str(item["fact_key"])) or {}
+        target=str(((fact.get("authority") or {}).get("target_plane") or "")).upper()
+        if "DEPLOYMENT" in target:
+            by_plane["DEPLOYMENT"]+=1
+        elif "PROJECT" in target:
+            by_plane["PROJECT"]+=1
+        elif "RUNTIME" in target:
+            by_plane["RUNTIME"]+=1
+    return {
+        "schema":"rahl.user-continuity.verification-debt.v1",
+        "snapshot_from_seq":int(snapshot_from_seq),
+        "required_unverified_count":len(debt),
+        "by_plane":by_plane,
+        "sample_fact_keys":[str(item["fact_key"]) for item in debt[:8]],
+        "full_index":"ucm.verification_debt",
+    }
+
+
+def verification_debt(profile_id: str, *, condition_tokens: set[str] | None = None) -> list[JsonObject]:
+    facts=[validate_fact(row) for row in _records(backend._profile_id(profile_id), "FACT")]
+    return _verification_debt_rows_from_facts(facts, condition_tokens=condition_tokens)
 
 def _collaboration(profile_id: str) -> JsonObject | None:
     rows=[_validate_collaboration(x) for x in _records(profile_id,"COLLABORATION_CONTRACT")]
@@ -1600,13 +1634,15 @@ def _build_ingress(profile_id: str) -> JsonObject:
     if not h["snapshot_current"] or int(h["snapshot_from_seq"] or 0) < int(h["ledger_head_seq"]):
         raise UcmError("UCM_CURRENTNESS_FAILURE", "UCM snapshot trails authoritative ledger head", 409, **h)
     full_core_facts = _core_fact_records(profile_id)
+    all_visible_facts=[validate_fact(row) for row in _records(profile_id,"FACT")]
+    all_visible_facts=[fact for fact in all_visible_facts if _fact_visible(fact)]
     collaboration = _collaboration(profile_id)
     surfaces: JsonObject = {
         "CORE_SNAPSHOT": {"snapshot_from_seq":h["snapshot_from_seq"],"facts":{x["fact_key"]:_ingress_fact_projection(x) for x in full_core_facts}},
         "IDENTITY_INDEX": _ingress_identity_index(profile_id),
         "COLLABORATION_CONTRACT": _ingress_collaboration_projection(collaboration),
         "REFERENT_INDEX": _ingress_referent_index(profile_id),
-        "VERIFICATION_DEBT": {"items":verification_debt(profile_id)},
+        "VERIFICATION_DEBT": _compact_verification_debt(all_visible_facts, snapshot_from_seq=int(h["snapshot_from_seq"] or 0)),
         "CONTROL_STATE": _current_control(profile_id),
         "DECISION_INDEX": _ingress_decision_index(profile_id),
         "CANDIDATE_QUEUE_HEAD": _ingress_candidate_head(profile_id),

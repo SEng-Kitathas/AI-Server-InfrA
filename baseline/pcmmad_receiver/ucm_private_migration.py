@@ -523,6 +523,8 @@ def import_private_release(archive_path: Path, *, profile_id: str, detached_rece
         if int(state.get("event_count") or 0) != 0 or state.get("facts"):
             raise UcmMigrationError("UCM_IMPORT_TARGET_NOT_EMPTY", "private migration requires an empty target profile", status=409)
         paths = backend._paths(pid)
+        pre_current_bytes = paths.current.read_bytes() if paths.current.is_file() else None
+        pre_snapshot_names = {item.name for item in paths.snapshots.glob("*.json")} if paths.snapshots.is_dir() else set()
         with zipfile.ZipFile(archive_path, "r") as zf:
             prefix = _root_prefix(zf.namelist())
             native_records = _native_import_records(zf, prefix)
@@ -594,6 +596,17 @@ def import_private_release(archive_path: Path, *, profile_id: str, detached_rece
             original.unlink(missing_ok=True)
             if backup is not None and backup.exists():
                 backup.replace(original)
+            if paths.snapshots.is_dir():
+                for item in paths.snapshots.glob("*.json"):
+                    if item.name not in pre_snapshot_names:
+                        item.unlink(missing_ok=True)
+            if pre_current_bytes is None:
+                paths.current.unlink(missing_ok=True)
+            else:
+                paths.current.parent.mkdir(parents=True, exist_ok=True)
+                temp_current = paths.current.with_name(paths.current.name + ".migration-rollback.tmp")
+                temp_current.write_bytes(pre_current_bytes)
+                temp_current.replace(paths.current)
             with backend._CACHE_GUARD:
                 backend._STATE_CACHE.pop(pid, None)
             raise
