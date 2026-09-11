@@ -251,6 +251,10 @@ def ensure_hud_running(*, wait_seconds: float = 8.0) -> dict[str, Any]:
     env = os.environ.copy()
     env["PCMMAD_HUD_HOST"] = HUD_HOST
     env["PCMMAD_HUD_PORT"] = str(HUD_PORT)
+    if not str(env.get("PCMMAD_RECEIVER_BASE") or "").strip():
+        receiver_host = str(env.get("PCMMAD_BIND_HOST") or "127.0.0.1").strip() or "127.0.0.1"
+        receiver_port = str(env.get("PCMMAD_BIND_PORT") or "5000").strip() or "5000"
+        env["PCMMAD_RECEIVER_BASE"] = f"http://{receiver_host}:{receiver_port}"
     creationflags = 0
     if os.name == "nt":
         creationflags = int(getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)) | int(getattr(subprocess, "CREATE_NO_WINDOW", 0))

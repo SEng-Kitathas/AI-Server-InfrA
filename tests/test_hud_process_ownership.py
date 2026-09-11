@@ -127,6 +127,37 @@ class HudProcessOwnershipTests(unittest.TestCase):
         command = run.call_args.args[0]
         self.assertEqual(command[:3], ["taskkill", "/PID", "100"])
 
+    def test_start_binds_hud_to_actual_receiver_host_and_port(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            server = Path(td) / "server.py"
+            server.write_text("print('x')", encoding="utf-8")
+            proc = SimpleNamespace(pid=4321, poll=lambda: None)
+            states = iter(
+                [
+                    {"ok": False},
+                    {"ok": True, "running_server_path": str(server)},
+                ]
+            )
+            with patch.dict(
+                os.environ,
+                {
+                    "PCMMAD_BIND_HOST": "127.0.0.1",
+                    "PCMMAD_BIND_PORT": "8799",
+                    "PCMMAD_HUD_PORT": "5091",
+                },
+                clear=False,
+            ):
+                os.environ.pop("PCMMAD_RECEIVER_BASE", None)
+                with patch.object(op, "hud_status", side_effect=lambda: next(states)), patch.object(
+                    op, "resolve_hud_server", return_value=(server, "receiver_local")
+                ), patch.object(op, "_port_open", return_value=False), patch.object(
+                    op.subprocess, "Popen", return_value=proc
+                ) as popen:
+                    out = op.ensure_hud_running(wait_seconds=1)
+            self.assertEqual(out["action"], "started")
+            env = popen.call_args.kwargs["env"]
+            self.assertEqual(env["PCMMAD_RECEIVER_BASE"], "http://127.0.0.1:8799")
+
     def test_start_identity_mismatch_cleans_our_launcher_without_killing_other_listener(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             server = Path(td) / "server.py"
