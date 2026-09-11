@@ -3,6 +3,7 @@ from __future__ import annotations
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 import sys
@@ -106,16 +107,49 @@ class IcfV12IngressTests(unittest.TestCase):
             ingress.rehydrate_icf_v12(project_id=self.project_id, topic="frontier", session_mode="")
         self.assertEqual(ctx.exception.error_code, "ICF_CS_SESSION_MODE_REQUIRED")
 
-    def test_stale_icf_standard_fails_before_res_or_ucm(self):
+    def test_stale_project_mirror_uses_verified_runtime_carrier_without_mutation(self):
         target = self.root / ingress.ICF_CS_STANDARD_REL
         target.write_text("ICF-CS v1.1 stale\n", encoding="utf-8")
-        with self.assertRaises(ingress.IcfIngressError) as ctx:
-            ingress.rehydrate_icf_v12(
-                project_id=self.project_id,
-                topic="frontier",
-                session_mode="NONUSER_NONRESEARCH_AUTOMATION",
-            )
+        before = target.read_bytes()
+        out = ingress.rehydrate_icf_v12(
+            project_id=self.project_id,
+            topic="frontier",
+            session_mode="NONUSER_NONRESEARCH_AUTOMATION",
+        )
+        self.assertEqual(out["icf_cs"]["authority_source"], "RUNTIME_CARRIER_FALLBACK")
+        self.assertEqual(out["icf_cs"]["project_mirror"]["status"], "STALE")
+        self.assertEqual(out["icf_cs"]["sha256"], ingress.ICF_CS_STANDARD_SHA256)
+        self.assertEqual(target.read_bytes(), before)
+
+    def test_missing_project_mirror_uses_verified_runtime_carrier_without_mutation(self):
+        target = self.root / ingress.ICF_CS_STANDARD_REL
+        target.unlink()
+        out = ingress.rehydrate_icf_v12(
+            project_id=self.project_id,
+            topic="frontier",
+            session_mode="NONUSER_NONRESEARCH_AUTOMATION",
+        )
+        self.assertEqual(out["icf_cs"]["authority_source"], "RUNTIME_CARRIER_FALLBACK")
+        self.assertEqual(out["icf_cs"]["project_mirror"]["status"], "MISSING")
+        self.assertEqual(out["icf_cs"]["sha256"], ingress.ICF_CS_STANDARD_SHA256)
+        self.assertFalse(target.exists())
+
+    def test_runtime_carrier_tamper_fails_closed_when_project_mirror_missing(self):
+        target = self.root / ingress.ICF_CS_STANDARD_REL
+        target.unlink()
+        fake_runtime = self.base / "fake-runtime"
+        carrier = fake_runtime / ingress.ICF_CS_RUNTIME_CARRIER_REL
+        carrier.parent.mkdir(parents=True, exist_ok=True)
+        carrier.write_text("tampered ICF-CS carrier\n", encoding="utf-8")
+        with patch.object(ingress, "ICF_CS_RUNTIME_ROOT", fake_runtime):
+            with self.assertRaises(ingress.IcfIngressError) as ctx:
+                ingress.rehydrate_icf_v12(
+                    project_id=self.project_id,
+                    topic="frontier",
+                    session_mode="NONUSER_NONRESEARCH_AUTOMATION",
+                )
         self.assertEqual(ctx.exception.error_code, "ICF_CS_CURRENTNESS_FAILURE")
+        self.assertFalse(target.exists())
 
     def test_nonuser_nonresearch_can_mark_both_not_applicable_with_basis(self):
         out = ingress.rehydrate_icf_v12(
@@ -124,6 +158,8 @@ class IcfV12IngressTests(unittest.TestCase):
             session_mode="NONUSER_NONRESEARCH_AUTOMATION",
         )
         self.assertEqual(out["status"], "FRESH_INSTANCE_CONTINUITY_READY")
+        self.assertEqual(out["icf_cs"]["authority_source"], "PROJECT_MIRROR")
+        self.assertEqual(out["icf_cs"]["project_mirror"]["status"], "CURRENT")
         self.assertEqual(out["applicability"]["RES"]["state"], "NOT_APPLICABLE_WITH_BASIS")
         self.assertEqual(out["applicability"]["UCM"]["state"], "NOT_APPLICABLE_WITH_BASIS")
         self.assertTrue(out["applicability"]["RES"]["basis"])

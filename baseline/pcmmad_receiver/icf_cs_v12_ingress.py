@@ -18,6 +18,8 @@ from .ucm_v1_runtime import UcmError, head as ucm_head, read_core
 
 ICF_CS_VERSION = "1.2"
 ICF_CS_STANDARD_REL = "state/doctrine_snapshot/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md"
+ICF_CS_RUNTIME_CARRIER_REL = "handoff/current/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md"
+ICF_CS_RUNTIME_ROOT = Path(__file__).resolve().parents[2]
 ICF_CS_STANDARD_SHA256 = "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92"
 ICF_CS_ACTIVATION_RECEIPT_SHA256 = "893409f28ea181c60ca9e3681eb9a1a4d08fa279befac4d679d2cfdb958d7279"
 RES_FEATURE_COMMIT = "8714dd87d2092e0f4c66f261fcf5cee8b75a0798"
@@ -48,34 +50,84 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def _standard_current(project_root: Path) -> dict[str, Any]:
-    path = (project_root / ICF_CS_STANDARD_REL).resolve()
-    root = project_root.resolve()
+def _runtime_carrier_current() -> dict[str, Any]:
+    root = ICF_CS_RUNTIME_ROOT.resolve()
+    path = (root / ICF_CS_RUNTIME_CARRIER_REL).resolve()
     if root not in [path, *path.parents] or not path.is_file():
         raise IcfIngressError(
             "ICF_CS_CURRENTNESS_FAILURE",
-            "current ICF-CS standard is missing from the governed project",
+            "current ICF-CS v1.2 Runtime ingress carrier is missing",
             409,
-            expected_path=ICF_CS_STANDARD_REL,
+            expected_path=ICF_CS_RUNTIME_CARRIER_REL,
             expected_sha256=ICF_CS_STANDARD_SHA256,
         )
     observed = _sha256(path)
     if observed != ICF_CS_STANDARD_SHA256:
         raise IcfIngressError(
             "ICF_CS_CURRENTNESS_FAILURE",
-            "current ICF-CS standard does not match active v1.2 authority",
+            "current ICF-CS Runtime ingress carrier does not match active v1.2 authority",
             409,
             expected_sha256=ICF_CS_STANDARD_SHA256,
             observed_sha256=observed,
             path=str(path),
         )
+    return {"path": str(path), "sha256": observed, "status": "CURRENT"}
+
+
+def _standard_current(project_root: Path) -> dict[str, Any]:
+    root = project_root.resolve()
+    mirror_path = (root / ICF_CS_STANDARD_REL).resolve()
+    if root not in [mirror_path, *mirror_path.parents]:
+        raise IcfIngressError(
+            "ICF_CS_CURRENTNESS_FAILURE",
+            "project ICF-CS mirror resolves outside the governed project",
+            409,
+            expected_path=ICF_CS_STANDARD_REL,
+        )
+
+    mirror: dict[str, Any] = {"path": str(mirror_path), "status": "MISSING", "sha256": None}
+    if mirror_path.is_file():
+        mirror_sha = _sha256(mirror_path)
+        mirror = {
+            "path": str(mirror_path),
+            "status": "CURRENT" if mirror_sha == ICF_CS_STANDARD_SHA256 else "STALE",
+            "sha256": mirror_sha,
+        }
+        if mirror_sha == ICF_CS_STANDARD_SHA256:
+            return {
+                "version": ICF_CS_VERSION,
+                "path": str(mirror_path),
+                "sha256": mirror_sha,
+                "activation_receipt_sha256": ICF_CS_ACTIVATION_RECEIPT_SHA256,
+                "status": "CURRENT",
+                "authority_source": "PROJECT_MIRROR",
+                "project_mirror": mirror,
+                "runtime_carrier": None,
+            }
+
+    carrier = _runtime_carrier_current()
     return {
         "version": ICF_CS_VERSION,
-        "path": str(path),
-        "sha256": observed,
+        "path": carrier["path"],
+        "sha256": carrier["sha256"],
         "activation_receipt_sha256": ICF_CS_ACTIVATION_RECEIPT_SHA256,
         "status": "CURRENT",
+        "authority_source": "RUNTIME_CARRIER_FALLBACK",
+        "project_mirror": mirror,
+        "runtime_carrier": carrier,
     }
+
+
+def _standard_currentness_witness(value: dict[str, Any]) -> tuple[Any, ...]:
+    mirror = value.get("project_mirror") or {}
+    carrier = value.get("runtime_carrier") or {}
+    return (
+        value.get("sha256"),
+        value.get("authority_source"),
+        mirror.get("status"),
+        mirror.get("sha256"),
+        carrier.get("sha256"),
+    )
 
 
 def _mode(value: str) -> str:
@@ -193,13 +245,21 @@ def rehydrate_icf_v12(
     # composed authority/RES/UCM/context reads. The returned packet is bound to
     # the exact end-of-ingress state, not merely the state observed at start.
     standard_after = _standard_current(root)
-    if standard_after["sha256"] != standard["sha256"]:
+    if _standard_currentness_witness(standard_after) != _standard_currentness_witness(standard):
         raise IcfIngressError(
             "ICF_CS_CURRENTNESS_FAILURE",
-            "ICF-CS authority bytes changed during fresh-instance rehydration",
+            "ICF-CS authority or project-mirror currentness changed during fresh-instance rehydration",
             409,
-            before_sha256=standard["sha256"],
-            after_sha256=standard_after["sha256"],
+            before={
+                "sha256": standard.get("sha256"),
+                "authority_source": standard.get("authority_source"),
+                "project_mirror": standard.get("project_mirror"),
+            },
+            after={
+                "sha256": standard_after.get("sha256"),
+                "authority_source": standard_after.get("authority_source"),
+                "project_mirror": standard_after.get("project_mirror"),
+            },
         )
     if applicability["RES"]["state"] == "REQUIRED":
         res_after = handoff_readiness(pid, research_intensive=True)
