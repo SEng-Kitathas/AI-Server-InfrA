@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "PCMMAD Laboratory Runtime Capability Microkernel",
-    "version": "11.0.0-candidate",
+    "version": "11.0.0",
     "description": "Eight-operation Assistant-facing control algebra over the wider server-native PCMMAD Laboratory Runtime. The schema is not Runtime authority. Native capabilities remain dynamically discoverable/currentness-bound; plans and leases grant no authority; durable jobs/results/transfers remain owned by existing Runtime planes."
   },
   "servers": [
@@ -57,8 +57,15 @@
           },
           "409": {
             "description": "Currentness/authority/plan/continuation conflict"
+          },
+          "413": {
+            "description": "v11 request body exceeds the 1 MiB transport ceiling"
+          },
+          "415": {
+            "description": "v11 request body must use application/json"
           }
-        }
+        },
+        "x-pcmmad-request-max-bytes": 1048576
       }
     },
     "/lab/vnext/invoke": {
@@ -102,8 +109,15 @@
           },
           "409": {
             "description": "Currentness/authority/plan/continuation conflict"
+          },
+          "413": {
+            "description": "v11 request body exceeds the 1 MiB transport ceiling"
+          },
+          "415": {
+            "description": "v11 request body must use application/json"
           }
-        }
+        },
+        "x-pcmmad-request-max-bytes": 1048576
       }
     },
     "/lab/batch": {
@@ -192,8 +206,15 @@
           },
           "409": {
             "description": "Currentness/authority/plan/continuation conflict"
+          },
+          "413": {
+            "description": "v11 request body exceeds the 1 MiB transport ceiling"
+          },
+          "415": {
+            "description": "v11 request body must use application/json"
           }
-        }
+        },
+        "x-pcmmad-request-max-bytes": 1048576
       }
     },
     "/lab/vnext/execute": {
@@ -237,8 +258,15 @@
           },
           "409": {
             "description": "Currentness/authority/plan/continuation conflict"
+          },
+          "413": {
+            "description": "v11 request body exceeds the 1 MiB transport ceiling"
+          },
+          "415": {
+            "description": "v11 request body must use application/json"
           }
-        }
+        },
+        "x-pcmmad-request-max-bytes": 1048576
       }
     },
     "/lab/vnext/observe": {
@@ -282,8 +310,15 @@
           },
           "409": {
             "description": "Currentness/authority/plan/continuation conflict"
+          },
+          "413": {
+            "description": "v11 request body exceeds the 1 MiB transport ceiling"
+          },
+          "415": {
+            "description": "v11 request body must use application/json"
           }
-        }
+        },
+        "x-pcmmad-request-max-bytes": 1048576
       }
     },
     "/lab/vnext/resume": {
@@ -327,8 +362,15 @@
           },
           "409": {
             "description": "Currentness/authority/plan/continuation conflict"
+          },
+          "413": {
+            "description": "v11 request body exceeds the 1 MiB transport ceiling"
+          },
+          "415": {
+            "description": "v11 request body must use application/json"
           }
-        }
+        },
+        "x-pcmmad-request-max-bytes": 1048576
       }
     },
     "/lab/vnext/transfer": {
@@ -372,8 +414,15 @@
           },
           "409": {
             "description": "Currentness/authority/plan/continuation conflict"
+          },
+          "413": {
+            "description": "v11 request body exceeds the 1 MiB transport ceiling"
+          },
+          "415": {
+            "description": "v11 request body must use application/json"
           }
-        }
+        },
+        "x-pcmmad-request-max-bytes": 1048576
       }
     }
   },

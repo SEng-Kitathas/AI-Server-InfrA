@@ -59,6 +59,21 @@ class HudCockpitStructureTests(unittest.TestCase):
         self.assertIn('@media (prefers-reduced-motion: reduce)', self.css)
         self.assertIn('@media (prefers-contrast: more)', self.css)
 
+    def test_runtime_and_project_context_are_first_class_cockpit_truth(self) -> None:
+        for token in (
+            'id="runtimeIdentity"',
+            'id="projectFocus"',
+            'id="runtimeGeneration"',
+            'id="runtimeSource"',
+            'id="projectContext"',
+            'RUNTIME / PROJECT CONTEXT',
+        ):
+            self.assertIn(token, self.html)
+        self.assertIn("r.runtime_identity||{}", self.js)
+        self.assertIn("r.project_catalog||{}", self.js)
+        self.assertIn("identity.source_head", self.js)
+        self.assertIn("catalog.projects", self.js)
+
     def test_cockpit_summary_is_derived_from_live_status_and_tool_catalog(self) -> None:
         self.assertIn("renderCockpitStatus(data)", self.js)
         self.assertIn("renderCockpitTools()", self.js)

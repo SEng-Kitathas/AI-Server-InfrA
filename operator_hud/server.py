@@ -419,6 +419,8 @@ def api_status():
             "http_status": receiver_code,
             "status": receiver_data.get("status") if receiver_ok else None,
             "tool_count": receiver_data.get("tool_count") if receiver_ok else None,
+            "runtime_identity": receiver_data.get("runtime_identity") if receiver_ok else None,
+            "project_catalog": receiver_data.get("project_catalog") if receiver_ok else None,
             "error": None if receiver_ok else receiver_data,
         },
         "browser_bridge": {

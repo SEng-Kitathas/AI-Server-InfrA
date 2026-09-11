@@ -107,6 +107,17 @@ function renderCockpitTools(){
 function renderStatus(data){
   state.status=data;
   const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
+  const identity=r.runtime_identity||{},catalog=r.project_catalog||{};
+  const head=String(identity.source_head||'').slice(0,8)||'unbound';
+  const runtimeText=`${identity.generation||'Runtime'} · ${head}`;
+  if($('runtimeIdentity'))$('runtimeIdentity').textContent=runtimeText;
+  if($('runtimeGeneration'))$('runtimeGeneration').textContent=identity.generation||'Runtime';
+  if($('runtimeSource'))$('runtimeSource').textContent=`${identity.product||'PCMMAD Laboratory Runtime'} · ${head}${identity.source_branch?` · ${identity.source_branch}`:''}`;
+  const projects=Array.isArray(catalog.projects)?catalog.projects:[];
+  if($('projectFocus'))$('projectFocus').textContent=projects.length?`PROJECTS · ${projects.length}`:'PROJECTS · —';
+  if($('projectContext'))$('projectContext').innerHTML=projects.length
+    ? `<strong>${projects.length}${catalog.partial?'+':''}</strong> project folders<br>${projects.slice(0,8).map(escapeHtml).join('<br>')}${catalog.partial?'<br>…':''}<br><span class="muted">${escapeHtml(catalog.root||'')}</span>`
+    : `No project catalog evidence.<br><span class="muted">${escapeHtml(catalog.root||'')}</span>`;
   setLamp('hudLamp',h.ok?'good':'bad');$('hudState').textContent=h.ok?'ONLINE':'DOWN';$('hudDetail').textContent=h.ok?`${h.host}:${h.port}`:'HUD unavailable';
   setLamp('receiverLamp',r.ok?'good':'bad');$('receiverState').textContent=r.ok?'ONLINE':'DOWN';$('receiverDetail').textContent=r.ok?`${r.tool_count??'?'} live tools · HTTP ${r.http_status}`:`HTTP ${r.http_status??'?'}`;
   setLamp('bridgeLamp',b.ok?'good':'bad');$('bridgeState').textContent=b.ok?'ONLINE':'DOWN';$('bridgeDetail').textContent=b.ok?`PID ${b.detail?.pid??'?'} · ${b.detail?.sessions??0} sessions`:(b.detail?.error||'bridge unavailable');

@@ -283,7 +283,12 @@ for path, operation_id, summary, request_name in operations:
                 "403": {"description": "Invalid continuation/authority token"},
                 "404": {"description": "Referenced native Runtime object not found"},
                 "409": {"description": "Currentness/authority/plan/continuation conflict"},
+                **({
+                    "413": {"description": "v11 request body exceeds the 1 MiB transport ceiling"},
+                    "415": {"description": "v11 request body must use application/json"},
+                } if path.startswith("/lab/vnext/") else {}),
             },
+            **({"x-pcmmad-request-max-bytes": 1048576} if path.startswith("/lab/vnext/") else {}),
         }
     }
 
@@ -291,7 +296,7 @@ schema = {
     "openapi": "3.0.3",
     "info": {
         "title": "PCMMAD Laboratory Runtime Capability Microkernel",
-        "version": "11.0.0-candidate",
+        "version": "11.0.0",
         "description": (
             "Eight-operation Assistant-facing control algebra over the wider server-native PCMMAD Laboratory Runtime. "
             "The schema is not Runtime authority. Native capabilities remain dynamically discoverable/currentness-bound; "

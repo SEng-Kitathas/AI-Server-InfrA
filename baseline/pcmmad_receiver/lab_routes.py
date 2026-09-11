@@ -53,7 +53,7 @@ from .lab_tools import (
 )
 
 JsonRecord = MutableMapping[str, Any]
-from .shared_core import ensure_parent, mount_summary, require_valid_api_key, utc_now
+from .shared_core import PROJECTS_ROOT, ensure_parent, mount_summary, require_valid_api_key, utc_now
 from .control_plane_models import BatchExecutorTelemetry, BackgroundResultEnvelope
 
 lab_bp = Blueprint("lab", __name__, url_prefix="/lab")
@@ -70,6 +70,73 @@ _BATCH_EXECUTOR_TELEMETRY = BatchExecutorTelemetry()
 BATCH_DATAFLOW_MAX_STEPS = 30
 BATCH_DATAFLOW_MAX_RESOLVED_PAYLOAD_BYTES = 65_536
 BATCH_STEP_ID_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_.-]{0,63}$")
+
+_RUNTIME_IDENTITY_CACHE: JsonRecord | None = None
+_RUNTIME_PROJECT_CATALOG_LIMIT = 128
+
+
+def _runtime_git_text(*args: str) -> str | None:
+    repo_root = Path(__file__).resolve().parents[2]
+    try:
+        cp = subprocess.run(
+            ["git", "-C", str(repo_root), *args],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=2,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError, ValueError):
+        return None
+    value = (cp.stdout or "").strip()
+    return value if cp.returncode == 0 and value else None
+
+
+def _runtime_identity() -> JsonRecord:
+    global _RUNTIME_IDENTITY_CACHE
+    if _RUNTIME_IDENTITY_CACHE is None:
+        repo_root = Path(__file__).resolve().parents[2]
+        head = _runtime_git_text("rev-parse", "HEAD")
+        tree = _runtime_git_text("rev-parse", "HEAD^{tree}")
+        branch = _runtime_git_text("symbolic-ref", "--quiet", "--short", "HEAD")
+        _RUNTIME_IDENTITY_CACHE = {
+            "product": "PCMMAD Laboratory Runtime",
+            "generation": "V30",
+            "release_state": "engineering_current",
+            "source_head": head,
+            "source_tree": tree,
+            "source_branch": branch,
+            "source_root": str(repo_root),
+            "schema_primary": "v11.0 capability microkernel",
+            "schema_compatibility": "v10.3 compact 30-operation surface",
+            "identity_law": "RUNTIME_ENGINEERING_IDENTITY != HISTORICAL_PACKAGE_LINEAGE",
+        }
+    return dict(_RUNTIME_IDENTITY_CACHE)
+
+
+def _project_catalog() -> JsonRecord:
+    rows: list[str] = []
+    partial = False
+    error: str | None = None
+    try:
+        if PROJECTS_ROOT.is_dir():
+            for child in sorted(PROJECTS_ROOT.iterdir(), key=lambda item: item.name.casefold()):
+                if not child.is_dir() or child.name.startswith("."):
+                    continue
+                if len(rows) >= _RUNTIME_PROJECT_CATALOG_LIMIT:
+                    partial = True
+                    break
+                rows.append(child.name)
+    except OSError as exc:
+        error = f"{type(exc).__name__}: {exc}"
+    return {
+        "root": str(PROJECTS_ROOT),
+        "projects": rows,
+        "count": len(rows),
+        "partial": partial,
+        "error": error,
+    }
 
 
 def _batch_stat_inc(name: str, amount: int = 1) -> None:
@@ -514,6 +581,8 @@ def lab_health() -> object:
             "status": _merge_lab_status(boot_degraded, lab_status, execution_status, mounts),
             "router": True,
             "tool_count": len(list_tools()),
+            "runtime_identity": _runtime_identity(),
+            "project_catalog": _project_catalog(),
             "boot_report": boot_report,
             "lab_status": lab_status,
             "execution_readiness": execution_status,
