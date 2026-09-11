@@ -14,6 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .control_plane_models import CommitLedgerRecord, ManifestDocument, ManifestEntryRecord
 from .server_hardening import run_subprocess_envelope
 
 JsonObject = MutableMapping[str, Any]
@@ -32,6 +33,19 @@ class ContinuityDeps:
     commits_ledger_path_for: Callable[[str], Path]
     sha256_file: Callable[[Path], str]
 
+@dataclass(frozen=True)
+class AdoptionDeps:
+    error_cls: type[Exception]
+    get_project_root: Callable[[str], Path]
+    resolve_target: Callable[[str, str, str], Path]
+    commits_ledger_path_for: Callable[[str], Path]
+    manifest_path_for: Callable[[str], Path]
+    sha256_file: Callable[[Path], str]
+    load_json: Callable[[Path, Any], Any]
+    save_json_atomic: Callable[[Path, Any], None]
+    append_jsonl: Callable[[Path, Any], None]
+    utc_now: Callable[[], str]
+
 
 def _deps(raw: JsonObject) -> ContinuityDeps:
     return ContinuityDeps(
@@ -40,6 +54,20 @@ def _deps(raw: JsonObject) -> ContinuityDeps:
         resolve_target=raw["resolve_target"],
         commits_ledger_path_for=raw["commits_ledger_path_for"],
         sha256_file=raw["sha256_file"],
+    )
+
+def _adoption_deps(raw: JsonObject) -> AdoptionDeps:
+    return AdoptionDeps(
+        error_cls=raw["error_cls"],
+        get_project_root=raw["get_project_root"],
+        resolve_target=raw["resolve_target"],
+        commits_ledger_path_for=raw["commits_ledger_path_for"],
+        manifest_path_for=raw["manifest_path_for"],
+        sha256_file=raw["sha256_file"],
+        load_json=raw["load_json"],
+        save_json_atomic=raw["save_json_atomic"],
+        append_jsonl=raw["append_jsonl"],
+        utc_now=raw["utc_now"],
     )
 
 
@@ -359,6 +387,150 @@ def inspect_git_relations(payload: JsonObject, dep: ContinuityDeps) -> JsonObjec
     }
 
 
+def adopt_existing_artifact(payload: JsonObject, dep: AdoptionDeps) -> JsonObject:
+    project_id = _required_text(payload, "project_id", dep.error_cls)
+    artifact = payload.get("artifact")
+    if not isinstance(artifact, dict):
+        raise dep.error_cls("BAD_REQUEST", "artifact must be an object", 400)
+    artifact_class = _required_text(artifact, "artifact_class", dep.error_cls)
+    logical_name = _required_text(artifact, "logical_name", dep.error_cls)
+    expected_sha = _sha256(payload.get("expected_sha256"), dep.error_cls, "expected_sha256")
+    expected_registered_raw = payload.get("expected_registered_sha256")
+    expected_registered = (
+        _sha256(expected_registered_raw, dep.error_cls, "expected_registered_sha256")
+        if expected_registered_raw not in (None, "") else None
+    )
+    session_id = str(payload.get("session_id") or "artifact-adoption").strip() or "artifact-adoption"
+
+    target = dep.resolve_target(project_id, artifact_class, logical_name)
+    if not target.is_file():
+        raise dep.error_cls("ARTIFACT_NOT_FOUND", "artifact target does not exist", 404, path=str(target))
+    actual_sha = dep.sha256_file(target)
+    if actual_sha != expected_sha:
+        raise dep.error_cls(
+            "ARTIFACT_SHA_MISMATCH",
+            "expected_sha256 does not match current file bytes",
+            409,
+            expected_sha256=expected_sha,
+            current_sha256=actual_sha,
+        )
+
+    lineage = _load_registration_lineage(project_id, artifact_class, logical_name, dep)
+    latest = lineage[-1] if lineage else None
+    latest_sha = str(latest.get("sha256") or "") if latest else None
+    latest_generation = int(latest.get("generation") or len(lineage)) if latest else 0
+    if latest_sha == actual_sha:
+        return {
+            "ok": True,
+            "project_id": project_id,
+            "artifact_class": artifact_class,
+            "logical_name": logical_name,
+            "path": str(target),
+            "sha256": actual_sha,
+            "bytes": target.stat().st_size,
+            "generation": latest_generation,
+            "adopted": False,
+            "already_current": True,
+            "operation": "adopt",
+        }
+    if latest_sha is not None:
+        if expected_registered is None:
+            raise dep.error_cls(
+                "REGISTERED_LINEAGE_EXPECTATION_REQUIRED",
+                "existing lineage requires expected_registered_sha256 before adoption",
+                409,
+                latest_registered_sha256=latest_sha,
+            )
+        if expected_registered != latest_sha:
+            raise dep.error_cls(
+                "REGISTERED_LINEAGE_MISMATCH",
+                "expected_registered_sha256 does not match lineage head",
+                409,
+                expected_registered_sha256=expected_registered,
+                latest_registered_sha256=latest_sha,
+            )
+    elif expected_registered is not None:
+        raise dep.error_cls(
+            "REGISTERED_LINEAGE_MISMATCH",
+            "expected_registered_sha256 was supplied but no lineage exists",
+            409,
+            expected_registered_sha256=expected_registered,
+            latest_registered_sha256=None,
+        )
+
+    project_root = dep.get_project_root(project_id).resolve()
+    try:
+        rel = str(target.resolve().relative_to(project_root)).replace("\\", "/")
+    except ValueError as exc:
+        raise dep.error_cls("BAD_ARTIFACT", "artifact target escaped project root", 409) from exc
+    now = dep.utc_now()
+    size_bytes = target.stat().st_size
+    generation = latest_generation + 1
+    commit_id = str(payload.get("commit_id") or f"adopt-{generation}-{actual_sha[:12]}").strip()
+    idempotency_key = str(payload.get("idempotency_key") or f"adopt:{artifact_class}:{logical_name}:{actual_sha}").strip()
+
+    manifest_path = dep.manifest_path_for(project_id)
+    manifest = ManifestDocument.from_dict(dep.load_json(manifest_path, {"files": {}}))
+    manifest.files[rel] = ManifestEntryRecord(
+        artifact_class=artifact_class,
+        sha256=actual_sha,
+        bytes=size_bytes,
+        updated_at=now,
+    )
+    manifest.updated_at = now
+    dep.save_json_atomic(manifest_path, manifest.to_dict())
+
+    # Recheck exact bytes after metadata mutation and before publishing lineage.
+    post_manifest_sha = dep.sha256_file(target)
+    if post_manifest_sha != actual_sha:
+        raise dep.error_cls(
+            "ARTIFACT_CHANGED_DURING_ADOPTION",
+            "artifact bytes changed during adoption; lineage was not appended",
+            409,
+            expected_sha256=actual_sha,
+            current_sha256=post_manifest_sha,
+        )
+
+    record = CommitLedgerRecord(
+        project_id=project_id,
+        session_id=session_id,
+        commit_id=commit_id,
+        idempotency_key=idempotency_key,
+        artifact_class=artifact_class,
+        logical_name=logical_name,
+        operation="adopt",
+        path=rel,
+        sha256=actual_sha,
+        bytes=size_bytes,
+        time=now,
+    )
+    dep.append_jsonl(dep.commits_ledger_path_for(project_id), record)
+    final_sha = dep.sha256_file(target)
+    if final_sha != actual_sha:
+        raise dep.error_cls(
+            "ARTIFACT_CHANGED_AFTER_ADOPTION",
+            "artifact bytes changed after lineage append; human reconciliation is required",
+            409,
+            registered_sha256=actual_sha,
+            current_sha256=final_sha,
+        )
+    return {
+        "ok": True,
+        "project_id": project_id,
+        "artifact_class": artifact_class,
+        "logical_name": logical_name,
+        "path": str(target),
+        "sha256": actual_sha,
+        "bytes": size_bytes,
+        "generation": generation,
+        "commit_id": commit_id,
+        "idempotency_key": idempotency_key,
+        "adopted": True,
+        "already_current": False,
+        "operation": "adopt",
+    }
+
+
 def _overall_status(artifact: JsonObject, git: JsonObject | None) -> str:
     if not artifact.get("registration_current"):
         return "local_unregistered"
@@ -446,8 +618,33 @@ INPUT_SCHEMA: JsonObject = {
 }
 
 
+ADOPT_INPUT_SCHEMA: JsonObject = {
+    "type": "object",
+    "required": ["project_id", "artifact", "expected_sha256"],
+    "additionalProperties": False,
+    "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "artifact": {
+            "type": "object",
+            "required": ["artifact_class", "logical_name"],
+            "additionalProperties": False,
+            "properties": {
+                "artifact_class": {"type": "string", "minLength": 1},
+                "logical_name": {"type": "string", "minLength": 1},
+            },
+        },
+        "expected_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+        "expected_registered_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"},
+        "session_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "commit_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "idempotency_key": {"type": "string", "minLength": 1, "maxLength": 300},
+    },
+}
+
+
 def register_continuity_tools(register_tool: Registrar, **raw_deps: Any) -> None:
     dep = _deps(raw_deps)
+    adoption_dep = _adoption_deps(raw_deps)
 
     @register_tool(
         "continuity.convergence.inspect",
@@ -469,3 +666,27 @@ def register_continuity_tools(register_tool: Registrar, **raw_deps: Any) -> None
     )
     def tool_continuity_convergence_inspect(payload: JsonObject) -> JsonObject:
         return inspect_convergence(payload, dep)
+
+    @register_tool(
+        "continuity.artifact.adopt",
+        "Adopt an already-existing exact project artifact into durable lineage without rewriting its bytes; intended for pre-server project migration.",
+        "high",
+        category="continuity",
+        mutating=True,
+        approval_required=True,
+        side_effect_class="mutation",
+        effect_traits=[
+            "durable_mutation",
+            "writes_project_ledger",
+            "writes_manifest",
+            "project_scope_enforced",
+            "project_mutation_fenced",
+            "source_currentness_check",
+            "idempotent_when_current",
+            "does_not_rewrite_artifact_bytes",
+        ],
+        input_schema=ADOPT_INPUT_SCHEMA,
+        output_schema={"type": "object"},
+    )
+    def tool_continuity_artifact_adopt(payload: JsonObject) -> JsonObject:
+        return adopt_existing_artifact(payload, adoption_dep)

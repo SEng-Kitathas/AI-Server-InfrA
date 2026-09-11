@@ -103,12 +103,16 @@ from .lab_state import (
 )
 from .shared_core import (
     TEXT_EXTENSIONS,
+    append_jsonl,
     ensure_parent,
     get_mount_roots,
     get_project_root,
     commits_ledger_path_for,
     resolve_target,
+    save_json_atomic,
     init_project_layout,
+    manifest_path_for,
+    load_json,
     mount_summary,
     resolve_mount_spec,
     sha256_file,
@@ -1144,7 +1148,12 @@ register_continuity_tools(
     get_project_root=get_project_root,
     resolve_target=resolve_target,
     commits_ledger_path_for=commits_ledger_path_for,
+    manifest_path_for=manifest_path_for,
     sha256_file=sha256_file,
+    load_json=load_json,
+    save_json_atomic=save_json_atomic,
+    append_jsonl=append_jsonl,
+    utc_now=utc_now,
 )
 
 register_icf_ingress_tool(

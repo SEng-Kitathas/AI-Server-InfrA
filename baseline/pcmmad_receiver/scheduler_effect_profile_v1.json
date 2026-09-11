@@ -1,6 +1,6 @@
 {
-  "capability_count": 158,
-  "catalog_digest": "8696add7f622e1fc886de856d17ae75fe15bd560c7c903bed611a1b8dcae6fe5",
+  "capability_count": 159,
+  "catalog_digest": "3bff3efe7d8271abca81a810e6cff1035289a6f8dd0ea760fb11495cc69ab45d",
   "cost_semantics": "static admission units; exact/computable but not a wall-time SLA",
   "declared_effect_class_is_effect_truth": false,
   "descriptive_effect_traits_are_scheduler_authority": false,
@@ -419,6 +419,30 @@
       ],
       "mutating": true,
       "name": "browser.upload",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "UNSAFE_RETRY",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "2c96a0892b3989e102019e3843413e7888efb48a3a203fc81a372db2128d0a67",
+      "declared_effect_kind": "MUTATION",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": true,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": true,
+      "name": "continuity.artifact.adopt",
       "parallel_witness": null,
       "resume_replay_class": "RECOMPOSE_REQUIRED",
       "resume_replay_witness": null,
@@ -3820,7 +3844,7 @@
     "USER_CONTINUITY"
   ],
   "parallel_default": "SERIAL",
-  "profile_digest": "c9aa7e5aa24f0abd54543d9bcb926b1184652704f93fa93d4582a72ecb59c28e",
+  "profile_digest": "78e44f2ae0f31647847628d679a0627d498bb6619a11f0237eac8c447c622d51",
   "resume_replay_classes": [
     "RECOMPOSE_REQUIRED",
     "REEXECUTE_READ_VERIFIED"

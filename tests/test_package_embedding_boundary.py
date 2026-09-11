@@ -40,7 +40,7 @@ class PackageEmbeddingBoundaryTests(unittest.TestCase):
         result = self._run(code)
         self.assertEqual(result.returncode, 0, result.stderr)
         observed = json.loads(result.stdout)
-        self.assertEqual(observed["count"], 158)
+        self.assertEqual(observed["count"], 159)
         self.assertEqual(observed["plugin_errors"], [])
 
     def test_package_first_and_legacy_second_share_single_module_identity(self) -> None:
@@ -204,10 +204,10 @@ with tempfile.TemporaryDirectory() as td:
             result = self._run(code, pythonpath=target, cwd=root)
             self.assertEqual(result.returncode, 0, result.stderr)
             observed = json.loads(result.stdout)
-            self.assertEqual(observed["count"], 158)
+            self.assertEqual(observed["count"], 159)
             self.assertEqual(observed["plugin_errors"], [])
             self.assertTrue(observed["profile_current"])
-            self.assertEqual(observed["profile_count"], 158)
+            self.assertEqual(observed["profile_count"], 159)
             self.assertTrue(observed["v11_schema_present"])
 
 
