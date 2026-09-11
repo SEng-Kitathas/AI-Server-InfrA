@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.1.0",
   "info": {
     "title": "PCMMAD Laboratory Runtime Actions",
     "version": "11.0.0-actions-compat",
@@ -88,6 +88,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {},
                   "additionalProperties": true
                 }
               }
@@ -130,10 +131,12 @@
                   },
                   "arguments": {
                     "type": "object",
+                    "properties": {},
                     "additionalProperties": true
                   },
                   "authority": {
                     "type": "object",
+                    "properties": {},
                     "description": "Optional Runtime authority envelope. Authority is separate from arguments and is validated by the server.",
                     "additionalProperties": true
                   },
@@ -143,6 +146,7 @@
                   },
                   "lease": {
                     "type": "object",
+                    "properties": {},
                     "description": "Capability lease returned by orient. A lease proves discovery/currentness and does not grant authority.",
                     "additionalProperties": true
                   }
@@ -159,6 +163,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {},
                   "additionalProperties": true
                 }
               }
@@ -214,10 +219,12 @@
                         },
                         "payload": {
                           "type": "object",
+                          "properties": {},
                           "additionalProperties": true
                         },
                         "authority": {
                           "type": "object",
+                          "properties": {},
                           "description": "Optional Runtime authority envelope. Authority is separate from arguments and is validated by the server.",
                           "additionalProperties": true
                         },
@@ -266,6 +273,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {},
                   "additionalProperties": true
                 }
               }
@@ -311,6 +319,7 @@
                   },
                   "lease": {
                     "type": "object",
+                    "properties": {},
                     "description": "Capability lease returned by orient. A lease proves discovery/currentness and does not grant authority.",
                     "additionalProperties": true
                   },
@@ -332,6 +341,7 @@
                         },
                         "arguments": {
                           "type": "object",
+                          "properties": {},
                           "additionalProperties": true
                         },
                         "depends_on": {
@@ -346,6 +356,7 @@
                         },
                         "when": {
                           "type": "object",
+                          "properties": {},
                           "additionalProperties": true
                         }
                       },
@@ -356,6 +367,7 @@
                     "type": "array",
                     "items": {
                       "type": "object",
+                      "properties": {},
                       "additionalProperties": true
                     }
                   },
@@ -386,6 +398,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {},
                   "additionalProperties": true
                 }
               }
@@ -430,6 +443,7 @@
                   },
                   "plan": {
                     "type": "object",
+                    "properties": {},
                     "description": "Sealed capability plan returned by compose. Plans are authority-neutral and revalidated by execute.",
                     "additionalProperties": true
                   },
@@ -439,6 +453,7 @@
                   },
                   "authorities": {
                     "type": "object",
+                    "properties": {},
                     "additionalProperties": true
                   }
                 },
@@ -454,6 +469,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {},
                   "additionalProperties": true
                 }
               }
@@ -533,11 +549,13 @@
                   },
                   "lease": {
                     "type": "object",
+                    "properties": {},
                     "description": "Capability lease returned by orient. A lease proves discovery/currentness and does not grant authority.",
                     "additionalProperties": true
                   },
                   "plan": {
                     "type": "object",
+                    "properties": {},
                     "description": "Sealed capability plan returned by compose. Plans are authority-neutral and revalidated by execute.",
                     "additionalProperties": true
                   },
@@ -573,6 +591,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {},
                   "additionalProperties": true
                 }
               }
@@ -627,6 +646,7 @@
                   },
                   "authorities": {
                     "type": "object",
+                    "properties": {},
                     "additionalProperties": true
                   }
                 },
@@ -642,6 +662,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {},
                   "additionalProperties": true
                 }
               }
@@ -692,10 +713,12 @@
                   },
                   "arguments": {
                     "type": "object",
+                    "properties": {},
                     "additionalProperties": true
                   },
                   "authority": {
                     "type": "object",
+                    "properties": {},
                     "description": "Optional Runtime authority envelope. Authority is separate from arguments and is validated by the server.",
                     "additionalProperties": true
                   }
@@ -712,6 +735,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {},
                   "additionalProperties": true
                 }
               }
@@ -737,6 +761,7 @@
     }
   },
   "components": {
+    "schemas": {},
     "securitySchemes": {
       "ApiKeyAuth": {
         "type": "apiKey",

@@ -12,19 +12,22 @@ canonical = json.loads(CANONICAL.read_text(encoding="utf-8"))
 server_url = str(canonical["servers"][0]["url"])
 
 DIGEST = {"type": "string", "description": "Current 64-character lowercase SHA-256 contract/plan digest."}
-OBJECT = {"type": "object", "additionalProperties": True}
+OBJECT = {"type": "object", "properties": {}, "additionalProperties": True}
 AUTHORITY = {
     "type": "object",
+    "properties": {},
     "description": "Optional Runtime authority envelope. Authority is separate from arguments and is validated by the server.",
     "additionalProperties": True,
 }
 LEASE = {
     "type": "object",
+    "properties": {},
     "description": "Capability lease returned by orient. A lease proves discovery/currentness and does not grant authority.",
     "additionalProperties": True,
 }
 PLAN = {
     "type": "object",
+    "properties": {},
     "description": "Sealed capability plan returned by compose. Plans are authority-neutral and revalidated by execute.",
     "additionalProperties": True,
 }
@@ -126,7 +129,7 @@ schemas: dict[str, dict] = {
             "project_id": {"type": "string"},
             "plan": PLAN,
             "expected_plan_digest": DIGEST,
-            "authorities": {"type": "object", "additionalProperties": True},
+            "authorities": {"type": "object", "properties": {}, "additionalProperties": True},
         },
         "additionalProperties": False,
     },
@@ -160,7 +163,7 @@ schemas: dict[str, dict] = {
             "continuation_handle": {"type": "string"},
             "resume_token": {"type": "string"},
             "expected_plan_digest": DIGEST,
-            "authorities": {"type": "object", "additionalProperties": True},
+            "authorities": {"type": "object", "properties": {}, "additionalProperties": True},
         },
         "additionalProperties": False,
     },
@@ -209,7 +212,7 @@ for path, operation_id, summary, request_name in operations:
     }
 
 schema = {
-    "openapi": "3.0.3",
+    "openapi": "3.1.0",
     "info": {
         "title": "PCMMAD Laboratory Runtime Actions",
         "version": "11.0.0-actions-compat",
@@ -219,11 +222,24 @@ schema = {
     "security": [{"ApiKeyAuth": []}],
     "paths": paths,
     "components": {
+        "schemas": {},
         "securitySchemes": {
             "ApiKeyAuth": {"type": "apiKey", "in": "header", "name": "X-GitHome-Key"}
         }
     },
 }
 
+def _enforce_actions_importer_object_shape(value: object) -> None:
+    if isinstance(value, dict):
+        if value.get("type") == "object":
+            value.setdefault("properties", {})
+        for child in value.values():
+            _enforce_actions_importer_object_shape(child)
+    elif isinstance(value, list):
+        for child in value:
+            _enforce_actions_importer_object_shape(child)
+
+
+_enforce_actions_importer_object_shape(schema)
 OUT.write_text(json.dumps(schema, indent=2) + "\n", encoding="utf-8", newline="\n")
 print(json.dumps({"path": str(OUT), "operations": len(operations), "bytes": OUT.stat().st_size}, indent=2))
