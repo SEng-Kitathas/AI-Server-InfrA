@@ -1,4 +1,4 @@
-const state={tools:[],filtered:[],category:'all',selected:null,status:null,pendingApproval:null,lastDispatch:null,hudToken:null,availabilityChecks:{}};
+const state={tools:[],filtered:[],category:'all',selected:null,status:null,pendingApproval:null,lastDispatch:null,hudToken:null,availabilityChecks:{},approvals:[],liveActivity:[],lastRuntimePulseTs:0};
 const $=id=>document.getElementById(id);
 const now=()=>new Date().toLocaleTimeString();
 
@@ -70,15 +70,26 @@ function renderTelemetry(t){
   setSpark('telemetryRssSpark',hist.map(x=>x.rss_bytes).filter(x=>x!=null),'nominal');
 }
 
+function planeClass(row){const s=String(row?.state||'unknown').toLowerCase();return ['active','degraded','down'].includes(s)?s:'unknown';}
+function renderPlaneMatrix(ready){
+  const rows=Array.isArray(ready?.planes)?ready.planes:[];
+  const box=$('planeMatrix');if(!box)return;
+  const core=rows.filter(x=>x.required_for_core),optional=rows.filter(x=>!x.required_for_core);
+  if($('corePlaneSummary'))$('corePlaneSummary').textContent=`${core.filter(x=>x.ok).length}/${core.length||0} ACTIVE`;
+  if($('optionalPlaneSummary'))$('optionalPlaneSummary').textContent=`${optional.filter(x=>x.ok).length}/${optional.length||0} ACTIVE`;
+  box.innerHTML=rows.length?rows.map(row=>`<div class="plane-row ${planeClass(row)}"><div class="plane-marker"></div><div><div class="plane-name">${escapeHtml(row.label||row.id||'plane')}<span>${row.required_for_core?'CORE':'OPTIONAL'}</span></div><div class="plane-source">${escapeHtml(row.source||'source unspecified')}</div></div><strong>${escapeHtml(String(row.state||'unknown').toUpperCase())}</strong></div>`).join(''):'<div class="empty-note">No readiness plane evidence.</div>';
+}
+
 function renderCockpitStatus(data){
   const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
   const coreReady=ready.core_ready!==undefined?!!ready.core_ready:!!(h.ok&&r.ok&&j.ok);
-  const optionalDegraded=Array.isArray(ready.optional_degraded)?ready.optional_degraded:(!b.ok?['browser_bridge']:[]);
+  const optional=ready.optional||{};
+  const optionalDegraded=ready.optional_degraded||[];
+  const optionalEntries=Object.entries(optional);
+  const optionalActive=optionalEntries.filter(([,ok])=>!!ok).length;
   const assurance=$('cockpitAssurance');
-  if(assurance){
-    assurance.textContent=coreReady?(optionalDegraded.length?'Core ready; optional degradation isolated':'Core ready; required planes nominal'):'Required control-plane evidence is degraded';
-  }
-  const optional=$('cockpitOptional');if(optional)optional.textContent=optionalDegraded.length?`${optionalDegraded.length} DEGRADED`:'NOMINAL';
+  if(assurance)assurance.textContent=coreReady?(optionalDegraded.length?'Core ready; optional planes degraded':'Core ready; required planes nominal'):'Required control-plane evidence is degraded';
+  const optionalEl=$('cockpitOptional');if(optionalEl)optionalEl.textContent=`${optionalActive}/${optionalEntries.length||0} ACTIVE`;
   const sessions=data.browser_sessions||[];
   const sessionSummary=$('cockpitSessionSummary');
   if(sessionSummary){
@@ -86,6 +97,7 @@ function renderCockpitStatus(data){
       ? `<strong>${sessions.length}</strong> active session${sessions.length===1?'':'s'}<br>${sessions.slice(0,3).map(x=>escapeHtml(x.session_id||x.id||'session')).join('<br>')}`
       : `${b.ok?'Bridge online; no active sessions.':'Optional browser bridge unavailable.'}`;
   }
+  renderPlaneMatrix(ready);
 }
 
 function renderCockpitTools(){
@@ -106,7 +118,7 @@ function renderCockpitTools(){
 
 function renderStatus(data){
   state.status=data;
-  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
+  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},o=data.observability||{},ready=data.readiness||{};
   const identity=r.runtime_identity||{},catalog=r.project_catalog||{};
   const head=String(identity.source_head||'').slice(0,8)||'unbound';
   const runtimeText=`${identity.generation||'Runtime'} · ${head}`;
@@ -120,23 +132,23 @@ function renderStatus(data){
     : `No project catalog evidence.<br><span class="muted">${escapeHtml(catalog.root||'')}</span>`;
   setLamp('hudLamp',h.ok?'good':'bad');$('hudState').textContent=h.ok?'ONLINE':'DOWN';$('hudDetail').textContent=h.ok?`${h.host}:${h.port}`:'HUD unavailable';
   setLamp('receiverLamp',r.ok?'good':'bad');$('receiverState').textContent=r.ok?'ONLINE':'DOWN';$('receiverDetail').textContent=r.ok?`${r.tool_count??'?'} live tools · HTTP ${r.http_status}`:`HTTP ${r.http_status??'?'}`;
-  setLamp('bridgeLamp',b.ok?'good':'bad');$('bridgeState').textContent=b.ok?'ONLINE':'DOWN';$('bridgeDetail').textContent=b.ok?`PID ${b.detail?.pid??'?'} · ${b.detail?.sessions??0} sessions`:(b.detail?.error||'bridge unavailable');
-  setLamp('journalLamp',j.ok?'good':'bad');$('journalState').textContent=j.ok?'DURABLE':'DEGRADED';$('journalDetail').textContent=j.ok?`${j.memory_rows??0} recent rows · ${j.malformed_rows_skipped??0} malformed skipped`:(j.load_error||j.write_error||`journal degraded · ${j.malformed_rows_skipped??0} malformed skipped`);
-  const sessions=data.browser_sessions||[];$('sessionCount').textContent=String(sessions.length);setLamp('sessionLamp',b.ok?'good':'bad');
+  setLamp('bridgeLamp',b.ok?'good':'bad');$('bridgeState').textContent=b.ok?'ACTIVE':'DOWN';$('bridgeDetail').textContent=b.ok?`PID ${b.detail?.pid??'?'} · ${b.detail?.sessions??0} sessions`:(b.detail?.error||'bridge unavailable');
+  setLamp('observabilityLamp',o.ok?'good':'bad');$('observabilityState').textContent=o.ok?'ACTIVE':'DEGRADED';$('observabilityDetail').textContent=o.ok?`HTTP ${o.http_status??200} · live receiver telemetry`:(o.error?.message||o.error?.error_code||`HTTP ${o.http_status??'?'}`);
+  setLamp('journalLamp',j.ok?'good':'bad');$('journalState').textContent=j.ok?'ACTIVE':'DEGRADED';$('journalDetail').textContent=j.ok?`${j.memory_rows??0} recent rows · ${j.malformed_rows_skipped??0} malformed skipped`:(j.load_error||j.write_error||`journal degraded · ${j.malformed_rows_skipped??0} malformed skipped`);
+  const sessions=data.browser_sessions||[];const sessionsObservable=!!b.ok;$('sessionCount').textContent=sessionsObservable?String(sessions.length):'—';setLamp('sessionLamp',sessionsObservable?'good':'bad');
   const coreReady=ready.core_ready!==undefined?!!ready.core_ready:!!(h.ok&&r.ok&&j.ok);
-  const optionalDegraded=Array.isArray(ready.optional_degraded)?ready.optional_degraded:(!b.ok?['browser_bridge']:[]);
+  const optionalDegraded=ready.optional_degraded||[];
   const corePartiallyAlive=!!(h.ok&&(r.ok||j.ok));
   const g=$('globalState');
-  if(coreReady&&optionalDegraded.length){g.className='state-pill degraded';g.textContent='CORE READY · OPTIONAL DEGRADED';}
-  else if(coreReady){g.className='state-pill good';g.textContent='CORE READY';}
+  if(coreReady){g.className=`state-pill ${optionalDegraded.length?'degraded':'good'}`;g.textContent=optionalDegraded.length?'CORE READY · OPTIONAL DEGRADED':'CORE READY';}
   else if(corePartiallyAlive){g.className='state-pill degraded';g.textContent='CORE DEGRADED';}
-  else{g.className='state-pill bad';g.textContent='CONTROL PLANE DOWN';}
+  else{g.className='state-pill bad';g.textContent='CORE DOWN';}
   $('lastRefresh').textContent=`checked ${now()} · ${data.latency_ms??'?'} ms`;
-  renderCockpitStatus(data); renderTelemetry(data.telemetry||{}); renderSessions(sessions); renderEvents(data.events||[]);
+  renderCockpitStatus(data); renderTelemetry(data.telemetry||{}); renderSessions(sessions,{observable:sessionsObservable,error:b.detail?.error||b.error||null}); ingestRuntimePulse(data); renderEvents(data.events||[]);
 }
 
 async function refreshStatus(){
-  const d=await api('/api/status',{timeoutMs:5000}); renderStatus(d);
+  const [d]=await Promise.all([api('/api/status',{timeoutMs:5000}),loadApprovals()]); renderStatus(d);
   const liveCount=d.receiver?.tool_count;
   if(d.receiver?.ok && Number.isInteger(liveCount) && state.tools.length && liveCount!==state.tools.length){
     $('toolCount').textContent=`catalog stale: ${state.tools.length} cached / ${liveCount} live`;
@@ -147,11 +159,48 @@ async function refreshStatus(){
   return d;
 }
 
-function renderSessions(rows){
-  const box=$('sessionList'); const sel=$('uploadSession'); if(sel){sel.innerHTML='<option value="">Select session</option>'+rows.map(r=>`<option value="${escapeHtml(r.session_id||r.id||'')}">${escapeHtml(r.session_id||r.id||'')}</option>`).join('');}
-  if(!rows.length){box.innerHTML='<div class="empty-note">No active browser sessions.</div>';return;}
+
+function approvalAge(iso){if(!iso)return 'unknown age';const t=Date.parse(iso);if(!Number.isFinite(t))return 'unknown age';const sec=Math.max(0,Math.floor((Date.now()-t)/1000));if(sec<60)return `${sec}s`;const min=Math.floor(sec/60);return min<60?`${min}m`:`${Math.floor(min/60)}h`; }
+function renderApprovalInbox(data){
+  const rows=Array.isArray(data?.approvals)?data.approvals:[];state.approvals=rows;
+  const box=$('approvalInbox'),count=$('approvalInboxCount');if(count)count.textContent=String(rows.length);if(!box)return;
+  if(!rows.length){box.className='approval-inbox empty-note';box.innerHTML='No pending approval challenges.';return;}
+  box.className='approval-inbox';
+  box.innerHTML=rows.map(a=>{const granted=String(a.status||'').toUpperCase()==='GRANTED';const contract=String(a.contract_digest||'').slice(0,12);const args=String(a.arguments_digest||'').slice(0,12);const target=JSON.stringify(a.target||{});return `<article class="approval-row ${granted?'granted':'active'}" data-approval-handle="${escapeHtml(a.handle||'')}"><div class="approval-row-head"><div><strong>${escapeHtml(a.capability_id||'unknown capability')}</strong><span class="approval-status">${escapeHtml(String(a.status||'').toUpperCase())}</span></div><span>${escapeHtml(String(a.danger_tier||'').toUpperCase())}</span></div><div class="approval-row-meta">${escapeHtml(a.handle||'')} · age ${escapeHtml(approvalAge(a.issued_at))}<br>contract ${escapeHtml(contract)} · args ${escapeHtml(args)}<br>target ${escapeHtml(target)}</div><div class="approval-row-actions">${granted?'<span class="granted-note">Granted; waiting for exact caller retry.</span>':`<button class="danger-button" data-approval-grant="${escapeHtml(a.handle||'')}">Grant exact challenge</button>`}<button class="secondary" data-approval-revoke="${escapeHtml(a.handle||'')}">Reject / revoke</button></div></article>`;}).join('');
+}
+function parseAuthorityRules(text){
+  const out={capabilities:[],categories:[],effect_traits:[],danger_tiers:[]};
+  String(text||'').split(/[\n,]+/).map(x=>x.trim()).filter(Boolean).forEach(rule=>{
+    const m=rule.match(/^(category|effect|tier|capability|cap):\s*(.+)$/i);
+    if(!m){out.capabilities.push(rule);return;}
+    const key=m[1].toLowerCase(),value=m[2].trim();if(!value)return;
+    if(key==='category')out.categories.push(value);else if(key==='effect')out.effect_traits.push(value);else if(key==='tier')out.danger_tiers.push(value);else out.capabilities.push(value);
+  });return out;
+}
+function authorityRulesText(sel){sel=sel||{};return [...(sel.capabilities||[]),...(sel.categories||[]).map(x=>`category:${x}`),...(sel.effect_traits||[]).map(x=>`effect:${x}`),...(sel.danger_tiers||[]).map(x=>`tier:${x}`)].join(', ');}
+function authorityModeChanged(){const custom=$('authorityMode').value==='custom';$('authorityDefault').disabled=!custom;}
+function renderAuthorityProfile(profile){const st=$('authorityProfileState');if(!profile){st.className='state-pill unknown';st.textContent='SERVER FALLBACK';$('authorityMode').value='standing';$('authorityDefault').value='allow';$('authorityAsk').value='';$('authorityAllow').value='';$('authorityDeny').value='';authorityModeChanged();return;}$('authorityMode').value=profile.mode||'standing';$('authorityDefault').value=profile.default_action||'allow';$('authorityAsk').value=authorityRulesText(profile.ask);$('authorityAllow').value=authorityRulesText(profile.allow);$('authorityDeny').value=authorityRulesText(profile.deny);authorityModeChanged();st.className='state-pill good';st.textContent=`${String(profile.mode||'standing').toUpperCase()} · ${String(profile.default_action||'allow').toUpperCase()}`;}
+async function loadAuthorityProfile(){const project=$('authorityProject').value.trim();if(!project)return;const d=await api(`/api/authority?project_id=${encodeURIComponent(project)}`,{timeoutMs:4000});if(d?.ok){state.authorityProfile=d.profile||null;renderAuthorityProfile(state.authorityProfile);}else showToast(`Authority read failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
+async function saveAuthorityProfile(){const project=$('authorityProject').value.trim();if(!project)return showToast('Project is required',false);const body={project_id:project,mode:$('authorityMode').value,default_action:$('authorityDefault').value,ask:parseAuthorityRules($('authorityAsk').value),allow:parseAuthorityRules($('authorityAllow').value),deny:parseAuthorityRules($('authorityDeny').value),operator_id:'local-hud-operator',provenance:'pcmmad-local-hud:standing-authority'};const d=await api('/api/authority',{method:'POST',body:JSON.stringify(body),timeoutMs:8000});if(d?.ok){state.authorityProfile=d.profile;renderAuthorityProfile(d.profile);showToast(`Standing authority saved for ${project}`);}else showToast(`Authority save failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
+async function resetAuthorityProfile(){const project=$('authorityProject').value.trim();if(!project)return;const d=await api('/api/authority/reset',{method:'POST',body:JSON.stringify({project_id:project}),timeoutMs:8000});if(d?.ok){state.authorityProfile=null;renderAuthorityProfile(null);showToast(`Server fallback restored for ${project}`);}else showToast(`Authority reset failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
+
+async function loadApprovals(){const d=await api('/api/approvals',{timeoutMs:4000});if(d?.ok)renderApprovalInbox(d);else renderApprovalInbox({approvals:[]});return d;}
+async function decideInboxApproval(handle,action){if(!handle)return;const d=await api(`/api/approvals/${action}`,{method:'POST',body:JSON.stringify({handle}),timeoutMs:8000});showToast(d.ok?`${action==='grant'?'Granted':'Revoked'} ${handle}`:`Approval ${action} failed: ${d.error_code||d.message||'unknown'}`,!d.ok);await loadApprovals();return d;}
+
+function renderSessions(rows,meta={}){
+  const observable=meta.observable!==false; const box=$('sessionList'); const sel=$('uploadSession'); if(sel){sel.innerHTML='<option value="">Select session</option>'+rows.map(r=>`<option value="${escapeHtml(r.session_id||r.id||'')}">${escapeHtml(r.session_id||r.id||'')}</option>`).join('');sel.disabled=!observable;}
+  if(!observable){box.innerHTML='<div class="empty-note"><strong>Session inventory unavailable.</strong><br>Optional browser bridge is down; 0 sessions is not being inferred.</div>';return;}
+  if(!rows.length){box.innerHTML='<div class="empty-note">Bridge online; no active browser sessions.</div>';return;}
   box.innerHTML=rows.map(s=>`<div class="session-row"><div><div class="session-title">${escapeHtml(s.session_id||s.id||'session')}</div><div class="session-meta">${escapeHtml(s.url||s.current_url||'')} ${s.profile_name?`· ${escapeHtml(s.profile_name)}`:''}</div></div><button class="secondary" data-stop-session="${escapeHtml(s.session_id||s.id||'')}">Stop…</button></div>`).join('');
   box.querySelectorAll('[data-stop-session]').forEach(btn=>btn.onclick=()=>{const t=state.tools.find(x=>x.name==='browser.session.stop'); if(!t)return showToast('browser.session.stop unavailable',false); dispatchTool(t,{session_id:btn.dataset.stopSession,timeout_seconds:20});});
+}
+
+function ingestRuntimePulse(data){
+  const tele=data?.telemetry||{},exec=tele.execution?.global||{},proc=tele.process||{},sched=tele.scheduler||{},http=tele.http||{};
+  const sampleTs=Number((tele.history||[]).slice(-1)[0]?.ts||data?.checked_at||Date.now()/1000);
+  if(!Number.isFinite(sampleTs)||sampleTs<=state.lastRuntimePulseTs)return; state.lastRuntimePulseTs=sampleTs;
+  state.liveActivity.unshift({kind:'runtime_pulse',ts:sampleTs,tool_name:'runtime pulse',ok:tele.ok!==false,elapsed_ms:null,summary:`HTTP ${Number(http.requests_per_minute??http.rpm??0).toFixed(1)} rpm · ${Number(exec.running||0)} running · ${Number(exec.queued||0)} queued · CPU ${Number(proc.cpu_percent||0).toFixed(1)}% · RSS ${fmtBytes(proc.rss_bytes)} · watcher ${sched.watcher_alive===false?'DOWN':'alive'}`});
+  state.liveActivity=state.liveActivity.slice(0,24);
 }
 
 function renderEvents(events){
@@ -160,12 +209,13 @@ function renderEvents(events){
   $('failureCount').textContent=String(failures.length);
   $('failures').className=failures.length?'stack':'stack empty-note';
   $('failures').innerHTML=failures.length?failures.slice(0,6).map(e=>`<div class="failure-row"><strong>${escapeHtml(e.tool_name)}</strong><div class="session-meta">${fmtTime(e.ts)} · HTTP ${e.http_status} · ${escapeHtml(e.error_code||'unspecified failure')}</div></div>`).join(''):'No HUD dispatch failures recorded.';
-  const rows=completed.slice(0,10);
-  $('recentActivity').innerHTML=rows.length?rows.map(eventRow).join(''):'<div class="empty-note">No HUD dispatches yet.</div>';
-  $('activityTable').innerHTML=completed.length?completed.map(eventRow).join(''):'<div class="empty-note">No HUD dispatch history yet.</div>';
+  const journalRows=events.filter(e=>['dispatch_completed','dispatch_started','approval_grant','approval_revoke','batch_started','batch_completed','batch_rejected_approval'].includes(e.kind));
+  const merged=[...state.liveActivity,...journalRows].sort((a,b)=>Number(b.ts||0)-Number(a.ts||0));
+  $('recentActivity').innerHTML=merged.length?merged.slice(0,10).map(eventRow).join(''):'<div class="empty-note">No live activity evidence yet.</div>';
+  $('activityTable').innerHTML=merged.length?merged.slice(0,60).map(eventRow).join(''):'<div class="empty-note">No live activity evidence yet.</div>';
 }
 
-function eventRow(e){const ids=[e.request_id,e.dispatch_id?`dispatch ${e.dispatch_id.slice(0,12)}`:null].filter(Boolean).join(' · ');return `<div class="event-row"><span>${fmtTime(e.ts)}</span><span><span class="event-kind">${escapeHtml(e.tool_name)}</span><br><span class="muted">${escapeHtml(ids)}</span></span><span class="${e.ok?'event-ok':'event-bad'}">${e.ok?'SUCCESS':'FAILED'}</span><span>${e.elapsed_ms??'?'} ms</span></div>`;}
+function eventRow(e){const pulse=e.kind==='runtime_pulse';const ids=pulse?(e.summary||'live receiver telemetry'):[e.request_id,e.dispatch_id?`dispatch ${String(e.dispatch_id).slice(0,12)}`:null,e.kind&&!String(e.kind).startsWith('dispatch_')?e.kind:null].filter(Boolean).join(' · ');const status=pulse?'LIVE':(e.ok===false?'FAILED':'SUCCESS');const timing=pulse?'telemetry':(e.elapsed_ms!=null?`${e.elapsed_ms} ms`:'—');return `<div class="event-row"><span>${fmtTime(e.ts)}</span><span><span class="event-kind">${escapeHtml(e.tool_name||e.kind||'activity')}</span><br><span class="muted">${escapeHtml(ids)}</span></span><span class="${e.ok===false?'event-bad':'event-ok'}">${status}</span><span>${timing}</span></div>`;}
 
 function toolNeedsApproval(t){if(t?.effective_approval_required!==undefined)return !!t.effective_approval_required;return !!t?.approval_required||!!t?.mutating||['high','critical'].includes(String(t?.danger_tier||'').toLowerCase());}
 function availabilityClass(a){const status=String(a?.status||'unknown').toLowerCase();return ['available','unavailable','degraded'].includes(status)?`availability-${status}`:'availability-unknown';}
@@ -326,6 +376,8 @@ function wire(){
   $('runCockpitCommand').onclick=runCockpitCommand;$('cockpitCommand').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();runCockpitCommand();}});
   $('uiTier').onchange=e=>setUiTier(e.target.value);
   $('rejectApproval').onclick=()=>{const name=state.pendingApproval?.tool?.name;approvalClose();showToast(`Rejected: ${name||'action'}`,false);};
+  $('authorityMode').onchange=authorityModeChanged;$('authorityProject').onchange=loadAuthorityProfile;$('saveAuthorityProfile').onclick=saveAuthorityProfile;$('resetAuthorityProfile').onclick=resetAuthorityProfile;
+  $('approvalInbox')?.addEventListener('click',e=>{const grant=e.target.closest('[data-approval-grant]');if(grant){decideInboxApproval(grant.dataset.approvalGrant,'grant');return;}const revoke=e.target.closest('[data-approval-revoke]');if(revoke)decideInboxApproval(revoke.dataset.approvalRevoke,'revoke');});
   $('confirmApproval').onclick=()=>{const p=state.pendingApproval;if(!p)return;const cb=p.onApproved;cb();};
   window.addEventListener('keydown',e=>{
     if(e.key==='Escape'&&!$('approvalModal').classList.contains('hidden')){$('rejectApproval').click();return;}
@@ -336,5 +388,5 @@ function wire(){
   });
 }
 
-async function init(){wire();restoreUiTier();const meta=await api('/api/meta');state.hudToken=meta.hud_token||null;if(!state.hudToken)showToast('HUD POST capability token unavailable',false);await Promise.all([loadTools(),refreshStatus()]);setInterval(refreshStatus,5000);}
+async function init(){wire();restoreUiTier();const meta=await api('/api/meta');state.hudToken=meta.hud_token||null;if(!state.hudToken)showToast('HUD POST capability token unavailable',false);await Promise.all([loadTools(),refreshStatus(),loadApprovals()]);await loadAuthorityProfile();setInterval(refreshStatus,5000);}
 init();

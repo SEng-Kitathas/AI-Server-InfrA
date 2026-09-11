@@ -34,6 +34,15 @@ from .lab_results import (
 )
 from .server_hardening import safe_json_dumps
 from .lab_schema_validation import validate_schema_value
+from .approval_authority import (
+    APPROVAL_STATUS_ACTIVE,
+    APPROVAL_STATUS_GRANTED,
+    ApprovalAuthorityError,
+    grant_challenge,
+    list_challenges,
+    revoke_challenge,
+)
+from .standing_authority import load_profile, save_profile, delete_profile
 from .schema_vnext_runtime import (
     compose as schema_vnext_compose,
     execute as schema_vnext_execute,
@@ -733,6 +742,65 @@ def lab_results_get() -> object:
         return _error("NOT_FOUND", "result handle not found", 404)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
         return _error("RESULT_GET_FAILED", str(e), 500)
+
+
+@lab_bp.get("/authority")
+def lab_authority_get() -> object:
+    ae=_auth()
+    if ae:return ae
+    project_id=str(request.args.get("project_id") or "").strip()
+    if not project_id:return _error("BAD_REQUEST","project_id is required",400)
+    try:profile=load_profile(project_id)
+    except (OSError,ValueError) as exc:return _error("AUTHORITY_PROFILE_READ_FAILED",str(exc),400)
+    return jsonify({"ok":True,"project_id":project_id,"profile":profile,"source":"operator_standing_authority"})
+
+@lab_bp.post("/authority")
+def lab_authority_set() -> object:
+    ae=_auth()
+    if ae:return ae
+    body=request.get_json(silent=True) or {}
+    if not isinstance(body,dict):return _error("BAD_REQUEST","authority profile body must be an object",400)
+    try:profile=save_profile(body)
+    except (OSError,ValueError,TypeError) as exc:return _error("AUTHORITY_PROFILE_INVALID",str(exc),400)
+    return jsonify({"ok":True,"profile":profile,"source":"operator_standing_authority"})
+
+@lab_bp.delete("/authority")
+def lab_authority_delete() -> object:
+    ae=_auth()
+    if ae:return ae
+    body=request.get_json(silent=True) or {}; project_id=str((body if isinstance(body,dict) else {}).get("project_id") or request.args.get("project_id") or "").strip()
+    if not project_id:return _error("BAD_REQUEST","project_id is required",400)
+    try:removed=delete_profile(project_id)
+    except (OSError,ValueError) as exc:return _error("AUTHORITY_PROFILE_DELETE_FAILED",str(exc),400)
+    return jsonify({"ok":True,"project_id":project_id,"removed":removed})
+
+@lab_bp.get("/approvals")
+def lab_approvals() -> object:
+    status_arg = str(request.args.get("status") or "pending").strip().lower()
+    if status_arg == "pending": statuses = {APPROVAL_STATUS_ACTIVE, APPROVAL_STATUS_GRANTED}
+    elif status_arg == "all": statuses = None
+    else: statuses = {part.strip().upper() for part in status_arg.split(",") if part.strip()}
+    try: limit = int(request.args.get("limit") or 100)
+    except (TypeError, ValueError): return _error("BAD_REQUEST", "limit must be an integer", 400)
+    try: rows = list_challenges(statuses=statuses, limit=limit)
+    except ApprovalAuthorityError as exc: return jsonify({"ok": False, "error_code": exc.error_code, "message": exc.message, **exc.extra}), exc.status
+    return jsonify({"ok": True, "count": len(rows), "pending": sum(1 for row in rows if row.get("status") == APPROVAL_STATUS_ACTIVE), "granted": sum(1 for row in rows if row.get("status") == APPROVAL_STATUS_GRANTED), "approvals": rows})
+
+@lab_bp.post("/approvals/<handle>/grant")
+def lab_approval_grant(handle: str) -> object:
+    body = request.get_json(silent=True) or {}
+    if not isinstance(body, dict): return _error("BAD_REQUEST", "approval grant body must be an object", 400)
+    try: row = grant_challenge(handle, operator_id=str(body.get("operator_id") or "").strip(), provenance=str(body.get("provenance") or "").strip())
+    except ApprovalAuthorityError as exc: return jsonify({"ok": False, "error_code": exc.error_code, "message": exc.message, **exc.extra}), exc.status
+    return jsonify({"ok": True, "approval": row})
+
+@lab_bp.post("/approvals/<handle>/revoke")
+def lab_approval_revoke(handle: str) -> object:
+    body = request.get_json(silent=True) or {}
+    if not isinstance(body, dict): return _error("BAD_REQUEST", "approval revoke body must be an object", 400)
+    try: row = revoke_challenge(handle, reason=str(body.get("reason") or "operator rejected in HUD").strip())
+    except ApprovalAuthorityError as exc: return jsonify({"ok": False, "error_code": exc.error_code, "message": exc.message, **exc.extra}), exc.status
+    return jsonify({"ok": True, "approval": row})
 
 
 @lab_bp.post("/dispatch")

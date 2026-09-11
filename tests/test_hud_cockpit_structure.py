@@ -35,7 +35,8 @@ class HudCockpitStructureTests(unittest.TestCase):
             'id="resultBox"',
             'Exact Runtime Challenge + Payload',
             'single-use handle',
-            'Browser Bridge · Optional',
+            'Browser Bridge',
+            'OPTIONAL',
         ):
             self.assertIn(token, self.html)
         self.assertIn("approval_challenge", self.js)

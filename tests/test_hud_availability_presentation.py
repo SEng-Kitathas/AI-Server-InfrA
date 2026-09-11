@@ -142,7 +142,8 @@ class HudAvailabilityPresentationTests(unittest.TestCase):
         self.assertIn("CORE READY · OPTIONAL DEGRADED", js)
         self.assertIn("core_ready", js)
         self.assertIn("optional_degraded", js)
-        self.assertIn("Browser Bridge · Optional", html)
+        self.assertIn("Browser Bridge", html)
+        self.assertIn("OPTIONAL", html)
 
 
     def test_frontend_rejects_stale_availability_probe_when_contract_digest_changes(self) -> None:

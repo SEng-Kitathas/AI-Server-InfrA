@@ -2,14 +2,17 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import secrets
 import threading
 import time
 import urllib.error
 import urllib.request
+import urllib.parse
 import uuid
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
+from functools import wraps
 from pathlib import Path
 from typing import Any
 
@@ -29,6 +32,32 @@ HUD_PORT = int(os.environ.get("PCMMAD_HUD_PORT", "5090"))
 BRIDGE_BASE = os.environ.get("PCMMAD_BROWSER_BRIDGE_BASE", "http://127.0.0.1:4471").rstrip("/")
 HUD_TOKEN = secrets.token_urlsafe(32)
 STATUS_POOL = ThreadPoolExecutor(max_workers=4, thread_name_prefix="pcmmad-hud-status")
+STATUS_CACHE_TTL_SECONDS = max(0.0, float(os.environ.get("PCMMAD_HUD_STATUS_CACHE_MS", "750")) / 1000.0)
+
+def _singleflight_status(fn):
+    lock = threading.Lock()
+    cache: dict[str, Any] = {"at": 0.0, "payload": None}
+    @wraps(fn)
+    def wrapped(*args, **kwargs):
+        if app.config.get("TESTING") or request.args.get("fresh") == "1" or STATUS_CACHE_TTL_SECONDS <= 0:
+            return fn(*args, **kwargs)
+        with lock:
+            now = time.monotonic()
+            payload = cache.get("payload")
+            if isinstance(payload, dict) and (now - float(cache.get("at") or 0.0)) <= STATUS_CACHE_TTL_SECONDS:
+                result = dict(payload)
+                result["status_cache"] = {"hit": True, "ttl_ms": round(STATUS_CACHE_TTL_SECONDS * 1000)}
+                return jsonify(result)
+            response = fn(*args, **kwargs)
+            try:
+                data = response.get_json() if hasattr(response, "get_json") else None
+                if isinstance(data, dict):
+                    cache["payload"] = data
+                    cache["at"] = time.monotonic()
+            except Exception:
+                pass
+            return response
+    return wrapped
 TELEMETRY_HISTORY: deque[dict[str, Any]] = deque(maxlen=180)
 TELEMETRY_LOCK = threading.Lock()
 HUD_PROCESS_STARTED_AT = time.time()
@@ -342,29 +371,24 @@ def _telemetry_projection(receiver_health: dict[str, Any], observed: dict[str, A
 
 
 def _readiness_payload(*, receiver_ok: bool, browser_bridge_ok: bool, journal_ok: bool, observability_ok: bool) -> dict[str, Any]:
-    required = {"hud": True, "receiver": bool(receiver_ok), "journal": bool(journal_ok)}
-    optional = {"browser_bridge": bool(browser_bridge_ok), "observability": bool(observability_ok)}
+    planes = [
+        {"id": "hud", "label": "HUD presentation", "required_for_core": True, "ok": True, "state": "active", "source": "local HUD process"},
+        {"id": "receiver", "label": "Receiver control", "required_for_core": True, "ok": bool(receiver_ok), "state": "active" if receiver_ok else "down", "source": "GET /lab/health"},
+        {"id": "journal", "label": "Forensic journal", "required_for_core": True, "ok": bool(journal_ok), "state": "active" if journal_ok else "degraded", "source": "HUD durable journal read/write state"},
+        {"id": "observability", "label": "Observability", "required_for_core": False, "ok": bool(observability_ok), "state": "active" if observability_ok else "degraded", "source": "GET /observability/telemetry"},
+        {"id": "browser_bridge", "label": "Browser bridge", "required_for_core": False, "ok": bool(browser_bridge_ok), "state": "active" if browser_bridge_ok else "down", "source": "browser bridge GET /health"},
+    ]
+    required = {row["id"]: bool(row["ok"]) for row in planes if row["required_for_core"]}
+    optional = {row["id"]: bool(row["ok"]) for row in planes if not row["required_for_core"]}
     core_ready = all(required.values())
     optional_degraded = [name for name, ok in optional.items() if not ok]
-    if core_ready and not optional_degraded:
-        status = "ready"
-    elif core_ready:
-        status = "ready_optional_degraded"
-    elif any(required.values()):
-        status = "degraded"
-    else:
-        status = "down"
-    return {
-        "status": status,
-        "core_ready": core_ready,
-        "required": required,
-        "optional": optional,
-        "optional_degraded": optional_degraded,
-        "basis": "hud_presentation_over_live_upstream_evidence",
-    }
+    core_status = "ready" if core_ready else ("degraded" if any(required.values()) else "down")
+    status = "ready_optional_degraded" if core_ready and optional_degraded else core_status
+    return {"status": status, "core_status": core_status, "core_ready": core_ready, "required": required, "optional": optional, "optional_status": "degraded" if optional_degraded else "nominal", "optional_degraded": optional_degraded, "planes": planes, "basis": "plane_separated_live_upstream_evidence"}
 
 
 @app.get("/api/status")
+@_singleflight_status
 def api_status():
     t0 = time.time()
     health_future = STATUS_POOL.submit(receiver_request, "/lab/health", timeout=1.5)
@@ -463,6 +487,59 @@ def api_mounts():
 def api_events():
     with EVENT_LOCK: rows=list(EVENTS)
     return jsonify({"ok":True,"journal":{**JOURNAL_STATE,"path":str(JOURNAL_PATH)},"events":rows})
+
+
+@app.get("/api/authority")
+def api_authority_get():
+    project_id=str(request.args.get("project_id") or "").strip()
+    if not project_id:return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"project_id is required"}),400
+    code,data=receiver_request("/lab/authority?project_id="+urllib.parse.quote(project_id,safe=""),timeout=3.0); return jsonify(data),code
+
+@app.post("/api/authority")
+def api_authority_set():
+    denied=_require_hud_token()
+    if denied is not None:return denied
+    body=request.get_json(force=True,silent=False)
+    if not isinstance(body,dict):return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"authority profile body must be an object"}),400
+    code,data=receiver_request("/lab/authority",method="POST",payload=body,timeout=4.0); _event("standing_authority_updated",project_id=body.get("project_id"),mode=body.get("mode"),ok=bool(data.get("ok")) if isinstance(data,dict) else False); return jsonify(data),code
+
+@app.post("/api/authority/reset")
+def api_authority_reset():
+    denied=_require_hud_token()
+    if denied is not None:return denied
+    body=request.get_json(force=True,silent=False); code,data=receiver_request("/lab/authority",method="DELETE",payload=body if isinstance(body,dict) else {},timeout=4.0); return jsonify(data),code
+
+@app.get("/api/approvals")
+def api_approvals():
+    code, data = receiver_request("/lab/approvals?status=pending&limit=100", timeout=3.0)
+    return jsonify(data), code
+
+def _approval_handle_from_body(body: Any) -> str:
+    if not isinstance(body, dict): return ""
+    handle = str(body.get("handle") or "").strip()
+    return handle if re.fullmatch(r"apr-[0-9a-f]{16}", handle) else ""
+
+@app.post("/api/approvals/grant")
+def api_approvals_grant():
+    denied = _require_hud_token()
+    if denied is not None: return denied
+    body = request.get_json(force=True, silent=False)
+    handle = _approval_handle_from_body(body)
+    if not handle: return jsonify({"ok": False, "error_code": "BAD_REQUEST", "message": "valid approval handle required"}), 400
+    code, data = receiver_request(f"/lab/approvals/{handle}/grant", method="POST", payload={"operator_id": "local-hud-operator", "provenance": "pcmmad-local-hud:approval-inbox"}, timeout=4.0)
+    _event("approval_grant", approval_handle=handle, http_status=code, ok=bool(data.get("ok")) if isinstance(data, dict) else False)
+    return jsonify(data), code
+
+@app.post("/api/approvals/revoke")
+def api_approvals_revoke():
+    denied = _require_hud_token()
+    if denied is not None: return denied
+    body = request.get_json(force=True, silent=False)
+    handle = _approval_handle_from_body(body)
+    if not handle: return jsonify({"ok": False, "error_code": "BAD_REQUEST", "message": "valid approval handle required"}), 400
+    code, data = receiver_request(f"/lab/approvals/{handle}/revoke", method="POST", payload={"reason": "operator rejected in local HUD approval inbox"}, timeout=4.0)
+    _event("approval_revoke", approval_handle=handle, http_status=code, ok=bool(data.get("ok")) if isinstance(data, dict) else False)
+    return jsonify(data), code
 
 
 @app.post("/api/dispatch")
@@ -604,7 +681,7 @@ def api_results_get():
 
 @app.get("/api/meta")
 def api_meta():
-    return jsonify({"ok":True,"hud":"PCMMAD Operations HUD","receiver_base":RECEIVER_BASE,"api_key_available":bool(API_KEY),"api_key_exposed_to_browser":False,"hud_token":HUD_TOKEN,"hud_token_scope":"local UI POST capability; rotates on HUD process restart","approval_model":"runtime-issued target/argument/contract-bound challenge; HUD confirms exact single-use handle","ui_version":"ops-hud-20260909-observability-v1","telemetry_model":"receiver-owned RED+USE+scheduler projection"})
+    return jsonify({"ok":True,"hud":"PCMMAD Operations HUD","receiver_base":RECEIVER_BASE,"api_key_available":bool(API_KEY),"api_key_exposed_to_browser":False,"hud_token":HUD_TOKEN,"hud_token_scope":"local UI POST capability; rotates on HUD process restart","approval_model":"runtime-issued target/argument/contract-bound challenge; HUD supports inline confirmation and durable pending grants; consume remains exact and single-use","ui_version":"ops-hud-20260911-live-activity-v5","telemetry_model":"receiver-owned RED+USE+scheduler projection"})
 
 
 if __name__ == "__main__":

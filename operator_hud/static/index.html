@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PCMMAD Operations HUD</title>
-  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260909-observability-v1">
+  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260911-live-activity-v5">
 </head>
 <body data-ui-tier="balanced">
 <div class="ambient-field" aria-hidden="true"></div>
@@ -51,27 +51,60 @@
       </section>
 
       <div class="service-grid cockpit-services">
-        <article class="service-card" id="hudCard">
-          <div class="service-head"><span>HUD</span><span id="hudLamp" class="lamp unknown"></span></div>
-          <div id="hudState" class="service-state">checking</div><div id="hudDetail" class="service-detail">127.0.0.1:5090</div>
+        <article class="service-card core-service" id="hudCard">
+          <div class="service-head"><span>HUD <em>CORE</em></span><span id="hudLamp" class="lamp unknown"></span></div>
+          <div id="hudState" class="service-state">checking</div><div id="hudDetail" class="service-detail">local presentation process</div>
         </article>
-        <article class="service-card" id="receiverCard">
-          <div class="service-head"><span>Receiver</span><span id="receiverLamp" class="lamp unknown"></span></div>
+        <article class="service-card core-service" id="receiverCard">
+          <div class="service-head"><span>Receiver <em>CORE</em></span><span id="receiverLamp" class="lamp unknown"></span></div>
           <div id="receiverState" class="service-state">checking</div><div id="receiverDetail" class="service-detail">127.0.0.1:5000</div>
         </article>
-        <article class="service-card" id="journalCard">
-          <div class="service-head"><span>Forensic Journal</span><span id="journalLamp" class="lamp unknown"></span></div>
+        <article class="service-card core-service" id="journalCard">
+          <div class="service-head"><span>Forensic Journal <em>CORE</em></span><span id="journalLamp" class="lamp unknown"></span></div>
           <div id="journalState" class="service-state">checking</div><div id="journalDetail" class="service-detail">durable dispatch evidence</div>
         </article>
+        <article class="service-card optional-service" id="observabilityCard">
+          <div class="service-head"><span>Observability <em>OPTIONAL</em></span><span id="observabilityLamp" class="lamp unknown"></span></div>
+          <div id="observabilityState" class="service-state">checking</div><div id="observabilityDetail" class="service-detail">RED + USE + scheduler telemetry</div>
+        </article>
         <article class="service-card optional-service" id="bridgeCard">
-          <div class="service-head"><span>Browser Bridge · Optional</span><span id="bridgeLamp" class="lamp unknown"></span></div>
+          <div class="service-head"><span>Browser Bridge <em>OPTIONAL</em></span><span id="bridgeLamp" class="lamp unknown"></span></div>
           <div id="bridgeState" class="service-state">checking</div><div id="bridgeDetail" class="service-detail">127.0.0.1:4471</div>
         </article>
       </div>
 
+      <section class="panel compact-panel plane-panel">
+        <div class="panel-head">
+          <div><div class="eyebrow holo-label">PLANE ASSURANCE</div><h2>Independent readiness</h2></div>
+          <div class="plane-summary"><span>CORE <strong id="corePlaneSummary">—</strong></span><span>OPTIONAL <strong id="optionalPlaneSummary">—</strong></span></div>
+        </div>
+        <div id="planeMatrix" class="plane-matrix"><div class="empty-note">Grounding plane evidence…</div></div>
+      </section>
+
       <section class="panel compact-panel">
         <div class="panel-head"><div><div class="eyebrow">ATTENTION</div><h2>Recent failures</h2></div><span id="failureCount" class="counter">0</span></div>
         <div id="failures" class="stack empty-note">No HUD dispatch failures recorded.</div>
+      </section>
+
+      <section class="panel compact-panel approval-inbox-panel">
+        <div class="panel-head">
+          <div><div class="eyebrow holo-label">OPERATOR AUTHORITY</div><h2>Pending approvals</h2></div>
+          <span id="approvalInboxCount" class="counter">0</span>
+        </div>
+        <div class="authority-profile">
+          <div class="authority-profile-grid">
+            <label><span>PROJECT</span><input id="authorityProject" value="RECEIVER-LAB" spellcheck="false"></label>
+            <label><span>POSTURE</span><select id="authorityMode"><option value="standing">STANDING · allow unless HITL</option><option value="hitl">HITL · ask by default</option><option value="custom">CUSTOM</option></select></label>
+            <label><span>CUSTOM DEFAULT</span><select id="authorityDefault"><option value="allow">ALLOW</option><option value="ask">ASK</option></select></label>
+          </div>
+          <label class="authority-rule-field"><span>HITL RULES</span><textarea id="authorityAsk" rows="2" placeholder="git.push, execution.terminate, effect:external_side_effect"></textarea></label>
+          <label class="authority-rule-field"><span>ALLOW OVERRIDES</span><textarea id="authorityAllow" rows="2" placeholder="execution.*, category:filesystem"></textarea></label>
+          <label class="authority-rule-field"><span>DENY RULES</span><textarea id="authorityDeny" rows="2" placeholder="capability.*, category:*"></textarea></label>
+          <div class="authority-actions"><button id="saveAuthorityProfile" class="primary">Save standing authority</button><button id="resetAuthorityProfile">Use server fallback</button><span id="authorityProfileState" class="state-pill unknown">UNSET</span></div>
+          <div class="approval-inbox-note">Rules accept capability globs plus <code>category:</code>, <code>effect:</code>, and <code>tier:</code>. Deny wins; HITL beats allow. Project standing authority overrides server approval heuristics, not confinement, generation locks, hashes, or queue bounds.</div>
+        </div>
+        <div class="approval-inbox-note">Exact HITL challenges from any client appear below. A grant remains contract/arguments/target-bound and single-use.</div>
+        <div id="approvalInbox" class="approval-inbox empty-note">No pending approval challenges.</div>
       </section>
 
       <section class="panel compact-panel">
@@ -302,6 +335,6 @@
   </div>
 </div>
 <div id="toast" class="toast hidden" aria-live="polite"></div>
-<script src="/static/app.js?v=ops-hud-20260909-observability-v1"></script>
+<script src="/static/app.js?v=ops-hud-20260911-live-activity-v5"></script>
 </body>
 </html>

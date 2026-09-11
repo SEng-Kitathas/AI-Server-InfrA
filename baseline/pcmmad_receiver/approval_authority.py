@@ -24,6 +24,7 @@ APPROVAL_DEFAULT_TTL_SECONDS = 300
 APPROVAL_MAX_TTL_SECONDS = 900
 APPROVAL_STORE_VERSION = "1"
 APPROVAL_STATUS_ACTIVE = "ACTIVE"
+APPROVAL_STATUS_GRANTED = "GRANTED"
 APPROVAL_STATUS_CONSUMED = "CONSUMED"
 APPROVAL_STATUS_REVOKED = "REVOKED"
 APPROVAL_STATUS_EXPIRED = "EXPIRED"
@@ -178,6 +179,8 @@ def create_challenge(
         "issued_at": now.isoformat(),
         "expires_at": (now + timedelta(seconds=ttl)).isoformat(),
         "issuer_hint": str(issuer_hint or "runtime-policy"),
+        "granted_at": None,
+        "grantor": None,
         "consumed_at": None,
         "consumer": None,
         "revoked_at": None,
@@ -202,6 +205,8 @@ def public_view(record: Mapping[str, Any]) -> dict[str, Any]:
         "effect_traits": list(record.get("effect_traits") or []),
         "issued_at": record.get("issued_at"),
         "expires_at": record.get("expires_at"),
+        "granted_at": record.get("granted_at"),
+        "grantor": record.get("grantor"),
         "consumed_at": record.get("consumed_at"),
         "consumer": record.get("consumer"),
     }
@@ -211,7 +216,7 @@ def inspect_challenge(handle: str) -> dict[str, Any]:
     with _LOCK:
         record = _load(handle)
         expires_at = _parse_time(record.get("expires_at"))
-        if record.get("status") == APPROVAL_STATUS_ACTIVE and expires_at is not None and _now() > expires_at:
+        if record.get("status") in {APPROVAL_STATUS_ACTIVE, APPROVAL_STATUS_GRANTED} and expires_at is not None and _now() > expires_at:
             record["status"] = APPROVAL_STATUS_EXPIRED
             record = _write(record)
         return public_view(record)
@@ -230,13 +235,15 @@ def validate_and_consume(
     operator_id: str = "",
     provenance: str = "",
 ) -> dict[str, Any]:
-    if permit is not True:
-        raise ApprovalAuthorityError("APPROVAL_CONFIRMATION_REQUIRED", "approval handle requires explicit permit=true")
     with _LOCK:
         record = _load(handle)
         status = str(record.get("status") or "")
+        if status == APPROVAL_STATUS_GRANTED:
+            permit = True
+        if permit is not True:
+            raise ApprovalAuthorityError("APPROVAL_CONFIRMATION_REQUIRED", "approval handle requires explicit permit=true or a durable operator grant")
         expires_at = _parse_time(record.get("expires_at"))
-        if status == APPROVAL_STATUS_ACTIVE and (expires_at is None or _now() > expires_at):
+        if status in {APPROVAL_STATUS_ACTIVE, APPROVAL_STATUS_GRANTED} and (expires_at is None or _now() > expires_at):
             record["status"] = APPROVAL_STATUS_EXPIRED
             record = _write(record)
             _mismatch("APPROVAL_EXPIRED", "approval challenge expired", record)
@@ -270,6 +277,43 @@ def validate_and_consume(
             "provenance": str(provenance or "").strip(),
         }
         return public_view(_write(record))
+
+
+def grant_challenge(handle: str, *, operator_id: str = "", provenance: str = "") -> dict[str, Any]:
+    with _LOCK:
+        record = _load(handle)
+        status = str(record.get("status") or "")
+        expires_at = _parse_time(record.get("expires_at"))
+        if status in {APPROVAL_STATUS_ACTIVE, APPROVAL_STATUS_GRANTED} and (expires_at is None or _now() > expires_at):
+            record["status"] = APPROVAL_STATUS_EXPIRED
+            record = _write(record)
+            _mismatch("APPROVAL_EXPIRED", "approval challenge expired", record)
+        if status == APPROVAL_STATUS_CONSUMED:
+            _mismatch("APPROVAL_ALREADY_CONSUMED", "consumed approval cannot be granted again", record)
+        if status == APPROVAL_STATUS_REVOKED:
+            _mismatch("APPROVAL_REVOKED", "revoked approval cannot be granted", record)
+        if status == APPROVAL_STATUS_GRANTED:
+            return public_view(record)
+        if status != APPROVAL_STATUS_ACTIVE:
+            _mismatch("APPROVAL_NOT_ACTIVE", "approval challenge is not active", record)
+        record["status"] = APPROVAL_STATUS_GRANTED
+        record["granted_at"] = utc_now()
+        record["grantor"] = {"operator_id": str(operator_id or "").strip(), "provenance": str(provenance or "").strip()}
+        return public_view(_write(record))
+
+def list_challenges(*, statuses: set[str] | None = None, limit: int = 100) -> list[dict[str, Any]]:
+    wanted = {str(x).upper() for x in statuses} if statuses else None
+    bounded = max(1, min(int(limit), 200))
+    root = _root(); root.mkdir(parents=True, exist_ok=True)
+    paths = sorted(root.glob("apr-*.json"), key=lambda x: x.stat().st_mtime, reverse=True)
+    rows: list[dict[str, Any]] = []
+    for path in paths:
+        if len(rows) >= bounded: break
+        try: row = inspect_challenge(path.stem)
+        except ApprovalAuthorityError: continue
+        if wanted is not None and str(row.get("status") or "").upper() not in wanted: continue
+        rows.append(row)
+    return rows
 
 
 def revoke_challenge(handle: str, reason: str = "") -> dict[str, Any]:
