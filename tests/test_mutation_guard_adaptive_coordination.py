@@ -83,6 +83,106 @@ class AdaptiveConsequenceGuardTests(unittest.TestCase):
                 self.assertFalse(dormant["active"])
                 self.assertFalse(dormant["heartbeat_fresh"])
 
+    def test_delayed_heartbeat_cannot_resurrect_holder_after_release(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pcmmad-heartbeat-release-race-") as td:
+            root = Path(td)
+            entered = threading.Event()
+            release = threading.Event()
+            heartbeat_write_entered = threading.Event()
+            allow_heartbeat_write = threading.Event()
+            errors: list[BaseException] = []
+
+            def project_root(project_id: str) -> Path:
+                path = root / project_id
+                path.mkdir(parents=True, exist_ok=True)
+                return path
+
+            real_write = pma._write_consequence_holder_state
+
+            def delayed_write(project_id: str, **kwargs: object) -> None:
+                sequence = int(kwargs.get("heartbeat_sequence") or 0)
+                if sequence >= 2 and threading.current_thread().name.startswith("pcmmad-mutation-heartbeat-"):
+                    heartbeat_write_entered.set()
+                    allow_heartbeat_write.wait(timeout=2)
+                real_write(project_id, **kwargs)
+
+            def holder() -> None:
+                try:
+                    with pma.compatibility_session_guard("p1", session_id="holder", timeout_seconds=0.1):
+                        entered.set()
+                        release.wait(timeout=3)
+                except BaseException as exc:  # pragma: no cover - surfaced below
+                    errors.append(exc)
+
+            with ExitStack() as stack:
+                stack.enter_context(patch.object(pma, "get_project_root", side_effect=project_root))
+                stack.enter_context(patch.object(pma, "init_project_layout", side_effect=lambda project_id: project_root(project_id)))
+                stack.enter_context(patch.object(pma, "CONSEQUENCE_HEARTBEAT_INTERVAL_SECONDS", 0.02))
+                stack.enter_context(patch.object(pma, "_write_consequence_holder_state", side_effect=delayed_write))
+                thread = threading.Thread(target=holder, daemon=True)
+                thread.start()
+                self.assertTrue(entered.wait(timeout=1))
+                self.assertTrue(heartbeat_write_entered.wait(timeout=1))
+                release.set()
+                time.sleep(0.15)
+                self.assertTrue(thread.is_alive(), "teardown must wait for an in-flight heartbeat write")
+                allow_heartbeat_write.set()
+                thread.join(timeout=2)
+                self.assertFalse(thread.is_alive())
+                self.assertEqual(errors, [])
+                time.sleep(0.05)
+                dormant = pma.observe_lease("p1")["consequence_guard"]
+                self.assertFalse(dormant["active"])
+                self.assertFalse(dormant["heartbeat_fresh"])
+
+    def test_failed_consequence_also_clears_holder_without_resurrection(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pcmmad-heartbeat-failure-race-") as td:
+            root = Path(td)
+            heartbeat_write_entered = threading.Event()
+            allow_heartbeat_write = threading.Event()
+            failure_seen = threading.Event()
+
+            def project_root(project_id: str) -> Path:
+                path = root / project_id
+                path.mkdir(parents=True, exist_ok=True)
+                return path
+
+            real_write = pma._write_consequence_holder_state
+
+            def delayed_write(project_id: str, **kwargs: object) -> None:
+                sequence = int(kwargs.get("heartbeat_sequence") or 0)
+                if sequence >= 2 and threading.current_thread().name.startswith("pcmmad-mutation-heartbeat-"):
+                    heartbeat_write_entered.set()
+                    allow_heartbeat_write.wait(timeout=2)
+                real_write(project_id, **kwargs)
+
+            def holder() -> None:
+                try:
+                    with pma.compatibility_session_guard("p1", session_id="holder", timeout_seconds=0.1):
+                        self.assertTrue(heartbeat_write_entered.wait(timeout=1))
+                        raise RuntimeError("synthetic consequence failure")
+                except RuntimeError:
+                    failure_seen.set()
+
+            with ExitStack() as stack:
+                stack.enter_context(patch.object(pma, "get_project_root", side_effect=project_root))
+                stack.enter_context(patch.object(pma, "init_project_layout", side_effect=lambda project_id: project_root(project_id)))
+                stack.enter_context(patch.object(pma, "CONSEQUENCE_HEARTBEAT_INTERVAL_SECONDS", 0.02))
+                stack.enter_context(patch.object(pma, "_write_consequence_holder_state", side_effect=delayed_write))
+                thread = threading.Thread(target=holder, daemon=True)
+                thread.start()
+                self.assertTrue(heartbeat_write_entered.wait(timeout=1))
+                time.sleep(0.12)
+                self.assertTrue(thread.is_alive(), "failure teardown must wait for heartbeat write barrier")
+                allow_heartbeat_write.set()
+                thread.join(timeout=2)
+                self.assertFalse(thread.is_alive())
+                self.assertTrue(failure_seen.is_set())
+                time.sleep(0.05)
+                dormant = pma.observe_lease("p1")["consequence_guard"]
+                self.assertFalse(dormant["active"])
+                self.assertFalse(dormant["heartbeat_fresh"])
+
     def test_stale_holder_metadata_does_not_extend_wait_forever(self) -> None:
         with tempfile.TemporaryDirectory(prefix="pcmmad-adaptive-guard-stale-") as td:
             root = Path(td)

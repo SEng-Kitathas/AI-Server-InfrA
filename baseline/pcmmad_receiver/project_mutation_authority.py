@@ -243,25 +243,33 @@ def _consequence_heartbeat_loop(
     acquired_at: str,
     acquired_at_epoch: float,
     stop: threading.Event,
+    state_barrier: threading.Lock,
 ) -> None:
     sequence = 1
     while not stop.wait(max(0.02, float(CONSEQUENCE_HEARTBEAT_INTERVAL_SECONDS))):
-        current = _consequence_holder_snapshot(project_id)
-        if str(current.get("holder_token") or "") != holder_token:
-            return
-        sequence += 1
-        try:
-            _write_consequence_holder_state(
-                project_id,
-                holder_token=holder_token,
-                acquired_at=acquired_at,
-                acquired_at_epoch=acquired_at_epoch,
-                heartbeat_sequence=sequence,
-            )
-        except (OSError, ValueError, TypeError):
-            # Coordination heartbeat failure cannot create or revoke authority.
-            # The OS file lock remains the actual exclusion primitive.
-            continue
+        # Snapshot + heartbeat write are serialized against teardown. Once teardown
+        # acquires this barrier after stop.set(), no heartbeat may recreate state.
+        with state_barrier:
+            if stop.is_set():
+                return
+            current = _consequence_holder_snapshot(project_id)
+            if str(current.get("holder_token") or "") != holder_token:
+                return
+            sequence += 1
+            if stop.is_set():
+                return
+            try:
+                _write_consequence_holder_state(
+                    project_id,
+                    holder_token=holder_token,
+                    acquired_at=acquired_at,
+                    acquired_at_epoch=acquired_at_epoch,
+                    heartbeat_sequence=sequence,
+                )
+            except (OSError, ValueError, TypeError):
+                # Coordination heartbeat failure cannot create or revoke authority.
+                # The OS file lock remains the actual exclusion primitive.
+                continue
 
 
 def _clear_consequence_holder_state(project_id: str, holder_token: str) -> None:
@@ -344,9 +352,10 @@ def _project_consequence_guard(
     except (OSError, ValueError, TypeError):
         pass
     stop = threading.Event()
+    state_barrier = threading.Lock()
     heartbeat = threading.Thread(
         target=_consequence_heartbeat_loop,
-        args=(project_id, holder_token, acquired_at, acquired_at_epoch, stop),
+        args=(project_id, holder_token, acquired_at, acquired_at_epoch, stop, state_barrier),
         name=f"pcmmad-mutation-heartbeat-{project_id}",
         daemon=True,
     )
@@ -355,8 +364,12 @@ def _project_consequence_guard(
         yield
     finally:
         stop.set()
+        # Wait out any heartbeat write already in flight, then clear while holding
+        # the same barrier. A delayed daemon heartbeat can no longer resurrect the
+        # holder after consequence release.
+        with state_barrier:
+            _clear_consequence_holder_state(project_id, holder_token)
         heartbeat.join(timeout=max(0.1, float(CONSEQUENCE_HEARTBEAT_INTERVAL_SECONDS) * 2.5))
-        _clear_consequence_holder_state(project_id, holder_token)
         guard_cm.__exit__(None, None, None)
 
 
