@@ -1,6 +1,6 @@
 {
-  "capability_count": 159,
-  "catalog_digest": "3bff3efe7d8271abca81a810e6cff1035289a6f8dd0ea760fb11495cc69ab45d",
+  "capability_count": 160,
+  "catalog_digest": "b5d30a1befbcaed8fc9b9c4d20aac31823f7cf5f6cbd6f806a2dc34ad9e0e71e",
   "cost_semantics": "static admission units; exact/computable but not a wall-time SLA",
   "declared_effect_class_is_effect_truth": false,
   "descriptive_effect_traits_are_scheduler_authority": false,
@@ -591,6 +591,30 @@
       "resume_replay_class": "RECOMPOSE_REQUIRED",
       "resume_replay_witness": null,
       "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "88e7272cfe3437b59d17e4a3dd2e5ed4d10bea00a8d437449fcd3f50134e18d0",
+      "declared_effect_kind": "MUTATION",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": true,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": true,
+      "name": "continuity.res.reconcile",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "UNSAFE_RETRY",
       "schedule_class": "SERIAL",
       "static_cost_units": 10
     },
@@ -3844,7 +3868,7 @@
     "USER_CONTINUITY"
   ],
   "parallel_default": "SERIAL",
-  "profile_digest": "78e44f2ae0f31647847628d679a0627d498bb6619a11f0237eac8c447c622d51",
+  "profile_digest": "bab88a49aae5b539c8012b48cb0eeff43be975202bb0dc9fc4bd8bab4b3987b4",
   "resume_replay_classes": [
     "RECOMPOSE_REQUIRED",
     "REEXECUTE_READ_VERIFIED"

@@ -15,8 +15,8 @@ class ProductionEffectProfileTests(unittest.TestCase):
     def setUp(self):
         self.cards={row["name"]:row for row in lab_tools.list_tools()}
         self.profile=effect.load_profile()
-    def test_profile_exactly_covers_live_159_capability_catalog(self):
-        r=effect.verify_profile(self.profile,self.cards); self.assertTrue(r["current"]); self.assertEqual(r["capability_count"],159); self.assertEqual(set(x["name"] for x in self.profile["entries"]),set(self.cards)); self.assertEqual(lab_tools._PLUGIN_ERRORS,[])
+    def test_profile_exactly_covers_live_160_capability_catalog(self):
+        r=effect.verify_profile(self.profile,self.cards); self.assertTrue(r["current"]); self.assertEqual(r["capability_count"],160); self.assertEqual(set(x["name"] for x in self.profile["entries"]),set(self.cards)); self.assertEqual(lab_tools._PLUGIN_ERRORS,[])
     def test_closed_vocabularies_are_exact(self):
         self.assertEqual(self.profile["effect_kinds"],sorted(effect.EFFECT_KINDS)); self.assertEqual(self.profile["schedule_classes"],sorted(effect.SCHEDULE_CLASSES)); self.assertEqual(self.profile["resume_replay_classes"],sorted(effect.RESUME_REPLAY_CLASSES)); self.assertEqual(self.profile["retry_classes"],sorted(effect.RETRY_CLASSES)); self.assertEqual(self.profile["freshness_classes"],sorted(effect.FRESHNESS_CLASSES)); self.assertFalse(self.profile["descriptive_effect_traits_are_scheduler_authority"])
     def test_default_profile_has_zero_unearned_parallel_capabilities(self):

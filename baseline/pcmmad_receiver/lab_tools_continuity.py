@@ -15,6 +15,9 @@ from pathlib import Path
 from typing import Any
 
 from .control_plane_models import CommitLedgerRecord, ManifestDocument, ManifestEntryRecord
+from .protocol_models import ProtocolEventKind, RuntimeMode
+from .protocol_store import build_snapshot as build_protocol_snapshot, read_events as read_protocol_events, record_continuity as record_protocol_continuity, register_artifact as register_protocol_artifact
+from .res_runtime import RES_ARTIFACT_CLASS_SNAPSHOT, RES_CANONICAL_SNAPSHOT_PATH, RES_CONTINUITY_KIND, handoff_readiness as res_handoff_readiness, validate_snapshot as validate_res_snapshot
 from .server_hardening import run_subprocess_envelope
 
 JsonObject = MutableMapping[str, Any]
@@ -531,6 +534,179 @@ def adopt_existing_artifact(payload: JsonObject, dep: AdoptionDeps) -> JsonObjec
     }
 
 
+def reconcile_res_snapshot(payload: JsonObject, dep: AdoptionDeps) -> JsonObject:
+    project_id = _required_text(payload, "project_id", dep.error_cls)
+    expected_sha = _sha256(payload.get("expected_sha256"), dep.error_cls, "expected_sha256")
+    expected_registered_raw = payload.get("expected_registered_sha256")
+    expected_registered = (
+        _sha256(expected_registered_raw, dep.error_cls, "expected_registered_sha256")
+        if expected_registered_raw not in (None, "") else None
+    )
+    actor = str(payload.get("actor") or "pcmmad-lab").strip() or "pcmmad-lab"
+    session_id = str(payload.get("session_id") or "res-reconcile").strip() or "res-reconcile"
+    research_intensive = bool(payload.get("research_intensive", True))
+
+    protocol_before = build_protocol_snapshot(project_id)
+    if protocol_before.current_mode is not RuntimeMode.BUILD_COMMIT:
+        raise dep.error_cls(
+            "RES_RECONCILE_BUILD_COMMIT_REQUIRED",
+            "RES reconciliation requires protocol mode BUILD_COMMIT; transition mode explicitly before retrying",
+            409,
+            current_mode=protocol_before.current_mode.value,
+        )
+
+    root = dep.get_project_root(project_id).resolve()
+    target = (root / RES_CANONICAL_SNAPSHOT_PATH).resolve()
+    if root not in [target, *target.parents] or not target.is_file():
+        raise dep.error_cls("RES_SNAPSHOT_MISSING", "canonical RES snapshot does not exist", 404, path=str(target))
+    try:
+        validation = validate_res_snapshot(target.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise dep.error_cls("RES_SNAPSHOT_INVALID", "canonical RES snapshot failed validation", 409, error=str(exc)) from exc
+    actual_sha = dep.sha256_file(target)
+    if actual_sha != expected_sha:
+        raise dep.error_cls(
+            "ARTIFACT_SHA_MISMATCH",
+            "expected_sha256 does not match current RES file bytes",
+            409,
+            expected_sha256=expected_sha,
+            current_sha256=actual_sha,
+        )
+
+    readiness_before = res_handoff_readiness(project_id, research_intensive=research_intensive)
+    reasons_before = list(readiness_before.get("reasons") or [])
+    unsafe = [
+        reason for reason in reasons_before
+        if reason not in {
+            "RES_SNAPSHOT_NOT_REGISTERED",
+            "RES_SNAPSHOT_REGISTERED_HASH_STALE",
+            "RES_CONTINUITY_EVENT_MISSING",
+            "RES_ARTIFACT_NOT_ACKNOWLEDGED_BY_CONTINUITY_LEDGER",
+        }
+    ]
+    if unsafe:
+        raise dep.error_cls(
+            "RES_RECONCILE_UNSAFE_STATE",
+            "RES has semantic/material readiness failures that registration reconciliation must not hide",
+            409,
+            reasons=unsafe,
+            readiness=readiness_before,
+        )
+
+    adoption_payload: JsonObject = {
+        "project_id": project_id,
+        "artifact": {
+            "artifact_class": "continuity.research_epistemic_shadow",
+            "logical_name": "RESEARCH_EPISTEMIC_SHADOW.md",
+        },
+        "expected_sha256": actual_sha,
+        "session_id": session_id,
+    }
+    if expected_registered is not None:
+        adoption_payload["expected_registered_sha256"] = expected_registered
+    adoption = adopt_existing_artifact(adoption_payload, dep)
+
+    canonical_rel = RES_CANONICAL_SNAPSHOT_PATH.replace("\\", "/")
+    events = list(read_protocol_events(project_id))
+    snapshot_events = [
+        event for event in events
+        if event.event_kind is ProtocolEventKind.ARTIFACT_REGISTERED
+        and event.payload.get("artifact_class") == RES_ARTIFACT_CLASS_SNAPSHOT
+        and event.payload.get("path") == canonical_rel
+    ]
+    latest_snapshot = snapshot_events[-1] if snapshot_events else None
+    artifact_event = None
+    protocol_registered = False
+    if latest_snapshot is None or str(latest_snapshot.payload.get("sha256") or "") != actual_sha:
+        artifact_id = str(payload.get("artifact_id") or f"res-canonical-{actual_sha[:16]}").strip()
+        artifact_event = register_protocol_artifact(
+            project_id,
+            artifact_id=artifact_id,
+            artifact_class=RES_ARTIFACT_CLASS_SNAPSHOT,
+            actor=actor,
+            path=canonical_rel,
+            sha256=actual_sha,
+            sealed=False,
+            provenance=[
+                "runtime:continuity.res.reconcile",
+                f"lineage:{adoption.get('generation')}",
+                f"file-sha256:{actual_sha}",
+            ],
+        )
+        protocol_registered = True
+
+    readiness_mid = res_handoff_readiness(project_id, research_intensive=research_intensive)
+    mid_reasons = list(readiness_mid.get("reasons") or [])
+    unsafe_mid = [
+        reason for reason in mid_reasons
+        if reason not in {"RES_CONTINUITY_EVENT_MISSING", "RES_ARTIFACT_NOT_ACKNOWLEDGED_BY_CONTINUITY_LEDGER"}
+    ]
+    if unsafe_mid:
+        raise dep.error_cls(
+            "RES_RECONCILE_INCOMPLETE",
+            "RES remains non-ready for reasons outside continuity acknowledgment",
+            409,
+            reasons=unsafe_mid,
+            readiness=readiness_mid,
+        )
+
+    continuity_event = None
+    continuity_recorded = False
+    if mid_reasons:
+        artifact_ref = str(
+            (artifact_event.payload.get("artifact_id") if artifact_event is not None else latest_snapshot.payload.get("artifact_id"))
+            or ""
+        )
+        continuity_id = str(payload.get("continuity_id") or f"res-reconcile-{actual_sha[:16]}").strip()
+        continuity_event = record_protocol_continuity(
+            project_id,
+            continuity_id=continuity_id,
+            kind=RES_CONTINUITY_KIND,
+            summary=(
+                "Reconciled canonical RES registration/currentness to exact existing file bytes without rewriting content. "
+                f"sha256={actual_sha}"
+            ),
+            actor=actor,
+            artifact_ref=artifact_ref or None,
+            open_loops=["Continue governed RES updates only on material epistemic change."],
+        )
+        continuity_recorded = True
+
+    final_sha = dep.sha256_file(target)
+    if final_sha != actual_sha:
+        raise dep.error_cls(
+            "RES_BYTES_CHANGED_DURING_RECONCILE",
+            "RES bytes changed during reconciliation",
+            409,
+            expected_sha256=actual_sha,
+            current_sha256=final_sha,
+        )
+    readiness_after = res_handoff_readiness(project_id, research_intensive=research_intensive)
+    if not bool(readiness_after.get("ready")):
+        raise dep.error_cls(
+            "RES_RECONCILE_NOT_READY",
+            "RES reconciliation completed metadata steps but readiness is still false",
+            409,
+            readiness=readiness_after,
+        )
+    return {
+        "ok": True,
+        "project_id": project_id,
+        "path": str(target),
+        "sha256": actual_sha,
+        "bytes": target.stat().st_size,
+        "validation": validation,
+        "lineage": adoption,
+        "protocol_artifact_registered": protocol_registered,
+        "protocol_artifact_sequence": (artifact_event.sequence if artifact_event is not None else (latest_snapshot.sequence if latest_snapshot is not None else None)),
+        "continuity_recorded": continuity_recorded,
+        "continuity_sequence": continuity_event.sequence if continuity_event is not None else readiness_after.get("latest_res_continuity_sequence"),
+        "readiness_before": readiness_before,
+        "readiness_after": readiness_after,
+        "content_rewritten": False,
+    }
+
+
 def _overall_status(artifact: JsonObject, git: JsonObject | None) -> str:
     if not artifact.get("registration_current"):
         return "local_unregistered"
@@ -642,6 +818,23 @@ ADOPT_INPUT_SCHEMA: JsonObject = {
 }
 
 
+RES_RECONCILE_INPUT_SCHEMA: JsonObject = {
+    "type": "object",
+    "required": ["project_id", "expected_sha256"],
+    "additionalProperties": False,
+    "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "expected_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+        "expected_registered_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"},
+        "research_intensive": {"type": "boolean"},
+        "actor": {"type": "string", "minLength": 1, "maxLength": 200},
+        "session_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "artifact_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "continuity_id": {"type": "string", "minLength": 1, "maxLength": 200},
+    },
+}
+
+
 def register_continuity_tools(register_tool: Registrar, **raw_deps: Any) -> None:
     dep = _deps(raw_deps)
     adoption_dep = _adoption_deps(raw_deps)
@@ -690,3 +883,29 @@ def register_continuity_tools(register_tool: Registrar, **raw_deps: Any) -> None
     )
     def tool_continuity_artifact_adopt(payload: JsonObject) -> JsonObject:
         return adopt_existing_artifact(payload, adoption_dep)
+
+    @register_tool(
+        "continuity.res.reconcile",
+        "Reconcile an existing canonical RES snapshot across lineage and protocol readiness without rewriting snapshot bytes.",
+        "high",
+        category="continuity",
+        mutating=True,
+        approval_required=True,
+        side_effect_class="mutation",
+        effect_traits=[
+            "durable_mutation",
+            "writes_project_ledger",
+            "writes_manifest",
+            "writes_protocol_ledger",
+            "project_scope_enforced",
+            "project_mutation_fenced",
+            "source_currentness_check",
+            "idempotent_when_current",
+            "does_not_rewrite_artifact_bytes",
+            "requires_build_commit_mode",
+        ],
+        input_schema=RES_RECONCILE_INPUT_SCHEMA,
+        output_schema={"type": "object"},
+    )
+    def tool_continuity_res_reconcile(payload: JsonObject) -> JsonObject:
+        return reconcile_res_snapshot(payload, adoption_dep)
