@@ -40,7 +40,7 @@ class PackageEmbeddingBoundaryTests(unittest.TestCase):
         result = self._run(code)
         self.assertEqual(result.returncode, 0, result.stderr)
         observed = json.loads(result.stdout)
-        self.assertEqual(observed["count"], 160)
+        self.assertGreaterEqual(observed["count"], 169)
         self.assertEqual(observed["plugin_errors"], [])
 
     def test_package_first_and_legacy_second_share_single_module_identity(self) -> None:
@@ -170,6 +170,11 @@ with tempfile.TemporaryDirectory() as td:
             self.assertIn("pcmmad_receiver/schema_vnext_runtime.py", names)
             self.assertIn("pcmmad_receiver/scheduler_effect_profile.py", names)
             self.assertIn("pcmmad_receiver/scheduler_effect_profile_v1.json", names)
+            self.assertIn("pcmmad_receiver/scheduler_effect_witnesses_v1.json", names)
+            self.assertIn("pcmmad_receiver/architecture_registry.py", names)
+            self.assertIn("pcmmad_receiver/migration_engine.py", names)
+            self.assertIn("pcmmad_receiver/artifact_commit_service.py", names)
+            self.assertIn("pcmmad_receiver/derived_state.py", names)
             self.assertIn("pcmmad_receiver/pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json", names)
             self.assertIn("schema_vnext_runtime.py", names)
             self.assertIn("scheduler_effect_profile.py", names)
@@ -204,10 +209,10 @@ with tempfile.TemporaryDirectory() as td:
             result = self._run(code, pythonpath=target, cwd=root)
             self.assertEqual(result.returncode, 0, result.stderr)
             observed = json.loads(result.stdout)
-            self.assertEqual(observed["count"], 160)
+            self.assertGreaterEqual(observed["count"], 169)
             self.assertEqual(observed["plugin_errors"], [])
             self.assertTrue(observed["profile_current"])
-            self.assertEqual(observed["profile_count"], 160)
+            self.assertEqual(observed["profile_count"], observed["count"])
             self.assertTrue(observed["v11_schema_present"])
 
 

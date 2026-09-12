@@ -1,0 +1,6 @@
+{
+  "schema": "pcmmad.scheduler-effect-witnesses.v1",
+  "effect_truth": {},
+  "parallel": {},
+  "resume_replay": {}
+}

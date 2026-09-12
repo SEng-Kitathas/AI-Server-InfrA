@@ -77,6 +77,8 @@ from .lab_tools_doctrine import register_doctrine_tools
 from .lab_tools_governance import register_governance_tools
 from .lab_tools_protocol import register_protocol_tools
 from .lab_tools_continuity import register_continuity_tools
+from .lab_tools_architecture import register_architecture_tools
+from .lab_tools_derived import register_derived_state_tools
 from .lab_tools_icf_ingress import register_icf_ingress_tool
 from .lab_tools_res import register_res_tools
 from .lab_tools_memory import register_memory_tools
@@ -1155,6 +1157,32 @@ register_continuity_tools(
     append_jsonl=append_jsonl,
     utc_now=utc_now,
 )
+
+from .lab_tools_continuity import AdoptionDeps as _ArchitectureAdoptionDeps
+register_architecture_tools(
+    register_tool,
+    error_cls=LabToolError,
+    get_project_root=get_project_root,
+    resolve_target=resolve_target,
+    commits_ledger_path_for=commits_ledger_path_for,
+    sha256_file=sha256_file,
+    utc_now=utc_now,
+    save_json_atomic=save_json_atomic,
+    adoption_deps=_ArchitectureAdoptionDeps(
+        error_cls=LabToolError,
+        get_project_root=get_project_root,
+        resolve_target=resolve_target,
+        commits_ledger_path_for=commits_ledger_path_for,
+        manifest_path_for=manifest_path_for,
+        sha256_file=sha256_file,
+        load_json=load_json,
+        save_json_atomic=save_json_atomic,
+        append_jsonl=append_jsonl,
+        utc_now=utc_now,
+    ),
+)
+
+register_derived_state_tools(register_tool, error_cls=LabToolError)
 
 register_icf_ingress_tool(
     register_tool,

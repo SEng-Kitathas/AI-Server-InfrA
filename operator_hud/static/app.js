@@ -156,8 +156,30 @@ function renderStatus(data){
   renderCockpitStatus(data); renderTelemetry(data.telemetry||{}); renderSessions(sessions,{observable:sessionsObservable,error:b.detail?.error||b.error||null}); ingestRuntimePulse(data); renderEvents(data.events||[]);
 }
 
+function renderArchitecture(data){
+  const a=data?.architecture||data||{};state.architecture=a;
+  const mutation=a.mutation||{},protocol=a.protocol||{},ucm=a.ucm||{},effects=a.effect_profile||{},migrations=a.migrations||{},compat=a.compatibility||{};
+  const current=effects.current!==false;
+  const el=$('architectureState');if(el){el.className=`state-pill ${current?'good':'degraded'}`;el.textContent=current?'CURRENT':'DRIFT';}
+  if($('architectureMutation'))$('architectureMutation').textContent=`${mutation.status||'—'} · G${mutation.generation??'—'}`;
+  if($('architectureMutationSub'))$('architectureMutationSub').textContent=mutation.owner_id?`${mutation.owner_id} · ${mutation.session_id||'session?'}`:'project generation';
+  if($('architectureProtocol'))$('architectureProtocol').textContent=protocol.mode||'—';
+  if($('architectureProtocolSub'))$('architectureProtocolSub').textContent=`${protocol.event_count??0} events · ${String(protocol.head_hash||'').slice(0,8)||'genesis'}`;
+  if($('architectureUcm'))$('architectureUcm').textContent=ucm?.ledger_head_seq!==undefined?`HEAD ${ucm.ledger_head_seq}`:'UNBOUND';
+  if($('architectureUcmSub'))$('architectureUcmSub').textContent=ucm?.profile_id?`${ucm.profile_id} · snapshot ${ucm.snapshot_current?'current':'stale'}`:'explicit profile not bound';
+  if($('architectureEffects'))$('architectureEffects').textContent=`${effects.effect_truth_verified??0} / ${effects.parallel_verified??0}`;
+  if($('architectureEffectsSub'))$('architectureEffectsSub').textContent=`${effects.capability_count??a.capabilities?.count??'—'} capabilities`;
+  if($('architectureMigrations'))$('architectureMigrations').textContent=String(migrations.receipt_count??0);
+  if($('architectureCompatibility'))$('architectureCompatibility').textContent=compat.legacy_commit_route==='DEPRECATED_COMPATIBILITY'?'DEPRECATED':'—';
+}
+async function loadArchitecture(){
+  const project=($('authorityProject')?.value||'RECEIVER-LAB').trim()||'RECEIVER-LAB';
+  const qs=new URLSearchParams({project_id:project,ucm_profile_id:'private-primary-user'});
+  try{const d=await api(`/api/architecture?${qs.toString()}`,{timeoutMs:4500});renderArchitecture(d);}catch(e){const el=$('architectureState');if(el){el.className='state-pill bad';el.textContent='UNAVAILABLE';}}
+}
+
 async function refreshStatus(){
-  const [d]=await Promise.all([api('/api/status',{timeoutMs:5000}),loadApprovals()]); renderStatus(d);
+  const [d]=await Promise.all([api('/api/status',{timeoutMs:5000}),loadApprovals(),loadArchitecture()]); renderStatus(d);
   const liveCount=d.receiver?.tool_count;
   if(d.receiver?.ok && Number.isInteger(liveCount) && state.tools.length && liveCount!==state.tools.length){
     $('toolCount').textContent=`catalog stale: ${state.tools.length} cached / ${liveCount} live`;

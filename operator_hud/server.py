@@ -471,6 +471,26 @@ def api_status():
 def api_health(): return api_status()
 
 
+@app.get("/api/architecture")
+def api_architecture():
+    project_id=str(request.args.get("project_id") or "").strip()
+    profile_id=str(request.args.get("ucm_profile_id") or "").strip()
+    if not project_id:
+        return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"project_id is required"}),400
+    payload={"project_id":project_id}
+    if profile_id:
+        payload["ucm_profile_id"]=profile_id
+    code,data=receiver_request(
+        "/lab/dispatch",
+        method="POST",
+        payload={"tool_name":"architecture.runtime.status","payload":payload},
+        timeout=3.5,
+    )
+    if code==200 and isinstance(data,dict) and data.get("ok") and isinstance(data.get("result"),dict):
+        return jsonify({"ok":True,"architecture":data["result"]}),200
+    return jsonify({"ok":False,"error_code":"ARCHITECTURE_STATUS_UNAVAILABLE","upstream":data}),code
+
+
 @app.get("/api/tools")
 def api_tools():
     code,data=receiver_request("/lab/tools",timeout=2.0)

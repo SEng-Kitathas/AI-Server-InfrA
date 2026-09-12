@@ -79,13 +79,37 @@ STATIC_COST_UNITS = {
     "UNVERIFIED": 10,
 }
 
-# Parallel scheduling is opt-in by exact capability contract.  An entry here
-# must be backed by a dedicated concurrency/effect-truth test.  Empty is a
-# valid production state: server-side dataflow still saves round trips while
-# all plan nodes serialize conservatively.
-EFFECT_TRUTH_VERIFICATION_WITNESSES: dict[str, dict[str, str]] = {}
-PARALLEL_VERIFICATION_WITNESSES: dict[str, dict[str, str]] = {}
-RESUME_REPLAY_VERIFICATION_WITNESSES: dict[str, dict[str, str]] = {}
+# Parallel/effect witnesses are source-controlled qualification outputs bound
+# to exact capability contract digests. Missing/invalid witness files fail closed
+# to empty registries; descriptive traits never become scheduler authority.
+WITNESS_FILENAME = "scheduler_effect_witnesses_v1.json"
+WITNESS_PATH = Path(__file__).with_name(WITNESS_FILENAME)
+
+def _load_witness_registries(path: Path = WITNESS_PATH) -> tuple[dict[str, dict[str, str]], dict[str, dict[str, str]], dict[str, dict[str, str]]]:
+    if not path.is_file():
+        return {}, {}, {}
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}, {}, {}
+    if not isinstance(value, dict) or value.get("schema") != "pcmmad.scheduler-effect-witnesses.v1":
+        return {}, {}, {}
+    def rows(key: str) -> dict[str, dict[str, str]]:
+        raw = value.get(key) or {}
+        if not isinstance(raw, dict):
+            return {}
+        out: dict[str, dict[str, str]] = {}
+        for name, item in raw.items():
+            if not isinstance(name, str) or not isinstance(item, dict):
+                continue
+            digest = str(item.get("contract_digest") or "").strip().lower()
+            if len(digest) != 64:
+                continue
+            out[name] = {str(k): str(v) for k, v in item.items()}
+        return out
+    return rows("effect_truth"), rows("parallel"), rows("resume_replay")
+
+EFFECT_TRUTH_VERIFICATION_WITNESSES, PARALLEL_VERIFICATION_WITNESSES, RESUME_REPLAY_VERIFICATION_WITNESSES = _load_witness_registries()
 
 
 def _hash_json(value: Any) -> str:
