@@ -57,7 +57,7 @@
     "schema": "pcmmad.governance-campaign.v1",
     "status": "HARD_STOP_SUBSTANTIAL_BLOCKER"
   },
-  "checkpoint_sha256": "4477f1be678307e81115c0299bded35b123138cbd8848f4b6cb8447b1789310a",
+  "checkpoint_sha256": "83fd15046094fb51823db62055bf0383f09483b50c3969e09b67a0b4fd898d51",
   "created_at": "2026-09-12T21:34:13.831044+00:00",
   "laws_preserved": [
     "reality/observed consequence outranks preference",
@@ -78,20 +78,24 @@
     "governance authority = NONE"
   ],
   "mode": "BUILD-COMMIT / GOVERNANCE+CONTINUITY",
-  "next_action": "Hostile-test checkpoint completeness from a virgin reader, run full suite/diff check, commit, push, remote-readback, then new thread should re-ground from this checkpoint + repository rather than chat memory.",
+  "next_action": "Fresh thread: read handoff/current/THREAD_TRANSITION_CHECKPOINT.json first, verify repository HEAD/origin/main == published_head, inspect current mutation authority, then continue HELIX relation-by-relation coverage audit. Do not rely on prior chat memory.",
   "open_seams": [
-    "fresh-instance 1:1 rehydration from this checkpoint must be hostile-tested",
+    "Full 1:1 thread-transition organism test still needs an actual fresh thread/runtime re-entry; current virgin machine parse proves checkpoint completeness fields, not human/model semantic equivalence.",
     "general governance remains surface-specific; strict coverage matrix 0/5 fully qualified",
     "live V30 embodiment of prior a0f36d5 remains pending unless separately completed",
     "global candidate laws/scars require explicit doctrine promotion; recurrence is not authority"
   ],
   "project_id": "RECEIVER-LAB",
+  "published_head": "8b98037f22b7cb09f5280432c2a0bfec44f92755",
   "role": "R3 Evidence Synthesizer -> R5 Reality Pressure Engine, R1 veto",
   "schema": "pcmmad.thread-transition-checkpoint.v1",
-  "source_head": "a0f36d5bc98b79b7e2180c60be9e5cc71608e82a",
+  "source_head": "8b98037f22b7cb09f5280432c2a0bfec44f92755",
   "verified": {
     "focused_governance_continuity_tests": "80/80 PASS",
+    "full_suite": "PASS with normal 2 skips",
+    "github_remote_readback": "8b98037f22b7cb09f5280432c2a0bfec44f92755",
     "governance_authority": "NONE",
-    "published_baseline_before_this_commit": "a0f36d5bc98b79b7e2180c60be9e5cc71608e82a"
+    "published_baseline_before_this_commit": "a0f36d5bc98b79b7e2180c60be9e5cc71608e82a",
+    "virgin_checkpoint_parse": "PASS"
   }
 }
