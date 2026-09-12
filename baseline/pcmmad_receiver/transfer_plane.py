@@ -441,6 +441,12 @@ def r_cleanup():
     return jsonify({"ok":True, **cleanup_expired()})
 
 
+TRANSFER_EXPORT_SCHEMA={"type":"object","additionalProperties":False,"required":["path"],"properties":{"path":{"type":"string","minLength":1},"project_id":{"type":"string"},"ttl_seconds":{"type":"integer","minimum":1},"chunk_bytes":{"type":"integer","minimum":1}}}
+TRANSFER_TICKET_SCHEMA={"type":"object","additionalProperties":False,"required":["ticket"],"properties":{"ticket":{"type":"string","minLength":1}}}
+TRANSFER_READ_SCHEMA={"type":"object","additionalProperties":False,"required":["ticket"],"properties":{"ticket":{"type":"string","minLength":1},"offset":{"type":"integer","minimum":0},"length":{"type":"integer","minimum":1}}}
+TRANSFER_IMPORT_SCHEMA={"type":"object","additionalProperties":False,"required":["path","expected_size","expected_sha256"],"properties":{"path":{"type":"string","minLength":1},"expected_size":{"type":"integer","minimum":0},"expected_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"project_id":{"type":"string"},"ttl_seconds":{"type":"integer","minimum":1},"chunk_bytes":{"type":"integer","minimum":1},"overwrite":{"type":"boolean"}}}
+TRANSFER_WRITE_SCHEMA={"type":"object","additionalProperties":False,"required":["ticket","offset","data_b64"],"properties":{"ticket":{"type":"string","minLength":1},"offset":{"type":"integer","minimum":0},"data_b64":{"type":"string"},"chunk_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}}}
+
 def register(register_tool: Callable[..., Any]) -> None:
     def wrap(fn, *a, **kw):
         try:
@@ -451,20 +457,20 @@ def register(register_tool: Callable[..., Any]) -> None:
             status = 410 if isinstance(exc, TimeoutError) else 409 if isinstance(exc, FileExistsError) else 400
             raise LabToolError("TRANSFER_ERROR", str(exc), status, transfer_exception=type(exc).__name__) from exc
 
-    @register_tool("transfer.export.create", "Create one short-lived, resumable, hash-verified export ticket.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="ephemeral_mutation", effect_traits=["creates_ephemeral_state","reads_files","hashes_content"])
+    @register_tool("transfer.export.create", "Create one short-lived, resumable, hash-verified export ticket.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="ephemeral_mutation", effect_traits=["creates_ephemeral_state","reads_files","hashes_content"], input_schema=TRANSFER_EXPORT_SCHEMA)
     def _export(p): return wrap(create_export, str(p.get("path","")), str(p.get("project_id","")) or None, int(p.get("ttl_seconds",DEFAULT_TTL)), int(p.get("chunk_bytes",DEFAULT_CHUNK)))
 
-    @register_tool("transfer.meta", "Inspect transfer metadata without materializing file bytes.", "low", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_ephemeral_state","bounded_output","ticket_scoped"])
+    @register_tool("transfer.meta", "Inspect transfer metadata without materializing file bytes.", "low", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_ephemeral_state","bounded_output","ticket_scoped"], input_schema=TRANSFER_TICKET_SCHEMA)
     def _meta(p): return wrap(lambda t: _public(_load(t)), str(p.get("ticket","")))
 
-    @register_tool("transfer.chunk.read", "Read one bounded export chunk with per-chunk SHA-256 and Base64 transport.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_files","bounded_output","chunk_hash","ticket_scoped","source_currentness_check"])
+    @register_tool("transfer.chunk.read", "Read one bounded export chunk with per-chunk SHA-256 and Base64 transport.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_files","bounded_output","chunk_hash","ticket_scoped","source_currentness_check"], input_schema=TRANSFER_READ_SCHEMA)
     def _chunk(p): return wrap(read_chunk, str(p.get("ticket","")), int(p.get("offset",0)), int(p.get("length",0)) or None)
 
-    @register_tool("transfer.import.create", "Create one staged import ticket; destination is not mutated until full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","creates_staging_file","creates_ephemeral_state","binds_destination_identity","project_scope_enforced","path_project_mutation_fenced"])
+    @register_tool("transfer.import.create", "Create one staged import ticket; destination is not mutated until full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","creates_staging_file","creates_ephemeral_state","binds_destination_identity","project_scope_enforced","path_project_mutation_fenced"], input_schema=TRANSFER_IMPORT_SCHEMA)
     def _import(p): return wrap(create_import, str(p.get("path","")), int(p.get("expected_size",-1)), str(p.get("expected_sha256","")), str(p.get("project_id","")) or None, int(p.get("ttl_seconds",DEFAULT_TTL)), int(p.get("chunk_bytes",DEFAULT_CHUNK)), bool(p.get("overwrite",False)))
 
-    @register_tool("transfer.chunk.write", "Append one verified chunk to a staged import at the exact expected offset.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","writes_staging_file","exact_offset_required","requires_chunk_hash","fsync","ticket_scoped","path_project_mutation_fenced"])
+    @register_tool("transfer.chunk.write", "Append one verified chunk to a staged import at the exact expected offset.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","writes_staging_file","exact_offset_required","requires_chunk_hash","fsync","ticket_scoped","path_project_mutation_fenced"], input_schema=TRANSFER_WRITE_SCHEMA)
     def _write(p): return wrap(append_chunk, str(p.get("ticket","")), int(p.get("offset",-1)), str(p.get("data_b64","")), str(p.get("chunk_sha256","")) or None)
 
-    @register_tool("transfer.import.finalize", "Atomically promote a staged import only after exact size and full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","full_hash_verification","atomic_replace","binds_destination_identity","ticket_scoped","postcondition_verified","path_project_mutation_fenced"])
+    @register_tool("transfer.import.finalize", "Atomically promote a staged import only after exact size and full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","full_hash_verification","atomic_replace","binds_destination_identity","ticket_scoped","postcondition_verified","path_project_mutation_fenced"], input_schema=TRANSFER_TICKET_SCHEMA)
     def _final(p): return wrap(finalize_import, str(p.get("ticket","")))

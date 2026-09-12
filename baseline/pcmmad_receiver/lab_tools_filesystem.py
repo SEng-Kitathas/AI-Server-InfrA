@@ -61,6 +61,34 @@ class ZipReadRequest:
     max_entry_bytes: int
 
 
+
+FS_READ_SCHEMA = {
+    "type":"object", "additionalProperties":False,
+    "required":["path"],
+    "properties": {
+        "path":{"type":"string","minLength":1}, "project_id":{"type":"string","minLength":1},
+        "max_bytes":{"type":"integer","minimum":1}
+    }
+}
+FS_GLOB_SCHEMA = {
+    "type":"object", "additionalProperties":False,
+    "required":["pattern"],
+    "properties":{"pattern":{"type":"string","minLength":1},"project_id":{"type":"string"},"recursive":{"type":"boolean"},"limit":{"type":"integer","minimum":1,"maximum":5000}}
+}
+FS_GREP_SCHEMA = {
+    "type":"object", "additionalProperties":False,
+    "required":["query","path"],
+    "properties":{"path":{"type":"string","minLength":1},"project_id":{"type":"string"},"query":{"type":"string","minLength":1},"limit":{"type":"integer","minimum":1},"max_file_bytes":{"type":"integer","minimum":1024}}
+}
+FS_WRITE_SCHEMA={"type":"object","additionalProperties":False,"required":["path","content"],"properties":{"path":{"type":"string","minLength":1},"project_id":{"type":"string"},"content":{"type":"string"},"session_id":{"type":"string"}}}
+FS_MOVE_SCHEMA={"type":"object","additionalProperties":False,"required":["src","dst"],"properties":{"src":{"type":"string","minLength":1},"dst":{"type":"string","minLength":1},"project_id":{"type":"string"},"session_id":{"type":"string"}}}
+ZIP_READ_SCHEMA={"type":"object","additionalProperties":False,"required":["zip_path"],"properties":{"zip_path":{"type":"string","minLength":1},"project_id":{"type":"string"},"entries":{"type":"array","items":{"type":"string"}},"max_entry_bytes":{"type":"integer","minimum":1024,"maximum":1048576}}}
+FS_TREE_SCHEMA = {
+    "type":"object", "additionalProperties":False,
+    "required":["path"],
+    "properties":{"path":{"type":"string","minLength":1},"project_id":{"type":"string"},"depth":{"type":"integer","minimum":1,"maximum":10},"include_hidden":{"type":"boolean"},"exclude_dirs":{"type":"array","items":{"type":"string"}},"extensions":{"type":"array","items":{"type":"string"}},"min_size_bytes":{"type":"integer","minimum":0},"limit":{"type":"integer","minimum":1}}
+}
+
 @dataclass(frozen=True)
 class FilesystemToolDeps:
     error_cls: type[Exception]
@@ -196,7 +224,7 @@ def _fs_move_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResul
 def _register_basic_file_tools(register_tool: Callable[..., Any], dep: FilesystemToolDeps) -> None:
     @register_tool(
         "fs.read", "Read a file from a mounted or absolute path.", "medium", category="filesystem",
-        side_effect_class="read", effect_traits=["reads_files", "allowed_root_scope"]
+        side_effect_class="read", effect_traits=["reads_files", "allowed_root_scope"], input_schema=FS_READ_SCHEMA
     )
     def tool_fs_read(payload: ToolPayload) -> ToolResult:
         return _fs_read_payload(payload, dep)
@@ -210,6 +238,7 @@ def _register_basic_file_tools(register_tool: Callable[..., Any], dep: Filesyste
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "path_project_mutation_fenced", "allowed_root_scope"],
+        input_schema=FS_WRITE_SCHEMA,
     )
     def tool_fs_write(payload: ToolPayload) -> ToolResult:
         return _fs_write_payload(payload, dep)
@@ -223,6 +252,7 @@ def _register_basic_file_tools(register_tool: Callable[..., Any], dep: Filesyste
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "path_project_mutation_fenced", "allowed_root_scope"],
+        input_schema=FS_MOVE_SCHEMA,
     )
     def tool_fs_move(payload: ToolPayload) -> ToolResult:
         return _fs_move_payload(payload, dep)
@@ -260,7 +290,7 @@ def _register_filesystem_search_tools(
 ) -> None:
     @register_tool(
         "fs.glob", "Glob files under a mounted or absolute path.", "medium", category="filesystem",
-        side_effect_class="read", effect_traits=["reads_files", "traverses_filesystem", "allowed_root_scope", "bounded_results"]
+        side_effect_class="read", effect_traits=["reads_files", "traverses_filesystem", "allowed_root_scope", "bounded_results"], input_schema=FS_GLOB_SCHEMA
     )
     def tool_fs_glob(payload: ToolPayload) -> ToolResult:
         return _fs_glob_payload(payload, dep)
@@ -272,6 +302,7 @@ def _register_filesystem_search_tools(
         category="filesystem",
         side_effect_class="read",
         effect_traits=["reads_files", "traverses_filesystem", "allowed_root_scope", "bounded_results"],
+        input_schema=FS_GREP_SCHEMA,
     )
     def tool_fs_grep(payload: ToolPayload) -> ToolResult:
         request = _grep_request(payload, dep)
@@ -407,6 +438,7 @@ def _register_filesystem_tree_zip_tools(
         approval_required=True,
         side_effect_class="read",
         effect_traits=["reads_files", "traverses_filesystem", "allowed_root_scope", "bounded_results"],
+        input_schema=FS_TREE_SCHEMA,
     )
     def tool_fs_tree(payload: ToolPayload) -> ToolResult:
         return _fs_tree_payload(payload, dep)
@@ -418,6 +450,7 @@ def _register_filesystem_tree_zip_tools(
         category="filesystem",
         side_effect_class="read",
         effect_traits=["reads_files", "reads_archive", "allowed_root_scope", "bounded_output"],
+        input_schema=ZIP_READ_SCHEMA,
     )
     def tool_zip_read(payload: ToolPayload) -> ToolResult:
         return _zip_read_payload(payload, dep)

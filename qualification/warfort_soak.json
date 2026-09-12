@@ -1,0 +1,30 @@
+{
+  "after": {
+    "handles": 224,
+    "rss": 52719616,
+    "threads": 4
+  },
+  "all_calls_ok": true,
+  "before": {
+    "handles": 197,
+    "rss": 50425856,
+    "threads": 4
+  },
+  "calls": 1200,
+  "failure_count": 0,
+  "failures": [],
+  "handle_growth": 27,
+  "mid": {
+    "handles": 224,
+    "rss": 52281344,
+    "threads": 4
+  },
+  "orient_cycles": 100,
+  "pass": true,
+  "rss_growth": 2293760,
+  "schema": "pcmmad.local-warfort-soak.v1",
+  "second_wave_handle_growth": 0,
+  "second_wave_rss_growth": 438272,
+  "seconds": 8.63,
+  "thread_growth": 0
+}

@@ -1,0 +1,142 @@
+{
+  "candidate_global_invariant": {
+    "authority": "CANDIDATE_ONLY",
+    "descriptor": "AGENT_VISIBLE_CONTRACT_PARITY",
+    "formal": [
+      "HANDLER_REQUIRES(X) => PUBLISHED_SCHEMA_DECLARES(X)",
+      "AGENT_VISIBLE_SCHEMA == RUNTIME_VALIDATION_SCHEMA == CONTRACT_DIGEST_SCHEMA"
+    ],
+    "law": "A capability is not fully exposed unless an agent can discover enough argument grammar from the published capability contract to invoke the registered handler without learning required fields by failure.",
+    "promotion_rule": "Requires corpus/global-doctrine promotion process; census recurrence alone does not grant authority."
+  },
+  "candidate_repair": {
+    "fs.glob_required": [
+      "pattern"
+    ],
+    "fs.grep_required": [
+      "query",
+      "path"
+    ],
+    "fs.read_required": [
+      "path"
+    ],
+    "fs.tree_required": [
+      "path"
+    ],
+    "orient_full_matches_registry_schema": true,
+    "schema_hashes_are_distinct": true
+  },
+  "catalog_wide_completion": {
+    "candidate_capability_count": 169,
+    "catalog_digest": "d906c4b29d681cb0aafdf7e7a689c08fe69bb0a5a9cc891ea2a079cb552ffa74",
+    "effect_profile_digest": "25569880faab3a2ed2e14c6a80cb9f0447025f7714f4ade85d784fcba835c00c",
+    "explicit_empty_contracts": [
+      "control.hud.restart",
+      "control.hud.status",
+      "control.receiver.restart",
+      "control.receiver.restart.status",
+      "doctrine.invariants.status",
+      "lab.health",
+      "lab.tools.reload",
+      "ucm.describe"
+    ],
+    "families_repaired": [
+      "filesystem",
+      "execution",
+      "project files/models/archives",
+      "transfer",
+      "git",
+      "receiver/HUD controls",
+      "semantic Monster",
+      "SOP ingestion",
+      "lab session/reflexion/health/apoptosis"
+    ],
+    "opaque_generic_capabilities": [],
+    "opaque_generic_object_schema_count": 0,
+    "qualification": {
+      "diff_check": "PASS",
+      "focused_cross_family": "PASS",
+      "full_pytest": "PASS_100_PERCENT_WITH_NORMAL_2_SKIPS"
+    },
+    "status": "LOCAL_CATALOG_CONTRACT_PARITY_GREEN"
+  },
+  "catalog_wide_followup": {
+    "candidate_capability_count": 169,
+    "disposition": "OPEN_SEAM",
+    "examples": [
+      {
+        "capability": "execution.run",
+        "hidden_handler_grammar": [
+          "command must be non-empty string array",
+          "project_id/cwd/output/timeout fields parsed"
+        ]
+      },
+      {
+        "capability": "python.run",
+        "hidden_handler_grammar": [
+          "code required",
+          "command request fields parsed"
+        ]
+      },
+      {
+        "capability": "project.files.read",
+        "hidden_handler_grammar": [
+          "project_id/path and line/bounds request object parsed"
+        ]
+      },
+      {
+        "capability": "project.files.search",
+        "hidden_handler_grammar": [
+          "project_id/query/path and search controls parsed"
+        ]
+      }
+    ],
+    "finding": "The filesystem defect is not safely assumed isolated. 63 candidate capabilities still publish only generic object schemas, including execution, project-file, git, SOP, transfer, HUD/control, doctrine and research surfaces. Several handlers visibly parse structured/required arguments behind those generic contracts.",
+    "generic_object_schema_count_after_filesystem_fix": 63,
+    "next_discriminator": "Build a registry-wide contract-parity audit that derives/declares handler request schemas family-by-family; do not bulk-infer schemas from names or helper calls. Fail qualification for opaque schemas when handler grammar is demonstrably non-empty."
+  },
+  "external_boundary_qualification": {
+    "capability": "fs.glob",
+    "capability_result": {
+      "count": 0,
+      "partial": false
+    },
+    "disposition": "Previously observed CAPABILITY_LEASE_INVALID was not reproduced across the current external Runtime boundary. Keep as historical/integration scar; do not claim a current lease defect without a reproducer.",
+    "lease_digest": "352e350f2e611be3f515d76fdab5b9cc04affcdaa16f5c5a8bf3f164b6818a79",
+    "live_contract_digest": "9918527b3f81409fe3e70d0fa64ec525ff7542af12daf9c4ae4ebf58f7a59778",
+    "live_schema_hash": "8b416244fbf9bd740ce3013b3ed784b302d6903b98f020f660231db3ee22caf4",
+    "path": "orientCapabilities -> exact returned lease -> invokeCapability -> live fs.glob handler",
+    "result": "PASS",
+    "time_utc": "2026-09-12T11:13:43Z"
+  },
+  "lease_audit": {
+    "conclusion": "candidate server canonicalization is internally consistent; previously observed cross-boundary CAPABILITY_LEASE_INVALID is not reproduced in-process and remains an integration/transport serialization seam until tested through the external Runtime boundary",
+    "direct_validation": "PASS",
+    "json_roundtrip_validation": "PASS",
+    "orient_lease_to_invoke_handler_path": "PASS",
+    "tamper_rejected": "PASS"
+  },
+  "publication": "LOCAL_ONLY_NOT_PUSHED_NOT_DEPLOYED",
+  "qualification": {
+    "diff_check": "PASS",
+    "focused_agent_contract_tests": "5/5 PASS",
+    "full_pytest": "PASS 100% with normal 2 skips",
+    "schema_vnext_runtime_hostile_plus_contract": "62/62 PASS"
+  },
+  "schema": "pcmmad.agent-visible-contract-audit.v1",
+  "status": "LOCAL_CANDIDATE_REPAIRED",
+  "verified_live_baseline": {
+    "filesystem_capabilities": [
+      "fs.read",
+      "fs.glob",
+      "fs.grep",
+      "fs.tree"
+    ],
+    "handler_mismatch_example": "fs.grep requires query and path despite published generic object schema",
+    "published_input_schema_before": {
+      "type": "object"
+    },
+    "schema_version": "11.0.0-candidate",
+    "shared_schema_hash_before": "8b416244fbf9bd740ce3013b3ed784b302d6903b98f020f660231db3ee22caf4"
+  }
+}

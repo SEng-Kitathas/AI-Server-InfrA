@@ -27,6 +27,12 @@ class SopToolDeps:
     sop_guard_check: Callable[..., JsonObject]
 
 
+SOP_INSPECT_SCHEMA={"type":"object","additionalProperties":False,"required":["source_path"],"properties":{"source_path":{"type":"string","minLength":1},"project_id":{"type":"string"}}}
+SOP_REGISTER_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","source_path"],"properties":{"project_id":{"type":"string","minLength":1},"source_path":{"type":"string","minLength":1},"corpus_id":{"type":"string"},"chunk_chars":{"type":"integer","minimum":1},"reset":{"type":"boolean"}}}
+SOP_CORPUS_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","corpus_id"],"properties":{"project_id":{"type":"string","minLength":1},"corpus_id":{"type":"string","minLength":1}}}
+SOP_ACK_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","corpus_id","ack_token"],"properties":{"project_id":{"type":"string","minLength":1},"corpus_id":{"type":"string","minLength":1},"ack_token":{"type":"string","minLength":1},"content_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}}}
+SOP_COMPLETE_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","corpus_id","receipt"],"properties":{"project_id":{"type":"string","minLength":1},"corpus_id":{"type":"string","minLength":1},"receipt":{"type":"object"}}}
+
 def _sop_deps(deps: JsonObject) -> SopToolDeps:
     return SopToolDeps(
         error_cls=deps["error_cls"],
@@ -107,6 +113,7 @@ def _register_sop_package_tools(register_tool: SopRegistrar, dep: SopToolDeps) -
             "hashes_content",
             "bounded_package_preflight",
         ],
+        input_schema=SOP_INSPECT_SCHEMA,
     )
     def tool_sop_package_inspect(payload: JsonObject) -> JsonObject:
         path = dep.resolve_general_path(payload, "source_path")
@@ -128,6 +135,7 @@ def _register_sop_package_tools(register_tool: SopRegistrar, dep: SopToolDeps) -
             "project_mutation_fenced",
             "project_scope_enforced",
         ],
+        input_schema=SOP_REGISTER_SCHEMA,
     )
     def tool_sop_package_register(payload: JsonObject) -> JsonObject:
         return _sop_register_payload(payload, dep)
@@ -149,6 +157,7 @@ def _register_sop_reset_tool(register_tool: SopRegistrar, dep: SopToolDeps) -> N
             "project_mutation_fenced",
             "project_scope_enforced",
         ],
+        input_schema=SOP_CORPUS_SCHEMA,
     )
     def tool_sop_ingest_reset(payload: JsonObject) -> JsonObject:
         return dep.sop_call(
@@ -166,6 +175,7 @@ def _register_sop_status_read_tool(register_tool: SopRegistrar, dep: SopToolDeps
         category="sop",
         side_effect_class="read",
         effect_traits=["reads_state", "non_initializing"],
+        input_schema=SOP_CORPUS_SCHEMA,
     )
     def tool_sop_ingest_status(payload: JsonObject) -> JsonObject:
         return dep.sop_call(
@@ -193,6 +203,7 @@ def _register_sop_guard_tool(register_tool: SopRegistrar, dep: SopToolDeps) -> N
             "proceed_gate",
             "non_initializing",
         ],
+        input_schema=SOP_CORPUS_SCHEMA,
     )
     def tool_sop_guard_check(payload: JsonObject) -> JsonObject:
         return dep.sop_call(
@@ -228,6 +239,7 @@ def _register_sop_next_chunk_tool(register_tool: SopRegistrar, dep: SopToolDeps)
             "project_mutation_fenced",
             "project_scope_enforced",
         ],
+        input_schema=SOP_CORPUS_SCHEMA,
     )
     def tool_sop_ingest_next_chunk(payload: JsonObject) -> JsonObject:
         return dep.sop_call(
@@ -252,6 +264,7 @@ def _register_sop_ack_chunk_tool(register_tool: SopRegistrar, dep: SopToolDeps) 
             "project_mutation_fenced",
             "project_scope_enforced",
         ],
+        input_schema=SOP_ACK_SCHEMA,
     )
     def tool_sop_ingest_ack_chunk(payload: JsonObject) -> JsonObject:
         return _sop_ack_payload(payload, dep)
@@ -275,6 +288,7 @@ def _register_sop_complete_file_tool(register_tool: SopRegistrar, dep: SopToolDe
             "project_mutation_fenced",
             "project_scope_enforced",
         ],
+        input_schema=SOP_COMPLETE_SCHEMA,
     )
     def tool_sop_ingest_complete_file(payload: JsonObject) -> JsonObject:
         return _sop_complete_payload(payload, dep)

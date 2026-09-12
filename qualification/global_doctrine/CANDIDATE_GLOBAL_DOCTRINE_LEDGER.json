@@ -1,0 +1,320 @@
+{
+  "census_project_count": 106,
+  "census_sha256": "9f21b91638ddc97c24200add2cea67749bf8e60e6ee17a3b56b6ab075cb2a7ea",
+  "laws": [
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 14,
+      "evidence_families": [
+        "CFE",
+        "HSP_RAHL",
+        "PCMMAD"
+      ],
+      "examples": [
+        {
+          "family": "CFE",
+          "file": "research/REASONING_STATE_TRANSITION_TOPOLOGY_AND_SILENT_INVARIANTS_2026-09-02.md",
+          "line": 174,
+          "project": "CFE",
+          "text": "> **Do not let preference outrank observed consequence.**"
+        },
+        {
+          "family": "PCMMAD",
+          "file": "governance/internal_sop_linear_read_ledger.md",
+          "line": 435,
+          "project": "pcmmad-forge-audit",
+          "text": "- L24: > **Do not let preference outrank observed consequence.**"
+        },
+        {
+          "family": "HSP_RAHL",
+          "file": "distribution/github_governance_contact_v1_0_publication_20260906/Cognitive-Field-Engineering/research/REASONING_STATE_TRANSITION_TOPOLOGY_AND_SILENT_INVARIANTS_2026-09-02.md",
+          "line": 174,
+          "project": "rahl-engineering-canonical-sop-r4-20260902",
+          "text": "> **Do not let preference outrank observed consequence.**"
+        }
+      ],
+      "id": "REALITY_SUPREMACY",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "Do not let preference outrank observed consequence."
+    },
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 33,
+      "evidence_families": [
+        "HSP_RAHL",
+        "MICROSEED",
+        "PCMMAD"
+      ],
+      "examples": [
+        {
+          "family": "PCMMAD",
+          "file": "state/doctrine_snapshot/ALL_PROJECTS_OUTSIDE_WORLD_DONOR_AND_QOL_RULESET_v0_1.md",
+          "line": 60,
+          "project": "pcmmad-forge-audit",
+          "text": "`look outward -> strip for parts -> re-derive under local constraints -> attack -> embody only if earned`"
+        },
+        {
+          "family": "MICROSEED",
+          "file": "rd_continuity_dab4038_verify_1788281759/reincarnation/PRELINGUAL_SUBSTRATE_V1_CHECKPOINT/PRELINGUAL_SUBSTRATE_V1_PROMOTION_2026-08-30/research/GROUNDED_LANGUAGE_REFERENCE_V1_BRANCH_GENESIS.md",
+          "line": 20,
+          "project": "protoagi_microseed_reincarnation_20260827",
+          "text": "Historical MS702\u2013MS801 language, predicate, and event-frame work remains donor-only. It may supply hypotheses, test shapes, or mechanisms to strip for parts, but no historical language artifact is automatically current, qualified, or authorized in this branch."
+        },
+        {
+          "family": "HSP_RAHL",
+          "file": "distribution/governance_contact_activation_phase1_git_apply_work_20260907/Proto-Microseed/microseed/LOCKED_INVARIANTS.md",
+          "line": 529,
+          "project": "rahl-engineering-canonical-sop-r4-20260902",
+          "text": "Global transfer law: **STRIP FOR PARTS** \u2014 donor architecture is never authority. Import only mechanisms/invariants/scars that survive hostile re-derivation."
+        }
+      ],
+      "id": "STRIP_FOR_PARTS",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "Steal mechanisms, invariants, scars, counterexamples, tests, process law, and useful constraints; do not import donor architecture, ontology, labels, dogma, or prestige as authority."
+    },
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 233,
+      "evidence_families": [
+        "HSP_RAHL",
+        "MICROSEED",
+        "PCMMAD"
+      ],
+      "examples": [
+        {
+          "family": "PCMMAD",
+          "file": "HOSTILE_OS/continuity/03_REINCARNATION_BOOT_PROMPT.txt",
+          "line": 9,
+          "project": "PCMMAD",
+          "text": "Commander intent: re-derive a general-purpose OS substrate from responsibilities/invariants; Linux 0.01 and FreeDOS are donors, not architecture authority. Pareto-optimal size/power is supreme design pressure. Missing behavior does not imply missing mechanism. Traditional Process/Scheduler/File nouns are hypotheses/bundles, not permitted primitives unless re-earned."
+        },
+        {
+          "family": "MICROSEED",
+          "file": "handoff/PCMMAD_LAB_HANDOFF_MS1944_2026-08-29/state/doctrine_snapshot/RESEARCH_OS_PASS1_DOCTRINE.md",
+          "line": 78,
+          "project": "protoagi_microseed_reincarnation_20260827",
+          "text": "- composition first;"
+        },
+        {
+          "family": "HSP_RAHL",
+          "file": "distribution/governance_contact_activation_phase1_git_apply_work_20260907/Proto-Microseed/methodology/MS1973_REPRESENTATION_RESTART_CURRENTNESS.md",
+          "line": 83,
+          "project": "rahl-engineering-canonical-sop-r4-20260902",
+          "text": "Do not add generic memory/ontology machinery unless composition first fails."
+        }
+      ],
+      "id": "COMPOSITION_FIRST",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "Missing behavior is not evidence of a missing mechanism. Localize composition failure and prove insufficiency before admitting a new primitive or manager."
+    },
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 611,
+      "evidence_families": [
+        "HSP_RAHL",
+        "MICROSEED",
+        "PCMMAD",
+        "TQ2"
+      ],
+      "examples": [
+        {
+          "family": "PCMMAD",
+          "file": "HOSTILE_OS/lineage/CROSS_PROJECT_QUARRY_LEDGER_F0.md",
+          "line": 41,
+          "project": "PCMMAD",
+          "text": "- emergent capability allowed, emergent authority forbidden;"
+        },
+        {
+          "family": "MICROSEED",
+          "file": "handoff/PCMMAD_LAB_HANDOFF_MS1944_2026-08-29/historical/HAND_STITCHED_THREAD_RECOVERY_LINEAR_READ.md",
+          "line": 29,
+          "project": "protoagi_microseed_reincarnation_20260827",
+          "text": "14. The governing recursive law becomes: `EMERGENT CAPABILITY IS ALLOWED; EMERGENT AUTHORITY IS NOT.` A successful composition is not automatically current, authorized, warranted, resource-safe, or reusable."
+        },
+        {
+          "family": "HSP_RAHL",
+          "file": "state/doctrine_snapshot/STRIP_FOR_PARTS_RULESET.md",
+          "line": 79,
+          "project": "rahl-authorship-2026-08-29",
+          "text": "Emergent capability is allowed. Emergent authority is not."
+        },
+        {
+          "family": "TQ2",
+          "file": "state/doctrine_snapshot/CONVERGENCE_EXPERIMENT_INTENT_V2.md",
+          "line": 55,
+          "project": "tq2_reconstruction_20260827",
+          "text": "- `EMERGENT CAPABILITY IS ALLOWED; EMERGENT AUTHORITY IS NOT`;"
+        }
+      ],
+      "id": "NO_EMERGENT_AUTHORITY",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "Emergent capability is allowed; emergent authority is not."
+    },
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 615,
+      "evidence_families": [
+        "CFE",
+        "FORGE_CHIMERA",
+        "HSP_RAHL",
+        "MICROSEED",
+        "PCMMAD"
+      ],
+      "examples": [
+        {
+          "family": "CFE",
+          "file": "research/CFE_REASONING_ARCHAEOLOGY_DEEP_RESEARCH_HANDOFF_2026-09-02.md",
+          "line": 157,
+          "project": "CFE",
+          "text": "- `DONOR != AUTHORITY`"
+        },
+        {
+          "family": "PCMMAD",
+          "file": "state/doctrine_snapshot/doctrine_snapshot.md",
+          "line": 350,
+          "project": "pcmmad-forge-audit",
+          "text": "- `DONOR != AUTHORITY`;"
+        },
+        {
+          "family": "MICROSEED",
+          "file": "rd_continuity_dab4038_verify_1788281759/SCARS_AND_DO_NOT_REINTRODUCE.md",
+          "line": 317,
+          "project": "protoagi_microseed_reincarnation_20260827",
+          "text": "`DONOR != AUTHORITY`."
+        },
+        {
+          "family": "HSP_RAHL",
+          "file": "state/doctrine_snapshot/STRIP_FOR_PARTS_RULESET.md",
+          "line": 50,
+          "project": "rahl-authorship-2026-08-29",
+          "text": "`DONOR != AUTHORITY`"
+        },
+        {
+          "family": "FORGE_CHIMERA",
+          "file": "state/doctrine_snapshot/doctrine_snapshot.md",
+          "line": 192,
+          "project": "singularity-works-forge-app",
+          "text": "Active laws include `DIRECTION != CONSTRAINTS != FRONTIER != HISTORY`, `HISTORICAL_HANDOFF != CURRENT_INGRESS`, `DONOR != AUTHORITY`, `RECENT_TIMESTAMP != CURRENT_AUTHORITY`, `STALE_GREEN != CURRENT_EVIDENCE`, `CURRENT_POINTER != CURRENT_FACT_UNTIL_READBACK`, `INTENT != MUTATION_PERMISSION`, and `FRONTIER != DOCTRINE_AUTHORITY`."
+        }
+      ],
+      "id": "DONOR_NEUTRALITY",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "Donor != authority. Internal projects receive no ancestry privilege."
+    },
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 26,
+      "evidence_families": [
+        "CLASSICBOY",
+        "CTO",
+        "ERGO",
+        "FORGE_CHIMERA",
+        "HSP_RAHL",
+        "PCMMAD"
+      ],
+      "examples": [
+        {
+          "family": "FORGE_CHIMERA",
+          "file": "docs/csc_sop/01_CSC_DOCTRINE_LINKAGE.md",
+          "line": 26,
+          "project": "chimera_mainline_unified",
+          "text": "- verification over narrative confidence"
+        },
+        {
+          "family": "CLASSICBOY",
+          "file": "docs/csc_sop/01_CSC_DOCTRINE_LINKAGE.md",
+          "line": 26,
+          "project": "classicboy-citra-forensic-ingress",
+          "text": "- verification over narrative confidence"
+        },
+        {
+          "family": "CTO",
+          "file": "docs/csc_sop/01_CSC_DOCTRINE_LINKAGE.md",
+          "line": 26,
+          "project": "cto-chat-thread-organizer",
+          "text": "- verification over narrative confidence"
+        },
+        {
+          "family": "ERGO",
+          "file": "docs/csc_sop/01_CSC_DOCTRINE_LINKAGE.md",
+          "line": 26,
+          "project": "ergo_light_engine_lab_20260427",
+          "text": "- verification over narrative confidence"
+        },
+        {
+          "family": "PCMMAD",
+          "file": "docs/csc_sop/01_CSC_DOCTRINE_LINKAGE.md",
+          "line": 26,
+          "project": "pcmmad_lab",
+          "text": "- verification over narrative confidence"
+        },
+        {
+          "family": "HSP_RAHL",
+          "file": "distribution/github_governance_contact_v1_0_publication_20260906/CIC-NERV/engineering/lineage/csc/recovered/CSC_LINEAGE_RECOVERY_CAPSULE_V1_2026-08-14/doctrine/v29/docs/csc_sop/01_CSC_DOCTRINE_LINKAGE.md",
+          "line": 26,
+          "project": "rahl-engineering-canonical-sop-r4-20260902",
+          "text": "- verification over narrative confidence"
+        }
+      ],
+      "id": "VERIFICATION_OVER_NARRATIVE",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "Verification and observed consequence outrank narrative confidence and tool-completion claims."
+    },
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 0,
+      "evidence_families": [],
+      "examples": [],
+      "id": "CONTINUITY_NOT_AUTHORITY",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "Continuity, memory, handoff, and historical lineage do not automatically become current authority."
+    },
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 61,
+      "evidence_families": [
+        "CFE",
+        "HSP_RAHL",
+        "TQ2"
+      ],
+      "examples": [
+        {
+          "family": "CFE",
+          "file": "doctrine/rahl_r4_2/RAHL_ENGINEERING_CANONICAL_SOP_R4_2_2026-09-03/04_RESEARCH_GOVERNANCE.md",
+          "line": 24,
+          "project": "CFE",
+          "text": "For nontrivial work, hostile pressure is part of the base tier. Attack the strongest plausible survivor, isolate failure information, strip or mutate the implementation/hypothesis, re-derive, verify the surviving claim, embody the smallest justified correction, read back consequence, and attack again."
+        },
+        {
+          "family": "HSP_RAHL",
+          "file": "RAHL_ENGINEERING_CANONICAL_SOP_R4_1_2026-09-03/04_RESEARCH_GOVERNANCE.md",
+          "line": 24,
+          "project": "rahl-engineering-canonical-sop-r4-20260902",
+          "text": "For nontrivial work, hostile pressure is part of the base tier. Attack the strongest plausible survivor, isolate failure information, strip or mutate the implementation/hypothesis, re-derive, verify the surviving claim, embody the smallest justified correction, read back consequence, and attack again."
+        },
+        {
+          "family": "TQ2",
+          "file": "state/doctrine_snapshot/CONVERGENCE_EXPERIMENT_INTENT_V2.md",
+          "line": 64,
+          "project": "tq2_reconstruction_20260827",
+          "text": "RECOVER \u2192 REPLAY \u2192 MUTATE \u2192 ISOLATE \u2192 COMPARE \u2192 STRIP \u2192 ADAPT \u2192 COMPOSE \u2192 ATTACK AGAIN."
+        }
+      ],
+      "id": "HOSTILE_REDERIVATION",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "Build, attack, isolate failure, strip or mutate, re-derive, embody, and attack again."
+    },
+    {
+      "authority": "NONE_UNTIL_EXPLICIT_PROMOTION",
+      "evidence_count": 0,
+      "evidence_families": [],
+      "examples": [],
+      "id": "AGENT_VISIBLE_CONTRACT_PARITY",
+      "status": "CANDIDATE_GLOBAL",
+      "text": "A capability is not fully exposed unless its published contract contains enough argument grammar for an agent to invoke the registered handler without learning required fields by failure."
+    }
+  ],
+  "promotion_rule": "Recurrence is donor evidence only. Promotion requires contradiction search, target-native hostile re-derivation, explicit operator promotion, versioned constitution, bootstrap projection, and fresh-session qualification.",
+  "schema": "pcmmad.candidate-global-doctrine-ledger.v1",
+  "unresolved_root_count": 18
+}

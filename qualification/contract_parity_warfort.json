@@ -1,0 +1,2858 @@
+{
+  "capabilities": 169,
+  "failure_count": 0,
+  "failures": [],
+  "pass": true,
+  "rows": [
+    {
+      "name": "architecture.registry.inspect",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "artifact",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "architecture.runtime.status",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "artifact.commit",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "artifact_class",
+          true
+        ],
+        [
+          "logical_name",
+          true
+        ],
+        [
+          "operation",
+          true
+        ],
+        [
+          "content",
+          true
+        ],
+        [
+          "session_id",
+          true
+        ],
+        [
+          "commit_id",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.click",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "selector",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.content",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.evaluate",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "expression",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.fill",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "selector",
+          true
+        ],
+        [
+          "text",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.health",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.navigate",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "url",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.pages.close",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "index",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.pages.list",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.pages.new",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.pages.select",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "index",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.press",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "selector",
+          true
+        ],
+        [
+          "key",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.screenshot",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.session.attach",
+      "required_checks": [
+        [
+          "cdp_url",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.session.start",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.session.stop",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.sessions.list",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "browser.upload",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "selector",
+          true
+        ],
+        [
+          "paths",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "continuity.artifact.adopt",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "artifact",
+          true
+        ],
+        [
+          "expected_sha256",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "continuity.convergence.inspect",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "artifact",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "continuity.ingress.rehydrate",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "topic",
+          true
+        ],
+        [
+          "session_mode",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "continuity.res.addenda.project",
+      "required_checks": [
+        [
+          "addenda",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "continuity.res.addendum.validate",
+      "required_checks": [
+        [
+          "addendum",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "continuity.res.handoff.readiness",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "continuity.res.materiality.classify",
+      "required_checks": [
+        [
+          "event_class",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "continuity.res.reconcile",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "expected_sha256",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "continuity.res.snapshot.validate",
+      "required_checks": [
+        [
+          "content",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "control.hud.restart",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "control.hud.status",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "control.receiver.restart",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "control.receiver.restart.status",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "derived_state.audit",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "kind",
+          true
+        ],
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "derived_state.rebuild",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "kind",
+          true
+        ],
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "doctrine.invariants.read",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "doctrine.invariants.search",
+      "required_checks": [
+        [
+          "query",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "doctrine.invariants.status",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "execution.output",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "job_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "execution.progress",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "job_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "execution.run",
+      "required_checks": [
+        [
+          "command",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "execution.status",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "job_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "execution.submit",
+      "required_checks": [
+        [
+          "command",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "execution.terminate",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "job_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "execution.wait",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "job_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "fs.glob",
+      "required_checks": [
+        [
+          "pattern",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "fs.grep",
+      "required_checks": [
+        [
+          "query",
+          true
+        ],
+        [
+          "path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "fs.move",
+      "required_checks": [
+        [
+          "src",
+          true
+        ],
+        [
+          "dst",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "fs.read",
+      "required_checks": [
+        [
+          "path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "fs.tree",
+      "required_checks": [
+        [
+          "path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "fs.write",
+      "required_checks": [
+        [
+          "path",
+          true
+        ],
+        [
+          "content",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "git.clean",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "git.commit",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "message",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "git.diff",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "git.reset_hard",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "git.status",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "governance.contacts.admit",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "contact_set",
+          true
+        ],
+        [
+          "receipts",
+          true
+        ],
+        [
+          "catalog",
+          true
+        ],
+        [
+          "task",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "governance.contacts.resolve",
+      "required_checks": [
+        [
+          "catalog",
+          true
+        ],
+        [
+          "task",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "governance.exhaustion.compress_witnesses",
+      "required_checks": [
+        [
+          "cases",
+          true
+        ],
+        [
+          "witness_case_digests",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "governance.exhaustion.enumerate",
+      "required_checks": [
+        [
+          "grammar",
+          true
+        ],
+        [
+          "environments",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "governance.exhaustion.evaluate_table",
+      "required_checks": [
+        [
+          "responsibility_frame",
+          true
+        ],
+        [
+          "binding",
+          true
+        ],
+        [
+          "case_effects",
+          true
+        ],
+        [
+          "expected_case_digests",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "lab.andon.pull",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "reason",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.apoptosis.trigger",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.capabilities.availability",
+      "required_checks": [
+        [
+          "tool_names",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.health",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.reflexion.append",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "title",
+          true
+        ],
+        [
+          "content",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.reflexion.read",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.session.end",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "session_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.session.get",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "session_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.session.note",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "session_id",
+          true
+        ],
+        [
+          "note",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.session.start",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "lab.tools.reload",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "memory.add",
+      "required_checks": [
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "target",
+          true
+        ],
+        [
+          "section",
+          true
+        ],
+        [
+          "class",
+          true
+        ],
+        [
+          "value",
+          true
+        ],
+        [
+          "reason",
+          true
+        ],
+        [
+          "export_class",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "memory.compact_snapshot",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "memory.forget_request",
+      "required_checks": [
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "memory_id",
+          true
+        ],
+        [
+          "reason",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "memory.read",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "memory.search",
+      "required_checks": [
+        [
+          "query",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "memory.supersede",
+      "required_checks": [
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "memory_id",
+          true
+        ],
+        [
+          "replacement",
+          true
+        ],
+        [
+          "superseded_by_evidence",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "memory.update",
+      "required_checks": [
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "memory_id",
+          true
+        ],
+        [
+          "patch",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "memory.verify",
+      "required_checks": [
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "memory_id",
+          true
+        ],
+        [
+          "evidence",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "migration.execute",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "plan",
+          true
+        ],
+        [
+          "plan_sha256",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "migration.inspect",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "kind",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "migration.plan",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "kind",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "migration.verify",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "receipt_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "procedure.browser.prompt_capture",
+      "required_checks": [
+        [
+          "session_id",
+          true
+        ],
+        [
+          "input_selector",
+          true
+        ],
+        [
+          "prompt",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.archives.extract",
+      "required_checks": [
+        [
+          "path",
+          true
+        ],
+        [
+          "destination_path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.archives.inspect",
+      "required_checks": [
+        [
+          "path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.archives.list",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.context.rehydrate",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.files.list",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.files.read",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.files.read_many",
+      "required_checks": [
+        [
+          "paths",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.files.search",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.files.write",
+      "required_checks": [
+        [
+          "path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.models.inspect",
+      "required_checks": [
+        [
+          "path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.models.list",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.mutation.acquire",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "expected_generation",
+          true
+        ],
+        [
+          "owner_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.mutation.inspect",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.mutation.release",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "lease_id",
+          true
+        ],
+        [
+          "generation",
+          true
+        ],
+        [
+          "owner_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "project.mutation.renew",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "lease_id",
+          true
+        ],
+        [
+          "generation",
+          true
+        ],
+        [
+          "owner_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "protocol.artifact.register",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "artifact_id",
+          true
+        ],
+        [
+          "artifact_class",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.claim.record",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "claim_id",
+          true
+        ],
+        [
+          "kind",
+          true
+        ],
+        [
+          "statement",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.constraint.record",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "constraint_id",
+          true
+        ],
+        [
+          "statement",
+          true
+        ],
+        [
+          "strength",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.continuity.record",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "continuity_id",
+          true
+        ],
+        [
+          "kind",
+          true
+        ],
+        [
+          "summary",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.guard.check",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "mutation_domain",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.initialize",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.ledger.verify",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.merkle.consistency",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "old_tree_size",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.merkle.inclusion",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "sequence",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.merkle.root",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.mode.transition",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "to_mode",
+          true
+        ],
+        [
+          "reason",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.objective.set",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "objective_id",
+          true
+        ],
+        [
+          "statement",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.promotion.record",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "target_type",
+          true
+        ],
+        [
+          "target_id",
+          true
+        ],
+        [
+          "decision",
+          true
+        ],
+        [
+          "rationale",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.status",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "protocol.waiver.record",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "waiver_id",
+          true
+        ],
+        [
+          "scope",
+          true
+        ],
+        [
+          "reason",
+          true
+        ],
+        [
+          "doctrine_basis",
+          true
+        ],
+        [
+          "owner",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "python.run",
+      "required_checks": [
+        [
+          "code",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "research.arxiv.paper",
+      "required_checks": [
+        [
+          "paper_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "research.arxiv.search",
+      "required_checks": [
+        [
+          "query",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "research.hunt",
+      "required_checks": [
+        [
+          "topic",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "semantic.monster.health",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "semantic.monster.search",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "sop.guard.check",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "corpus_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "sop.ingest.ack_chunk",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "corpus_id",
+          true
+        ],
+        [
+          "ack_token",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "sop.ingest.complete_file",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "corpus_id",
+          true
+        ],
+        [
+          "receipt",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "sop.ingest.next_chunk",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "corpus_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "sop.ingest.reset",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "corpus_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "sop.ingest.status",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "corpus_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "sop.package.inspect",
+      "required_checks": [
+        [
+          "source_path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "sop.package.register",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "source_path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "transfer.chunk.read",
+      "required_checks": [
+        [
+          "ticket",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "transfer.chunk.write",
+      "required_checks": [
+        [
+          "ticket",
+          true
+        ],
+        [
+          "offset",
+          true
+        ],
+        [
+          "data_b64",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "transfer.export.create",
+      "required_checks": [
+        [
+          "path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "transfer.import.create",
+      "required_checks": [
+        [
+          "path",
+          true
+        ],
+        [
+          "expected_size",
+          true
+        ],
+        [
+          "expected_sha256",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "transfer.import.finalize",
+      "required_checks": [
+        [
+          "ticket",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "transfer.meta",
+      "required_checks": [
+        [
+          "ticket",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.add",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "record_type",
+          true
+        ],
+        [
+          "record",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.compile_context_packet",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.conflict",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "fact_key",
+          true
+        ],
+        [
+          "evidence_refs",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.decision_add",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "decision",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.decision_supersede",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "decision_id",
+          true
+        ],
+        [
+          "replacement",
+          true
+        ],
+        [
+          "evidence_refs",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.describe",
+      "required_checks": [],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.events_tail",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.export_filtered",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "destination_class",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.forget_request",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "fact_key",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.get_fact",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "fact_key",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.head",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.lock",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "lock",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.materialize",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.memory_candidate_confirm",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "candidate_id",
+          true
+        ],
+        [
+          "user_confirmed",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.memory_candidates",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.read_control_state",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.read_core",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.read_decisions",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.read_sections",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "groups",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.rediscover",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "fact_key",
+          true
+        ],
+        [
+          "evidence_refs",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.resolve_identity",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "use_for",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.resolve_referent",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "term",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.retire",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "fact_key",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.search",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "query",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.session_reset",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "scope",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.source_manifest",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.supersede",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "record_type",
+          true
+        ],
+        [
+          "record_key",
+          true
+        ],
+        [
+          "replacement",
+          true
+        ],
+        [
+          "evidence_refs",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.unlock",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "lock",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.update",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "record_type",
+          true
+        ],
+        [
+          "record_key",
+          true
+        ],
+        [
+          "patch",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.verification_debt",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "ucm.verify",
+      "required_checks": [
+        [
+          "profile_id",
+          true
+        ],
+        [
+          "actor",
+          true
+        ],
+        [
+          "source_instance",
+          true
+        ],
+        [
+          "provenance",
+          true
+        ],
+        [
+          "idempotency_key",
+          true
+        ],
+        [
+          "expected_head_seq",
+          true
+        ],
+        [
+          "expected_head_hash",
+          true
+        ],
+        [
+          "write_posture",
+          true
+        ],
+        [
+          "fact_key",
+          true
+        ],
+        [
+          "verification_ref",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "verify.gates",
+      "required_checks": [
+        [
+          "project_id",
+          true
+        ],
+        [
+          "gates",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": null
+    },
+    {
+      "name": "web.fetch",
+      "required_checks": [
+        [
+          "url",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    },
+    {
+      "name": "zip.read",
+      "required_checks": [
+        [
+          "zip_path",
+          true
+        ]
+      ],
+      "sample_ok": true,
+      "unknown_rejected": true
+    }
+  ],
+  "schema": "pcmmad.contract-parity-warfort.v1"
+}

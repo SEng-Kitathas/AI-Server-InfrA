@@ -26,6 +26,19 @@ from .shared_core import ensure_safe_mutation_target_identity
 ToolPayload: TypeAlias = JsonObject
 ToolResult: TypeAlias = JsonObject
 
+PROJECT_FILES_LIST_SCHEMA={"type":"object","additionalProperties":False,"properties":{"project_id":{"type":"string"},"path":{"type":"string"},"recursive":{"type":"boolean"},"contains":{"type":"string"},"limit":{"type":"integer","minimum":1}}}
+PROJECT_FILES_READ_SCHEMA={"type":"object","additionalProperties":False,"properties":{"project_id":{"type":"string"},"path":{"type":"string"},"start_line":{"type":"integer","minimum":1},"end_line":{"type":"integer","minimum":1},"max_bytes":{"type":"integer","minimum":1}}}
+PROJECT_FILES_SEARCH_SCHEMA={"type":"object","additionalProperties":False,"properties":{"project_id":{"type":"string"},"query":{"type":"string"},"path":{"type":"string"},"artifact_classes":{"type":"array","items":{"type":"string"}},"recursive":{"type":"boolean"},"limit":{"type":"integer","minimum":1}}}
+PROJECT_CONTEXT_REHYDRATE_SCHEMA={"type":"object","additionalProperties":False,"properties":{"project_id":{"type":"string"},"topic":{"type":"string"},"path":{"type":"string"},"budget_bytes":{"type":"integer","minimum":1},"debug":{"type":"boolean"}}}
+PROJECT_READ_MANY_SCHEMA={"type":"object","additionalProperties":False,"required":["paths"],"properties":{"project_id":{"type":"string"},"paths":{"type":"array","minItems":1,"maxItems":50,"items":{"type":"string"}},"max_bytes_each":{"type":"integer","minimum":1,"maximum":200000},"max_bytes":{"type":"integer","minimum":1,"maximum":200000}}}
+PROJECT_WRITE_SCHEMA={"type":"object","additionalProperties":False,"required":["path"],"properties":{"project_id":{"type":"string"},"path":{"type":"string","minLength":1},"content":{"type":"string"},"mode":{"type":"string","enum":["overwrite","append","create_only"]},"encoding":{"type":"string"}}}
+
+PROJECT_MODELS_LIST_SCHEMA={"type":"object","additionalProperties":False,"properties":{"project_id":{"type":"string"},"path":{"type":"string"},"recursive":{"type":"boolean"},"model_type":{"type":"string"},"limit":{"type":"integer","minimum":1}}}
+PROJECT_MODEL_INSPECT_SCHEMA={"type":"object","additionalProperties":False,"required":["path"],"properties":{"project_id":{"type":"string"},"path":{"type":"string","minLength":1},"model_type":{"type":"string"}}}
+PROJECT_ARCHIVES_LIST_SCHEMA={"type":"object","additionalProperties":False,"properties":{"project_id":{"type":"string"},"path":{"type":"string"},"recursive":{"type":"boolean"},"archive_type":{"type":"string"},"limit":{"type":"integer","minimum":1}}}
+PROJECT_ARCHIVE_INSPECT_SCHEMA={"type":"object","additionalProperties":False,"required":["path"],"properties":{"project_id":{"type":"string"},"path":{"type":"string","minLength":1},"archive_type":{"type":"string"},"max_entries":{"type":"integer","minimum":1}}}
+PROJECT_ARCHIVE_EXTRACT_SCHEMA={"type":"object","additionalProperties":False,"required":["path","destination_path"],"properties":{"project_id":{"type":"string"},"path":{"type":"string","minLength":1},"destination_path":{"type":"string","minLength":1},"archive_type":{"type":"string"},"selected_entries":{"type":"array","items":{"type":"string"}},"overwrite":{"type":"boolean"}}}
+
 
 def _get_str(payload: ToolPayload, key: str, default: str = "") -> str:
     value = payload.get(key, default)
@@ -586,19 +599,22 @@ def _project_context_rehydrate_payload(payload: ToolPayload, dep: ProjectToolDep
 
 def _register_project_file_tools(register_tool: Callable[..., Any], dep: ProjectToolDeps) -> None:
     @register_tool(
-        "project.files.list", "List files under a project path.", "low", category="project", side_effect_class="read", effect_traits=["reads_files", "project_scope_enforced", "bounded_results"]
+        "project.files.list", "List files under a project path.", "low", category="project", side_effect_class="read", effect_traits=["reads_files", "project_scope_enforced", "bounded_results"],
+        input_schema=PROJECT_FILES_LIST_SCHEMA,
     )
     def tool_project_files_list(payload: ToolPayload) -> ToolResult:
         return _project_files_list_payload(payload, dep)
 
     @register_tool(
-        "project.files.read", "Read one project file or a line range.", "low", category="project", side_effect_class="read", effect_traits=["reads_files", "project_scope_enforced", "bounded_output"]
+        "project.files.read", "Read one project file or a line range.", "low", category="project", side_effect_class="read", effect_traits=["reads_files", "project_scope_enforced", "bounded_output"],
+        input_schema=PROJECT_FILES_READ_SCHEMA,
     )
     def tool_project_files_read(payload: ToolPayload) -> ToolResult:
         return _project_files_read_payload(payload, dep)
 
     @register_tool(
-        "project.files.search", "Search within project files.", "low", category="project", side_effect_class="read_cache", effect_traits=["reads_files", "project_scope_enforced", "writes_ephemeral_cache", "bounded_results", "source_currentness_check"]
+        "project.files.search", "Search within project files.", "low", category="project", side_effect_class="read_cache", effect_traits=["reads_files", "project_scope_enforced", "writes_ephemeral_cache", "bounded_results", "source_currentness_check"],
+        input_schema=PROJECT_FILES_SEARCH_SCHEMA,
     )
     def tool_project_files_search(payload: ToolPayload) -> ToolResult:
         return _project_files_search_payload(payload, dep)
@@ -610,6 +626,7 @@ def _register_project_file_tools(register_tool: Callable[..., Any], dep: Project
         category="project",
         side_effect_class="read_cache",
         effect_traits=["reads_files", "project_scope_enforced", "writes_ephemeral_cache", "bounded_output", "source_currentness_check", "icf_authority_aware"],
+        input_schema=PROJECT_CONTEXT_REHYDRATE_SCHEMA,
     )
     def tool_project_context_rehydrate(payload: ToolPayload) -> ToolResult:
         return _project_context_rehydrate_payload(payload, dep)
@@ -641,7 +658,8 @@ def _project_model_inspect_payload(payload: ToolPayload, dep: ProjectToolDeps) -
 
 def _register_project_model_tools(register_tool: Callable[..., Any], dep: ProjectToolDeps) -> None:
     @register_tool(
-        "project.models.list", "List model artifacts in a project.", "low", category="project", side_effect_class="read", effect_traits=["reads_files", "project_scope_enforced", "bounded_results"]
+        "project.models.list", "List model artifacts in a project.", "low", category="project", side_effect_class="read", effect_traits=["reads_files", "project_scope_enforced", "bounded_results"],
+        input_schema=PROJECT_MODELS_LIST_SCHEMA,
     )
     def tool_project_models_list(payload: ToolPayload) -> ToolResult:
         return _project_models_list_payload(payload, dep)
@@ -653,6 +671,7 @@ def _register_project_model_tools(register_tool: Callable[..., Any], dep: Projec
         category="project",
         side_effect_class="read",
         effect_traits=["reads_files", "project_scope_enforced"],
+        input_schema=PROJECT_MODEL_INSPECT_SCHEMA,
     )
     def tool_project_models_inspect(payload: ToolPayload) -> ToolResult:
         return _project_model_inspect_payload(payload, dep)
@@ -702,14 +721,16 @@ def _register_project_archive_tools(
     register_tool: Callable[..., Any], dep: ProjectToolDeps
 ) -> None:
     @register_tool(
-        "project.archives.list", "List archive artifacts in a project.", "low", category="project", side_effect_class="read", effect_traits=["reads_files", "project_scope_enforced", "bounded_results"]
+        "project.archives.list", "List archive artifacts in a project.", "low", category="project", side_effect_class="read", effect_traits=["reads_files", "project_scope_enforced", "bounded_results"],
+        input_schema=PROJECT_ARCHIVES_LIST_SCHEMA,
     )
     def tool_project_archives_list(payload: ToolPayload) -> ToolResult:
         return _project_archives_list_payload(payload, dep)
 
     @register_tool(
         "project.archives.inspect", "Inspect an archive in a project.", "low", category="project",
-        side_effect_class="read", effect_traits=["reads_files", "reads_archive", "project_scope_enforced", "bounded_output"]
+        side_effect_class="read", effect_traits=["reads_files", "reads_archive", "project_scope_enforced", "bounded_output"],
+        input_schema=PROJECT_ARCHIVE_INSPECT_SCHEMA,
     )
     def tool_project_archives_inspect(payload: ToolPayload) -> ToolResult:
         return _project_archive_inspect_payload(payload, dep)
@@ -722,6 +743,7 @@ def _register_project_archive_tools(
         approval_required=True,
         mutating=True,
         effect_traits=["durable_mutation", "project_mutation_fenced"],
+        input_schema=PROJECT_ARCHIVE_EXTRACT_SCHEMA,
     )
     def tool_project_archives_extract(payload: ToolPayload) -> ToolResult:
         return _project_archive_extract_payload(payload, dep)
@@ -794,6 +816,7 @@ def _register_project_mutation_tools(
         category="project",
         side_effect_class="read",
         effect_traits=["reads_files", "project_scope_enforced", "bounded_output"],
+        input_schema=PROJECT_READ_MANY_SCHEMA,
     )
     def tool_project_files_read_many(payload: ToolPayload) -> ToolResult:
         return _project_read_many_payload(payload, dep)
@@ -806,6 +829,7 @@ def _register_project_mutation_tools(
         approval_required=True,
         mutating=True,
         effect_traits=["durable_mutation", "project_mutation_fenced"],
+        input_schema=PROJECT_WRITE_SCHEMA,
     )
     def tool_project_files_write(payload: ToolPayload) -> ToolResult:
         return _project_write_payload(payload, dep)

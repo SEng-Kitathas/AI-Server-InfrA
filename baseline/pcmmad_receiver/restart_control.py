@@ -84,6 +84,7 @@ def register(register_tool: Callable[..., Any]) -> None:
         category="control",
         tags=["restart", "receiver", "ngrok", "self-restart", "receipt"],
         mutating=True,
+        input_schema={"type":"object","additionalProperties":False,"properties":{}},
     )
     def _restart(_payload: dict[str, Any]) -> dict[str, Any]:
         return schedule_restart(2)
@@ -96,6 +97,7 @@ def register(register_tool: Callable[..., Any]) -> None:
         tags=["restart", "receipt", "status"],
         side_effect_class="read",
         effect_traits=["reads_receipt", "reads_service_state"],
+        input_schema={"type":"object","additionalProperties":False,"properties":{}},
     )
     def _status(_payload: dict[str, Any]) -> dict[str, Any]:
         return latest_receipt()

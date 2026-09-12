@@ -1,6 +1,6 @@
 {
-  "capability_count": 169,
-  "catalog_digest": "c6e27a3d01cb114f6690c99557efae0d9e48c6053c6a0df60afe8a9b777bb85d",
+  "capability_count": 171,
+  "catalog_digest": "c192197b284ff2577f38e63925fb5ff5a1d87e739292258aa547a07782292b59",
   "cost_semantics": "static admission units; exact/computable but not a wall-time SLA",
   "declared_effect_class_is_effect_truth": false,
   "descriptive_effect_traits_are_scheduler_authority": false,
@@ -720,7 +720,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "0927b1deba9e56a509b086b8be26a98c74af81aea100271f3b3bd23ccf6c1f7e",
+      "contract_digest": "f25c3c4c33029f349abe74ac9b2ebce3cb0a404d415d044a31ee12d667592594",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -744,7 +744,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "c20a1d6e15f8e27d3c4a391172d224ea9c856ae0b9afb4e3bdac9b1812ea8e5c",
+      "contract_digest": "af4467308d983a606e152126728708f62a4c9d5b0bdf7ba6885ec3729f9b072c",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -768,7 +768,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "aa5434679f2ed677de9b73f4b058a88d96562c9e965ffd8c825da8fe0158bcff",
+      "contract_digest": "42ade1a7d78bbbffcb29e91472b5bb8eefb449b688d5cefb2477996a6d4f0a80",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -792,7 +792,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "9950b5fe23324166aff9e9860a86c771ab7f078ea1163b542efe116a35b1e974",
+      "contract_digest": "5484dc5f9f6e4afb5eedab531ac5c1268f0f8276dbf58faa40b94e36d16fecf7",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -864,7 +864,55 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "bb81a416d41b16ba96a72a4b56a29bc6e87a019fa91316916b81cdab2813657e",
+      "contract_digest": "564075e844eea5185858eca91412e61a018d4ede53e5012b3b1cf3c61e60489a",
+      "declared_effect_kind": "MUTATION",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": true,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": true,
+      "name": "doctrine.global.promote",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "UNSAFE_RETRY",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "a9c9a9d1659cee35507ed8aea606c0f000f0ee987c2ea9b909b39dfe3b55bfe5",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "doctrine.global.status",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "d4ab460e1a33597892ae258a970348c07b444662bda9015e18608732de75c25e",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -888,7 +936,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "2bfb7423eba946949b035341c4c03546599aee6760c0e59418f8884a0f4293a2",
+      "contract_digest": "e3be018abd43a6b57436e815434df410ca795660b17be9bebc2a5b275f9d6522",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -912,7 +960,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "b75bc3cfc48819f28dae38b5894f6e80c2d9492ab43fe26fbc481ee1e888381f",
+      "contract_digest": "d6ae1c82eea5bade7f76dd0160327243c4c0d4c891d2585a9d1fe91b6c45d77f",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -936,7 +984,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "f92c11870fae98ce403bf9f4e411e76decaa98542517d4def99d355c93053013",
+      "contract_digest": "4ad9694a40cbfc86d1591dc27e78660a744647652f88f90a5da2383dd38c48aa",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -960,7 +1008,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "9284eff016083eaa019b63a5a9aac8e6ca097b9ada7420e0248fc4bf3c4963ae",
+      "contract_digest": "f43b19e2ea40aa71f1c4b0ce04e3d6ab29ecbd9b99f385a7a43d9dbf13673556",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -984,7 +1032,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "0efbf15a65219c2d66dd916cf1ac26b429b2875f0572b4ee8b6bab11fe5901a3",
+      "contract_digest": "626abf3ab370765ab596a864b349fd37d9ff1c13fa82dc73bcfdb7f19f2b4299",
       "declared_effect_kind": "EXECUTION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1008,7 +1056,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "71d98a6d1b359b51855dba636bc07bfd3537891e0fde2648620526193a4ea810",
+      "contract_digest": "1f452daa3f6b074e000268fb24e54d7fcc7af17a3ab989ebdb2ca8438cba10ad",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1032,7 +1080,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "4a3312791d2944b51a3c53de6b122b1bf4e93449ae7d6d6ef6fbda5fa13cc80d",
+      "contract_digest": "591b086acdcb34e4c6523800502b31c6fe44d883310c761722bd49ea95cc327c",
       "declared_effect_kind": "EXECUTION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1056,7 +1104,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "9d1f4df4037a5f217e90238195b30aa8224aae399b62bca4306f6742509366d5",
+      "contract_digest": "d412b4844305056a037d0567cf6b5cb8176a55b644eef461cbc2bf4a965dc3e4",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1080,7 +1128,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "83dd8fc824301ffc59274e39c48079ea1a294dbb58ffd0a64c2d85409bbac182",
+      "contract_digest": "62cdecd355ef22fc634850f353c2412ec69b9d36dc190d86affab949a83720ed",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1104,7 +1152,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "9918527b3f81409fe3e70d0fa64ec525ff7542af12daf9c4ae4ebf58f7a59778",
+      "contract_digest": "fc4f11902f08425af2b41b17890e12b0b766c1153e2aa8d06a78a0658f22a5e7",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1128,7 +1176,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "cf64b5daa5156280917fc5ea7cfb7b07efe392e3c87d5d9501ebe95df9e31283",
+      "contract_digest": "1e59e39a42cd60d7d4b05b3e9af0d1d24789e73ad9123923025659689f72e610",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1152,7 +1200,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "123cd93ded6c70c18dde48ecc243e7fa81a677b12630ee2bb6d0c0151e43dbca",
+      "contract_digest": "7d8607c8b7c5d153bcb9896130b0ca4c2abdd316f167e27bb88a99c4a6eaf78c",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1176,7 +1224,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "6ffefcd634c5910844f9e1d2c7cde8787e82a298c40a6d83cf12efee22cca6fd",
+      "contract_digest": "a7fa0862323dcda18f0d7b21c31aded8e48065642ec95cf4cbe48d96a06fd942",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1200,7 +1248,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "d7de0894bae97cc76a74e2175bdf5804444cd02f5fecf7abb3462d18e8e2b8bb",
+      "contract_digest": "651a49dcdf86d70b49a198bdef0c97de4431d049061e55dee8afc3c415404981",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1224,7 +1272,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "a23becc107bf59835c23a20a08c8cea5d3af688c7c92762155b210d4db89ecd2",
+      "contract_digest": "0dc71e0eac18e3d030c79f8b7f40f8a7d14abe7ce1e178ab3efe0bc3f7beadc0",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1248,7 +1296,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "ca325e15220cf5cc41875902f7094e66dacf974d72630a01a5aa64b2ce98d607",
+      "contract_digest": "bd58a87b9f401670855c19d8a7e396a2bcac55993ee768be0fd0b73f678f84b5",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1272,7 +1320,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "f00f5a6df06a07d6a064533533c67a0d077fe412da7ba1c1edfaff7571ab4a0a",
+      "contract_digest": "c9688c20952f03f4d3b049e26ebf73da3ca5f94dc8c0413c9d5f059bd0581e75",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1296,7 +1344,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "f53a864a37b7697dbadbc58133031e7b8e90ad9eb3e57d2c0db27ffba490a320",
+      "contract_digest": "52d3beb41556b46d8d12b38e4b3ce082be2ca3aef4b4edad1b0c449d82fbad7d",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1320,7 +1368,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "3635e0073dbba91a7bc9518d825f0913091673a239fde4aad8f6199d9da6db81",
+      "contract_digest": "78dda16b3e20d6f0f8c44720eedd363c933fc96c3256cf5a43bbffa8498be3d4",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1344,7 +1392,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "6d648f31c9aaffd479da9d609afe5afea0302fd85c0c90a6641e561ab6705583",
+      "contract_digest": "62579b21fdfecbe7e6808ce5dc23913713c8d28cbd0978d581ac77d0f047c3ae",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1488,7 +1536,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "16846426c8846c795d4cf20761cbc7a931bf8b4d571864da41add67e1bb61349",
+      "contract_digest": "1318e872dbd401af61696a3414b1b14151f210061a5da44fddaec82379e26f47",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1512,7 +1560,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "e05ecfb93c1307fd8f4d7fe3da15a36b4ab1f0277442a5c0fdd6b1708bd8f80a",
+      "contract_digest": "37e0f363f5cdc848d16580da0f11b12a16dc25a4d200d5004a143e4797ca4070",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1560,7 +1608,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "b31f0a288cdc7c122c90bc7acd2b1cf1063363a497443d530acb191c46ce4ade",
+      "contract_digest": "0bb97c86c61419d6afa958202a0b2afd0f250e793dbdf8a3cc226e75300d7415",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1584,7 +1632,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "a693dcdae2d3bdb91042c4bbae732df58b69aba8ec2fd817bf7ba8764ea52383",
+      "contract_digest": "f78d31318090b84af30404aee2d67878f8abd7d65c79a3b73bc5dcf88dcfe232",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1608,7 +1656,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "531ae065c48e9d9837150de224aaa465c422e4be8339605584393057fbb65935",
+      "contract_digest": "fc8980fe08fda7750408ba933909db1e98db180945371d1d5ccbe4cf822666fd",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1632,7 +1680,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "e8dd235e4ee2db7f0e4c09cf9fd60f7a33d55a090106612a88cdc99843ca5c88",
+      "contract_digest": "3b09512c428767da9afe9fc87b26517488f488285e94bb5597fa8a5a9018323a",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1656,7 +1704,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "1d670fff8135f1165b712667ce05191c1474736ec9948859719510afd668e11e",
+      "contract_digest": "84b5a1e8ee425f7884991509b44c873089748fc63b60fec96d64b17368db514e",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1680,7 +1728,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "99bbefc1039fbc909f2877d01e1041659ab23f8c3a36e6e9e42cd361f40fe0ac",
+      "contract_digest": "5949b63ef426c3f1ad83d08fb868c7145b16a0a918366dd70f1aef06171275d9",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1704,7 +1752,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "aa12882d504d284be2e259b79502f5644002ad98f794781dceb5a0eace4a1984",
+      "contract_digest": "58662beb853a224e653a43107ad6c900e7a8062abd8a74d3f88571c80e7437ac",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1728,7 +1776,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "c1ffa897b291645a4524193f6ae3afe2c6707d01163bb826c50f3a82b4e9909e",
+      "contract_digest": "aee2d8de584bbefd467c24b384a8acfdba87fb1bf685dd0aefb24d6c2da3aaf9",
       "declared_effect_kind": "RUNTIME_MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2064,7 +2112,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "06113cbf3e6641b297ebafea7a24444d44ca6cbb7423b6295ba96096b2a2d105",
+      "contract_digest": "ccb7e8a9291fb32de522fc45dc84633894ee19636fe9a0faab4a61e77ea50aa2",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2088,7 +2136,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "481f220a1a0dc7075ce51704d86b195a0f2ed6c3c606ea4e5111ee8a366ae7ee",
+      "contract_digest": "02427b8d4536a024b2241946a6984d309965a4a74b7680c2cfc96fe4623921c3",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2112,7 +2160,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "e4ded790a436e9eb0b854704a269609db6e7d330e209bbdda8e7efb9a44b98bc",
+      "contract_digest": "63b70271c2f8a11da81fa1cc11ba308980c775af98368e3e84976c982d69e064",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2136,7 +2184,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "72ce1b4c47bb0bc291ac26f4a164b85608604ba33e107ae961677ff84c347002",
+      "contract_digest": "3bce46305d4fd002d4f40e17e3482fdd1c73f57e85ce3b3df521d79caa94e8e9",
       "declared_effect_kind": "READ_CACHE",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2160,7 +2208,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "07b7e386237dd9071a0c81958ca30b0adb3ebb28bc71a4aa9ff7e997cddbbd7a",
+      "contract_digest": "ce9df24500d8c8dec3d0a7126aa76f3fccc615b532bbd6292aad288113b398bc",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2184,7 +2232,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "d8c6f1dc88fbb444ede12b73b086e00e9a8018d972439d4660e63af2de90666d",
+      "contract_digest": "c48014863402f0dd3c9c0a40087eb48c142048f2fc91bea3496956879c54689e",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2208,7 +2256,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "578d6ce4946d1f4768716b595de6c3862b4f9137a1072d8d370d613563ebd7de",
+      "contract_digest": "f7fa8730a1a058645a4fe9d79a11b299ed2133dc8f14f68502667fb46861870f",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2232,7 +2280,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "910559c8acfe1fba0a5d502e9604dae1e86bd93c060a3c52bccb1c2da286178d",
+      "contract_digest": "60fd3d9db269928a3d35f82bb1a073e2df615f976236de37c9aaa89f0d382f6d",
       "declared_effect_kind": "READ_CACHE",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2256,7 +2304,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "f154f1d5a5527d7fe6080db4b18d011e507df8dfa147f199c3baf83ff5105ba4",
+      "contract_digest": "7e942a5431844fc3f7b71e15443f759613c0803122316bd3c3d3c50640cb836a",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2280,7 +2328,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "855b67ebde496af5bf9f28d9fddfc2298e6daca5534d6c2854b11e4ab0e754fe",
+      "contract_digest": "ca154f0d6cc5f66eee2bc0ba26301147b9949507f91327f0eb94de96977b07a1",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2304,7 +2352,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "859fa704175177808d2f6fbd5708282a5d6502110b0c14fb0048b53644ce0996",
+      "contract_digest": "cdbd2d13f37d82e48d4c115e193bce0fc768ea7f96a8e8b892d975c5b8ddb046",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2796,7 +2844,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "046ccdb24b9b546d9e6375840e4a901e9c6a5a5fe92d464b58ef1b3f1bace382",
+      "contract_digest": "7b2fe372cca4a2c39a644f5f9739e838ee5bedc49a7097e7238d3e299c6dce0d",
       "declared_effect_kind": "EXECUTION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2820,7 +2868,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "ab2ea138094d4908156f23aca5955d4abf92969c28809ef427b2bd882964b0d1",
+      "contract_digest": "8dec8aa957a86a2369bc35afc53f84b10a18b3dbf4ee3ff77358bd8fec288ac3",
       "declared_effect_kind": "READ_EXTERNAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2844,7 +2892,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "3d70e9f3af1c72907c207d5a90310f4ab4ed2560b6138965dfbcc7c9fdb007dd",
+      "contract_digest": "873ecc7cc7627bba926a3f6aa2ebaee9cd0fbba69e947abbbf3b8107b4edaacb",
       "declared_effect_kind": "READ_EXTERNAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2868,7 +2916,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "4fbf7470c554fc26e295c50a398ce35cdf9830d06356c702efd9d2078daa0e26",
+      "contract_digest": "f97bd5dd78410745f24832b8692807a713c496a8337c3b71a13f10eda1badffb",
       "declared_effect_kind": "READ_EXTERNAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2892,7 +2940,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "b17903ce0ba8c301d5877db842af831913716f8d42422ba01a25bea2da579f36",
+      "contract_digest": "57017d7077e2d36572947c8f7a47588ed7bdaa8e713a0bf15e4e9b0b6a3eb25d",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2916,7 +2964,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "93c19dbca75fd64527ae21356be1b10ce3616ac31951515e4c92d47f1c72d087",
+      "contract_digest": "e9e07dbb7137d398883b414b4171b569ad45446d8879c479bd7b593f523a9483",
       "declared_effect_kind": "EXECUTION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2940,7 +2988,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "24eab1e3437dffdc1f09342fbeb6d62377b25cbd0591bf7d3e70ab966808a493",
+      "contract_digest": "f8df63c28f8ededf977145ded15494c7c3635a3175f000d52c98c9054bd794e4",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2964,7 +3012,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "5ae0a0e875ec0b06c2caf63cf0ccaff594f859bd4a58ae7b7f51a5039d98bbd8",
+      "contract_digest": "5eb2bde0300661136f01c16d542176c21c3b2b74d0023ff62cc7439d4bba22f6",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2988,7 +3036,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "7489b7bf47d7ab83c8926fdeaa65d30c81f95066aa5c69f39fd6ffd11edc5a66",
+      "contract_digest": "0e5ba46dfdd2763052e6fe2b1734fc1d0048fb0e0ce74bba8710ee87db9bfa9f",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3012,7 +3060,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "f46f01f20ca998469566ae10f1631823fcbc90603a4d897ca9127e6eb9766964",
+      "contract_digest": "c056bf5104161e0ea98e8cdb7f04bb33f504c2cef1160eb894318332e4eec9b7",
       "declared_effect_kind": "EPHEMERAL_MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3036,7 +3084,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "75fb7397188186669492286e211c0578e983d8e117e80c9be12a94abb0b57428",
+      "contract_digest": "39880f2db74938d6d3e39409dc0ba00a6a73c5fb1d2e76a4a87fa494df84e271",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3060,7 +3108,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "7bf4ce0b0f336389ecb57bda30ec333b73fce1c945fcc8596abed370f13f2a46",
+      "contract_digest": "5849f585a30e647f0b5fc3307295937decbef26d8a755631ed154368a2c034ac",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3084,7 +3132,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "9eb08b867726f576ba228a6bf851e370fbf32ff13ecf3cfe25db025d146d73f3",
+      "contract_digest": "65236ff77836bf341014afc854b7b349163ccba709fdaaebcc3108372c5e3ce6",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3108,7 +3156,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "aaa6f6dad092d5a54ef74ab8294c89c9f911ef7a38c0b1266973f650fb78b881",
+      "contract_digest": "5ea52aa216bbba020366a862e18b83baf91b6e544660cbc0def3614f93845612",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3132,7 +3180,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "103881caf03a36100f3e3f6196cbb51e228c73ce23e8f35d335c0d8a60871026",
+      "contract_digest": "74dd5a064de93906bd137763c32f4966ed13ea55a9bf719d1773dab2988a8785",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3156,7 +3204,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "db2263648f3da4de30c4ee39283b300d867022ae3ac85072565e801172310189",
+      "contract_digest": "56d070e7c4fc981e39d202d01598ae7d0ceaa263b09fbf4b78e76f68d23f4a55",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3180,7 +3228,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "67f4e9d1f59f4f2f5c31aeb734ae2a71557532fca7a74155056100d66397ee97",
+      "contract_digest": "a377a74bfafc9802d895428f9ca49e38013160fd76c23818ce94cee4bbd03aa2",
       "declared_effect_kind": "EPHEMERAL_MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3204,7 +3252,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "d028f59084124af7cdd55f388386dda1b2577347c923843957a14bd6454f2c36",
+      "contract_digest": "7df542670a7a38e44f149f25637390468e0b35629868a5dfe4bf278caa547949",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3228,7 +3276,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "4b815ad6cf58e2871352f34b5ac2120866a34858a9cd1c24e87f624401013d31",
+      "contract_digest": "6ae31624d2ab849873102add466ba25f2c82532cf8c134d2aea5ef58c51a523d",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -3252,7 +3300,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "aa3322315cad8864fe468138118f632b3dff6a06550753c7635dacd4c5824305",
+      "contract_digest": "2d2829a6ef26b0ce7fed899c5a88e90e55f6c405f769bf89b095554bdaa4daac",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -4068,7 +4116,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "63d782cbe4671830b48b5207662178d62bbe60ce0f8638c43c7093d1ac00b770",
+      "contract_digest": "83698aec92be14ac7c3bf5813fb36d0df253e0da66b03c2ec59490a74cf97386",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -4101,7 +4149,7 @@
     "USER_CONTINUITY"
   ],
   "parallel_default": "SERIAL",
-  "profile_digest": "30c85da98bfe5fddbc3edb03407b13d9a02ff4f86f865f3ca48bf1487e848ec3",
+  "profile_digest": "df0dcf0f497caf25d2b98acf107d405b220f617d9435694e7b4248a71a673188",
   "resume_replay_classes": [
     "RECOMPOSE_REQUIRED",
     "REEXECUTE_READ_VERIFIED"

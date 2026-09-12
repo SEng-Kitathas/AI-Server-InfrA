@@ -267,7 +267,9 @@ def orient(payload: Mapping[str, Any]) -> JsonObject:
         selected_rows.sort(key=lambda pair: (-pair[0], str(pair[1].get("name") or "")))
         if terms:
             selected_rows = [pair for pair in selected_rows if pair[0] > 0]
-    if detail == "full":
+    # Full-detail discovery is larger per card, but explicit capability requests must not be silently truncated.
+    # Agents use explicit lists to obtain exact invocation grammar; dropping requested contracts creates hidden capability state.
+    if detail == "full" and not explicit:
         limit = min(limit, 8)
     selected_rows = selected_rows[:limit]
     renderer = _full_card if detail == "full" else _compact_card

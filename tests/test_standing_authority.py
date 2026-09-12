@@ -123,5 +123,17 @@ class StandingAuthorityTests(unittest.TestCase):
         self.assertFalse(d.allowed)
         self.assertEqual(d.error_code, "APPROVAL_REQUIRED")
 
+    def test_allow_all_suppresses_ask_but_preserves_explicit_deny(self):
+        sa.save_profile({'project_id':'P','mode':'allow_all','ask':{'capabilities':['execution.*']},'deny':{'capabilities':['execution.terminate']}})
+        run=evaluate_tool_call(spec('execution.run',mutating=True,approval=True),{'project_id':'P'}, {})
+        self.assertTrue(run.allowed);self.assertEqual(run.approval_mode,'standing_authority');self.assertEqual(run.details['standing_authority']['mode'],'allow_all')
+        term=evaluate_tool_call(spec('execution.terminate',mutating=True,approval=True),{'project_id':'P'}, {})
+        self.assertFalse(term.allowed);self.assertEqual(term.error_code,'OPERATOR_POLICY_DENIED')
+
+    def test_universal_allow_all_applies_when_project_profile_absent(self):
+        sa.save_profile({'project_id':sa.UNIVERSAL_PROJECT_ID,'mode':'allow_all'})
+        d=evaluate_tool_call(spec('execution.run',mutating=True,approval=True),{'project_id':'OTHER'}, {})
+        self.assertTrue(d.allowed);self.assertEqual(d.details['standing_authority']['scope'],'universal');self.assertEqual(d.details['standing_authority']['mode'],'allow_all')
+
 if __name__ == "__main__":
     unittest.main()

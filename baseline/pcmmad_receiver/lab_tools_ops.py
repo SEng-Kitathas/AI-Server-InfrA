@@ -198,6 +198,12 @@ def _git_status_snapshot(root: Path) -> JsonObject:
     }
 
 
+GIT_READ_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"}}}
+GIT_DIFF_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"},"cached":{"type":"boolean"}}}
+GIT_COMMIT_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","message"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"},"message":{"type":"string","minLength":1}}}
+GIT_RESET_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"},"target":{"type":"string"}}}
+GIT_CLEAN_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"},"x":{"type":"boolean"}}}
+
 def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> None:
     @register_tool(
         "git.status",
@@ -206,6 +212,7 @@ def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         category="git",
         side_effect_class="read",
         effect_traits=["reads_repo_state", "requires_exact_repo_identity"],
+        input_schema=GIT_READ_SCHEMA,
     )
     def tool_git_status(payload: JsonObject) -> JsonObject:
         project_id = _project_id(payload)
@@ -218,7 +225,7 @@ def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         result["repo_grounded"] = True
         return result
 
-    @register_tool("git.diff", "Read a git diff for a project repo.", "medium", category="git", side_effect_class="read", effect_traits=["reads_repo_state", "requires_exact_repo_identity", "bounded_output"])
+    @register_tool("git.diff", "Read a git diff for a project repo.", "medium", category="git", side_effect_class="read", effect_traits=["reads_repo_state", "requires_exact_repo_identity", "bounded_output"], input_schema=GIT_DIFF_SCHEMA)
     def tool_git_diff(payload: JsonObject) -> JsonObject:
         project_id = _project_id(payload)
         root, identity, error = _git_repo_probe(project_id, dep, _repo_path(payload))
@@ -427,6 +434,7 @@ def _register_git_commit_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> 
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "mutates_repo", "creates_commit", "requires_exact_repo_identity", "postcondition_verified", "project_mutation_fenced"],
+        input_schema=GIT_COMMIT_SCHEMA,
     )
     def tool_git_commit(payload: JsonObject) -> JsonObject:
         return _git_commit_payload(payload, dep)
@@ -442,6 +450,7 @@ def _register_git_reset_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "destructive", "mutates_repo", "requires_exact_repo_identity", "postcondition_verified", "project_mutation_fenced"],
+        input_schema=GIT_RESET_SCHEMA,
     )
     def tool_git_reset_hard(payload: JsonObject) -> JsonObject:
         return _git_reset_payload(payload, dep)
@@ -457,6 +466,7 @@ def _register_git_clean_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "destructive", "deletes_files", "requires_exact_repo_identity", "dry_run_preview", "postcondition_verified", "project_mutation_fenced"],
+        input_schema=GIT_CLEAN_SCHEMA,
     )
     def tool_git_clean(payload: JsonObject) -> JsonObject:
         return _git_clean_payload(payload, dep)

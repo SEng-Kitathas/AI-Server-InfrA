@@ -4,7 +4,7 @@ import fnmatch, hashlib
 from pathlib import Path
 from typing import Any, Mapping
 from .shared_core import SYSTEM_ROOT, load_json, save_json_atomic, utc_now
-PROFILE_VERSION="2"; MODES={"standing","hitl","custom"}; UNIVERSAL_PROJECT_ID="__ALL_PROJECTS__"
+PROFILE_VERSION="3"; MODES={"standing","allow_all","hitl","custom"}; UNIVERSAL_PROJECT_ID="__ALL_PROJECTS__"
 def _root(): return SYSTEM_ROOT/"lab"/"standing_authority"
 def _key(project_id):
  raw=str(project_id or "").strip();
@@ -26,8 +26,8 @@ def normalize_profile(v):
  project_id=str(v.get("project_id") or "").strip();
  if not project_id:raise ValueError("project_id is required")
  mode=str(v.get("mode") or "standing").lower().strip();
- if mode not in MODES:raise ValueError("mode must be standing, hitl, or custom")
- default=str(v.get("default_action") or ("ask" if mode=="hitl" else "allow")).lower().strip(); default="allow" if mode=="standing" else ("ask" if mode=="hitl" else default)
+ if mode not in MODES:raise ValueError("mode must be standing, allow_all, hitl, or custom")
+ default=str(v.get("default_action") or ("ask" if mode=="hitl" else "allow")).lower().strip(); default="allow" if mode in {"standing","allow_all"} else ("ask" if mode=="hitl" else default)
  if default not in {"allow","ask"}:raise ValueError("default_action must be allow or ask")
  return {"version":PROFILE_VERSION,"project_id":project_id,"mode":mode,"default_action":default,"allow":_selectors(v.get("allow")),"ask":_selectors(v.get("ask")),"deny":_selectors(v.get("deny")),"operator_id":str(v.get("operator_id") or "").strip(),"provenance":str(v.get("provenance") or "").strip(),"updated_at":utc_now()}
 def save_profile(v):
@@ -65,7 +65,8 @@ def resolve(spec,payload):
  if profile is None:
   profile=load_profile(UNIVERSAL_PROJECT_ID); scope="universal"
  if profile is None:return None
- for action in ("deny","ask","allow"):
+ actions=("deny","allow") if profile["mode"]=="allow_all" else ("deny","ask","allow")
+ for action in actions:
   hit=_selector_match(profile[action],spec)
   if hit:return {"action":action,"project_id":project_id,"profile_project_id":profile["project_id"],"scope":scope,"mode":profile["mode"],"matched":hit,"profile":profile}
  return {"action":profile["default_action"],"project_id":project_id,"profile_project_id":profile["project_id"],"scope":scope,"mode":profile["mode"],"matched":{"selector":"default","pattern":profile["default_action"]},"profile":profile}

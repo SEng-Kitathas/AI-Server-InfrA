@@ -12,6 +12,7 @@ def register(register_tool: Callable[..., Any]) -> None:
         tags=["hud","operator","ui","status"],
         side_effect_class="read_probe",
         effect_traits=["reads_process_state", "reads_service_state", "health_probe"],
+        input_schema={"type":"object","additionalProperties":False,"properties":{}},
     )
     def _status(_payload):
         return hud_status()
@@ -24,6 +25,7 @@ def register(register_tool: Callable[..., Any]) -> None:
         tags=["hud","operator","ui","restart"],
         mutating=True,
         approval_required=True,
+        input_schema={"type":"object","additionalProperties":False,"properties":{}},
     )
     def _restart(_payload):
         return restart_hud()

@@ -10,6 +10,10 @@ from .lab_tool_primitives import ToolPayload, ToolResult, payload_optional_int, 
 from .server_hardening import safe_json_loads
 
 JsonObject = MutableMapping[str, Any]
+DOCTRINE_STATUS_SCHEMA={"type":"object","additionalProperties":False,"properties":{}}
+DOCTRINE_READ_SCHEMA={"type":"object","additionalProperties":False,"properties":{"target":{"type":"string","enum":["guide","manifest","json"]},"max_bytes":{"type":"integer","minimum":1}}}
+DOCTRINE_SEARCH_SCHEMA={"type":"object","additionalProperties":False,"required":["query"],"properties":{"query":{"type":"string","minLength":1},"limit":{"type":"integer","minimum":1}}}
+
 DoctrineRegistrar = Callable[
     ..., Callable[[Callable[[ToolPayload], ToolResult]], Callable[[ToolPayload], ToolResult]]
 ]
@@ -38,6 +42,7 @@ def _register_invariant_status(register_tool: DoctrineRegistrar) -> None:
         tags=["csc", "doctrine", "style", "invariants"],
         side_effect_class="read",
         effect_traits=["reads_files", "reads_doctrine_state"],
+        input_schema=DOCTRINE_STATUS_SCHEMA,
     )
     def tool_doctrine_invariants_status(payload: ToolPayload) -> ToolResult:
         manifest = _load_manifest()
@@ -60,6 +65,7 @@ def _register_invariant_read(register_tool: DoctrineRegistrar, error_cls: type[E
         tags=["csc", "doctrine", "style", "invariants"],
         side_effect_class="read",
         effect_traits=["reads_files", "reads_doctrine_state"],
+        input_schema=DOCTRINE_READ_SCHEMA,
     )
     def tool_doctrine_invariants_read(payload: ToolPayload) -> ToolResult:
         target = payload_str(payload, "target", "guide").strip().lower()
@@ -92,6 +98,7 @@ def _register_invariant_search(
         tags=["csc", "doctrine", "style", "invariants", "search"],
         side_effect_class="read",
         effect_traits=["reads_files", "reads_doctrine_state", "bounded_results"],
+        input_schema=DOCTRINE_SEARCH_SCHEMA,
     )
     def tool_doctrine_invariants_search(payload: ToolPayload) -> ToolResult:
         query = payload_str(payload, "query", "").strip().lower()
@@ -109,9 +116,30 @@ def _register_invariant_search(
         return {"query": query, "count": len(hits), "hits": hits, "partial": False}
 
 
+
+def _register_global_doctrine(register_tool: DoctrineRegistrar, error_cls: type[Exception]) -> None:
+    @register_tool(
+        "doctrine.global.status", "Read current versioned global engineering doctrine authority.", "low",
+        category="doctrine", tags=["global","doctrine","authority"], side_effect_class="read",
+        effect_traits=["reads_doctrine_state"], input_schema={"type":"object","additionalProperties":False,"properties":{}},
+    )
+    def tool_doctrine_global_status(payload: ToolPayload) -> ToolResult:
+        return global_doctrine.inspect()
+
+    @register_tool(
+        "doctrine.global.promote", "Explicitly promote a hostile-qualified candidate law set into versioned global doctrine.", "high",
+        category="doctrine", tags=["global","doctrine","promotion","authority"], mutating=True, approval_required=True,
+        side_effect_class="mutation", effect_traits=["writes_doctrine_state","explicit_authority_promotion","project_mutation_fenced"],
+        input_schema={"type":"object","additionalProperties":False,"required":["candidate","operator_id","provenance"],"properties":{"candidate":{"type":"object"},"candidate_sha256":{"type":"string"},"operator_id":{"type":"string","minLength":1},"provenance":{"type":"string","minLength":1}}},
+    )
+    def tool_doctrine_global_promote(payload: ToolPayload) -> ToolResult:
+        try:return global_doctrine.promote(payload)
+        except ValueError as exc:raise error_cls("BAD_REQUEST",str(exc),400) from exc
+
 def register_doctrine_tools(
     register_tool: DoctrineRegistrar, *, error_cls: type[Exception]
 ) -> None:
     _register_invariant_status(register_tool)
     _register_invariant_read(register_tool, error_cls)
     _register_invariant_search(register_tool, error_cls)
+    _register_global_doctrine(register_tool, error_cls)
