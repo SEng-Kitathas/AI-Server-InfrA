@@ -1,0 +1,97 @@
+{
+  "authority_generation": 32,
+  "branch": "local/governance-substrate-20260912",
+  "campaign": {
+    "attention_reservoir": {
+      "reason": "The campaign has reached the requested substantial blocker. Further generic mechanism work would outrun evidence. Next work must be surface-specific witness qualification, starting only where a real operational need justifies it.",
+      "selected": "HARD STOP / coverage qualification"
+    },
+    "campaign": "GSD6-GSD25",
+    "csc": {
+      "authority": "audit_only",
+      "questions": {
+        "authority_leak": "General governance authority remains forbidden",
+        "harness_leak": "Matrix is intentionally over-strict; future removal of irrelevant dimensions requires its own discriminator, never assumption",
+        "independent_evidence": "Coverage matrix grounded only in mechanisms actually verified this campaign",
+        "mechanism_discriminated": "YES: narrow anti-toy success does not imply general coverage",
+        "simpler_composition": "Surface-specific adapters remain preferred over universal manager",
+        "unknown_preserved": "YES: every incomplete relation remains PARTIAL_UNKNOWN"
+      }
+    },
+    "discriminator": "Does the governance hypothesis have sufficient witness coverage across proposed real relations to justify general embodiment?",
+    "helix_next": "Reopen relation-by-relation. For each missing dimension, first test whether the dimension is actually load-bearing for that relation; if yes, derive it from existing authoritative surfaces; if no, earn the exemption by hostile discriminator. Do not create a universal governance plane to fill the matrix.",
+    "loop_plus": {
+      "claim": "non-authoritative governance improves architectural self-consistency",
+      "killed": [
+        "projection consensus sufficient",
+        "owner identity sufficient",
+        "owner self-attestation sufficient for integrity"
+      ],
+      "open": [
+        "owner equivocation",
+        "temporal freshness vs integrity",
+        "authority handoff TOCTOU",
+        "correlated compromise",
+        "observer staleness",
+        "multi-project scope"
+      ],
+      "rivals": [
+        "owner self-attestation sufficient",
+        "projection consensus sufficient",
+        "independent witness required",
+        "governance abstraction adds no value"
+      ]
+    },
+    "oarr": {
+      "attacks": [
+        "strict witness matrix across capability contracts",
+        "global doctrine",
+        "mutation generation",
+        "migration receipt",
+        "receiver restart"
+      ],
+      "rangers_used": 5,
+      "result": "NO: 0/5 proposed relations have full strict witness coverage. Missing dimensions vary by surface; general embodiment would silently waive requirements."
+    },
+    "pass": 18,
+    "schema": "pcmmad.governance-campaign.v1",
+    "status": "HARD_STOP_SUBSTANTIAL_BLOCKER"
+  },
+  "checkpoint_sha256": "4477f1be678307e81115c0299bded35b123138cbd8848f4b6cb8447b1789310a",
+  "created_at": "2026-09-12T21:34:13.831044+00:00",
+  "laws_preserved": [
+    "reality/observed consequence outranks preference",
+    "strip for parts",
+    "composition before new primitive",
+    "emergent capability != emergent authority",
+    "projection consensus != authority",
+    "authority identity != current authority",
+    "self-attested validity != independent verification",
+    "age != staleness",
+    "point currentness != use-interval currentness",
+    "same-lineage/shared-failure-domain evidence != independent vote",
+    "content identity != scope identity",
+    "clean recovery bytes != lawful recovery source",
+    "absence of observed consumers != evidence of absence",
+    "Research OS additive use required for non-trivial problems",
+    "CSC audit-only",
+    "governance authority = NONE"
+  ],
+  "mode": "BUILD-COMMIT / GOVERNANCE+CONTINUITY",
+  "next_action": "Hostile-test checkpoint completeness from a virgin reader, run full suite/diff check, commit, push, remote-readback, then new thread should re-ground from this checkpoint + repository rather than chat memory.",
+  "open_seams": [
+    "fresh-instance 1:1 rehydration from this checkpoint must be hostile-tested",
+    "general governance remains surface-specific; strict coverage matrix 0/5 fully qualified",
+    "live V30 embodiment of prior a0f36d5 remains pending unless separately completed",
+    "global candidate laws/scars require explicit doctrine promotion; recurrence is not authority"
+  ],
+  "project_id": "RECEIVER-LAB",
+  "role": "R3 Evidence Synthesizer -> R5 Reality Pressure Engine, R1 veto",
+  "schema": "pcmmad.thread-transition-checkpoint.v1",
+  "source_head": "a0f36d5bc98b79b7e2180c60be9e5cc71608e82a",
+  "verified": {
+    "focused_governance_continuity_tests": "80/80 PASS",
+    "governance_authority": "NONE",
+    "published_baseline_before_this_commit": "a0f36d5bc98b79b7e2180c60be9e5cc71608e82a"
+  }
+}

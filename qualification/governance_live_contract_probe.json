@@ -1,0 +1,18 @@
+{
+  "clean_status": "CONSISTENT",
+  "corrupted_issues": [
+    {
+      "code": "PROJECTION_CONTRADICTION",
+      "field": "input_schema",
+      "name": "fs.glob",
+      "source_code": "PROJECTION_MISMATCH"
+    }
+  ],
+  "corrupted_status": "CONTRADICTION",
+  "governance_authority": "NONE",
+  "owner_digest_after": "36d3a9ce971ce6e3c6bf435283ef1dfdf7ae1e26b978261a98270b079ba70786",
+  "owner_digest_before": "36d3a9ce971ce6e3c6bf435283ef1dfdf7ae1e26b978261a98270b079ba70786",
+  "owner_unchanged": true,
+  "pass": true,
+  "schema": "pcmmad.governance-live-contract-probe.v1"
+}

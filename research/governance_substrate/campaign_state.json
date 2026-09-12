@@ -1,0 +1,56 @@
+{
+  "attention_reservoir": {
+    "reason": "The campaign has reached the requested substantial blocker. Further generic mechanism work would outrun evidence. Next work must be surface-specific witness qualification, starting only where a real operational need justifies it.",
+    "selected": "HARD STOP / coverage qualification"
+  },
+  "campaign": "GSD6-GSD25",
+  "csc": {
+    "authority": "audit_only",
+    "questions": {
+      "authority_leak": "General governance authority remains forbidden",
+      "harness_leak": "Matrix is intentionally over-strict; future removal of irrelevant dimensions requires its own discriminator, never assumption",
+      "independent_evidence": "Coverage matrix grounded only in mechanisms actually verified this campaign",
+      "mechanism_discriminated": "YES: narrow anti-toy success does not imply general coverage",
+      "simpler_composition": "Surface-specific adapters remain preferred over universal manager",
+      "unknown_preserved": "YES: every incomplete relation remains PARTIAL_UNKNOWN"
+    }
+  },
+  "discriminator": "Does the governance hypothesis have sufficient witness coverage across proposed real relations to justify general embodiment?",
+  "helix_next": "Reopen relation-by-relation. For each missing dimension, first test whether the dimension is actually load-bearing for that relation; if yes, derive it from existing authoritative surfaces; if no, earn the exemption by hostile discriminator. Do not create a universal governance plane to fill the matrix.",
+  "loop_plus": {
+    "claim": "non-authoritative governance improves architectural self-consistency",
+    "killed": [
+      "projection consensus sufficient",
+      "owner identity sufficient",
+      "owner self-attestation sufficient for integrity"
+    ],
+    "open": [
+      "owner equivocation",
+      "temporal freshness vs integrity",
+      "authority handoff TOCTOU",
+      "correlated compromise",
+      "observer staleness",
+      "multi-project scope"
+    ],
+    "rivals": [
+      "owner self-attestation sufficient",
+      "projection consensus sufficient",
+      "independent witness required",
+      "governance abstraction adds no value"
+    ]
+  },
+  "oarr": {
+    "attacks": [
+      "strict witness matrix across capability contracts",
+      "global doctrine",
+      "mutation generation",
+      "migration receipt",
+      "receiver restart"
+    ],
+    "rangers_used": 5,
+    "result": "NO: 0/5 proposed relations have full strict witness coverage. Missing dimensions vary by surface; general embodiment would silently waive requirements."
+  },
+  "pass": 18,
+  "schema": "pcmmad.governance-campaign.v1",
+  "status": "HARD_STOP_SUBSTANTIAL_BLOCKER"
+}

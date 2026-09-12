@@ -1,0 +1,11 @@
+{
+  "authority": "NONE",
+  "clean": "CONSISTENT",
+  "cross_project": "SCOPE_MISMATCH",
+  "owner_unchanged": true,
+  "pass": true,
+  "real_catalog_size": 171,
+  "schema": "pcmmad.governance-anti-toy.v1",
+  "stale_projection": "CONTRADICTION",
+  "toctou_catalog_change": "STALE_DURING_USE"
+}

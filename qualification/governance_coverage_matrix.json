@@ -1,0 +1,103 @@
+{
+  "fully_qualified": 0,
+  "policy": "Strict audit: missing witness dimension is not inferred or waived. Relation-specific minimality may later prove some dimensions irrelevant, but only by discriminator.",
+  "relations": [
+    {
+      "relation": "capability.contract",
+      "strict_missing": [
+        "recovery",
+        "retirement"
+      ],
+      "strict_status": "PARTIAL_UNKNOWN",
+      "witnesses": {
+        "authority": true,
+        "currentness": true,
+        "integrity": true,
+        "interval": true,
+        "provenance": true,
+        "recovery": false,
+        "retirement": false,
+        "scope": true
+      }
+    },
+    {
+      "relation": "global.doctrine",
+      "strict_missing": [
+        "scope",
+        "interval",
+        "provenance",
+        "retirement"
+      ],
+      "strict_status": "PARTIAL_UNKNOWN",
+      "witnesses": {
+        "authority": true,
+        "currentness": true,
+        "integrity": true,
+        "interval": false,
+        "provenance": false,
+        "recovery": true,
+        "retirement": false,
+        "scope": false
+      }
+    },
+    {
+      "relation": "mutation.generation",
+      "strict_missing": [
+        "integrity",
+        "recovery",
+        "retirement"
+      ],
+      "strict_status": "PARTIAL_UNKNOWN",
+      "witnesses": {
+        "authority": true,
+        "currentness": true,
+        "integrity": false,
+        "interval": true,
+        "provenance": true,
+        "recovery": false,
+        "retirement": false,
+        "scope": true
+      }
+    },
+    {
+      "relation": "migration.receipt",
+      "strict_missing": [
+        "interval",
+        "provenance"
+      ],
+      "strict_status": "PARTIAL_UNKNOWN",
+      "witnesses": {
+        "authority": true,
+        "currentness": true,
+        "integrity": true,
+        "interval": false,
+        "provenance": false,
+        "recovery": true,
+        "retirement": true,
+        "scope": true
+      }
+    },
+    {
+      "relation": "receiver.restart",
+      "strict_missing": [
+        "integrity",
+        "scope",
+        "interval",
+        "recovery",
+        "retirement"
+      ],
+      "strict_status": "PARTIAL_UNKNOWN",
+      "witnesses": {
+        "authority": true,
+        "currentness": true,
+        "integrity": false,
+        "interval": false,
+        "provenance": true,
+        "recovery": false,
+        "retirement": false,
+        "scope": false
+      }
+    }
+  ],
+  "schema": "pcmmad.governance-coverage-matrix.v1"
+}
