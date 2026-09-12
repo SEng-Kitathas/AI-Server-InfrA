@@ -33,9 +33,12 @@ MIGRATION_INSPECT_SCHEMA: dict[str, Any] = {
     "additionalProperties": False,
     "properties": {
         "project_id": {"type": "string", "minLength": 1},
-        "kind": {"type": "string", "enum": ["artifact", "res"]},
+        "kind": {"type": "string", "enum": ["artifact", "res", "ucm_private"]},
         "artifact": ARTIFACT_SCHEMA["properties"]["artifact"],
         "research_intensive": {"type": "boolean"},
+        "profile_id": {"type": "string", "minLength": 1},
+        "archive_mount_spec": {"type": "string", "minLength": 1},
+        "detached_receipt_mount_spec": {"type": "string", "minLength": 1},
     },
 }
 

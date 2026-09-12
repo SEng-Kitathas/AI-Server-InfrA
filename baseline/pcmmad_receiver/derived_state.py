@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 from typing import Any
 
 from . import ucm_v1_runtime as ucm
@@ -10,18 +11,48 @@ JsonObject = dict[str, Any]
 
 
 def audit_ucm(profile_id: str) -> JsonObject:
-    head = ucm.head(profile_id)
     paths = backend._paths(profile_id)
-    snapshot_files = sorted(item.name for item in paths.snapshots.glob("*.json")) if paths.snapshots.is_dir() else []
     ledger_exists = paths.ledger.is_file()
+    try:
+        authoritative = backend.ledger_head(profile_id)
+    except backend.UserContinuityLedgerError as exc:
+        return {
+            "schema": "pcmmad.derived-state-audit.v1",
+            "kind": "ucm",
+            "profile_id": profile_id,
+            "authoritative": {"ledger_exists": ledger_exists, "error_code": exc.error_code, "message": exc.message},
+            "derived": {"current_exists": paths.current.is_file(), "snapshot_files": sorted(item.name for item in paths.snapshots.glob("*.json")) if paths.snapshots.is_dir() else []},
+            "status": "AUTHORITATIVE_CORRUPT",
+            "repair": None,
+        }
+    seq = int(authoritative.get("event_seq") or 0)
+    head_hash = authoritative.get("event_hash")
+    snapshot_files = sorted(item.name for item in paths.snapshots.glob("*.json")) if paths.snapshots.is_dir() else []
     current_exists = paths.current.is_file()
-    seq = int(head.get("ledger_head_seq") or 0)
-    snap = int(head.get("snapshot_from_seq") or 0)
-    if seq == 0 and (current_exists or snapshot_files):
+    current = None
+    derived_error = None
+    if current_exists:
+        try:
+            current = backend._load_current_manifest(profile_id)
+        except backend.UserContinuityLedgerError as exc:
+            derived_error = {"error_code": exc.error_code, "message": exc.message}
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            derived_error = {"error_code": "MEMORY_SNAPSHOT_CORRUPT", "message": str(exc)}
+    snap = int((current or {}).get("snapshot_from_seq") or 0)
+    snapshot_current = bool(
+        current is not None
+        and int(current.get("snapshot_from_seq") or -1) == seq
+        and int(current.get("ledger_head_seq") or -1) == seq
+        and current.get("ledger_head_hash") == head_hash
+    )
+    if derived_error is not None:
+        status = "CORRUPT_DERIVED"
+    elif seq == 0 and (current_exists or snapshot_files):
         status = "ORPHAN_DERIVED"
     elif seq == 0:
         status = "EMPTY"
-    elif bool(head.get("snapshot_current")) and snap == seq:
+        snapshot_current = True
+    elif snapshot_current:
         status = "CURRENT"
     else:
         status = "STALE_DERIVED"
@@ -29,10 +60,10 @@ def audit_ucm(profile_id: str) -> JsonObject:
         "schema": "pcmmad.derived-state-audit.v1",
         "kind": "ucm",
         "profile_id": profile_id,
-        "authoritative": {"ledger_exists": ledger_exists, "head_seq": seq, "head_hash": head.get("ledger_head_hash")},
-        "derived": {"current_exists": current_exists, "snapshot_from_seq": snap, "snapshot_current": bool(head.get("snapshot_current")), "snapshot_files": snapshot_files},
+        "authoritative": {"ledger_exists": ledger_exists, "head_seq": seq, "head_hash": head_hash},
+        "derived": {"current_exists": current_exists, "snapshot_from_seq": snap, "snapshot_current": snapshot_current, "snapshot_files": snapshot_files, "error": derived_error},
         "status": status,
-        "repair": None if status in {"CURRENT", "EMPTY"} else "derived_state.rebuild",
+        "repair": None if status in {"CURRENT", "EMPTY", "AUTHORITATIVE_CORRUPT"} else "derived_state.rebuild",
     }
 
 

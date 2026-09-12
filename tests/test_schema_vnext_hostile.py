@@ -193,7 +193,7 @@ class AuthorityAndConsequenceHostiles(HostileFixture):
         spec=lab_tools._TOOL_REGISTRY["h.changing_read"]
         truth={"h.changing_read":{"contract_digest":spec.contract_digest,"effect_kind":"READ_LOCAL","evidence":"test:changing-read-truth"}}
         witness={"h.changing_read":{"contract_digest":spec.contract_digest,"evidence":"test:changing-read-replay"}}
-        with patch.dict(effect_profile.EFFECT_TRUTH_VERIFICATION_WITNESSES,truth,clear=True), patch.dict(effect_profile.RESUME_REPLAY_VERIFICATION_WITNESSES,witness,clear=True):
+        with patch.dict(effect_profile.EFFECT_TRUTH_VERIFICATION_WITNESSES,truth,clear=True), patch.dict(effect_profile.PARALLEL_VERIFICATION_WITNESSES,{},clear=True), patch.dict(effect_profile.RESUME_REPLAY_VERIFICATION_WITNESSES,witness,clear=True):
             plan=self.compose([
                 {"id":"read","capability":"h.changing_read"},
                 {"id":"write","capability":"h.mutate","arguments":{"target":{"$ref":"read.result.value"}}},

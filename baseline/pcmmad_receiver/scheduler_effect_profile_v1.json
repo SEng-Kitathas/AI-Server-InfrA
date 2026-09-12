@@ -1,6 +1,6 @@
 {
   "capability_count": 169,
-  "catalog_digest": "b017294a66b8647b1b9d9f08a6784ec75154218689201c77dbb0c23e90c6ce8a",
+  "catalog_digest": "c6e27a3d01cb114f6690c99557efae0d9e48c6053c6a0df60afe8a9b777bb85d",
   "cost_semantics": "static admission units; exact/computable but not a wall-time SLA",
   "declared_effect_class_is_effect_truth": false,
   "descriptive_effect_traits_are_scheduler_authority": false,
@@ -21,26 +21,31 @@
     {
       "contract_digest": "cfec5f36cc5ad5bb29b087ab029d286cec0be02a22a8d8802c7713837bb879f7",
       "declared_effect_kind": "READ_LOCAL",
-      "effect_kind": "UNVERIFIED",
-      "effect_truth_verified": false,
-      "effect_truth_witness": null,
+      "effect_kind": "READ_LOCAL",
+      "effect_truth_verified": true,
+      "effect_truth_witness": {
+        "contract_digest": "cfec5f36cc5ad5bb29b087ab029d286cec0be02a22a8d8802c7713837bb879f7",
+        "effect_kind": "READ_LOCAL",
+        "receipt": "qualification/effect_witnesses/architecture_registry.json"
+      },
       "effective_approval_required": false,
       "freshness_classes": [
-        "CAPABILITY_CONTRACT",
-        "EXTERNAL_STATE",
-        "PROJECT_STATE",
-        "RESULT_STATE",
-        "RUNTIME_STATE",
-        "USER_CONTINUITY"
+        "CAPABILITY_CONTRACT"
       ],
       "mutating": false,
       "name": "architecture.registry.inspect",
-      "parallel_witness": null,
-      "resume_replay_class": "RECOMPOSE_REQUIRED",
-      "resume_replay_witness": null,
+      "parallel_witness": {
+        "contract_digest": "cfec5f36cc5ad5bb29b087ab029d286cec0be02a22a8d8802c7713837bb879f7",
+        "receipt": "qualification/effect_witnesses/architecture_registry.json"
+      },
+      "resume_replay_class": "REEXECUTE_READ_VERIFIED",
+      "resume_replay_witness": {
+        "contract_digest": "cfec5f36cc5ad5bb29b087ab029d286cec0be02a22a8d8802c7713837bb879f7",
+        "receipt": "qualification/effect_witnesses/architecture_registry.json"
+      },
       "retry_class": "SAFE_REPEAT",
-      "schedule_class": "SERIAL",
-      "static_cost_units": 10
+      "schedule_class": "PARALLEL_READ_VERIFIED",
+      "static_cost_units": 1
     },
     {
       "contract_digest": "7234f4d0662a3d5ed9b81f28a22c7a32523ed6a098f777c88d44c5a71d35cf3e",
@@ -1963,7 +1968,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "1d0e8ae29b3aecd7f7e4c60263c642ead1bc8fe33288ec73556f6fee17c8e54f",
+      "contract_digest": "76afe71861efb63366a2921b6cbed653480b42c2cbdcfe5071743405087db423",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -1987,7 +1992,7 @@
       "static_cost_units": 10
     },
     {
-      "contract_digest": "262c3ba4052a8ac03658c6daea1c163a55b2e76ae8038203bea215d6f1c2684e",
+      "contract_digest": "4938f494c101844c623be726234c334f21c656769b1d5c066c254ef743d38ae9",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
       "effect_truth_verified": false,
@@ -2637,26 +2642,32 @@
     {
       "contract_digest": "8896ebd61aa4644f45bd22bb77785f252a97617cf4ac7ea8d499f61e4bd757d5",
       "declared_effect_kind": "READ_LOCAL",
-      "effect_kind": "UNVERIFIED",
-      "effect_truth_verified": false,
-      "effect_truth_witness": null,
+      "effect_kind": "READ_LOCAL",
+      "effect_truth_verified": true,
+      "effect_truth_witness": {
+        "contract_digest": "8896ebd61aa4644f45bd22bb77785f252a97617cf4ac7ea8d499f61e4bd757d5",
+        "effect_kind": "READ_LOCAL",
+        "receipt": "qualification/effect_witnesses/protocol_merkle_root.json"
+      },
       "effective_approval_required": false,
       "freshness_classes": [
         "CAPABILITY_CONTRACT",
-        "EXTERNAL_STATE",
-        "PROJECT_STATE",
-        "RESULT_STATE",
-        "RUNTIME_STATE",
-        "USER_CONTINUITY"
+        "PROJECT_STATE"
       ],
       "mutating": false,
       "name": "protocol.merkle.root",
-      "parallel_witness": null,
-      "resume_replay_class": "RECOMPOSE_REQUIRED",
-      "resume_replay_witness": null,
+      "parallel_witness": {
+        "contract_digest": "8896ebd61aa4644f45bd22bb77785f252a97617cf4ac7ea8d499f61e4bd757d5",
+        "receipt": "qualification/effect_witnesses/protocol_merkle_root.json"
+      },
+      "resume_replay_class": "REEXECUTE_READ_VERIFIED",
+      "resume_replay_witness": {
+        "contract_digest": "8896ebd61aa4644f45bd22bb77785f252a97617cf4ac7ea8d499f61e4bd757d5",
+        "receipt": "qualification/effect_witnesses/protocol_merkle_root.json"
+      },
       "retry_class": "SAFE_REPEAT",
-      "schedule_class": "SERIAL",
-      "static_cost_units": 10
+      "schedule_class": "PARALLEL_READ_VERIFIED",
+      "static_cost_units": 1
     },
     {
       "contract_digest": "8a8fe3f003578b9cee5827aeb8e97f7f7534a6061b5cd68aefe836f74ef5cc37",
@@ -2733,26 +2744,32 @@
     {
       "contract_digest": "2cdf80766a40e3c04501c23dd2131eafd3f0b735e3f10ea21551bca93e82d754",
       "declared_effect_kind": "READ_LOCAL",
-      "effect_kind": "UNVERIFIED",
-      "effect_truth_verified": false,
-      "effect_truth_witness": null,
+      "effect_kind": "READ_LOCAL",
+      "effect_truth_verified": true,
+      "effect_truth_witness": {
+        "contract_digest": "2cdf80766a40e3c04501c23dd2131eafd3f0b735e3f10ea21551bca93e82d754",
+        "effect_kind": "READ_LOCAL",
+        "receipt": "qualification/effect_witnesses/protocol_status.json"
+      },
       "effective_approval_required": false,
       "freshness_classes": [
         "CAPABILITY_CONTRACT",
-        "EXTERNAL_STATE",
-        "PROJECT_STATE",
-        "RESULT_STATE",
-        "RUNTIME_STATE",
-        "USER_CONTINUITY"
+        "PROJECT_STATE"
       ],
       "mutating": false,
       "name": "protocol.status",
-      "parallel_witness": null,
-      "resume_replay_class": "RECOMPOSE_REQUIRED",
-      "resume_replay_witness": null,
+      "parallel_witness": {
+        "contract_digest": "2cdf80766a40e3c04501c23dd2131eafd3f0b735e3f10ea21551bca93e82d754",
+        "receipt": "qualification/effect_witnesses/protocol_status.json"
+      },
+      "resume_replay_class": "REEXECUTE_READ_VERIFIED",
+      "resume_replay_witness": {
+        "contract_digest": "2cdf80766a40e3c04501c23dd2131eafd3f0b735e3f10ea21551bca93e82d754",
+        "receipt": "qualification/effect_witnesses/protocol_status.json"
+      },
       "retry_class": "SAFE_REPEAT",
-      "schedule_class": "SERIAL",
-      "static_cost_units": 10
+      "schedule_class": "PARALLEL_READ_VERIFIED",
+      "static_cost_units": 1
     },
     {
       "contract_digest": "54c92e2438a319bc077149b3ce6804c6c2072807a408454c9a731887072e94b7",
@@ -4084,7 +4101,7 @@
     "USER_CONTINUITY"
   ],
   "parallel_default": "SERIAL",
-  "profile_digest": "45be8e69e490556ace1a32525e8d1342f130460abc2e47614955b67d5eb9725a",
+  "profile_digest": "30c85da98bfe5fddbc3edb03407b13d9a02ff4f86f865f3ca48bf1487e848ec3",
   "resume_replay_classes": [
     "RECOMPOSE_REQUIRED",
     "REEXECUTE_READ_VERIFIED"

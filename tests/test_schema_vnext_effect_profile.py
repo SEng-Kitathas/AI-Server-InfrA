@@ -26,14 +26,25 @@ class ProductionEffectProfileTests(unittest.TestCase):
         self.assertTrue(required.issubset(self.cards))
     def test_closed_vocabularies_are_exact(self):
         self.assertEqual(self.profile["effect_kinds"],sorted(effect.EFFECT_KINDS)); self.assertEqual(self.profile["schedule_classes"],sorted(effect.SCHEDULE_CLASSES)); self.assertEqual(self.profile["resume_replay_classes"],sorted(effect.RESUME_REPLAY_CLASSES)); self.assertEqual(self.profile["retry_classes"],sorted(effect.RETRY_CLASSES)); self.assertEqual(self.profile["freshness_classes"],sorted(effect.FRESHNESS_CLASSES)); self.assertFalse(self.profile["descriptive_effect_traits_are_scheduler_authority"])
-    def test_default_profile_has_zero_unearned_parallel_capabilities(self):
-        r=effect.verify_profile(self.profile,self.cards); self.assertEqual(r["effect_truth_verified_count"],0); self.assertEqual(r["parallel_verified_count"],0); self.assertEqual(r["resume_replay_verified_count"],0); self.assertTrue(all(x["effect_kind"]=="UNVERIFIED" and x["static_cost_units"]==10 and x["schedule_class"]=="SERIAL" and x["resume_replay_class"]=="RECOMPOSE_REQUIRED" for x in self.profile["entries"]))
+    def test_only_receipt_backed_reads_are_verified_and_parallel(self):
+        r=effect.verify_profile(self.profile,self.cards)
+        witnessed={"architecture.registry.inspect","protocol.status","protocol.merkle.root"}
+        verified={row["name"] for row in self.profile["entries"] if row["effect_truth_verified"]}
+        parallel={row["name"] for row in self.profile["entries"] if row["schedule_class"]=="PARALLEL_READ_VERIFIED"}
+        replay={row["name"] for row in self.profile["entries"] if row["resume_replay_class"]=="REEXECUTE_READ_VERIFIED"}
+        self.assertEqual(verified,witnessed);self.assertEqual(parallel,witnessed);self.assertEqual(replay,witnessed)
+        self.assertEqual(r["effect_truth_verified_count"],3);self.assertEqual(r["parallel_verified_count"],3);self.assertEqual(r["resume_replay_verified_count"],3)
+        for row in self.profile["entries"]:
+            if row["name"] in witnessed:
+                self.assertEqual(row["effect_kind"],"READ_LOCAL");self.assertEqual(row["schedule_class"],"PARALLEL_READ_VERIFIED")
+            else:
+                self.assertEqual(row["effect_kind"],"UNVERIFIED");self.assertEqual(row["static_cost_units"],10);self.assertEqual(row["schedule_class"],"SERIAL");self.assertEqual(row["resume_replay_class"],"RECOMPOSE_REQUIRED")
     def test_rehashed_parallel_tamper_is_rejected(self):
-        f=copy.deepcopy(self.profile); f["entries"][0]["schedule_class"]="PARALLEL_READ_VERIFIED"; c=dict(f); c.pop("profile_digest",None); f["profile_digest"]=effect._hash_json(c)
+        f=copy.deepcopy(self.profile); row=next(x for x in f["entries"] if x["name"] not in effect.PARALLEL_VERIFICATION_WITNESSES); row["schedule_class"]="PARALLEL_READ_VERIFIED"; c=dict(f); c.pop("profile_digest",None); f["profile_digest"]=effect._hash_json(c)
         with self.assertRaises(lab_tools.LabToolError) as x: effect.verify_profile(f,self.cards)
         self.assertEqual(x.exception.error_code,"EFFECT_PROFILE_STALE")
     def test_rehashed_resume_replay_tamper_is_rejected(self):
-        f=copy.deepcopy(self.profile); f["entries"][0]["resume_replay_class"]="REEXECUTE_READ_VERIFIED"; c=dict(f); c.pop("profile_digest",None); f["profile_digest"]=effect._hash_json(c)
+        f=copy.deepcopy(self.profile); row=next(x for x in f["entries"] if x["name"] not in effect.RESUME_REPLAY_VERIFICATION_WITNESSES); row["resume_replay_class"]="REEXECUTE_READ_VERIFIED"; c=dict(f); c.pop("profile_digest",None); f["profile_digest"]=effect._hash_json(c)
         with self.assertRaises(lab_tools.LabToolError) as x: effect.verify_profile(f,self.cards)
         self.assertEqual(x.exception.error_code,"EFFECT_PROFILE_STALE")
 

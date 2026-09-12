@@ -25,14 +25,15 @@ def authoritative_fingerprint(project_id: str|None):
         first=rel.split('/',1)[0]
         if first in VOLATILE_TOP: continue
         if any(rel.startswith('system/'+x+'/') or rel=='system/'+x for x in VOLATILE_SYSTEM): continue
+        if rel in {'system/control/.project_mutation_consequence.guard','system/control/project_mutation_consequence_holder.json'}: continue
         try: data=p.read_bytes()
         except OSError: continue
         rows.append((rel,len(data),hashlib.sha256(data).hexdigest()))
     return canonical_hash(rows)
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--tool',required=True);ap.add_argument('--payload-json',required=True);ap.add_argument('--sequential',type=int,default=3);ap.add_argument('--parallel',type=int,default=4);ap.add_argument('--out',required=True);args=ap.parse_args()
-    payload=json.loads(args.payload_json)
+    ap=argparse.ArgumentParser();ap.add_argument('--tool',required=True);group=ap.add_mutually_exclusive_group(required=True);group.add_argument('--payload-json');group.add_argument('--payload-file');ap.add_argument('--sequential',type=int,default=3);ap.add_argument('--parallel',type=int,default=4);ap.add_argument('--out',required=True);args=ap.parse_args()
+    payload=json.loads(Path(args.payload_file).read_text(encoding='utf-8')) if args.payload_file else json.loads(args.payload_json)
     cards={row['name']:row for row in lab_tools.list_tools()}
     card=cards[args.tool]
     if str(card.get('side_effect_class') or '') not in {'read','external_read'}:

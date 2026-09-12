@@ -1,0 +1,15 @@
+{
+  "all_results_identical": true,
+  "authoritative_state_fingerprint_after": "0422ecda521b45e15c1a23cbcf20ffd0e40813af653ba43969b3e5ee4b897ddc",
+  "authoritative_state_fingerprint_before": "0422ecda521b45e15c1a23cbcf20ffd0e40813af653ba43969b3e5ee4b897ddc",
+  "authoritative_state_unchanged": true,
+  "contract_digest": "8896ebd61aa4644f45bd22bb77785f252a97617cf4ac7ea8d499f61e4bd757d5",
+  "declared_side_effect_class": "read",
+  "parallel_runs": 24,
+  "passed": true,
+  "payload_sha256": "c607d075f6752a19ca6ad664f33f011802f70ec2cdda8d1728af8bbb7329f4f6",
+  "result_sha256": "ec28d83a4bae8a5f981ca95281cfed45cd42bfda857fa0ac5a2e79f7e81b5ec5",
+  "schema": "pcmmad.effect-witness-receipt.v1",
+  "sequential_runs": 12,
+  "tool": "protocol.merkle.root"
+}

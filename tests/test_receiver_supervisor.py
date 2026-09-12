@@ -11,4 +11,11 @@ class SupervisorTests(unittest.TestCase):
    states=iter([(False,'down'),(False,'down'),(True,None)]);calls=[]
    def probe(*_): return next(states,(True,None))
    r=mod.supervise_once(health_url='x',task_name='receiver',receipt_path=Path(td)/'r.json',health_probe=probe,trigger=lambda n:(calls.append(n) or (True,'started')),recovery_seconds=.05,poll_seconds=.001);self.assertTrue(r['healthy_after']);self.assertEqual(calls,['receiver']);self.assertTrue((Path(td)/'r.json').is_file())
+ def test_100_cycle_pressure_never_double_triggers_healthy_case(self):
+  with tempfile.TemporaryDirectory() as td:
+   calls=[]
+   for idx in range(100):
+    r=mod.supervise_once(health_url='x',task_name='receiver',receipt_path=Path(td)/f'r{idx}.json',health_probe=lambda *_:(True,None),trigger=lambda n:(calls.append(n) or (True,'started')),recovery_seconds=.001,poll_seconds=.0001)
+    self.assertTrue(r['healthy_after']);self.assertEqual(r['action'],'NONE')
+   self.assertEqual(calls,[])
 if __name__=='__main__':unittest.main()

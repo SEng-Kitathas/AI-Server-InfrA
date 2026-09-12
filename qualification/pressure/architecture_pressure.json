@@ -1,0 +1,60 @@
+{
+  "failures": [],
+  "pass": true,
+  "schema": "pcmmad.architecture-pressure.v1",
+  "seconds": 13.7689,
+  "workloads": {
+    "artifact_commit": {
+      "final_sha256": "c49a442b093568ac914402919b9b2640d2cae5ff7f35271a17d539f06dab34f6",
+      "ledger_lines": 201,
+      "pass": true,
+      "replays": 200,
+      "seconds": 10.516,
+      "updates": 200
+    },
+    "derived_state": {
+      "cleared": 100,
+      "cycles": 100,
+      "pass": true,
+      "seconds": 0.7915
+    },
+    "migration": {
+      "bytes_unchanged": true,
+      "executions": 50,
+      "pass": true,
+      "seconds": 1.0197,
+      "verified_receipts": 50
+    },
+    "supervisor": {
+      "healthy_cycles": 500,
+      "healthy_ok": 500,
+      "pass": true,
+      "recovery_cycles": 100,
+      "recovery_ok": 100,
+      "seconds": 0.9706,
+      "triggers": 100
+    },
+    "witnessed_reads": {
+      "cases": {
+        "architecture.registry.inspect": {
+          "calls": 100,
+          "pass": true,
+          "unique_result_hashes": 1
+        },
+        "protocol.merkle.root": {
+          "calls": 100,
+          "pass": true,
+          "unique_result_hashes": 1
+        },
+        "protocol.status": {
+          "calls": 100,
+          "pass": true,
+          "unique_result_hashes": 1
+        }
+      },
+      "pass": true,
+      "project_state_unchanged": true,
+      "seconds": 0.4002
+    }
+  }
+}

@@ -1,6 +1,48 @@
 {
-  "schema": "pcmmad.scheduler-effect-witnesses.v1",
-  "effect_truth": {},
-  "parallel": {},
-  "resume_replay": {}
+  "effect_truth": {
+    "architecture.registry.inspect": {
+      "contract_digest": "cfec5f36cc5ad5bb29b087ab029d286cec0be02a22a8d8802c7713837bb879f7",
+      "effect_kind": "READ_LOCAL",
+      "receipt": "qualification/effect_witnesses/architecture_registry.json"
+    },
+    "protocol.merkle.root": {
+      "contract_digest": "8896ebd61aa4644f45bd22bb77785f252a97617cf4ac7ea8d499f61e4bd757d5",
+      "effect_kind": "READ_LOCAL",
+      "receipt": "qualification/effect_witnesses/protocol_merkle_root.json"
+    },
+    "protocol.status": {
+      "contract_digest": "2cdf80766a40e3c04501c23dd2131eafd3f0b735e3f10ea21551bca93e82d754",
+      "effect_kind": "READ_LOCAL",
+      "receipt": "qualification/effect_witnesses/protocol_status.json"
+    }
+  },
+  "parallel": {
+    "architecture.registry.inspect": {
+      "contract_digest": "cfec5f36cc5ad5bb29b087ab029d286cec0be02a22a8d8802c7713837bb879f7",
+      "receipt": "qualification/effect_witnesses/architecture_registry.json"
+    },
+    "protocol.merkle.root": {
+      "contract_digest": "8896ebd61aa4644f45bd22bb77785f252a97617cf4ac7ea8d499f61e4bd757d5",
+      "receipt": "qualification/effect_witnesses/protocol_merkle_root.json"
+    },
+    "protocol.status": {
+      "contract_digest": "2cdf80766a40e3c04501c23dd2131eafd3f0b735e3f10ea21551bca93e82d754",
+      "receipt": "qualification/effect_witnesses/protocol_status.json"
+    }
+  },
+  "resume_replay": {
+    "architecture.registry.inspect": {
+      "contract_digest": "cfec5f36cc5ad5bb29b087ab029d286cec0be02a22a8d8802c7713837bb879f7",
+      "receipt": "qualification/effect_witnesses/architecture_registry.json"
+    },
+    "protocol.merkle.root": {
+      "contract_digest": "8896ebd61aa4644f45bd22bb77785f252a97617cf4ac7ea8d499f61e4bd757d5",
+      "receipt": "qualification/effect_witnesses/protocol_merkle_root.json"
+    },
+    "protocol.status": {
+      "contract_digest": "2cdf80766a40e3c04501c23dd2131eafd3f0b735e3f10ea21551bca93e82d754",
+      "receipt": "qualification/effect_witnesses/protocol_status.json"
+    }
+  },
+  "schema": "pcmmad.scheduler-effect-witnesses.v1"
 }

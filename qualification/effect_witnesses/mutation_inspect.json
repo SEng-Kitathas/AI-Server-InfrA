@@ -1,0 +1,15 @@
+{
+  "all_results_identical": false,
+  "authoritative_state_fingerprint_after": "380daef46e79868afc0cb1777828c05b3be2f6c5c22412d45927c7cc055049a6",
+  "authoritative_state_fingerprint_before": "380daef46e79868afc0cb1777828c05b3be2f6c5c22412d45927c7cc055049a6",
+  "authoritative_state_unchanged": true,
+  "contract_digest": "ff5d857c87ebb43e26f3e1082cbe2cb56a067c561ba51f57d852bd86e5cc3e09",
+  "declared_side_effect_class": "read",
+  "parallel_runs": 8,
+  "passed": false,
+  "payload_sha256": "c607d075f6752a19ca6ad664f33f011802f70ec2cdda8d1728af8bbb7329f4f6",
+  "result_sha256": "f2d0188a4d1c8430eeaff6323a3b2fc34a0fad129a6cb65f2a1cabbc88038804",
+  "schema": "pcmmad.effect-witness-receipt.v1",
+  "sequential_runs": 5,
+  "tool": "project.mutation.inspect"
+}

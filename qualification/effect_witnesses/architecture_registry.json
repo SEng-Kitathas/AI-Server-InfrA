@@ -1,0 +1,15 @@
+{
+  "all_results_identical": true,
+  "authoritative_state_fingerprint_after": "0422ecda521b45e15c1a23cbcf20ffd0e40813af653ba43969b3e5ee4b897ddc",
+  "authoritative_state_fingerprint_before": "0422ecda521b45e15c1a23cbcf20ffd0e40813af653ba43969b3e5ee4b897ddc",
+  "authoritative_state_unchanged": true,
+  "contract_digest": "cfec5f36cc5ad5bb29b087ab029d286cec0be02a22a8d8802c7713837bb879f7",
+  "declared_side_effect_class": "read",
+  "parallel_runs": 16,
+  "passed": true,
+  "payload_sha256": "33bee142fee73d4bbb1a16b1ce0c4a4b44e702eb2b04c650620948528ce592d4",
+  "result_sha256": "9ca30530bd4a123e999b90bf5cbfa6e5602ba384ccc2f0964e521f87fc2fc011",
+  "schema": "pcmmad.effect-witness-receipt.v1",
+  "sequential_runs": 8,
+  "tool": "architecture.registry.inspect"
+}

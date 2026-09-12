@@ -1,0 +1,149 @@
+{
+  "architecture": {
+    "artifact_commit": "IMPLEMENTED_EXACT_BYTE_SEMANTICS",
+    "artifact_registry": "IMPLEMENTED",
+    "derived_state": "UCM_AUTHORITY_DECOUPLED_FROM_DERIVED_CACHE",
+    "hud_projection": "IMPLEMENTED_READ_ONLY",
+    "legacy_commit": "DEPRECATED_COMPATIBILITY_RETAINED",
+    "migration_engine": [
+      "artifact",
+      "res",
+      "ucm_private"
+    ],
+    "standalone_supervisor": "IMPLEMENTED_NOT_INSTALLED"
+  },
+  "base_commit": "b82023d98c80dcdf48f1aa84ecf9a90579fd530d",
+  "branch": "local/architecture-compression-20260911",
+  "campaign": "local-architecture-compression-20260911",
+  "catalog": {
+    "capability_count": 169,
+    "catalog_digest": "c6e27a3d01cb114f6690c99557efae0d9e48c6053c6a0df60afe8a9b777bb85d",
+    "effect_truth_verified": 3,
+    "parallel_verified": 3,
+    "profile_digest": "30c85da98bfe5fddbc3edb03407b13d9a02ff4f86f865f3ca48bf1487e848ec3",
+    "resume_replay_verified": 3
+  },
+  "initial_local_checkpoint": "3879cb6d45cbbcd7a61a0a9cf599c1344a75840f",
+  "known_seams": [
+    "legacy /commit logical-text SHA semantics differ from exact rendered-byte artifact.commit semantics; retirement requires explicit compatibility migration",
+    "standalone supervisor has unit/pressure qualification but is intentionally not installed/live-dogfooded before promotion",
+    "derived_state recovery currently covers UCM first; pattern is not yet generalized to every derived subsystem",
+    "project.mutation.inspect did not earn an effect witness because its time-sensitive output was not result-stable",
+    "generation-20 authority readback reports lease_id=null after renew while original token remains accepted; representation seam remains"
+  ],
+  "live_promotion": "NOT_PERFORMED",
+  "qualification": {
+    "architecture_focused": "PASS_12_OF_12",
+    "compileall": "PASS",
+    "diff_check": "PASS",
+    "full_pytest": "PASS_100_PERCENT_WITH_2_SKIPS",
+    "hud_node_syntax": "PASS",
+    "pressure": {
+      "failures": [],
+      "pass": true,
+      "schema": "pcmmad.architecture-pressure.v1",
+      "seconds": 13.7689,
+      "workloads": {
+        "artifact_commit": {
+          "final_sha256": "c49a442b093568ac914402919b9b2640d2cae5ff7f35271a17d539f06dab34f6",
+          "ledger_lines": 201,
+          "pass": true,
+          "replays": 200,
+          "seconds": 10.516,
+          "updates": 200
+        },
+        "derived_state": {
+          "cleared": 100,
+          "cycles": 100,
+          "pass": true,
+          "seconds": 0.7915
+        },
+        "migration": {
+          "bytes_unchanged": true,
+          "executions": 50,
+          "pass": true,
+          "seconds": 1.0197,
+          "verified_receipts": 50
+        },
+        "supervisor": {
+          "healthy_cycles": 500,
+          "healthy_ok": 500,
+          "pass": true,
+          "recovery_cycles": 100,
+          "recovery_ok": 100,
+          "seconds": 0.9706,
+          "triggers": 100
+        },
+        "witnessed_reads": {
+          "cases": {
+            "architecture.registry.inspect": {
+              "calls": 100,
+              "pass": true,
+              "unique_result_hashes": 1
+            },
+            "protocol.merkle.root": {
+              "calls": 100,
+              "pass": true,
+              "unique_result_hashes": 1
+            },
+            "protocol.status": {
+              "calls": 100,
+              "pass": true,
+              "unique_result_hashes": 1
+            }
+          },
+          "pass": true,
+          "project_state_unchanged": true,
+          "seconds": 0.4002
+        }
+      }
+    }
+  },
+  "real_donor_dry_run": {
+    "archive_bytes": 388252,
+    "archive_sha256": "997d09e0691526cc5924e22fb5b5557a0de91b73c474d2261c093c4b4eb1a731",
+    "mutation_occurred": false,
+    "plan_result": "MIGRATION_TARGET_NOT_EMPTY",
+    "target_head_seq": 1383,
+    "target_profile": "private-primary-user"
+  },
+  "remote_publication": "PROHIBITED_AND_NOT_PERFORMED",
+  "schema": "pcmmad.architecture-compression-qualification.v1",
+  "source_tree_sha256": "cb07eed27c13ad7189e40c7fc4e004d0b14986475db3f9662e75859b251ad794",
+  "supervisor_installation": "NOT_PERFORMED",
+  "witnesses": {
+    "architecture_registry": {
+      "all_results_identical": true,
+      "authoritative_state_unchanged": true,
+      "parallel_runs": 16,
+      "passed": true,
+      "sequential_runs": 8,
+      "tool": "architecture.registry.inspect"
+    },
+    "mutation_inspect": {
+      "all_results_identical": false,
+      "authoritative_state_unchanged": true,
+      "parallel_runs": 8,
+      "passed": false,
+      "sequential_runs": 5,
+      "tool": "project.mutation.inspect"
+    },
+    "protocol_merkle_root": {
+      "all_results_identical": true,
+      "authoritative_state_unchanged": true,
+      "parallel_runs": 24,
+      "passed": true,
+      "sequential_runs": 12,
+      "tool": "protocol.merkle.root"
+    },
+    "protocol_status": {
+      "all_results_identical": true,
+      "authoritative_state_unchanged": true,
+      "parallel_runs": 24,
+      "passed": true,
+      "sequential_runs": 12,
+      "tool": "protocol.status"
+    }
+  },
+  "worktree": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\RECEIVER-LAB\\worktrees\\architecture_compression_20260911"
+}

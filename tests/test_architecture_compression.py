@@ -111,14 +111,91 @@ class ArtifactCommitServiceTests(unittest.TestCase):
         self.assertEqual(ctx.exception.error_code,"COMMIT_ID_CONFLICT")
 
 
+class MigrationExecuteEndToEndTests(unittest.TestCase):
+    def test_artifact_plan_execute_receipt_verify_without_byte_rewrite(self):
+        from pcmmad_receiver import migration_engine as m
+        from pcmmad_receiver.lab_tools_continuity import AdoptionDeps
+        from pcmmad_receiver.shared_core import (
+            append_jsonl, commits_ledger_path_for, get_project_root, load_json, manifest_path_for,
+            resolve_target, save_json_atomic, sha256_file, utc_now,
+        )
+        class E(RuntimeError):
+            def __init__(self, error_code, message, status=409, **extra):
+                super().__init__(message);self.error_code=error_code;self.message=message;self.status=status;self.extra=extra
+        project='ARCH-MIG-E2E'
+        root=get_project_root(project);target=resolve_target(project,'state.current','CURRENT_STATE.md');target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(b'authoritative bytes\r\n')
+        before=target.read_bytes();sha=sha256_file(target)
+        adoption=AdoptionDeps(error_cls=E,get_project_root=get_project_root,resolve_target=resolve_target,commits_ledger_path_for=commits_ledger_path_for,manifest_path_for=manifest_path_for,sha256_file=sha256_file,load_json=load_json,save_json_atomic=save_json_atomic,append_jsonl=append_jsonl,utc_now=utc_now)
+        reg=ArtifactRegistryDeps(resolve_target=resolve_target,commits_ledger_path_for=commits_ledger_path_for,sha256_file=sha256_file)
+        deps=m.MigrationDeps(error_cls=E,get_project_root=get_project_root,registry=reg,adoption=adoption,utc_now=utc_now,save_json_atomic=save_json_atomic)
+        req={'project_id':project,'kind':'artifact','artifact':{'artifact_class':'state.current','logical_name':'CURRENT_STATE.md'}}
+        with patch('pcmmad_receiver.architecture_registry.read_events',return_value=[]):
+            plan=m.plan_migration(req,deps)
+            out=m.execute_migration({'project_id':project,'plan':plan,'plan_sha256':plan['plan_sha256'],'receipt_id':'receipt-e2e','session_id':'e2e'},deps)
+            verified=m.verify_receipt({'project_id':project,'receipt_id':'receipt-e2e'},deps)
+        self.assertTrue(out['ok']);self.assertTrue(out['result']['adopted']);self.assertEqual(target.read_bytes(),before)
+        self.assertTrue(verified['receipt_hash_valid']);self.assertTrue((root/'system/migrations/receipts/receipt-e2e.json').is_file())
+        self.assertEqual(inspect_artifact(project,'state.current','CURRENT_STATE.md',reg)['status'],'CURRENT')
+
+
+class UnifiedUcmMigrationTests(unittest.TestCase):
+    def test_ucm_private_plan_execute_verify_uses_mounts_and_receipts(self):
+        from pcmmad_receiver import migration_engine as m
+        class E(RuntimeError):
+            def __init__(self,error_code,message,status=409,**extra):
+                super().__init__(message);self.error_code=error_code;self.message=message;self.status=status;self.extra=extra
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);archive=root/'private.zip';receipt=root/'receipt.json';archive.write_bytes(b'donor');receipt.write_text('{}',encoding='utf-8')
+            reg=ArtifactRegistryDeps(resolve_target=lambda *_:root/'x',commits_ledger_path_for=lambda _p:root/'c.jsonl',sha256_file=lambda p:hashlib.sha256(p.read_bytes()).hexdigest())
+            adoption=SimpleNamespace(sha256_file=lambda p:hashlib.sha256(p.read_bytes()).hexdigest())
+            def save(path,data): path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(data),encoding='utf-8')
+            deps=m.MigrationDeps(error_cls=E,get_project_root=lambda _p:root,registry=reg,adoption=adoption,utc_now=lambda:'2026-09-11T00:00:00+00:00',save_json_atomic=save)
+            request={'project_id':'P','kind':'ucm_private','profile_id':'private-test','archive_mount_spec':'c://donor.zip','detached_receipt_mount_spec':'c://receipt.json'}
+            def resolve(spec,allow_absolute=False):
+                self.assertFalse(allow_absolute)
+                return archive if 'donor' in spec else receipt
+            heads=[{'ledger_head_seq':0,'ledger_head_hash':None,'snapshot_from_seq':0,'snapshot_current':True},{'ledger_head_seq':9,'ledger_head_hash':'h','snapshot_from_seq':9,'snapshot_current':True}]
+            with patch.object(m,'resolve_mount_spec',side_effect=resolve), patch('pcmmad_receiver.ucm_v1_runtime.head',side_effect=lambda _p: heads[0]), patch('pcmmad_receiver.ucm_private_migration.verify_private_release',return_value={'status':'VERIFIED_PRIVATE_MIGRATION_SOURCE','private_values_emitted':False}):
+                plan=m.plan_migration(request,deps)
+            self.assertEqual(plan['kind'],'ucm_private');self.assertEqual(plan['profile_id'],'private-test');self.assertEqual(plan['expected_sha256'],hashlib.sha256(b'donor').hexdigest());self.assertFalse(plan['mutation']['rewrites_source_bytes'])
+            with patch.object(m,'resolve_mount_spec',side_effect=resolve), patch('pcmmad_receiver.ucm_v1_runtime.head',side_effect=lambda _p: heads.pop(0) if heads else {'ledger_head_seq':9,'ledger_head_hash':'h','snapshot_from_seq':9,'snapshot_current':True}), patch('pcmmad_receiver.ucm_private_migration.import_private_release',return_value={'status':'MIGRATED_AND_READ_BACK','server_event_count':9,'private_values_emitted':False}):
+                out=m.execute_migration({'project_id':'P','plan':plan,'plan_sha256':plan['plan_sha256'],'receipt_id':'u1'},deps)
+            self.assertTrue(out['ok']);self.assertEqual(out['result']['status'],'MIGRATED_AND_READ_BACK');self.assertTrue((root/'system/migrations/receipts/u1.json').is_file())
+            with patch.object(m,'resolve_mount_spec',side_effect=resolve), patch('pcmmad_receiver.ucm_v1_runtime.head',return_value={'ledger_head_seq':9,'ledger_head_hash':'h','snapshot_from_seq':9,'snapshot_current':True}):
+                verified=m.verify_receipt({'project_id':'P','receipt_id':'u1'},deps)
+            self.assertTrue(verified['receipt_hash_valid']);self.assertEqual(verified['current']['state']['target']['ledger_head_seq'],9)
+
+    def test_ucm_private_plan_rejects_populated_target(self):
+        from pcmmad_receiver import migration_engine as m
+        class E(RuntimeError):
+            def __init__(self,error_code,message,status=409,**extra): super().__init__(message);self.error_code=error_code
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);archive=root/'a.zip';detached=root/'r.json';archive.write_bytes(b'donor');detached.write_text('{}')
+            deps=m.MigrationDeps(error_cls=E,get_project_root=lambda _p:root,registry=SimpleNamespace(),adoption=SimpleNamespace(sha256_file=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()),utc_now=lambda:'x',save_json_atomic=lambda *_:None)
+            def resolve(spec,allow_absolute=False): return archive if 'a.zip' in spec else detached
+            req={'project_id':'P','kind':'ucm_private','profile_id':'p','archive_mount_spec':'c://a.zip','detached_receipt_mount_spec':'c://r.json'}
+            with patch.object(m,'resolve_mount_spec',side_effect=resolve), patch('pcmmad_receiver.ucm_v1_runtime.head',return_value={'ledger_head_seq':1,'ledger_head_hash':'h','snapshot_from_seq':1,'snapshot_current':True}), patch('pcmmad_receiver.ucm_private_migration.verify_private_release',return_value={'status':'VERIFIED_PRIVATE_MIGRATION_SOURCE'}):
+                with self.assertRaises(E) as ctx: m.plan_migration(req,deps)
+            self.assertEqual(ctx.exception.error_code,'MIGRATION_TARGET_NOT_EMPTY')
+
+    def test_ucm_private_rejects_unmounted_absolute_source(self):
+        from pcmmad_receiver import migration_engine as m
+        class E(RuntimeError):
+            def __init__(self,error_code,message,status=409,**extra): super().__init__(message);self.error_code=error_code
+        deps=m.MigrationDeps(error_cls=E,get_project_root=lambda _p:Path('.'),registry=SimpleNamespace(),adoption=SimpleNamespace(),utc_now=lambda:'x',save_json_atomic=lambda *_:None)
+        with self.assertRaises(E):
+            m.inspect_migration({'project_id':'P','kind':'ucm_private','profile_id':'p','archive_mount_spec':r'C:\\private.zip','detached_receipt_mount_spec':'c://receipt.json'},deps)
+
+
 class DerivedStateTests(unittest.TestCase):
-    def test_orphan_derived_zero_head_is_cleared(self):
+    def test_corrupt_derived_zero_head_is_classified_and_cleared_without_reading_it_as_authority(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);sn=root/'snapshots';sn.mkdir();(sn/'x.json').write_text('{}');cur=root/'current.json';cur.write_text('{}')
             paths=SimpleNamespace(root=root,ledger=root/'events.jsonl',current=cur,snapshots=sn)
-            with patch('pcmmad_receiver.derived_state.ucm.head',return_value={'ledger_head_seq':0,'ledger_head_hash':None,'snapshot_from_seq':0,'snapshot_current':False}),patch('pcmmad_receiver.derived_state.backend._paths',return_value=paths):
-                before=audit_ucm('p');self.assertEqual(before['status'],'ORPHAN_DERIVED')
-                with patch.object(__import__('pcmmad_receiver.derived_state',fromlist=['backend']).backend,'_CACHE_GUARD',__import__('threading').RLock()),patch.object(__import__('pcmmad_receiver.derived_state',fromlist=['backend']).backend,'_STATE_CACHE',{}):
+            backend=__import__('pcmmad_receiver.derived_state',fromlist=['backend']).backend
+            with patch('pcmmad_receiver.derived_state.backend._paths',return_value=paths), patch('pcmmad_receiver.derived_state.backend.ledger_head',return_value={'event_seq':0,'event_hash':None,'event_id':None}):
+                before=audit_ucm('p');self.assertEqual(before['status'],'CORRUPT_DERIVED');self.assertEqual(before['authoritative']['head_seq'],0)
+                with patch.object(backend,'_CACHE_GUARD',__import__('threading').RLock()),patch.object(backend,'_STATE_CACHE',{}):
                     out=rebuild_ucm('p',0,None)
             self.assertEqual(out['action'],'ORPHAN_DERIVED_CLEARED');self.assertFalse(cur.exists());self.assertEqual(list(sn.glob('*.json')),[])
 

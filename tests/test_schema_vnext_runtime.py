@@ -328,7 +328,7 @@ class ExecuteTests(SchemaVNextFixture):
             "test.parallel.a": {"contract_digest": a.contract_digest, "evidence": "test:parallel-a"},
             "test.parallel.b": {"contract_digest": b.contract_digest, "evidence": "test:parallel-b"},
         }
-        with patch.dict(effect_profile.EFFECT_TRUTH_VERIFICATION_WITNESSES, truth, clear=True), patch.dict(effect_profile.PARALLEL_VERIFICATION_WITNESSES, witnesses, clear=True):
+        with patch.dict(effect_profile.EFFECT_TRUTH_VERIFICATION_WITNESSES, truth, clear=True), patch.dict(effect_profile.PARALLEL_VERIFICATION_WITNESSES, witnesses, clear=True), patch.dict(effect_profile.RESUME_REPLAY_VERIFICATION_WITNESSES, {}, clear=True):
             plan = self.plan([
                 {"id": "a", "capability": "test.parallel.a"},
                 {"id": "b", "capability": "test.parallel.b"},
