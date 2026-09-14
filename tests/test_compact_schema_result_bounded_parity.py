@@ -13,7 +13,7 @@ SCHEMA_PATH = (
 )
 sys.path.insert(0, str(RUNTIME_ROOT.parent))
 
-from lab_results import (  # noqa: E402
+from lab_results import (  # noqa: E402  # justification: test installs controlled import path before importing target
     RESULT_INLINE_SAFE_BYTES,
     RESULT_PREVIEW_MAX_CHARS,
     RESULT_RANGE_MAX_BYTES,

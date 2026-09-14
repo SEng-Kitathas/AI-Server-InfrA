@@ -18,6 +18,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+browser = ["playwright>=1.45,<2"]
 diagnostics = [
   "py-spy>=0.4,<1",
 ]

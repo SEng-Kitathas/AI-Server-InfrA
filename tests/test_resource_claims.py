@@ -1,7 +1,7 @@
 from __future__ import annotations
 import sys
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'baseline'));from pcmmad_receiver.resource_claims import *
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'baseline'));from pcmmad_receiver.resource_claims import claims_conflict, jobs_compatible
 def c(domain,res,mode='READ',project='P'):return {'domain':domain,'resource':res,'mode':mode,'project_id':project}
 def test_disjoint_path_writes_candidate_parallel():assert jobs_compatible([c('path',r'a\\x','WRITE')],[c('path',r'b\\y','WRITE')])['compatible']
 def test_parent_child_write_serializes():assert not jobs_compatible([c('path',r'a','WRITE')],[c('path',r'a\\x','READ')])['compatible']

@@ -3,7 +3,7 @@
   "architecture_status": "CORE_RUNTIME_ARCHITECTURE_CONVERGED_AT_CURRENT_CLAIM_CEILING",
   "authority_ceiling": "recovery mirror; fresh Git/project/runtime readback remains authoritative",
   "compact_surface_status": "v11.0 source successor = 8 microkernel operations; v10.3 compatibility/import surface = 30 operations until separate product/live promotion",
-  "created_at": "2026-09-10T23:03:00+00:00",
+  "created_at": "2026-09-14T05:19:08.282656+00:00",
   "current_icf_cs_standard_sha256": "f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92",
   "current_icf_cs_version": "1.2",
   "current_source_qualification": "HOSTED_CI_PARTIAL run 34541581729; Ubuntu SUCCESS; Windows FAILURE suite-level; live promotion blocked",
@@ -33,16 +33,16 @@
       "sha256": "3e260036201ea8b96aa1bc325d682ed4ef0e9d694722235cdbcf535ebcf9aa67"
     },
     "CURRENT_STATE.md": {
-      "bytes": 69162,
-      "sha256": "7d0e47b140aa68eb8ba8eab5cc8b9fa5352f4cac0181034f9c55adf69c5bb9a5"
+      "bytes": 95032,
+      "sha256": "2a48f132bb2df0a40317181557f94a11b029044fdc8b4037a546dea255ce3e24"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 216785,
-      "sha256": "177dfdc6d501774a60bfad36ec382e5c9b350321a8b8d428087c115ea4f66dd4"
+      "bytes": 240682,
+      "sha256": "1cff6982cf389626f72d4760a29589703ce508ca96531f66b9a65ab4cb548ae0"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 58166,
-      "sha256": "3393dee629f128889bdc97f2dc5b8f5585ff465c7c3ef2c7a5a074e0edadc2c5"
+      "bytes": 73868,
+      "sha256": "2e87061809e0f933fed24dbaa2176d7d7809ad36456d80ee6d9298525dd17c8c"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
@@ -101,16 +101,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 42825,
-      "sha256": "c9af7ba88cf12bd09c25ab8ab3bae9993a3743b467fda2a49b1f480f8aed3166"
+      "bytes": 68695,
+      "sha256": "e49c8ed3a30af0c9b05e41410cb113ff4470830655480b719d9ccf674b293751"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
       "bytes": 2660,
       "sha256": "4044846385cc59c225471cf60065c15061a46a1dda0019cbf17f85b05e691261"
     },
     "NEXT_STEPS.md": {
-      "bytes": 50434,
-      "sha256": "5a1257ba4b720083357203d9fcc8463106778f09b0701b66cae37a7c5b3ed086"
+      "bytes": 76304,
+      "sha256": "ad15388eb8c08892af06692f336c508a8016963dd7b6a5d00a76b11dcd12c8c3"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -121,8 +121,8 @@
       "sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 67242,
-      "sha256": "cbbee5cf71b8884f935af8f5c00a774bf72ad0d49b58c6811f2a437c68a43c4e"
+      "bytes": 91353,
+      "sha256": "25b8a9ef117f897f276731b30da32ef7e78ee3dbff0a7b0fb2f9fc14ee27aaca"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 11117,
@@ -157,8 +157,8 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 79920,
-      "sha256": "ae92381d5b6b7237f18c7b34c218eb362fe2af8f7b01d282c2537e71df5fc0c9"
+      "bytes": 104639,
+      "sha256": "e28284059f7139436fd649ea03e07f793c448aac0891908b91099ea1bfe361e7"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,

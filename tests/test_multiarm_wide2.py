@@ -1,7 +1,7 @@
 from __future__ import annotations
 import sys,tempfile
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'baseline'));from pcmmad_receiver.principal_auth import *;from pcmmad_receiver.resource_claim_derivation import derive;from pcmmad_receiver.project_provisioning import plan,commit;from pcmmad_receiver.advisory_evidence import gather_and_advise
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'baseline'));from pcmmad_receiver.principal_auth import admits_scope, authenticate;from pcmmad_receiver.resource_claim_derivation import derive;from pcmmad_receiver.project_provisioning import plan,commit;from pcmmad_receiver.advisory_evidence import gather_and_advise
 def test_stolen_agent_key_cannot_be_machine_principal():
  p=authenticate({'X-GitHome-Key':'agent'},agent_secret='agent',operator_secret='operator',operator_epoch=3);assert p['principal_class']=='REMOTE_AGENT' and not admits_scope(p,'MACHINE')
 def test_operator_key_is_distinct_machine_principal():

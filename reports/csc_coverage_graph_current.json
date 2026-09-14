@@ -1,0 +1,1024 @@
+{
+  "schema": "pcmmad.csc-coverage-graph.v1",
+  "authority": "NONE",
+  "declaration_count": 192,
+  "sources": [
+    "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+    "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+    "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+    "docs\\architecture\\INVARIANTS.md",
+    "docs\\verification\\RELEASE_CONTRACT.md",
+    "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+    "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+    "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+    "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+    "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+    "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+    "docs\\csc_sop\\06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+    "docs\\csc_sop\\07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+    "docs\\csc_sop\\08_CSC_IDIOMATIC_EXPRESSION_SOP.md",
+    "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+    "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+    "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md"
+  ],
+  "consumers": {
+    "CSC_DECLARATION_BINDING": {
+      "path": "tools\\csc_native\\csc_declaration_binding_gate.py",
+      "current": true
+    },
+    "CSC_CODE_HEALTH": {
+      "path": "tools\\csc_native\\csc_code_health_gate.py",
+      "current": true
+    },
+    "FINAL_POLISH": {
+      "path": "tools\\final_polish_gate.py",
+      "current": true
+    },
+    "MVF_PROMOTION": {
+      "path": "baseline\\pcmmad_receiver\\mvf_promotion_gate.py",
+      "current": true
+    },
+    "RELEASE_VERIFY": {
+      "path": "tools\\verify_release.py",
+      "current": true
+    },
+    "CI": {
+      "path": ".github\\workflows\\ci.yml",
+      "current": true
+    }
+  },
+  "declarations": [
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 8,
+      "text": "These invariants are a server-side working baseline for all PCMMAD lab work. Project-specific doctrine may add stricter rules, but should not silently weaken these rules. Conflicts must be surfaced, not smoothed over."
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 14,
+      "text": "- Never claim writes, execution, registration, ingestion, extraction, or verification unless a tool result confirms it."
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 21,
+      "text": "- Gates must distinguish submitted, started, completed, failed, timed out, registered, and promoted."
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 22,
+      "text": "- CSC tools must not hardcode stale project names or hidden assumptions."
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 23,
+      "text": "- New server capabilities require tests/gates when practical and must not break schema-authority gates."
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 24,
+      "text": "- Freshness/docctrine surfaces must be refreshed or updated after mutation when required by project SOP."
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 309,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 312,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 315,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 318,
+      "text": "# 08 \u2014 CSC IDIOMATIC EXPRESSION SOP ## Purpose This SOP makes CSC explicitly responsible for code style and idiomatic expression in the sense required by the tri-doctrine stack. This is not fashion policing. It is doctrine-backed pressure for code that is easier to reason about, less naive, and more faithful to its invariant. ## What CSC SHOULD inspect - parameter count against cognitive conservation - nesting depth against local reasoning limits - overly long functions that exceed one coherent "
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 321,
+      "text": "# 08 \u2014 CSC IDIOMATIC EXPRESSION SOP ## Purpose This SOP makes CSC explicitly responsible for code style and idiomatic expression in the sense required by the tri-doctrine stack. This is not fashion policing. It is doctrine-backed pressure for code that is easier to reason about, less naive, and more faithful to its invariant. ## What CSC SHOULD inspect - parameter count against cognitive conservation - nesting depth against local reasoning limits - overly long functions that exceed one coherent "
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 324,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 327,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 330,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 333,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 336,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 339,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 342,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 345,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 348,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 351,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 354,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 357,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 360,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\universal_invariants\\UNIVERSAL_CSC_DOCTRINE_CODE_STYLE_GUIDE.md",
+      "line": 363,
+      "text": "# 01 \u2014 CSC DOCTRINE LINKAGE ## Purpose This document makes the CSC standard **1:1 linked** to the active code doctrine and archive control spine. CSC SHALL NOT drift into an independent style religion. It exists to embody the doctrine already governing the lab. ## Doctrine Links ### From UNIFIED CODE STANDARDS DOCTRINE CSC SHALL enforce or pressure the following: - PDVER lifecycle - Holonic architecture questions - Failure locality - typed boundaries - anti-pattern removal - promotion discipline"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 36,
+      "text": "| **3** | Ambiguity Resolution | All laws SHALL be obeyed. If ambiguous whether discourse or implementation: ASK. |"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 53,
+      "text": "Evidence MUST dominate confidence. No claim without support."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 112,
+      "text": "- A single developer MUST be able to hold the entire module in working memory"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 138,
+      "text": "- Every boundary must be typed and explicit"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 139,
+      "text": "- Every failure mode must be enumerable"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 141,
+      "text": "- Error propagation must be traceable"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 149,
+      "text": "- Every dependency must justify its presence against the full attack surface it introduces"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 158,
+      "text": "### Every Holon MUST Define:"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 165,
+      "text": "| **Invariants** | What must always be true? |"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 172,
+      "text": "Every component must be explainable, observable, bounded."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 226,
+      "text": "- Units MUST be explicit: `timeout_ms`, `distance_meters`, `price_usd`"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 248,
+      "text": "- Every error path must be explicitly handled"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 251,
+      "text": "- Error messages must be actionable"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 256,
+      "text": "- State transitions must be explicit and auditable"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 295,
+      "text": "Where possible, verification MUST use:"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 326,
+      "text": "**The system SHALL NOT train governance theater as if it were the specimen.**"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 341,
+      "text": "| **Beautiful Trace Addiction** | Long reasoning decoupled from verification | Traces must strengthen verification or embodiment |"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 346,
+      "text": "Any code must align:"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 468,
+      "text": "\u2502   Lesson: Observable semantic states required, not software metrics"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 528,
+      "text": "The standard is: **Would this survive scrutiny by a future version of yourself who has forgotten the context but must maintain the system?**"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 568,
+      "text": "**Layer B \u2014 Governance Sidecar (NEVER IN TRAINING):**"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 592,
+      "text": "| **B** | Negative-space must be first-class |"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 594,
+      "text": "| **D** | Long-horizon must be exercised, not praised |"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 596,
+      "text": "| **F** | PDVER must remain behavioral |"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 646,
+      "text": "8. What older conclusion must be replayed recursively?"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_DOCTRINE_v1.2.md",
+      "line": 698,
+      "text": "4. Corpus doctrine governs data but SHALL NOT override foundational law"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 35,
+      "text": "Every meaningful engineering action SHALL be evaluated through the same fractal cycle:"
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 94,
+      "text": "Embodiment SHALL preserve the invariant rather than degrading it into convenience."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 110,
+      "text": "The code SHALL not merely look disciplined."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 111,
+      "text": "It SHALL survive contact with reality."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 114,
+      "text": "Semantics that matter SHALL be visible."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 266,
+      "text": "When deviating from idiom, the gain must be structural, not aesthetic."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 285,
+      "text": "Verification SHALL match the kind of claim being made."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 341,
+      "text": "Train/eval, source/derived, and specimen/governance leakage SHALL be treated as real structural failures."
+    },
+    {
+      "source": "docs\\ergo_foundations\\UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "line": 468,
+      "text": "When reevaluating any artifact from square one, the operator SHALL:"
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 9,
+      "text": "1. **Required route families fail hard.** Optional route families may degrade, but degradation is explicit in boot and health evidence."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 23,
+      "text": "15. **RES history is append-oriented and authority-neutral.** Epistemic change is visible through addendum/promotion/demotion/supersession; consolidated RES snapshots are projections, not permission to rewrite history. `RES_CONTENT != GOVERNING_DOCTRINE`."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 24,
+      "text": "16. **Research handoff readiness is derived, not asserted.** A research-intensive handoff fails closed when the canonical RES snapshot is missing/invalid/stale, when registered bytes drift, or when a currentness-closing addendum is not bound to the latest material protocol event. `RES_HANDOFF_READY != PROJECT_MUTATION_AUTHORITY`."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 25,
+      "text": "17. **UCM is user continuity, not project/runtime/doctrine authority.** Canonical user continuity uses the existing append-only ledger with mandatory seq+hash CAS, explicit authority/currentness/verification components, bounded hydration, and `UCM != PROJECT_AUTHORITY / RUNTIME_TRUTH / DOCTRINE_AUTHORITY`."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 26,
+      "text": "18. **Fresh-instance applicability is explicit.** ICF-CS v1.2 requires a session mode and distinguishes `REQUIRED` from `NOT_APPLICABLE_WITH_BASIS`; Runtime SHALL NOT guess a UCM profile or silently equate missing state with non-applicability."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 27,
+      "text": "19. **Authority bytes, not labels, establish ICF currentness.** Fresh ingress binds the exact active ICF-CS v1.2 standard before RES/UCM hydration. `VERSION_LABEL != CURRENT_AUTHORITY_BYTES`."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 31,
+      "text": "23. **Fresh-ingress currentness is end-bound.** ICF, required RES and required UCM are reread/revalidated at the end of composed ingress; packet construction may not straddle authoritative heads silently."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 37,
+      "text": "29. **Observation is not reconciliation.** Status/output/list/wait/inspect reads must not hide queue advancement, expiry persistence, or other mutation; reconciliation belongs to explicit lifecycle/supervisor surfaces."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 39,
+      "text": "31. **Package import success is insufficient without single Runtime identity.** Legacy and package entrypoints must resolve the same state/registry/lock module objects."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 41,
+      "text": "33. **Diagnostic paths must serialize.** Bounded text windows and corrupt-job diagnostics may not turn intended read/error reporting into secondary serialization failures."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 42,
+      "text": "34. **Effect-trait declaration is not generic enforcement.** Current `effect_traits` mix descriptive annotations with a small explicitly consumed subset; no arbitrary trait may authorize scheduling, parallelism, retries, or mutation. `TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`; `DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY`."
+    },
+    {
+      "source": "docs\\architecture\\INVARIANTS.md",
+      "line": 46,
+      "text": "38. **Capability lease is not capability grant.** Leases are advisory narrowing/currentness context and never replace native approval or project mutation authority."
+    },
+    {
+      "source": "docs\\verification\\RELEASE_CONTRACT.md",
+      "line": 3,
+      "text": "A release is promotable only when the final embodied tree satisfies all required anchors:"
+    },
+    {
+      "source": "docs\\verification\\RELEASE_CONTRACT.md",
+      "line": 26,
+      "text": "Windows PowerShell parsing, actual ngrok tunneling, live D:/E: mounts, and a real Custom GPT callback remain host-bound verification and must be completed before machine promotion."
+    },
+    {
+      "source": "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+      "line": 17,
+      "text": "Local convenience SHALL NOT override the archive or code doctrine."
+    },
+    {
+      "source": "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+      "line": 19,
+      "text": "## Required Upstream Archive Documents"
+    },
+    {
+      "source": "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+      "line": 20,
+      "text": "CSC SHALL assume the following archive documents are required and available to the operator/model pair:"
+    },
+    {
+      "source": "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+      "line": 29,
+      "text": "CSC SHALL:"
+    },
+    {
+      "source": "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+      "line": 43,
+      "text": "- ignores missing local SOP surfaces or missing required upstream archive references"
+    },
+    {
+      "source": "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+      "line": 46,
+      "text": "This file SHALL be read with:"
+    },
+    {
+      "source": "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+      "line": 56,
+      "text": "1. required upstream archive docs are available"
+    },
+    {
+      "source": "docs\\csc_sop\\00_CSC_START_AND_AUTHORITY.md",
+      "line": 88,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 6,
+      "text": "CSC SHALL NOT drift into an independent style religion."
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 11,
+      "text": "CSC SHALL enforce or pressure the following:"
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 19,
+      "text": "- no dict-smear across boundaries unless absolutely required"
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 22,
+      "text": "CSC SHALL pressure:"
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 30,
+      "text": "CSC SHALL remain subordinate to:"
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 49,
+      "text": "Checks that do not map cleanly to doctrine SHALL be treated as suspect until justified."
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 51,
+      "text": "## Required CSC Artifacts"
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 61,
+      "text": "CSC SHALL be stricter about false authority than false polish."
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 76,
+      "text": "- Required control surfaces have been refreshed so CSC freshness and mutation-lag enforcement remain truthful after the latest integrated lifecycle-gate pass."
+    },
+    {
+      "source": "docs\\csc_sop\\01_CSC_DOCTRINE_LINKAGE.md",
+      "line": 100,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 9,
+      "text": "## Required Holonic Questions"
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 14,
+      "text": "4. **Invariants** \u2014 what must remain true"
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 17,
+      "text": "## Current Required Subsystems"
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 18,
+      "text": "CSC SHALL be able to audit at least:"
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 47,
+      "text": "A subsystem SHALL NOT be promoted by CSC merely because it has style cleanliness."
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 51,
+      "text": "CSC SHALL specifically watch for:"
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 63,
+      "text": "- Required control surfaces have been refreshed so CSC freshness and mutation-lag enforcement remain truthful after the latest integrated lifecycle-gate pass."
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 65,
+      "text": "## CTO current required subsystems \u2014 2026-04-16"
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 66,
+      "text": "For CTO, current required subsystems include at minimum the content controller (`code/cto_extension/content.js`), popup surface (`code/cto_extension/popup.js`), options/archive surface (`code/cto_extension/options.js`), CSC entrypoint, and CSC universal runner. These are now the active local holonic audit surfaces."
+    },
+    {
+      "source": "docs\\csc_sop\\02_CSC_HOLONIC_AUDIT_SOP.md",
+      "line": 87,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 6,
+      "text": "CSC SHALL NOT stop at:"
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 11,
+      "text": "It SHALL derive the target invariant or primitive that should replace the anti-pattern."
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 21,
+      "text": "## Required Output Fields"
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 35,
+      "text": "- `machine_absolute_path` \u2192 target invariant: runtime location must be derived from explicit root or config, not machine-local literals"
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 36,
+      "text": "- `dataclass_raw_projection` \u2192 target invariant: artifact projection must remain boundary-explicit and inspectable"
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 37,
+      "text": "- `dict_smear_in_types` \u2192 target invariant: operational boundaries must be typed, not anonymous payloads"
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 40,
+      "text": "CSC SHALL distinguish:"
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 45,
+      "text": "It SHALL NOT label all three as the same thing."
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 55,
+      "text": "- Required control surfaces have been refreshed so CSC freshness and mutation-lag enforcement remain truthful after the latest integrated lifecycle-gate pass."
+    },
+    {
+      "source": "docs\\csc_sop\\03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+      "line": 79,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 6,
+      "text": "CSC SHALL obey the archive promotion rule:"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 7,
+      "text": "- embodiment required"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 8,
+      "text": "- verification required"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 9,
+      "text": "- contradiction pressure required"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 19,
+      "text": "CSC SHALL block promotion when any of these are true:"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 20,
+      "text": "- upstream required archive docs unavailable"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 28,
+      "text": "After a pass, CSC SHALL ask:"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 32,
+      "text": "4. what granular probe must remain because macro still depends on it?"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 36,
+      "text": "CSC SHALL run on itself."
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 37,
+      "text": "The self-audit SHALL check:"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 45,
+      "text": "## Required Output"
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 64,
+      "text": "- Required control surfaces have been refreshed so CSC freshness and mutation-lag enforcement remain truthful after the latest integrated lifecycle-gate pass."
+    },
+    {
+      "source": "docs\\csc_sop\\04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+      "line": 88,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 1,
+      "text": "# 05 \u2014 CSC REQUIRED SOP SET"
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 4,
+      "text": "This document defines the minimum SOP/document set CSC SHALL require before declaring doctrine-aligned operation."
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 6,
+      "text": "## Required Local CSC SOP Documents"
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 20,
+      "text": "## Required Upstream Archive Documents"
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 21,
+      "text": "CSC SHALL also require availability of the repaired PCMMAD starter archive control files and at minimum treat these as always-on:"
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 33,
+      "text": "## Required Structural Elements In Local CSC SOP Docs"
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 37,
+      "text": "- required behavior or procedure"
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 42,
+      "text": "If the local CSC SOP set is missing or materially incomplete, CSC SHALL report:"
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 46,
+      "text": "and SHALL block claims of canonical cleanup readiness."
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 54,
+      "text": "- This SOP now treats `10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md` and `11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md` as required local CSC SOP documents."
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 55,
+      "text": "- This refresh closes the gap where server execution methodology for unreliable planes existed as a standalone doc but not as an explicit required SOP surface."
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 57,
+      "text": "## CTO required local extension of the SOP set \u2014 2026-04-16"
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 58,
+      "text": "For CTO, the required local SOP set now includes the imported CSC documents plus the localized doctrine and SOP surfaces under `docs/cto_doctrine/` and `docs/cto_sop/`. A project-local doctrine instantiation is now part of the required control surface, not optional commentary."
+    },
+    {
+      "source": "docs\\csc_sop\\05_CSC_REQUIRED_SOP_SET.md",
+      "line": 79,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+      "line": 9,
+      "text": "CSC SHALL NOT treat any one of these as sufficient alone."
+    },
+    {
+      "source": "docs\\csc_sop\\06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+      "line": 41,
+      "text": "CSC SHALL behave as if all three are active at all times."
+    },
+    {
+      "source": "docs\\csc_sop\\06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+      "line": 50,
+      "text": "## Required outputs"
+    },
+    {
+      "source": "docs\\csc_sop\\06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+      "line": 51,
+      "text": "CSC SHALL be able to say for each major check:"
+    },
+    {
+      "source": "docs\\csc_sop\\06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+      "line": 54,
+      "text": "- what would be required for promotion-grade coverage"
+    },
+    {
+      "source": "docs\\csc_sop\\06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+      "line": 67,
+      "text": "- Required control surfaces have been refreshed so CSC freshness and mutation-lag enforcement remain truthful after the latest integrated lifecycle-gate pass."
+    },
+    {
+      "source": "docs\\csc_sop\\06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+      "line": 91,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+      "line": 14,
+      "text": "## Required doctrine coverage classes"
+    },
+    {
+      "source": "docs\\csc_sop\\07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+      "line": 15,
+      "text": "CSC SHALL track at least these classes:"
+    },
+    {
+      "source": "docs\\csc_sop\\07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+      "line": 37,
+      "text": "Every active CSC pass SHALL emit a doctrine coverage report showing:"
+    },
+    {
+      "source": "docs\\csc_sop\\07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+      "line": 46,
+      "text": "CSC SHALL NOT call itself canon-clean if any load-bearing doctrine class is `missing`."
+    },
+    {
+      "source": "docs\\csc_sop\\07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+      "line": 58,
+      "text": "- Required control surfaces have been refreshed so CSC freshness and mutation-lag enforcement remain truthful after the latest integrated lifecycle-gate pass."
+    },
+    {
+      "source": "docs\\csc_sop\\07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+      "line": 82,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\08_CSC_IDIOMATIC_EXPRESSION_SOP.md",
+      "line": 4,
+      "text": "This SOP makes CSC explicitly responsible for code style and idiomatic expression in the sense required by the tri-doctrine stack."
+    },
+    {
+      "source": "docs\\csc_sop\\08_CSC_IDIOMATIC_EXPRESSION_SOP.md",
+      "line": 29,
+      "text": "CSC style pressure SHALL remain subordinate to truth and verification."
+    },
+    {
+      "source": "docs\\csc_sop\\08_CSC_IDIOMATIC_EXPRESSION_SOP.md",
+      "line": 40,
+      "text": "- Required control surfaces have been refreshed so CSC freshness and mutation-lag enforcement remain truthful after the latest integrated lifecycle-gate pass."
+    },
+    {
+      "source": "docs\\csc_sop\\08_CSC_IDIOMATIC_EXPRESSION_SOP.md",
+      "line": 64,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 4,
+      "text": "This SOP defines how CSC verifies that required control-surface documents are not only present, but also fresh enough for the current experimental heat."
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 7,
+      "text": "A required SOP set can exist and still be lagging behind active lab mutation."
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 9,
+      "text": "## Required checks"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 10,
+      "text": "CSC SHALL check:"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 11,
+      "text": "- latest modification time of each required local CSC SOP document"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 12,
+      "text": "- latest modification time across the required local CSC SOP set"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 14,
+      "text": "- delta between latest meaningful lab mutation and latest required SOP update"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 15,
+      "text": "- delta between current time and latest required SOP update"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 18,
+      "text": "CSC SHALL prefer meaningful mutation surfaces over self-generated cleanup outputs."
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 24,
+      "text": "CSC SHALL avoid treating CSC\u2019s own report emission as sufficient evidence that SOP freshness is current."
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 34,
+      "text": "- required SOP docs are materially older than the latest meaningful lab mutation by more than the configured lag window"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 35,
+      "text": "- the overall required SOP set has not been refreshed within the configured active-heat freshness window"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 39,
+      "text": "CSC SHALL distinguish:"
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 57,
+      "text": "- Required control surfaces have been refreshed so CSC freshness and mutation-lag enforcement remain truthful after the latest integrated lifecycle-gate pass."
+    },
+    {
+      "source": "docs\\csc_sop\\09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+      "line": 81,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 36,
+      "text": "- required SOP/control-surface presence"
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 37,
+      "text": "- required SOP freshness against meaningful mutation"
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 68,
+      "text": "CSC should never be used to claim:"
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 170,
+      "text": "Under degraded conditions, CSC-aligned operation SHALL prefer:"
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 207,
+      "text": "CSC should never collapse:"
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 225,
+      "text": "- the law \u201csubsystems must have explicit purpose, boundary, interface, invariants, and hazards\u201d is universal"
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 240,
+      "text": "So universal CSC must always pair:"
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 253,
+      "text": "- required control surfaces are explicit"
+    },
+    {
+      "source": "docs\\csc_sop\\10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+      "line": 417,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 11,
+      "text": "It SHALL be read together with:"
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 22,
+      "text": "CSC SHALL default to the operator's side for as much as possible."
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 36,
+      "text": "This exception SHALL be explicit rather than silent."
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 38,
+      "text": "If a bridge, queue, or interactive orchestration path fails repeatedly, CSC-aligned operation SHALL stop politely retrying the fragile route and SHALL move work onto the server-native path that actually lands."
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 40,
+      "text": "## Required plane order under instability"
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 47,
+      "text": "## Required operating method"
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 60,
+      "text": "When queue or bridge paths are failing, CSC SHALL prefer the stable operator-side server-native execution plane instead of repeatedly retrying the brittle path or drifting to assistant-side execution out of convenience."
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 77,
+      "text": "CSC SHALL treat readback artifacts as higher authority than chat memory."
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 79,
+      "text": "## Required anti-pattern rejections"
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 80,
+      "text": "CSC SHALL treat the following as execution anti-patterns:"
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 120,
+      "text": "## Required outputs"
+    },
+    {
+      "source": "docs\\csc_sop\\11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+      "line": 142,
+      "text": "This control surface is synchronized after the verifier-class-adapter build that introduced explicit machine authority adapters, class-declared required adapter sets, adapter-aware promotion blocking, and adjudication output that preserves required adapter IDs plus machine adapter results. Freshness here reflects the verifier-adapter mutation and not timestamp theater."
+    }
+  ],
+  "coverage_classes": [
+    "STATIC",
+    "SCHEMA_TYPE",
+    "RUNTIME",
+    "HOSTILE",
+    "INTEGRATION",
+    "ORDINARY_PATH",
+    "MANUAL_SEMANTIC",
+    "GAP",
+    "NOT_APPLICABLE"
+  ],
+  "claim_ceiling": "inventory/coverage topology only; declaration extraction does not prove applicability or enforcement correctness"
+}

@@ -40,5 +40,5 @@ for key in ("PCMMAD_ROOT", "PCMMAD_PROJECTS_ROOT", "PCMMAD_SYSTEM_ROOT", "PCMMAD
     Path(os.environ[key]).mkdir(parents=True, exist_ok=True)
 
 
-def pytest_sessionfinish(session, exitstatus) -> None:  # noqa: ARG001
+def pytest_sessionfinish(session, exitstatus) -> None:  # noqa: ARG001  # justification: pytest hook signature requires unused parameters
     shutil.rmtree(_TEST_RUNTIME_ROOT, ignore_errors=True)

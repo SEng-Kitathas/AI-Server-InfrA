@@ -42,6 +42,15 @@ jobs:
         run: |
           Get-ChildItem Env: | Where-Object { $_.Name -like 'PCMMAD_*' -or $_.Name -in @('PYTHONPATH','PYTHONHOME','VIRTUAL_ENV') } | ForEach-Object { Remove-Item "Env:$($_.Name)" -ErrorAction SilentlyContinue }
           python -c "import os; assert not any(k.startswith('PCMMAD_') for k in os.environ); print('sanitized environment')"
+      - name: CSC declaration-binding gate
+        shell: pwsh
+        run: python tools/csc_native/csc_declaration_binding_gate.py
+      - name: CSC correctness gate
+        shell: pwsh
+        run: python tools/csc_native/csc_code_health_gate.py
+      - name: Microseed final-polish gate
+        shell: pwsh
+        run: python tools/final_polish_gate.py
       - name: Full clean-box suite
         shell: pwsh
         run: |

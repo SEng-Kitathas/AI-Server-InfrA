@@ -6,6 +6,7 @@ from collections.abc import MutableMapping
 from pathlib import Path
 from typing import Any, Callable
 
+from . import global_doctrine
 from .lab_tool_primitives import ToolPayload, ToolResult, payload_optional_int, payload_str
 from .server_hardening import safe_json_loads
 

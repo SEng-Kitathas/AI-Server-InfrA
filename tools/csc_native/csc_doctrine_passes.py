@@ -6,6 +6,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from types import MappingProxyType
 from pathlib import Path
+from typing import Any
 
 from csc_doctrine_manifest import (
     HOLON_SPECS,
@@ -16,6 +17,8 @@ from csc_doctrine_manifest import (
     TRI_DOCTRINE_REQUIREMENTS,
 )
 from csc_runtime_bindings import get_bindings
+
+JsonValue = Any
 from pdver_lab_hardening_cycle import (
     ACTIVE_HEAT_WINDOW_SECONDS,
     MAX_MUTATION_LAG_SECONDS,

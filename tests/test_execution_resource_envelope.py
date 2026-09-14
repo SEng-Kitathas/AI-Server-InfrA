@@ -16,7 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
 sys.path.insert(0, str(RUNTIME_ROOT.parent))
 
-import execution_routes as er  # noqa: E402
+import execution_routes as er  # noqa: E402  # justification: test installs controlled import path before importing target
 
 if os.name == "nt":
     import windows_job_object as wjo

@@ -57,7 +57,7 @@ def main(out_path: str):
     before_tree=file_tree_hash(get_project_root(mproject));read_rows={};t=time.perf_counter()
     for name,payload in cases:
         digest=cards[name]['contract_digest']
-        def call(_): return lab_tools.dispatch_tool(name,payload,expected_contract_digest=digest)['result']
+        def call(_, name=name, payload=payload, digest=digest): return lab_tools.dispatch_tool(name,payload,expected_contract_digest=digest)['result']
         with concurrent.futures.ThreadPoolExecutor(max_workers=32) as ex: rows=list(ex.map(call,range(100)))
         hashes={h(x) for x in rows};read_rows[name]={'calls':100,'unique_result_hashes':len(hashes),'pass':len(hashes)==1}
     after_tree=file_tree_hash(get_project_root(mproject));report['workloads']['witnessed_reads']={'cases':read_rows,'project_state_unchanged':before_tree==after_tree,'seconds':round(time.perf_counter()-t,4),'pass':all(x['pass'] for x in read_rows.values()) and before_tree==after_tree}
@@ -74,7 +74,7 @@ def main(out_path: str):
         r=sup.supervise_once(health_url='x',task_name='receiver',receipt_path=receipts/f'h{i}.json',health_probe=lambda *_:(True,None),trigger=lambda n:(triggers.append(n) or (True,'started')),recovery_seconds=.001,poll_seconds=.0001);healthy_ok+=int(r['healthy_after'] and r['action']=='NONE')
     for i in range(100):
         states=iter([(False,'down'),(True,None)])
-        def probe(*_): return next(states,(True,None))
+        def probe(*_, states=states): return next(states,(True,None))
         r=sup.supervise_once(health_url='x',task_name='receiver',receipt_path=receipts/f'r{i}.json',health_probe=probe,trigger=lambda n:(triggers.append(n) or (True,'started')),recovery_seconds=.01,poll_seconds=.0001);recover_ok+=int(r['healthy_after'] and r['triggered'])
     report['workloads']['supervisor']={'healthy_cycles':500,'healthy_ok':healthy_ok,'recovery_cycles':100,'recovery_ok':recover_ok,'triggers':len(triggers),'seconds':round(time.perf_counter()-t,4),'pass':healthy_ok==500 and recover_ok==100 and len(triggers)==100}
     report['pass']=all(v.get('pass') for v in report['workloads'].values());report['seconds']=round(time.perf_counter()-started,4)
