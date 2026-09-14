@@ -1,0 +1,60 @@
+{
+  "catalog_count": 175,
+  "checks": [
+    {
+      "detail": [
+        "doctrine.global.status",
+        "execution.run",
+        "fs.glob",
+        "maintenance.acquire",
+        "maintenance.authority.reconcile",
+        "maintenance.release",
+        "maintenance.status",
+        "project.mutation.inspect",
+        "protocol.status"
+      ],
+      "name": "explicit_orient_complete",
+      "ok": true
+    },
+    {
+      "detail": null,
+      "name": "no_opaque_contracts",
+      "ok": true
+    },
+    {
+      "detail": null,
+      "name": "lease_json_roundtrip",
+      "ok": true
+    },
+    {
+      "detail": null,
+      "name": "contract_digest_parity",
+      "ok": true
+    },
+    {
+      "detail": "LabToolError:capability contract changed after client discovery",
+      "name": "stale_contract_fails_closed",
+      "ok": true
+    },
+    {
+      "detail": {
+        "approved": false,
+        "danger_tier": "low",
+        "ok": true,
+        "policy_mode": "strict",
+        "result": {
+          "authority": "NONE",
+          "generation": 0,
+          "schema": "pcmmad.maintenance-authority.v1",
+          "status": "INACTIVE"
+        },
+        "time": "2026-09-13T13:42:47.682862+00:00",
+        "tool": "maintenance.status"
+      },
+      "name": "maintenance_status_dispatch",
+      "ok": true
+    }
+  ],
+  "pass": true,
+  "schema": "pcmmad.agent-server-warfort.v1"
+}

@@ -1,0 +1,74 @@
+{
+  "attention_reservoir": {
+    "reason": "All new mechanisms currently live as callable library functions/tests. QL3 itself says that is not server enforcement. The strongest blocker is therefore self-referential: the lifecycle is THREAD/TEST SCAFFOLDED until existing admission boundaries actually invoke it.",
+    "selected": "ordinary-path embodiment / endogenous enforcement"
+  },
+  "campaign": "QLC1",
+  "claim": "Governance can mature from consistency checking into a non-authoritative qualification lifecycle composed from existing PCMMAD owners.",
+  "csc": {
+    "authority": "audit_only",
+    "finding": "The campaign successfully derived richer lifecycle distinctions, but promoting them as server governance now would violate its own scaffolding law. process_effect remains syntactic-semantic evidence, not proof that Research OS changed decisions causally."
+  },
+  "earned": [
+    {
+      "id": "QL1",
+      "law": "AUTHORITY CHANGE != EVIDENCE INVALIDATION; load-bearing binding changes create requalification debt.",
+      "result": "PASS"
+    },
+    {
+      "id": "QL2",
+      "law": "QUALIFICATION IS QUERY + CONSEQUENCE + SCOPE RELATIVE.",
+      "result": "PASS"
+    },
+    {
+      "id": "QL3",
+      "law": "OBSERVED COMPLIANCE != ENDOGENOUS ENFORCEMENT.",
+      "result": "PASS"
+    },
+    {
+      "id": "QL4",
+      "law": "PROCESS RECEIPT != PROCESS EFFECT.",
+      "result": "NARROW PASS"
+    },
+    {
+      "id": "QL5",
+      "law": "CAMPAIGN CONCLUSION REQUIRES CURRENT-BINDING REAUTHORIZATION BEFORE PROMOTION.",
+      "result": "PASS"
+    },
+    {
+      "id": "QL6",
+      "law": "CREDIBLE COUNTEREVIDENCE -> DOCTRINE_CHALLENGE, not suppression or automatic doctrine override.",
+      "result": "PASS"
+    },
+    {
+      "id": "QL7",
+      "law": "NEGATIVE EVIDENCE requires scope + reopen condition; semantic delta preserves unknown endpoints; closure escape justifies search not primitives; research depth is consequence/reserve-relative.",
+      "result": "PASS"
+    }
+  ],
+  "helix_next": "Reopen by selecting one existing natural consequence boundary (fresh rehydration or promotion/checkpoint seal), integrating the lifecycle there without new authority, then prove ordinary-path enforcement from a virgin caller. Do not wire every tool call and do not call library availability enforcement.",
+  "loop_plus": {
+    "open": [
+      "requalification debt",
+      "process effect truth",
+      "scaffolding accounting",
+      "query-relative admission",
+      "campaign reauthorization",
+      "negative evidence",
+      "semantic delta continuity",
+      "doctrine challenge",
+      "closure escape",
+      "bounded research depth"
+    ],
+    "rivals": [
+      "static consistency checking is sufficient",
+      "qualification lifecycle adds useful distinctions",
+      "lifecycle becomes a shadow authority/state machine",
+      "Research OS receipt can become checkbox theater"
+    ]
+  },
+  "pass": 7,
+  "process_re_evaluation_pending": true,
+  "schema": "pcmmad.qualification-lifecycle-campaign.v1",
+  "status": "HARD_STOP_SUBSTANTIAL_BLOCKER"
+}

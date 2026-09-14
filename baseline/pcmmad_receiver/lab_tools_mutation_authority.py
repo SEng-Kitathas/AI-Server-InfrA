@@ -6,6 +6,8 @@ from collections.abc import Callable, Mapping, MutableMapping
 from contextlib import contextmanager
 from typing import Any, Iterator, TypeAlias
 
+from pathlib import Path
+from . import maintenance_plane
 from .project_mutation_authority import (
     ProjectMutationAuthorityError,
     acquire_lease,
@@ -244,6 +246,51 @@ def register_mutation_authority_tools(
                 ),
             )
         )
+
+    maintenance_common = {
+        "operator_id": {"type":"string","minLength":1},
+        "reason": {"type":"string","minLength":1},
+        "token": {"type":"string","minLength":1},
+        "generation": {"type":"integer","minimum":1},
+    }
+    @register_tool(
+        "maintenance.status", "Inspect separate operator-local maintenance authority.", "low",
+        category="control", tags=["maintenance","break-glass","authority"], mutating=False,
+        side_effect_class="read", effect_traits=["reads_maintenance_authority","bounded_output"],
+        input_schema=_schema([], {}),
+    )
+    def tool_maintenance_status(payload: ToolPayload) -> ToolResult:
+        return maintenance_plane.inspect()
+
+    @register_tool(
+        "maintenance.acquire", "Acquire bounded operator-local maintenance authority for control-plane repair.", "high",
+        category="control", tags=["maintenance","break-glass","authority"], mutating=True, approval_required=True,
+        side_effect_class="authority_mutation", effect_traits=["maintenance_authority","local_only","bounded_ttl","durable_mutation"],
+        input_schema=_schema(["operator_id","reason"], {**maintenance_common,"ttl_seconds":{"type":"integer","minimum":30,"maximum":3600}}),
+    )
+    def tool_maintenance_acquire(payload: ToolPayload) -> ToolResult:
+        try:return maintenance_plane.acquire(operator_id=_str(payload,"operator_id"),reason=_str(payload,"reason"),ttl_seconds=_int(payload,"ttl_seconds",minimum=30) if payload.get("ttl_seconds") not in (None,"") else 900)
+        except ValueError as exc:raise error_cls("MAINTENANCE_AUTHORITY_ERROR",str(exc),409) from exc
+
+    @register_tool(
+        "maintenance.release", "Release bounded maintenance authority and destroy its bearer token.", "high",
+        category="control", tags=["maintenance","break-glass","release"], mutating=True, approval_required=True,
+        side_effect_class="authority_mutation", effect_traits=["maintenance_authority","durable_mutation"],
+        input_schema=_schema(["operator_id","token","generation"], maintenance_common),
+    )
+    def tool_maintenance_release(payload: ToolPayload) -> ToolResult:
+        try:return maintenance_plane.release(token=_str(payload,"token"),generation=_int(payload,"generation",minimum=1),operator_id=_str(payload,"operator_id"))
+        except ValueError as exc:raise error_cls("MAINTENANCE_AUTHORITY_ERROR",str(exc),409) from exc
+
+    @register_tool(
+        "maintenance.authority.reconcile", "Reconcile a recognized impossible project-authority state without fabricating or rewinding authority.", "critical",
+        category="control", tags=["maintenance","break-glass","reconcile","project-authority"], mutating=True, approval_required=True,
+        side_effect_class="authority_mutation", effect_traits=["maintenance_authority","durable_mutation","generation_monotonic","append_only_receipt"],
+        input_schema=_schema(["operator_id","token","generation","project_id","state_path","reason"], {**maintenance_common,"project_id":{"type":"string","minLength":1},"state_path":{"type":"string","minLength":1}}),
+    )
+    def tool_maintenance_authority_reconcile(payload: ToolPayload) -> ToolResult:
+        try:return maintenance_plane.reconcile_authority_state(token=_str(payload,"token"),generation=_int(payload,"generation",minimum=1),operator_id=_str(payload,"operator_id"),project_id=_str(payload,"project_id"),state_path=Path(_str(payload,"state_path")),reason=_str(payload,"reason"))
+        except ValueError as exc:raise error_cls("MAINTENANCE_RECONCILE_REFUSED",str(exc),409) from exc
 
     @register_tool(
         "project.mutation.release",

@@ -502,6 +502,8 @@ def _public(record: Mapping[str, Any] | None, project_id: str) -> dict[str, Any]
             "status": LEASE_STATUS_UNOWNED,
             "generation": 0,
             "lease_id": None,
+            "lease_token_disclosed": False,
+            "authority_identity_present": False,
             "owner_id": None,
             "session_id": None,
             "client_id": None,
@@ -516,6 +518,8 @@ def _public(record: Mapping[str, Any] | None, project_id: str) -> dict[str, Any]
         "status": record.get("status"),
         "generation": int(record.get("generation") or 0),
         "lease_id": None,
+        "lease_token_disclosed": False,
+        "authority_identity_present": bool(str(record.get("lease_id_hash") or "").strip()),
         "owner_id": record.get("owner_id"),
         "session_id": record.get("session_id"),
         "client_id": record.get("client_id"),
@@ -532,6 +536,7 @@ def _public_with_acquired_token(
 ) -> dict[str, Any]:
     payload = _public(record, project_id)
     payload["lease_id"] = lease_id
+    payload["lease_token_disclosed"] = True
     return payload
 
 

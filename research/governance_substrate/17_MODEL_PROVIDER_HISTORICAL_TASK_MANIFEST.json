@@ -1,0 +1,181 @@
+{
+  "authority": "HISTORICAL_RESEARCH_EVIDENCE_ONLY",
+  "rows": [
+    {
+      "source": "DOCTRINE_BOUNDARY_MATRIX_RESULT.json",
+      "model": "qwen36",
+      "label": "doctrine2048_qwen36_identity_conclusion_boundary",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO_IDENTITY_CONCLUSION",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "DOCTRINE_BOUNDARY_MATRIX_RESULT.json",
+      "model": "qwen36",
+      "label": "doctrine2048_qwen36_bounded_hierarchy_ceiling",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "BOUNDED_ONLY",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "DOCTRINE_BOUNDARY_MATRIX_RESULT.json",
+      "model": "qwen36",
+      "label": "doctrine2048_qwen36_nested_currentness_locality",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "LOCAL_UNTIL_REALITY",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "DOCTRINE_BOUNDARY_MATRIX_RESULT.json",
+      "model": "qwen35_distilled",
+      "label": "doctrine2048_qwen35_distilled_identity_conclusion_boundary",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO_IDENTITY_CONCLUSION",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "DOCTRINE_BOUNDARY_MATRIX_RESULT.json",
+      "model": "qwen35_distilled",
+      "label": "doctrine2048_qwen35_distilled_bounded_hierarchy_ceiling",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "BOUNDED_ONLY",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "DOCTRINE_BOUNDARY_MATRIX_RESULT.json",
+      "model": "qwen35_distilled",
+      "label": "doctrine2048_qwen35_distilled_nested_currentness_locality",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "LOCAL_UNTIL_REALITY",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json",
+      "model": "qwen36",
+      "label": "blind2048_qwen36_provenance_not_identity",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json",
+      "model": "qwen36",
+      "label": "blind2048_qwen36_bounded_hierarchy_not_recursive",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json",
+      "model": "qwen36",
+      "label": "blind2048_qwen36_middle_drift_currentness",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json",
+      "model": "qwen35_distilled",
+      "label": "blind2048_qwen35_distilled_pareto_incomparable",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "ABSTAIN",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json",
+      "model": "qwen35_distilled",
+      "label": "blind2048_qwen35_distilled_provenance_not_identity",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json",
+      "model": "qwen35_distilled",
+      "label": "blind2048_qwen35_distilled_bounded_hierarchy_not_recursive",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json",
+      "model": "qwen35_distilled",
+      "label": "blind2048_qwen35_distilled_middle_drift_currentness",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "Q36_BUDGET1024_DOCTRINE_MATRIX_RESULT.json",
+      "model": null,
+      "label": "q36_budget1024_identity_conclusion_boundary",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "NO_IDENTITY_CONCLUSION",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "Q36_BUDGET1024_DOCTRINE_MATRIX_RESULT.json",
+      "model": null,
+      "label": "q36_budget1024_bounded_hierarchy_ceiling",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "BOUNDED_ONLY",
+      "score": null,
+      "status": null
+    },
+    {
+      "source": "Q36_BUDGET1024_DOCTRINE_MATRIX_RESULT.json",
+      "model": null,
+      "label": "q36_budget1024_nested_currentness_locality",
+      "task_label": null,
+      "prompt_sha256": null,
+      "prompt_chars": 0,
+      "expected": "LOCAL_UNTIL_REALITY",
+      "score": null,
+      "status": null
+    }
+  ]
+}

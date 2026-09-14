@@ -1,0 +1,34 @@
+{
+  "attacks": {
+    "known_good_receiver_import": "PASS_171_CAPABILITIES",
+    "normal_python_removed_from_PATH_restore": "PASS",
+    "receiver_tree_absent_restore": "PASS",
+    "recovery_runtime_restored": "PASS",
+    "restored_receiver_authenticated_health": "PASS",
+    "restored_receiver_v11_agent_orient": "PASS_2_OF_2",
+    "unauthenticated_health_assumption": "DEFECT_FOUND_REQUIRES_CREDENTIAL_DEPENDENCY",
+    "wrong_supervisor_health_target_discovered": "DEFECT_FOUND_AND_FIXED_LOCAL"
+  },
+  "authority": "NONE",
+  "bundle_artifacts": [
+    {
+      "bytes": 2512340,
+      "path": "known_good_receiver.zip",
+      "sha256": "e4ac2530460af9560684356144a4a4956b56b90bac11b926ae3f04b2e77fa89e"
+    },
+    {
+      "bytes": 135025340,
+      "path": "recovery_python.zip",
+      "sha256": "f9aeba496c0f9dae123b2ca87a21eb2f00b1d6fece2254721104d7400fcc0b25"
+    },
+    {
+      "bytes": 1895,
+      "path": "breakglass_restore.ps1",
+      "sha256": "38a201494373eba66a378ad5eb23917621f2c2536951dd3bc2021f62a2424264"
+    }
+  ],
+  "bundle_manifest_sha256": "e1cb30429ba2d74f64a8827049cbb5eff19234009711f4c52656ce5f28d47e5f",
+  "evidence_ceiling": "Sandbox bundle proves recovery from missing normal Python path + receiver tree using Windows PowerShell/tar and cached qualified material. It is not installed live and unattended remote ingress is not qualified because receiver task is Interactive/user-scoped and API/tunnel credentials are not yet carried for SYSTEM recovery.",
+  "known_good_head": "30c4826c58c143abfa992f44340d5c7f1ed55d6c",
+  "schema": "pcmmad.breakglass-warfort.v1"
+}
