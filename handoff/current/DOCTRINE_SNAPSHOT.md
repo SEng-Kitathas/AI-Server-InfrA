@@ -765,3 +765,12 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - `OUT-OF-PROCESS HA != DAEMON`.
 - Always-on OOP recovery must remain independently survivable if Receiver and Daemon are both dead or deadlocked.
 - Per-workload restart budgets/locks/holds must remain separate; cross-workload recovery needs storm/split-brain coordination.
+
+
+## 2026-09-15 DAEMON PERSISTENCE / INFERENCE DISTINCTIONS
+- `COMMANDER INTENT PRESENT != COMMANDER INTENT CURRENT`; Commander Intent is now a required audited surface.
+- `READ_ONLY SQLITE OPEN != NO FILESYSTEM CONSEQUENCE`; immutable/read-sealed mode is required for side-effect-free bootstrap after clean writer shutdown.
+- `PERSISTENCE QUALIFIED != DAEMON COGNITION COMPLETE`.
+- `HUD CHAT SURFACE != CONVERSATIONAL COGNITION`.
+- `MODEL RESOURCE != DAEMON IDENTITY`.
+- `FLUENT GENERATION != GENERAL LEARNING/REASONING`.

@@ -996,3 +996,15 @@ A-042 compact-schema work is limited to current authority projection parity and 
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
+
+
+## COMMANDER'S INTENT DELTA — 2026-09-15 DAEMON CAMPAIGN
+- At every campaign end, audit all continuity/context/shadow surfaces AND this Commander Intent surface before declaring the campaign complete. Hash-current surfaces are insufficient if intended functionality or command intent has drifted.
+- Preserve root law: cross our operational boundary -> lose special status -> strip for parts -> reality/HEaT decides survival; nothing is sacred.
+- Preserve `LOCAL OPTIMUM != GLOBAL FUNCTIONALITY`; campaign success requires negative system-walk/global regression, not component green alone.
+- Preserve general cognition: Daemon/MVF is not the sum of assigned duties; employment/authority ceilings must not become reasoning/learning ceilings.
+- Daemon is the first-class server-side cognitive organism; Receiver is its deterministic body/substrate. Daemon cognition is proactive/non-prompt-bound while consequential effects remain capability/authority-bound.
+- Preserve reciprocal HA triad: body can recover Daemon, Daemon cognitively HA's body, original out-of-process HA remains always-on and independent.
+- HUD eventually needs persistent Daemon conversation + status/attention sidebar; Daemon may initiate relevant communication.
+- Current campaign result: Daemon persistence/identity/current-state/evidence/biography/checkpoint/recovery/migration/bootstrap are qualified in isolated clone/temp roots. Do NOT create the project-control/live Daemon root yet.
+- Current substantive blocker: no qualified generative inference/conversation plane in current Receiver registry; Veya chamber explicitly has no external LLM oracle/general conversation. Next campaign highest value is the inference/cognitive-runtime bridge, not cosmetic HUD chat.

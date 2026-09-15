@@ -480,3 +480,14 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | Daemon may HA Receiver without extra authority | REJECTED | authority separation doctrine | explicit qualified recovery grant |
 
 | ngrok has independent canonical SYSTEM task | VERIFIED SOURCE | `supervisor/install_unattended_recovery.ps1` registers `PCMMAD_V30_Ngrok_SYSTEM` | installer redesign |
+
+
+## 2026-09-15 DAEMON PERSISTENCE / BLOCKER TRACE
+| Mechanism / claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| isolated Daemon plane persistence contract | VERIFIED CLONE/TEST | hostile Daemon-plane tests + broad regression | live/project-root embodiment |
+| ResidentLifecycle bound to Daemon plane | VERIFIED PROTOTYPE | integration test | service concurrency/restart |
+| bootstrap is read-only byte-for-byte | VERIFIED after immutable SQLite fix | bootstrap hostile tests | SQLite/runtime changes |
+| Commander Intent is hash-enforced active surface | VERIFIED CODE/TEST | REQUIRED_ACTIVE_SURFACES + surface test | surface schema redesign |
+| native generative inference exists | REJECTED CURRENT CLAIM | registry audit: only project.models list/inspect | new capability/plugin/runtime |
+| Veya chamber supplies general conversation | REJECTED CURRENT CLAIM | explicit chamber boundary/oracle NONE | later Veya branch/mechanism |

@@ -413,3 +413,10 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **DAEMON-RECOVERY-AUTH-001** — specify qualified recovery capability Daemon may invoke for Receiver/ngrok; diagnosis != effect authority.
 
 - **NGROK-HA-001** — RESOLVED SOURCE FACT: independent `PCMMAD_V30_Ngrok_SYSTEM` task exists. Remaining work is supervision/coordination semantics, not task existence.
+
+
+## 2026-09-15 CAMPAIGN END / NEXT BLOCKER
+- **DAEMON-PERSISTENCE-001** — isolated persistence/bootstrap QUALIFIED; remaining live/project-root embodiment deferred until inference/service architecture warrants it.
+- **DAEMON-INFERENCE-001 — SUBSTANTIVE BLOCKER.** No qualified generative inference/conversation plane in active Receiver registry. Design/qualify provider-neutral bridge before HUD chat/service embodiment. HIGH / HARD STOP.
+- **COMMANDER-INTENT-ENFORCE-001** — Commander Intent now required by active-surface auditor. Verify every campaign end.
+- **SQLITE-READONLY-001** — preserve immutable side-effect-free audit/bootstrap behavior; ordinary ro mode created sidecars.

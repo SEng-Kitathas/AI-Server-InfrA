@@ -436,3 +436,14 @@
 - `OOP HA != DAEMON`; out-of-process supervisor remains non-cognitive, always-on, and capable of recovering both body and brain.
 
 - VERIFIED: unattended recovery already defines separate SYSTEM tasks `PCMMAD_V30_Receiver_SYSTEM`, `PCMMAD_V30_Ngrok_SYSTEM`, and `PCMMAD_V30_Supervisor_SYSTEM`; ngrok is not merely hidden inside the Receiver task. Daemon can fit this same per-workload pattern later.
+
+
+## DAEMON PERSISTENCE/BOOTSTRAP CAMPAIGN END — 2026-09-15
+- Campaign-start surface + commander-intent audit was CURRENT and retained root law, Interaction Integrity, generality, Daemon plane/initiative, HA triad, HUD intent, and continuity-currentness requirements.
+- Commander Intent is now itself a required hash-enforced active surface in `mvf_resident.surfaces.REQUIRED_ACTIVE_SURFACES`.
+- Dedicated Daemon plane persistence qualified in isolated temp roots only: identity, atomic current state, separate evidence/biography SQLite, OS-enforced cross-process lock, checkpoints, recovery, forward migration rollback, plane-separation guard. No project-control/live `daemon/` root created.
+- HEaT: missing/corrupt state remains visible; pre-replace crash preserves canonical state; concurrent writer denied; stale lock text has no authority; tampered checkpoint blocks recovery; failed migration restores checkpoint.
+- ResidentLifecycle can now bind state/evidence/biography to the qualified Daemon plane.
+- Fresh-process Daemon bootstrap/rehydration is read-only and refuses missing/corrupt/identity/project/authority mismatch. HEaT exposed that SQLite `mode=ro` can still create WAL/SHM sidecars; both plane audit and bootstrap now use immutable read mode after clean writer shutdown.
+- Persistence plane broad regression green; bootstrap focused 25/25 PASS; campaign-end broad regression pending readback at time of this write.
+- SUBSTANTIVE BLOCKER: no qualified generative inference/conversation capability in active Receiver registry. Only `project.models.list/inspect` are model-ish native capabilities; Veya chamber says `external_llm_oracle: NONE` and no general conversation/world knowledge. See `DAEMON_INFERENCE_BLOCKER_2026-09-15.md`.

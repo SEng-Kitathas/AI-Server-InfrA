@@ -21,3 +21,7 @@ def test_surface_audit_detects_hash_drift():
 def test_surface_audit_detects_missing_and_unmanifested():
     with tempfile.TemporaryDirectory() as td:
         root=Path(td);_build(root);(root/'NEXT_STEPS.md').unlink();m=json.loads((root/'SNAPSHOT_MANIFEST_SHA256.json').read_text());m['files'].pop('TRACE_MATRIX.md');(root/'SNAPSHOT_MANIFEST_SHA256.json').write_text(json.dumps(m),encoding='utf-8');r=audit_continuity_surfaces(root);assert r.status=='UNKNOWN_INCOMPLETE';assert 'NEXT_STEPS.md' in r.missing;assert 'TRACE_MATRIX.md' in r.unmanifested
+
+
+def test_commanders_intent_is_a_required_active_surface():
+    assert "COMMANDERS_INTENT_CURRENT.md" in REQUIRED_ACTIVE_SURFACES

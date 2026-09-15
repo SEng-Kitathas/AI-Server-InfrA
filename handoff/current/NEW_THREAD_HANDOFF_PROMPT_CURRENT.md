@@ -298,3 +298,7 @@ Do not resume from the old persistence ambiguity alone: architecture now converg
 
 ## 2026-09-15 HA TRIAD ADDENDUM
 Preserve reciprocal survivability topology: body can recover Daemon, Daemon can cognitively HA body, and independent OOP HA remains always-on for all. Reuse single-target supervisor pattern per workload; design anti-storm coordination before live embodiment.
+
+
+## 2026-09-15 CAMPAIGN-END ADDENDUM
+Surface + Commander Intent audit is mandatory at each campaign end. Current completed bridge: Daemon persistence/bootstrap in isolation. Current hard blocker: provider-neutral generative inference/conversation runtime. Start there; do not spend the next campaign on cosmetic HUD conversation UI first.

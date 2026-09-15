@@ -505,3 +505,12 @@ Do not resolve by simply choosing the empty `data/` directory.
 4. Add cross-workload coordination contract: restart dependency ordering, cooldown inheritance, and hard rule preventing A-restarts-B / B-restarts-A storms.
 5. Define Daemon's cognitive HA duty separately from deterministic restart authority; Daemon may diagnose/plan and invoke only qualified recovery capabilities.
 6. HEaT scenarios: Receiver dead/Daemon alive; Daemon dead/Receiver alive; ngrok dead; both body+brain dead; alternating crash loop; maintenance hold; stale lock; split-brain duplicate Daemon; restart during partial recovery.
+
+
+## 2026-09-15 NEXT CAMPAIGN — HIGHEST VALUE
+P0: qualify a provider-neutral Daemon inference/conversation plane.
+1. Inventory historical/local inference donors and current machine model assets/runtimes without reviving them by assumption.
+2. Define provider-neutral inference contract: model identity/currentness, bounded input/output, stream/cancel/status, failure/degradation, and no authority inheritance.
+3. Decide relationship between Microseed cognition and generative model resource: model != Daemon identity/memory/governance.
+4. Prove one isolated inference path with exact receipts and tool-bridge separation before HUD integration.
+5. Then expose Daemon status/conversation APIs and HUD surfaces; do not reverse this order.

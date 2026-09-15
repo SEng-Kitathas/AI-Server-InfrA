@@ -719,3 +719,10 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 - No live multi-target HA changes installed yet.
 
 - VERIFIED HA substrate detail: independent SYSTEM tasks already exist for Receiver, ngrok and Supervisor. Daemon should become another independently supervised workload, not be folded into an existing task.
+
+
+## 2026-09-15 DAEMON PERSISTENCE/BOOTSTRAP CURRENT STATE DELTA
+- Isolated Daemon plane persistence and read-only bootstrap are implemented and qualified in clone; no real project `daemon/` root created yet.
+- ResidentLifecycle can use qualified Daemon plane paths for current state/evidence/biography.
+- Commander Intent is now included in required surface currentness enforcement.
+- Current hard blocker moved upward: no qualified generative inference/conversation runtime in active Receiver capability estate.

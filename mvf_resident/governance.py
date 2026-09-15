@@ -27,9 +27,11 @@ class DutyCandidate:
 
 class ResidentGovernance:
     """Governance sidecar: records uncertainty and proposals; never self-authorizes."""
-    def __init__(self, state_dir: Path) -> None:
+    def __init__(self, state_dir: Path, *, evidence_path: Path | None = None) -> None:
         state_dir.mkdir(parents=True, exist_ok=True)
-        self.ledger = EvidenceLedger(state_dir / 'evidence.sqlite')
+        ledger_path = evidence_path or (state_dir / 'evidence.sqlite')
+        ledger_path.parent.mkdir(parents=True, exist_ok=True)
+        self.ledger = EvidenceLedger(ledger_path)
         self.deficits = EpistemicDeficitRegistry()
         self.candidates: dict[str, CapabilityCandidate] = {}
         self.tickets: dict[str, CapabilityQualificationTicket] = {}
