@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ipaddress
+import os
 import socket
 import time
 import urllib.error
@@ -181,7 +182,86 @@ def _git_status_snapshot(root: Path) -> JsonObject:
     }
 
 
+def _git_repositories_list_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
+    project_id = _project_id(payload)
+    if not project_id:
+        raise dep.error_cls("BAD_REQUEST", "project_id is required", 400)
+    project_root = dep.get_project_root(project_id).resolve()
+    start = dep.resolve_cwd(project_id, str(payload.get("path") or ".")).resolve()
+    try:
+        start.relative_to(project_root)
+    except ValueError as exc:
+        raise dep.error_cls(
+            "PROJECT_SCOPE_MISMATCH",
+            "repository discovery root escapes project root",
+            400,
+            scope="project",
+            lawful_next=["fs.tree", "fs.glob"],
+            recovery="use filesystem discovery for mounted/absolute paths, then operate through an explicit operator-scoped git route",
+        ) from exc
+    max_depth = int(payload.get("max_depth", 4))
+    max_results = int(payload.get("max_results", 50))
+    if max_depth < 0 or max_depth > 8:
+        raise dep.error_cls("BAD_REQUEST", "max_depth must be between 0 and 8", 400)
+    if max_results < 1 or max_results > 100:
+        raise dep.error_cls("BAD_REQUEST", "max_results must be between 1 and 100", 400)
+    max_directories = min(5000, max(200, int(payload.get("max_directories", 2000))))
+    repos: list[JsonObject] = []
+    seen: set[str] = set()
+    scanned = 0
+    truncated = False
+    skip = {".git", ".venv", "node_modules", "__pycache__"}
+    for current, dirs, files in os.walk(start):
+        current_path = Path(current).resolve()
+        rel_parts = current_path.relative_to(start).parts
+        depth = len(rel_parts)
+        scanned += 1
+        if scanned > max_directories:
+            truncated = True
+            break
+        dirs[:] = [d for d in dirs if d not in skip]
+        if depth >= max_depth:
+            dirs[:] = []
+        has_git_marker = (current_path / ".git").exists() or ".git" in files
+        if not has_git_marker:
+            continue
+        rel = current_path.relative_to(project_root).as_posix() or "."
+        _, identity, error = _git_repo_probe(project_id, dep, rel)
+        if error is not None or identity is None:
+            continue
+        repo_root = str(identity["repo_root"])
+        if repo_root in seen:
+            continue
+        seen.add(repo_root)
+        repos.append(identity)
+        if len(repos) >= max_results:
+            truncated = True
+            break
+    return {
+        "ok": True,
+        "project_id": project_id,
+        "scan_root": str(start),
+        "repositories": repos,
+        "count": len(repos),
+        "directories_scanned": scanned,
+        "max_depth": max_depth,
+        "max_results": max_results,
+        "truncated": truncated,
+    }
+
+
 def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> None:
+    @register_tool(
+        "git.repositories.list",
+        "Discover exact Git repository roots within a bounded project path.",
+        "low",
+        category="git",
+        side_effect_class="read",
+        effect_traits=["reads_repo_state", "project_scope_enforced", "bounded_results", "repo_discovery"],
+    )
+    def tool_git_repositories_list(payload: JsonObject) -> JsonObject:
+        return _git_repositories_list_payload(payload, dep)
+
     @register_tool(
         "git.status",
         "Read git status, branch, and dirty state for a project repo.",

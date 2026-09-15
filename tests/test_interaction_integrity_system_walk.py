@@ -84,3 +84,12 @@ def test_project_scope_mismatch_points_to_lawful_filesystem_recovery():
             assert "fs.write" in exc.extra["recovery"]
         else:
             raise AssertionError("project escape unexpectedly succeeded")
+
+
+def test_exact_git_identity_has_a_bounded_discovery_predecessor():
+    ops = _text("baseline/pcmmad_receiver/lab_tools_ops.py")
+    assert '"git.repositories.list"' in ops
+    assert '"git.status"' in ops
+    assert '"requires_exact_repo_identity"' in ops
+    assert '"repo_discovery"' in ops
+    assert 'max_depth' in ops and 'max_results' in ops
