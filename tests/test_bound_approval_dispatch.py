@@ -85,6 +85,54 @@ class BoundApprovalDispatchTests(unittest.TestCase):
         self.assertEqual(len(challenge["contract_digest"]), 64)
         self.assertEqual(len(challenge["arguments_digest"]), 64)
 
+
+    def test_challenge_exposes_non_authorizing_machine_actionable_continuation(self) -> None:
+        args = {"target": "A", "value": 1}
+        with self.assertRaises(lab_tools.LabToolError) as caught:
+            lab_tools.dispatch_tool("test.approved", args)
+        self.assertEqual(caught.exception.error_code, "APPROVAL_REQUIRED")
+        challenge = caught.exception.extra["approval_challenge"]
+        continuation = caught.exception.extra["continuation"]
+        self.assertEqual(continuation["kind"], "resubmit_exact_tool_call")
+        self.assertEqual(continuation["tool"], "test.approved")
+        self.assertEqual(continuation["arguments"], args)
+        self.assertEqual(continuation["expected_contract_digest"], challenge["contract_digest"])
+        self.assertEqual(continuation["authority_template"], {"approval_handle": challenge["handle"], "permit": False})
+        self.assertTrue(continuation["permit_must_be_set_true_by_approver"])
+        self.assertTrue(continuation["single_use"])
+
+        with self.assertRaises(lab_tools.LabToolError) as denied:
+            lab_tools.dispatch_tool(
+                continuation["tool"],
+                continuation["arguments"],
+                authority=continuation["authority_template"],
+                expected_contract_digest=continuation["expected_contract_digest"],
+            )
+        self.assertEqual(denied.exception.error_code, "APPROVAL_CONFIRMATION_REQUIRED")
+        self.assertEqual(self.calls, [])
+        self.assertEqual(aa.inspect_challenge(challenge["handle"])["status"], "ACTIVE")
+
+        approved_authority = dict(continuation["authority_template"])
+        approved_authority["permit"] = True
+        result = lab_tools.dispatch_tool(
+            continuation["tool"],
+            continuation["arguments"],
+            authority=approved_authority,
+            expected_contract_digest=continuation["expected_contract_digest"],
+        )
+        self.assertTrue(result["ok"])
+        self.assertEqual(self.calls, [args])
+
+        with self.assertRaises(lab_tools.LabToolError) as replay:
+            lab_tools.dispatch_tool(
+                continuation["tool"],
+                continuation["arguments"],
+                authority=approved_authority,
+                expected_contract_digest=continuation["expected_contract_digest"],
+            )
+        self.assertEqual(replay.exception.error_code, "APPROVAL_ALREADY_CONSUMED")
+        self.assertEqual(len(self.calls), 1)
+
     def test_exact_challenge_executes_once_and_reports_bound_mode(self) -> None:
         args = {"target": "A", "value": 1}
         challenge = self._challenge(args)

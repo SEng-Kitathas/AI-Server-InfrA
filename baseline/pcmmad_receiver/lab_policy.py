@@ -167,13 +167,23 @@ def evaluate_tool_call(
         )
 
     challenge = create_challenge(spec, payload)
+    handle = str(challenge.get("handle") or "")
+    continuation = {
+        "kind": "resubmit_exact_tool_call",
+        "tool": str(_spec_attr(spec, "name", "")),
+        "arguments": dict(payload),
+        "expected_contract_digest": str(_spec_attr(spec, "contract_digest", "")),
+        "authority_template": {"approval_handle": handle, "permit": False},
+        "permit_must_be_set_true_by_approver": True,
+        "single_use": True,
+    }
     return PolicyDecision(
         False,
         mode,
         False,
         "explicit approval is required for this exact capability contract and argument set",
         approval_mode="challenge_required",
-        approval_handle=str(challenge.get("handle") or ""),
+        approval_handle=handle,
         error_code="APPROVAL_REQUIRED",
-        details={"approval_challenge": challenge},
+        details={"approval_challenge": challenge, "continuation": continuation},
     )
