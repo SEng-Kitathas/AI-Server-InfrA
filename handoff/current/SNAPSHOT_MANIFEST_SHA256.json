@@ -32,16 +32,16 @@
       "sha256": "90ba40b110dae5b4a533aba059aac483c60c92c4d6846b4286d1562871c0e44c"
     },
     "CURRENT_STATE.md": {
-      "bytes": 67548,
-      "sha256": "572de32e2fe5703ca93bce331046c52e4d9c9eadcb65c9bbdb237464449393d5"
+      "bytes": 68553,
+      "sha256": "9416426330b781a24d54a0c1b43cbf45ddc15d95712e829005d7276ed576d4df"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 215497,
-      "sha256": "6c977ef77f59090544b97e8fed9e49abf0a55e4abea8bac5c98a1b58eb724de1"
+      "bytes": 217343,
+      "sha256": "c1fd3ae2489106e98fdae6ea670f5986af1ed0b5aede864cb6a2582d42e5591d"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 57313,
-      "sha256": "fa3766546e984b060ec94f7b66aeff5464799c3b560923267cb56a6febf9f04e"
+      "bytes": 59452,
+      "sha256": "1e223b9f07690438a228ab3c6352a867ad50927c2e74fdefbb7e5bd36e080a86"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
@@ -84,16 +84,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 44737,
-      "sha256": "904c3b47b7552a65b9cab9e4a5d96c700cc00402d32b66353ec736e31b3ebd4a"
+      "bytes": 48758,
+      "sha256": "70c985649f7187172d6487335a938d869013c002a53bc67e32df7378cad6a21c"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 35077,
-      "sha256": "08a56a268ce795f0e6edeb439187494c58d3b8f96d0931161b389d1cd9b562f8"
+      "bytes": 35727,
+      "sha256": "6aba50f86bc0b35f80c7d3baded5672078bd7c514b75decc3206e1d01a3612f1"
     },
     "NEXT_STEPS.md": {
-      "bytes": 48458,
-      "sha256": "edf6f5360216508f8997f8a24201e933f96878fab675c3af5b98f33ae9def8de"
+      "bytes": 50591,
+      "sha256": "6bfd6069c37ba65db815b0a894b397253284cab4a0ccb0723dd4e2db7e3ac0be"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -104,8 +104,8 @@
       "sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 65620,
-      "sha256": "0cb32d31024900655825d5ee20d4c97985bdeacf408fa8bc448c68e11733c174"
+      "bytes": 66876,
+      "sha256": "cec9fc01eadd49392db7ca495838c3e6897cd0b03773084af4c8d72f71361fa6"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
@@ -116,16 +116,16 @@
       "sha256": "e5e099932e4447aa4679bc329b40396060ee4017de0deb3209cf20b60c7c4308"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 37562,
-      "sha256": "d962f8e728ef8de6757826337393a3ef3a1ae360733685ff5f0d494d12cdf22a"
+      "bytes": 38365,
+      "sha256": "8b71593aff0cd1f600574a9a12454dbd292c9491bbeca5d2c2e3bb45b80de76d"
     },
     "T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md": {
       "bytes": 10887,
       "sha256": "4ccd5d692aa85e049cae60c714298b44f9bf3359fcdfead5b4eb00d869cacda1"
     },
     "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md": {
-      "bytes": 19329,
-      "sha256": "9a8d08317e73b8553ffcf304d84a9825f6c1586b7c9f39e2a62f2fe9567b3b48"
+      "bytes": 22568,
+      "sha256": "311189789f281a9cfdd6c26cb6bc5d398a869684692f33a64a1160d46e464a4a"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -136,8 +136,8 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 78791,
-      "sha256": "071b6caac14771d483354988841669b009289a5235be3b093b4688a005788a58"
+      "bytes": 81728,
+      "sha256": "43714efe985941611296f80cdfe1a95cf1d9f157f75af363507d36fcd15eaf41"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,
@@ -208,9 +208,9 @@
       "sha256": "bd2a1981ae6be1306fdc06e3241d59cc33bb61187d9c0c637e2f2adc8665bc7f"
     }
   },
-  "updated_at": "2026-09-15T20:18:10+00:00",
+  "updated_at": "2026-09-15T20:45:44.698169+00:00",
   "continuity_checkpoint": "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md",
-  "continuity_checkpoint_sha256": "9a8d08317e73b8553ffcf304d84a9825f6c1586b7c9f39e2a62f2fe9567b3b48",
+  "continuity_checkpoint_sha256": "311189789f281a9cfdd6c26cb6bc5d398a869684692f33a64a1160d46e464a4a",
   "continuity_checkpoint_source_head": "1b821bb4a8666f714084eabbd14c4954e774940b",
   "mvf_resident_source_corpus_digest": "160ffe8594964ca61570e18f668cb87f29346b8dfb247328b24be6791ff0c00b"
 }

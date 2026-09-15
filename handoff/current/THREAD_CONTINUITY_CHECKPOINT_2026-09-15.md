@@ -133,3 +133,19 @@ VERIFIED after the initial checkpoint:
 - Re-entry semantics preserved: historical nomination + fingerprint + independent provider/executable evidence + requested scope + dependency currentness; READY still Authority.NONE and only routes to existing registration path.
 - Real stale-continuity smoke: epistemic deficit created, continuity-watch candidate nominated, self-admission denied, reentry DEFER / DEPENDENCY_NOT_CURRENT / Authority.NONE.
 - Focused resident governance/interaction suite 24/24 PASS; broad regression 40 test files pytest rc 0; compile/diff rc 0.
+
+
+## 18. General cognition preservation invariant
+Operator explicitly required that MVF not lose general AGI capacity by becoming only a collection of assigned duties. Employment/duty contracts are an overlay for obligations, priorities, evidence, effects and escalation; they are not the resident's cognitive identity or reasoning boundary. Preserve Microseed/Veya general learning, abstraction, transfer, curiosity, metacognition, hypothesis generation, strategy formation and epistemic action selection. Resident may discover useful work beyond assigned duties and propose new duties/capabilities, but proposal/admission/effect authority remain externally governed.
+
+
+## 19. AGI terminology calibration
+Operator clarified that `baby AGI` means a general cognitive organism with immature experience/breadth, not a claim of finished or externally validated AGI. Working distinction: internal `baby/proto-AGI` shorthand is acceptable; `AGI achieved` remains unestablished until stronger evidence demonstrates open-world generality, continual learning, cross-domain transfer, self-correction, skill acquisition and robustness. MVF employment is intended as real-world immersion/developmental pressure, while preserving the prior invariant that duties do not become a cognitive ceiling.
+
+
+## 20. Resident lifecycle and continuity-surface enforcement
+MVF now audits required active continuity/context/shadow surfaces against the handoff SHA-256 manifest, classifying missing/unmanifested as UNKNOWN_INCOMPLETE and hash/checkpoint drift as STALE without mutation authority. `ResidentLifecycle` separates materialized current state from evidence ledger and DevelopmentalBiography, and automatically records non-CURRENT duties as evidence/deficits. HEaT found that donor biography auto-parenting turns identical append replay into a new causal event; an MVF replay guard now prevents retry from masquerading as life experience. Real lifecycle smoke: surfaces CURRENT, portfolio STALE only on continuity registration, four evidence records, one continuity deficit, biography digest `aa752c...b8a2`, mutation authority false. Final daemon persistence cannot live in `.heat_runtime`; durable persistence plane is the next blocker candidate.
+
+
+## 21. Campaign hard stop — durable resident persistence plane
+Surface-currentness enforcement and ResidentLifecycle are qualified: active surfaces moved from CURRENT to STALE after per-turn edits and back to CURRENT after normal manifest refresh; lifecycle couples portfolio observations to evidence/deficits and DevelopmentalBiography with replay guard and no mutation authority. Campaign then inspected project-control storage and hit a substantive architectural blocker: `state/` already owns materialized project governance surfaces, `continuity/` owns continuity artifacts, and `data/` exists empty but without verified resident-state semantics. `.heat_runtime` is explicitly campaign-only. No plane currently establishes ownership, authority, currentness, crash consistency, backup/recovery, migration or re-entry contracts for `current_state.json`, `evidence.sqlite`, and `biography.sqlite`. Native daemon/service embodiment therefore HARD STOPS until this plane is designed and HEaT-qualified.

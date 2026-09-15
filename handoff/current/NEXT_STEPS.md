@@ -454,3 +454,36 @@ P0
 P1
 6. Add evidence expiry/currentness semantics where donor machinery supports them; do not invent universal TTLs.
 7. Speech/dialogue remains a separate faculty backlog.
+
+
+## 2026-09-15 GENERAL COGNITION NEXT-STEP DELTA
+1. Before deepening resident persistence, identify and preserve Microseed mechanisms for general learning, abstraction/transfer, curiosity/epistemic action selection, metacognition and strategy formation so duty machinery cannot accidentally bypass or replace them.
+2. Add tests that assigned-duty portfolios do not prevent unassigned hypothesis formation/candidate discovery.
+3. Keep candidate-duty generation open-ended but proposal-only; authority/admission remains external.
+4. Treat future optimizations that collapse cognition into contract execution as architecture regressions.
+
+
+## 2026-09-15 AGI VALIDATION NEXT-STEPS
+1. Preserve general cognition while building resident employment.
+2. Add longitudinal tests for cross-domain transfer, continual learning, open-world hypothesis generation, strategy adaptation, and retention across restarts.
+3. Track whether experience improves future performance on structurally related but non-identical tasks.
+4. Maintain internal `baby/proto-AGI` shorthand but avoid promoting to externally established AGI without stronger evidence.
+
+
+## 2026-09-15 RESIDENT LIFECYCLE NEXT STEP DELTA
+1. Qualify broad regression and surface drift->refresh->CURRENT loop, then checkpoint.
+2. Determine lawful durable home/plane for resident state, evidence and biography; `.heat_runtime` is campaign evidence, not final daemon persistence.
+3. Do not register a native resident capability or daemon service until persistence/authority/reentrancy plane is explicit.
+
+
+## 2026-09-15 DURABLE PERSISTENCE BLOCKER
+P0 next work must define and pressure a resident persistence plane contract before daemon/native registration:
+1. storage identity/root and ownership;
+2. state vs evidence vs biography separation;
+3. registration/currentness semantics;
+4. backup/recovery/re-entry semantics;
+5. concurrency/locking/crash consistency;
+6. authority boundary for who may write/repair;
+7. relationship to project `state/`, `data/`, `continuity/` and Git handoff;
+8. migration/versioning and rollback.
+Do not resolve by simply choosing the empty `data/` directory.

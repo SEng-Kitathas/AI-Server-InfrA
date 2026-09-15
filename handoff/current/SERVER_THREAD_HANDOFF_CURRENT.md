@@ -313,3 +313,11 @@ Full Microseed/Veya ingestion is complete and first MVF resident is embodied und
 
 ## 2026-09-15 MVF GOVERNANCE SERVER DELTA
 Resident governance now consumes Microseed evidence/deficit/admission/reentry primitives. It can record UNKNOWNs, nominate read-only duty candidates, accept externally qualified tickets, and assess re-entry without granting authority. Real stale-continuity smoke produced deficit + CANDIDATE + self-admission denial + dependency-currentness DEFER. Broad regression green across 40 test files.
+
+
+## 2026-09-15 RESIDENT LIFECYCLE SERVER DELTA
+MVF resident now audits all active continuity/handoff surfaces by manifest hash, couples non-CURRENT portfolio results into evidence/deficits, and records causal biography separately from current materialized state. Real smoke surfaces CURRENT; continuity registration remains the only stale portfolio duty. Durable daemon persistence plane is now the next blocker candidate.
+
+
+## 2026-09-15 CAMPAIGN HARD STOP
+Resident lifecycle and per-turn surface enforcement are green. Campaign stops at durable persistence-plane ambiguity: project `state/`, `continuity/`, and `data/` exist, but none has verified semantics for MVF resident state/evidence/biography. Do not register/run resident as durable daemon until that contract is designed and HEaT-qualified.

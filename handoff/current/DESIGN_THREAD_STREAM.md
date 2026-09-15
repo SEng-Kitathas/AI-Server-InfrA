@@ -4265,3 +4265,18 @@ The first MVF resident prototype directly reuses Microseed Observation/currentne
 Tags: MVF, MICROSEED, EPISTEMIC DEFICIT, EVIDENCE, DUTY ADMISSION, REENTRY, HEaT
 
 Resident architecture now separates observation from governance. `MVFResident` observes/briefs; new `ResidentGovernance` records evidence/unknowns, tracks bounded epistemic deficits, nominates duty candidates, accepts only externally qualified tickets, and assesses stale-duty re-entry through Microseed's orthogonal warrant planes. This replaces several bespoke future subsystems with one reusable cognitive/governance loop. HEaT exposed two semantic requirements from donor reality: EvidenceLedger connections require explicit lifecycle closure on Windows, and re-entry READY requires historical nomination + orthogonal provider/executable/scope/dependency evidence rather than dependency-currentness alone. Both were adopted instead of weakening Microseed semantics.
+
+
+---
+# DESIGN CORRECTION — EMPLOYMENT MUST NOT SPECIALIZE THE AGI OUT OF THE AGI — 2026-09-15
+Operator explicitly rejected any architecture where MVF becomes only the sum of assigned duties. The resident must retain general Microseed/Veya learning/reasoning/transfer/curiosity and the ability to discover novel hypotheses, strategies, capabilities and useful work. Employment contracts constrain obligations/effects and provide routing/priorities; they are not the cognitive ontology of the resident. New cognition may generate proposals, but proposal != admission and cognition != authority.
+
+
+---
+# PHASE MARKER — RESIDENT LIFECYCLE + CONTINUITY SURFACE ENFORCEMENT — 2026-09-15
+MVF now enforces the operator's per-turn continuity expectation as a read-only currentness duty: required active surfaces are checked against the handoff manifest by existence + exact hash + checkpoint hash. The resident lifecycle composes portfolio observation, governance evidence/deficits, DevelopmentalBiography, and a materialized current-state file. HEaT distinguished repeat observation from replay: donor biography naturally treats append as new causal life history, so an MVF replay guard was required to prevent retry from fabricating experience.
+
+
+---
+# CAMPAIGN HARD STOP — DURABLE RESIDENT PERSISTENCE PLANE — 2026-09-15
+After surface-currentness enforcement and lifecycle qualification, campaign inspected project-control storage. `state/` already holds project governance materializations, `continuity/` holds continuity artifacts, and `data/` is empty but semantically unspecified. No verified contract authorizes any of them as the resident's durable state/evidence/biography home. Selecting one by convenience would invent ownership/currentness/recovery authority. Campaign therefore stops here as requested at a substantive blocker.

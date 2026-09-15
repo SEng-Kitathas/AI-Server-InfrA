@@ -382,3 +382,18 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **MVF-CURRENTNESS-ANCHOR-001** — bind duty deficits/candidates to concrete dependency epochs/currentness where native identities expose them. HIGH.
 - **MVF-DISCOVERY-001** — later mine repeated residual/anomaly patterns for candidate duties, proposal-only.
 - **MVF-EVIDENCE-LIFECYCLE-001** — qualify expiry/revocation/currentness semantics before long-lived admission.
+
+
+## 2026-09-15 GENERAL COGNITION REVISIT
+- **MVF-GENERALITY-001** — audit resident architecture for accidental reduction of cognition to duty execution; preserve general learning/reasoning/transfer/curiosity/metacognition. HIGH.
+- **MVF-OPEN-WORLD-001** — add an unassigned discovery/proposal path so useful novel work can emerge without predeclared duty, while admission/effect authority remains external. HIGH.
+
+
+## 2026-09-15 LIFECYCLE REVISIT
+- **MVF-PERSISTENCE-PLANE-001** — `.heat_runtime` is not an acceptable final daemon persistence home. Find/define lawful durable resident state/evidence/biography plane before service/native registration. HIGH.
+- **MVF-SURFACE-ENFORCE-001** — current prototype detects active-surface drift; later resident may enforce remediation routing, but no silent mutation/self-registration.
+- **MVF-REPLAY-001** — preserve `new observation != retry`; add restart/replay tests as persistence matures.
+
+
+## 2026-09-15 CAMPAIGN HARD BLOCKER
+- **MVF-PERSISTENCE-PLANE-001 — SUBSTANTIVE BLOCKER.** Define/qualify durable resident state/evidence/biography plane before native capability/service embodiment. Existing `state/`, `continuity/`, and empty `data/` cannot be assumed interchangeable. HIGH / HARD STOP.

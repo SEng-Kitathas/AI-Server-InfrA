@@ -282,3 +282,11 @@ Microseed/Veya full ingestion and first resident proof are no longer pending. Re
 
 ## 2026-09-15 MVF GOVERNANCE ADDENDUM
 First resident governance loop is embodied. Do not redesign candidate admission or re-entry from scratch: use `mvf_resident/governance.py` plus donor Microseed semantics. Next move is portfolio->governance coupling, resident developmental biography, and dependency-currentness anchors; resident must remain unable to self-qualify duties.
+
+
+## 2026-09-15 RESIDENT LIFECYCLE ADDENDUM
+Surface-currentness enforcement and resident lifecycle are embodied locally. Next work must resolve the durable persistence/authority plane before exposing resident as native capability/service. Do not use `.heat_runtime` as final daemon state.
+
+
+## 2026-09-15 CAMPAIGN BLOCKER ADDENDUM
+Current hard blocker is MVF durable persistence plane, not resident cognition. Lifecycle/surface enforcement are green. Before native daemon/service registration, explicitly define state/evidence/biography storage + authority + currentness + recovery semantics relative to project `state/`, `data/`, and `continuity/`.

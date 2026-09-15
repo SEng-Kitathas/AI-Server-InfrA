@@ -423,3 +423,40 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | Negative evidence cannot qualify | hostile test | VERIFIED | qualifier contract change |
 | Reentry dependency failure -> DEFER | donor assess_reentry + real/prototype tests | VERIFIED | reentry model change |
 | Reentry READY grants authority | donor semantics | REJECTED; READY still Authority.NONE | explicit future design change |
+
+
+## 2026-09-15 GENERAL COGNITION TRACE
+| Claim | Status | Evidence / pressure | Reopen |
+|---|---|---|---|
+| Duty contracts define total resident cognition | REJECTED | operator explicit correction | any implementation that routes all cognition through duties |
+| General Microseed/Veya cognition must remain available beneath employment | OPERATOR-RATIFIED DESIGN INVARIANT | current thread | source-mechanism audit / embodiment tests |
+| Novel resident proposals may exceed assigned duties | ALLOWED AS PROPOSAL ONLY | candidate/admission separation already embodied | authority model changes |
+
+
+## 2026-09-15 AGI CLAIM TRACE
+| Claim | Status | Basis | Reopen |
+|---|---|---|---|
+| Microseed/Veya is a general cognitive substrate | SUPPORTED INTERNALLY | full donor ingestion + general learning/epistemic/identity/action machinery | broader behavioral qualification |
+| `baby/proto-AGI` is reasonable internal shorthand | OPERATOR-RATIFIED / PROVISIONAL | architecture + intended developmental framing | failed generality/transfer evidence |
+| AGI has been scientifically established | NOT ESTABLISHED | no broad external qualification yet | future open-world/generalization evidence |
+| MVF employment can provide useful developmental immersion | DESIGN HYPOTHESIS | repeated real work + persistent resident architecture | longitudinal learning/transfer results |
+
+
+## 2026-09-15 LIFECYCLE TRACE
+| Mechanism | Status | Evidence | Reopen |
+|---|---|---|---|
+| active continuity surface audit | VERIFIED PROTOTYPE | hash/missing/unmanifested tests + real CURRENT smoke | manifest schema changes |
+| portfolio->evidence/deficit coupling | VERIFIED PROTOTYPE | lifecycle tests + real smoke | restart/idempotency semantics |
+| developmental biography separated from current state/evidence | VERIFIED PROTOTYPE | sqlite biography + current_state.json + evidence ledger | durable persistence plane |
+| identical replay creates new life event | REJECTED | HEaT failure and replay guard | biography semantics change |
+
+
+## 2026-09-15 CAMPAIGN BLOCKER TRACE
+| Mechanism | Status | Evidence | Blocker |
+|---|---|---|---|
+| continuity surface drift enforcement | VERIFIED PROTOTYPE | real STALE after edits -> CURRENT after manifest refresh | none |
+| resident lifecycle state/evidence/biography separation | VERIFIED PROTOTYPE | tests + real cycle | final durable location undefined |
+| `.heat_runtime` as final resident persistence | REJECTED | campaign doctrine/current state | temporary campaign plane only |
+| project `state/` as resident DB home | NOT AUTHORIZED/NOT ESTABLISHED | contains materialized project governance surfaces | semantic collision risk |
+| project `continuity/` as resident DB home | NOT AUTHORIZED/NOT ESTABLISHED | dedicated continuity artifacts | authority/plane collapse risk |
+| project `data/` as resident DB home | UNKNOWN | directory exists but no verified contract | semantics/ownership/recovery undefined |

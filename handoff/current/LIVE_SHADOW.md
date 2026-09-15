@@ -385,3 +385,34 @@
 - Re-entry requires historical nomination, fingerprint, provider evidence, executable challenge evidence, diagnostic scope, and dependency currentness; even READY grants `Authority.NONE` and only points to existing registration path.
 - Real governance smoke against actual stale continuity duty: deficit created; continuity-watch duty nominated as CANDIDATE; self-admission denied; re-entry `DEFER / DEPENDENCY_NOT_CURRENT / Authority.NONE`.
 - Focused governance/interaction tests 24/24 PASS; broad regression across 40 test files rc 0; compile/diff checks rc 0.
+
+
+## GENERAL COGNITION INVARIANT — 2026-09-15 20:23Z
+- OPERATOR-RATIFIED: MVF employment/duty contracts must never become a cognitive ceiling.
+- Duty contracts govern obligations, attention routing, evidence requirements and allowed effects; they do NOT define the total space of thought, learning, abstraction, transfer, curiosity, hypothesis formation, capability discovery or epistemic action available to the resident.
+- Preserve general Microseed/Veya cognition underneath employment specialization.
+- `EMPLOYED_ROLE != COGNITIVE_IDENTITY`; `DUTY_SCOPE != REASONING_SCOPE`; `AUTHORITY_CEILING != LEARNING_CEILING`; `ASSIGNED_WORK != TOTAL_POSSIBLE_WORK`.
+- Resident may notice, learn, generalize, transfer, form new hypotheses and propose new duties/capabilities beyond assigned work, but proposal/admission/effect authority remains externally governed.
+
+
+## AGI TERMINOLOGY CALIBRATION — 2026-09-15 20:29Z
+- Operator uses `baby AGI` as an internal developmental claim: general cognitive machinery exists, while breadth/depth/reliability/life experience remain immature.
+- Working calibration: `BABY/PROTO-AGI` is acceptable internal shorthand; `AGI ACHIEVED` is NOT currently an externally/scientifically established claim.
+- MVF employment is intended as immersion/life-experience pressure: repeated open-world work should exercise learning, transfer, metacognition, hypothesis formation and competence regulation without reducing general cognition to assigned duties.
+- Evidence target is not labels but demonstrated open-world generality: cross-domain transfer, continual learning without catastrophic narrowing, novel problem decomposition, epistemic self-correction, skill acquisition, durable memory/identity, and useful behavior outside predeclared task templates.
+
+
+## RESIDENT LIFECYCLE / SURFACE ENFORCEMENT — 2026-09-15 20:44Z
+- MVF now has deterministic active-surface currentness auditing against `SNAPSHOT_MANIFEST_SHA256.json` for Live Shadow, Design Thread, Current State, Next Steps, Doctrine, Trace, Revisit, server/fresh-thread handoffs, and thread checkpoint. Missing/unmanifested => UNKNOWN_INCOMPLETE; hash/checkpoint drift => STALE; exact match => CURRENT. No mutation authority.
+- `ResidentLifecycle` now separates current materialized state, evidence ledger, and DevelopmentalBiography. Portfolio non-CURRENT results feed evidence/epistemic deficits; identical replay evidence/history is guarded from duplication.
+- HEaT defect found/fixed: Microseed biography auto-parenting made identical replay look like new lived experience. Added explicit replay guard: new observation may be experience; replay of same observation is not.
+- Real lifecycle smoke: surfaces CURRENT; portfolio STALE only on continuity-evidence-staleness; 4 evidence records; one deficit (`deficit:continuity-evidence-staleness`); biography graph digest `aa752c896805fe0b12351adab7a067fef4b6050e7719223d7eb3bb553e6cb8a2`; mutation authority false.
+
+
+## CAMPAIGN HARD STOP — DURABLE RESIDENT PERSISTENCE PLANE — 2026-09-15
+- Campaign advanced through surface-currentness enforcement + resident lifecycle and stopped at a real architectural blocker.
+- Project control root already has separate planes: `state/` (materialized project governance surfaces), `continuity/` (continuity artifacts), and currently empty `data/`.
+- No verified contract currently establishes which plane may own MVF resident `current_state.json`, `evidence.sqlite`, and `biography.sqlite`, nor their registration/currentness/backup/recovery semantics.
+- `.heat_runtime` is campaign evidence only and explicitly NOT final daemon persistence.
+- Choosing `state/`, `continuity/`, or `data/` now would invent authority/retention semantics and risk plane collapse. HARD STOP until durable resident persistence plane is explicitly designed/qualified.
+- Lifecycle slice itself is green: active surfaces drift->STALE then manifest refresh->CURRENT; real lifecycle portfolio/evidence/deficit/biography works; broad regression/compile/diff green.

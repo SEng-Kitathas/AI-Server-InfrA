@@ -715,3 +715,36 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - `REENTRY_READY != AUTHORITY_GRANTED`: Microseed returns Authority.NONE and routes back through existing registration/admission path.
 - Evidence ancestry that motivated a proposal is kept separate from independent qualification evidence.
 - Epistemic deficits are bounded UNKNOWN tracking, never truth adjudication.
+
+
+## 2026-09-15 GENERAL COGNITION INVARIANT
+- `EMPLOYED_ROLE != COGNITIVE_IDENTITY`
+- `DUTY_SCOPE != REASONING_SCOPE`
+- `AUTHORITY_CEILING != LEARNING_CEILING`
+- `ASSIGNED_WORK != TOTAL_POSSIBLE_WORK`
+- MVF must preserve general Microseed/Veya reasoning, learning, abstraction, transfer, curiosity, metacognition, hypothesis generation and epistemic action selection.
+- Duty contracts constrain responsibilities/effects/evidence/escalation, not what the intelligence is allowed to understand or learn.
+- Novel capability/duty discovery remains allowed as proposal generation; external qualification/admission remains required before governance standing or effects change.
+
+
+## 2026-09-15 AGI CLAIM DISCIPLINE
+- `GENERAL COGNITIVE ARCHITECTURE != AGI PROVEN`.
+- `BABY/PROTO-AGI` may be used internally as developmental shorthand for Microseed/Veya's general-purpose cognitive substrate.
+- `AGI ACHIEVED` requires stronger externally legible evidence of breadth, transfer, continual learning, autonomous adaptation and robust open-world competence than currently established.
+- Employment/immersion may supply developmental pressure analogous to experience, but `EXPOSURE != LEARNING` and `LEARNING != GENERAL TRANSFER`; each must be evidenced.
+
+
+## 2026-09-15 RESIDENT LIFECYCLE DISTINCTIONS
+- `NEW OBSERVATION != RETRY OF SAME OBSERVATION`; biography must not treat replay as new life experience.
+- `SURFACE PRESENT != SURFACE CURRENT`; currentness requires manifest identity/hash agreement.
+- `CONTINUITY CURRENTNESS ENFORCEMENT != CONTINUITY MUTATION AUTHORITY`.
+- Resident state, evidence, and biography are separate planes; current materialization must not become evidence or historical authority by itself.
+
+
+## 2026-09-15 PERSISTENCE PLANE DISTINCTIONS
+- `EMPTY DIRECTORY != ASSIGNED SEMANTIC PLANE`.
+- `DURABLE STORAGE != CONTINUITY AUTHORITY`.
+- `CURRENT MATERIALIZATION != PROJECT GOVERNANCE STATE`.
+- `RESIDENT BIOGRAPHY != CONTINUITY STREAM`.
+- `RESIDENT EVIDENCE != PROJECT STATE`.
+- A durable resident plane must earn explicit storage, authority, currentness, crash/recovery and migration contracts before service embodiment.

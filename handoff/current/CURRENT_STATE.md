@@ -690,3 +690,17 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 - Actual stale continuity finding now feeds a real deficit/candidate/reentry workflow without mutating continuity state.
 - Real smoke result: CANDIDATE created, self-admission denied, re-entry DEFER because dependency not current, authority NONE.
 - Broad qualification: 40 test files, pytest rc 0, compile rc 0, diff-check rc 0.
+
+
+## 2026-09-15 RESIDENT LIFECYCLE CURRENT STATE DELTA
+- Added `mvf_resident/surfaces.py` and `mvf_resident/lifecycle.py`.
+- Active handoff surfaces can now be deterministically audited CURRENT/STALE/UNKNOWN_INCOMPLETE from manifest hashes.
+- Resident lifecycle writes distinct current materialized state while preserving evidence and causal biography separately.
+- Real cycle currently sees active surfaces CURRENT and only the pre-existing continuity registration duty stale.
+
+
+## 2026-09-15 CAMPAIGN BLOCKER DELTA
+- Resident lifecycle + active-surface currentness enforcement are qualified.
+- Substantive blocker: lawful durable persistence home for resident state/evidence/biography is undefined.
+- Existing project planes are not interchangeable: `state/` already materializes governance state; `continuity/` holds continuity artifacts; `data/` has no verified resident-state contract.
+- No native resident service/capability registration until persistence/authority/recovery semantics are explicit.
