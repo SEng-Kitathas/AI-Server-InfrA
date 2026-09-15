@@ -144,6 +144,28 @@ def _profile_id(value: object | None) -> str:
     return text
 
 
+def list_profiles() -> dict[str, Any]:
+    """Enumerate existing user-continuity profiles without requiring prior profile identity.
+
+    Profile identifiers are directory names only; profile contents remain isolated and are not read.
+    """
+    root = (Path(SYSTEM_ROOT) / "user_continuity" / "profiles").resolve()
+    profiles: list[str] = []
+    if root.is_dir():
+        for child in root.iterdir():
+            if not child.is_dir():
+                continue
+            try:
+                pid = _profile_id(child.name)
+            except UserContinuityError:
+                continue
+            # Only expose profiles with continuity material, not arbitrary directories.
+            if (child / "events.jsonl").is_file() or (child / "current.json").is_file():
+                profiles.append(pid)
+    profiles.sort()
+    return {"ok": True, "profiles": profiles, "count": len(profiles)}
+
+
 def _paths(profile_id: str) -> MemoryPaths:
     pid = _profile_id(profile_id)
     expected = (MEMORY_ROOT / "profiles").resolve()

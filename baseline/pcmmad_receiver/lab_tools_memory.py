@@ -19,6 +19,7 @@ from user_continuity_store import (
     memory_compact_snapshot,
     memory_forget_request,
     memory_read,
+    list_profiles,
     memory_search,
     memory_supersede,
     memory_update,
@@ -106,6 +107,24 @@ def _schema(required: list[str], properties: dict[str, Any]) -> dict[str, Any]:
 
 
 def register_memory_tools(register_tool: Registrar, *, error_cls: type[Exception]) -> None:
+    @register_tool(
+        name="memory.profiles.list",
+        description="Enumerate existing user-continuity profile identifiers without reading profile contents.",
+        danger_tier="low",
+        category="memory",
+        approval_required=False,
+        mutating=False,
+        capability_version="1",
+        input_schema={"type": "object", "properties": {}, "additionalProperties": False},
+        output_schema={"type": "object"},
+        side_effect_class="read",
+        effect_traits=["bounded_results", "profile_discovery", "reads_profile_metadata"],
+        idempotency_semantics="safe_repeat",
+    )
+    def memory_profiles_list_tool(payload: dict[str, Any]) -> dict[str, Any]:
+        del payload
+        return list_profiles()
+
     source = _source_properties()
     fact = _fact_properties()
     mutation_traits = [
