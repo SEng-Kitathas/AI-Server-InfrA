@@ -397,3 +397,10 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 
 ## 2026-09-15 CAMPAIGN HARD BLOCKER
 - **MVF-PERSISTENCE-PLANE-001 — SUBSTANTIVE BLOCKER.** Define/qualify durable resident state/evidence/biography plane before native capability/service embodiment. Existing `state/`, `continuity/`, and empty `data/` cannot be assumed interchangeable. HIGH / HARD STOP.
+
+
+## 2026-09-15 DAEMON ARCHITECTURE REVISIT
+- **DAEMON-PLANE-001** — qualify dedicated `daemon/` root/tree as first-class persistence plane. HIGH.
+- **DAEMON-HUD-001** — add persistent Daemon communication window + status sidebar + expandable cognitive views. HIGH.
+- **DAEMON-INITIATIVE-001** — define proactive cognition/read-only investigation/notification policy separate from effect authority. HIGH.
+- **DAEMON-SELF-MODEL-001** — maintain server capability/topology/currentness self-model as resident faculty. HIGH.

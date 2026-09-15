@@ -460,3 +460,12 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | project `state/` as resident DB home | NOT AUTHORIZED/NOT ESTABLISHED | contains materialized project governance surfaces | semantic collision risk |
 | project `continuity/` as resident DB home | NOT AUTHORIZED/NOT ESTABLISHED | dedicated continuity artifacts | authority/plane collapse risk |
 | project `data/` as resident DB home | UNKNOWN | directory exists but no verified contract | semantics/ownership/recovery undefined |
+
+
+## 2026-09-15 DAEMON ARCHITECTURE TRACE
+| Decision | Status | Evidence | Reopen |
+|---|---|---|---|
+| Daemon deserves first-class plane | ARCHITECTURE CONVERGED / NOT YET STORAGE-QUALIFIED | server capability/HUD audit + persistence blocker | persistence HEaT failure |
+| Receiver substrate should move into Daemon | REJECTED | deterministic safety/authority/HA requirements | major architecture change |
+| Daemon must be prompt-bound | REJECTED | operator explicit AGI/general-cognition requirement | operator revision |
+| HUD needs Daemon conversation + status | OPERATOR-DIRECTED DESIGN | current HUD audit shows no cognitive-organism surface | implementation/UX HEaT |

@@ -321,3 +321,7 @@ MVF resident now audits all active continuity/handoff surfaces by manifest hash,
 
 ## 2026-09-15 CAMPAIGN HARD STOP
 Resident lifecycle and per-turn surface enforcement are green. Campaign stops at durable persistence-plane ambiguity: project `state/`, `continuity/`, and `data/` exist, but none has verified semantics for MVF resident state/evidence/biography. Do not register/run resident as durable daemon until that contract is designed and HEaT-qualified.
+
+
+## 2026-09-15 DAEMON ARCHITECTURE SERVER DELTA
+Server-wide audit converges on a first-class `daemon/` cognitive plane. Receiver remains deterministic body; Daemon owns cross-cutting cognition/orchestration/learning/status/interaction and may initiate cognition/work without user prompts. HUD needs Daemon conversation and status surfaces. Storage/service embodiment still gated on dedicated plane persistence/HA/authority qualification. See `DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md`.

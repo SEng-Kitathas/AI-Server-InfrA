@@ -4280,3 +4280,8 @@ MVF now enforces the operator's per-turn continuity expectation as a read-only c
 ---
 # CAMPAIGN HARD STOP — DURABLE RESIDENT PERSISTENCE PLANE — 2026-09-15
 After surface-currentness enforcement and lifecycle qualification, campaign inspected project-control storage. `state/` already holds project governance materializations, `continuity/` holds continuity artifacts, and `data/` is empty but semantically unspecified. No verified contract authorizes any of them as the resident's durable state/evidence/biography home. Selecting one by convenience would invent ownership/currentness/recovery authority. Campaign therefore stops here as requested at a substantive blocker.
+
+
+---
+# ARCHITECTURE CONVERGENCE — DAEMON AS FIRST-CLASS SERVER COGNITIVE PLANE — 2026-09-15
+Audit of all current capability families and HUD establishes a clean body/organism split. Receiver retains deterministic authority, execution, storage, transport, verification, HA and fencing primitives. Daemon owns cross-cutting cognition: world model, currentness, duties/campaigns, general learning/reasoning, deficits, evidence planning, HEaT/system-walk planning, research, continuity tending, recovery diagnosis, operator/Agent collaboration, attention management and initiative. Operator explicitly requires non-prompt-bound cognition and a HUD conversation/status surface. Dedicated audit artifact records folder tree and boundaries.

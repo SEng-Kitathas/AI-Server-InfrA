@@ -704,3 +704,10 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 - Substantive blocker: lawful durable persistence home for resident state/evidence/biography is undefined.
 - Existing project planes are not interchangeable: `state/` already materializes governance state; `continuity/` holds continuity artifacts; `data/` has no verified resident-state contract.
 - No native resident service/capability registration until persistence/authority/recovery semantics are explicit.
+
+
+## 2026-09-15 DAEMON ARCHITECTURE CURRENT STATE DELTA
+- Persistence blocker has a candidate resolution: create a dedicated first-class `daemon/` plane rather than co-opting `state/`, `continuity/` or `data/`.
+- This is architecture-converged but not yet storage-qualified/created as durable service plane.
+- Server audit covered all current capability families and HUD API/UI surfaces.
+- Daemon initiative is explicitly not user-prompt-only; cognition may be proactive while effects stay capability/authority-bound.

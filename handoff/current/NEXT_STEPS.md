@@ -487,3 +487,12 @@ P0 next work must define and pressure a resident persistence plane contract befo
 7. relationship to project `state/`, `data/`, `continuity/` and Git handoff;
 8. migration/versioning and rollback.
 Do not resolve by simply choosing the empty `data/` directory.
+
+
+## 2026-09-15 DAEMON PLANE NEXT STEPS
+1. Design/qualify first-class `daemon/` persistence root using the audit tree.
+2. Specify identity, state/evidence/biography DB contracts, locks, crash consistency, backup/recovery, migration and reentry.
+3. Specify minimal Daemon APIs: status, event/utterance stream, conversation send/history, brief, duties/campaigns, proposals.
+4. Extend HUD with persistent Daemon communication panel + compact status sidebar; client displays Daemon state, does not reconstruct cognitive truth.
+5. Define initiative/relevance policy: proactive cognition/read-only investigation/communication vs authority-bound effects.
+6. System-walk Daemon plane against HA, approvals, memory, continuity, execution and project mutation before service install.

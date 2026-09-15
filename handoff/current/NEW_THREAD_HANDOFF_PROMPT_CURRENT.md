@@ -290,3 +290,7 @@ Surface-currentness enforcement and resident lifecycle are embodied locally. Nex
 
 ## 2026-09-15 CAMPAIGN BLOCKER ADDENDUM
 Current hard blocker is MVF durable persistence plane, not resident cognition. Lifecycle/surface enforcement are green. Before native daemon/service registration, explicitly define state/evidence/biography storage + authority + currentness + recovery semantics relative to project `state/`, `data/`, and `continuity/`.
+
+
+## 2026-09-15 DAEMON ARCHITECTURE ADDENDUM
+Do not resume from the old persistence ambiguity alone: architecture now converges on a dedicated first-class `daemon/` plane. Before service install, qualify its storage/locking/recovery/authority semantics and design HUD communication/status APIs. Daemon is proactive cognitive organism, not prompt-bound assistant; effects remain native-authority-bound.

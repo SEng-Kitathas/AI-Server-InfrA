@@ -416,3 +416,12 @@
 - `.heat_runtime` is campaign evidence only and explicitly NOT final daemon persistence.
 - Choosing `state/`, `continuity/`, or `data/` now would invent authority/retention semantics and risk plane collapse. HARD STOP until durable resident persistence plane is explicitly designed/qualified.
 - Lifecycle slice itself is green: active surfaces drift->STALE then manifest refresh->CURRENT; real lifecycle portfolio/evidence/deficit/biography works; broad regression/compile/diff green.
+
+
+## DAEMON PLANE ARCHITECTURE — 2026-09-15 20:56Z
+- Operator direction + server audit converge: MVF/Daemon should be the server-side incarnation of the Microseed organism, with a first-class `daemon/` plane/folder tree rather than living under project state/continuity/generic data.
+- Receiver = deterministic body/substrate; Daemon = persistent cognitive organism using native capabilities as senses/hands.
+- Daemon must NOT be prompt-bound. It may autonomously observe, learn, reason, form hypotheses, maintain duties/world model/deficits, run qualified read-only investigations, propose work and initiate relevant communication. Effects remain native-authority-bound.
+- HUD should gain a persistent Daemon communication window and always-visible status sidebar, plus expandable world-model/duties/learning/evidence/biography/research/proposals/agent-brief views. Daemon may initiate messages/alerts/questions under relevance/escalation policy.
+- Golden Compass daemon relationship archetype accepted as coherent identity/interaction model: persistent companion-like cognitive organism, without authority elevation.
+- Full architecture audit: `DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md`.

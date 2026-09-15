@@ -748,3 +748,11 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - `RESIDENT BIOGRAPHY != CONTINUITY STREAM`.
 - `RESIDENT EVIDENCE != PROJECT STATE`.
 - A durable resident plane must earn explicit storage, authority, currentness, crash/recovery and migration contracts before service embodiment.
+
+
+## 2026-09-15 DAEMON PLANE DOCTRINE DELTA
+- `DAEMON PLANE != RECEIVER SUBSTRATE`.
+- `COGNITIVE INITIATIVE != EFFECT AUTHORITY`.
+- `PROMPT ABSENCE != COGNITIVE INACTIVITY`.
+- Daemon may proactively think/learn/observe/propose/communicate within qualified cognitive/read authority; consequential effects remain separately authorized.
+- Daemon must not become a single point of failure for auth, approvals, HA, execution engine, path fencing, ledger integrity, transport or its own restart path.
