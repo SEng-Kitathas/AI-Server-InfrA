@@ -66,6 +66,12 @@
           },
           "time": {
             "type": "string"
+          },
+          "approval_challenge": {
+            "$ref": "#/components/schemas/ApprovalChallenge"
+          },
+          "continuation": {
+            "$ref": "#/components/schemas/ApprovalContinuation"
           }
         },
         "required": [
@@ -2700,7 +2706,7 @@
       },
       "PythonExecRequest": {
         "type": "object",
-        "description": "Execute Python source directly. Written to a temp .py file — no shell escaping needed.",
+        "description": "Execute Python source directly. Written to a temp .py file \u2014 no shell escaping needed.",
         "properties": {
           "project_id": {
             "$ref": "#/components/schemas/ProjectId"
@@ -3703,6 +3709,137 @@
             "nullable": true
           }
         }
+      },
+      "ApprovalChallenge": {
+        "type": "object",
+        "description": "Runtime-issued single-use approval challenge bound to one capability contract and exact argument set.",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string"
+          },
+          "single_use": {
+            "type": "boolean"
+          },
+          "capability_id": {
+            "type": "string"
+          },
+          "capability_version": {
+            "type": "string"
+          },
+          "schema_hash": {
+            "type": "string"
+          },
+          "contract_digest": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-fA-F]{64}$"
+          },
+          "arguments_digest": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-fA-F]{64}$"
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "danger_tier": {
+            "type": "string"
+          },
+          "effect_traits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "issued_at": {
+            "type": "string"
+          },
+          "expires_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "handle",
+          "capability_id",
+          "contract_digest",
+          "arguments_digest"
+        ],
+        "additionalProperties": true
+      },
+      "ApprovalContinuation": {
+        "type": "object",
+        "description": "Non-authorizing exact resubmission template returned with APPROVAL_REQUIRED. A client must preserve tool, arguments, contract digest and handle exactly, and an approver must explicitly change permit from false to true.",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "resubmit_exact_tool_call"
+            ]
+          },
+          "tool": {
+            "type": "string",
+            "minLength": 1
+          },
+          "arguments": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "expected_contract_digest": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-fA-F]{64}$"
+          },
+          "authority_template": {
+            "type": "object",
+            "properties": {
+              "approval_handle": {
+                "type": "string",
+                "minLength": 1
+              },
+              "permit": {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              }
+            },
+            "required": [
+              "approval_handle",
+              "permit"
+            ],
+            "additionalProperties": false
+          },
+          "permit_must_be_set_true_by_approver": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "single_use": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "tool",
+          "arguments",
+          "expected_contract_digest",
+          "authority_template",
+          "permit_must_be_set_true_by_approver",
+          "single_use"
+        ],
+        "additionalProperties": false
       }
     }
   },
@@ -4435,7 +4572,7 @@
     "/run": {
       "post": {
         "operationId": "runSync",
-        "summary": "Synchronous execution — blocks, returns output directly",
+        "summary": "Synchronous execution \u2014 blocks, returns output directly",
         "description": "Synchronous one-shot execution request. v9 removes mandatory async fallback for >30s requests; the server may execute long runs inline.",
         "requestBody": {
           "required": true,
@@ -4474,7 +4611,7 @@
     "/run/python": {
       "post": {
         "operationId": "runPython",
-        "summary": "Execute Python source inline — no shell escaping, UTF-8 clean",
+        "summary": "Execute Python source inline \u2014 no shell escaping, UTF-8 clean",
         "description": "Execute Python source directly. v9 allows long-running inline execution and optional unbounded timeout/output ceilings when supported by the server.",
         "requestBody": {
           "required": true,
@@ -4513,7 +4650,7 @@
     "/project/files/write": {
       "post": {
         "operationId": "writeProjectFile",
-        "summary": "Write text file to project path — no artifact ceremony",
+        "summary": "Write text file to project path \u2014 no artifact ceremony",
         "description": "Write UTF-8 content to a project-relative path. Creates parent directories. mode: overwrite (default), create_only, or append.",
         "requestBody": {
           "required": true,
@@ -4611,7 +4748,7 @@
     "/project/execution/wait": {
       "post": {
         "operationId": "waitForProjectExecution",
-        "summary": "Long-poll async job until done — eliminates sleep+poll loops",
+        "summary": "Long-poll async job until done \u2014 eliminates sleep+poll loops",
         "description": "Server blocks until the job reaches a terminal state or timeout_seconds elapses. Returns full stdout/stderr on completion. Use after submitProjectExecution when runSync is not applicable.",
         "requestBody": {
           "required": true,
@@ -4680,7 +4817,7 @@
       "post": {
         "operationId": "dispatchLabTool",
         "summary": "Dispatch a server-side lab tool by name",
-        "description": "Dispatch one server-native lab capability through the canonical runtime router. For approval-gated calls, first receive the runtime approval challenge, then retry with the exact challenge in the separate top-level authority envelope; do not embed approval inside payload.",
+        "description": "Dispatch one server-native lab capability through the canonical runtime router. Approval authority remains in the separate top-level authority envelope; do not embed approval inside payload. For gated calls, preserve the returned approval_challenge and continuation exactly. The continuation is non-authorizing; only an explicit approver may authorize exact resubmission with the returned expected_contract_digest.",
         "requestBody": {
           "required": true,
           "content": {
