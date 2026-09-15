@@ -759,7 +759,7 @@ def _project_write_payload(payload: ToolPayload, dep: ProjectToolDeps) -> ToolRe
     root = dep.get_project_root(request.project_id)
     target = (root / request.path).resolve()
     if root.resolve() not in [target, *target.parents]:
-        raise dep.error_cls("BAD_PATH", "path escapes project root", 400)
+        raise dep.error_cls("PROJECT_SCOPE_MISMATCH", "path escapes project root; use the filesystem capability family for explicit mounted/absolute-path operations", 400, scope="project", lawful_next=["fs.write"], recovery="retry with fs.write against an allowed mounted/absolute path")
     if request.mode == "create_only" and target.exists():
         raise dep.error_cls("ALREADY_EXISTS", "file exists and mode=create_only", 409)
     dep.ensure_parent(target)

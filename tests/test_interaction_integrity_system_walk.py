@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import tempfile
+from types import SimpleNamespace
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,3 +53,34 @@ def test_profile_discovery_is_ingress_edge_not_dead_end():
     assert '"memory.search"' in memory
     assert '"hydration"' in memory
     assert '"source_currentness_check"' in memory
+
+
+def test_project_scope_mismatch_points_to_lawful_filesystem_recovery():
+    import sys
+    runtime = ROOT / "baseline" / "pcmmad_receiver"
+    if str(runtime) not in sys.path:
+        sys.path.insert(0, str(runtime))
+    import lab_tools_project as project
+
+    class E(Exception):
+        def __init__(self, code, message, status=400, **extra):
+            super().__init__(message)
+            self.code, self.status, self.extra = code, status, extra
+
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td).resolve()
+        dep = SimpleNamespace(
+            error_cls=E,
+            ensure_project_layout=lambda payload: "p",
+            get_project_root=lambda project_id: root,
+            ensure_parent=lambda path: None,
+        )
+        try:
+            project._project_write_payload({"project_id": "p", "path": "../outside.txt", "content": "x"}, dep)
+        except E as exc:
+            assert exc.code == "PROJECT_SCOPE_MISMATCH"
+            assert exc.extra["scope"] == "project"
+            assert "fs.write" in exc.extra["lawful_next"]
+            assert "fs.write" in exc.extra["recovery"]
+        else:
+            raise AssertionError("project escape unexpectedly succeeded")
