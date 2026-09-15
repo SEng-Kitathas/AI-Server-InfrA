@@ -447,3 +447,18 @@
 - Fresh-process Daemon bootstrap/rehydration is read-only and refuses missing/corrupt/identity/project/authority mismatch. HEaT exposed that SQLite `mode=ro` can still create WAL/SHM sidecars; both plane audit and bootstrap now use immutable read mode after clean writer shutdown.
 - Persistence plane broad regression green; bootstrap focused 25/25 PASS; campaign-end broad regression pending readback at time of this write.
 - SUBSTANTIVE BLOCKER: no qualified generative inference/conversation capability in active Receiver registry. Only `project.models.list/inspect` are model-ish native capabilities; Veya chamber says `external_llm_oracle: NONE` and no general conversation/world knowledge. See `DAEMON_INFERENCE_BLOCKER_2026-09-15.md`.
+
+
+## NON-INFERENCE DAEMON CAMPAIGN END — 2026-09-15
+- Operator deferred inference/generative conversation and HUD UI; all other high-value Daemon work was pursued.
+- `daemon_service.py` now provides persistent proactive initiative loop plus local `/health`, `/status`, `/events`; no prompt is required for cycles.
+- HEaT fixed cross-thread SQLite ownership by making the initiative thread create/own/close ResidentLifecycle and DB connections.
+- Daemon plane now has durable status/current + timeline paths.
+- Receiver native registry now includes read-only `daemon.health`, `daemon.status`, `daemon.events`; real clone dispatch against port 5016 succeeded.
+- Daemon HA duty now observes ngrok processes explicitly in addition to Receiver/python and PCMMAD scheduled tasks.
+- unattended recovery clone installer now includes independent Daemon workload + Daemon supervisor SYSTEM tasks, separate lock/hold/receipt, configured Daemon project root/port/URL, and no RecoverySecret inheritance into Daemon workload.
+- Real exact-identity clone recovery: `36804@21:39:34.949Z -> 15756@21:39:53.349Z`, healthy; live PID 12788 unchanged. Maintenance hold suppressed restart; clearing hold recovered as PID 26940; live unchanged.
+- Campaign temp tasks cleaned; orphan child reaped by exact port+command guard; port 5016 absent afterward; live port 5000 still PID 12788.
+- Broad non-inference regression: 48 test files PASS, compile rc 0, diff rc 0; final focused config/status slice 11/11 PASS.
+- No live/project-control Daemon root or SYSTEM tasks installed. Remaining non-clone boundary is live promotion/safe-window decision. Deferred: inference + HUD.
+- Full record: `DAEMON_NONINFERENCE_RUNTIME_CAMPAIGN_2026-09-15.md`.

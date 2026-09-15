@@ -491,3 +491,14 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | Commander Intent is hash-enforced active surface | VERIFIED CODE/TEST | REQUIRED_ACTIVE_SURFACES + surface test | surface schema redesign |
 | native generative inference exists | REJECTED CURRENT CLAIM | registry audit: only project.models list/inspect | new capability/plugin/runtime |
 | Veya chamber supplies general conversation | REJECTED CURRENT CLAIM | explicit chamber boundary/oracle NONE | later Veya branch/mechanism |
+
+
+## 2026-09-15 NON-INFERENCE DAEMON TRACE
+| Mechanism | Status | Evidence | Reopen |
+|---|---|---|---|
+| proactive Daemon service loop | VERIFIED CLONE | service tests + real port5016 autonomous cycles | service architecture changes |
+| Daemon health/status/events | VERIFIED CLONE | HTTP tests + native dispatch smoke | schema/API changes |
+| independent OOP Daemon recovery | VERIFIED CLONE | exact PID/creation recovery 36804->15756 | live promotion/installer changes |
+| maintenance hold suppress/resume | VERIFIED CLONE | no listener during hold, receipt MAINTENANCE_HOLD, recovery to 26940 | supervisor changes |
+| live Receiver unaffected | VERIFIED during experiments | port5000 PID 12788 unchanged | future live tests |
+| live Daemon installed | NOT DONE | clone-only campaign | operator-safe promotion window |

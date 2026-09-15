@@ -24,6 +24,9 @@ class DaemonPlanePaths:
     checkpoints: Path
     migrations: Path
     quarantine: Path
+    status_current: Path
+    status_timeline: Path
+    status_alerts: Path
 
 @dataclass(frozen=True)
 class DaemonPlaneAudit:
@@ -35,7 +38,7 @@ class DaemonPlaneAudit:
     def to_dict(self) -> dict[str,Any]: return asdict(self)
 
 def paths(root: Path) -> DaemonPlanePaths:
-    return DaemonPlanePaths(root,root/'identity'/'daemon_identity.json',root/'state'/'current.json',root/'evidence'/'evidence.sqlite',root/'biography'/'biography.sqlite',root/'runtime'/'locks'/'plane.lock',root/'runtime'/'checkpoints',root/'migrations',root/'quarantine')
+    return DaemonPlanePaths(root,root/'identity'/'daemon_identity.json',root/'state'/'current.json',root/'evidence'/'evidence.sqlite',root/'biography'/'biography.sqlite',root/'runtime'/'locks'/'plane.lock',root/'runtime'/'checkpoints',root/'migrations',root/'quarantine',root/'status'/'current.json',root/'status'/'timeline.jsonl',root/'status'/'alerts.jsonl')
 
 def qualify_root(root: Path, *, project_root: Path | None=None) -> None:
     root=root.resolve()
@@ -99,7 +102,7 @@ def open_db(path: Path) -> sqlite3.Connection:
 
 def initialize(root: Path, *, daemon_id: str, project_id: str) -> DaemonPlanePaths:
     qualify_root(root); p=paths(root)
-    for d in [p.identity.parent,p.current_state.parent,p.evidence_db.parent,p.biography_db.parent,p.lock.parent,p.checkpoints,p.migrations,p.quarantine]: d.mkdir(parents=True,exist_ok=True)
+    for d in [p.identity.parent,p.current_state.parent,p.evidence_db.parent,p.biography_db.parent,p.lock.parent,p.checkpoints,p.migrations,p.quarantine,p.status_current.parent]: d.mkdir(parents=True,exist_ok=True)
     with plane_lock(p.lock):
         if not p.identity.exists(): atomic_json(p.identity,{'schema_version':DAEMON_PLANE_SCHEMA,'daemon_id':daemon_id,'project_id':project_id,'authority':'COGNITIVE_PLANE_ONLY'})
         if not p.current_state.exists(): atomic_json(p.current_state,{'schema_version':DAEMON_PLANE_SCHEMA,'daemon_id':daemon_id,'state':{},'generation':0})

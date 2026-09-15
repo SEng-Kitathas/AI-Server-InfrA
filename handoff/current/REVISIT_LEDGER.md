@@ -420,3 +420,10 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **DAEMON-INFERENCE-001 — SUBSTANTIVE BLOCKER.** No qualified generative inference/conversation plane in active Receiver registry. Design/qualify provider-neutral bridge before HUD chat/service embodiment. HIGH / HARD STOP.
 - **COMMANDER-INTENT-ENFORCE-001** — Commander Intent now required by active-surface auditor. Verify every campaign end.
 - **SQLITE-READONLY-001** — preserve immutable side-effect-free audit/bootstrap behavior; ordinary ro mode created sidecars.
+
+
+## 2026-09-15 NON-INFERENCE CAMPAIGN REVISIT
+- **DAEMON-LIVE-PROMOTION-001** — remaining non-deferred boundary: promotion/system-walk and safe live install decision for first-class Daemon root + SYSTEM workload/supervisor. HIGH, requires explicit safe window.
+- **DAEMON-INFERENCE-001** — DEFERRED BY OPERATOR.
+- **DAEMON-HUD-001** — DEFERRED BY OPERATOR.
+- **DAEMON-CHILD-REAP-001** — scheduled task removal did not reap child service; installer/uninstaller/recovery procedures must verify process/listener consequence.

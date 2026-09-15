@@ -333,3 +333,7 @@ Operator ratified reciprocal body/brain HA with independent always-on out-of-pro
 
 ## 2026-09-15 DAEMON PERSISTENCE/BOOTSTRAP SERVER DELTA
 Daemon plane persistence and fresh-process read-only rehydration are qualified in isolated clone/temp roots; no real daemon root/service installed. Commander Intent is now an enforced active surface. Next blocker is generative inference/conversation: active registry has no native inference/chat capability and current Veya chamber explicitly has oracle NONE/general-conversation boundary. Do not build HUD chat before this bridge is qualified.
+
+
+## 2026-09-15 NON-INFERENCE DAEMON SERVER DELTA
+Clone now includes proactive Daemon service, durable status/event backend, Receiver-native read tools, Daemon SYSTEM workload/supervisor installer wiring, and real clone-only independent recovery + maintenance-hold proof. Live Receiver remained PID 12788. Temp tasks/processes cleaned. No live Daemon install performed. Inference/HUD explicitly deferred.

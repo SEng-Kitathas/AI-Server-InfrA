@@ -1008,3 +1008,13 @@ A-042 compact-schema work is limited to current authority projection parity and 
 - HUD eventually needs persistent Daemon conversation + status/attention sidebar; Daemon may initiate relevant communication.
 - Current campaign result: Daemon persistence/identity/current-state/evidence/biography/checkpoint/recovery/migration/bootstrap are qualified in isolated clone/temp roots. Do NOT create the project-control/live Daemon root yet.
 - Current substantive blocker: no qualified generative inference/conversation plane in current Receiver registry; Veya chamber explicitly has no external LLM oracle/general conversation. Next campaign highest value is the inference/cognitive-runtime bridge, not cosmetic HUD chat.
+
+
+## COMMANDER'S INTENT DELTA — NON-INFERENCE DAEMON CAMPAIGN
+- Inference/conversation bridge and HUD interface are explicitly deferred for now. Do not spend campaign effort there until operator reopens them.
+- Complete all other Daemon/server embodiment work first.
+- Non-inference Daemon must remain proactive/non-prompt-bound, persistent, generally cognitive beneath duties, and authority-bounded for effects.
+- Body/brain/OOP HA intent remains: Receiver/ngrok ecosystem keeps Daemon alive; Daemon cognitively monitors/HA-diagnoses Receiver+ngrok; original out-of-process recovery remains independently always-on.
+- Campaign-end surface + Commander Intent audit is mandatory before every campaign closure.
+- Current clone state now includes proactive Daemon service, durable status/events, native Receiver `daemon.health/status/events`, independent Daemon SYSTEM+supervisor task wiring, and real clone-only OOP recovery/maintenance-hold proof.
+- No live Daemon install/promotion occurred; live promotion must not be smuggled in as a clone checkpoint.

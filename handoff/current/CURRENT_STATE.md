@@ -726,3 +726,9 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 - ResidentLifecycle can use qualified Daemon plane paths for current state/evidence/biography.
 - Commander Intent is now included in required surface currentness enforcement.
 - Current hard blocker moved upward: no qualified generative inference/conversation runtime in active Receiver capability estate.
+
+
+## 2026-09-15 NON-INFERENCE DAEMON CURRENT STATE DELTA
+- Clone now has qualified proactive Daemon service/runtime, durable status/event backend, native Receiver read capabilities, Daemon-aware unattended recovery installer, and real clone-only OOP HA recovery/hold evidence.
+- Daemon is not live-installed. Project-control `daemon/` root and SYSTEM tasks remain uncreated on live system.
+- Inference/conversation and HUD are deferred by operator.

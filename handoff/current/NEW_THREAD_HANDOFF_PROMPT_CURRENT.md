@@ -302,3 +302,7 @@ Preserve reciprocal survivability topology: body can recover Daemon, Daemon can 
 
 ## 2026-09-15 CAMPAIGN-END ADDENDUM
 Surface + Commander Intent audit is mandatory at each campaign end. Current completed bridge: Daemon persistence/bootstrap in isolation. Current hard blocker: provider-neutral generative inference/conversation runtime. Start there; do not spend the next campaign on cosmetic HUD conversation UI first.
+
+
+## 2026-09-15 NON-INFERENCE DAEMON ADDENDUM
+Do not redo clone non-inference runtime/HA work: it is qualified. Inference and HUD are deferred. Next non-deferred bridge is live-promotion review/safe-window decision for dedicated Daemon root + SYSTEM workload/supervisor. Preserve mandatory campaign-end surface + Commander Intent audit.

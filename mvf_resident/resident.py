@@ -220,7 +220,7 @@ def default_receiver_lab_duties(project_id: str = "RECEIVER-LAB") -> tuple[DutyC
             duty_id="receiver-currentness-ha",
             subject="PCMMAD Receiver + recovery path",
             maintained_claim="receiver and recovery evidence remain current enough for operator briefing",
-            observation_plan=(("machine.processes.list", {"name_filter": "python", "limit": 25}), ("machine.scheduled_tasks.list", {"name_filter": "PCMMAD", "limit": 50})),
+            observation_plan=(("machine.processes.list", {"name_filter": "python", "limit": 25}), ("machine.processes.list", {"name_filter": "ngrok", "limit": 25}), ("machine.scheduled_tasks.list", {"name_filter": "PCMMAD", "limit": 50})),
             stale_conditions=("status=STALE",),
             reopen_conditions=("status=VIOLATED",),
             evidence_requirements=("process identity metadata", "scheduled task state"),

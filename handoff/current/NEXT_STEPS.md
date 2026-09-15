@@ -514,3 +514,8 @@ P0: qualify a provider-neutral Daemon inference/conversation plane.
 3. Decide relationship between Microseed cognition and generative model resource: model != Daemon identity/memory/governance.
 4. Prove one isolated inference path with exact receipts and tool-bridge separation before HUD integration.
 5. Then expose Daemon status/conversation APIs and HUD surfaces; do not reverse this order.
+
+
+## 2026-09-15 NEXT STEPS AFTER NON-INFERENCE COMPLETION
+P0 non-deferred engineering is now at live-promotion boundary. Before any live install: run promotion/system-walk review for exact project daemon root, installed runtime copy, SYSTEM task identities, ports, secrets, backup/rollback and live HA interaction. Require operator-safe live window.
+Deferred until operator reopens: generative inference/conversation and HUD interaction/status UI.
