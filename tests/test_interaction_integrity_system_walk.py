@@ -127,3 +127,13 @@ def test_machine_identity_discovery_precedes_identity_bound_actions():
     assert '"does_not_grant_mutation_authority"' in machine
     assert "CreationDate" in machine
     assert "HUD_PROCESS_IDENTITY_MISMATCH" in operator
+
+
+def test_machine_discovery_has_exact_identity_inspection_before_action():
+    machine = _text("baseline/pcmmad_receiver/lab_tools_machine.py")
+    assert '"machine.processes.list"' in machine and '"machine.process.inspect"' in machine
+    assert '"machine.services.list"' in machine and '"machine.service.inspect"' in machine
+    assert '"machine.scheduled_tasks.list"' in machine and '"machine.scheduled_task.inspect"' in machine
+    assert '"exact_identity_required"' in machine
+    assert '"currentness_check"' in machine
+    assert "PROCESS_IDENTITY_MISMATCH" in machine
