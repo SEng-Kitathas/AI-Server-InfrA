@@ -274,3 +274,7 @@ Next action: verify current 23-file hashes/tests are unchanged, refresh Git-cont
 Read `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md` after LIVE_SHADOW before widening. Re-ground on clone HEAD/status and latest global interaction receipt.
 Architectural pivot: MVF = multi-dimensional resident intelligence/governance fabric (benign Cardinal/Jarvis-like institutional employee), sibling to Veya under base Microseed and free to incorporate/adapt locally re-earned Microseed/Veya machinery. Root law: anything crossing into our operational sphere loses special status and is stripped/tested by reality/HEaT. Interaction law: local optimum/local green cannot establish global functionality.
 Immediate next substantive work: inspect actual Microseed/Veya current/stale/competence/memory/dialogue machinery, define minimal MVF duty-contract model, prove small multi-duty resident daemon using typed runtime primitives. Do not build generic machine ACT endpoints first.
+
+
+## 2026-09-15 MVF RESIDENT ADDENDUM
+Microseed/Veya full ingestion and first resident proof are no longer pending. Read Live Shadow/Current State for exact evidence. Do not restart from a sampled-Microseed assumption: 740 files were fully read and executable Microseed donor is in `mvf_resident/donor_microseed`. Continue by deepening the resident with Microseed epistemic/reentry/evidence/persistence machinery and HEaT each transferred mechanism.

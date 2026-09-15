@@ -111,3 +111,16 @@ After continuity readback/commit: inspect actual Microseed/Veya currentness/stal
 4. Use `DESIGN_THREAD_STREAM.md` for chronology.
 5. Re-read latest Git HEAD/status and result receipts before mutation.
 6. Do not promote discussion into implementation claims or clone evidence into live embodiment evidence.
+
+
+## 16. Post-checkpoint addendum — full Microseed/Veya ingestion and first resident embodiment
+VERIFIED after the initial checkpoint:
+- canonical/current donor estate: `E:\new pc\AI_Pushes_Sandbox\projects\protoagi_microseed_reincarnation_20260827`; thin `projects/MICROSEED` shell is not the cognitive source estate.
+- full-byte ingestion completed for all of `baseline_ms1887` plus current `sandbox_runtime/veya_conversation_chamber_20260912`: 740 files, 5,497,179 bytes, 737 text + 3 binary; corpus digest `160ffe8594964ca61570e18f668cb87f29346b8dfb247328b24be6791ff0c00b`.
+- full executable Microseed package copied into `mvf_resident/donor_microseed`; current Veya chamber source/protocol copied into `mvf_resident/donor_veya_chamber`; explicit donor manifest says `DONOR_ONLY_NOT_AUTHORITY`. Source parity verified 70/70 copied donor files.
+- Microseed machinery directly relevant to resident MVF includes Observation/currentness, ternary commitments, continuity assessment/witness, EvidenceLedger/FixedQualifier, epistemic currentness anchors/deficit registry, historical reentry/dependency-currentness warrants, action licensing and capability admission.
+- first read-only `MVFResident` / `DutyContract` prototype embodied with three duties: Receiver/HA currentness, repository topology, continuity/evidence staleness.
+- HEaT found and fixed two resident defects: wrong continuity native contract; substring-based state classification that could infer state from explanatory prose. Current classification uses structured `field=value` predicates.
+- real native brief: Receiver/HA CURRENT; repository topology CURRENT; continuity/evidence STALE exactly because `continuity.live_shadow/LIVE_SHADOW.md` is `local_unregistered`; resident mutation authority false.
+- global qualification: 70/70 source parity, 58 Python files compile, broad 39-file pytest suite rc 0, CRLF-aware diff-check rc 0.
+- current Veya chamber demonstrates separate state/biography/evidence stores and identity/current/action/observation/memory embodiment, but does NOT by itself establish speech/dialogue machinery; that remains future work.

@@ -363,3 +363,15 @@
 - Remote `main` independently read back at `22a38e7b82994597616c87d6e3cb4aff4b3cb91d`.
 - Local `main` is aligned with `origin/main`; paused UCM recovery remains preserved on its separate local holding branch.
 - Live remains frozen; final schema remains LAST/LOCKED/untriggered; Skills/UCM stay separate/paused.
+
+
+## MVF/MICROSEED RESIDENT DELTA — 2026-09-15 19:58Z
+- Full Microseed/Veya ingestion VERIFIED: source root `E:\new pc\AI_Pushes_Sandbox\projects\protoagi_microseed_reincarnation_20260827`; complete targets `baseline_ms1887` + current `sandbox_runtime/veya_conversation_chamber_20260912`; 740 files, 5,497,179 bytes, 737 text + 3 binary; corpus digest `160ffe8594964ca61570e18f668cb87f29346b8dfb247328b24be6791ff0c00b`.
+- Full executable Microseed package crossed boundary into clone under `mvf_resident/donor_microseed`; current Veya chamber source/protocol copied under `mvf_resident/donor_veya_chamber`. Donor manifest explicitly `DONOR_ONLY_NOT_AUTHORITY`; 70 copied donor files / 992,951 bytes.
+- Concrete Microseed machinery confirmed relevant: `Observation` + `currentness`, ternary commitments, continuity assessment/witness, EvidenceLedger/FixedQualifier, epistemic currentness anchors/deficit lifecycle, historical reentry warrants with dependency currentness, action licensing, capability admission.
+- First MVF resident prototype embodied read-only: `DutyContract`, `DutyResult`, `MVFResident`, `LabToolsAdapter`; allowed effects constrained to read; outputs hard-report `mutation_authority=false`.
+- First portfolio duties: Receiver currentness/HA; repository topology/currentness; continuity/evidence staleness.
+- HEaT found/fixed two ordinary-path issues: wrong continuity capability/artifact contract; unsafe substring-based stale/reopen matching. Conditions are now structured `field=value`, preventing semantic-note text from masquerading as state.
+- Real native-tool brief: receiver-currentness-ha=CURRENT; repository-topology-currentness=CURRENT; continuity-evidence-staleness=STALE solely because Live Shadow convergence status is `local_unregistered`; mutation authority false.
+- Global qualification VERIFIED: source-to-donor parity 70/70, 58 Python files compile, broad 39-file regression pytest rc 0, diff-check rc 0.
+- Speech/dialogue remains a user-directed future faculty; current Veya chamber snapshot does not itself contain literal speech/dialogue machinery, so do not claim it is already embodied there.

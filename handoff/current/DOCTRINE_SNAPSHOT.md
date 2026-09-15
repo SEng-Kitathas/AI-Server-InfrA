@@ -698,3 +698,11 @@ MVF and Veya are sibling branches of base Microseed. MVF may incorporate/strip/a
 Resident MVF/Microseed may serve as THE DAEMON / benign Cardinal/Jarvis-like institutional intelligence: shared world model, persistent cognition, system tending, grunt work, anomaly investigation, speech/briefing, AI-for-AI compression and Singularity Works R&D support. `SYSTEM-WIDE AWARENESS != SYSTEM-WIDE AUTHORITY`; `PERSISTENT COGNITION != PERSISTENT PERMISSION`.
 
 Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
+
+
+## 2026-09-15 MVF/MICROSEED EMBODIMENT DELTA
+- `WHOLE DONOR INGESTED != WHOLE DONOR ADMITTED`: entire source estate was read for evidence, while only executable Microseed + current Veya source/protocol were copied as explicit donors.
+- Donor manifest law: `CROSS_BOUNDARY_DONOR != AUTHORITY`.
+- First resident embodiment validates earlier design direction: native typed hands remain separate from resident cognition; resident composes read tools and Microseed currentness/commitment machinery without gaining mutation authority.
+- HEaT caught `TEXT MENTIONS STATE != STRUCTURED STATE`: stale/reopen classification must use structured fields, not substring presence in explanatory prose. Do not promote this wording as an EARNED scar automatically; defect/reproduction evidence exists in this campaign.
+- Current Veya chamber provides state/biography/evidence separation and embodiment patterns, but no directly evidenced speech/dialogue implementation in this snapshot.

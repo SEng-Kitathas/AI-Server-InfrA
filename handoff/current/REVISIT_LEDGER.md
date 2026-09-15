@@ -366,3 +366,11 @@ Mark an item resolved only with explicit evidence and corresponding trace/readba
 - **SINGULARITY-001** — Explore MVF as private Singularity Works institutional intelligence/research engineer after resident proof.
 
 Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
+
+
+## 2026-09-15 MVF RESIDENT REVISIT DELTA
+- **MVF-RESIDENT-001** — first proof EMBODIED read-only; next deepen with Microseed epistemic/reentry/evidence machinery and durable state.
+- **MVF-DUTY-ADMISSION-001** — design candidate->qualification lifecycle for discovered/generated duties using Microseed capability-admission pattern; candidate must never self-promote.
+- **MVF-PERSISTENCE-001** — adapt state/biography/evidence separation from Microseed/Veya into resident persistence; runtime donor sqlite state is context, not authority.
+- **MVF-SPEECH-001** — locate/build/qualify actual speech/dialogue faculty; current Veya chamber does not establish it.
+- **CONTINUITY-REG-001** — resident correctly flags Receiver-LAB Live Shadow `local_unregistered`; determine lawful registration/currentness repair separately, not by silent self-registration.

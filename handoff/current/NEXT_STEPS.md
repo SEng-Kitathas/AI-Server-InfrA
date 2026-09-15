@@ -430,3 +430,15 @@ P1
 6. External platform approval continuation remains UNKNOWN; exercise actual bridge when safe.
 7. Live HA embodiment and Desktop restart-helper convergence deferred until operator available/live destructive tests allowed.
 8. Embody root law + Interaction Integrity + HEaT across doctrine/CSC/MVF honestly; avoid symbolic compliance.
+
+
+## 2026-09-15 MVF RESIDENT NEXT STEPS DELTA
+P0
+1. Checkpoint/commit first resident + donor snapshot + this continuity delta.
+2. Deepen resident using already-ingested Microseed machinery rather than adding bespoke watchers: EpistemicDeficitRegistry/currentness anchors; historical reentry/dependency currentness; EvidenceLedger/FixedQualifier; continuity identity/biography.
+3. Give duties durable resident state with Veya-inspired separation of state/biography/evidence, but do NOT import Veya runtime sqlite state as authority.
+4. Replace static duty list over time with candidate duty discovery/admission: candidate != qualified duty; qualification must remain external/HEaT-bound.
+5. Consider native read-only `mvf.resident.brief` only after reentrancy/system-walk analysis.
+6. Keep generic machine ACT deferred until resident currentness/evidence model is stronger and action contracts consume exact identity + authority + consequence readback.
+P1
+7. Speech/dialogue faculty remains desired but unembodied in current chamber snapshot; find/derive/qualify actual mechanism before claiming it.

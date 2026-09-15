@@ -1,0 +1,8 @@
+{
+  "schema": "veya.echo-counterpart-config.v1",
+  "counterpart_id": "ECHO-COUNTERPART-A",
+  "counterpart_epoch": 1,
+  "identity_claim": "OPAQUE_EXPERIMENTAL_ID_ONLY",
+  "human_identity_authority": "NONE",
+  "note": "Stable chamber counterpart coordinate for controlled episodic-memory testing; not a claim about real-world person identity."
+}

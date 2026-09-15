@@ -401,3 +401,14 @@ This block does not assert token presence or absence. It remains semantically va
 | External platform approval consumption | not directly exercised | UNKNOWN | actual external bridge test |
 
 Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
+
+
+## 2026-09-15 MVF RESIDENT TRACE ADDITIONS
+| Claim / mechanism | Evidence | Status | Reopen |
+|---|---|---|---|
+| Full Microseed/Veya source estate was read | 740-file manifest, 5,497,179 bytes, corpus digest `160ffe...c00b` | VERIFIED FULL INGESTION | source estate/current branch changes |
+| Executable Microseed donor copied without authority | `mvf_resident/DONOR_MANIFEST.json`, 70-file parity | VERIFIED DONOR | parity/source lineage change |
+| Microseed currentness/ternary machinery can support MVF duties | resident implementation + tests + real smoke | VERIFIED NARROW EMBODIMENT | wider duties/semantic scope |
+| First resident 3-duty portfolio | real native brief: CURRENT/CURRENT/STALE(local_unregistered) | VERIFIED READ-ONLY PROTOTYPE | duty contract/tool/currentness changes |
+| Resident has mutation authority | explicit false + tests | REJECTED CLAIM | only if separately designed/authorized later |
+| Veya speech/dialogue already embodied in current chamber | full chamber inspection found no literal machinery | NOT ESTABLISHED | other source/branch evidence |

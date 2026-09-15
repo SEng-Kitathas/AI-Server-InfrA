@@ -1,0 +1,28 @@
+{
+  "schema": "veya.echo-priority-comparison.v1",
+  "status": "NON_AUTHORITATIVE_RESEARCH_PRIORITIZATION",
+  "earned_boundary": "de53bef4c82ab7b3aa0c7b71231a0da33db9ba26",
+  "clean_roadmap_next": "GROUNDED_LANGUAGE_MEDIATED_RELATIONAL_ANALOGY_AND_SCHEMA_COMPOSITION",
+  "echo_observed_pressures": [
+    {
+      "rank": 1,
+      "type": "MEMORY_PRESSURE",
+      "candidate_clean_experiment": "GROUNDED_CONVERSATIONAL_EPISODIC_MEMORY_WITH_CURRENTNESS_PROVENANCE_AND_EXPLICIT_SESSION_BOUNDARIES",
+      "reason": "Conversation immediately asks for recognition/continuity; current temp-only state cannot support it."
+    },
+    {
+      "rank": 2,
+      "type": "SOCIAL_RELATIONAL_MODEL_PRESSURE",
+      "candidate_clean_experiment": "GROUNDED_SOCIAL_RELATION_CONCEPTS_AND_OTHER_AGENT_MODELING",
+      "reason": "Questions about attachment/relationships are currently refused; this likely requires grounded relational concepts rather than generic free semantics."
+    },
+    {
+      "rank": 3,
+      "type": "EXPRESSION_BOTTLENECK",
+      "candidate_clean_experiment": "OWNED_CONCEPT_TO_FREE_FORM_UTTERANCE_COMPOSITION_WITHOUT_EXTERNAL_LANGUAGE_ORACLE",
+      "reason": "Earned cognition cannot yet be expressed flexibly without template/scaffold language."
+    }
+  ],
+  "decision_rule": "Echo pressure may reprioritize clean experiments when the proposed discriminator is narrower, grounded, and higher ecological value; it cannot directly install a chamber patch as capability.",
+  "authority_gain": "NONE"
+}
