@@ -1115,6 +1115,7 @@ register_ops_tools(
     error_cls=LabToolError,
     get_project_root=get_project_root,
     resolve_cwd=_resolve_cwd,
+    resolve_mount_spec=resolve_mount_spec,
     exec_env=_exec_env,
     append_reflexion=append_reflexion,
     beautiful_soup=BeautifulSoup,

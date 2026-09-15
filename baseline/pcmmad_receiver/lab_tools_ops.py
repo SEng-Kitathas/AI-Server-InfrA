@@ -28,6 +28,7 @@ class OpsToolDeps:
     exec_env: Callable[[JsonObject], dict[str, str]]
     append_reflexion: Callable[[str, JsonObject], object]
     beautiful_soup: Any
+    resolve_mount_spec: Callable[..., Path] | None
 
 
 VERIFY_MAX_GATES = 32
@@ -43,6 +44,7 @@ def _ops_deps(deps: JsonObject) -> OpsToolDeps:
         exec_env=deps["exec_env"],
         append_reflexion=deps["append_reflexion"],
         beautiful_soup=deps.get("beautiful_soup"),
+        resolve_mount_spec=deps.get("resolve_mount_spec"),
     )
 
 
@@ -250,7 +252,130 @@ def _git_repositories_list_payload(payload: JsonObject, dep: OpsToolDeps) -> Jso
     }
 
 
+def _machine_repositories_list_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
+    raw_root = str(payload.get("root") or "").strip()
+    if not raw_root:
+        raise dep.error_cls(
+            "BAD_REQUEST",
+            "root is required; discover machine roots first and choose one explicitly",
+            400,
+            lawful_next=["machine.roots.list"],
+        )
+    candidate = Path(raw_root).expanduser()
+    if "://" not in raw_root and not candidate.is_absolute():
+        raise dep.error_cls("BAD_REQUEST", "root must be an explicit absolute path or mount spec", 400)
+    if dep.resolve_mount_spec is None:
+        raise dep.error_cls(
+            "CAPABILITY_UNAVAILABLE",
+            "machine repository discovery requires mount/path resolution support",
+            503,
+            capability="machine.repositories.list",
+        )
+    try:
+        root = dep.resolve_mount_spec(raw_root, default_root=None, allow_absolute=True).resolve()
+    except (OSError, ValueError, TypeError) as exc:
+        raise dep.error_cls("BAD_PATH", str(exc), 400) from exc
+    if not root.exists():
+        raise dep.error_cls("NOT_FOUND", "repository discovery root not found", 404, root=str(root))
+    if not root.is_dir():
+        raise dep.error_cls("BAD_PATH", "repository discovery root must be a directory", 400, root=str(root))
+    max_depth = int(payload.get("max_depth", 4))
+    max_results = int(payload.get("max_results", 50))
+    max_directories = int(payload.get("max_directories", 2000))
+    if max_depth < 0 or max_depth > 8:
+        raise dep.error_cls("BAD_REQUEST", "max_depth must be between 0 and 8", 400)
+    if max_results < 1 or max_results > 100:
+        raise dep.error_cls("BAD_REQUEST", "max_results must be between 1 and 100", 400)
+    if max_directories < 1 or max_directories > 5000:
+        raise dep.error_cls("BAD_REQUEST", "max_directories must be between 1 and 5000", 400)
+    repos: list[JsonObject] = []
+    seen: set[str] = set()
+    scanned = 0
+    escaped_paths_skipped = 0
+    truncated = False
+    skip = {".git", ".venv", "node_modules", "__pycache__"}
+    for current, dirs, files in os.walk(root):
+        current_path = Path(current).resolve()
+        try:
+            relative = current_path.relative_to(root)
+        except ValueError:
+            escaped_paths_skipped += 1
+            dirs[:] = []
+            continue
+        depth = len(relative.parts)
+        scanned += 1
+        if scanned > max_directories:
+            truncated = True
+            break
+        dirs[:] = [d for d in dirs if d not in skip]
+        if depth >= max_depth:
+            dirs[:] = []
+        if not ((current_path / ".git").exists() or ".git" in files):
+            continue
+        probe = _git_envelope(current_path, ["git", "rev-parse", "--show-toplevel"])
+        if not probe.get("ok"):
+            continue
+        top_raw = str(probe.get("stdout") or "").strip()
+        if not top_raw:
+            continue
+        top = Path(top_raw).resolve()
+        if top != current_path:
+            continue
+        top_key = str(top).casefold() if os.name == "nt" else str(top)
+        if top_key in seen:
+            continue
+        seen.add(top_key)
+        repos.append({
+            "repo_root": str(top),
+            "root_relative_path": relative.as_posix() or ".",
+            "discovery_scope": "operator_machine_read",
+            "exact_repo_identity": True,
+        })
+        if len(repos) >= max_results:
+            truncated = True
+            break
+    return {
+        "ok": True,
+        "scope": "operator_machine_read",
+        "root": str(root),
+        "repositories": repos,
+        "count": len(repos),
+        "directories_scanned": min(scanned, max_directories),
+        "escaped_paths_skipped": escaped_paths_skipped,
+        "max_depth": max_depth,
+        "max_results": max_results,
+        "max_directories": max_directories,
+        "truncated": truncated,
+        "recursive": True,
+        "mutation_authority": False,
+    }
+
+
 def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> None:
+    @register_tool(
+        "machine.repositories.list",
+        "Discover exact Git repository roots beneath one explicit operator-selected machine root.",
+        "low",
+        category="machine",
+        approval_required=False,
+        mutating=False,
+        side_effect_class="read",
+        effect_traits=["operator_scope", "repo_discovery", "explicit_root_required", "bounded_results", "bounded_traversal", "requires_exact_repo_identity", "does_not_grant_mutation_authority"],
+        input_schema={
+            "type": "object",
+            "properties": {
+                "root": {"type": "string", "minLength": 1},
+                "max_depth": {"type": "integer", "minimum": 0, "maximum": 8},
+                "max_results": {"type": "integer", "minimum": 1, "maximum": 100},
+                "max_directories": {"type": "integer", "minimum": 1, "maximum": 5000},
+            },
+            "required": ["root"],
+            "additionalProperties": False,
+        },
+    )
+    def tool_machine_repositories_list(payload: JsonObject) -> JsonObject:
+        return _machine_repositories_list_payload(payload, dep)
+
     @register_tool(
         "git.repositories.list",
         "Discover exact Git repository roots within a bounded project path.",

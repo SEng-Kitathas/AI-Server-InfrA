@@ -103,3 +103,15 @@ def test_project_fence_and_operator_machine_discovery_are_distinct_scopes():
     assert '"operator_scope"' in filesystem
     assert '"does_not_grant_mutation_authority"' in filesystem
     assert '"non_recursive"' in filesystem
+
+
+def test_operator_repo_discovery_is_explicit_bounded_and_separate_from_project_git():
+    ops = _text("baseline/pcmmad_receiver/lab_tools_ops.py")
+    filesystem = _text("baseline/pcmmad_receiver/lab_tools_filesystem.py")
+    assert '"machine.roots.list"' in filesystem
+    assert '"machine.repositories.list"' in ops
+    assert '"explicit_root_required"' in ops
+    assert '"operator_scope"' in ops
+    assert '"does_not_grant_mutation_authority"' in ops
+    assert '"git.repositories.list"' in ops
+    assert '"requires_exact_repo_identity"' in ops
