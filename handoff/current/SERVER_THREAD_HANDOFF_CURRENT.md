@@ -325,3 +325,7 @@ Resident lifecycle and per-turn surface enforcement are green. Campaign stops at
 
 ## 2026-09-15 DAEMON ARCHITECTURE SERVER DELTA
 Server-wide audit converges on a first-class `daemon/` cognitive plane. Receiver remains deterministic body; Daemon owns cross-cutting cognition/orchestration/learning/status/interaction and may initiate cognition/work without user prompts. HUD needs Daemon conversation and status surfaces. Storage/service embodiment still gated on dedicated plane persistence/HA/authority qualification. See `DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md`.
+
+
+## 2026-09-15 HA TRIAD SERVER DELTA
+Operator ratified reciprocal body/brain HA with independent always-on out-of-process recovery. Existing supervisor is single-target; preferred design is separate hardened supervisor instances/tasks for Receiver, ngrok and Daemon plus minimal anti-storm coordination. Do not merge these into a single cognitive or circular supervisor process.

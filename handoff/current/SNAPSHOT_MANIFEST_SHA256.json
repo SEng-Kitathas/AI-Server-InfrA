@@ -32,20 +32,20 @@
       "sha256": "90ba40b110dae5b4a533aba059aac483c60c92c4d6846b4286d1562871c0e44c"
     },
     "CURRENT_STATE.md": {
-      "bytes": 69071,
-      "sha256": "e68df3ac876e5671d1e6e189e247a1812ced1bb21baf84d64ea1e3d4a597ad53"
+      "bytes": 69670,
+      "sha256": "963202508b1e20eca7ffe0817bb1eab43d77389d3e48ec8a412401fdc5db8f89"
     },
     "DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md": {
       "bytes": 10720,
       "sha256": "5e3dc722579e28c2c20430d4e7bf2a866f0f942abb6cb4e581b1dcbeffd3032d"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 218082,
-      "sha256": "fab2cafb9d672f1517b24c42896da3c1a11a062ed82514a57832b8bc8ab92f73"
+      "bytes": 218873,
+      "sha256": "90477fb13e8516f920c5115e6adaa28f6bcaf821ff89441a80d289a30f639cf1"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 59947,
-      "sha256": "af2099daed201569e11fd100d260dcfec9f02c93df205732f4b8fe569e40bb7f"
+      "bytes": 60428,
+      "sha256": "b9ff8f7f53616921a074fe8d57bb0bb8106c45c345a4de0b562875afcf42c309"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
@@ -88,16 +88,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 49949,
-      "sha256": "d63b62521d1b50243a6e98075f014f97c130f2b5363ae0bddb986b0bd5d68f82"
+      "bytes": 51334,
+      "sha256": "db2aaba4df013754c5061421f7b7e9d6297e9591e6e0d3a248d9f864dfa91905"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 36129,
-      "sha256": "102e8129a42bac9ffe570141a81661882f264771d275bf62c04eb2ef3409942d"
+      "bytes": 36422,
+      "sha256": "865417bd80d04b7dafc56353f2447630dc2ec9677a2b8369ef23e0f8de336ffc"
     },
     "NEXT_STEPS.md": {
-      "bytes": 51365,
-      "sha256": "ce4024085c3c919d2c66ccf702cf5a61a72d3028a971f24a932837ec4e896a07"
+      "bytes": 52248,
+      "sha256": "b03a5c475b30bbca13079e0e8124bc62949d114b4332d1873aee0aaaa279c202"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -108,8 +108,8 @@
       "sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 67405,
-      "sha256": "d1fc8ba6c7f1c3c1897f806584a43998b3a4b6f9c601cb898f5a3c8462840d70"
+      "bytes": 68181,
+      "sha256": "6bcd70d985d09821eebbe860431aae7318a9d6570947cfdfc261dcc90e11cf2a"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
@@ -120,16 +120,16 @@
       "sha256": "e5e099932e4447aa4679bc329b40396060ee4017de0deb3209cf20b60c7c4308"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 38851,
-      "sha256": "c17824529ec01365d4ccd55079740bb2a74e97701b00db86890ffc0b6c6d2e37"
+      "bytes": 39231,
+      "sha256": "faa8af3aa75cbe5b5f9267fac42fb0adb9385dc6dfac43bbfddd6fbb8570d9a5"
     },
     "T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md": {
       "bytes": 10887,
       "sha256": "4ccd5d692aa85e049cae60c714298b44f9bf3359fcdfead5b4eb00d869cacda1"
     },
     "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md": {
-      "bytes": 23713,
-      "sha256": "296b7732bc90f18aa8ae206f002c65103821090a8ab8e0ace55403f0138acba4"
+      "bytes": 24765,
+      "sha256": "eab7839c99fccf0a2ef6cab216590ffde203fa3a5715895bd313575ad6fd2f1e"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -140,8 +140,8 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 82403,
-      "sha256": "4d82542bab46535a9de22cf803b27c692cacfcaa56b33b2e93163c8838cda3ad"
+      "bytes": 83313,
+      "sha256": "bc1d58384f7979e0cbd7e0af2355b7de37323ad3c8ef461b0b4d3d36ae6e3a04"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,
@@ -212,9 +212,9 @@
       "sha256": "bd2a1981ae6be1306fdc06e3241d59cc33bb61187d9c0c637e2f2adc8665bc7f"
     }
   },
-  "updated_at": "2026-09-15T20:56:54.873261+00:00",
+  "updated_at": "2026-09-15T21:12:04.870519+00:00",
   "continuity_checkpoint": "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md",
-  "continuity_checkpoint_sha256": "296b7732bc90f18aa8ae206f002c65103821090a8ab8e0ace55403f0138acba4",
+  "continuity_checkpoint_sha256": "eab7839c99fccf0a2ef6cab216590ffde203fa3a5715895bd313575ad6fd2f1e",
   "continuity_checkpoint_source_head": "1b821bb4a8666f714084eabbd14c4954e774940b",
   "mvf_resident_source_corpus_digest": "160ffe8594964ca61570e18f668cb87f29346b8dfb247328b24be6791ff0c00b"
 }

@@ -4285,3 +4285,8 @@ After surface-currentness enforcement and lifecycle qualification, campaign insp
 ---
 # ARCHITECTURE CONVERGENCE — DAEMON AS FIRST-CLASS SERVER COGNITIVE PLANE — 2026-09-15
 Audit of all current capability families and HUD establishes a clean body/organism split. Receiver retains deterministic authority, execution, storage, transport, verification, HA and fencing primitives. Daemon owns cross-cutting cognition: world model, currentness, duties/campaigns, general learning/reasoning, deficits, evidence planning, HEaT/system-walk planning, research, continuity tending, recovery diagnosis, operator/Agent collaboration, attention management and initiative. Operator explicitly requires non-prompt-bound cognition and a HUD conversation/status surface. Dedicated audit artifact records folder tree and boundaries.
+
+
+---
+# HA TOPOLOGY CONVERGENCE — BODY, BRAIN, OUT-OF-PROCESS RECOVERY — 2026-09-15
+Operator specified reciprocal survivability: Receiver/ngrok should keep Daemon alive when the body is healthy; Daemon should monitor/diagnose/HA Receiver+ngrok while the brain is alive; the original out-of-process supervisor remains always-on and outside both. Audit of current supervisor shows it is a strong single-target primitive with singleton PID+creation lock, crash-loop restart budget, maintenance hold, canonical-task trigger and receipts. Architectural recommendation is not to make it multi-target monolith but instantiate the same hardened pattern separately for Receiver, ngrok and Daemon, with independent locks/budgets and a minimal coordination rule to avoid reciprocal restart storms.

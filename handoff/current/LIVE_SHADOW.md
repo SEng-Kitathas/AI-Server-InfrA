@@ -425,3 +425,14 @@
 - HUD should gain a persistent Daemon communication window and always-visible status sidebar, plus expandable world-model/duties/learning/evidence/biography/research/proposals/agent-brief views. Daemon may initiate messages/alerts/questions under relevance/escalation policy.
 - Golden Compass daemon relationship archetype accepted as coherent identity/interaction model: persistent companion-like cognitive organism, without authority elevation.
 - Full architecture audit: `DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md`.
+
+
+## DAEMON / RECEIVER / OOP-HA TRIAD — 2026-09-15
+- Operator-ratified survivability topology: if Receiver/ngrok are up, deterministic server-side HA should keep Daemon alive; when Daemon is up, Daemon actively HA-monitors/diagnoses Receiver+ngrok; original out-of-process HA remains always-on and outside both as final recovery substrate.
+- Existing `receiver_supervisor.py` is single-target by design (one health URL/task/lock/restart window/hold), which is a good primitive. Do not replace it with one giant circular multi-target supervisor.
+- Preferred embodiment: independent supervisor instances/tasks per recoverable workload, each with its own lock, restart budget/window, maintenance hold and receipt; plus a small cross-workload coordination rule to prevent restart storms.
+- `MUTUAL SUPERVISION != MUTUAL PROCESS DEPENDENCY`; each edge must fail independently.
+- `DAEMON HA RECEIVER != DAEMON OWNS RECEIVER RESTART AUTHORITY BY DEFAULT`; effect authority remains explicit.
+- `OOP HA != DAEMON`; out-of-process supervisor remains non-cognitive, always-on, and capable of recovering both body and brain.
+
+- VERIFIED: unattended recovery already defines separate SYSTEM tasks `PCMMAD_V30_Receiver_SYSTEM`, `PCMMAD_V30_Ngrok_SYSTEM`, and `PCMMAD_V30_Supervisor_SYSTEM`; ngrok is not merely hidden inside the Receiver task. Daemon can fit this same per-workload pattern later.

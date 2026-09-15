@@ -469,3 +469,14 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | Receiver substrate should move into Daemon | REJECTED | deterministic safety/authority/HA requirements | major architecture change |
 | Daemon must be prompt-bound | REJECTED | operator explicit AGI/general-cognition requirement | operator revision |
 | HUD needs Daemon conversation + status | OPERATOR-DIRECTED DESIGN | current HUD audit shows no cognitive-organism surface | implementation/UX HEaT |
+
+
+## 2026-09-15 HA TRIAD TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| current supervisor is single-target hardened primitive | VERIFIED SOURCE | `receiver_supervisor.py` health/task/lock/budget/hold/receipt design | supervisor refactor |
+| OOP HA should remain always-on/outside Daemon+Receiver | OPERATOR-RATIFIED ARCHITECTURE | thread + prior recovery proof | qualification failure |
+| independent supervisor instance per workload is preferred over one circular monolith | DESIGN CONVERGENCE | current single-target semantics + storm risk analysis | hostile multi-workload experiments |
+| Daemon may HA Receiver without extra authority | REJECTED | authority separation doctrine | explicit qualified recovery grant |
+
+| ngrok has independent canonical SYSTEM task | VERIFIED SOURCE | `supervisor/install_unattended_recovery.ps1` registers `PCMMAD_V30_Ngrok_SYSTEM` | installer redesign |

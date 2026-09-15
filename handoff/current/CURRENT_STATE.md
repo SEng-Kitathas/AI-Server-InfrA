@@ -711,3 +711,11 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 - This is architecture-converged but not yet storage-qualified/created as durable service plane.
 - Server audit covered all current capability families and HUD API/UI surfaces.
 - Daemon initiative is explicitly not user-prompt-only; cognition may be proactive while effects stay capability/authority-bound.
+
+
+## 2026-09-15 HA TRIAD CURRENT STATE DELTA
+- HA architecture now targets three layers: Receiver/ngrok -> keep Daemon alive; Daemon -> actively monitor/diagnose/HA Receiver+ngrok; original OOP supervisor -> always-on recovery for all.
+- Existing supervisor implementation is single-target and suitable as a reusable per-workload primitive.
+- No live multi-target HA changes installed yet.
+
+- VERIFIED HA substrate detail: independent SYSTEM tasks already exist for Receiver, ngrok and Supervisor. Daemon should become another independently supervised workload, not be folded into an existing task.

@@ -294,3 +294,7 @@ Current hard blocker is MVF durable persistence plane, not resident cognition. L
 
 ## 2026-09-15 DAEMON ARCHITECTURE ADDENDUM
 Do not resume from the old persistence ambiguity alone: architecture now converges on a dedicated first-class `daemon/` plane. Before service install, qualify its storage/locking/recovery/authority semantics and design HUD communication/status APIs. Daemon is proactive cognitive organism, not prompt-bound assistant; effects remain native-authority-bound.
+
+
+## 2026-09-15 HA TRIAD ADDENDUM
+Preserve reciprocal survivability topology: body can recover Daemon, Daemon can cognitively HA body, and independent OOP HA remains always-on for all. Reuse single-target supervisor pattern per workload; design anti-storm coordination before live embodiment.

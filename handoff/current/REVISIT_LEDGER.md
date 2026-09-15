@@ -404,3 +404,12 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **DAEMON-HUD-001** — add persistent Daemon communication window + status sidebar + expandable cognitive views. HIGH.
 - **DAEMON-INITIATIVE-001** — define proactive cognition/read-only investigation/notification policy separate from effect authority. HIGH.
 - **DAEMON-SELF-MODEL-001** — maintain server capability/topology/currentness self-model as resident faculty. HIGH.
+
+
+## 2026-09-15 HA TRIAD REVISIT
+- **DAEMON-HA-001** — design independent Daemon supervisor instance/task using existing hardened supervisor pattern. HIGH.
+- **NGROK-HA-001** — confirm whether current unattended recovery already gives ngrok an independent canonical task/supervisor or only Receiver-coupled recovery. HIGH.
+- **HA-COORD-001** — define cross-workload anti-storm/split-brain coordination without creating shared single point of failure. HIGH.
+- **DAEMON-RECOVERY-AUTH-001** — specify qualified recovery capability Daemon may invoke for Receiver/ngrok; diagnosis != effect authority.
+
+- **NGROK-HA-001** — RESOLVED SOURCE FACT: independent `PCMMAD_V30_Ngrok_SYSTEM` task exists. Remaining work is supervision/coordination semantics, not task existence.

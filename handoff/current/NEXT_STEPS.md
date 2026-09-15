@@ -496,3 +496,12 @@ Do not resolve by simply choosing the empty `data/` directory.
 4. Extend HUD with persistent Daemon communication panel + compact status sidebar; client displays Daemon state, does not reconstruct cognitive truth.
 5. Define initiative/relevance policy: proactive cognition/read-only investigation/communication vs authority-bound effects.
 6. System-walk Daemon plane against HA, approvals, memory, continuity, execution and project mutation before service install.
+
+
+## 2026-09-15 HA TRIAD NEXT STEPS
+1. Model three recoverable workloads: Receiver, ngrok, Daemon.
+2. Reuse hardened supervisor pattern as independent supervisor instances/tasks, not one multi-target loop.
+3. Define per-workload health contract, canonical recovery task, singleton lock, restart budget/window, maintenance hold and receipt.
+4. Add cross-workload coordination contract: restart dependency ordering, cooldown inheritance, and hard rule preventing A-restarts-B / B-restarts-A storms.
+5. Define Daemon's cognitive HA duty separately from deterministic restart authority; Daemon may diagnose/plan and invoke only qualified recovery capabilities.
+6. HEaT scenarios: Receiver dead/Daemon alive; Daemon dead/Receiver alive; ngrok dead; both body+brain dead; alternating crash loop; maintenance hold; stale lock; split-brain duplicate Daemon; restart during partial recovery.

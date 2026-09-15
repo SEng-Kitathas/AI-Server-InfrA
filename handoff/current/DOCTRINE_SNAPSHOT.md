@@ -756,3 +756,12 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - `PROMPT ABSENCE != COGNITIVE INACTIVITY`.
 - Daemon may proactively think/learn/observe/propose/communicate within qualified cognitive/read authority; consequential effects remain separately authorized.
 - Daemon must not become a single point of failure for auth, approvals, HA, execution engine, path fencing, ledger integrity, transport or its own restart path.
+
+
+## 2026-09-15 HA TRIAD DISTINCTIONS
+- `MUTUAL SUPERVISION != MUTUAL PROCESS DEPENDENCY`.
+- `BODY CAN REVIVE BRAIN != BODY OWNS BRAIN COGNITION`.
+- `BRAIN CAN HA BODY != BRAIN MAY BYPASS EFFECT AUTHORITY`.
+- `OUT-OF-PROCESS HA != DAEMON`.
+- Always-on OOP recovery must remain independently survivable if Receiver and Daemon are both dead or deadlocked.
+- Per-workload restart budgets/locks/holds must remain separate; cross-workload recovery needs storm/split-brain coordination.
