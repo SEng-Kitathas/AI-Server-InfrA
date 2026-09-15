@@ -67,6 +67,19 @@ class RestartIntensitySupervisionTests(unittest.TestCase):
             receipt = json.loads(receipt_path.read_text(encoding="utf-8-sig"))
         return completed, receipt
 
+    def test_missing_state_first_reservation_succeeds_without_prior_failed_run(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="pcmmad-restart-missing-state-") as td:
+            root = Path(td)
+            state_path = self._state_root(root) / "restart_intensity_state.json"
+            self.assertFalse(state_path.exists())
+            completed, receipt = self._run(root, "first.json")
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertEqual(receipt["stage"], "restart_intensity_reserved")
+            self.assertTrue(receipt["restart_intensity"]["allowed"])
+            self.assertEqual(receipt["restart_intensity"]["attempts_before"], 0)
+            self.assertEqual(receipt["restart_intensity"]["attempts_after"], 1)
+            self.assertTrue(state_path.exists())
+
     def test_burst_limit_enters_cooldown_and_force_does_not_clear_it(self) -> None:
         with tempfile.TemporaryDirectory(prefix="pcmmad-restart-intensity-") as td:
             root = Path(td)

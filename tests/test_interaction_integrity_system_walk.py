@@ -137,3 +137,14 @@ def test_machine_discovery_has_exact_identity_inspection_before_action():
     assert '"exact_identity_required"' in machine
     assert '"currentness_check"' in machine
     assert "PROCESS_IDENTITY_MISMATCH" in machine
+
+
+def test_manual_operator_restart_override_does_not_disable_autonomous_intensity_guard():
+    launcher = _text("PCMMAD.ps1")
+    helper = _text("restart_pcmmad_receiver.bat")
+    adapter = _text("baseline/pcmmad_receiver/restart_control.py")
+    assert "[switch]$ForceRestart" in launcher
+    assert "-Action Restart -ForceRestart" in helper
+    assert "restart_intensity_state" not in helper.casefold()
+    assert '"-Action", "Restart"' in adapter
+    assert "ForceRestart" not in adapter

@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableExtensions
-set "PCMMAD_INSTALL_ROOT=%USERPROFILE%\Desktop\PCMMAD_RECEIVER_V29_NATIVE_PROTOCOL_RC1\PCMMAD_receiver"
-set "RESTART_PS1=%PCMMAD_INSTALL_ROOT%\RESTART_RECEIVER_AND_NGROK.ps1"
+set "PCMMAD_INSTALL_ROOT=%~dp0"
+set "PCMMAD_LAUNCHER=%PCMMAD_INSTALL_ROOT%PCMMAD.ps1"
 set "ACTION=Restart"
 set "DO_PAUSE=1"
 
@@ -10,9 +10,9 @@ for %%A in (%*) do (
   if /I "%%~A"=="--no-pause" set "DO_PAUSE=0"
 )
 
-if not exist "%RESTART_PS1%" (
-  echo ERROR: Restart controller not found:
-  echo   %RESTART_PS1%
+if not exist "%PCMMAD_LAUNCHER%" (
+  echo ERROR: Canonical launcher not found:
+  echo   %PCMMAD_LAUNCHER%
   if "%DO_PAUSE%"=="1" pause
   exit /b 2
 )
@@ -25,7 +25,11 @@ if /I "%ACTION%"=="Status" (
 )
 echo ============================================================
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%RESTART_PS1%" -Action %ACTION% -DelaySeconds 2
+if /I "%ACTION%"=="Restart" (
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PCMMAD_LAUNCHER%" -Action Restart -ForceRestart
+) else (
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PCMMAD_LAUNCHER%" -Action Status
+)
 set "RC=%ERRORLEVEL%"
 echo.
 if not "%RC%"=="0" (
