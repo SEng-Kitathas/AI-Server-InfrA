@@ -93,3 +93,13 @@ def test_exact_git_identity_has_a_bounded_discovery_predecessor():
     assert '"requires_exact_repo_identity"' in ops
     assert '"repo_discovery"' in ops
     assert 'max_depth' in ops and 'max_results' in ops
+
+
+def test_project_fence_and_operator_machine_discovery_are_distinct_scopes():
+    project = _text("baseline/pcmmad_receiver/lab_tools_project.py")
+    filesystem = _text("baseline/pcmmad_receiver/lab_tools_filesystem.py")
+    assert "PROJECT_SCOPE_MISMATCH" in project
+    assert '"machine.roots.list"' in filesystem
+    assert '"operator_scope"' in filesystem
+    assert '"does_not_grant_mutation_authority"' in filesystem
+    assert '"non_recursive"' in filesystem

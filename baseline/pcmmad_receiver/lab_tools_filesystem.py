@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import glob
+import os
 import shutil
 import zipfile
 from dataclasses import dataclass
@@ -189,7 +190,59 @@ def _fs_move_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResul
     return {"src": str(src), "dst": str(dst), "moved": True}
 
 
+def _machine_roots_list_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResult:
+    include_drives = payload_bool(payload, "include_drives", True)
+    mounts = list(dep.mount_summary() if dep.mount_summary is not None else [])
+    roots: list[ToolResult] = []
+    seen: set[str] = set()
+    for mount in mounts:
+        path = str(mount.get("path") or "")
+        if not path or path in seen:
+            continue
+        seen.add(path)
+        roots.append({"kind": "mount", "name": str(mount.get("name") or ""), "path": path, "allowed_root": True})
+    if include_drives:
+        drive_paths: list[str] = []
+        if os.name == "nt":
+            try:
+                import ctypes
+                mask = int(ctypes.windll.kernel32.GetLogicalDrives())
+                drive_paths = [f"{chr(ord('A') + i)}:\\" for i in range(26) if mask & (1 << i)]
+            except Exception:
+                drive_paths = []
+        else:
+            drive_paths = ["/"]
+        mount_paths = {str(item.get("path") or "") for item in mounts}
+        for path in drive_paths[:32]:
+            if path in seen:
+                continue
+            seen.add(path)
+            roots.append({"kind": "filesystem_root", "name": path, "path": path, "allowed_root": path in mount_paths})
+    return {
+        "ok": True,
+        "scope": "operator_machine_read",
+        "roots": roots[:64],
+        "count": min(len(roots), 64),
+        "truncated": len(roots) > 64,
+        "recursive": False,
+        "mutation_authority": False,
+    }
+
+
 def _register_basic_file_tools(register_tool: Callable[..., Any], dep: FilesystemToolDeps) -> None:
+    @register_tool(
+        "machine.roots.list",
+        "List configured mount roots and local filesystem roots without recursive scanning.",
+        "low",
+        category="machine",
+        approval_required=False,
+        mutating=False,
+        side_effect_class="read",
+        effect_traits=["operator_scope", "reads_mount_metadata", "non_recursive", "bounded_results", "does_not_grant_mutation_authority"],
+    )
+    def tool_machine_roots_list(payload: ToolPayload) -> ToolResult:
+        return _machine_roots_list_payload(payload, dep)
+
     @register_tool(
         "fs.read", "Read a file from a mounted or absolute path.", "medium", category="filesystem",
         side_effect_class="read", effect_traits=["reads_files", "allowed_root_scope"]
