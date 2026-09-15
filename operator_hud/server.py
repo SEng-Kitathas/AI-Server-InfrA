@@ -290,6 +290,7 @@ def api_dispatch():
     tool_name=str(body.get("tool_name","")).strip()
     payload=body.get("payload") or {}
     authority=body.get("authority") or {}
+    expected_contract_digest=body.get("expected_contract_digest")
     request_id=str(body.get("request_id","")).strip() or f"hud-{int(time.time()*1000)}"
     dispatch_id=uuid.uuid4().hex
     if not tool_name:
@@ -298,6 +299,8 @@ def api_dispatch():
         return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"payload must be an object","request_id":request_id}),400
     if not isinstance(authority,dict):
         return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"authority must be an object","request_id":request_id}),400
+    if expected_contract_digest is not None and not isinstance(expected_contract_digest,str):
+        return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"expected_contract_digest must be a string","request_id":request_id}),400
     if bool(body.get("approve",False)):
         return jsonify({
             "ok":False,
@@ -313,6 +316,8 @@ def api_dispatch():
     receiver_body={"tool_name":tool_name,"payload":payload}
     if authority:
         receiver_body["authority"]=authority
+    if expected_contract_digest is not None:
+        receiver_body["expected_contract_digest"]=expected_contract_digest
     _event(
         "dispatch_started",
         dispatch_id=dispatch_id,

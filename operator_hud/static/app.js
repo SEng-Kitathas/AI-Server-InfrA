@@ -178,9 +178,9 @@ function openToolPreset(name,payload={}){const t=state.tools.find(x=>x.name===na
 function approvalOpen(t,payload,challenge,onApproved){state.pendingApproval={tool:t,payload,challenge,onApproved};$('approvalTool').textContent=t.name;$('approvalTier').textContent=String(t.danger_tier||'unknown').toUpperCase();$('approvalDescription').textContent=t.description||'';$('approvalPayload').textContent=JSON.stringify({payload,approval_challenge:challenge},null,2);$('approvalModal').classList.remove('hidden');}
 function approvalBusy(on){$('confirmApproval').disabled=on;$('rejectApproval').disabled=on;$('confirmApproval').textContent=on?'Dispatching...':'Approve exact challenge';}
 function approvalClose(){approvalBusy(false);state.pendingApproval=null;$('approvalModal').classList.add('hidden');}
-async function sendDispatch(t,payload,authority=null){
+async function sendDispatch(t,payload,authority=null,expectedContractDigest=null){
   const request_id=uid(); state.lastDispatch=request_id;
-  const body={tool_name:t.name,payload,request_id};if(authority&&Object.keys(authority).length)body.authority=authority;
+  const body={tool_name:t.name,payload,request_id};if(authority&&Object.keys(authority).length)body.authority=authority;if(expectedContractDigest)body.expected_contract_digest=expectedContractDigest;
   const data=await api('/api/dispatch',{method:'POST',body:JSON.stringify(body),timeoutMs:35000});
   if(data.error_code==='HUD_TOKEN_REQUIRED'){
     const meta=await api('/api/meta',{timeoutMs:3000});
@@ -195,16 +195,18 @@ async function dispatchTool(t,payload){
   const d=await sendDispatch(t,payload,null);
   if(d.error_code==='APPROVAL_REQUIRED'){
     const challenge=d.approval_challenge||null;
-    if(!challenge?.handle){dispatchResult(t,d);showToast(`Approval challenge missing for ${t.name}`,false);return d;}
+    const continuation=d.continuation||null;
+    if(!challenge?.handle||!continuation||continuation.kind!=='resubmit_exact_tool_call'||!continuation.tool||!continuation.arguments||!continuation.expected_contract_digest||!continuation.authority_template){dispatchResult(t,d);showToast(`Approval continuation missing for ${t.name}`,false);return d;}
     const backendRiskTool={...t,effective_approval_required:true,danger_tier:d.danger_tier||t.danger_tier};
     dispatchResult(t,d);
     const approvedSend=async()=>{
       approvalBusy(true);
-      const authority={approval_handle:challenge.handle,permit:true,operator_id:'local-hud-operator',provenance:`pcmmad-local-hud:${d.request_id||state.lastDispatch||'unknown'}`};
-      const confirmed=await sendDispatch(t,payload,authority);
+      const authority={...continuation.authority_template,permit:true,operator_id:'local-hud-operator',provenance:`pcmmad-local-hud:${d.request_id||state.lastDispatch||'unknown'}`};
+      const continuationTool={...t,name:continuation.tool};
+      const confirmed=await sendDispatch(continuationTool,continuation.arguments,authority,continuation.expected_contract_digest);
       approvalClose();dispatchResult(t,confirmed);return confirmed;
     };
-    approvalOpen(backendRiskTool,payload,challenge,approvedSend);
+    approvalOpen(backendRiskTool,continuation.arguments,challenge,approvedSend);
     showToast(`Runtime issued ${String(backendRiskTool.danger_tier||'approval').toUpperCase()} challenge: ${t.name}`,false);
     return d;
   }
