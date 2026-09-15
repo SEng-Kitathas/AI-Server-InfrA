@@ -115,3 +115,15 @@ def test_operator_repo_discovery_is_explicit_bounded_and_separate_from_project_g
     assert '"does_not_grant_mutation_authority"' in ops
     assert '"git.repositories.list"' in ops
     assert '"requires_exact_repo_identity"' in ops
+
+
+def test_machine_identity_discovery_precedes_identity_bound_actions():
+    machine = _text("baseline/pcmmad_receiver/lab_tools_machine.py")
+    operator = _text("baseline/pcmmad_receiver/operator_plane.py")
+    assert '"machine.processes.list"' in machine
+    assert '"machine.services.list"' in machine
+    assert '"machine.scheduled_tasks.list"' in machine
+    assert '"identity_metadata"' in machine
+    assert '"does_not_grant_mutation_authority"' in machine
+    assert "CreationDate" in machine
+    assert "HUD_PROCESS_IDENTITY_MISMATCH" in operator

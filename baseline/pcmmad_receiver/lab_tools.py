@@ -74,6 +74,7 @@ from lab_tools_doctrine import register_doctrine_tools
 from lab_tools_protocol import register_protocol_tools
 from lab_tools_continuity import register_continuity_tools
 from lab_tools_memory import register_memory_tools
+from lab_tools_machine import register_machine_tools
 from lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
 from project_mutation_authority import project_mutation_authority_context
 from research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
@@ -1106,6 +1107,11 @@ register_continuity_tools(
 )
 
 register_memory_tools(
+    register_tool,
+    error_cls=LabToolError,
+)
+
+register_machine_tools(
     register_tool,
     error_cls=LabToolError,
 )
