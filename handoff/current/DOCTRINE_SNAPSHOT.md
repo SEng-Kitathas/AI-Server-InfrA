@@ -706,3 +706,12 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - First resident embodiment validates earlier design direction: native typed hands remain separate from resident cognition; resident composes read tools and Microseed currentness/commitment machinery without gaining mutation authority.
 - HEaT caught `TEXT MENTIONS STATE != STRUCTURED STATE`: stale/reopen classification must use structured fields, not substring presence in explanatory prose. Do not promote this wording as an EARNED scar automatically; defect/reproduction evidence exists in this campaign.
 - Current Veya chamber provides state/biography/evidence separation and embodiment patterns, but no directly evidenced speech/dialogue implementation in this snapshot.
+
+
+## 2026-09-15 RESIDENT GOVERNANCE EMBODIMENT DELTA
+- `RESIDENT_CAN_NOTICE != RESIDENT_CAN_ADMIT`.
+- `DUTY_CANDIDATE != QUALIFIED_DUTY`.
+- `DEPENDENCY_CURRENT != REENTRY_AUTHORIZED`: re-entry also requires historical identity, provider evidence, executable evidence, and requested-scope coverage.
+- `REENTRY_READY != AUTHORITY_GRANTED`: Microseed returns Authority.NONE and routes back through existing registration/admission path.
+- Evidence ancestry that motivated a proposal is kept separate from independent qualification evidence.
+- Epistemic deficits are bounded UNKNOWN tracking, never truth adjudication.

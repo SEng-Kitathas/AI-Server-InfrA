@@ -442,3 +442,15 @@ P0
 6. Keep generic machine ACT deferred until resident currentness/evidence model is stronger and action contracts consume exact identity + authority + consequence readback.
 P1
 7. Speech/dialogue faculty remains desired but unembodied in current chamber snapshot; find/derive/qualify actual mechanism before claiming it.
+
+
+## 2026-09-15 MVF GOVERNANCE NEXT STEPS DELTA
+P0
+1. Commit current governance deepening and continuity updates.
+2. Integrate governance with portfolio execution so non-CURRENT duty results can optionally produce evidence/deficits automatically while preserving idempotency and no self-admission.
+3. Add durable resident biography/state separation using Microseed DevelopmentalBiography + evidence ledger; keep evidence, biography, and current materialized state distinct.
+4. Add dependency epoch/currentness anchors to duty contracts and make targeted invalidation/reopen automatic when native tool/repo/process identities change.
+5. Build candidate-duty discovery from repeated residual/anomaly patterns only as proposal generation; qualification remains external HEaT boundary.
+P1
+6. Add evidence expiry/currentness semantics where donor machinery supports them; do not invent universal TTLs.
+7. Speech/dialogue remains a separate faculty backlog.

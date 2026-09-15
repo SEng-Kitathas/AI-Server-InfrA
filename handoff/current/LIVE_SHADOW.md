@@ -375,3 +375,13 @@
 - Real native-tool brief: receiver-currentness-ha=CURRENT; repository-topology-currentness=CURRENT; continuity-evidence-staleness=STALE solely because Live Shadow convergence status is `local_unregistered`; mutation authority false.
 - Global qualification VERIFIED: source-to-donor parity 70/70, 58 Python files compile, broad 39-file regression pytest rc 0, diff-check rc 0.
 - Speech/dialogue remains a user-directed future faculty; current Veya chamber snapshot does not itself contain literal speech/dialogue machinery, so do not claim it is already embodied there.
+
+
+## MVF RESIDENT GOVERNANCE DEEPENING — 2026-09-15 20:18Z
+- Resident governance sidecar now reuses Microseed `EpistemicDeficitRegistry`, `EvidenceLedger`, `CapabilityCandidate`/external qualification tickets, and historical `ReentryWarrant` assessment.
+- Durable evidence ledger lifecycle now explicit (`close`/context boundary); Windows SQLite handle leak caught and fixed during HEaT.
+- Duty uncertainty can be recorded as `UNKNOWN_INCOMPLETE` evidence + epistemic deficit with currentness anchor; premise epoch change stales only dependent deficit rather than globally poisoning state.
+- Resident-generated duties remain `QualificationState.CANDIDATE`, `Authority.OBSERVATION_ONLY`, and `self_admit()` hard-denies. Independent external qualification evidence is required; negative evidence cannot admit; effect authority is never bridged.
+- Re-entry requires historical nomination, fingerprint, provider evidence, executable challenge evidence, diagnostic scope, and dependency currentness; even READY grants `Authority.NONE` and only points to existing registration path.
+- Real governance smoke against actual stale continuity duty: deficit created; continuity-watch duty nominated as CANDIDATE; self-admission denied; re-entry `DEFER / DEPENDENCY_NOT_CURRENT / Authority.NONE`.
+- Focused governance/interaction tests 24/24 PASS; broad regression across 40 test files rc 0; compile/diff checks rc 0.

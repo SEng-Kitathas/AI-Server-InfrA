@@ -278,3 +278,7 @@ Immediate next substantive work: inspect actual Microseed/Veya current/stale/com
 
 ## 2026-09-15 MVF RESIDENT ADDENDUM
 Microseed/Veya full ingestion and first resident proof are no longer pending. Read Live Shadow/Current State for exact evidence. Do not restart from a sampled-Microseed assumption: 740 files were fully read and executable Microseed donor is in `mvf_resident/donor_microseed`. Continue by deepening the resident with Microseed epistemic/reentry/evidence/persistence machinery and HEaT each transferred mechanism.
+
+
+## 2026-09-15 MVF GOVERNANCE ADDENDUM
+First resident governance loop is embodied. Do not redesign candidate admission or re-entry from scratch: use `mvf_resident/governance.py` plus donor Microseed semantics. Next move is portfolio->governance coupling, resident developmental biography, and dependency-currentness anchors; resident must remain unable to self-qualify duties.

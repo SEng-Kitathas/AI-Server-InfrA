@@ -412,3 +412,14 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | First resident 3-duty portfolio | real native brief: CURRENT/CURRENT/STALE(local_unregistered) | VERIFIED READ-ONLY PROTOTYPE | duty contract/tool/currentness changes |
 | Resident has mutation authority | explicit false + tests | REJECTED CLAIM | only if separately designed/authorized later |
 | Veya speech/dialogue already embodied in current chamber | full chamber inspection found no literal machinery | NOT ESTABLISHED | other source/branch evidence |
+
+
+## 2026-09-15 RESIDENT GOVERNANCE TRACE ADDITIONS
+| Mechanism | Evidence | Status | Reopen |
+|---|---|---|---|
+| Duty epistemic deficits | governance tests + real stale-continuity smoke | VERIFIED PROTOTYPE | durable restart/reload semantics |
+| Resident self-admission denied | `self_admit` hard denial + tests | VERIFIED | authority model change |
+| External candidate qualification | independent PROVED evidence + donor validation | VERIFIED READ-ONLY | evidence expiry/currentness semantics |
+| Negative evidence cannot qualify | hostile test | VERIFIED | qualifier contract change |
+| Reentry dependency failure -> DEFER | donor assess_reentry + real/prototype tests | VERIFIED | reentry model change |
+| Reentry READY grants authority | donor semantics | REJECTED; READY still Authority.NONE | explicit future design change |

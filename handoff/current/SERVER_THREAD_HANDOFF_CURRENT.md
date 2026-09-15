@@ -309,3 +309,7 @@ Next server work should not immediately proliferate machine actions. First inspe
 
 ## 2026-09-15 MVF RESIDENT SERVER DELTA
 Full Microseed/Veya ingestion is complete and first MVF resident is embodied under `mvf_resident/`. Canonical source: `protoagi_microseed_reincarnation_20260827`; full corpus 740 files/5,497,179 bytes digest `160ffe8594964ca61570e18f668cb87f29346b8dfb247328b24be6791ff0c00b`. Resident is read-only and composes native server tools via LabToolsAdapter with Microseed Observation/currentness + ternary commitments. Real brief currently flags only Live Shadow registration staleness; no mutation authority.
+
+
+## 2026-09-15 MVF GOVERNANCE SERVER DELTA
+Resident governance now consumes Microseed evidence/deficit/admission/reentry primitives. It can record UNKNOWNs, nominate read-only duty candidates, accept externally qualified tickets, and assess re-entry without granting authority. Real stale-continuity smoke produced deficit + CANDIDATE + self-admission denial + dependency-currentness DEFER. Broad regression green across 40 test files.

@@ -682,3 +682,11 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 - Resident prototype is read-only and uses Microseed currentness/commitment primitives. Default 3-duty portfolio is operational.
 - Real brief: Receiver/HA CURRENT; repo topology CURRENT; continuity/evidence STALE because `continuity.live_shadow/LIVE_SHADOW.md` is `local_unregistered`. This is currentness pressure, not permission to mutate.
 - Global resident qualification: compile rc 0 (58 py files), pytest rc 0 across 39 test files, diff-check rc 0.
+
+
+## 2026-09-15 MVF GOVERNANCE CURRENT STATE DELTA
+- `mvf_resident/governance.py` now provides evidence ledger, epistemic-deficit currentness, proposal-only duty nomination, external duty qualification, and bounded stale-duty re-entry assessment.
+- Resident remains non-self-authorizing: candidate duties are CANDIDATE/OBSERVATION_ONLY; external qualifier identity cannot be Microseed/self; effect authority rejected by donor validation.
+- Actual stale continuity finding now feeds a real deficit/candidate/reentry workflow without mutating continuity state.
+- Real smoke result: CANDIDATE created, self-admission denied, re-entry DEFER because dependency not current, authority NONE.
+- Broad qualification: 40 test files, pytest rc 0, compile rc 0, diff-check rc 0.

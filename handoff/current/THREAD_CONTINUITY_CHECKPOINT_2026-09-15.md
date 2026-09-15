@@ -124,3 +124,12 @@ VERIFIED after the initial checkpoint:
 - real native brief: Receiver/HA CURRENT; repository topology CURRENT; continuity/evidence STALE exactly because `continuity.live_shadow/LIVE_SHADOW.md` is `local_unregistered`; resident mutation authority false.
 - global qualification: 70/70 source parity, 58 Python files compile, broad 39-file pytest suite rc 0, CRLF-aware diff-check rc 0.
 - current Veya chamber demonstrates separate state/biography/evidence stores and identity/current/action/observation/memory embodiment, but does NOT by itself establish speech/dialogue machinery; that remains future work.
+
+
+## 17. Post-checkpoint addendum — resident governance loop
+- `ResidentGovernance` added using donor Microseed evidence ledger, epistemic deficit registry, capability candidate/external qualification, and historical re-entry assessment.
+- Windows HEaT required explicit SQLite ledger close lifecycle.
+- Candidate duties are proposal-only CANDIDATE / OBSERVATION_ONLY; resident self-admission hard-denied; independent qualification evidence required; negative evidence cannot admit; no effect authority bridge.
+- Re-entry semantics preserved: historical nomination + fingerprint + independent provider/executable evidence + requested scope + dependency currentness; READY still Authority.NONE and only routes to existing registration path.
+- Real stale-continuity smoke: epistemic deficit created, continuity-watch candidate nominated, self-admission denied, reentry DEFER / DEPENDENCY_NOT_CURRENT / Authority.NONE.
+- Focused resident governance/interaction suite 24/24 PASS; broad regression 40 test files pytest rc 0; compile/diff rc 0.

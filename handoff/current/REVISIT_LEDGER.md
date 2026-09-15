@@ -374,3 +374,11 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **MVF-PERSISTENCE-001** — adapt state/biography/evidence separation from Microseed/Veya into resident persistence; runtime donor sqlite state is context, not authority.
 - **MVF-SPEECH-001** — locate/build/qualify actual speech/dialogue faculty; current Veya chamber does not establish it.
 - **CONTINUITY-REG-001** — resident correctly flags Receiver-LAB Live Shadow `local_unregistered`; determine lawful registration/currentness repair separately, not by silent self-registration.
+
+
+## 2026-09-15 RESIDENT GOVERNANCE REVISIT DELTA
+- **MVF-GOV-AUTO-001** — couple resident portfolio results to evidence/deficit recording idempotently; avoid duplicate evidence IDs and self-generated authority loops. HIGH.
+- **MVF-BIOGRAPHY-001** — adapt DevelopmentalBiography for resident history distinct from current state/evidence. HIGH.
+- **MVF-CURRENTNESS-ANCHOR-001** — bind duty deficits/candidates to concrete dependency epochs/currentness where native identities expose them. HIGH.
+- **MVF-DISCOVERY-001** — later mine repeated residual/anomaly patterns for candidate duties, proposal-only.
+- **MVF-EVIDENCE-LIFECYCLE-001** — qualify expiry/revocation/currentness semantics before long-lived admission.
