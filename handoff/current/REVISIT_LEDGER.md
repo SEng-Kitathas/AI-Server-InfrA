@@ -352,3 +352,17 @@ Mark an item resolved only with explicit evidence and corresponding trace/readba
 - The final library does **not** earn a new Runtime architecture change. T0.2 deterministic gaps were already embodied/published in engineering feature `fb89bb1...`.
 - Remaining pressure: independent real-world dogfood breadth across the 27 Skills; UCM componentization remains a separate paused seam; live Git identity remains unknown from deployed copy; final schema remains LAST/LOCKED/untriggered.
 - Evidence boundary: exact package-native tests ran on the attached bytes in ingress; server real-project recovery used the existing T0.2 integration harness. Do not merge those evidence roots into one claim.
+
+
+## 2026-09-15 REVISIT ADDITIONS
+- **MVF-RESIDENT-001** — Inspect Microseed/Veya current/stale/competence/memory/dialogue before more watchers; build minimal duty contract and prove multi-duty resident cognition. HIGH.
+- **MVF-ROOTLAW-001** — Embody boundary/reality root law across governance/MVF/CSC without self-exemption or regex theater. HIGH.
+- **INTERACTION-001** — Move negative system-walk from dedicated tests into MVF/CSC/promotion evidence with evidence-strength-aware enforcement. HIGH.
+- **MACHINE-ACT-001** — No generic kill/start/stop until actions consume current inspection identity, explicit authority and consequence readback. HIGH; deferred.
+- **APPROVAL-EXT-001** — Runtime/HTTP/HUD/schema green; actual external platform consumption UNKNOWN.
+- **LIVE-HA-001** — Clone recovery proven; live SYSTEM install/recovery unperformed. Operator available only.
+- **RESTART-UI-001** — Six Desktop helpers create ambiguity; converge after clone force-boundary qualification and safe live window. Preserve history.
+- **SCAR-GOV-001** — Preserve scars/doctrine/rules/evidence as first-class grammars with provenance/retrieval; avoid false completeness.
+- **SINGULARITY-001** — Explore MVF as private Singularity Works institutional intelligence/research engineer after resident proof.
+
+Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.

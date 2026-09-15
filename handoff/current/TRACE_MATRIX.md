@@ -386,3 +386,18 @@ This block does not assert token presence or absence. It remains semantically va
 - The final library does **not** earn a new Runtime architecture change. T0.2 deterministic gaps were already embodied/published in engineering feature `fb89bb1...`.
 - Remaining pressure: independent real-world dogfood breadth across the 27 Skills; UCM componentization remains a separate paused seam; live Git identity remains unknown from deployed copy; final schema remains LAST/LOCKED/untriggered.
 - Evidence boundary: exact package-native tests ran on the attached bytes in ingress; server real-project recovery used the existing T0.2 integration harness. Do not merge those evidence roots into one claim.
+
+
+## 2026-09-15 TRACE ADDITIONS — THREAD CHECKPOINT
+| Claim / mechanism | Evidence | Status | Reopen condition |
+|---|---|---|---|
+| Root boundary law governs inbound/internal material | operator explicit ratification; bootstrap Absolute Ingress Boundary | OPERATOR-RATIFIED / hierarchy strengthened | doctrine conflict/operator revision |
+| `LOCAL OPTIMUM != GLOBAL FUNCTIONALITY` | project fence recovery, approval chain, supervisor auth, machine discovery regressions | ACTIVE / repeatedly embodied | global regression/interaction gap |
+| Authenticated clone HA recovery | product supervisor kill/recover + focused/system tests | VERIFIED CLONE | live embodiment/auth/currentness change |
+| Approval continuation runtime->HTTP->HUD->schema | bound approval, Flask, HUD, compact schema suites | VERIFIED CLONE/SERVER PATH | external platform UI bridge |
+| Machine discovery/inspection lifecycle | roots/repos/process/service/task list + inspect tests/smokes | VERIFIED READ-ONLY CLONE/LOCAL | action plane/identity contract change |
+| Manual operator restart override vs autonomous throttle | launcher/helper/controller tests; 27/27; global v5 | VERIFIED CLONE | live helper convergence |
+| MVF resident intelligence / duty-contract architecture | operator discussion/ratification | DESIGN DIRECTION, NOT EMBODIED | Microseed/Veya source inspection + daemon proof |
+| External platform approval consumption | not directly exercised | UNKNOWN | actual external bridge test |
+
+Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.

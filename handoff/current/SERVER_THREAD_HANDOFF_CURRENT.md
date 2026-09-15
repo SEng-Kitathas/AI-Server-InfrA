@@ -298,3 +298,10 @@ Do not begin final schema redesign. It is LAST and requires whole-runtime conver
 - Remote `main` independently read back at `22a38e7b82994597616c87d6e3cb4aff4b3cb91d`.
 - Local `main` is aligned with `origin/main`; paused UCM recovery remains preserved on its separate local holding branch.
 - Live remains frozen; final schema remains LAST/LOCKED/untriggered; Skills/UCM stay separate/paused.
+
+
+## 2026-09-15 SERVER THREAD DELTA
+Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
+Clone HEAD before continuity commit `1b821bb4a8666f714084eabbd14c4954e774940b`. Global interaction v5 green across 38 files; diff-check green. Live Receiver last verified port 5000 PID 12788.
+Major deltas: authenticated supervisor probe + clone recovery; SYSTEM unattended supervisor bundle; non-authorizing approval continuation through HTTP/HUD/schema; project/operator repo discovery; machine roots/process/service/task discovery; exact process/service/task inspect/currentness; explicit manual ForceRestart preserving autonomous throttle.
+Next server work should not immediately proliferate machine actions. First inspect Microseed/Veya currentness machinery and define MVF resident-duty architecture that composes these primitives.

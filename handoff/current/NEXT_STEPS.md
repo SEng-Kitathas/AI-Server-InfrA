@@ -417,3 +417,16 @@ Web and already-audited research slices are qualified. Fix continuity rehydratio
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
+
+
+## 2026-09-15 NEXT STEPS DELTA
+P0
+1. Verify continuity commit/readback and use `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md` as recovery pointer.
+2. Inspect current Microseed/Veya source for current/stale, competence, memory, self-monitoring, dialogue/speech and epistemic-control mechanisms. Do not reinvent weaker MVF substitutes first.
+3. Define minimal MVF resident-duty contract: identity, subject, maintained claim, dependencies, observations, currentness/stale/reopen, allowed cognition/effects, escalation, evidence, output/brief, cadence/trigger.
+4. Embody 2–3 resident duties using qualified primitives: Receiver currentness/HA; repository/currentness topology; continuity/evidence staleness. Produce compact Agent/operator briefing. HEaT + negative system-walk before widening.
+5. Defer machine ACT layer until exact identity/currentness evidence + explicit operator authority + consequence readback are bound.
+P1
+6. External platform approval continuation remains UNKNOWN; exercise actual bridge when safe.
+7. Live HA embodiment and Desktop restart-helper convergence deferred until operator available/live destructive tests allowed.
+8. Embody root law + Interaction Integrity + HEaT across doctrine/CSC/MVF honestly; avoid symbolic compliance.

@@ -268,3 +268,9 @@ Next action: verify current 23-file hashes/tests are unchanged, refresh Git-cont
 - Remote `main` independently read back at `22a38e7b82994597616c87d6e3cb4aff4b3cb91d`.
 - Local `main` is aligned with `origin/main`; paused UCM recovery remains preserved on its separate local holding branch.
 - Live remains frozen; final schema remains LAST/LOCKED/untriggered; Skills/UCM stay separate/paused.
+
+
+## 2026-09-15 FRESH-THREAD ADDENDUM
+Read `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md` after LIVE_SHADOW before widening. Re-ground on clone HEAD/status and latest global interaction receipt.
+Architectural pivot: MVF = multi-dimensional resident intelligence/governance fabric (benign Cardinal/Jarvis-like institutional employee), sibling to Veya under base Microseed and free to incorporate/adapt locally re-earned Microseed/Veya machinery. Root law: anything crossing into our operational sphere loses special status and is stripped/tested by reality/HEaT. Interaction law: local optimum/local green cannot establish global functionality.
+Immediate next substantive work: inspect actual Microseed/Veya current/stale/competence/memory/dialogue machinery, define minimal MVF duty-contract model, prove small multi-duty resident daemon using typed runtime primitives. Do not build generic machine ACT endpoints first.

@@ -32,16 +32,16 @@
       "sha256": "90ba40b110dae5b4a533aba059aac483c60c92c4d6846b4286d1562871c0e44c"
     },
     "CURRENT_STATE.md": {
-      "bytes": 65238,
-      "sha256": "5584e78b7b957d1ee5affb96f1655411a49b32c1582ae9d5b2c8610233d6f8a6"
+      "bytes": 65742,
+      "sha256": "8fd728339d70a0c500500aa8d51c3e16095334c75eb58a3df3dcc7f39b1f3447"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 216436,
-      "sha256": "c063bf310d82ac758940071d96fe966fd35e889b02aa2fbbd465b5053eab7541"
+      "bytes": 213210,
+      "sha256": "a689cfe2f50c34579ceff50b8769d2fefb96ad67e676665623ecabaa3a2fef0d"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 54254,
-      "sha256": "550f3ec8cf4fdf1e88b15f262a0ce754546d48c3741d0987798a15ed801a7cb8"
+      "bytes": 55727,
+      "sha256": "5ad0c2d7d6778b3169bcfbe9e34ffed3a9e7a4191b86849552e7d858208dbcea"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
@@ -84,16 +84,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 37858,
-      "sha256": "e9c6996a5d935b59ab275ef7726d4c5e8313a6e7dcca4deac98ba94f9f1effc1"
+      "bytes": 41191,
+      "sha256": "152c9c2df526a2c26caee212d1ea1cd89cc728eba2aea43daa0d67016261c129"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 33601,
-      "sha256": "8d448c9b1a54cac86650e41f81b66ce93dd6feb2208e8116a0ccc6f7e145085b"
+      "bytes": 34249,
+      "sha256": "963c8a48b71a8f9dcc08f477907177e44ea38fa079216551656e05f05f5d6221"
     },
     "NEXT_STEPS.md": {
-      "bytes": 45566,
-      "sha256": "b224fa0cc974f8919192ec48343f6d67220840446b2a11b93e3fb899c7d392e1"
+      "bytes": 46407,
+      "sha256": "1870b0c02e5f8aad0834079bc2e592a22e1d1888e19267488f8f24e470093369"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -104,8 +104,8 @@
       "sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 63007,
-      "sha256": "8c8e0f27606ea37b7683c2c938da740515f50fc6e1da1033f1aa2d503f163baa"
+      "bytes": 64032,
+      "sha256": "b4b0fa663f4870eb76ca909ff8a76b29c0b58971a9384e3b772888e7e70482ce"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
@@ -116,12 +116,16 @@
       "sha256": "e5e099932e4447aa4679bc329b40396060ee4017de0deb3209cf20b60c7c4308"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 36042,
-      "sha256": "95ef3f7a820b2b1475139327d8b720fe94f61dc737d164946e731129d68bf63c"
+      "bytes": 36579,
+      "sha256": "5587dd9933363f9a9f024d72614728b1dc6e132971980c1e0e738fd958006ca2"
     },
     "T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md": {
       "bytes": 10887,
       "sha256": "4ccd5d692aa85e049cae60c714298b44f9bf3359fcdfead5b4eb00d869cacda1"
+    },
+    "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md": {
+      "bytes": 16277,
+      "sha256": "0cd373c991d1aa8c979cd2a343dc1b14c25c848616fdc350b2342a30a300d626"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -132,8 +136,8 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 75719,
-      "sha256": "40b582fd815434aba3bfafed0ebd3d8855fb1141a0013014812d38a626ce2ce0"
+      "bytes": 76874,
+      "sha256": "e59b5a007359e7d7a39fb01160f1f3075a4d3554cb2e5625b7570b4105d0ff0f"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,
@@ -203,5 +207,9 @@
       "bytes": 4851,
       "sha256": "bd2a1981ae6be1306fdc06e3241d59cc33bb61187d9c0c637e2f2adc8665bc7f"
     }
-  }
+  },
+  "updated_at": "2026-09-15T19:40:35+00:00",
+  "continuity_checkpoint": "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md",
+  "continuity_checkpoint_sha256": "0cd373c991d1aa8c979cd2a343dc1b14c25c848616fdc350b2342a30a300d626",
+  "continuity_checkpoint_source_head": "1b821bb4a8666f714084eabbd14c4954e774940b"
 }

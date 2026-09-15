@@ -663,3 +663,13 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 - Remote `main` independently read back at `22a38e7b82994597616c87d6e3cb4aff4b3cb91d`.
 - Local `main` is aligned with `origin/main`; paused UCM recovery remains preserved on its separate local holding branch.
 - Live remains frozen; final schema remains LAST/LOCKED/untriggered; Skills/UCM stay separate/paused.
+
+
+## 2026-09-15 CURRENT STATE DELTA — THREAD CONTINUITY CHECKPOINT
+- Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
+- Clone HEAD before continuity commit: `1b821bb4a8666f714084eabbd14c4954e774940b`; branch `heat/operator-sovereignty-ucm-discovery`.
+- Global interaction regression v5 VERIFIED green: pytest rc 0 across 38 files; diff-check rc 0.
+- Live Receiver last verified 127.0.0.1:5000 PID 12788; no destructive live work during away-from-home campaign.
+- Qualified clone surfaces: authenticated HA recovery; UCM profile discovery; project Git discovery; machine roots/repos/processes/services/tasks discovery; exact read-only machine inspection; approval continuation policy->HTTP->HUD->schema; explicit manual restart force separated from autonomous throttle.
+- Governance direction: root boundary/reality law elevated; `LOCAL OPTIMUM != GLOBAL FUNCTIONALITY` active; MVF is multi-dimensional resident intelligence/governance fabric; Microseed/Veya and MVF are sibling branches with local HEaT for mechanism transfer.
+- Immediate architecture pressure: resident MVF/Microseed duty-contract spike before proliferating bespoke watchers/actions.

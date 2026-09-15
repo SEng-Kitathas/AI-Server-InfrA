@@ -675,3 +675,26 @@ This block does not assert token presence or absence. It remains semantically va
 - The final library does **not** earn a new Runtime architecture change. T0.2 deterministic gaps were already embodied/published in engineering feature `fb89bb1...`.
 - Remaining pressure: independent real-world dogfood breadth across the 27 Skills; UCM componentization remains a separate paused seam; live Git identity remains unknown from deployed copy; final schema remains LAST/LOCKED/untriggered.
 - Evidence boundary: exact package-native tests ran on the attached bytes in ingress; server real-project recovery used the existing T0.2 integration harness. Do not merge those evidence roots into one claim.
+
+
+## 2026-09-15 DOCTRINE / GOVERNANCE DELTA
+### Operator-ratified root law
+`CROSS THE BOUNDARY -> LOSE YOUR SPECIAL STATUS -> STRIP IT FOR PARTS -> REALITY DECIDES WHAT SURVIVES`
+Boundary = entry into operator's sphere. Provenance remains; epistemic privilege does not. Nothing is sacred: donors, internal code, canon, Microseed/Veya/MVF, tests, verifiers, doctrine, research machinery, prior success. Operator authority governs what system shall do; it does not manufacture empirical truth.
+
+### Interaction Integrity
+`LOCAL OPTIMUM != GLOBAL FUNCTIONALITY`. Local correctness does not qualify composition that creates invalid, unavailable, opaque, unrecoverable or unnecessarily restricted state. Negative system-walk required where mechanisms constrain/delegate/override/share state/depend.
+
+### Governance corpus
+Doctrine/laws, earned scars, rules/CSC/MVF constraints, evidence, HEaT and interaction obligations are distinct first-class grammars/embodiments of one governance system with different provenance. Unified presentation != uniform authority.
+
+### MVF
+MVF != scalar gate. MVF is multi-dimensional governance/cognitive fabric and potential resident intelligence: governor, verification planner, AI helper, evidence/currentness/lineage/recovery engine, runtime sentinel, experiment governor, capability cartographer, operator/Agent interface. Non-architectural governance/research machinery may become MVF duties/contracts where relevant.
+
+### Microseed/Veya/MVF lineage
+MVF and Veya are sibling branches of base Microseed. MVF may incorporate/strip/adapt Microseed/Veya machinery; no branch transfer retains special status. Specialization/employment != cognitive reduction.
+
+### Resident intelligence
+Resident MVF/Microseed may serve as THE DAEMON / benign Cardinal/Jarvis-like institutional intelligence: shared world model, persistent cognition, system tending, grunt work, anomaly investigation, speech/briefing, AI-for-AI compression and Singularity Works R&D support. `SYSTEM-WIDE AWARENESS != SYSTEM-WIDE AUTHORITY`; `PERSISTENT COGNITION != PERSISTENT PERMISSION`.
+
+Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.

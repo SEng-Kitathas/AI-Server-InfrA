@@ -4238,3 +4238,13 @@ Recovery-only Git handoff published as `19c52e6405e058e6415d760dc10e880d559f8015
 - The final library does **not** earn a new Runtime architecture change. T0.2 deterministic gaps were already embodied/published in engineering feature `fb89bb1...`.
 - Remaining pressure: independent real-world dogfood breadth across the 27 Skills; UCM componentization remains a separate paused seam; live Git identity remains unknown from deployed copy; final schema remains LAST/LOCKED/untriggered.
 - Evidence boundary: exact package-native tests ran on the attached bytes in ingress; server real-project recovery used the existing T0.2 integration harness. Do not merge those evidence roots into one claim.
+
+
+---
+
+# PHASE MARKER — 2026-09-15 THREAD-WIDE CONTINUITY RECOVERY
+Tags: CHECKPOINT, STATE CHANGE, DOCTRINE, HEaT, MVF, MICROSEED, OPERATOR SOVEREIGNTY
+
+Operator explicitly ordered all discussions from this thread into continuity/context/shadow surfaces before further work. High-fidelity reconstruction is in `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`, covering guarded clone kill campaign, authenticated HA, UCM, Interaction Integrity/local-optimum law, approval policy->HTTP->HUD->schema, scar/governance consolidation, root ingress law, MVF Cardinal-like role, Microseed/Veya sibling correction, resident/daemon/Jarvis direction, Singularity Works/AI-for-AI, machine discovery/exact inspection, restart ambiguity/ForceRestart repair, exact frontier/backlog.
+
+Latest verified state at append: clone HEAD `1b821bb4a8666f714084eabbd14c4954e774940b`; global interaction v5 pytest rc 0 across 38 files and diff-check rc 0; live Receiver 127.0.0.1:5000 PID 12788; no destructive live action while operator away.
