@@ -16,6 +16,11 @@ def test_restart_prefers_recovery_system_task_estate_and_fixed_tunnel():
     assert '@("--url", $env:PCMMAD_NGROK_URL)' in TEXT
     assert 'ngrok public URL mismatch' in TEXT
     assert 'Start-RecoverySupervisors' in TEXT
+    block=TEXT[TEXT.index('function Test-IsRecoverySupervisorProcess'):TEXT.index('function Stop-RecoveryTaskEstate')]
+    assert 'PCMMAD_V30_Receiver_SYSTEM' in block
+    assert 'PCMMAD_V30_Ngrok_SYSTEM' in block
+    assert 'PCMMAD_V30_Daemon_SYSTEM' not in block
+    assert 'PCMMAD_V30_BrowserBridge_SYSTEM' not in block
 
 def test_reservation_only_exits_before_machine_state_hydration():
     reserve=TEXT.index('if ($RestartIntensityReservationOnly)')

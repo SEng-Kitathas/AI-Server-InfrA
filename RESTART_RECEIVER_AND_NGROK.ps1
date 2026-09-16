@@ -271,7 +271,9 @@ function Test-IsRecoverySupervisorProcess($Process) {
     if (-not $Process -or -not $Process.CommandLine) { return $false }
     if ($Process.Name -notin @("python.exe", "pythonw.exe", "powershell.exe", "pwsh.exe")) { return $false }
     $cmd = [string]$Process.CommandLine
-    return ($cmd -match '(?i)receiver_supervisor\.py') -or ($cmd -match '(?i)ngrok_supervisor\.py')
+    $receiverIdentity = ($cmd -match '(?i)receiver_supervisor\.py') -and ($cmd -match '(?i)--task-name\s+\"?PCMMAD_V30_Receiver_SYSTEM\"?(?:\s|$)')
+    $ngrokIdentity = ($cmd -match '(?i)ngrok_supervisor\.py') -and ($cmd -match '(?i)--task-name\s+\"?PCMMAD_V30_Ngrok_SYSTEM\"?(?:\s|$)')
+    return $receiverIdentity -or $ngrokIdentity
 }
 
 function Stop-RecoveryTaskEstate {
