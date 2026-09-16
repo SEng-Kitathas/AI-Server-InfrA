@@ -35,6 +35,17 @@ def test_recovery_installer_resolves_ngrok_without_requiring_running_process():
     from pathlib import Path
     source=(Path(__file__).resolve().parents[1]/'supervisor'/'install_unattended_recovery.ps1').read_text(encoding='utf-8')
     assert "Get-Command ngrok.exe" in source
-    assert "Microsoft\\WindowsApps\\ngrok.exe" in source
+    assert "Get-AppxPackage ngrok.ngrok" in source
+    assert "Microsoft\\WindowsApps\\ngrok.exe" not in source
     assert "NGROK_REAL_BINARY_NOT_FOUND" in source
     assert "RUNNING_NGROK_REAL_BINARY_NOT_FOUND" not in source
+
+
+def test_recovery_installer_rejects_ngrok_app_execution_alias():
+    from pathlib import Path
+    source=(Path(__file__).resolve().parents[1]/'supervisor'/'install_unattended_recovery.ps1').read_text(encoding='utf-8')
+    assert 'Test-RealNgrokBinary' in source
+    assert 'Get-AppxPackage ngrok.ngrok' in source
+    assert 'ReparsePoint' in source
+    assert 'Length -le 0' in source
+    assert 'Microsoft\\WindowsApps\\ngrok.exe' not in source
