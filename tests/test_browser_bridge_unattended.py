@@ -29,3 +29,12 @@ def test_gate_file_and_security_mode_are_bound_into_installed_workload():
     assert 'PCMMAD_BROWSER_BRIDGE_GATE_FILE' in INSTALL
     assert "browser_bridge_gate.json" in INSTALL
     assert "PCMMAD_BROWSER_DEFAULT_CHANNEL" in INSTALL
+
+
+def test_recovery_installer_resolves_ngrok_without_requiring_running_process():
+    from pathlib import Path
+    source=(Path(__file__).resolve().parents[1]/'supervisor'/'install_unattended_recovery.ps1').read_text(encoding='utf-8')
+    assert "Get-Command ngrok.exe" in source
+    assert "Microsoft\\WindowsApps\\ngrok.exe" in source
+    assert "NGROK_REAL_BINARY_NOT_FOUND" in source
+    assert "RUNNING_NGROK_REAL_BINARY_NOT_FOUND" not in source

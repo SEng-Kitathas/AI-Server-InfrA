@@ -1,7 +1,7 @@
 {
   "schema": "pcmmad.github-publication-inclusion.v3",
   "target": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
-  "generated_at": "2026-09-16T05:31:30.394844+00:00",
+  "generated_at": "2026-09-16T06:28:57.011867+00:00",
   "historical_github_main": "32328ac65678f1f0df7f04587d27f71dc8c14abb",
   "qualified_current_source": "29a80d40835025127daf2ea2c6c089f1bec02d58",
   "publication_tree_result": {
@@ -453,7 +453,7 @@
     {
       "path": "handoff/current/SNAPSHOT_MANIFEST_SHA256.json",
       "bytes": 10730,
-      "sha256": "0ed849b2ba93a0e673f6f3052867bfd41b64d3b75466b5fb3546ca270573ffcf"
+      "sha256": "23de53cbe4eb957b669ebe20c626f5ab20c5dae839c5856c6dd6932a4c3e24bd"
     },
     {
       "path": "handoff/current/T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md",
@@ -477,8 +477,8 @@
     },
     {
       "path": "handoff/current/TRACE_MATRIX.md",
-      "bytes": 96029,
-      "sha256": "ef9e751087b69ebcdc111ce7c7560ed57018a9142b3d306502d75d9401731761"
+      "bytes": 95413,
+      "sha256": "03ea65f158caa77cc315be0d4df2e1d0a318580c187d3c310a9efaa23da23d9e"
     },
     {
       "path": "handoff/current/WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md",
@@ -2792,8 +2792,8 @@
     },
     {
       "path": "tests/test_browser_bridge_unattended.py",
-      "bytes": 1968,
-      "sha256": "aff4511a23e71f4fd20f55c9097b8b556cdcb435e8f115be03a8804646cb361d"
+      "bytes": 2419,
+      "sha256": "fdf32c28881b2626585b12aa61e2761a7d85b70fb302223ee65bcaca9fd2351a"
     },
     {
       "path": "tests/test_capability_availability_contract.py",
