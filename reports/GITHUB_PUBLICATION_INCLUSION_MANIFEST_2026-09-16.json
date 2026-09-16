@@ -1,7 +1,7 @@
 {
   "schema": "pcmmad.github-publication-inclusion.v3",
   "target": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
-  "generated_at": "2026-09-16T05:14:41.510680+00:00",
+  "generated_at": "2026-09-16T05:15:41.589561+00:00",
   "historical_github_main": "32328ac65678f1f0df7f04587d27f71dc8c14abb",
   "qualified_current_source": "29a80d40835025127daf2ea2c6c089f1bec02d58",
   "publication_tree_result": {
@@ -32,8 +32,8 @@
     },
     {
       "path": "CURRENT_BASELINE.md",
-      "bytes": 1269,
-      "sha256": "73102c752201edded3ee86893fa2255b344cf3fe04c97b1cce26a7e46d1ca745"
+      "bytes": 1246,
+      "sha256": "33d5e17c2de7d1494547ccbb03d2c256d23a492282b8a794ba55dbd866787318"
     },
     {
       "path": "CURRENT_INGRESS.md",
