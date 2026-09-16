@@ -1,0 +1,45 @@
+## main...origin/main [behind 2]
+ M CHANGELOG.md
+ M CURRENT_INGRESS.md
+ M README.md
+ M baseline/pcmmad_receiver/context_engine.py
+ M baseline/pcmmad_receiver/control_plane_models.py
+ M baseline/pcmmad_receiver/execution_routes.py
+ M baseline/pcmmad_receiver/lab_tool_primitives.py
+ M baseline/pcmmad_receiver/lab_tools.py
+ M baseline/pcmmad_receiver/lab_tools_browser.py
+ M baseline/pcmmad_receiver/lab_tools_execution.py
+ M baseline/pcmmad_receiver/lab_tools_filesystem.py
+ M baseline/pcmmad_receiver/lab_tools_state.py
+ M baseline/pcmmad_receiver/legacy_routes.py
+ M baseline/pcmmad_receiver/server_hardening.py
+ M docs/EXTERNAL_EVALUATION.md
+ M docs/architecture/INVARIANTS.md
+ M handoff/current/COMMANDERS_INTENT_CURRENT.md
+ M handoff/current/CURRENT_STATE.md
+ M handoff/current/DESIGN_THREAD_STREAM.md
+ M handoff/current/DOCTRINE_SNAPSHOT.md
+ M handoff/current/GIT_PUBLICATION_CURRENT.md
+ M handoff/current/LIVE_SHADOW.md
+ M handoff/current/NEW_THREAD_HANDOFF_PROMPT_CURRENT.md
+ M handoff/current/NEXT_STEPS.md
+ M handoff/current/REVISIT_LEDGER.md
+ M handoff/current/SERVER_THREAD_HANDOFF_CURRENT.md
+ M handoff/current/SNAPSHOT_MANIFEST_SHA256.json
+ M handoff/current/TRACE_MATRIX.md
+ M reports/README.md
+ M reports/V30_SCHEMA_V11_CAPABILITY_MICROKERNEL_2026-09-10.md
+ M reports/V30_SCHEMA_V11_CAPABILITY_MICROKERNEL_RESULT_2026-09-10.json
+ M requirements-dev.txt
+ M tests/conftest.py
+ M tests/test_execution_resource_envelope.py
+ M tests/test_git_handoff_current.py
+ M tests/test_server_hardening.py
+?? .github/
+?? baseline/pcmmad_receiver.egg-info/
+?? build/
+?? handoff/current/SCHEMA_CURRENT.md
+?? reports/V30_CLEANBOX_REPRODUCIBILITY_AND_ARCHITECTURE_COMPLETION_2026-09-10.md
+?? reports/V30_CLEANBOX_REPRODUCIBILITY_AND_ARCHITECTURE_COMPLETION_RESULT_2026-09-10.json
+?? tests/test_cleanbox_environment_isolation.py
+?? tests/test_execution_relative_executable_resolution.py

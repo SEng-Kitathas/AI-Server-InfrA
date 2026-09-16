@@ -23,8 +23,8 @@ def _project_id(project_root: Path) -> str:
 
 
 def _summary(gates: object, claims: object) -> Mapping[str, JsonValue]:
-    gate_tuple = tuple(gates)  # type: ignore[arg-type]  # justification: runtime normalization accepts iterable protocol beyond static narrow type
-    claim_tuple = tuple(claims)  # type: ignore[arg-type]  # justification: runtime normalization accepts iterable protocol beyond static narrow type
+    gate_tuple = tuple(gates)  # type: ignore[arg-type]
+    claim_tuple = tuple(claims)  # type: ignore[arg-type]
     return {
         "gate_count": len(gate_tuple),
         "passing_gates": sum(1 for gate in gate_tuple if gate.status == "pass"),

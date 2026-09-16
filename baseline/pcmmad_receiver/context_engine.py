@@ -8,8 +8,8 @@ from types import MappingProxyType
 from pathlib import Path
 from typing import Any
 from collections.abc import MutableMapping
-from .api_wire_common import IndexCacheStats, WarningItem
-from .api_wire_context import (
+from api_wire_common import IndexCacheStats, WarningItem
+from api_wire_context import (
     ArchiveExtractResponse,
     ArchiveInspectResponse,
     ArchiveItem,
@@ -25,15 +25,15 @@ from .api_wire_context import (
     SearchHit,
     SearchWindow,
 )
-from .server_hardening import safe_json_dumps, safe_json_loads
-from .shared_core import (
+from server_hardening import safe_json_dumps, safe_json_loads
+from shared_core import (
     ARCHIVE_EXTENSIONS,
     MODEL_EXTENSIONS,
     TEXT_EXTENSIONS,
     get_mount_roots,
     get_project_root,
 )
-from .context_config import (
+from context_config import (
     ARCHIVE_INSPECT_DEFAULT_MAX_ENTRIES,
     ARCHIVE_LIST_DEFAULT_LIMIT,
     DEFAULT_ALLOWED_ROOTS,
@@ -221,7 +221,6 @@ ICF_ANCHOR_CLASSES = (
     "state.revisit_ledger",
     "state.trace_matrix",
     "continuity.live_shadow",
-    "continuity.research_epistemic_shadow",
     "continuity.design_thread_stream",
 )
 
@@ -319,8 +318,6 @@ def _artifact_class_from_path(path: Path) -> str:
         return "continuity.live_shadow"
     if "continuity" in parts and "design_thread_stream" in parts:
         return "continuity.design_thread_stream"
-    if "continuity" in parts and "research_epistemic_shadow" in parts:
-        return "continuity.research_epistemic_shadow"
     if "checkpoints" in parts:
         return "continuity.checkpoint"
     if "notes" in parts and "maintenance" in parts:
@@ -356,7 +353,6 @@ ARTIFACT_PRIORS = MappingProxyType(
         "state.revisit_ledger": 3.3,
         "state.trace_matrix": 3.2,
         "continuity.live_shadow": 3.1,
-        "continuity.research_epistemic_shadow": 3.05,
         "continuity.design_thread_stream": 3.0,
         "continuity.checkpoint": 2.5,
         "notes.maintenance": 1.6,
@@ -540,15 +536,9 @@ def _decode_text_bounded(data: bytes, max_bytes: int) -> str:
 
 
 def _read_prefix_bounded(path: Path, max_bytes: int) -> tuple[str, int, int]:
-    limit = max(1, int(max_bytes))
-    try:
-        file_size = int(path.stat().st_size)
-    except OSError:
-        return "", 1, 0
-    read_size = min(limit + 1, file_size + 1)
     with path.open("rb") as handle:
-        data = handle.read(read_size)
-    content = _decode_text_bounded(data[:limit], limit)
+        data = handle.read(max_bytes + 1)
+    content = _decode_text_bounded(data[:max_bytes], max_bytes)
     if not content:
         return "", 1, 0
     end_line = max(1, len(content.splitlines()))
@@ -901,9 +891,7 @@ class RehydrateSelectionState:
 
 
 def _rehydrate_budget(request: RehydrateRequest) -> int:
-    if request.budget_bytes is None:
-        return max(1, min(DEFAULT_REHYDRATE_BUDGET_BYTES, MAX_REHYDRATE_BUDGET_BYTES))
-    if request.budget_bytes in (0, -1):
+    if request.budget_bytes in (None, 0, -1):
         return MAX_REHYDRATE_BUDGET_BYTES
     return max(1, min(request.budget_bytes, MAX_REHYDRATE_BUDGET_BYTES))
 
@@ -932,7 +920,7 @@ def _window_for_excerpt(window: SearchWindow, excerpt: str) -> dict[str, int]:
     return {"start_line": start, "end_line": end}
 
 
-def _select_hit(state: RehydrateSelectionState, hit: SearchHit, budget: int) -> None:
+def _select_hit(state: RehydrateSelectionState, hit: FileSearchHit, budget: int) -> None:
     if any(str(row.get("path")) == str(hit.path) for row in state.selected):
         return
     remaining = max(0, int(budget) - int(state.used))
@@ -953,7 +941,7 @@ def _select_hit(state: RehydrateSelectionState, hit: SearchHit, budget: int) -> 
     state.picked.add(hit.artifact_class)
 
 
-def _select_search_hits(hits: list[SearchHit], budget: int) -> RehydrateSelectionState:
+def _select_search_hits(hits: list[FileSearchHit], budget: int) -> RehydrateSelectionState:
     state = RehydrateSelectionState([], 0, set())
     for art in _rehydrate_priority():
         art_hits = [hit for hit in hits if hit.artifact_class == art]
@@ -1040,7 +1028,7 @@ def _icf_anchor_directories(target: Path) -> list[Path]:
             for child in ("current", "next_steps", "doctrine_snapshot", "revisit_ledger", "trace_matrix")
         )
     elif name == "continuity":
-        candidates.extend(target / child for child in ("live_shadow", "research_epistemic_shadow", "design_thread_stream"))
+        candidates.extend(target / child for child in ("live_shadow", "design_thread_stream"))
     elif name == "checkpoints":
         candidates.append(target)
     else:
@@ -1053,7 +1041,6 @@ def _icf_anchor_directories(target: Path) -> list[Path]:
                 target / "state" / "revisit_ledger",
                 target / "state" / "trace_matrix",
                 target / "continuity" / "live_shadow",
-                target / "continuity" / "research_epistemic_shadow",
                 target / "continuity" / "design_thread_stream",
             ]
         )
@@ -1121,8 +1108,6 @@ def _seed_icf_anchors(state: RehydrateSelectionState, target: Path, budget: int)
                     if artifact_class == "continuity.icf_standard"
                     else "constraints"
                     if artifact_class in {"state.doctrine_snapshot", "state.revisit_ledger", "state.trace_matrix"}
-                    else "epistemic"
-                    if artifact_class == "continuity.research_epistemic_shadow"
                     else "history"
                 ),
                 "score": ARTIFACT_PRIORS.get(artifact_class, 1.0),
@@ -1163,7 +1148,7 @@ def _rehydrate_response(spec: RehydrateResponseSpec) -> JsonObject:
         "selected": spec.state.selected,
         "open_seams": _rehydrate_open_seams(spec.state),
         "icf_cs": {
-            "version": "1.2",
+            "version": "1.0",
             "selected_classes": [
                 artifact_class
                 for artifact_class in ICF_ANCHOR_CLASSES

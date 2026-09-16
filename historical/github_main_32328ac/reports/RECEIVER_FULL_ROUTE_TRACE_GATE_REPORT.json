@@ -1,0 +1,6140 @@
+{
+  "created_at_utc": "2026-07-29T23:18:27.976022+00:00",
+  "approach": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "levels": {
+    "nano": "route case",
+    "micro": "route family",
+    "meso": "route map",
+    "macro": "claim gate"
+  },
+  "clean": true,
+  "dummy_bridge_started": true,
+  "coverage": {
+    "route_count": 49,
+    "covered_route_count": 49,
+    "missing_routes": []
+  },
+  "case_count": 49,
+  "family_counts": {
+    "health": 3,
+    "lab": 7,
+    "legacy": 5,
+    "research": 4,
+    "static": 1,
+    "project": 3,
+    "files": 5,
+    "context": 1,
+    "execution": 10,
+    "filesystem": 1,
+    "archive": 4,
+    "models": 2,
+    "journal": 2,
+    "checkpoint": 1
+  },
+  "failure_count": 0,
+  "unexpected_500_count": 0,
+  "failures": [],
+  "unexpected_500": [],
+  "results": [
+    {
+      "rule": "/health",
+      "endpoint": "legacy.health",
+      "method": "GET",
+      "label": "legacy health",
+      "nano_probe": "route_contract",
+      "micro_family": "health",
+      "meso_route_index": 4,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "artifact_classes": [
+          "code",
+          "continuity.checkpoint",
+          "continuity.design_thread_stream",
+          "continuity.live_shadow",
+          "notes.maintenance",
+          "state.current",
+          "state.doctrine_snapshot",
+          "state.next_steps",
+          "state.revisit_ledger",
+          "state.trace_matrix"
+        ],
+        "artifact_registration_enabled": true,
+        "background_scheduler": true,
+        "capabilities": {
+          "approval_gates": true,
+          "archive_extract": true,
+          "archive_inventory": true,
+          "browser_bridge_proxy": true,
+          "checkpoints": true,
+          "context": true,
+          "execution": true,
+          "execution_register": true,
+          "execution_replay": true,
+          "file_tree": true,
+          "filesystem_tools": true,
+          "git_ops": true,
+          "journal": true,
+          "lab_batch": true,
+          "lab_router": true,
+          "lab_sessions": true,
+          "legacy_routes": true,
+          "mcp_manifest": true,
+          "model_inventory": true,
+          "mount_table": true,
+          "partial_traversal_reporting": true,
+          "plugin_autoload": true,
+          "project_routes": true,
+          "protocol_hash_chain": true,
+          "protocol_promotion": true,
+          "protocol_state": true,
+          "protocol_waivers": true,
+          "python_exec": true,
+          "rehydrate_debug": true,
+          "research": true,
+          "result_handles": true,
+          "sync_exec": true,
+          "verify_gates": true,
+          "web_fetch": true,
+          "zip_read": true
+        },
+        "compact_control_surface": {
+          "action_count": 30,
+          "note": "Schema ceilings are not server ceilings. Use lab dispatch, batch, and result-handle flows to reach larger server-native capability families.",
+          "operation_budget": 30,
+          "purpose": "Compact GPT-safe control surface with bounded imported actions."
+        },
+        "default_timeout_seconds": null,
+        "execution_enabled": true,
+        "execution_modes": [
+          "one_shot",
+          "bench",
+          "replay",
+          "ablation"
+        ],
+        "global_concurrency_limit": 8,
+        "global_queue_limit": 0,
+        "max_stderr_bytes": 0,
+        "max_stdout_bytes": 0,
+        "max_timeout_seconds": 0,
+        "ok": true,
+        "per_project_concurrency_limit": 0,
+        "per_project_queue_limit": 0,
+        "projects_root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects",
+        "root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route",
+        "scheduler_alive": true,
+        "scheduler_interval_seconds": 0.25,
+        "server_native_router": {
+          "batch_entrypoint": "/lab/batch",
+          "dispatch_entrypoint": "/lab/dispatch",
+          "families": [
+            {
+              "approval_required_tools": 5,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 10,
+              "name": "browser",
+              "tags": [],
+              "tool_count": 16
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low"
+              ],
+              "mutating_tools": 0,
+              "name": "doctrine",
+              "tags": [
+                "csc",
+                "doctrine",
+                "invariants",
+                "search",
+                "style"
+              ],
+              "tool_count": 3
+            },
+            {
+              "approval_required_tools": 4,
+              "danger_tiers": [
+                "critical",
+                "high",
+                "medium"
+              ],
+              "mutating_tools": 1,
+              "name": "execution",
+              "tags": [],
+              "tool_count": 7
+            },
+            {
+              "approval_required_tools": 3,
+              "danger_tiers": [
+                "high",
+                "medium"
+              ],
+              "mutating_tools": 2,
+              "name": "filesystem",
+              "tags": [],
+              "tool_count": 7
+            },
+            {
+              "approval_required_tools": 3,
+              "danger_tiers": [
+                "critical",
+                "medium"
+              ],
+              "mutating_tools": 3,
+              "name": "git",
+              "tags": [],
+              "tool_count": 5
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "critical",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 6,
+              "name": "lab",
+              "tags": [],
+              "tool_count": 10
+            },
+            {
+              "approval_required_tools": 1,
+              "danger_tiers": [
+                "high"
+              ],
+              "mutating_tools": 1,
+              "name": "procedure",
+              "tags": [],
+              "tool_count": 1
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 2,
+              "name": "project",
+              "tags": [],
+              "tool_count": 11
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 9,
+              "name": "protocol",
+              "tags": [
+                "adjudication",
+                "artifact",
+                "boundary",
+                "claim",
+                "constraint",
+                "continuity",
+                "discourse-build-boundary",
+                "evidence",
+                "expiry",
+                "genesis",
+                "governance",
+                "guard",
+                "integrity",
+                "ledger",
+                "mode",
+                "objective",
+                "pcmmad",
+                "pdver",
+                "promotion",
+                "provenance",
+                "seal",
+                "state",
+                "verification",
+                "waiver"
+              ],
+              "tool_count": 12
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "research",
+              "tags": [],
+              "tool_count": 3
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "semantic",
+              "tags": [
+                "database",
+                "monster",
+                "retrieval",
+                "semantic"
+              ],
+              "tool_count": 2
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 4,
+              "name": "sop",
+              "tags": [],
+              "tool_count": 8
+            },
+            {
+              "approval_required_tools": 1,
+              "danger_tiers": [
+                "high"
+              ],
+              "mutating_tools": 0,
+              "name": "verify",
+              "tags": [],
+              "tool_count": 1
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "web",
+              "tags": [],
+              "tool_count": 1
+            }
+          ],
+          "larger_server_native_capability_set": true,
+          "notes": [
+            "The compact schema is intentionally bounded to preserve GPT import compatibility.",
+            "The server-native capability set can remain richer than the imported action surface.",
+            "Large results may be materialized server-side and retrieved by handle."
+          ],
+          "result_handle_entrypoint": "/lab/results/get"
+        },
+        "status": "online",
+        "termination_enabled": true,
+        "time": "2026-07-29T23:18:26.841654+00:00"
+      }
+    },
+    {
+      "rule": "/capabilities",
+      "endpoint": "legacy.get_capabilities",
+      "method": "GET",
+      "label": "capabilities",
+      "nano_probe": "route_contract",
+      "micro_family": "health",
+      "meso_route_index": 0,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "capabilities": {
+          "approval_gates": true,
+          "archive_extract": true,
+          "archive_inventory": true,
+          "browser_bridge_proxy": true,
+          "checkpoints": true,
+          "context": true,
+          "execution": true,
+          "execution_register": true,
+          "execution_replay": true,
+          "file_tree": true,
+          "filesystem_tools": true,
+          "git_ops": true,
+          "journal": true,
+          "lab_batch": true,
+          "lab_router": true,
+          "lab_sessions": true,
+          "legacy_routes": true,
+          "mcp_manifest": true,
+          "model_inventory": true,
+          "mount_table": true,
+          "partial_traversal_reporting": true,
+          "plugin_autoload": true,
+          "project_routes": true,
+          "protocol_hash_chain": true,
+          "protocol_promotion": true,
+          "protocol_state": true,
+          "protocol_waivers": true,
+          "python_exec": true,
+          "rehydrate_debug": true,
+          "research": true,
+          "result_handles": true,
+          "sync_exec": true,
+          "verify_gates": true,
+          "web_fetch": true,
+          "zip_read": true
+        },
+        "compact_control_surface": {
+          "action_count": 30,
+          "note": "Schema ceilings are not server ceilings. Use lab dispatch, batch, and result-handle flows to reach larger server-native capability families.",
+          "operation_budget": 30,
+          "purpose": "Compact GPT-safe control surface with bounded imported actions."
+        },
+        "limits": {
+          "artifact_registration_enabled": true,
+          "background_scheduler": true,
+          "default_batch_steps": 30,
+          "default_list_limit": 200,
+          "default_read_max_bytes": 50000,
+          "default_rehydrate_budget_bytes": 40000,
+          "default_search_limit": 30,
+          "default_timeout_seconds": null,
+          "default_tree_limit": 500,
+          "execution_enabled": true,
+          "execution_modes": [
+            "one_shot",
+            "bench",
+            "replay",
+            "ablation"
+          ],
+          "global_concurrency_limit": 8,
+          "global_queue_limit": 0,
+          "max_stderr_bytes": 0,
+          "max_stdout_bytes": 0,
+          "max_timeout_seconds": 0,
+          "per_project_concurrency_limit": 0,
+          "per_project_queue_limit": 0,
+          "scheduler_alive": true,
+          "scheduler_interval_seconds": 0.25,
+          "termination_enabled": true
+        },
+        "ok": true,
+        "server_native_router": {
+          "batch_entrypoint": "/lab/batch",
+          "dispatch_entrypoint": "/lab/dispatch",
+          "families": [
+            {
+              "approval_required_tools": 5,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 10,
+              "name": "browser",
+              "tags": [],
+              "tool_count": 16
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low"
+              ],
+              "mutating_tools": 0,
+              "name": "doctrine",
+              "tags": [
+                "csc",
+                "doctrine",
+                "invariants",
+                "search",
+                "style"
+              ],
+              "tool_count": 3
+            },
+            {
+              "approval_required_tools": 4,
+              "danger_tiers": [
+                "critical",
+                "high",
+                "medium"
+              ],
+              "mutating_tools": 1,
+              "name": "execution",
+              "tags": [],
+              "tool_count": 7
+            },
+            {
+              "approval_required_tools": 3,
+              "danger_tiers": [
+                "high",
+                "medium"
+              ],
+              "mutating_tools": 2,
+              "name": "filesystem",
+              "tags": [],
+              "tool_count": 7
+            },
+            {
+              "approval_required_tools": 3,
+              "danger_tiers": [
+                "critical",
+                "medium"
+              ],
+              "mutating_tools": 3,
+              "name": "git",
+              "tags": [],
+              "tool_count": 5
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "critical",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 6,
+              "name": "lab",
+              "tags": [],
+              "tool_count": 10
+            },
+            {
+              "approval_required_tools": 1,
+              "danger_tiers": [
+                "high"
+              ],
+              "mutating_tools": 1,
+              "name": "procedure",
+              "tags": [],
+              "tool_count": 1
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 2,
+              "name": "project",
+              "tags": [],
+              "tool_count": 11
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 9,
+              "name": "protocol",
+              "tags": [
+                "adjudication",
+                "artifact",
+                "boundary",
+                "claim",
+                "constraint",
+                "continuity",
+                "discourse-build-boundary",
+                "evidence",
+                "expiry",
+                "genesis",
+                "governance",
+                "guard",
+                "integrity",
+                "ledger",
+                "mode",
+                "objective",
+                "pcmmad",
+                "pdver",
+                "promotion",
+                "provenance",
+                "seal",
+                "state",
+                "verification",
+                "waiver"
+              ],
+              "tool_count": 12
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "research",
+              "tags": [],
+              "tool_count": 3
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "semantic",
+              "tags": [
+                "database",
+                "monster",
+                "retrieval",
+                "semantic"
+              ],
+              "tool_count": 2
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 4,
+              "name": "sop",
+              "tags": [],
+              "tool_count": 8
+            },
+            {
+              "approval_required_tools": 1,
+              "danger_tiers": [
+                "high"
+              ],
+              "mutating_tools": 0,
+              "name": "verify",
+              "tags": [],
+              "tool_count": 1
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "web",
+              "tags": [],
+              "tool_count": 1
+            }
+          ],
+          "larger_server_native_capability_set": true,
+          "notes": [
+            "The compact schema is intentionally bounded to preserve GPT import compatibility.",
+            "The server-native capability set can remain richer than the imported action surface.",
+            "Large results may be materialized server-side and retrieved by handle."
+          ],
+          "result_handle_entrypoint": "/lab/results/get"
+        },
+        "time": "2026-07-29T23:18:26.842460+00:00"
+      }
+    },
+    {
+      "rule": "/context/health",
+      "endpoint": "context_plane.context_health",
+      "method": "GET",
+      "label": "context health",
+      "nano_probe": "route_contract",
+      "micro_family": "health",
+      "meso_route_index": 2,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "capabilities": [
+          "files.list",
+          "files.read",
+          "files.search",
+          "context.rehydrate",
+          "project.files.list",
+          "project.files.read",
+          "project.files.search",
+          "project.context.rehydrate",
+          "project.models.list",
+          "project.models.inspect",
+          "project.archives.list",
+          "project.archives.inspect",
+          "project.archives.extract"
+        ],
+        "index_cache": {
+          "bytes": 0,
+          "entries": 0,
+          "max_bytes": 134217728,
+          "ttl_seconds": 300
+        },
+        "ok": true,
+        "roots": [
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/system",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/sandbox",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/temp",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver"
+        ],
+        "status": "online"
+      }
+    },
+    {
+      "rule": "/lab/health",
+      "endpoint": "lab.lab_health",
+      "method": "GET",
+      "label": "lab health",
+      "nano_probe": "route_contract",
+      "micro_family": "lab",
+      "meso_route_index": 7,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "background_batch_executor": {
+          "alive": true,
+          "configured_workers": 64,
+          "submitted_batches": 0,
+          "telemetry": {
+            "background_batches_active": 0,
+            "background_batches_completed": 0,
+            "background_batches_failed": 0,
+            "foreground_parallel_dispatches": 0,
+            "last_background_error": null
+          }
+        },
+        "boot_report": {
+          "loaded": [
+            {
+              "blueprint": "legacy_bp",
+              "error": null,
+              "module": "legacy_routes"
+            },
+            {
+              "blueprint": "execution_bp",
+              "error": null,
+              "module": "execution_routes"
+            },
+            {
+              "blueprint": "power_bp",
+              "error": null,
+              "module": "power_routes"
+            },
+            {
+              "blueprint": "lab_bp",
+              "error": null,
+              "module": "lab_routes"
+            },
+            {
+              "blueprint": "research_bp",
+              "error": null,
+              "module": "research_routes"
+            },
+            {
+              "blueprint": "context_bp",
+              "error": null,
+              "module": "context_routes"
+            }
+          ],
+          "optional_failed": [],
+          "required_failed": []
+        },
+        "execution_readiness": {
+          "corrupt_job_files": [],
+          "drain_batch": 0,
+          "global": {
+            "global_limit": 8,
+            "global_queue_limit": 0,
+            "oldest_queued_age_seconds": null,
+            "queued": 0,
+            "running": 0
+          },
+          "per_project": {},
+          "scheduler_telemetry": {
+            "iterations": 1,
+            "jobs_completed": 0,
+            "jobs_failed": 0,
+            "jobs_reconciled": 0,
+            "jobs_started": 0,
+            "jobs_timed_out": 0,
+            "last_error": null,
+            "last_tick_at": "2026-07-29T23:18:26.834058+00:00",
+            "scheduler_startups": 1
+          },
+          "scheduler_thread_alive": true,
+          "status": "online",
+          "unsupervised_jobs": []
+        },
+        "lab_status": {
+          "ok": true,
+          "plugin_error_count": 0,
+          "plugin_load_count": 0,
+          "tool_count": 87,
+          "validation_mode": "connected_only"
+        },
+        "mount_readiness": [
+          {
+            "error": null,
+            "exists": true,
+            "name": "cwd",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver",
+            "writable": true
+          },
+          {
+            "error": null,
+            "exists": true,
+            "name": "projects",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects",
+            "writable": true
+          },
+          {
+            "error": null,
+            "exists": true,
+            "name": "root",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route",
+            "writable": true
+          },
+          {
+            "error": null,
+            "exists": true,
+            "name": "sandbox",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/sandbox",
+            "writable": true
+          },
+          {
+            "error": null,
+            "exists": true,
+            "name": "system",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/system",
+            "writable": true
+          },
+          {
+            "error": null,
+            "exists": true,
+            "name": "temp",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/temp",
+            "writable": true
+          }
+        ],
+        "ok": true,
+        "router": true,
+        "server_native_router": {
+          "batch_entrypoint": "/lab/batch",
+          "dispatch_entrypoint": "/lab/dispatch",
+          "families": [
+            {
+              "approval_required_tools": 5,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 10,
+              "name": "browser",
+              "tags": [],
+              "tool_count": 16
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low"
+              ],
+              "mutating_tools": 0,
+              "name": "doctrine",
+              "tags": [
+                "csc",
+                "doctrine",
+                "invariants",
+                "search",
+                "style"
+              ],
+              "tool_count": 3
+            },
+            {
+              "approval_required_tools": 4,
+              "danger_tiers": [
+                "critical",
+                "high",
+                "medium"
+              ],
+              "mutating_tools": 1,
+              "name": "execution",
+              "tags": [],
+              "tool_count": 7
+            },
+            {
+              "approval_required_tools": 3,
+              "danger_tiers": [
+                "high",
+                "medium"
+              ],
+              "mutating_tools": 2,
+              "name": "filesystem",
+              "tags": [],
+              "tool_count": 7
+            },
+            {
+              "approval_required_tools": 3,
+              "danger_tiers": [
+                "critical",
+                "medium"
+              ],
+              "mutating_tools": 3,
+              "name": "git",
+              "tags": [],
+              "tool_count": 5
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "critical",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 6,
+              "name": "lab",
+              "tags": [],
+              "tool_count": 10
+            },
+            {
+              "approval_required_tools": 1,
+              "danger_tiers": [
+                "high"
+              ],
+              "mutating_tools": 1,
+              "name": "procedure",
+              "tags": [],
+              "tool_count": 1
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 2,
+              "name": "project",
+              "tags": [],
+              "tool_count": 11
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 9,
+              "name": "protocol",
+              "tags": [
+                "adjudication",
+                "artifact",
+                "boundary",
+                "claim",
+                "constraint",
+                "continuity",
+                "discourse-build-boundary",
+                "evidence",
+                "expiry",
+                "genesis",
+                "governance",
+                "guard",
+                "integrity",
+                "ledger",
+                "mode",
+                "objective",
+                "pcmmad",
+                "pdver",
+                "promotion",
+                "provenance",
+                "seal",
+                "state",
+                "verification",
+                "waiver"
+              ],
+              "tool_count": 12
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "research",
+              "tags": [],
+              "tool_count": 3
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "semantic",
+              "tags": [
+                "database",
+                "monster",
+                "retrieval",
+                "semantic"
+              ],
+              "tool_count": 2
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 4,
+              "name": "sop",
+              "tags": [],
+              "tool_count": 8
+            },
+            {
+              "approval_required_tools": 1,
+              "danger_tiers": [
+                "high"
+              ],
+              "mutating_tools": 0,
+              "name": "verify",
+              "tags": [],
+              "tool_count": 1
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "web",
+              "tags": [],
+              "tool_count": 1
+            }
+          ],
+          "larger_server_native_capability_set": true,
+          "notes": [
+            "The compact schema is intentionally bounded to preserve GPT import compatibility.",
+            "The server-native capability set can remain richer than the imported action surface.",
+            "Large results may be materialized server-side and retrieved by handle."
+          ],
+          "result_handle_entrypoint": "/lab/results/get"
+        },
+        "status": "degraded",
+        "time": "2026-07-29T23:18:26.844209+00:00",
+        "tool_count": 87
+      }
+    },
+    {
+      "rule": "/lab/tools",
+      "endpoint": "lab.lab_tools_index",
+      "method": "GET",
+      "label": "lab tools",
+      "nano_probe": "route_contract",
+      "micro_family": "lab",
+      "meso_route_index": 11,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "compact_control_surface": {
+          "action_count": 30,
+          "note": "Schema ceilings are not server ceilings. Use lab dispatch, batch, and result-handle flows to reach larger server-native capability families.",
+          "operation_budget": 30,
+          "purpose": "Compact GPT-safe control surface with bounded imported actions."
+        },
+        "count": 87,
+        "ok": true,
+        "server_native_router": {
+          "batch_entrypoint": "/lab/batch",
+          "dispatch_entrypoint": "/lab/dispatch",
+          "families": [
+            {
+              "approval_required_tools": 5,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 10,
+              "name": "browser",
+              "tags": [],
+              "tool_count": 16
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low"
+              ],
+              "mutating_tools": 0,
+              "name": "doctrine",
+              "tags": [
+                "csc",
+                "doctrine",
+                "invariants",
+                "search",
+                "style"
+              ],
+              "tool_count": 3
+            },
+            {
+              "approval_required_tools": 4,
+              "danger_tiers": [
+                "critical",
+                "high",
+                "medium"
+              ],
+              "mutating_tools": 1,
+              "name": "execution",
+              "tags": [],
+              "tool_count": 7
+            },
+            {
+              "approval_required_tools": 3,
+              "danger_tiers": [
+                "high",
+                "medium"
+              ],
+              "mutating_tools": 2,
+              "name": "filesystem",
+              "tags": [],
+              "tool_count": 7
+            },
+            {
+              "approval_required_tools": 3,
+              "danger_tiers": [
+                "critical",
+                "medium"
+              ],
+              "mutating_tools": 3,
+              "name": "git",
+              "tags": [],
+              "tool_count": 5
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "critical",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 6,
+              "name": "lab",
+              "tags": [],
+              "tool_count": 10
+            },
+            {
+              "approval_required_tools": 1,
+              "danger_tiers": [
+                "high"
+              ],
+              "mutating_tools": 1,
+              "name": "procedure",
+              "tags": [],
+              "tool_count": 1
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 2,
+              "name": "project",
+              "tags": [],
+              "tool_count": 11
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 9,
+              "name": "protocol",
+              "tags": [
+                "adjudication",
+                "artifact",
+                "boundary",
+                "claim",
+                "constraint",
+                "continuity",
+                "discourse-build-boundary",
+                "evidence",
+                "expiry",
+                "genesis",
+                "governance",
+                "guard",
+                "integrity",
+                "ledger",
+                "mode",
+                "objective",
+                "pcmmad",
+                "pdver",
+                "promotion",
+                "provenance",
+                "seal",
+                "state",
+                "verification",
+                "waiver"
+              ],
+              "tool_count": 12
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "research",
+              "tags": [],
+              "tool_count": 3
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "semantic",
+              "tags": [
+                "database",
+                "monster",
+                "retrieval",
+                "semantic"
+              ],
+              "tool_count": 2
+            },
+            {
+              "approval_required_tools": 2,
+              "danger_tiers": [
+                "high",
+                "low",
+                "medium"
+              ],
+              "mutating_tools": 4,
+              "name": "sop",
+              "tags": [],
+              "tool_count": 8
+            },
+            {
+              "approval_required_tools": 1,
+              "danger_tiers": [
+                "high"
+              ],
+              "mutating_tools": 0,
+              "name": "verify",
+              "tags": [],
+              "tool_count": 1
+            },
+            {
+              "approval_required_tools": 0,
+              "danger_tiers": [
+                "medium"
+              ],
+              "mutating_tools": 0,
+              "name": "web",
+              "tags": [],
+              "tool_count": 1
+            }
+          ],
+          "larger_server_native_capability_set": true,
+          "notes": [
+            "The compact schema is intentionally bounded to preserve GPT import compatibility.",
+            "The server-native capability set can remain richer than the imported action surface.",
+            "Large results may be materialized server-side and retrieved by handle."
+          ],
+          "result_handle_entrypoint": "/lab/results/get"
+        },
+        "tools": [
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "medium",
+            "description": "Click a selector in the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "selector": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "selector"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.click",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "medium",
+            "description": "Capture page HTML from the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "browser.content",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "browser",
+            "danger_tier": "high",
+            "description": "Evaluate JavaScript in the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "expression": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "expression"
+              ],
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "browser.evaluate",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "medium",
+            "description": "Fill a selector in the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "selector": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "selector",
+                "text"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.fill",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "low",
+            "description": "Check browser automation bridge health.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "timeout_seconds": {
+                  "maximum": 30,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "browser.health",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "medium",
+            "description": "Navigate the current browser bridge page.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "url": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "session_id",
+                "url"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.navigate",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "browser",
+            "danger_tier": "high",
+            "description": "Close a tab in a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 60,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "index"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.pages.close",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "low",
+            "description": "List tabs/pages in a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 60,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "browser.pages.list",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "medium",
+            "description": "Open a new tab in a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 60,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.pages.new",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "medium",
+            "description": "Select a tab/page in a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 60,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "index"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.pages.select",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "medium",
+            "description": "Press a key on a selector in the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "key": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "selector": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "selector",
+                "key"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.press",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "medium",
+            "description": "Capture a screenshot through the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "browser.screenshot",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "browser",
+            "danger_tier": "high",
+            "description": "Attach to a running debug browser session via the local bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "browser": {
+                  "type": "string"
+                },
+                "cdp_url": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "profile_name": {
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "cdp_url"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.session.attach",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "browser",
+            "danger_tier": "high",
+            "description": "Start a browser session through the local bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "browser": {
+                  "type": "string"
+                },
+                "headless": {
+                  "type": "boolean"
+                },
+                "persistent": {
+                  "type": "boolean"
+                },
+                "profile_name": {
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.session.start",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "browser",
+            "danger_tier": "high",
+            "description": "Stop a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "browser.session.stop",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "browser",
+            "danger_tier": "low",
+            "description": "List active browser bridge sessions.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "timeout_seconds": {
+                  "maximum": 30,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "browser.sessions.list",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "doctrine",
+            "danger_tier": "low",
+            "description": "Read the universal CSC/doctrine/code-style invariant guide or manifest.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "doctrine.invariants.read",
+            "tags": [
+              "csc",
+              "doctrine",
+              "style",
+              "invariants"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "doctrine",
+            "danger_tier": "low",
+            "description": "Search within the universal CSC/doctrine/code-style invariant guide and source index.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "doctrine.invariants.search",
+            "tags": [
+              "csc",
+              "doctrine",
+              "style",
+              "invariants",
+              "search"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "doctrine",
+            "danger_tier": "low",
+            "description": "Report universal CSC/doctrine/code-style invariant pack status.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "doctrine.invariants.status",
+            "tags": [
+              "csc",
+              "doctrine",
+              "style",
+              "invariants"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "execution",
+            "danger_tier": "medium",
+            "description": "Read bounded stdout/stderr for an async execution job.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "execution.output",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "execution",
+            "danger_tier": "high",
+            "description": "Run a command synchronously inside a project cwd.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "execution.run",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "execution",
+            "danger_tier": "medium",
+            "description": "Read and finalize async execution job status.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "execution.status",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "execution",
+            "danger_tier": "high",
+            "description": "Submit an async execution job.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "execution.submit",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "execution",
+            "danger_tier": "critical",
+            "description": "Terminate a running async job.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "execution.terminate",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "execution",
+            "danger_tier": "medium",
+            "description": "Long-poll an async execution job until complete or timeout.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "execution.wait",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "filesystem",
+            "danger_tier": "medium",
+            "description": "Glob files under a mounted or absolute path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "fs.glob",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "filesystem",
+            "danger_tier": "medium",
+            "description": "Search text across mounted or absolute filesystem paths.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "fs.grep",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "filesystem",
+            "danger_tier": "high",
+            "description": "Move a file within allowed roots.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "fs.move",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "filesystem",
+            "danger_tier": "medium",
+            "description": "Read a file from a mounted or absolute path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "fs.read",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "filesystem",
+            "danger_tier": "high",
+            "description": "Traverse a filesystem tree from a mounted or absolute path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "fs.tree",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "filesystem",
+            "danger_tier": "high",
+            "description": "Write a file to a mounted or absolute path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "fs.write",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "git",
+            "danger_tier": "critical",
+            "description": "Remove untracked files and directories.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "git.clean",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "git",
+            "danger_tier": "critical",
+            "description": "Commit current repo changes with an explicit message.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "git.commit",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "git",
+            "danger_tier": "medium",
+            "description": "Read a git diff for a project repo.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "git.diff",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "git",
+            "danger_tier": "critical",
+            "description": "Hard reset repo to a target ref.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "git.reset_hard",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "git",
+            "danger_tier": "medium",
+            "description": "Read git status, branch, and dirty state for a project repo.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "git.status",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "lab",
+            "danger_tier": "medium",
+            "description": "Record an andon event and pause the session.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "lab.andon.pull",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "lab",
+            "danger_tier": "critical",
+            "description": "Terminate jobs and optionally hard-reset repo state after repeated failure.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "lab.apoptosis.trigger",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "lab",
+            "danger_tier": "low",
+            "description": "Return internal lab subsystem status and registry metadata.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "lab.health",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "lab",
+            "danger_tier": "medium",
+            "description": "Append a lessons-learned/reflexion record.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "lab.reflexion.append",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "lab",
+            "danger_tier": "low",
+            "description": "Read recent reflexion entries.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "lab.reflexion.read",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "lab",
+            "danger_tier": "medium",
+            "description": "Close or otherwise mark the state of a lab session.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "lab.session.end",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "lab",
+            "danger_tier": "low",
+            "description": "Read a lab session record.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "lab.session.get",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "lab",
+            "danger_tier": "medium",
+            "description": "Append a note to a lab session.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "lab.session.note",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "lab",
+            "danger_tier": "low",
+            "description": "Start a lab session record for a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "lab.session.start",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "lab",
+            "danger_tier": "medium",
+            "description": "Reload tool plugins from the lab_plugins directory.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "lab.tools.reload",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "procedure",
+            "danger_tier": "high",
+            "description": "Server-side browser prompt, submit, wait, and capture procedure.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "capture_mode": {
+                  "type": "string"
+                },
+                "input_selector": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "max_wait_seconds": {
+                  "maximum": 300,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "page_index": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "poll_interval_seconds": {
+                  "maximum": 10.0,
+                  "minimum": 0.1,
+                  "type": "number"
+                },
+                "prompt": {
+                  "type": "string"
+                },
+                "response_selector": {
+                  "type": "string"
+                },
+                "screenshot_name": {
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "submit_key": {
+                  "type": "string"
+                },
+                "submit_selector": {
+                  "type": "string"
+                },
+                "take_screenshot": {
+                  "type": "boolean"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "wait_seconds": {
+                  "maximum": 300,
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "input_selector",
+                "prompt"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "procedure.browser.prompt_capture",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "project",
+            "danger_tier": "high",
+            "description": "Extract an archive within a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "project.archives.extract",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "low",
+            "description": "Inspect an archive in a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.archives.inspect",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "low",
+            "description": "List archive artifacts in a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.archives.list",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "low",
+            "description": "Rehydrate bounded project context on a topic.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.context.rehydrate",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "low",
+            "description": "List files under a project path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.files.list",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "low",
+            "description": "Read one project file or a line range.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.files.read",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "medium",
+            "description": "Read many project files in a single dispatch.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.files.read_many",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "low",
+            "description": "Search within project files.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.files.search",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "project",
+            "danger_tier": "high",
+            "description": "Write or append a project file directly.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "project.files.write",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "low",
+            "description": "Inspect a model artifact in a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.models.inspect",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "project",
+            "danger_tier": "low",
+            "description": "List model artifacts in a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "project.models.list",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "medium",
+            "description": "Register a typed artifact identity, provenance, and optional seal in protocol state.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "artifact_class": {
+                  "type": "string"
+                },
+                "artifact_id": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "provenance": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "sealed": {
+                  "type": "boolean"
+                },
+                "sha256": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "artifact_id",
+                "artifact_class"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.artifact.register",
+            "tags": [
+              "pcmmad",
+              "artifact",
+              "provenance",
+              "seal"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "medium",
+            "description": "Record or revise a typed claim with evidence and confidence.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "claim_id": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "evidence": {
+                  "items": {
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "statement": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "claim_id",
+                "kind",
+                "statement"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.claim.record",
+            "tags": [
+              "pcmmad",
+              "claim",
+              "evidence",
+              "adjudication"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "medium",
+            "description": "Append or supersede a typed PCMMAD constraint without erasing history.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "active": {
+                  "type": "boolean"
+                },
+                "actor": {
+                  "type": "string"
+                },
+                "constraint_id": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "statement": {
+                  "type": "string"
+                },
+                "strength": {
+                  "enum": [
+                    "REQUIRED",
+                    "PREFERRED",
+                    "ADVISORY"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "constraint_id",
+                "statement",
+                "strength"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.constraint.record",
+            "tags": [
+              "pcmmad",
+              "constraint",
+              "state"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "medium",
+            "description": "Record live-shadow, design-thread, revisit, doctrine, trace, memory, or maintenance continuity.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "artifact_ref": {
+                  "type": "string"
+                },
+                "continuity_id": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "open_loops": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "summary": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "continuity_id",
+                "kind",
+                "summary"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.continuity.record",
+            "tags": [
+              "pcmmad",
+              "continuity",
+              "state"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "low",
+            "description": "Evaluate whether the current PCMMAD mode permits read, governance, specimen, or promotion work.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "mutation_domain": {
+                  "enum": [
+                    "READ",
+                    "GOVERNANCE",
+                    "SPECIMEN",
+                    "PROMOTION"
+                  ],
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "mutation_domain"
+              ],
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "protocol.guard.check",
+            "tags": [
+              "pcmmad",
+              "mode",
+              "guard",
+              "discourse-build-boundary"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "medium",
+            "description": "Initialize the append-only PCMMAD runtime protocol for a project.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "initial_mode": {
+                  "enum": [
+                    "DISCUSSION",
+                    "AUDIT",
+                    "BUILD_PLAN",
+                    "BUILD_COMMIT",
+                    "RECOVERY",
+                    "CHECKPOINT",
+                    "MERGE",
+                    "PROMOTION"
+                  ],
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "rigor_level": {
+                  "enum": [
+                    "STANDARD",
+                    "ELEVATED",
+                    "CRITICAL"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.initialize",
+            "tags": [
+              "pcmmad",
+              "state",
+              "genesis",
+              "pdver"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "low",
+            "description": "Verify sequence, project identity, previous hashes, and event hashes in the protocol ledger.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id"
+              ],
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "protocol.ledger.verify",
+            "tags": [
+              "pcmmad",
+              "ledger",
+              "verification",
+              "integrity"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "medium",
+            "description": "Explicitly transition the PCMMAD discourse/build/recovery/promotion mode.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "expected_mode": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "reason": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "to_mode": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "to_mode",
+                "reason"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.mode.transition",
+            "tags": [
+              "pcmmad",
+              "mode",
+              "boundary"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "medium",
+            "description": "Set the active objective as an append-only superseding event.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "objective_id": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "scope": {
+                  "type": "string"
+                },
+                "statement": {
+                  "type": "string"
+                },
+                "success_criteria": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "project_id",
+                "objective_id",
+                "statement"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.objective.set",
+            "tags": [
+              "pcmmad",
+              "objective",
+              "state"
+            ]
+          },
+          {
+            "approval_required": true,
+            "category": "protocol",
+            "danger_tier": "high",
+            "description": "Adjudicate a claim or artifact as ratified, provisional, rejected, deferred, demoted, or superseded.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "decision": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "items": {
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "rationale": {
+                  "type": "string"
+                },
+                "target_id": {
+                  "type": "string"
+                },
+                "target_type": {
+                  "enum": [
+                    "claim",
+                    "artifact"
+                  ],
+                  "type": "string"
+                },
+                "waiver_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "project_id",
+                "target_type",
+                "target_id",
+                "decision",
+                "rationale"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.promotion.record",
+            "tags": [
+              "pcmmad",
+              "promotion",
+              "adjudication",
+              "evidence"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "protocol",
+            "danger_tier": "low",
+            "description": "Read the verified PCMMAD runtime-protocol state and ledger head.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id"
+              ],
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "protocol.status",
+            "tags": [
+              "pcmmad",
+              "state",
+              "continuity",
+              "ledger"
+            ]
+          },
+          {
+            "approval_required": true,
+            "category": "protocol",
+            "danger_tier": "high",
+            "description": "Record a scoped, owned, expiring doctrine waiver with claim lineage.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "affected_claims": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "doctrine_basis": {
+                  "type": "string"
+                },
+                "expires_at": {
+                  "type": "string"
+                },
+                "owner": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "scope": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "waiver_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "waiver_id",
+                "scope",
+                "reason",
+                "doctrine_basis",
+                "owner"
+              ],
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "protocol.waiver.record",
+            "tags": [
+              "pcmmad",
+              "waiver",
+              "governance",
+              "expiry"
+            ]
+          },
+          {
+            "approval_required": true,
+            "category": "execution",
+            "danger_tier": "high",
+            "description": "Execute inline Python with project-scoped cwd.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "python.run",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "research",
+            "danger_tier": "low",
+            "description": "Fetch a specific arXiv paper and distill derived objects.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "research.arxiv.paper",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "research",
+            "danger_tier": "low",
+            "description": "Search arXiv using server-side research code.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "research.arxiv.search",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "research",
+            "danger_tier": "medium",
+            "description": "Run bounded multi-query research hunt server-side.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "research.hunt",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "semantic",
+            "danger_tier": "low",
+            "description": "Inspect the Monster/Chimera dual semantic retriever path, indexes, and Python dependencies.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "semantic.monster.health",
+            "tags": [
+              "monster",
+              "retrieval",
+              "semantic",
+              "database"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "semantic",
+            "danger_tier": "medium",
+            "description": "Run the Monster/Chimera dual semantic retriever as a lazy subprocess-backed server tool.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "semantic.monster.search",
+            "tags": [
+              "monster",
+              "retrieval",
+              "semantic",
+              "database"
+            ]
+          },
+          {
+            "approval_required": false,
+            "category": "sop",
+            "danger_tier": "low",
+            "description": "Return whether the registered SOP/package has been fully integrity-verified and completely ingested. Use before proceeding to governed work.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "sop.guard.check",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "sop",
+            "danger_tier": "medium",
+            "description": "Acknowledge the currently issued SOP/package chunk before the next chunk may be served.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "sop.ingest.ack_chunk",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "sop",
+            "danger_tier": "medium",
+            "description": "Complete the current SOP/package file by submitting a receipt that matches package metadata. This is the proceed-gate between files.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "sop.ingest.complete_file",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "sop",
+            "danger_tier": "medium",
+            "description": "Return the next required chunk from the registered SOP/package traversal order. Does not allow skipping ahead.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "sop.ingest.next_chunk",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "sop",
+            "danger_tier": "high",
+            "description": "Reset a registered SOP/package ingestion cursor back to the beginning.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "sop.ingest.reset",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "sop",
+            "danger_tier": "low",
+            "description": "Read SOP/package ingestion status, current file cursor, and proceed-gate readiness.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "sop.ingest.status",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "sop",
+            "danger_tier": "medium",
+            "description": "Inspect a SOP/package archive, verify manifest+ledger+merkle integrity, and derive traversal order.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "sop.package.inspect",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "sop",
+            "danger_tier": "high",
+            "description": "Register a SOP/package archive inside the lab and initialize chunked ingestion state.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": true,
+            "name": "sop.package.register",
+            "tags": []
+          },
+          {
+            "approval_required": true,
+            "category": "verify",
+            "danger_tier": "high",
+            "description": "Run ordered verification gates like lint, test, and custom commands.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "verify.gates",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "web",
+            "danger_tier": "medium",
+            "description": "Fetch a URL and distill rendered text/link metadata.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "web.fetch",
+            "tags": []
+          },
+          {
+            "approval_required": false,
+            "category": "filesystem",
+            "danger_tier": "medium",
+            "description": "List or read entries from a mounted or absolute zip archive.",
+            "input_schema": {
+              "type": "object"
+            },
+            "mutating": false,
+            "name": "zip.read",
+            "tags": []
+          }
+        ],
+        "validation": {
+          "api_valid": true,
+          "checked_at": "2026-07-29T23:18:26.844758+00:00",
+          "connected": true,
+          "validation_mode": "connected_only"
+        }
+      }
+    },
+    {
+      "rule": "/lab/mounts",
+      "endpoint": "lab.lab_mounts",
+      "method": "GET",
+      "label": "lab mounts",
+      "nano_probe": "route_contract",
+      "micro_family": "lab",
+      "meso_route_index": 9,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "mounts": [
+          {
+            "name": "cwd",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver"
+          },
+          {
+            "name": "projects",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects"
+          },
+          {
+            "name": "root",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route"
+          },
+          {
+            "name": "sandbox",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/sandbox"
+          },
+          {
+            "name": "system",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/system"
+          },
+          {
+            "name": "temp",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/temp"
+          }
+        ],
+        "ok": true,
+        "time": "2026-07-29T23:18:26.845568+00:00"
+      }
+    },
+    {
+      "rule": "/lab/mcp/manifest",
+      "endpoint": "lab.lab_mcp_manifest",
+      "method": "GET",
+      "label": "lab mcp manifest",
+      "nano_probe": "route_contract",
+      "micro_family": "lab",
+      "meso_route_index": 8,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "ok": true,
+        "protocol": "mcp-ready-shared-registry",
+        "server_name": "pcmmad_lab",
+        "time": "2026-07-29T23:18:26.845837+00:00",
+        "tool_count": 87,
+        "tools": [
+          {
+            "description": "Click a selector in the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "selector": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "selector"
+              ],
+              "type": "object"
+            },
+            "name": "browser.click"
+          },
+          {
+            "description": "Capture page HTML from the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "name": "browser.content"
+          },
+          {
+            "description": "Evaluate JavaScript in the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "expression": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "expression"
+              ],
+              "type": "object"
+            },
+            "name": "browser.evaluate"
+          },
+          {
+            "description": "Fill a selector in the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "selector": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "selector",
+                "text"
+              ],
+              "type": "object"
+            },
+            "name": "browser.fill"
+          },
+          {
+            "description": "Check browser automation bridge health.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "timeout_seconds": {
+                  "maximum": 30,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            },
+            "name": "browser.health"
+          },
+          {
+            "description": "Navigate the current browser bridge page.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "url": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "session_id",
+                "url"
+              ],
+              "type": "object"
+            },
+            "name": "browser.navigate"
+          },
+          {
+            "description": "Close a tab in a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 60,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "index"
+              ],
+              "type": "object"
+            },
+            "name": "browser.pages.close"
+          },
+          {
+            "description": "List tabs/pages in a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 60,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "name": "browser.pages.list"
+          },
+          {
+            "description": "Open a new tab in a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 60,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "name": "browser.pages.new"
+          },
+          {
+            "description": "Select a tab/page in a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "index": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 60,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "index"
+              ],
+              "type": "object"
+            },
+            "name": "browser.pages.select"
+          },
+          {
+            "description": "Press a key on a selector in the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "key": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "selector": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "selector",
+                "key"
+              ],
+              "type": "object"
+            },
+            "name": "browser.press"
+          },
+          {
+            "description": "Capture a screenshot through the browser bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "name": "browser.screenshot"
+          },
+          {
+            "description": "Attach to a running debug browser session via the local bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "browser": {
+                  "type": "string"
+                },
+                "cdp_url": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "profile_name": {
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "cdp_url"
+              ],
+              "type": "object"
+            },
+            "name": "browser.session.attach"
+          },
+          {
+            "description": "Start a browser session through the local bridge.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "browser": {
+                  "type": "string"
+                },
+                "headless": {
+                  "type": "boolean"
+                },
+                "persistent": {
+                  "type": "boolean"
+                },
+                "profile_name": {
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "name": "browser.session.start"
+          },
+          {
+            "description": "Stop a browser bridge session.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id"
+              ],
+              "type": "object"
+            },
+            "name": "browser.session.stop"
+          },
+          {
+            "description": "List active browser bridge sessions.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "timeout_seconds": {
+                  "maximum": 30,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            },
+            "name": "browser.sessions.list"
+          },
+          {
+            "description": "Read the universal CSC/doctrine/code-style invariant guide or manifest.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "doctrine.invariants.read"
+          },
+          {
+            "description": "Search within the universal CSC/doctrine/code-style invariant guide and source index.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "doctrine.invariants.search"
+          },
+          {
+            "description": "Report universal CSC/doctrine/code-style invariant pack status.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "doctrine.invariants.status"
+          },
+          {
+            "description": "Read bounded stdout/stderr for an async execution job.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "execution.output"
+          },
+          {
+            "description": "Run a command synchronously inside a project cwd.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "execution.run"
+          },
+          {
+            "description": "Read and finalize async execution job status.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "execution.status"
+          },
+          {
+            "description": "Submit an async execution job.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "execution.submit"
+          },
+          {
+            "description": "Terminate a running async job.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "execution.terminate"
+          },
+          {
+            "description": "Long-poll an async execution job until complete or timeout.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "execution.wait"
+          },
+          {
+            "description": "Glob files under a mounted or absolute path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "fs.glob"
+          },
+          {
+            "description": "Search text across mounted or absolute filesystem paths.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "fs.grep"
+          },
+          {
+            "description": "Move a file within allowed roots.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "fs.move"
+          },
+          {
+            "description": "Read a file from a mounted or absolute path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "fs.read"
+          },
+          {
+            "description": "Traverse a filesystem tree from a mounted or absolute path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "fs.tree"
+          },
+          {
+            "description": "Write a file to a mounted or absolute path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "fs.write"
+          },
+          {
+            "description": "Remove untracked files and directories.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "git.clean"
+          },
+          {
+            "description": "Commit current repo changes with an explicit message.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "git.commit"
+          },
+          {
+            "description": "Read a git diff for a project repo.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "git.diff"
+          },
+          {
+            "description": "Hard reset repo to a target ref.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "git.reset_hard"
+          },
+          {
+            "description": "Read git status, branch, and dirty state for a project repo.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "git.status"
+          },
+          {
+            "description": "Record an andon event and pause the session.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.andon.pull"
+          },
+          {
+            "description": "Terminate jobs and optionally hard-reset repo state after repeated failure.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.apoptosis.trigger"
+          },
+          {
+            "description": "Return internal lab subsystem status and registry metadata.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.health"
+          },
+          {
+            "description": "Append a lessons-learned/reflexion record.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.reflexion.append"
+          },
+          {
+            "description": "Read recent reflexion entries.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.reflexion.read"
+          },
+          {
+            "description": "Close or otherwise mark the state of a lab session.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.session.end"
+          },
+          {
+            "description": "Read a lab session record.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.session.get"
+          },
+          {
+            "description": "Append a note to a lab session.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.session.note"
+          },
+          {
+            "description": "Start a lab session record for a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.session.start"
+          },
+          {
+            "description": "Reload tool plugins from the lab_plugins directory.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "lab.tools.reload"
+          },
+          {
+            "description": "Server-side browser prompt, submit, wait, and capture procedure.",
+            "input_schema": {
+              "additionalProperties": false,
+              "properties": {
+                "capture_mode": {
+                  "type": "string"
+                },
+                "input_selector": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "max_wait_seconds": {
+                  "maximum": 300,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "page_index": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "poll_interval_seconds": {
+                  "maximum": 10.0,
+                  "minimum": 0.1,
+                  "type": "number"
+                },
+                "prompt": {
+                  "type": "string"
+                },
+                "response_selector": {
+                  "type": "string"
+                },
+                "screenshot_name": {
+                  "type": "string"
+                },
+                "session_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "submit_key": {
+                  "type": "string"
+                },
+                "submit_selector": {
+                  "type": "string"
+                },
+                "take_screenshot": {
+                  "type": "boolean"
+                },
+                "timeout_seconds": {
+                  "maximum": 120,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "wait_seconds": {
+                  "maximum": 300,
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "session_id",
+                "input_selector",
+                "prompt"
+              ],
+              "type": "object"
+            },
+            "name": "procedure.browser.prompt_capture"
+          },
+          {
+            "description": "Extract an archive within a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.archives.extract"
+          },
+          {
+            "description": "Inspect an archive in a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.archives.inspect"
+          },
+          {
+            "description": "List archive artifacts in a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.archives.list"
+          },
+          {
+            "description": "Rehydrate bounded project context on a topic.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.context.rehydrate"
+          },
+          {
+            "description": "List files under a project path.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.files.list"
+          },
+          {
+            "description": "Read one project file or a line range.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.files.read"
+          },
+          {
+            "description": "Read many project files in a single dispatch.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.files.read_many"
+          },
+          {
+            "description": "Search within project files.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.files.search"
+          },
+          {
+            "description": "Write or append a project file directly.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.files.write"
+          },
+          {
+            "description": "Inspect a model artifact in a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.models.inspect"
+          },
+          {
+            "description": "List model artifacts in a project.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "project.models.list"
+          },
+          {
+            "description": "Register a typed artifact identity, provenance, and optional seal in protocol state.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "artifact_class": {
+                  "type": "string"
+                },
+                "artifact_id": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "provenance": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "sealed": {
+                  "type": "boolean"
+                },
+                "sha256": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "artifact_id",
+                "artifact_class"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.artifact.register"
+          },
+          {
+            "description": "Record or revise a typed claim with evidence and confidence.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "claim_id": {
+                  "type": "string"
+                },
+                "confidence": {
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "evidence": {
+                  "items": {
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "statement": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "claim_id",
+                "kind",
+                "statement"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.claim.record"
+          },
+          {
+            "description": "Append or supersede a typed PCMMAD constraint without erasing history.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "active": {
+                  "type": "boolean"
+                },
+                "actor": {
+                  "type": "string"
+                },
+                "constraint_id": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "statement": {
+                  "type": "string"
+                },
+                "strength": {
+                  "enum": [
+                    "REQUIRED",
+                    "PREFERRED",
+                    "ADVISORY"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "constraint_id",
+                "statement",
+                "strength"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.constraint.record"
+          },
+          {
+            "description": "Record live-shadow, design-thread, revisit, doctrine, trace, memory, or maintenance continuity.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "artifact_ref": {
+                  "type": "string"
+                },
+                "continuity_id": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "open_loops": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "summary": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "continuity_id",
+                "kind",
+                "summary"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.continuity.record"
+          },
+          {
+            "description": "Evaluate whether the current PCMMAD mode permits read, governance, specimen, or promotion work.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "mutation_domain": {
+                  "enum": [
+                    "READ",
+                    "GOVERNANCE",
+                    "SPECIMEN",
+                    "PROMOTION"
+                  ],
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "mutation_domain"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.guard.check"
+          },
+          {
+            "description": "Initialize the append-only PCMMAD runtime protocol for a project.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "initial_mode": {
+                  "enum": [
+                    "DISCUSSION",
+                    "AUDIT",
+                    "BUILD_PLAN",
+                    "BUILD_COMMIT",
+                    "RECOVERY",
+                    "CHECKPOINT",
+                    "MERGE",
+                    "PROMOTION"
+                  ],
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "rigor_level": {
+                  "enum": [
+                    "STANDARD",
+                    "ELEVATED",
+                    "CRITICAL"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.initialize"
+          },
+          {
+            "description": "Verify sequence, project identity, previous hashes, and event hashes in the protocol ledger.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.ledger.verify"
+          },
+          {
+            "description": "Explicitly transition the PCMMAD discourse/build/recovery/promotion mode.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "expected_mode": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "reason": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "to_mode": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "to_mode",
+                "reason"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.mode.transition"
+          },
+          {
+            "description": "Set the active objective as an append-only superseding event.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "objective_id": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "scope": {
+                  "type": "string"
+                },
+                "statement": {
+                  "type": "string"
+                },
+                "success_criteria": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "project_id",
+                "objective_id",
+                "statement"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.objective.set"
+          },
+          {
+            "description": "Adjudicate a claim or artifact as ratified, provisional, rejected, deferred, demoted, or superseded.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "decision": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "items": {
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "rationale": {
+                  "type": "string"
+                },
+                "target_id": {
+                  "type": "string"
+                },
+                "target_type": {
+                  "enum": [
+                    "claim",
+                    "artifact"
+                  ],
+                  "type": "string"
+                },
+                "waiver_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "project_id",
+                "target_type",
+                "target_id",
+                "decision",
+                "rationale"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.promotion.record"
+          },
+          {
+            "description": "Read the verified PCMMAD runtime-protocol state and ledger head.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.status"
+          },
+          {
+            "description": "Record a scoped, owned, expiring doctrine waiver with claim lineage.",
+            "input_schema": {
+              "additionalProperties": true,
+              "properties": {
+                "actor": {
+                  "type": "string"
+                },
+                "affected_claims": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "doctrine_basis": {
+                  "type": "string"
+                },
+                "expires_at": {
+                  "type": "string"
+                },
+                "owner": {
+                  "type": "string"
+                },
+                "project_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "scope": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "waiver_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "project_id",
+                "waiver_id",
+                "scope",
+                "reason",
+                "doctrine_basis",
+                "owner"
+              ],
+              "type": "object"
+            },
+            "name": "protocol.waiver.record"
+          },
+          {
+            "description": "Execute inline Python with project-scoped cwd.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "python.run"
+          },
+          {
+            "description": "Fetch a specific arXiv paper and distill derived objects.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "research.arxiv.paper"
+          },
+          {
+            "description": "Search arXiv using server-side research code.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "research.arxiv.search"
+          },
+          {
+            "description": "Run bounded multi-query research hunt server-side.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "research.hunt"
+          },
+          {
+            "description": "Inspect the Monster/Chimera dual semantic retriever path, indexes, and Python dependencies.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "semantic.monster.health"
+          },
+          {
+            "description": "Run the Monster/Chimera dual semantic retriever as a lazy subprocess-backed server tool.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "semantic.monster.search"
+          },
+          {
+            "description": "Return whether the registered SOP/package has been fully integrity-verified and completely ingested. Use before proceeding to governed work.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "sop.guard.check"
+          },
+          {
+            "description": "Acknowledge the currently issued SOP/package chunk before the next chunk may be served.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "sop.ingest.ack_chunk"
+          },
+          {
+            "description": "Complete the current SOP/package file by submitting a receipt that matches package metadata. This is the proceed-gate between files.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "sop.ingest.complete_file"
+          },
+          {
+            "description": "Return the next required chunk from the registered SOP/package traversal order. Does not allow skipping ahead.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "sop.ingest.next_chunk"
+          },
+          {
+            "description": "Reset a registered SOP/package ingestion cursor back to the beginning.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "sop.ingest.reset"
+          },
+          {
+            "description": "Read SOP/package ingestion status, current file cursor, and proceed-gate readiness.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "sop.ingest.status"
+          },
+          {
+            "description": "Inspect a SOP/package archive, verify manifest+ledger+merkle integrity, and derive traversal order.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "sop.package.inspect"
+          },
+          {
+            "description": "Register a SOP/package archive inside the lab and initialize chunked ingestion state.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "sop.package.register"
+          },
+          {
+            "description": "Run ordered verification gates like lint, test, and custom commands.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "verify.gates"
+          },
+          {
+            "description": "Fetch a URL and distill rendered text/link metadata.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "web.fetch"
+          },
+          {
+            "description": "List or read entries from a mounted or absolute zip archive.",
+            "input_schema": {
+              "type": "object"
+            },
+            "name": "zip.read"
+          }
+        ]
+      }
+    },
+    {
+      "rule": "/manifest",
+      "endpoint": "legacy.manifest",
+      "method": "GET",
+      "label": "legacy manifest",
+      "nano_probe": "route_contract",
+      "micro_family": "legacy",
+      "meso_route_index": 12,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 400,
+      "expected_statuses": [
+        200,
+        400,
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "BAD_PROJECT",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "BAD_PROJECT",
+        "message": "project_id is required",
+        "ok": false,
+        "time": "2026-07-29T23:18:26.846310+00:00"
+      }
+    },
+    {
+      "rule": "/research/health",
+      "endpoint": "research.research_health",
+      "method": "GET",
+      "label": "research health",
+      "nano_probe": "route_contract",
+      "micro_family": "research",
+      "meso_route_index": 42,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "cache": {
+          "bytes": 0,
+          "entries": 0,
+          "max_bytes": 536870912,
+          "ttl_seconds": 300
+        },
+        "modes": [
+          "direct_hunt"
+        ],
+        "ok": true,
+        "parser_version": "research_v5_exec",
+        "predator_generation": "gen1",
+        "sources": [
+          "arxiv"
+        ],
+        "starmap_layer": "gen1_5",
+        "status": "online"
+      }
+    },
+    {
+      "rule": "/static/<path:filename>",
+      "endpoint": "static",
+      "method": "GET",
+      "label": "static missing",
+      "nano_probe": "route_contract",
+      "micro_family": "static",
+      "meso_route_index": 46,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": null,
+      "error_code": null,
+      "content_type": "text/html; charset=utf-8",
+      "json_object": false,
+      "body_sample": "None"
+    },
+    {
+      "rule": "/status/<commit_id>",
+      "endpoint": "legacy.get_commit_status",
+      "method": "GET",
+      "label": "legacy status missing",
+      "nano_probe": "route_contract",
+      "micro_family": "legacy",
+      "meso_route_index": 47,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 400,
+      "expected_statuses": [
+        400,
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "COMMIT_STATUS_FAILED",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "COMMIT_STATUS_FAILED",
+        "message": "project_id is required",
+        "ok": false,
+        "time": "2026-07-29T23:18:26.847096+00:00"
+      }
+    },
+    {
+      "rule": "/project/init",
+      "endpoint": "legacy.project_init",
+      "method": "POST",
+      "label": "project init",
+      "nano_probe": "route_contract",
+      "micro_family": "project",
+      "meso_route_index": 33,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "created": true,
+        "ok": true,
+        "project_id": "route_trace_tmp_full_route_gate",
+        "project_root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate"
+      }
+    },
+    {
+      "rule": "/project/info",
+      "endpoint": "legacy.project_info",
+      "method": "POST",
+      "label": "project info",
+      "nano_probe": "route_contract",
+      "micro_family": "project",
+      "meso_route_index": 32,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "exists": true,
+        "ledger_exists": false,
+        "manifest_exists": false,
+        "ok": true,
+        "project_id": "route_trace_tmp_full_route_gate",
+        "project_root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate"
+      }
+    },
+    {
+      "rule": "/project/manifest",
+      "endpoint": "legacy.project_manifest",
+      "method": "POST",
+      "label": "project manifest",
+      "nano_probe": "route_contract",
+      "micro_family": "project",
+      "meso_route_index": 36,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "files": {},
+        "ok": true,
+        "project_id": "route_trace_tmp_full_route_gate",
+        "updated_at": null
+      }
+    },
+    {
+      "rule": "/project/status",
+      "endpoint": "legacy.project_status_alias",
+      "method": "POST",
+      "label": "project status missing",
+      "nano_probe": "route_contract",
+      "micro_family": "legacy",
+      "meso_route_index": 39,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "commit not found",
+        "ok": false,
+        "time": "2026-07-29T23:18:26.850780+00:00"
+      }
+    },
+    {
+      "rule": "/plan",
+      "endpoint": "legacy.plan",
+      "method": "POST",
+      "label": "legacy plan",
+      "nano_probe": "route_contract",
+      "micro_family": "legacy",
+      "meso_route_index": 13,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "ok": true,
+        "validated": {
+          "artifact_class": "notes.maintenance",
+          "current_sha256": null,
+          "exists": false,
+          "incoming_sha256": "d32978d596067689466306e797c3e95e946fd555931b9267103f5f3c29f67c00",
+          "logical_name": "route_trace_plan.txt",
+          "operation": "create",
+          "project_id": "route_trace_tmp_full_route_gate",
+          "target_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/notes/maintenance/route_trace_plan.txt"
+        }
+      }
+    },
+    {
+      "rule": "/commit",
+      "endpoint": "legacy.commit",
+      "method": "POST",
+      "label": "legacy commit",
+      "nano_probe": "route_contract",
+      "micro_family": "legacy",
+      "meso_route_index": 1,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "artifact_class": "notes.maintenance",
+        "bytes": 27,
+        "commit_id": "route-trace-commit",
+        "idempotency_key": "route-trace-commit-key",
+        "logical_name": "route_trace_commit.txt",
+        "ok": true,
+        "operation": "create",
+        "path": "notes/maintenance/route_trace_commit.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "replayed": false,
+        "session_id": "route-trace-session",
+        "sha256": "0aae76f8da2337e2b32184a43944e5295d7c6484affcc3bea9a67eb670f3076d",
+        "time": "2026-07-29T23:18:26.853190+00:00"
+      }
+    },
+    {
+      "rule": "/project/files/write",
+      "endpoint": "power.write_project_file",
+      "method": "POST",
+      "label": "project write file",
+      "nano_probe": "route_contract",
+      "micro_family": "files",
+      "meso_route_index": 31,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "absolute_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/reports/route_trace_written.txt",
+        "bytes": 25,
+        "bytes_written": 25,
+        "created": false,
+        "ok": true,
+        "path": "reports/route_trace_written.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "sha256": "ba14b799333c447d1390ec69944572d03185aac6665e2eaf8af6def299d267b0",
+        "time": "2026-07-29T23:18:26.854440+00:00"
+      }
+    },
+    {
+      "rule": "/project/files/list",
+      "endpoint": "context_plane.project_files_list",
+      "method": "POST",
+      "label": "project list files",
+      "nano_probe": "route_contract",
+      "micro_family": "files",
+      "meso_route_index": 27,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "count": 0,
+        "items": [],
+        "ok": true,
+        "partial": false,
+        "recursive": false,
+        "root_summary": [
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/system",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/sandbox",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/temp",
+          "/mnt/data/pcmmad_v29_work/PCMMAD_receiver"
+        ],
+        "skipped_paths": [],
+        "target": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/reports",
+        "warnings": []
+      }
+    },
+    {
+      "rule": "/project/files/read",
+      "endpoint": "context_plane.project_files_read",
+      "method": "POST",
+      "label": "project read file",
+      "nano_probe": "route_contract",
+      "micro_family": "files",
+      "meso_route_index": 28,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "content": "route_trace written file\n",
+        "file": {
+          "artifact_class": "generic",
+          "extension": ".txt",
+          "is_dir": false,
+          "modified_at": 1785367106.8501267,
+          "name": "route_trace_written.txt",
+          "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/reports/route_trace_written.txt",
+          "size_bytes": 25
+        },
+        "ok": true,
+        "slice": {
+          "end_line": 1,
+          "max_bytes": 10000,
+          "start_line": 1
+        }
+      }
+    },
+    {
+      "rule": "/project/files/search",
+      "endpoint": "context_plane.project_files_search",
+      "method": "POST",
+      "label": "project search files",
+      "nano_probe": "route_contract",
+      "micro_family": "files",
+      "meso_route_index": 30,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "count": 1,
+        "hits": [
+          {
+            "artifact_class": "generic",
+            "best_window": {
+              "end_line": 1,
+              "start_line": 1
+            },
+            "excerpt": "route_trace written file",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/reports/route_trace_written.txt",
+            "score": 2.15
+          }
+        ],
+        "index_cache": {
+          "bytes": 188,
+          "entries": 1,
+          "max_bytes": 134217728,
+          "ttl_seconds": 300
+        },
+        "ok": true,
+        "partial": false,
+        "query": "route_trace",
+        "skipped_paths": [],
+        "target": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/reports",
+        "warnings": []
+      }
+    },
+    {
+      "rule": "/project/files/read_many",
+      "endpoint": "power.read_many_project_files",
+      "method": "POST",
+      "label": "project read many",
+      "nano_probe": "route_contract",
+      "micro_family": "files",
+      "meso_route_index": 29,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_count": 0,
+        "files": {
+          "reports/route_trace_written.txt": {
+            "content": "route_trace written file\n",
+            "size_bytes": 0,
+            "truncated": false
+          }
+        },
+        "ok": true,
+        "read_count": 1
+      }
+    },
+    {
+      "rule": "/project/context/rehydrate",
+      "endpoint": "context_plane.project_context_rehydrate",
+      "method": "POST",
+      "label": "context rehydrate",
+      "nano_probe": "route_contract",
+      "micro_family": "context",
+      "meso_route_index": 18,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "header": {
+          "budget_bytes": 2000,
+          "selected_items": 0,
+          "target": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/reports",
+          "topic": "route trace",
+          "used_bytes": 0
+        },
+        "index_cache": {
+          "bytes": 188,
+          "entries": 1,
+          "max_bytes": 134217728,
+          "ttl_seconds": 300
+        },
+        "ok": true,
+        "open_seams": [
+          "No live shadow selected; continuity state may be weaker.",
+          "No design-thread chronology selected; recovery path may be incomplete.",
+          "No relevant local artifacts found for requested topic."
+        ],
+        "partial": false,
+        "selected": [],
+        "skipped_paths": [],
+        "warnings": []
+      }
+    },
+    {
+      "rule": "/run",
+      "endpoint": "power.run_sync",
+      "method": "POST",
+      "label": "run sync",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 44,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "command": [
+          "/opt/pyvenv/bin/python",
+          "-c",
+          "import sys; sys.stdout.write('route-trace-sync\\n')"
+        ],
+        "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate",
+        "duration_ms": 569,
+        "ok": true,
+        "return_code": 0,
+        "status": "COMPLETED",
+        "stderr": "",
+        "stderr_bytes": 0,
+        "stderr_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/.pcmmad_sync_runs/sync-9ea82324b5d4.stderr.log",
+        "stderr_truncated": false,
+        "stderr_window": {
+          "file_size": 0,
+          "mode": "tail",
+          "requested_bytes": 10000,
+          "returned_bytes": 0
+        },
+        "stdout": "route-trace-sync\n",
+        "stdout_bytes": 17,
+        "stdout_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/.pcmmad_sync_runs/sync-9ea82324b5d4.stdout.log",
+        "stdout_truncated": false,
+        "stdout_window": {
+          "file_size": 17,
+          "mode": "tail",
+          "requested_bytes": 10000,
+          "returned_bytes": 17
+        }
+      }
+    },
+    {
+      "rule": "/run/python",
+      "endpoint": "power.run_python",
+      "method": "POST",
+      "label": "run python",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 45,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "command": [
+          "/opt/pyvenv/bin/python",
+          "/tmp/tmp5_hsvsbc.py"
+        ],
+        "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate",
+        "duration_ms": 518,
+        "ok": true,
+        "return_code": 0,
+        "status": "COMPLETED",
+        "stderr": "",
+        "stderr_bytes": 0,
+        "stderr_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/.pcmmad_sync_runs/sync-929ee73a2ac1.stderr.log",
+        "stderr_truncated": false,
+        "stderr_window": {
+          "file_size": 0,
+          "mode": "tail",
+          "requested_bytes": 10000,
+          "returned_bytes": 0
+        },
+        "stdout": "route-trace-python\n",
+        "stdout_bytes": 19,
+        "stdout_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/.pcmmad_sync_runs/sync-929ee73a2ac1.stdout.log",
+        "stdout_truncated": false,
+        "stdout_window": {
+          "file_size": 19,
+          "mode": "tail",
+          "requested_bytes": 10000,
+          "returned_bytes": 19
+        }
+      }
+    },
+    {
+      "rule": "/project/execution/submit",
+      "endpoint": "execution.submit_execution",
+      "method": "POST",
+      "label": "execution submit",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 24,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "agent_role": null,
+        "artifact_registration_status": "not_attempted",
+        "checkpoint_on_complete": false,
+        "command": [
+          "/opt/pyvenv/bin/python",
+          "-c",
+          "import sys; sys.stdout.write('route-trace-execution\\n')"
+        ],
+        "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate",
+        "cwd_rel": ".",
+        "deadline_epoch": 1785367117.950342,
+        "duration_ms": null,
+        "env_allowlist": {},
+        "execution_mode": "one_shot",
+        "failure_digest": null,
+        "feasibility_gate": "not_evaluated",
+        "finished_at": null,
+        "idempotency_key": "route-trace-execution-submit-1785367106840994144",
+        "job_id": "job-8bf9c50aa0bd",
+        "journal_on_complete": false,
+        "journal_on_failure": true,
+        "journal_on_submit": true,
+        "local_model_id": null,
+        "ok": true,
+        "pid": 5571,
+        "project_id": "route_trace_tmp_full_route_gate",
+        "queue_position": null,
+        "replay_of": null,
+        "replayed": false,
+        "resource_gate": "not_evaluated",
+        "result_artifact_targets": [],
+        "return_code": null,
+        "stage": "runtime",
+        "started_at": "2026-07-29T23:18:27.950332+00:00",
+        "status": "RUNNING",
+        "stderr_max_bytes": 10000,
+        "stderr_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/system/logs/execution/job-8bf9c50aa0bd/stderr.log",
+        "stdout_max_bytes": 10000,
+        "stdout_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/system/logs/execution/job-8bf9c50aa0bd/stdout.log",
+        "submission_fingerprint": "5d311b652c8993da28e2cafecac25f631545d6f65f702e9db562fd197937ab0a",
+        "submitted_at": "2026-07-29T23:18:27.949497+00:00",
+        "supervision_state": null,
+        "timeout_seconds": 10,
+        "truth_gate": "not_evaluated"
+      }
+    },
+    {
+      "rule": "/project/execution/list",
+      "endpoint": "execution.execution_list",
+      "method": "POST",
+      "label": "execution list",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 19,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "capacity": {
+          "global_limit": 8,
+          "global_queue_limit": 0,
+          "project_limit": null,
+          "project_queue_limit": null,
+          "queued_global": 0,
+          "queued_project": 0,
+          "running_global": 1,
+          "running_project": 1
+        },
+        "corrupt_job_files": [],
+        "count": 2,
+        "jobs": [
+          {
+            "agent_role": null,
+            "artifact_registration_status": "not_attempted",
+            "checkpoint_on_complete": false,
+            "command": [],
+            "cwd": "",
+            "cwd_rel": ".",
+            "deadline_epoch": null,
+            "duration_ms": null,
+            "env_allowlist": {},
+            "execution_mode": "",
+            "failure_digest": null,
+            "feasibility_gate": "not_evaluated",
+            "finished_at": null,
+            "idempotency_key": "",
+            "job_id": "",
+            "journal_on_complete": false,
+            "journal_on_failure": true,
+            "journal_on_submit": true,
+            "keys": {
+              "route-trace-execution-submit-1785367106840994144": {
+                "job_id": "job-8bf9c50aa0bd",
+                "recorded_at": "2026-07-29T23:18:27.950824+00:00",
+                "submission_fingerprint": "5d311b652c8993da28e2cafecac25f631545d6f65f702e9db562fd197937ab0a"
+              }
+            },
+            "local_model_id": null,
+            "ok": true,
+            "pid": null,
+            "project_id": "",
+            "queue_position": null,
+            "replay_of": null,
+            "replayed": null,
+            "resource_gate": "not_evaluated",
+            "result_artifact_targets": [],
+            "return_code": null,
+            "stage": "",
+            "started_at": null,
+            "status": "",
+            "stderr_max_bytes": null,
+            "stderr_path": "",
+            "stdout_max_bytes": null,
+            "stdout_path": "",
+            "submission_fingerprint": "",
+            "submitted_at": "",
+            "supervision_state": null,
+            "timeout_seconds": null,
+            "truth_gate": "not_evaluated"
+          },
+          {
+            "agent_role": null,
+            "artifact_registration_status": "not_attempted",
+            "checkpoint_on_complete": false,
+            "command": [
+              "/opt/pyvenv/bin/python",
+              "-c",
+              "import sys; sys.stdout.write('route-trace-execution\\n')"
+            ],
+            "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate",
+            "cwd_rel": ".",
+            "deadline_epoch": 1785367117.950342,
+            "duration_ms": null,
+            "env_allowlist": {},
+            "execution_mode": "one_shot",
+            "failure_digest": null,
+            "feasibility_gate": "not_evaluated",
+            "finished_at": null,
+            "idempotency_key": "route-trace-execution-submit-1785367106840994144",
+            "job_id": "job-8bf9c50aa0bd",
+            "journal_on_complete": false,
+            "journal_on_failure": true,
+            "journal_on_submit": true,
+            "local_model_id": null,
+            "ok": true,
+            "pid": 5571,
+            "project_id": "route_trace_tmp_full_route_gate",
+            "queue_position": null,
+            "replay_of": null,
+            "replayed": null,
+            "resource_gate": "not_evaluated",
+            "result_artifact_targets": [],
+            "return_code": null,
+            "stage": "runtime",
+            "started_at": "2026-07-29T23:18:27.950332+00:00",
+            "status": "RUNNING",
+            "stderr_max_bytes": 10000,
+            "stderr_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/system/logs/execution/job-8bf9c50aa0bd/stderr.log",
+            "stdout_max_bytes": 10000,
+            "stdout_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/system/logs/execution/job-8bf9c50aa0bd/stdout.log",
+            "submission_fingerprint": "5d311b652c8993da28e2cafecac25f631545d6f65f702e9db562fd197937ab0a",
+            "submitted_at": "2026-07-29T23:18:27.949497+00:00",
+            "supervision_state": null,
+            "timeout_seconds": 10,
+            "truth_gate": "not_evaluated"
+          }
+        ],
+        "ok": true,
+        "project_id": "route_trace_tmp_full_route_gate"
+      }
+    },
+    {
+      "rule": "/project/execution/status",
+      "endpoint": "execution.execution_status",
+      "method": "POST",
+      "label": "execution missing status",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 23,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "job not found",
+        "ok": false,
+        "time": "2026-07-29T23:18:27.953043+00:00"
+      }
+    },
+    {
+      "rule": "/project/execution/output",
+      "endpoint": "execution.execution_output",
+      "method": "POST",
+      "label": "execution missing output",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 20,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "job not found",
+        "ok": false,
+        "time": "2026-07-29T23:18:27.953438+00:00"
+      }
+    },
+    {
+      "rule": "/project/execution/wait",
+      "endpoint": "power.wait_for_project_execution",
+      "method": "POST",
+      "label": "execution missing wait",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 26,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "job not found",
+        "ok": false,
+        "time": "2026-07-29T23:18:27.953769+00:00"
+      }
+    },
+    {
+      "rule": "/project/execution/register",
+      "endpoint": "execution.execution_register",
+      "method": "POST",
+      "label": "execution register",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 21,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200,
+        409
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "artifact_class": "notes.maintenance",
+        "bytes": 25,
+        "commit_id": "execution-register-bd3c3d4a",
+        "idempotency_key": "route-trace-register",
+        "logical_name": "route_trace_registered.txt",
+        "ok": true,
+        "operation": "create",
+        "path": "notes/maintenance/route_trace_registered.txt",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "registration_commit_id": "execution-register-bd3c3d4a",
+        "session_id": "execution",
+        "sha256": "ba14b799333c447d1390ec69944572d03185aac6665e2eaf8af6def299d267b0",
+        "time": "2026-07-29T23:18:27.955119+00:00"
+      }
+    },
+    {
+      "rule": "/project/execution/replay",
+      "endpoint": "execution.execution_replay",
+      "method": "POST",
+      "label": "execution missing replay",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 22,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "job not found",
+        "ok": false,
+        "time": "2026-07-29T23:18:27.955690+00:00"
+      }
+    },
+    {
+      "rule": "/project/execution/terminate",
+      "endpoint": "execution.execution_terminate",
+      "method": "POST",
+      "label": "execution missing terminate",
+      "nano_probe": "route_contract",
+      "micro_family": "execution",
+      "meso_route_index": 25,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "job not found",
+        "ok": false,
+        "time": "2026-07-29T23:18:27.956016+00:00"
+      }
+    },
+    {
+      "rule": "/files/tree",
+      "endpoint": "power.get_file_tree",
+      "method": "POST",
+      "label": "files tree",
+      "nano_probe": "route_contract",
+      "micro_family": "filesystem",
+      "meso_route_index": 3,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "count": 3,
+        "items": [
+          {
+            "depth": 0,
+            "extension": "",
+            "is_dir": true,
+            "name": "route_trace_workspace",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace",
+            "rel_path": ".",
+            "size_bytes": 0
+          },
+          {
+            "depth": 1,
+            "extension": ".txt",
+            "is_dir": false,
+            "name": "sample.txt",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/sample.txt",
+            "rel_path": "sample.txt",
+            "size_bytes": 42
+          },
+          {
+            "depth": 1,
+            "extension": ".zip",
+            "is_dir": false,
+            "name": "sample.zip",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/sample.zip",
+            "rel_path": "sample.zip",
+            "size_bytes": 144
+          }
+        ],
+        "ok": true,
+        "partial": false,
+        "root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace"
+      }
+    },
+    {
+      "rule": "/zip/read",
+      "endpoint": "power.read_zip_entries",
+      "method": "POST",
+      "label": "zip read",
+      "nano_probe": "route_contract",
+      "micro_family": "archive",
+      "meso_route_index": 48,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "contents": {
+          "inside.txt": {
+            "bytes": 24,
+            "content": "route trace zip content\n",
+            "entry_name": "inside.txt",
+            "ok": true,
+            "original_bytes": 24,
+            "truncated": false
+          }
+        },
+        "listing": [
+          {
+            "compress_size": 26,
+            "file_size": 24,
+            "is_dir": false,
+            "name": "inside.txt"
+          }
+        ],
+        "ok": true,
+        "zip_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/sample.zip"
+      }
+    },
+    {
+      "rule": "/project/models/list",
+      "endpoint": "context_plane.project_models_list",
+      "method": "POST",
+      "label": "models list",
+      "nano_probe": "route_contract",
+      "micro_family": "models",
+      "meso_route_index": 38,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "count": 0,
+        "items": [],
+        "ok": true,
+        "partial": false,
+        "skipped_paths": [],
+        "warnings": []
+      }
+    },
+    {
+      "rule": "/project/models/inspect",
+      "endpoint": "context_plane.project_models_inspect",
+      "method": "POST",
+      "label": "models missing inspect",
+      "nano_probe": "route_contract",
+      "micro_family": "models",
+      "meso_route_index": 37,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "model file not found",
+        "ok": false
+      }
+    },
+    {
+      "rule": "/project/archives/list",
+      "endpoint": "context_plane.project_archives_list",
+      "method": "POST",
+      "label": "archives list",
+      "nano_probe": "route_contract",
+      "micro_family": "archive",
+      "meso_route_index": 16,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "count": 1,
+        "items": [
+          {
+            "archive_type": "zip",
+            "modified_at": 1785367106.8341267,
+            "name": "sample.zip",
+            "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/sample.zip",
+            "size_bytes": 144
+          }
+        ],
+        "ok": true,
+        "partial": false,
+        "skipped_paths": [],
+        "warnings": []
+      }
+    },
+    {
+      "rule": "/project/archives/inspect",
+      "endpoint": "context_plane.project_archives_inspect",
+      "method": "POST",
+      "label": "archives inspect",
+      "nano_probe": "route_contract",
+      "micro_family": "archive",
+      "meso_route_index": 15,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "archive_type": "zip",
+        "entries": [
+          "inside.txt"
+        ],
+        "entry_count": 1,
+        "ok": true,
+        "partial": false,
+        "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/sample.zip",
+        "warnings": []
+      }
+    },
+    {
+      "rule": "/project/archives/extract",
+      "endpoint": "context_plane.project_archives_extract",
+      "method": "POST",
+      "label": "archives extract",
+      "nano_probe": "route_contract",
+      "micro_family": "archive",
+      "meso_route_index": 14,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "destination_path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/extracted",
+        "extracted_count": 1,
+        "ok": true,
+        "partial": false,
+        "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/data/route_trace_workspace/sample.zip",
+        "warnings": []
+      }
+    },
+    {
+      "rule": "/project/journal/append",
+      "endpoint": "power.append_project_journal",
+      "method": "POST",
+      "label": "journal append",
+      "nano_probe": "route_contract",
+      "micro_family": "journal",
+      "meso_route_index": 34,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "entry": {
+          "content": "route trace journal entry",
+          "entry_type": "route_trace",
+          "session_id": "route-trace-session",
+          "tags": [
+            "route-trace"
+          ],
+          "time": "2026-07-29T23:18:27.961383+00:00",
+          "title": "Route trace"
+        },
+        "ok": true,
+        "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/system/journal/journal.jsonl",
+        "project_id": "route_trace_tmp_full_route_gate"
+      }
+    },
+    {
+      "rule": "/project/journal/read",
+      "endpoint": "power.read_project_journal",
+      "method": "POST",
+      "label": "journal read",
+      "nano_probe": "route_contract",
+      "micro_family": "journal",
+      "meso_route_index": 35,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "count": 2,
+        "entries": [
+          {
+            "content": "Mode=one_shot Command=/opt/pyvenv/bin/python -c import sys; sys.stdout.write('route-trace-execution\\n')",
+            "entry_type": "session_trace",
+            "tags": [
+              "execution"
+            ],
+            "time": "2026-07-29T23:18:27.950426+00:00",
+            "title": "execution running job-8bf9c50aa0bd"
+          },
+          {
+            "content": "route trace journal entry",
+            "entry_type": "route_trace",
+            "session_id": "route-trace-session",
+            "tags": [
+              "route-trace"
+            ],
+            "time": "2026-07-29T23:18:27.961383+00:00",
+            "title": "Route trace"
+          }
+        ],
+        "ok": true,
+        "project_id": "route_trace_tmp_full_route_gate"
+      }
+    },
+    {
+      "rule": "/project/checkpoints/create",
+      "endpoint": "power.create_project_checkpoint",
+      "method": "POST",
+      "label": "checkpoint create",
+      "nano_probe": "route_contract",
+      "micro_family": "checkpoint",
+      "meso_route_index": 17,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "bytes": 3599,
+        "checkpoint_name": "route_trace_checkpoint",
+        "ok": true,
+        "path": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/checkpoints/route_trace_checkpoint.zip",
+        "project_id": "route_trace_tmp_full_route_gate",
+        "time": "2026-07-29T23:18:27.963820+00:00"
+      }
+    },
+    {
+      "rule": "/lab/dispatch",
+      "endpoint": "lab.lab_dispatch",
+      "method": "POST",
+      "label": "lab dispatch",
+      "nano_probe": "route_contract",
+      "micro_family": "lab",
+      "meso_route_index": 6,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "approved": false,
+        "danger_tier": "low",
+        "ok": true,
+        "policy_mode": "strict",
+        "result": {
+          "browser_bridge": {
+            "ok": true
+          },
+          "context_index_cache": {
+            "bytes": 188,
+            "entries": 1,
+            "max_bytes": 134217728,
+            "ttl_seconds": 300
+          },
+          "dependencies": {
+            "beautifulsoup4": true
+          },
+          "execution_modes": [
+            "ablation",
+            "bench",
+            "one_shot",
+            "replay"
+          ],
+          "plugin_errors": [],
+          "plugin_loads": [],
+          "policy_mode": "strict",
+          "research": {
+            "cache": {
+              "bytes": 0,
+              "entries": 0,
+              "max_bytes": 536870912,
+              "ttl_seconds": 300
+            },
+            "modes": [
+              "direct_hunt"
+            ],
+            "parser_version": "research_v5_exec",
+            "sources": [
+              "arxiv"
+            ]
+          },
+          "status": "online",
+          "tools": 87,
+          "validation": {
+            "api_valid": true,
+            "checked_at": "2026-07-29T23:18:27.972629+00:00",
+            "connected": true,
+            "validation_mode": "connected_only"
+          }
+        },
+        "time": "2026-07-29T23:18:27.964183+00:00",
+        "tool": "lab.health"
+      }
+    },
+    {
+      "rule": "/lab/batch",
+      "endpoint": "lab.lab_batch",
+      "method": "POST",
+      "label": "lab batch",
+      "nano_probe": "route_contract",
+      "micro_family": "lab",
+      "meso_route_index": 5,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "ok_field": true,
+      "error_code": null,
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "background": false,
+        "count": 2,
+        "ok": true,
+        "parallelism": 1,
+        "results": [
+          {
+            "approved": false,
+            "danger_tier": "low",
+            "index": 0,
+            "ok": true,
+            "policy_mode": "strict",
+            "result": {
+              "browser_bridge": {
+                "ok": true
+              },
+              "context_index_cache": {
+                "bytes": 188,
+                "entries": 1,
+                "max_bytes": 134217728,
+                "ttl_seconds": 300
+              },
+              "dependencies": {
+                "beautifulsoup4": true
+              },
+              "execution_modes": [
+                "ablation",
+                "bench",
+                "one_shot",
+                "replay"
+              ],
+              "plugin_errors": [],
+              "plugin_loads": [],
+              "policy_mode": "strict",
+              "research": {
+                "cache": {
+                  "bytes": 0,
+                  "entries": 0,
+                  "max_bytes": 536870912,
+                  "ttl_seconds": 300
+                },
+                "modes": [
+                  "direct_hunt"
+                ],
+                "parser_version": "research_v5_exec",
+                "sources": [
+                  "arxiv"
+                ]
+              },
+              "status": "online",
+              "tools": 87,
+              "validation": {
+                "api_valid": true,
+                "checked_at": "2026-07-29T23:18:27.974087+00:00",
+                "connected": true,
+                "validation_mode": "connected_only"
+              }
+            },
+            "time": "2026-07-29T23:18:27.973140+00:00",
+            "tool": "lab.health"
+          },
+          {
+            "approved": false,
+            "danger_tier": "low",
+            "index": 1,
+            "ok": true,
+            "policy_mode": "strict",
+            "result": {
+              "count": 0,
+              "items": [],
+              "ok": true,
+              "partial": false,
+              "recursive": false,
+              "root_summary": [
+                "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route",
+                "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects",
+                "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/system",
+                "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/sandbox",
+                "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/temp",
+                "/mnt/data/pcmmad_v29_work/PCMMAD_receiver"
+              ],
+              "skipped_paths": [],
+              "target": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/.pcmmad_gate_runtime_full_route/projects/route_trace_tmp_full_route_gate/reports",
+              "warnings": []
+            },
+            "time": "2026-07-29T23:18:27.974183+00:00",
+            "tool": "project.files.list"
+          }
+        ]
+      }
+    },
+    {
+      "rule": "/lab/results/get",
+      "endpoint": "lab.lab_results_get",
+      "method": "POST",
+      "label": "lab missing result",
+      "nano_probe": "route_contract",
+      "micro_family": "lab",
+      "meso_route_index": 10,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 404,
+      "expected_statuses": [
+        404
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "NOT_FOUND",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "NOT_FOUND",
+        "message": "result handle not found",
+        "ok": false,
+        "time": "2026-07-29T23:18:27.975223+00:00"
+      }
+    },
+    {
+      "rule": "/research/arxiv/search",
+      "endpoint": "research.research_arxiv_search",
+      "method": "POST",
+      "label": "research validation search",
+      "nano_probe": "route_contract",
+      "micro_family": "research",
+      "meso_route_index": 41,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "query is required",
+        "ok": false
+      }
+    },
+    {
+      "rule": "/research/arxiv/paper",
+      "endpoint": "research.research_arxiv_paper",
+      "method": "POST",
+      "label": "research validation paper",
+      "nano_probe": "route_contract",
+      "micro_family": "research",
+      "meso_route_index": 40,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "paper_id is required",
+        "ok": false
+      }
+    },
+    {
+      "rule": "/research/hunt",
+      "endpoint": "research.research_hunt",
+      "method": "POST",
+      "label": "research validation hunt",
+      "nano_probe": "route_contract",
+      "micro_family": "research",
+      "meso_route_index": 43,
+      "macro_claim_effect": "blocks_runtime_working",
+      "status": 400,
+      "expected_statuses": [
+        400
+      ],
+      "pass_": true,
+      "ok_field": false,
+      "error_code": "BAD_REQUEST",
+      "content_type": "application/json",
+      "json_object": true,
+      "body_sample": {
+        "error_code": "BAD_REQUEST",
+        "message": "topic is required",
+        "ok": false
+      }
+    }
+  ]
+}

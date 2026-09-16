@@ -1,0 +1,1339 @@
+{
+  "campaign_archives": {
+    "MICROSEED_MS1028_1052_STRUCTURAL_REWRITE_DEVELOPMENTAL_IDENTITY_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "bytes": 514839,
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "3a9eb954a12b70c8e4fdd6e5ee30a11e8bcd4595525fd797cbf4804d0f09ffb8",
+      "terminal_ms": 1052
+    },
+    "MICROSEED_MS1078_1102_PRELINGUAL_COORDINATION_JOINT_ACTION_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "a53f64580e39f7e6a64ce6c3f806381579834159a2920e741325ba7b38cddcee",
+      "terminal_ms": 1102
+    },
+    "MICROSEED_MS1103_1127_DISTRIBUTED_TEMPORAL_COMPETENCE_JOINT_EPISODE_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "bytes": 611742,
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "bf16136bd7f772402b17d79333a86bc21421094222bfb8551b0c6d25080a6e94",
+      "terminal_ms": 1127
+    },
+    "MICROSEED_MS1128_1152_ACTION_LIMITED_UNKNOWN_DISCRIMINATOR_GROWTH_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "b1dec2e02cba05a13b3e7f4fa180ca94803ac3c1153ab1c10c514cc715d4b3b9",
+      "terminal_ms": 1152
+    },
+    "MICROSEED_MS1153_1177_EPISTEMIC_DEFICIT_CURRENTNESS_QUESTION_REVISIT_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "be7a80b5ff3927e517cde0f2c2ddfe8d4073cba6dd1073117e65eb46e809e95e",
+      "terminal_ms": 1177
+    },
+    "MICROSEED_MS1178_1202_OPAQUE_EVIDENCE_DEFICIT_RELEVANCE_BINDING_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "7fd8355bf8774f4d1ec018a2c155279eaaaf031a9a95341cc3ef43080e2355b2",
+      "terminal_ms": 1202
+    },
+    "MICROSEED_MS1228_1252_CONSTRUCTOR_REACHABILITY_TEMPORAL_HISTORY_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "cdb6ae835615f54bf45c3f505dabfb2092fd147bb328c35f3147a78a654dc2cf",
+      "terminal_ms": 1252
+    },
+    "MICROSEED_MS1253_1277_ROBUST_CONFLICT_REGIME_CURRENTNESS_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "7cefdea38e4911c838189996a965a32d5a4b8f0e0c9a24ba00a3c34e3f90534a",
+      "terminal_ms": 1277
+    },
+    "MICROSEED_MS1278_1302_DRIFT_CAUSE_RECURRENCE_25_PASS_CAMPAIGN_2026-08-22.zip": {
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "501dd161d1dee0a67f985f328aefe901a6451ab7f4fb1f5b913d11b0f492e9f1",
+      "terminal_ms": 1302
+    },
+    "MICROSEED_MS1303_1327_DISCRIMINATING_INTERVENTION_DRIFT_CAUSE_25_PASS_CAMPAIGN_2026-08-22.zip": {
+      "bytes": 16588,
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "a3eb8e8dc3fb986af7df376b777d36573f25d382ffd808ff40577261a629fbda",
+      "terminal_ms": 1327
+    },
+    "MICROSEED_MS1353_1377_TRCH_ARCHITECTURAL_COMPRESSION_OARR_25_PASS_CAMPAIGN_2026-08-22.zip": {
+      "bytes": 264790747,
+      "disposition": "NARROWED_SURVIVED",
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "a832468a44cacae8b35593bb869d70df0537da65eb3fb225d9276a39b1d070c4",
+      "terminal_ms": 1377
+    },
+    "MICROSEED_MS1403_1427_ACTION_OUTCOME_PREDICTIVE_RELATION_LEARNING_25_PASS_CAMPAIGN_2026-08-22.zip": {
+      "bytes": 19127,
+      "disposition": "NARROWED",
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "8b884b67e841e095e28dbcdfca962ac0260f885ceb3102439d3a13dcc487e28f",
+      "terminal_ms": 1427
+    },
+    "MICROSEED_MS1428_1452_LEARNED_PREDICTIVE_LAW_DRIFT_RELEARNING_25_PASS_CAMPAIGN_2026-08-22.zip": {
+      "bytes": 25487,
+      "disposition": "NARROWED",
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "ee42639891bcc58027ce839c90ab251b86d197ec0c10d3de3bdc37e95c4d5a8f",
+      "terminal_ms": 1452
+    },
+    "MICROSEED_MS1453_1477_DYNAMIC_PREDICTIVE_STATE_ABSTRACTION_25_PASS_CAMPAIGN_2026-08-23.zip": {
+      "disposition": "NARROWED_SURVIVED",
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "f63d2617b567c23081ebd933ae1c8f282bfa8547d75583509654589848a41168",
+      "terminal_ms": 1477
+    },
+    "MICROSEED_MS1478_1502_AUTONOMOUS_MULTI_CHILD_COMPOSITION_25_PASS_CAMPAIGN_2026-08-23.zip": {
+      "core_relation_growth": 0,
+      "disposition": "NARROWED_SURVIVED__INTEGRATION_WARRANTED_AS_LINEAGE_EXTENSION",
+      "role": "RESEARCH_EVIDENCE_STRIPPED_FOR_PARTS__LINEAGE_EXTENSION_ONLY",
+      "sha256": "18b148ca6428c6706b4237fcb4c1fc58b26d846804e3672039734a20a9c3e2b6",
+      "terminal_ms": 1502
+    },
+    "MICROSEED_MS1503_1527_PERSISTENT_WHOLE_ORGANISM_REENTRY_25_PASS_CAMPAIGN_2026-08-24.zip": {
+      "disposition": "NARROWED_SURVIVED__INTEGRATION_WARRANTED_FOR_BOUNDED_QUALIFIED_REENTRY__INDEFINITE_AUTOMATIC_REENTRY_NOT_WARRANTED",
+      "role": "RESEARCH_EVIDENCE_STRIPPED_FOR_PARTS__TRANSIENT_REENTRY_LINEAGE_EXTENSION_ONLY",
+      "sha256": "d954de87cfd80e52237c4200a3bd58360dbf31eb30f074d5ece1ca3350445217",
+      "terminal_ms": 1527
+    },
+    "MICROSEED_MS452_476_EXTERNAL_WITNESS_ATTESTATION_BOUNDARY_25_PASS_CAMPAIGN_2026-08-18.zip": {
+      "bytes": 48391613,
+      "sha256": "6d2b33261880ba42ac2ee212581937507c142448b0df7a0dc8b2701d8b19ce90"
+    },
+    "MICROSEED_MS477_501_PRELINGUISTIC_BRAIN_LAB_25_PASS_CAMPAIGN_2026-08-18.zip": {
+      "bytes": 48650949,
+      "sha256": "fef1db159c282367e1c2bc2f3418243b1059eebd47d814cb3d6a2ac5f392be2f"
+    },
+    "MICROSEED_MS502_526_OPEN_WORLD_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-18.zip": {
+      "bytes": 48821544,
+      "sha256": "ae15dffff03285a4a43a4d6c9e5f1e49a749094d95a952d35be5ac84bcc21cb6"
+    },
+    "MICROSEED_MS652_701_OPERATOR_SYNTHESIS_ADAPTIVE_REPRESENTATIONAL_ECONOMY_50_PASS_CAMPAIGN_2026-08-19.zip": {
+      "bytes": 50893319,
+      "sha256": "dfce9889d8de4e0cd6e7dc9b3fc0bc7c66bc42d8a99c3564a80fb5acf20a927d"
+    },
+    "MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19.zip": {
+      "bytes": 50619209,
+      "sha256": "ce07371c63d2bb26cda558c2ba4bb8c32d701efd4cd1c16d1462ce90f97e7a2c"
+    },
+    "MICROSEED_MS727_751_GROUNDED_PREDICATE_OPERATOR_PARAMETERIZATION_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19.zip": {
+      "bytes": 445250,
+      "sha256": "67717bfdabfa62d0359d0329b3ae7c2f5cc84d0ed6c87327b2ad96aaac977de7"
+    },
+    "MICROSEED_MS752_776_PREDICATE_METALANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-20.zip": {
+      "bytes": 100780,
+      "sha256": "125ac993bf7b5a158ffae26f0424964835ead1c0ce740897a4a30a0e3c2ce5ea"
+    },
+    "MICROSEED_MS777_801_MEASUREMENT_EVENT_FRAME_INDUCTION_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-20.zip": {
+      "bytes": 109610,
+      "sha256": "b59ca7219e74d83360d69fb97ca34545e490d261f017875ad15db64687f5b2ed"
+    },
+    "MICROSEED_MS802_REFERENT_AFFORDANCE_BINDING_ENTRY_2026-08-21.zip": {
+      "bytes": 39518,
+      "sha256": "b007df624d3205d35a5d3a1ea59ed48a5192ce644f8fc2c6bf406ed3525849d2"
+    },
+    "MICROSEED_MS803_827_AFFORDANCE_BINDING_CURRENTNESS_DRIFT_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "bytes": 128939,
+      "sha256": "b7e09a713ecfd686f300c9f8c15fc19bb7346f7f1c99b661d426eb33ff2378c9"
+    },
+    "MICROSEED_MS828_852_CROSS_FAMILY_DEVELOPMENTAL_CAPABILITY_CLOSURE_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "bytes": 180597,
+      "sha256": "d9f88ac85c5bc81c31e8af678bb188de67d095e4db2e010d0cf1d6c9cb2211dc"
+    },
+    "MICROSEED_MS853_877_ENDOGENOUS_CAPABILITY_DISCOVERY_ADMISSION_BRIDGE_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "bytes": 246349,
+      "sha256": "a25097ef33ffa11e9141f8877655c13c819be65eb0a95680c5be4542b8d2f0c8"
+    },
+    "MICROSEED_MS878_902_SELF_CONSTRUCTED_DISCOVERY_FRAME_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "fef97769d09333b82f9870c211af361c821ec25907a2b0ec431e6f653e335f1c",
+      "terminal_ms": 902
+    },
+    "MICROSEED_MS903_927_ENDOGENOUS_EPISODE_TRACE_GROUPING_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "bytes": 292263,
+      "sha256": "d6aacb200501e6af7158d3c2ef5b709dab275e7c118e0c21ca4257f161118448",
+      "terminal_ms": 927
+    },
+    "MICROSEED_MS928_952_PERSISTENT_DEVELOPMENTAL_BIOGRAPHY_IDENTITY_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "bytes": 320296,
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "5df3f884947aef7efaa139a1d9dc4f7bfeca8b51a78508e49a692c6e17116c63",
+      "terminal_ms": 952
+    },
+    "MICROSEED_MS953_977_ENDOGENOUS_VALUE_GOAL_ANATOMY_25_PASS_CAMPAIGN_2026-08-21.zip": {
+      "bytes": 357570,
+      "role": "RESEARCH_EVIDENCE_NO_IN_CAMPAIGN_ARCHITECTURE_PROMOTION",
+      "sha256": "911cfcf2a759453b4365b39123879d02e8401b8d160e5a0ec51f9be293697f4e",
+      "terminal_ms": 977
+    }
+  },
+  "corpus": {
+    "concatenated_bytes": 3662075608,
+    "concatenated_sha256": "352a31c1b8081c29187f1f1e75de4c1c9441d281f891bcffbac02f75a2468cc0",
+    "outer_extracted_files": 346,
+    "split_parts": [
+      {
+        "bytes": 524288000,
+        "name": "Microseed.7z.001",
+        "sha256": "1ee520e207c33b58fa52cdbf262da8644b4ea5baf4384f52a4f7b2bda7d12b56"
+      },
+      {
+        "bytes": 524288000,
+        "name": "Microseed.7z.002",
+        "sha256": "c9a615255e185fb6d6d49ee71641b742b34109594b769e8419c6353ebf5e521a"
+      },
+      {
+        "bytes": 524288000,
+        "name": "Microseed.7z.003",
+        "sha256": "6522c2fe27c208e301e71eaebf2bad42c85073c44edda893d66b31deb0969be9"
+      },
+      {
+        "bytes": 524288000,
+        "name": "Microseed.7z.004",
+        "sha256": "9ed657dc509268e73c6dd30d947683dfea0acc82cf9f97caa3479caaaee2df98"
+      },
+      {
+        "bytes": 524288000,
+        "name": "Microseed.7z.005",
+        "sha256": "124b73ab86c5b19d946fa2b2bc183e3610f0ac9fdcf733041be91950f0dc834a"
+      },
+      {
+        "bytes": 524288000,
+        "name": "Microseed.7z.006",
+        "sha256": "7a9a87d0751e69d54724eeeabdd593e814e18b2247f8049fb552a70a3d92c1ce"
+      },
+      {
+        "bytes": 516347608,
+        "name": "Microseed.7z.007",
+        "sha256": "670760e6ee2c7444e7152a0c9385cd558d8b6546d378417ef10174ad1c7e0ef7"
+      }
+    ]
+  },
+  "current_main_dev": {
+    "campaign": "MICROSEED_MS1503_1527_PERSISTENT_WHOLE_ORGANISM_REENTRY_25_PASS_CAMPAIGN_2026-08-24.zip",
+    "campaign_sha256": "d954de87cfd80e52237c4200a3bd58360dbf31eb30f074d5ece1ca3350445217",
+    "entity_version": "2.9.0-maindev-ms1527",
+    "frontier": "ATTN-MS1527-POST-REENTRY-WHOLE-ORGANISM-HOSTILE-EMBODIMENT",
+    "integration_evidence_through_ms": 1527,
+    "integration_terminal_ms": 1527,
+    "language": "DEFERRED_PRELINGUAL_COGNITION_ACTIVE",
+    "next_ms": 1528,
+    "next_started": false,
+    "parent_canonical_sha256": "91f73e3ba150227bb8c113d09c93834316b67c06c11fcf5ae8512b326df8a37e",
+    "recovery_lineage": "RECOVERY_LINEAGE_MS1527.json",
+    "research_terminal_ms": 1527,
+    "strip_for_parts": "GLOBAL_RULE",
+    "version": "2.9.0-maindev-ms1527"
+  },
+  "current_state": {
+    "entity": "Proto-Microseed Main-Dev v2.9 release entity",
+    "frontier": "ATTN-MS1527-POST-REENTRY-WHOLE-ORGANISM-HOSTILE-EMBODIMENT",
+    "integration_evidence_through_ms": 1527,
+    "language": "DEFERRED_PRELINGUAL_COGNITION_ACTIVE",
+    "ms1528_started": false,
+    "next_ms": 1528,
+    "parent_canonical_sha256": "91f73e3ba150227bb8c113d09c93834316b67c06c11fcf5ae8512b326df8a37e",
+    "persistent_numerical_selfhood": "NOT_QUALIFIED",
+    "qualified_candidate_sha256": "667f25cfde5a153053d7ef8a2b912e878c89b18e40692fa9f64ca129c0dea9ea",
+    "reentry_manager": "NOT_INTEGRATED",
+    "reentry_readiness_authority": "NONE",
+    "research_terminal_ms": 1527
+  },
+  "integration_boundary": {
+    "cortex_append_only_boundary": "MS477",
+    "last_pre_cortex_cumulative_project": "MS476",
+    "last_single_runtime_integration": "MS50 integrated_python_kernel_v0_1",
+    "ms501_diff": {
+      "added": 67,
+      "added_files": [
+        "PACKAGE_DIFF_SUMMARY_MS501.json",
+        "PROJECT_STATE_MS501.json",
+        "README_MS501_FIRST.md",
+        "campaign_brain_lab25/CAMPAIGN_VERIFICATION_MS477_501.json",
+        "campaign_brain_lab25/EVOLUTION_REPORT_MS477_501.md",
+        "campaign_brain_lab25/FRONTIER_TRACE_MS477_501.json",
+        "campaign_brain_lab25/MICROSEED_MS501_FINAL_STATE.json",
+        "campaign_brain_lab25/data/PARENT_MS476_FILE_HASHES.json",
+        "campaign_brain_lab25/donors/BRAIN_DONOR_MAP.md",
+        "campaign_brain_lab25/embodiment/brain_lab_runner.py",
+        "campaign_brain_lab25/evidence/MS477_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS478_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS479_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS480_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS481_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS482_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS483_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS484_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS485_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS486_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS487_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS488_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS489_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS490_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS491_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS492_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS493_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS494_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS495_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS496_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS497_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS498_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS499_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS500_BRAIN_LAB.json",
+        "campaign_brain_lab25/evidence/MS501_BRAIN_LAB.json",
+        "campaign_brain_lab25/lab/MS501-OARR-001.json",
+        "campaign_brain_lab25/method/SEMANTIC_HELIX_MS477_501.json",
+        "campaign_brain_lab25/models/MODEL_MANIFEST.json",
+        "campaign_brain_lab25/models/family_prior_maskvalue_4260p.pt",
+        "campaign_brain_lab25/models/family_prior_ternary_2212p.pt",
+        "campaign_brain_lab25/models/monolithic_truth_model_12416p.pt",
+        "campaign_brain_lab25/passes/PASS_477.md",
+        "campaign_brain_lab25/passes/PASS_478.md",
+        "campaign_brain_lab25/passes/PASS_479.md",
+        "campaign_brain_lab25/passes/PASS_480.md",
+        "campaign_brain_lab25/passes/PASS_481.md",
+        "campaign_brain_lab25/passes/PASS_482.md",
+        "campaign_brain_lab25/passes/PASS_483.md",
+        "campaign_brain_lab25/passes/PASS_484.md",
+        "campaign_brain_lab25/passes/PASS_485.md",
+        "campaign_brain_lab25/passes/PASS_486.md",
+        "campaign_brain_lab25/passes/PASS_487.md",
+        "campaign_brain_lab25/passes/PASS_488.md",
+        "campaign_brain_lab25/passes/PASS_489.md",
+        "campaign_brain_lab25/passes/PASS_490.md",
+        "campaign_brain_lab25/passes/PASS_491.md",
+        "campaign_brain_lab25/passes/PASS_492.md",
+        "campaign_brain_lab25/passes/PASS_493.md",
+        "campaign_brain_lab25/passes/PASS_494.md",
+        "campaign_brain_lab25/passes/PASS_495.md",
+        "campaign_brain_lab25/passes/PASS_496.md",
+        "campaign_brain_lab25/passes/PASS_497.md",
+        "campaign_brain_lab25/passes/PASS_498.md",
+        "campaign_brain_lab25/passes/PASS_499.md",
+        "campaign_brain_lab25/passes/PASS_500.md",
+        "campaign_brain_lab25/passes/PASS_501.md",
+        "campaign_brain_lab25/verify_ms477_501.py"
+      ],
+      "campaign_range": [
+        477,
+        501
+      ],
+      "deleted": 0,
+      "deleted_files": [],
+      "modified_nonmanifest": 0,
+      "modified_nonmanifest_files": [],
+      "parent": "MS476",
+      "root_manifest_refresh_expected": true,
+      "schema": "microseed.package-diff.ms501.v0.1",
+      "unchanged_nonmanifest": 1573
+    },
+    "ms526_diff": {
+      "added_campaign": "campaign_open_world_cortex25",
+      "deleted_parent_files": [],
+      "modified_existing_parent_files": [
+        "MANIFEST_SHA256.json"
+      ],
+      "note": "All parent non-manifest file bytes are intended to remain exact; package-wide MANIFEST_SHA256.json is regenerated after adding MS502-526 artifacts.",
+      "parent_archive": "MICROSEED_MS477_501_PRELINGUISTIC_BRAIN_LAB_25_PASS_CAMPAIGN_2026-08-18.zip",
+      "parent_archive_sha256": "fef1db159c282367e1c2bc2f3418243b1059eebd47d814cb3d6a2ac5f392be2f",
+      "parent_files_expected_exact_except_package_manifest": 1640,
+      "schema": "microseed.package-diff-summary.ms526.v0.1"
+    },
+    "ms551_diff": {
+      "added_campaign": "campaign_probabilistic_cortex25",
+      "added_files_before_manifest_refresh": 63,
+      "deleted_parent_files": [],
+      "modified_existing_parent_files": [
+        "MANIFEST_SHA256.json"
+      ],
+      "note": "All parent non-MANIFEST_SHA256.json bytes remain exact; package-wide MANIFEST_SHA256.json is regenerated after MS527-551 artifacts are added.",
+      "parent_archive": "MICROSEED_MS502_526_OPEN_WORLD_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-18.zip",
+      "parent_archive_sha256": "ae15dffff03285a4a43a4d6c9e5f1e49a749094d95a952d35be5ac84bcc21cb6",
+      "schema": "microseed.package-diff-summary.ms551.v0.1",
+      "unexpected_nonmanifest_parent_modifications": []
+    },
+    "ms652_701_parent_nonmanifest_mutations": [],
+    "ms702_726_parent_nonmanifest_mutations": [],
+    "package_decoupling_boundary": "MS727"
+  },
+  "integration_evidence_through_ms": 1527,
+  "integrations": {
+    "MS1053_1077_COUNTERPARTY_CURRENTNESS": {
+      "authority_ceiling": "BOUNDED_OPERATIONAL_CAUSAL_RELATION_ONLY",
+      "disposition": "NARROWED",
+      "integrated": [
+        "externally-qualified opaque counterparty currentness contract",
+        "counterparty epoch binding on capability admission/currentness",
+        "transitive stale propagation from counterparty drift"
+      ],
+      "not_integrated": [
+        "semantic self/other ontology",
+        "persistent other-agent identity",
+        "general theory of mind",
+        "general multi-agent planner",
+        "synthetic actor discriminator"
+      ]
+    },
+    "MS1128_1152_ACTION_LIMITED_DEFICIT_LIFECYCLE": {
+      "integrated": [
+        "ZERO_DISAGREEMENT_PROBE_FIX",
+        "DURABLE_CLASS_C_ACTION_LIMITED_EPISTEMIC_DEFICIT_LIFECYCLE"
+      ],
+      "integration_evidence_through_ms": 1152,
+      "not_integrated": [
+        "GENERAL_ACTIVE_LEARNING_PLANNER",
+        "GENERAL_DISCRIMINATOR_SYNTHESIS",
+        "SEMANTIC_QUESTION_ONTOLOGY",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1152,
+      "schema": "microseed.maindev-integration.v1.4",
+      "source_campaign": "MICROSEED_MS1128_1152_ACTION_LIMITED_UNKNOWN_DISCRIMINATOR_GROWTH_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "source_campaign_sha256": "b1dec2e02cba05a13b3e7f4fa180ca94803ac3c1153ab1c10c514cc715d4b3b9"
+    },
+    "MS1153_1177_EPISTEMIC_DEFICIT_CURRENTNESS": {
+      "integrated": [
+        "OPAQUE_TYPED_EPISTEMIC_PREMISE_CURRENTNESS_ANCHORS",
+        "SELECTIVE_STALE_TRANSITION",
+        "PROBE_LOSS_VS_PREMISE_DRIFT_SPLIT",
+        "STALE_PRESSURE_SUPPRESSION",
+        "EXPLICIT_CONTENT_BOUND_REVISIT_REQUEST",
+        "PRESSURE_AND_REVISIT_ELIGIBILITY_SURFACES",
+        "DURABLE_REPLAY"
+      ],
+      "integration_evidence_through_ms": 1177,
+      "not_integrated": [
+        "ENDOGENOUS_EVIDENCE_RELEVANCE_CLASSIFIER",
+        "GENERAL_QUESTION_REVISIT_SCHEDULER",
+        "GENERAL_ACTIVE_LEARNING_PLANNER",
+        "SEMANTIC_QUESTION_ONTOLOGY",
+        "AUTONOMOUS_HYPOTHESIS_LANGUAGE",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1177,
+      "schema": "microseed.maindev-integration.v1.5",
+      "source_campaign": "MICROSEED_MS1153_1177_EPISTEMIC_DEFICIT_CURRENTNESS_QUESTION_REVISIT_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "source_campaign_sha256": "be7a80b5ff3927e517cde0f2c2ddfe8d4073cba6dd1073117e65eb46e809e95e"
+    },
+    "MS1178_1202_OPAQUE_EVIDENCE_BEARING": {
+      "integrated": [
+        "OPAQUE_EPISTEMIC_PROJECTION_CURRENTNESS_HANDLE",
+        "EXACT_HYPOTHESIS_BOUND_OPAQUE_CONTRAST_BINDING",
+        "BOUNDED_EPISTEMIC_BEARING_WITNESS",
+        "DISCRIMINATES_LIVE_SET_TO_REVISIT_REQUEST",
+        "MODEL_SPACE_CHALLENGE_TO_REVISIT_WITHOUT_HYPOTHESIS_REPLACEMENT",
+        "CONSENSUS_NONDISCRIMINATING_SUPPRESSION",
+        "PROJECTION_AND_CONTRAST_STALE_PROPAGATION",
+        "EVIDENCE_REPLAY_DEDUPLICATION",
+        "DURABLE_PROJECTION_CONTRAST_WITNESS_REPLAY"
+      ],
+      "integration_evidence_through_ms": 1202,
+      "not_integrated": [
+        "RAW_OBSERVATION_TO_EPISTEMIC_PROJECTION_DISCOVERY",
+        "ENDOGENOUS_CONTRAST_COORDINATE_FORMATION",
+        "SEMANTIC_QUESTION_ONTOLOGY",
+        "GENERAL_QUESTION_REVISIT_SCHEDULER",
+        "GENERAL_ACTIVE_LEARNING_PLANNER",
+        "AUTONOMOUS_HYPOTHESIS_LANGUAGE",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1202,
+      "schema": "microseed.maindev-integration.v1.6",
+      "source_campaign": "MICROSEED_MS1178_1202_OPAQUE_EVIDENCE_DEFICIT_RELEVANCE_BINDING_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "source_campaign_sha256": "7fd8355bf8774f4d1ec018a2c155279eaaaf031a9a95341cc3ef43080e2355b2"
+    },
+    "MS1203_1227_OPAQUE_PROJECTION_DISCOVERY": {
+      "integrated": [
+        "BOUNDED_PREDICTIVE_EQUIVALENCE_PROJECTION_PROPOSAL",
+        "EXTERNAL_PROJECTION_QUALIFICATION",
+        "PROJECTION_ASSISTANCE_CURRENTNESS_ANCESTRY"
+      ],
+      "integration_evidence_through_ms": 1227,
+      "not_integrated": [
+        "GENERAL_REPRESENTATION_LANGUAGE",
+        "SEMANTIC_FEATURE_ONTOLOGY",
+        "SELF_QUALIFICATION",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1227,
+      "schema": "microseed.maindev-integration.v1.7",
+      "source_campaign": "MICROSEED_MS1203_1227_OPAQUE_PROJECTION_GROUNDING_DISCOVERY_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "source_campaign_sha256": "e10487b0050badc1b49b4fb3f627635a74493c9e36768c71cdddb1b347526756"
+    },
+    "MS1228_1252_CONSTRUCTOR_REACHABILITY_TEMPORAL_HISTORY": {
+      "integrated": [
+        "CONFLICT_DIRECTED_HIGHER_ORDER_SUPPORT_GROWTH",
+        "BOUNDED_TEMPORAL_LAG_GROWTH",
+        "POST_ADMISSION_FRAME_AND_EPISODE_CURRENTNESS"
+      ],
+      "integration_evidence_through_ms": 1252,
+      "not_integrated": [
+        "NOISE_TOLERANT_CONFLICT_ATTRIBUTION",
+        "VARIABLE_REGIME_LAG_SWITCHING",
+        "GENERAL_REPRESENTATION_LANGUAGE",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1252,
+      "schema": "microseed.maindev-integration.v1.8",
+      "source_campaign": "MICROSEED_MS1228_1252_CONSTRUCTOR_REACHABILITY_TEMPORAL_HISTORY_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "source_campaign_sha256": "cdb6ae835615f54bf45c3f505dabfb2092fd147bb328c35f3147a78a654dc2cf"
+    },
+    "MS1253_1277_ROBUST_CONFLICT_CURRENTNESS": {
+      "integrated": [
+        "BOUNDED_EXACT_CONFLICT_COVERAGE_RANKING",
+        "INDEPENDENT_ROBUST_PROJECTION_QUALIFICATION",
+        "CAUSE_FREE_PREDICTIVE_CURRENTNESS_STALING"
+      ],
+      "integration_evidence_through_ms": 1277,
+      "not_integrated": [
+        "NOISE_RATE_MODEL",
+        "EFFECT_DISTANCE_METRIC",
+        "REGIME_IDENTITY",
+        "AUTOMATIC_REACTIVATION",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1277,
+      "schema": "microseed.maindev-integration.v1.9",
+      "source_campaign": "MICROSEED_MS1253_1277_ROBUST_CONFLICT_REGIME_CURRENTNESS_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "source_campaign_sha256": "7cefdea38e4911c838189996a965a32d5a4b8f0e0c9a24ba00a3c34e3f90534a"
+    },
+    "MS1278_1302_DRIFT_STRUCTURE_RECURRENCE": {
+      "integrated": [
+        "QUALIFIED_ALTERNATIVE_STRUCTURE_WITNESS",
+        "NAMED_HISTORICAL_PROJECTION_RECURRENCE_EVIDENCE",
+        "EXTERNALLY_REQUALIFIED_NEW_EPOCH_REACTIVATION",
+        "OLD_CONTRAST_STALENESS_PRESERVED"
+      ],
+      "integration_evidence_through_ms": 1302,
+      "not_integrated": [
+        "DRIFT_CAUSE_CLASSIFIER",
+        "NOISE_IDENTITY",
+        "REGIME_IDENTITY",
+        "GLOBAL_REGIME_SEARCH",
+        "AUTOMATIC_MODEL_SWITCHER",
+        "SELF_QUALIFICATION",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1302,
+      "schema": "microseed.maindev-integration.v2.0",
+      "source_campaign": "MICROSEED_MS1278_1302_DRIFT_CAUSE_RECURRENCE_25_PASS_CAMPAIGN_2026-08-22.zip",
+      "source_campaign_sha256": "501dd161d1dee0a67f985f328aefe901a6451ab7f4fb1f5b913d11b0f492e9f1"
+    },
+    "MS1303_1327_DRIFT_DISCRIMINATING_INTERVENTION": {
+      "integrated": [
+        "CURRENT_DISAGREEMENT_PROBE_SELECTION",
+        "REPEATED_EXACT_OUTCOME_DISCRIMINATION",
+        "ACTION_LIMITED_CURRENT_PROBE_ACCESS",
+        "MODEL_SPACE_CHALLENGE_ON_UNPREDICTED_PROBE_OUTCOME"
+      ],
+      "integration_evidence_through_ms": 1327,
+      "not_integrated": [
+        "SEMANTIC_DRIFT_CAUSE_CLASSIFIER",
+        "INTERVENTION_SYNTHESIS",
+        "GENERAL_MULTI_STEP_ACTIVE_LEARNING",
+        "GENERAL_STRUCTURAL_NON_IDENTIFIABILITY_THEOREM",
+        "LEARNED_NOISE_MODEL",
+        "AUTOMATIC_MODEL_SWITCHER",
+        "SELF_QUALIFICATION",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1327,
+      "schema": "microseed.maindev-integration.v2.1",
+      "source_campaign": "MICROSEED_MS1303_1327_DISCRIMINATING_INTERVENTION_DRIFT_CAUSE_25_PASS_CAMPAIGN_2026-08-22.zip",
+      "source_campaign_sha256": "a3eb8e8dc3fb986af7df376b777d36573f25d382ffd808ff40577261a629fbda"
+    },
+    "MS1328_1352_QUALIFIED_COUNTERFACTUAL_REHEARSAL": {
+      "integrated": [
+        "BOUNDED_COUNTERFACTUAL_REHEARSAL_PROPOSAL",
+        "CURRENTNESS_BOUND_REHEARSAL_ANCESTRY",
+        "EXTERNAL_QUALIFICATION_ONLY_REHEARSED_WHOLE_ADMISSION",
+        "SECOND_ORDER_CAPABILITY_CLOSURE"
+      ],
+      "integration_evidence_through_ms": 1352,
+      "not_integrated": [
+        "GENERAL_PLANNER",
+        "GENERAL_COUNTERFACTUAL_WORLD_MODEL",
+        "EXECUTION_AUTHORITY_FROM_REHEARSAL",
+        "SELF_QUALIFICATION",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD",
+        "TERNARY_RELATIONAL_COMMITMENT_ARCHITECTURE"
+      ],
+      "research_terminal_ms": 1352,
+      "schema": "microseed.maindev-integration.v2.2",
+      "source_campaign": "MICROSEED_MS1328_1352_QUALIFIED_COUNTERFACTUAL_REHEARSAL_WHOLE_SYSTEM_CLOSURE_25_PASS_CAMPAIGN_2026-08-22.zip",
+      "source_campaign_sha256": "395b8a6fde7d874be8b98abee114ee3bc24cef6ed5f0aa99955fd7213512c11a"
+    },
+    "MS1353_1377_TRCH_ARCHITECTURAL_COMPRESSION": {
+      "bulk_native_enum_replacement": false,
+      "child": "v2.3/MS1377",
+      "parent": "v2.2/MS1352",
+      "scope": "COMMON_TERNARY_COMMITMENT_PRIMITIVE_PLUS_LOSSLESS_ADAPTERS_ONLY",
+      "selected_frontier_after_integration": "ATTN-MS1377-BOUNDED-DELIBERATION-TO-ACTION-OUTCOME-CLOSURE__TRCH-CONSTRAINED-WHOLE-SYSTEM-PRELINGUAL-CONTROL-LOOP",
+      "truth_authority": "NONE"
+    },
+    "MS1403_1427_ACTION_OUTCOME_PREDICTIVE_RELATION_LEARNING": {
+      "integrated": [
+        "DURABLE_EXECUTED_ACTION_ACTUAL_OUTCOME_EXPERIENCE",
+        "PROPOSAL_ONLY_ACTION_OUTCOME_PREDICTIVE_CANDIDATE",
+        "INDEPENDENT_HOLDOUT_QUALIFICATION",
+        "CURRENTNESS_BOUND_QUALIFIED_EXPERIENCE_DERIVED_RELATION",
+        "QUALIFIED_RELATION_REUSE_IN_BOUNDED_REHEARSAL"
+      ],
+      "integration_evidence_through_ms": 1427,
+      "not_integrated": [
+        "INTENTION_AS_LEARNING_LABEL",
+        "ONE_OUTCOME_AS_LAW",
+        "PASSIVE_COOCCURRENCE_AS_ACTION_CAUSALITY",
+        "SELF_QUALIFICATION",
+        "GENERAL_CAUSAL_LEARNER",
+        "AUTOMATIC_MODEL_REWRITE",
+        "LANGUAGE",
+        "NUMERICAL_SELFHOOD"
+      ],
+      "research_terminal_ms": 1427,
+      "schema": "microseed.maindev-integration.v2.5",
+      "source_campaign": "MICROSEED_MS1403_1427_ACTION_OUTCOME_PREDICTIVE_RELATION_LEARNING_25_PASS_CAMPAIGN_2026-08-22.zip",
+      "source_campaign_sha256": "8b884b67e841e095e28dbcdfca962ac0260f885ceb3102439d3a13dcc487e28f"
+    }
+  },
+  "main_dev_integration_v0_2": {
+    "continuity_parent": {
+      "name": "MICROSEED_THROUGH_MS852_CONTINUITY_BUNDLE_2026-08-21.zip",
+      "sha256": "94b40b7055484aaae2cd1d2e34552b41070d318f9073d08e1ad68261b5bf0c13"
+    },
+    "explicitly_not_promoted": [
+      "lab recurrence miner as endogenous discovery",
+      "autonomous capability admission",
+      "autonomous developmental capability closure",
+      "semantic context ontology",
+      "self-constructed action/effect frame",
+      "language cognition"
+    ],
+    "parent_embodiment": {
+      "name": "PROTO_MICROSEED_REUNIFIED_EMBODIMENT_V0_1_2026-08-21.zip",
+      "sha256": "1eea25559abd2f69eca7490b9309c7e849508d4545f4e5d9541c1863cb32335c"
+    },
+    "promoted_narrowly": [
+      "transitive executable capability invalidation",
+      "synchronized executable/developmental capability dependency registration",
+      "proposal-only capability candidate lifecycle",
+      "external content-bound qualification ticket consumption",
+      "opaque operational-scope metadata/check",
+      "zero-evidence qualification rejection"
+    ],
+    "trigger_campaign": {
+      "name": "MICROSEED_MS828_852_CROSS_FAMILY_DEVELOPMENTAL_CAPABILITY_CLOSURE_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "d9f88ac85c5bc81c31e8af678bb188de67d095e4db2e010d0cf1d6c9cb2211dc"
+    }
+  },
+  "main_dev_integration_v0_3": {
+    "authority_ceiling": "ENDOGENOUS_DISCOVERY_IS_PROPOSAL_ONLY__EXTERNAL_QUALIFICATION_RETAINS_TRUTH_ADMISSION_AUTHORITY",
+    "date": "2026-08-21",
+    "explicitly_not_promoted": [
+      "GENERAL_CAPABILITY_DISCOVERY",
+      "SELF_QUALIFICATION",
+      "SELF_CONSTRUCTED_TRACE_BOUNDARIES",
+      "SELF_CONSTRUCTED_EFFECT_COORDINATES",
+      "SELF_CONSTRUCTED_ACTION_EFFECT_FRAME",
+      "GENERAL_PROGRAM_SYNTHESIS",
+      "SEMANTIC_ONTOLOGY",
+      "LANGUAGE_COGNITION",
+      "PERSISTENT_DEVELOPMENTAL_SELFHOOD"
+    ],
+    "integration_debt_resolved": [
+      "MS862_EVIDENCE_RESOLVED_FALSE_GREEN",
+      "MS863_PROPOSAL_QUALIFICATION_EVIDENCE_BINDING_SEAM",
+      "MS865_PENDING_CANDIDATE_DEPENDENCY_DRIFT_FALSE_GREEN"
+    ],
+    "parent_main_dev_artifact": {
+      "name": "PROTO_MICROSEED_MAINDEV_INTEGRATION_V0_2_THROUGH_MS852_2026-08-21.zip",
+      "sha256": "1bd2040bb0d712486326f5d769ca9a9d0b7417b68e51d4b72156765765ee357d"
+    },
+    "prelingual_assistance_denominator": [
+      "SUPPLIED_TRACE_BOUNDARIES",
+      "SUPPLIED_EFFECT_COORDINATES",
+      "STABLE_CAPABILITY_HANDLE_IDENTITY",
+      "FIXED_CONTIGUOUS_MOTIF_LANGUAGE_LEN_2_3",
+      "FIXED_DISCOVERY_THRESHOLDS",
+      "SINGLETON_BASELINE_ESTIMATOR",
+      "CROSS_SCOPE_RESIDUAL_HOMOGENEITY_RULE"
+    ],
+    "promoted_narrowly": [
+      "BOUNDED_ENTITY_SIDE_OPERATIONAL_TRACE_RECORDING_WITH_ENTITY_CAPTURED_DEPENDENCY_EPOCHS",
+      "BOUNDED_ENDOGENOUS_PROPOSAL_NOMINATION_FROM_RECURRENT_NON_ADDITIVE_EFFECT_RESIDUALS",
+      "PROPOSAL_EVIDENCE_SEPARATE_FROM_POST_NOMINATION_QUALIFICATION_EVIDENCE",
+      "FIXED_QUALIFIER_REQUIRES_SUPPORTIVE_EPISTEMIC_DISPOSITION",
+      "ADMISSION_TIME_PREREQUISITE_CURRENTNESS_AND_EPOCH_RECHECK",
+      "CROSS_SCOPE_RESIDUAL_HOMOGENEITY_FOR_GLOBAL_PROPOSAL_NOMINATION"
+    ],
+    "schema": "microseed.maindev-integration.v0.3",
+    "trigger_campaign": {
+      "name": "MICROSEED_MS853_877_ENDOGENOUS_CAPABILITY_DISCOVERY_ADMISSION_BRIDGE_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "a25097ef33ffa11e9141f8877655c13c819be65eb0a95680c5be4542b8d2f0c8"
+    }
+  },
+  "main_dev_integration_v0_4": {
+    "authority_ceiling": "FRAME_REGISTRATION_CONSUMES_EXTERNALLY_QUALIFIED_CONTRACT__NO_FRAME_SELF_QUALIFICATION",
+    "date": "2026-08-21",
+    "explicitly_not_promoted": [
+      "GENERAL_SENSORIMOTOR_FRAME_CONSTRUCTION",
+      "SEMANTIC_EFFECT_COORDINATE_IDENTITY",
+      "SEMANTIC_ACTION_IDENTITY",
+      "GENERAL_ACTION_CORRESPONDENCE_SEARCH",
+      "OVERLAP_DECONVOLUTION",
+      "ENDOGENOUS_EPISODE_TRACE_GROUPING",
+      "SELF_QUALIFICATION",
+      "LANGUAGE",
+      "PERSISTENT_SELFHOOD"
+    ],
+    "integration_debt_open": [
+      "ENDOGENOUS_EPISODE_TRACE_GROUPING",
+      "GENERAL_ACTION_CORRESPONDENCE_SEARCH",
+      "NONLINEAR_SENSORIMOTOR_FRAME",
+      "PERSISTENT_DEVELOPMENTAL_IDENTITY"
+    ],
+    "integration_debt_resolved": [
+      "MS895_FRAME_CURRENTNESS_NOT_FIRST_CLASS"
+    ],
+    "parent_main_dev_artifact": {
+      "name": "PROTO_MICROSEED_MAINDEV_INTEGRATION_V0_3_THROUGH_MS877_2026-08-21.zip",
+      "sha256": "61c3ed272c7290149c199e4c06d5cccba564464291562cfa0ad9df830f9d9f89"
+    },
+    "promoted_narrowly": [
+      "EXTERNALLY_QUALIFIED_OPERATIONAL_FRAME_CONTRACT",
+      "FRAME_EPOCH_CURRENTNESS_REGISTRY",
+      "TRACE_FRAME_EPOCH_BINDING",
+      "CANDIDATE_FRAME_ANCESTRY",
+      "ADMISSION_TIME_FRAME_EPOCH_RECHECK",
+      "TRANSITIVE_FRAME_BOUND_CAPABILITY_INVALIDATION"
+    ],
+    "schema": "microseed.maindev-integration.v0.4",
+    "trigger_campaign": {
+      "name": "MICROSEED_MS878_902_SELF_CONSTRUCTED_DISCOVERY_FRAME_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "fef97769d09333b82f9870c211af361c821ec25907a2b0ec431e6f653e335f1c"
+    }
+  },
+  "main_dev_integration_v0_5": {
+    "authority_ceiling": "EPISODE_SCHEMA_REGISTRATION_CONSUMES_EXTERNALLY_QUALIFIED_CONTRACT__NO_EPISODE_SELF_QUALIFICATION_OR_GENERAL_GROUPING_AUTHORITY",
+    "date": "2026-08-21",
+    "explicitly_not_promoted": [
+      "GENERAL_ENDOGENOUS_EPISODE_CONSTRUCTION",
+      "GENERAL_EPISODE_PARTITION_SEARCH",
+      "GENERAL_OVERLAP_DECONVOLUTION",
+      "PERSISTENT_EPISODE_IDENTITY",
+      "PERSISTENT_DEVELOPMENTAL_SELFHOOD",
+      "ENDOGENOUS_VALUE_ANATOMY",
+      "GENERAL_GOAL_RELATIVE_EPISODE_BOUNDARIES",
+      "SELF_QUALIFICATION",
+      "LANGUAGE_COGNITION"
+    ],
+    "integration_debt_open": [
+      "GENERAL_ENDOGENOUS_EPISODE_CONSTRUCTION",
+      "PERSISTENT_DEVELOPMENTAL_BIOGRAPHY_IDENTITY",
+      "ENDOGENOUS_VALUE_GOAL_BOUNDARY",
+      "GENERAL_OVERLAP_DECONVOLUTION",
+      "GENERAL_EPISODE_PARTITION_SEARCH"
+    ],
+    "integration_debt_resolved": [
+      "MS921_EPISODE_SCHEMA_CURRENTNESS_NOT_FIRST_CLASS"
+    ],
+    "parent_main_dev_artifact": {
+      "name": "PROTO_MICROSEED_MAINDEV_INTEGRATION_V0_4_THROUGH_MS902_2026-08-21.zip",
+      "sha256": "0f02e981e38beaec8ce6e3c05b0891b957da83440360d9ba390287bdb633a277"
+    },
+    "promoted_narrowly": [
+      "EXTERNALLY_QUALIFIED_OPERATIONAL_EPISODE_SCHEMA_CONTRACT",
+      "EPISODE_SCHEMA_EPOCH_CURRENTNESS_REGISTRY",
+      "TRACE_EPISODE_SCHEMA_EPOCH_BINDING",
+      "CANDIDATE_EPISODE_SCHEMA_ANCESTRY",
+      "ADMISSION_TIME_EPISODE_SCHEMA_EPOCH_RECHECK",
+      "TRANSITIVE_EPISODE_SCHEMA_BOUND_CAPABILITY_INVALIDATION",
+      "PERSISTED_TRACE_REFERENCE_TO_EPISODE_SCHEMA_PROVENANCE"
+    ],
+    "schema": "microseed.maindev-integration.v0.5",
+    "trigger_campaign": {
+      "name": "MICROSEED_MS903_927_ENDOGENOUS_EPISODE_TRACE_GROUPING_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "d6aacb200501e6af7158d3c2ef5b709dab275e7c118e0c21ca4257f161118448"
+    }
+  },
+  "main_dev_integration_v0_6": {
+    "authority_ceiling": "OPERATIONAL_DEVELOPMENTAL_LINEAGE_ONLY__IDENTITY_CLAIM_NOT_QUALIFIED",
+    "date": "2026-08-21",
+    "evidence_through_ms": 952,
+    "explicitly_not_promoted": [
+      "PERSISTENT_SELFHOOD",
+      "GENERAL_CAUSAL_PARENT_DISCOVERY",
+      "GENERAL_BIOGRAPHY_MERGE_POLICY",
+      "IDENTITY_UNDER_ARBITRARY_STRUCTURAL_REWRITE",
+      "ENDOGENOUS_VALUE_ANATOMY",
+      "LANGUAGE_COGNITION"
+    ],
+    "frontier": "ATTN-MS952-ENDOGENOUS-VALUE-GOAL-ANATOMY__REACTIVATES_MS925_926",
+    "identity_claim": "NOT_QUALIFIED",
+    "ms953_started": false,
+    "parent_main_dev_artifact": {
+      "name": "PROTO_MICROSEED_MAINDEV_INTEGRATION_V0_5_THROUGH_MS927_2026-08-21.zip",
+      "sha256": "6dc49e97ffede9155e83161f26937aab7d1b970d51f39fc6c3891327a4576e14"
+    },
+    "promoted_narrowly": [
+      "CONTENT_BOUND_CAUSAL_DEVELOPMENTAL_BIOGRAPHY_LEDGER",
+      "RESTART_BIOGRAPHY_RECONSTRUCTION",
+      "TYPED_LINEAGE_RELATION_API"
+    ],
+    "promotion": "CONTENT_BOUND_CAUSAL_DEVELOPMENTAL_BIOGRAPHY_CONTINUITY_PLUMBING",
+    "schema": "microseed.maindev-integration.v0.6",
+    "trigger_campaign": "MICROSEED_MS928_952_PERSISTENT_DEVELOPMENTAL_BIOGRAPHY_IDENTITY_25_PASS_CAMPAIGN_2026-08-21.zip",
+    "trigger_campaign_sha256": "5df3f884947aef7efaa139a1d9dc4f7bfeca8b51a78508e49a692c6e17116c63"
+  },
+  "main_dev_integration_v0_7": {
+    "authority_ceiling": "DERIVED_REGULATORY_PRESSURE_ONLY__SEMANTIC_GOAL_AUTHORITY_NONE__CONSTITUTIONAL_VALUE_CONTRACT_EXTERNALLY_QUALIFIED",
+    "date": "2026-08-21",
+    "evidence_through_ms": 977,
+    "explicitly_not_promoted": [
+      "ENDOGENOUS_VALUE_ORIGIN",
+      "GENERAL_GOAL_FORMATION",
+      "SELF_MODIFIABLE_VALUE_AUTHORITY",
+      "GENERAL_CAUSAL_AUTHORSHIP_DISCOVERY",
+      "GENERAL_HIERARCHICAL_CONTROL",
+      "AUTONOMOUS_CHILD_OVERRIDE_AUTHORITY",
+      "SELF_QUALIFICATION",
+      "LANGUAGE_COGNITION",
+      "PERSISTENT_SELFHOOD"
+    ],
+    "frontier": "ATTN-MS977-HIERARCHICAL-COMPETENCE-GOAL-RECRUITMENT__REACTIVATES_GRAND_P1_P5",
+    "ms978_started": false,
+    "parent_main_dev_artifact": {
+      "name": "PROTO_MICROSEED_MAINDEV_INTEGRATION_V0_6_THROUGH_MS952_2026-08-21.zip",
+      "sha256": "b8bfbd9467be031222a23fee1d13d451ddfbc878569421b185c6c7f1bb2114ba"
+    },
+    "promoted_narrowly": [
+      "EXTERNALLY_QUALIFIED_CONSTITUTIONAL_VALUE_VARIABLE_CONTRACT",
+      "VALUE_VARIABLE_EPOCH_CURRENTNESS_REGISTRY",
+      "INTERNAL_SIGNED_BIPOLAR_REGULATORY_PRESSURE_FROM_CURRENT_STATE_PLUS_VIABLE_INTERVAL",
+      "VALUE_ANCESTRY_ON_EPISODE_SCHEMAS_AND_CAPABILITIES",
+      "PENDING_CANDIDATE_VALUE_EPOCH_RECHECK",
+      "TRANSITIVE_VALUE_BOUND_EPISODE_CAPABILITY_INVALIDATION"
+    ],
+    "schema": "microseed.maindev-integration.v0.7",
+    "trigger_campaign": {
+      "name": "MICROSEED_MS953_977_ENDOGENOUS_VALUE_GOAL_ANATOMY_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "911cfcf2a759453b4365b39123879d02e8401b8d160e5a0ec51f9be293697f4e"
+    }
+  },
+  "main_dev_integration_v0_8": {
+    "authority_ceiling": "MODEL_OUTPUT_ONLY_RECRUITMENT_PROPOSAL__SEMANTIC_GOAL_AUTHORITY_NONE__NO_SELF_QUALIFICATION",
+    "date": "2026-08-21",
+    "evidence_through_ms": 1002,
+    "explicitly_not_promoted": [
+      "GENERAL_PARENT_CHILD_INVERSE_LEARNING",
+      "RESEARCH_FORWARD_REHEARSAL_PLANNER",
+      "ENDOGENOUS_RECRUITMENT_TOPOLOGY",
+      "SEMANTIC_CHILD_ROLE_IDENTITY",
+      "PARENT_OVERRIDE_OF_CHILD_FEASIBILITY",
+      "GENERAL_HIERARCHICAL_PLANNING",
+      "GENERAL_GOAL_FORMATION",
+      "SELF_QUALIFICATION",
+      "LANGUAGE_COGNITION",
+      "PERSISTENT_SELFHOOD"
+    ],
+    "frontier": "ATTN-MS1002-ENDOGENOUS-RECRUITMENT-TOPOLOGY__REACTIVATES_GRAND_P7_DEVELOPMENTAL_STRUCTURAL_GROWTH",
+    "ms1003_started": false,
+    "parent_main_dev_artifact": {
+      "name": "PROTO_MICROSEED_MAINDEV_INTEGRATION_V0_7_THROUGH_MS977_2026-08-21.zip",
+      "sha256": "e023720cb8a93cb40f56cc4726949b75ba0193dae4c669cbd1de93f0ff18168c"
+    },
+    "promoted_narrowly": [
+      "TYPED_SUBORDINATE_FEASIBILITY",
+      "RECRUITMENT_PROPOSAL_CURRENTNESS_REGISTRY",
+      "CHILD_CAPABILITY_EPOCH_RECHECK",
+      "VALUE_EPOCH_RECHECK",
+      "JOINT_RESOURCE_CONFLICT_GUARD",
+      "OPERATIONAL_SCOPE_GUARD",
+      "EXISTING_CAPABILITY_COMPOSER_REUSE",
+      "SUPPLIED_ROLE_TOPOLOGY_ASSISTANCE_ANCESTRY"
+    ],
+    "schema": "microseed.maindev-integration.v0.8",
+    "trigger_campaign": {
+      "name": "MICROSEED_MS978_1002_HIERARCHICAL_COMPETENCE_GOAL_RECRUITMENT_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "347d75e3d8a997794f9de10b37f54e09061b92d889d535443845c4b5fa605fdf"
+    }
+  },
+  "main_dev_integration_v0_9": {
+    "integration_evidence_through_ms": 1027,
+    "ms1028_started": false,
+    "next_ms": 1028,
+    "not_promoted": [
+      "pairwise topology learner",
+      "general higher-order topology construction",
+      "semantic parent/child roles",
+      "identity authority",
+      "persistent selfhood",
+      "language cognition"
+    ],
+    "parent_entity": "PROTO_MICROSEED_MAINDEV_INTEGRATION_V0_8_THROUGH_MS1002_2026-08-21.zip",
+    "promoted": [
+      "externally-qualified operational recruitment topology contract/currentness",
+      "topology-bound recruitment/capability dependencies",
+      "constituent drift -> topology stale -> dependent closure stale",
+      "pending candidate topology-epoch recheck"
+    ],
+    "research_terminal_ms": 1027,
+    "schema": "microseed.maindev-integration.v0.9",
+    "trigger_campaign": {
+      "name": "MICROSEED_MS1003_1027_ENDOGENOUS_RECRUITMENT_TOPOLOGY_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "97d08f0ad6c0b2aab95511454242e3526b5e9af838e091a703577af396eaa902"
+    }
+  },
+  "main_dev_integration_v1_0": {
+    "integration_evidence_through_ms": 1052,
+    "ms1053_started": false,
+    "next_ms": 1053,
+    "not_promoted": [
+      "persistent numerical selfhood",
+      "semantic self identity",
+      "execution uniqueness",
+      "internal original-copy selector",
+      "external canonical continuation/lease infrastructure",
+      "general biography merge identity semantics",
+      "social/other-agent discriminator",
+      "language cognition"
+    ],
+    "parent_entity": "PROTO_MICROSEED_MAINDEV_INTEGRATION_V0_9_THROUGH_MS1027_2026-08-21.zip",
+    "promoted": [
+      "typed branch-relative developmental continuity witness",
+      "explicit copy-ambiguity semantics for same biography graph state",
+      "lineage-only authority ceiling",
+      "explicit no internal exclusive-successor authority"
+    ],
+    "research_terminal_ms": 1052,
+    "schema": "microseed.maindev-integration.v1.0",
+    "trigger_campaign": {
+      "name": "MICROSEED_MS1028_1052_STRUCTURAL_REWRITE_DEVELOPMENTAL_IDENTITY_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "3a9eb954a12b70c8e4fdd6e5ee30a11e8bcd4595525fd797cbf4804d0f09ffb8"
+    }
+  },
+  "maindev_integration_v1_1": {
+    "integration_evidence_through_ms": 1077,
+    "non_promotions": [
+      "semantic self/other ontology",
+      "persistent other-agent identity",
+      "general theory of mind",
+      "general multi-agent planning",
+      "synthetic actor-discriminator as entity authority"
+    ],
+    "promotions": [
+      "opaque operational counterparty currentness registry",
+      "counterparty epoch checks for pending capability admission",
+      "counterparty-dependent transitive capability staling"
+    ],
+    "research_terminal_ms": 1077,
+    "schema": "microseed.maindev-integration.v1.1",
+    "trigger_campaign": {
+      "name": "MICROSEED_MS1053_1077_BRANCH_RELATIVE_AGENCY_OTHER_AGENT_25_PASS_CAMPAIGN_2026-08-21.zip",
+      "sha256": "3cdd0e7563faaf59c89d35f610410c2b2b8844f23e3d69b8cad0bd0b123e11fa"
+    }
+  },
+  "maindev_integration_v1_2": {
+    "integrated": [
+      "OPERATIONAL_COORDINATION_CONTRACT",
+      "RELATION_SPECIFIC_COORDINATION_EPOCH_CURRENTNESS",
+      "CAPABILITY_COORDINATION_DEPENDENCY",
+      "PENDING_CANDIDATE_COORDINATION_EPOCH_RECHECK"
+    ],
+    "not_integrated": [
+      "AUTONOMOUS_COORDINATION_DISCOVERY",
+      "SEMANTIC_COMMITMENT_OR_PROMISE",
+      "INTENTION_ATTRIBUTION",
+      "PERSISTENT_OTHER_AGENT_IDENTITY",
+      "GENERAL_MULTI_AGENT_PLANNING",
+      "GENERAL_HIGHER_ORDER_JOINT_RELATION_LANGUAGE"
+    ],
+    "source_campaign": "MICROSEED_MS1078_1102_PRELINGUAL_COORDINATION_JOINT_ACTION_25_PASS_CAMPAIGN_2026-08-21.zip",
+    "source_campaign_sha256": "a53f64580e39f7e6a64ce6c3f806381579834159a2920e741325ba7b38cddcee"
+  },
+  "maindev_integration_v1_3": {
+    "integrated": [
+      "EPISODE_SCHEMA_COORDINATION_EPOCH_ANCESTRY",
+      "EPISODE_SCHEMA_COUNTERPARTY_EPOCH_ANCESTRY",
+      "COORDINATION_TO_EPISODE_INVALIDATION",
+      "COUNTERPARTY_TO_DISTRIBUTED_EPISODE_INVALIDATION"
+    ],
+    "integration_evidence_through_ms": 1127,
+    "not_integrated": [
+      "GENERAL_ENDOGENOUS_EPISODE_CONSTRUCTOR",
+      "SEMANTIC_JOINT_GOAL",
+      "GENERAL_MULTI_AGENT_PLANNING",
+      "GENERAL_HIGHER_ORDER_DISTRIBUTED_EPISODE_LANGUAGE",
+      "PERSISTENT_OTHER_AGENT_IDENTITY",
+      "LANGUAGE"
+    ],
+    "research_terminal_ms": 1127,
+    "schema": "microseed.maindev-integration.v1.3",
+    "source_campaign": "MICROSEED_MS1103_1127_DISTRIBUTED_TEMPORAL_COMPETENCE_JOINT_EPISODE_25_PASS_CAMPAIGN_2026-08-21.zip",
+    "source_campaign_sha256": "bf16136bd7f772402b17d79333a86bc21421094222bfb8551b0c6d25080a6e94"
+  },
+  "maindev_integration_v1_4": {
+    "integrated": [
+      "ZERO_DISAGREEMENT_PROBE_FIX",
+      "DURABLE_CLASS_C_ACTION_LIMITED_EPISTEMIC_DEFICIT_LIFECYCLE"
+    ],
+    "integration_evidence_through_ms": 1152,
+    "not_integrated": [
+      "GENERAL_ACTIVE_LEARNING_PLANNER",
+      "GENERAL_DISCRIMINATOR_SYNTHESIS",
+      "SEMANTIC_QUESTION_ONTOLOGY",
+      "LANGUAGE",
+      "NUMERICAL_SELFHOOD"
+    ],
+    "research_terminal_ms": 1152,
+    "schema": "microseed.maindev-integration.v1.4",
+    "source_campaign": "MICROSEED_MS1128_1152_ACTION_LIMITED_UNKNOWN_DISCRIMINATOR_GROWTH_25_PASS_CAMPAIGN_2026-08-21.zip",
+    "source_campaign_sha256": "b1dec2e02cba05a13b3e7f4fa180ca94803ac3c1153ab1c10c514cc715d4b3b9"
+  },
+  "maindev_integration_v1_5": {
+    "integrated": [
+      "OPAQUE_TYPED_EPISTEMIC_PREMISE_CURRENTNESS_ANCHORS",
+      "SELECTIVE_STALE_TRANSITION",
+      "PROBE_LOSS_VS_PREMISE_DRIFT_SPLIT",
+      "STALE_PRESSURE_SUPPRESSION",
+      "EXPLICIT_CONTENT_BOUND_REVISIT_REQUEST",
+      "PRESSURE_AND_REVISIT_ELIGIBILITY_SURFACES",
+      "DURABLE_REPLAY"
+    ],
+    "integration_evidence_through_ms": 1177,
+    "not_integrated": [
+      "ENDOGENOUS_EVIDENCE_RELEVANCE_CLASSIFIER",
+      "GENERAL_QUESTION_REVISIT_SCHEDULER",
+      "GENERAL_ACTIVE_LEARNING_PLANNER",
+      "SEMANTIC_QUESTION_ONTOLOGY",
+      "AUTONOMOUS_HYPOTHESIS_LANGUAGE",
+      "LANGUAGE",
+      "NUMERICAL_SELFHOOD"
+    ],
+    "research_terminal_ms": 1177,
+    "schema": "microseed.maindev-integration.v1.5",
+    "source_campaign": "MICROSEED_MS1153_1177_EPISTEMIC_DEFICIT_CURRENTNESS_QUESTION_REVISIT_25_PASS_CAMPAIGN_2026-08-21.zip",
+    "source_campaign_sha256": "be7a80b5ff3927e517cde0f2c2ddfe8d4073cba6dd1073117e65eb46e809e95e"
+  },
+  "maindev_integration_v1_6": {
+    "integrated": [
+      "OPAQUE_EPISTEMIC_PROJECTION_CURRENTNESS_HANDLE",
+      "EXACT_HYPOTHESIS_BOUND_OPAQUE_CONTRAST_BINDING",
+      "BOUNDED_EPISTEMIC_BEARING_WITNESS",
+      "DISCRIMINATES_LIVE_SET_TO_REVISIT_REQUEST",
+      "MODEL_SPACE_CHALLENGE_TO_REVISIT_WITHOUT_HYPOTHESIS_REPLACEMENT",
+      "CONSENSUS_NONDISCRIMINATING_SUPPRESSION",
+      "PROJECTION_AND_CONTRAST_STALE_PROPAGATION",
+      "EVIDENCE_REPLAY_DEDUPLICATION",
+      "DURABLE_PROJECTION_CONTRAST_WITNESS_REPLAY"
+    ],
+    "integration_evidence_through_ms": 1202,
+    "not_integrated": [
+      "RAW_OBSERVATION_TO_EPISTEMIC_PROJECTION_DISCOVERY",
+      "ENDOGENOUS_CONTRAST_COORDINATE_FORMATION",
+      "SEMANTIC_QUESTION_ONTOLOGY",
+      "GENERAL_QUESTION_REVISIT_SCHEDULER",
+      "GENERAL_ACTIVE_LEARNING_PLANNER",
+      "AUTONOMOUS_HYPOTHESIS_LANGUAGE",
+      "LANGUAGE",
+      "NUMERICAL_SELFHOOD"
+    ],
+    "research_terminal_ms": 1202,
+    "schema": "microseed.maindev-integration.v1.6",
+    "source_campaign": "MICROSEED_MS1178_1202_OPAQUE_EVIDENCE_DEFICIT_RELEVANCE_BINDING_25_PASS_CAMPAIGN_2026-08-21.zip",
+    "source_campaign_sha256": "7fd8355bf8774f4d1ec018a2c155279eaaaf031a9a95341cc3ef43080e2355b2"
+  },
+  "maindev_integration_v2_0": {
+    "integrated": [
+      "QUALIFIED_ALTERNATIVE_STRUCTURE_WITNESS",
+      "NAMED_HISTORICAL_PROJECTION_RECURRENCE_EVIDENCE",
+      "EXTERNALLY_REQUALIFIED_NEW_EPOCH_REACTIVATION",
+      "OLD_CONTRAST_STALENESS_PRESERVED"
+    ],
+    "integration_evidence_through_ms": 1302,
+    "not_integrated": [
+      "DRIFT_CAUSE_CLASSIFIER",
+      "NOISE_IDENTITY",
+      "REGIME_IDENTITY",
+      "GLOBAL_REGIME_SEARCH",
+      "AUTOMATIC_MODEL_SWITCHER",
+      "SELF_QUALIFICATION",
+      "LANGUAGE",
+      "NUMERICAL_SELFHOOD"
+    ],
+    "research_terminal_ms": 1302,
+    "schema": "microseed.maindev-integration.v2.0",
+    "source_campaign": "MICROSEED_MS1278_1302_DRIFT_CAUSE_RECURRENCE_25_PASS_CAMPAIGN_2026-08-22.zip",
+    "source_campaign_sha256": "501dd161d1dee0a67f985f328aefe901a6451ab7f4fb1f5b913d11b0f492e9f1"
+  },
+  "maindev_integration_v2_1": {
+    "integrated": [
+      "CURRENT_DISAGREEMENT_PROBE_SELECTION",
+      "REPEATED_EXACT_OUTCOME_DISCRIMINATION",
+      "ACTION_LIMITED_CURRENT_PROBE_ACCESS",
+      "MODEL_SPACE_CHALLENGE_ON_UNPREDICTED_PROBE_OUTCOME"
+    ],
+    "integration_evidence_through_ms": 1327,
+    "not_integrated": [
+      "SEMANTIC_DRIFT_CAUSE_CLASSIFIER",
+      "INTERVENTION_SYNTHESIS",
+      "GENERAL_MULTI_STEP_ACTIVE_LEARNING",
+      "GENERAL_STRUCTURAL_NON_IDENTIFIABILITY_THEOREM",
+      "LEARNED_NOISE_MODEL",
+      "AUTOMATIC_MODEL_SWITCHER",
+      "SELF_QUALIFICATION",
+      "LANGUAGE",
+      "NUMERICAL_SELFHOOD"
+    ],
+    "research_terminal_ms": 1327,
+    "schema": "microseed.maindev-integration.v2.1",
+    "source_campaign": "MICROSEED_MS1303_1327_DISCRIMINATING_INTERVENTION_DRIFT_CAUSE_25_PASS_CAMPAIGN_2026-08-22.zip",
+    "source_campaign_sha256": "a3eb8e8dc3fb986af7df376b777d36573f25d382ffd808ff40577261a629fbda"
+  },
+  "maindev_integration_v2_2": {
+    "integrated": [
+      "BOUNDED_COUNTERFACTUAL_REHEARSAL_PROPOSAL",
+      "CURRENTNESS_BOUND_REHEARSAL_ANCESTRY",
+      "EXTERNAL_QUALIFICATION_ONLY_REHEARSED_WHOLE_ADMISSION",
+      "SECOND_ORDER_CAPABILITY_CLOSURE"
+    ],
+    "integration_evidence_through_ms": 1352,
+    "not_integrated": [
+      "GENERAL_PLANNER",
+      "GENERAL_COUNTERFACTUAL_WORLD_MODEL",
+      "EXECUTION_AUTHORITY_FROM_REHEARSAL",
+      "SELF_QUALIFICATION",
+      "LANGUAGE",
+      "NUMERICAL_SELFHOOD",
+      "TERNARY_RELATIONAL_COMMITMENT_ARCHITECTURE"
+    ],
+    "research_terminal_ms": 1352,
+    "schema": "microseed.maindev-integration.v2.2",
+    "source_campaign": "MICROSEED_MS1328_1352_QUALIFIED_COUNTERFACTUAL_REHEARSAL_WHOLE_SYSTEM_CLOSURE_25_PASS_CAMPAIGN_2026-08-22.zip",
+    "source_campaign_sha256": "395b8a6fde7d874be8b98abee114ee3bc24cef6ed5f0aa99955fd7213512c11a"
+  },
+  "maindev_integration_v2_3": {
+    "adapter_layer": "INTEGRATED",
+    "bulk_rewrite": "REJECTED",
+    "integration_terminal_ms": 1377,
+    "ms1378_started": false,
+    "research_terminal_ms": 1377,
+    "status": "SEALED_AFTER_CLEAN_RELEASE_REPLAY",
+    "trch_disposition": "NARROWED_SURVIVED"
+  },
+  "maindev_integration_v2_5": {
+    "child": "v2.5/MS1427",
+    "integration_terminal_ms": 1427,
+    "intention_as_learning_label": "FORBIDDEN",
+    "model_switch_authority_from_prediction_error": "NONE",
+    "ms1428_started": false,
+    "parent": "v2.4/MS1402",
+    "research_terminal_ms": 1427,
+    "selected_frontier_after_integration": "ATTN-MS1427-LEARNED-PREDICTIVE-LAW-DRIFT-AND-RELEARNING__WHOLE-SYSTEM-ADAPTIVE-DEVELOPMENTAL-CLOSURE",
+    "self_qualification": "NONE",
+    "status": "SEALED_AFTER_CLEAN_RELEASE_REPLAY"
+  },
+  "maindev_integration_v2_6": {
+    "campaign_sha256": "ee42639891bcc58027ce839c90ab251b86d197ec0c10d3de3bdc37e95c4d5a8f",
+    "child": "v2.6/MS1452",
+    "drift_cause_authority": "NONE",
+    "integration_terminal_ms": 1452,
+    "model_switch_authority": "NONE",
+    "ms1453_started": false,
+    "parent": "v2.5/MS1427",
+    "research_terminal_ms": 1452,
+    "selected_frontier_after_integration": "ATTN-MS1452-DYNAMIC-PREDICTIVE-STATE-ABSTRACTION__MUTATE-FORK-SPLIT-FACTORIZE-DEFER",
+    "self_qualification": "NONE",
+    "semantic_regime_authority": "NONE",
+    "status": "SEALED_AFTER_CLEAN_RELEASE_REPLAY"
+  },
+  "maindev_integration_v2_7": {
+    "campaign_sha256": "f63d2617b567c23081ebd933ae1c8f282bfa8547d75583509654589848a41168",
+    "child": "v2.7/MS1477",
+    "global_relation_reactivation_from_scoped_binding": "NONE",
+    "integration_shape": "REUSE_EXISTING_EPISTEMIC_PROJECTION_LINEAGE_PLUS_PROJECTION_CONDITIONED_EXISTING_RELATION_ROUTING",
+    "integration_terminal_ms": 1477,
+    "model_switch_authority": "NONE",
+    "ms1478_started": false,
+    "parent": "v2.6/MS1452",
+    "research_terminal_ms": 1477,
+    "second_state_subsystem": "NOT_INTEGRATED",
+    "selected_frontier_after_integration": "ATTN-MS1477-AUTONOMOUS-MULTI-CHILD-COMPOSITION__INTERACTION-AWARE-PARENT-PREDICTION-AND-REQUEST-SELECTION",
+    "self_qualification": "NONE",
+    "semantic_regime_authority": "NONE",
+    "status": "SEALED_AFTER_CLEAN_RELEASE_REPLAY"
+  },
+  "maindev_integration_v2_8": {
+    "core_relation_growth": 0,
+    "historical_final_exact_bytes_recovered": false,
+    "historical_final_expected_sha256": "c53b6c62992bc8ae30194bc8d77f6cbfd28257cee91b4b59b5ec45dc30c68f8e",
+    "integration_shape": "EXTEND_EXISTING_TRACE_DISCOVERY_CANDIDATE_LINEAGE_WITH_TOPOLOGY_COUNTERPARTY_COORDINATION_EPOCH_ANCESTRY",
+    "integration_terminal_ms": 1502,
+    "multi_child_planner_authority": "NONE",
+    "parallel_composition_architecture": "NOT_INTEGRATED",
+    "parent": "v2.7/MS1477",
+    "parent_command_authority": "NONE",
+    "recovery_lineage": "RECOVERY_LINEAGE_MS1502.json",
+    "repaired_candidate_sha256": "a713fc47aa69603d0bedd535e32c987e8ed548f5669547842c0f58ad1d4d2ba3",
+    "research_campaign_sha256": "18b148ca6428c6706b4237fcb4c1fc58b26d846804e3672039734a20a9c3e2b6",
+    "research_terminal_ms": 1502,
+    "selected_frontier_after_integration": "ATTN-MS1502-RICH-ONLINE-HOSTILE-EMBODIMENT__PERSISTENT-WHOLE-ORGANISM-SCALE-UP",
+    "self_qualification": "NONE",
+    "status": "SEALED_RECOVERED_AFTER_FRESH_CANDIDATE_REQUALIFICATION__FINAL_BYTE_REPLAY_REQUIRED"
+  },
+  "maindev_integration_v2_9": {
+    "integration_shape": "TRANSIENT_REENTRY_PROJECTION_AND_AUTHORITY_NONE_WARRANT_OVER_EXISTING_REGISTRATION_CURRENTNESS_PATHS",
+    "integration_terminal_ms": 1527,
+    "ms1528_started": false,
+    "not_integrated": [
+      "re-entry manager",
+      "re-entry registry",
+      "durable READY state",
+      "snapshot auto-restore",
+      "provider ontology",
+      "automatic restart loop",
+      "compactor/index",
+      "indefinite automatic re-entry",
+      "self-qualification",
+      "language"
+    ],
+    "parent": "recovered-v2.8/MS1502",
+    "parent_canonical_sha256": "91f73e3ba150227bb8c113d09c93834316b67c06c11fcf5ae8512b326df8a37e",
+    "parent_historical_final_expected_sha256": "c53b6c62992bc8ae30194bc8d77f6cbfd28257cee91b4b59b5ec45dc30c68f8e",
+    "promoted_narrowly": [
+      "historical typed registration ancestry projection",
+      "orthogonal external re-entry warrant assessment",
+      "bounded scope compatibility",
+      "dependency-currentness recheck",
+      "end-goal behavioral continuity after lawful re-entry"
+    ],
+    "reentry_readiness_authority": "NONE",
+    "research_campaign": "MICROSEED_MS1503_1527_PERSISTENT_WHOLE_ORGANISM_REENTRY_25_PASS_CAMPAIGN_2026-08-24.zip",
+    "research_campaign_sha256": "d954de87cfd80e52237c4200a3bd58360dbf31eb30f074d5ece1ca3350445217",
+    "research_terminal_ms": 1527,
+    "schema": "microseed.provenance.maindev-integration.v2.9.ms1527.v1",
+    "selected_frontier_after_integration": "ATTN-MS1527-POST-REENTRY-WHOLE-ORGANISM-HOSTILE-EMBODIMENT",
+    "status": "RELEASE_ENTITY_BUILT__EXACT_FINAL_BYTE_REPLAY_REQUIRED"
+  },
+  "maindev_version": "2.9.0-maindev-ms1527",
+  "research_terminal_ms": 1527,
+  "schema": "proto-microseed.provenance.v1.0",
+  "source_files": {
+    "MS175_tiny_c_core_v03": {
+      "bytes": 3497,
+      "sha256": "47de0b5b0eb290d69cff8d6b295dad0cd6194aa2fa3c93a1de81c2170f04fd62",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_repair25/embodiment/tiny_c_core_v0_3_compiled_readouts/microseed_tiny_core_v0_3.c"
+    },
+    "MS225_working_state_6b": {
+      "bytes": 1216,
+      "sha256": "860d61a7f0886be49f0f1502f6b17e66d13763207634190f3e0ff4d4103f3a6f",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_working_state25/embodiment/working_state_6b.c"
+    },
+    "MS250_intent_state": {
+      "bytes": 1137,
+      "sha256": "6e15b1f60b192a8d1f8f8380898b407b7b0dd02a20fe14a74246b79548c068c9",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_multiturn_intent25/embodiment/intent_state.c"
+    },
+    "MS275_micro_composer": {
+      "bytes": 989,
+      "sha256": "7de5d110e29e933a7ec382906279f30d9ef4ef80c22f988f325971e682f2f7d6",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_composable_capability25/embodiment/micro_composer.c"
+    },
+    "MS300_real_capability_contract": {
+      "bytes": 759,
+      "sha256": "42224c401f22019612b0fcb94f05c63dbfe43d64c331c008dc84e69c99e01f2d",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_real_composition25/embodiment/real_capability_runtime_contract.py"
+    },
+    "MS325_qualified_composite_contract": {
+      "bytes": 518,
+      "sha256": "52a636d82bdaed89a72d268768ce3dffab9fda64102b0d63e06745a5b210264e",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_recursive_closure25/embodiment/qualified_composite_runtime_contract.py"
+    },
+    "MS350_runtime_to_hsp_bridge": {
+      "bytes": 1517,
+      "sha256": "bec94e45e9edc689c00ef959cb052d6c408b9de97d2ed63992554d78744534de",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_runtime_to_hsp25/embodiment/runtime_to_hsp_bridge.py"
+    },
+    "MS450_external_observation_runtime": {
+      "bytes": 2961,
+      "sha256": "1784259c5599d075baf173435563b5df13058e597dcb2bd25b07fed83c17125f",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_live_growth25/embodiment/external_observation_runtime.py"
+    },
+    "MS451_market_runtime": {
+      "bytes": 2282,
+      "sha256": "c88fec317227e760cd2abc7b80d4b32cc0c985461c3258084112a51a58ab3a53",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_ms451/embodiment/ms451_market_runtime.py"
+    },
+    "MS477_brain_lab": {
+      "bytes": 31910,
+      "sha256": "be4feaad351e02fd7cb669a4ca0f2fd535f581920c719fdab2538e70a9c8d56b",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_brain_lab25/embodiment/brain_lab_runner.py"
+    },
+    "MS502_open_world": {
+      "bytes": 36936,
+      "sha256": "19ec611732941f3ecc44516a47bb1f90351db46251fd934207b2e7ca01b5d120",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_open_world_cortex25/embodiment/open_world_cortex_runner.py"
+    },
+    "MS50_integrated_python_kernel": {
+      "bytes": 4984,
+      "sha256": "60726809d2df9a2ff5bea8b7ff54b5a0c8eda566dd95045a6bcf28920edad602",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_50/embodiment/integrated_python_kernel_v0_1/microseed_kernel.py"
+    },
+    "MS527_probabilistic": {
+      "bytes": 25117,
+      "sha256": "6154c7cf08f0380c03b44f06e90455ceb9027ee352627dab6dee3e3fcec8c2cf",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_probabilistic_cortex25/embodiment/probabilistic_cortex_runner.py"
+    },
+    "MS552_latent_state": {
+      "bytes": 48441,
+      "sha256": "aef6860decd8cd74c2587b14a3b3ff0f36bdbc830dac638393d01b6fd52fe0b6",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_state_invention25/embodiment/state_invention_runner.py"
+    },
+    "MS577_predictive_geometry": {
+      "bytes": 29115,
+      "sha256": "a771927e258da132ef8a38be567a24611bb1906d33119b2a7a4ae26c26d73009",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_predictive_geometry25/embodiment/predictive_geometry_runner.py"
+    },
+    "MS602_feature_invention": {
+      "bytes": 28620,
+      "sha256": "2cc0b6753ffc89ff029645d19eec4d0c1f1444869fd95783b3421ca0b7ec343c",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_feature_invention25/embodiment/feature_invention_runner.py"
+    },
+    "MS627_concept": {
+      "bytes": 34759,
+      "sha256": "d7397439d64df91ff121550bf0819fe141ce5665cd34efe605bfb562a3b44994",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_concept_formation25/embodiment/concept_lab_runner.py"
+    },
+    "MS652_operator": {
+      "bytes": 34464,
+      "sha256": "92b44f49d331f3f9aee8ec114ee7b83b95b6334662f73eea4a1c5c848e09915b",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_operator_economy50/embodiment/operator_economy_lab_runner.py"
+    },
+    "MS702_language_growth": {
+      "bytes": 31199,
+      "sha256": "d72f88d49731262f0b166af6c575d90c1ee030c95ea3127e2bb9770e12498b39",
+      "source_path": "work_ms726/MICROSEED_MS702_726_EFFECTIVE_REPRESENTATIONAL_LANGUAGE_GROWTH_CORTEX_LAB_25_PASS_CAMPAIGN_2026-08-19/campaign_language_growth25/embodiment/language_growth_lab_runner.py"
+    },
+    "MS727_predicate": {
+      "bytes": 51143,
+      "sha256": "952bd5557d429156ce0eecce5566018420fb9fcf56489e920097278cb3ae7119",
+      "source_path": "work_late/microseed_ms727_751_lab/campaign_runner.py"
+    },
+    "MS752_metalanguage": {
+      "bytes": 52331,
+      "sha256": "8f4772a068f5b5a6660cadf44d8aff02e8f9c9643bb282476ee7250819d273ff",
+      "source_path": "work_late/microseed_ms752_776_lab/campaign_runner.py"
+    },
+    "MS777_event_frame": {
+      "bytes": 56381,
+      "sha256": "5c03497d84e770c877cc0406960e6fec38fdbf796e2591d483843aff11a05ba6",
+      "source_path": "work_late/microseed_ms777_801_lab/campaign_runner.py"
+    }
+  }
+}

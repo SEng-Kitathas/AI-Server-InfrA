@@ -5,22 +5,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pcmmad-receiver"
-version = "30.0.0rc1"
+version = "29.0.0rc1"
 description = "Authenticated local authority, persistence, execution, research, and continuity plane for PCMMAD"
 requires-python = ">=3.12,<3.14"
 dependencies = [
   "Flask>=3,<4",
+  "playwright>=1,<2",
   "requests>=2.31,<3",
   "beautifulsoup4>=4.12,<5",
-  "psutil>=7.2,<8",
-  "prometheus-client>=0.26,<1",
-  "waitress>=3.0,<4",
-]
-
-[project.optional-dependencies]
-browser = ["playwright>=1.45,<2"]
-diagnostics = [
-  "py-spy>=0.4,<1",
 ]
 
 [tool.pytest.ini_options]
@@ -35,14 +27,3 @@ exclude = ["baseline/pcmmad_receiver/.venv", ".pcmmad_gate_runtime"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 ignore = ["E501"]
-
-[tool.setuptools.packages.find]
-where = ["baseline"]
-include = ["pcmmad_receiver*"]
-namespaces = true
-
-[tool.setuptools]
-py-modules = ["api_wire_common", "api_wire_context", "api_wire_execution", "api_wire_models", "api_wire_power", "api_wire_research", "app_factory", "approval_authority", "browser_bridge_service", "context_config", "context_engine", "context_routes", "control_plane_models", "execution_routes", "execution_worker", "governance_runtime", "icf_cs_v12_ingress", "lab_plugins", "lab_policy", "lab_results", "lab_routes", "lab_schema_validation", "lab_state", "lab_tool_primitives", "lab_errors", "lab_tools", "lab_tools_browser", "lab_tools_continuity", "lab_tools_doctrine", "lab_tools_execution", "lab_tools_filesystem", "lab_tools_governance", "lab_tools_icf_ingress", "lab_tools_memory", "lab_tools_mutation_authority", "lab_tools_ops", "lab_tools_project", "lab_tools_protocol", "lab_tools_res", "lab_tools_research", "lab_tools_semantic", "lab_tools_sop", "lab_tools_state", "lab_tools_ucm", "legacy_routes", "observability", "operator_plane", "power_routes", "project_mutation_authority", "protocol_merkle", "protocol_models", "protocol_policy", "protocol_store", "res_runtime", "research_arxiv", "research_config", "research_distill", "research_models", "research_predator", "research_routes", "research_starmap", "restart_control", "runtime_axioms", "runtime_config", "server", "server_hardening", "shared_core", "sop_ingest", "schema_vnext_runtime", "scheduler_effect_profile", "transfer_plane", "ucm_private_migration", "ucm_v1_runtime", "user_continuity_store", "windows_directory_watch", "windows_job_object", "workload_identity"]
-
-[tool.setuptools.package-data]
-pcmmad_receiver = ["*.json", "*.txt", "*.md", "*.cmd", "requirements.txt"]

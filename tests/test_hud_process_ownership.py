@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
-sys.path.insert(0, str(RUNTIME_ROOT.parent))
+sys.path.insert(0, str(RUNTIME_ROOT))
 
 import operator_plane as op
 
@@ -66,16 +66,15 @@ class HudProcessOwnershipTests(unittest.TestCase):
         self.assertFalse(status["ok"])
         self.assertIn("unrecognized process", status["reason"])
 
-    def test_receiver_local_process_with_valid_meta_is_owned_and_healthy(self) -> None:
-        preferred = Path(r"E:\preferred\server.py")
+    def test_recognized_process_with_valid_meta_is_owned_and_healthy(self) -> None:
         identity = {
             "recognized": True,
             "listener": {"pid": 10},
-            "running_server_path": str(preferred),
-            "running_server_source": "receiver_local",
+            "running_server_path": r"E:\hud\server.py",
+            "running_server_source": "legacy_rahl_fallback",
             "kill_root": {"pid": 10},
         }
-        with patch.object(op, "resolve_hud_server", return_value=(preferred, "receiver_local")), patch.object(
+        with patch.object(op, "resolve_hud_server", return_value=(Path(r"E:\preferred\server.py"), "receiver_local")), patch.object(
             op, "_port_open", return_value=True
         ), patch.object(op, "_port_owner_pid", return_value=10), patch.object(
             op, "_hud_process_identity", return_value=identity
@@ -86,15 +85,7 @@ class HudProcessOwnershipTests(unittest.TestCase):
         self.assertTrue(status["healthy"])
         self.assertTrue(status["owned"])
         self.assertTrue(status["ok"])
-        self.assertEqual(status["running_server_source"], "receiver_local")
-
-    def test_legacy_rahl_hud_is_not_a_candidate(self) -> None:
-        with patch.dict("os.environ", {"PCMMAD_HUD_SERVER": ""}, clear=False), patch.object(
-            op, "RECEIVER_LOCAL_HUD", Path(r"Z:\missing\operator_hud\server.py")
-        ):
-            candidates = op._hud_server_candidates()
-        self.assertEqual(candidates, [])
-        self.assertEqual(op.resolve_hud_server()[1] if candidates else "missing", "missing")
+        self.assertEqual(status["running_server_source"], "legacy_rahl_fallback")
 
     def test_stop_refuses_unrecognized_port_owner_without_taskkill(self) -> None:
         status = {"listener_pid": 777, "owned": False, "process_identity": {}}
@@ -135,37 +126,6 @@ class HudProcessOwnershipTests(unittest.TestCase):
         self.assertEqual(result["stopped_root_pid"], 100)
         command = run.call_args.args[0]
         self.assertEqual(command[:3], ["taskkill", "/PID", "100"])
-
-    def test_start_binds_hud_to_actual_receiver_host_and_port(self) -> None:
-        with tempfile.TemporaryDirectory() as td:
-            server = Path(td) / "server.py"
-            server.write_text("print('x')", encoding="utf-8")
-            proc = SimpleNamespace(pid=4321, poll=lambda: None)
-            states = iter(
-                [
-                    {"ok": False},
-                    {"ok": True, "running_server_path": str(server.resolve())},
-                ]
-            )
-            with patch.dict(
-                os.environ,
-                {
-                    "PCMMAD_BIND_HOST": "127.0.0.1",
-                    "PCMMAD_BIND_PORT": "8799",
-                    "PCMMAD_HUD_PORT": "5091",
-                },
-                clear=False,
-            ):
-                os.environ.pop("PCMMAD_RECEIVER_BASE", None)
-                with patch.object(op, "hud_status", side_effect=lambda: next(states)), patch.object(
-                    op, "resolve_hud_server", return_value=(server, "receiver_local")
-                ), patch.object(op, "_port_open", return_value=False), patch.object(
-                    op.subprocess, "Popen", return_value=proc
-                ) as popen:
-                    out = op.ensure_hud_running(wait_seconds=1)
-            self.assertEqual(out["action"], "started")
-            env = popen.call_args.kwargs["env"]
-            self.assertEqual(env["PCMMAD_RECEIVER_BASE"], "http://127.0.0.1:8799")
 
     def test_start_identity_mismatch_cleans_our_launcher_without_killing_other_listener(self) -> None:
         with tempfile.TemporaryDirectory() as td:

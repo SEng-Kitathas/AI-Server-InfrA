@@ -1,0 +1,103 @@
+{
+  "schema": "veya.echo-chamber-earned-boundary.v1",
+  "status": "REMOTE_RD_EXACT",
+  "identity": "Veya",
+  "historical_lineage": "Microseed",
+  "research_branch": "research/grounded-language-gate-v1",
+  "remote_head": "62f9ebbd57ab88b26ffcb40a1fe1b7ef9a233481",
+  "tested_checkpoint": "2a970a993fcc79efc6f654b8a651c9adb8a95804",
+  "broad_verification": "Echo-M04 399/399 PASS across 106 files",
+  "rd_head": "afe0ac087e14cb4e091071d1e726ea861f5e8515",
+  "rd_manifest_sha256": "21bdeeed2ba1afb4f90c6e4a9c788a49ed5fe60475728f67abaf45537b4d698b",
+  "rd_manifest_files": 2069,
+  "earned_language_boundary": {
+    "p01": "grounded referent readout",
+    "p02": "grounded communication use",
+    "p03": "owned grounded concept formation",
+    "p04": "bounded empirical action-to-concept causal composition",
+    "p05": "bounded two-step causal chaining and counterfactual composition",
+    "p06": "causal schema abstraction and held-out cross-context transfer",
+    "echo_m01": "bounded restart-persistent conversational episodic memory over explicit observed utterance events",
+    "echo_m02": "current self-declared conversational call-name preference bound to opaque counterpart ID/epoch",
+    "echo_m03": "neutral recurrent counterpart interaction continuity across multiple distinct owned sessions",
+    "echo_m04": "neutral counterpart model composed only from current earned facets with explicit unknowns"
+  },
+  "authority": {
+    "language": "NONE",
+    "truth": "NONE",
+    "ontology": "NONE",
+    "causal_theorem": "NONE",
+    "planner": "NONE",
+    "execution": "NONE",
+    "value_priority": "NONE",
+    "external_oracle": "NONE",
+    "canon_promotion": "NONE"
+  },
+  "memory_ceiling": {
+    "truth_authority": "NONE",
+    "counterpart_identity_authority": "OPAQUE_EXPERIMENTAL_ID_ONLY",
+    "general_memory_search": "NOT_EARNED",
+    "automatic_transcript_ingestion": "NONE"
+  },
+  "call_name_preference_ceiling": {
+    "human_identity_truth_authority": "NONE",
+    "legal_name_authority": "NONE",
+    "social_relationship_authority": "NONE",
+    "counterpart_identity_authority": "OPAQUE_EXPERIMENTAL_ID_ONLY"
+  },
+  "recurrent_interaction_ceiling": {
+    "friendship_authority": "NONE",
+    "trust_authority": "NONE",
+    "attachment_authority": "NONE",
+    "social_valence_authority": "NONE",
+    "importance_authority": "NONE",
+    "relationship_type_authority": "NONE",
+    "human_identity_truth_authority": "NONE"
+  },
+  "neutral_counterpart_model_ceiling": {
+    "model_authority": "NONE",
+    "human_identity_truth_authority": "NONE",
+    "personality_authority": "NONE",
+    "friendship_authority": "NONE",
+    "trust_authority": "NONE",
+    "attachment_authority": "NONE",
+    "social_valence_authority": "NONE",
+    "relationship_type_authority": "NONE"
+  },
+  "capability_boundary": {
+    "research_branch": "research/grounded-language-gate-v1",
+    "remote_head": "62f9ebbd57ab88b26ffcb40a1fe1b7ef9a233481",
+    "tested_checkpoint": "2a970a993fcc79efc6f654b8a651c9adb8a95804",
+    "broad_verification": "Echo-M04 399/399 PASS across 106 files",
+    "rd_head": "afe0ac087e14cb4e091071d1e726ea861f5e8515",
+    "rd_manifest_sha256": "21bdeeed2ba1afb4f90c6e4a9c788a49ed5fe60475728f67abaf45537b4d698b",
+    "rd_manifest_files": 2069,
+    "meaning": "SCIENTIFIC_CAPABILITY_CEILING"
+  },
+  "embodiment_source": {
+    "status": "FROZEN_M04_PLUS_QUALIFIED_MAINTENANCE",
+    "branch": "embodiment/echo-m04-maintenance-v1",
+    "remote_head": "9d7056edfc2c2e2806a50410a02f60addefa14b7",
+    "worktree": "research_ms1888_replay/.pcmmad_sync_runs/wt_echo_m04_maintenance_20260913",
+    "base_capability_head": "62f9ebbd57ab88b26ffcb40a1fe1b7ef9a233481",
+    "maintenance_source_head": "57987530719c64b207bb470ad73f630d30af60a6",
+    "maintenance_only": true,
+    "maintenance_files": [
+      {
+        "path": "microseed/evidence/ledger.py",
+        "blob": "6ea4af9d533ae1e1c21bcff0d837dc7c8946f8ad",
+        "effect": "append-order/provenance introspection only"
+      },
+      {
+        "path": "scratch/grounded_conversational_episodic_memory_prototype.py",
+        "blob": "6d0fddde3492a1033799c3af336dfb2201f1fee6",
+        "effect": "owned-row/hash/semantic-ceiling validation only"
+      }
+    ],
+    "verification": "M01 focused 8/8 PASS; git diff --check PASS; runtime delta from M04 exactly 2 files",
+    "capability_gain": "NONE",
+    "authority_gain": "NONE",
+    "p03_c0_embodied": false
+  },
+  "embodiment_source_law": "CAPABILITY_BOUNDARY != MAINTENANCE_OVERLAY; MAINTENANCE_OVERLAY != CAPABILITY_GAIN"
+}

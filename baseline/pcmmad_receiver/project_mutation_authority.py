@@ -12,16 +12,14 @@ import json
 import os
 import secrets
 import time
-import threading
 from contextlib import contextmanager
 from contextvars import ContextVar
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterator, Mapping
 
-from .shared_core import (
+from shared_core import (
     PROJECTS_ROOT,
-    cross_process_file_guard,
     get_project_root,
     init_project_layout,
     load_json,
@@ -30,38 +28,11 @@ from .shared_core import (
     validate_project_id,
 )
 
-def _env_bounded_float(name: str, default: float, *, minimum: float, maximum: float) -> float:
-    raw = str(os.environ.get(name, default)).strip()
-    try:
-        value = float(raw)
-    except (TypeError, ValueError, OverflowError):
-        return float(default)
-    return max(float(minimum), min(float(value), float(maximum)))
-
-
 LEASE_STORE_VERSION = "2"
 LEASE_DEFAULT_TTL_SECONDS = 120
 LEASE_MIN_TTL_SECONDS = 10
 LEASE_MAX_TTL_SECONDS = 900
 LEASE_GUARD_TIMEOUT_SECONDS = 5.0
-CONSEQUENCE_HEARTBEAT_INTERVAL_SECONDS = _env_bounded_float(
-    "PCMMAD_PROJECT_MUTATION_HEARTBEAT_SECONDS", 0.50, minimum=0.10, maximum=5.0
-)
-CONSEQUENCE_HEARTBEAT_FRESH_SECONDS = _env_bounded_float(
-    "PCMMAD_PROJECT_MUTATION_HEARTBEAT_FRESH_SECONDS",
-    2.50,
-    minimum=max(0.50, CONSEQUENCE_HEARTBEAT_INTERVAL_SECONDS * 2.0),
-    maximum=30.0,
-)
-CONSEQUENCE_HEALTHY_WAIT_MAX_SECONDS = _env_bounded_float(
-    "PCMMAD_PROJECT_MUTATION_HEALTHY_WAIT_MAX_SECONDS", 30.0, minimum=5.0, maximum=900.0
-)
-CONSEQUENCE_ACQUIRE_SLICE_SECONDS = _env_bounded_float(
-    "PCMMAD_PROJECT_MUTATION_ACQUIRE_SLICE_SECONDS", 0.20, minimum=0.05, maximum=1.0
-)
-CONSEQUENCE_WAIT_BACKOFF_INITIAL_SECONDS = 0.01
-CONSEQUENCE_WAIT_BACKOFF_MAX_SECONDS = 0.25
-CONSEQUENCE_HOLDER_SCHEMA = "pcmmad.project-mutation-consequence-holder.v1"
 
 LEASE_STATUS_ACTIVE = "ACTIVE"
 LEASE_STATUS_RELEASED = "RELEASED"
@@ -100,10 +71,6 @@ def _guard_path(project_id: str) -> Path:
 
 def _consequence_guard_path(project_id: str) -> Path:
     return _control_root(project_id) / ".project_mutation_consequence.guard"
-
-
-def _consequence_state_path(project_id: str) -> Path:
-    return _control_root(project_id) / "project_mutation_consequence_holder.json"
 
 
 def _canonical(value: Any) -> Any:
@@ -148,6 +115,34 @@ def _new_lease_id() -> str:
     return f"pml-{secrets.token_hex(12)}"
 
 
+def _lock_file_windows(handle: Any, *, blocking: bool) -> None:
+    import msvcrt
+
+    mode = msvcrt.LK_LOCK if blocking else msvcrt.LK_NBLCK
+    handle.seek(0)
+    msvcrt.locking(handle.fileno(), mode, 1)
+
+
+def _unlock_file_windows(handle: Any) -> None:
+    import msvcrt
+
+    handle.seek(0)
+    msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+
+
+def _lock_file_posix(handle: Any, *, blocking: bool) -> None:
+    import fcntl
+
+    flags = fcntl.LOCK_EX | (0 if blocking else fcntl.LOCK_NB)
+    fcntl.flock(handle.fileno(), flags)
+
+
+def _unlock_file_posix(handle: Any) -> None:
+    import fcntl
+
+    fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
 @contextmanager
 def _file_guard(
     project_id: str,
@@ -156,16 +151,37 @@ def _file_guard(
     timeout_seconds: float = LEASE_GUARD_TIMEOUT_SECONDS,
 ) -> Iterator[None]:
     init_project_layout(project_id)
-    try:
-        with cross_process_file_guard(path, timeout_seconds=timeout_seconds):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    deadline = time.monotonic() + max(0.05, float(timeout_seconds))
+    with path.open("a+b") as handle:
+        handle.seek(0, os.SEEK_END)
+        if handle.tell() == 0:
+            handle.write(b"\0")
+            handle.flush()
+        acquired = False
+        while not acquired:
+            try:
+                if os.name == "nt":
+                    _lock_file_windows(handle, blocking=False)
+                else:
+                    _lock_file_posix(handle, blocking=False)
+                acquired = True
+            except (OSError, BlockingIOError):
+                if time.monotonic() >= deadline:
+                    raise ProjectMutationAuthorityError(
+                        "PROJECT_MUTATION_GUARD_BUSY",
+                        "project mutation authority transition is busy",
+                        423,
+                        extra={"project_id": project_id},
+                    )
+                time.sleep(0.01)
+        try:
             yield
-    except TimeoutError as exc:
-        raise ProjectMutationAuthorityError(
-            "PROJECT_MUTATION_GUARD_BUSY",
-            "project mutation authority transition is busy",
-            423,
-            extra={"project_id": project_id},
-        ) from exc
+        finally:
+            if os.name == "nt":
+                _unlock_file_windows(handle)
+            else:
+                _unlock_file_posix(handle)
 
 
 @contextmanager
@@ -177,200 +193,15 @@ def _project_guard(
         yield
 
 
-def _consequence_holder_snapshot(project_id: str) -> dict[str, Any]:
-    path = _consequence_state_path(project_id)
-    try:
-        raw = load_json(path, None)
-    except (OSError, ValueError, TypeError):
-        raw = None
-    if not isinstance(raw, dict):
-        return {
-            "active": False,
-            "heartbeat_fresh": False,
-            "holder_token": None,
-            "holder_pid": None,
-            "heartbeat_age_seconds": None,
-            "heartbeat_sequence": 0,
-        }
-    now_epoch = time.time()
-    try:
-        heartbeat_epoch = float(raw.get("heartbeat_at_epoch"))
-    except (TypeError, ValueError, OverflowError):
-        heartbeat_epoch = 0.0
-    age = max(0.0, now_epoch - heartbeat_epoch) if heartbeat_epoch > 0 else None
-    fresh = age is not None and age <= float(CONSEQUENCE_HEARTBEAT_FRESH_SECONDS)
-    result = dict(raw)
-    result.update(
-        {
-            "active": bool(raw.get("holder_token")),
-            "heartbeat_fresh": bool(fresh),
-            "heartbeat_age_seconds": age,
-            "heartbeat_sequence": int(raw.get("heartbeat_sequence") or 0),
-        }
-    )
-    return result
-
-
-def _write_consequence_holder_state(
-    project_id: str,
-    *,
-    holder_token: str,
-    acquired_at: str,
-    acquired_at_epoch: float,
-    heartbeat_sequence: int,
-) -> None:
-    now_epoch = time.time()
-    payload = {
-        "schema": CONSEQUENCE_HOLDER_SCHEMA,
-        "authority_effect": "NONE",
-        "project_id": project_id,
-        "holder_token": holder_token,
-        "holder_pid": os.getpid(),
-        "holder_thread_id": threading.get_ident(),
-        "acquired_at": acquired_at,
-        "acquired_at_epoch": acquired_at_epoch,
-        "heartbeat_at": utc_now(),
-        "heartbeat_at_epoch": now_epoch,
-        "heartbeat_sequence": int(heartbeat_sequence),
-        "law": "CONSEQUENCE_HEARTBEAT != MUTATION_AUTHORITY",
-    }
-    save_json_atomic(_consequence_state_path(project_id), payload)
-
-
-def _consequence_heartbeat_loop(
-    project_id: str,
-    holder_token: str,
-    acquired_at: str,
-    acquired_at_epoch: float,
-    stop: threading.Event,
-    state_barrier: threading.Lock,
-) -> None:
-    sequence = 1
-    while not stop.wait(max(0.02, float(CONSEQUENCE_HEARTBEAT_INTERVAL_SECONDS))):
-        # Snapshot + heartbeat write are serialized against teardown. Once teardown
-        # acquires this barrier after stop.set(), no heartbeat may recreate state.
-        with state_barrier:
-            if stop.is_set():
-                return
-            current = _consequence_holder_snapshot(project_id)
-            if str(current.get("holder_token") or "") != holder_token:
-                return
-            sequence += 1
-            if stop.is_set():
-                return
-            try:
-                _write_consequence_holder_state(
-                    project_id,
-                    holder_token=holder_token,
-                    acquired_at=acquired_at,
-                    acquired_at_epoch=acquired_at_epoch,
-                    heartbeat_sequence=sequence,
-                )
-            except (OSError, ValueError, TypeError):
-                # Coordination heartbeat failure cannot create or revoke authority.
-                # The OS file lock remains the actual exclusion primitive.
-                continue
-
-
-def _clear_consequence_holder_state(project_id: str, holder_token: str) -> None:
-    path = _consequence_state_path(project_id)
-    current = _consequence_holder_snapshot(project_id)
-    if str(current.get("holder_token") or "") != holder_token:
-        return
-    try:
-        path.unlink(missing_ok=True)
-    except OSError:
-        pass
-
-
 @contextmanager
 def _project_consequence_guard(
     project_id: str, timeout_seconds: float = LEASE_GUARD_TIMEOUT_SECONDS
 ) -> Iterator[None]:
-    """Exclusive consequence lock with adaptive healthy-holder coordination.
-
-    The OS file lock remains authoritative exclusion. A non-authoritative holder
-    heartbeat lets waiters distinguish healthy occupancy from stale contention and
-    extend a short base timeout without spinning or manufacturing authority. The
-    heartbeat exists only while the lock is held and goes dormant on release.
-    """
-    project_id = validate_project_id(project_id)
-    init_project_layout(project_id)
-    path = _consequence_guard_path(project_id)
-    started = time.monotonic()
-    base_deadline = started + max(0.05, float(timeout_seconds))
-    healthy_deadline = base_deadline
-    max_healthy_deadline = started + max(
-        float(timeout_seconds), float(CONSEQUENCE_HEALTHY_WAIT_MAX_SECONDS)
-    )
-    delay = float(CONSEQUENCE_WAIT_BACKOFF_INITIAL_SECONDS)
-    guard_cm = None
-    last_holder = _consequence_holder_snapshot(project_id)
-    while True:
-        now = time.monotonic()
-        remaining = max(0.05, min(float(CONSEQUENCE_ACQUIRE_SLICE_SECONDS), max_healthy_deadline - now))
-        candidate = cross_process_file_guard(path, timeout_seconds=remaining)
-        try:
-            candidate.__enter__()
-            guard_cm = candidate
-            break
-        except TimeoutError as exc:
-            now = time.monotonic()
-            last_holder = _consequence_holder_snapshot(project_id)
-            if bool(last_holder.get("heartbeat_fresh")) and now < max_healthy_deadline:
-                healthy_deadline = min(
-                    max_healthy_deadline,
-                    max(healthy_deadline, now + float(CONSEQUENCE_HEARTBEAT_FRESH_SECONDS)),
-                )
-            effective_deadline = max(base_deadline, healthy_deadline)
-            if now >= effective_deadline:
-                raise ProjectMutationAuthorityError(
-                    "PROJECT_MUTATION_GUARD_BUSY",
-                    "project mutation consequence guard remains busy",
-                    423,
-                    extra={
-                        "project_id": project_id,
-                        "waited_seconds": max(0.0, now - started),
-                        "healthy_wait_max_seconds": float(CONSEQUENCE_HEALTHY_WAIT_MAX_SECONDS),
-                        "holder": last_holder,
-                    },
-                ) from exc
-            time.sleep(min(delay, max(0.0, effective_deadline - now)))
-            delay = min(delay * 2.0, float(CONSEQUENCE_WAIT_BACKOFF_MAX_SECONDS))
-    assert guard_cm is not None
-    holder_token = secrets.token_hex(12)
-    acquired_at = utc_now()
-    acquired_at_epoch = time.time()
-    try:
-        _write_consequence_holder_state(
-            project_id,
-            holder_token=holder_token,
-            acquired_at=acquired_at,
-            acquired_at_epoch=acquired_at_epoch,
-            heartbeat_sequence=1,
-        )
-    except (OSError, ValueError, TypeError):
-        pass
-    stop = threading.Event()
-    state_barrier = threading.Lock()
-    heartbeat = threading.Thread(
-        target=_consequence_heartbeat_loop,
-        args=(project_id, holder_token, acquired_at, acquired_at_epoch, stop, state_barrier),
-        name=f"pcmmad-mutation-heartbeat-{project_id}",
-        daemon=True,
-    )
-    heartbeat.start()
-    try:
+    """Long-lived exclusive project mutation consequence lock."""
+    with _file_guard(
+        project_id, _consequence_guard_path(project_id), timeout_seconds=timeout_seconds
+    ):
         yield
-    finally:
-        stop.set()
-        # Wait out any heartbeat write already in flight, then clear while holding
-        # the same barrier. A delayed daemon heartbeat can no longer resurrect the
-        # holder after consequence release.
-        with state_barrier:
-            _clear_consequence_holder_state(project_id, holder_token)
-        heartbeat.join(timeout=max(0.1, float(CONSEQUENCE_HEARTBEAT_INTERVAL_SECONDS) * 2.5))
-        guard_cm.__exit__(None, None, None)
 
 
 def _lease_id_hash(lease_id: str) -> str:
@@ -502,8 +333,6 @@ def _public(record: Mapping[str, Any] | None, project_id: str) -> dict[str, Any]
             "status": LEASE_STATUS_UNOWNED,
             "generation": 0,
             "lease_id": None,
-            "lease_token_disclosed": False,
-            "authority_identity_present": False,
             "owner_id": None,
             "session_id": None,
             "client_id": None,
@@ -518,8 +347,6 @@ def _public(record: Mapping[str, Any] | None, project_id: str) -> dict[str, Any]
         "status": record.get("status"),
         "generation": int(record.get("generation") or 0),
         "lease_id": None,
-        "lease_token_disclosed": False,
-        "authority_identity_present": bool(str(record.get("lease_id_hash") or "").strip()),
         "owner_id": record.get("owner_id"),
         "session_id": record.get("session_id"),
         "client_id": record.get("client_id"),
@@ -536,7 +363,6 @@ def _public_with_acquired_token(
 ) -> dict[str, Any]:
     payload = _public(record, project_id)
     payload["lease_id"] = lease_id
-    payload["lease_token_disclosed"] = True
     return payload
 
 
@@ -654,22 +480,10 @@ def _expire_if_needed(project_id: str, record: dict[str, Any] | None) -> dict[st
     return _write(project_id, record)
 
 
-def _with_consequence_observation(project_id: str, lease: dict[str, Any]) -> dict[str, Any]:
-    result = dict(lease)
-    result["consequence_guard"] = _consequence_holder_snapshot(project_id)
-    return result
-
-
-def observe_lease(project_id: str) -> dict[str, Any]:
-    """Observe persisted lease and consequence occupancy without reconciling or writing."""
-    return _with_consequence_observation(project_id, _public(_load(project_id), project_id))
-
-
 def inspect_lease(project_id: str) -> dict[str, Any]:
-    """Reconcile persisted expiry under the short-lived transition guard."""
     with _project_guard(project_id):
         record = _expire_if_needed(project_id, _load(project_id))
-        return _with_consequence_observation(project_id, _public(record, project_id))
+        return _public(record, project_id)
 
 
 def acquire_lease(
@@ -1023,36 +837,6 @@ def validate_consequence_authority(
                 extra={"current_lease": _public(current, project_id)},
             )
         return None
-
-
-@contextmanager
-def submission_mutation_binding(
-    project_id: str,
-    *,
-    mutation_authority: Mapping[str, Any] | None = None,
-    session_id: str = "",
-    timeout_seconds: float = LEASE_GUARD_TIMEOUT_SECONDS,
-) -> Iterator[dict[str, Any]]:
-    """Validate mutation authority for durable enqueue without consequence exclusion.
-
-    Queue admission is not itself the arbitrary-code consequence. This context takes
-    only the short lease-state guard, derives the same non-secret durable binding the
-    worker historically received, and never holds the project-wide consequence lock.
-    The worker must revalidate that binding again before the real consequence.
-    """
-    project_id = validate_project_id(project_id)
-    validated = validate_consequence_authority(
-        project_id,
-        mutation_authority=mutation_authority,
-        session_id=session_id,
-        timeout_seconds=timeout_seconds,
-    )
-    if validated is None:
-        binding = _compatibility_binding(project_id, session_id=session_id)
-    else:
-        binding = _binding_from_record(project_id, validated)
-    with _raw_binding_context(binding):
-        yield dict(binding)
 
 
 @contextmanager

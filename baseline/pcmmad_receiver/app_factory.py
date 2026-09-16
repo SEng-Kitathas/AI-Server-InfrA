@@ -8,8 +8,7 @@ from typing import Callable
 
 from flask import Blueprint, Flask
 
-from .access_logging import install_access_logging
-from .control_plane_models import BlueprintFailureSpec, BootReport, BootRuntimeStatus
+from control_plane_models import BlueprintFailureSpec, BootReport, BootRuntimeStatus
 
 
 class RequiredBlueprintLoadError(RuntimeError):
@@ -39,7 +38,6 @@ BLUEPRINTS: tuple[BlueprintLoadSpec, ...] = (
     BlueprintLoadSpec("transfer_plane", "transfer_bp"),
     BlueprintLoadSpec("research_routes", "research_bp", required=False),
     BlueprintLoadSpec("context_routes", "context_bp", required=False),
-    BlueprintLoadSpec("observability", "observability_bp", required=False),
 )
 
 RUNTIME_STARTERS: tuple[RuntimeStartSpec, ...] = (
@@ -118,14 +116,6 @@ def create_app() -> Flask:
     """Create one receiver app; required route-family failures are never silently degraded."""
 
     app = Flask(__name__)
-    install_access_logging(app)
-    # Derived principal is request context only; existing API-key enforcement remains authoritative.
-    from flask import g, request
-    from .principal_auth import derive_request_principal
-    import os
-    @app.before_request
-    def _derive_pcmmad_principal():
-        g.pcmmad_principal = derive_request_principal(request.headers, os.environ)
     boot_report = BootReport()
     for spec in BLUEPRINTS:
         _register_blueprint(app, spec, boot_report)

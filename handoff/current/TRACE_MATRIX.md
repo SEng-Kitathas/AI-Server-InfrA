@@ -387,158 +387,216 @@ This block does not assert token presence or absence. It remains semantically va
 - Remaining pressure: independent real-world dogfood breadth across the 27 Skills; UCM componentization remains a separate paused seam; live Git identity remains unknown from deployed copy; final schema remains LAST/LOCKED/untriggered.
 - Evidence boundary: exact package-native tests ran on the attached bytes in ingress; server real-project recovery used the existing T0.2 integration harness. Do not merge those evidence roots into one claim.
 
-## GITHUB TRUTH / ARCHITECTURE CLOSURE CURRENT PRECEDENCE — 2026-09-10
-- Latest remote-verified Runtime/currentness feature before current-surface refresh: `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` / tree `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`; parent `9be7ad603f50c079acc92d542add6a011a2ea2d7`; substrate feature `673e3b15fa16053e6da6594604d9ce6db7faad1c`.
-- Current source: **158 native tools**; compact transport: **30 operations**; full suite **775 collected / 773 passed / 2 skipped / 0 failed**.
-- ICF-CS **v1.2** is current; standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`. Low-level context rehydration now reports v1.2.
-- Core Runtime architecture is **converged at the current claim ceiling**; no currently reproduced defect requires another truth/authority/scheduler plane.
-- Separate schema/composition branch remains unmerged. Effect-trait split, static plan cost, continuation currentness, capability-lease non-grant, compact eligibility derivation, and legacy `memory.*` exit criterion are explicit schema/migration gates.
-- Effect-trait audit: 204 distinct strings / 133 singleton; only four generic Runtime behavior consumers today. `TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`; arbitrary traits SHALL NOT become scheduling/authorization truth.
-- RES non-doctrine authority is validator-enforced; UCM non-authority is mechanism-enforced; DTS is typed `history` and continuity records are not direct promotion targets.
-- Live Runtime has **not** been promoted by this reconciliation; fresh live preflight/restart/readback remains separate.
-- Audit: `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`.
 
-## Schema v11 source successor — CURRENT PRECEDENCE (2026-09-10)
-- Older statements saying the final schema is locked/untriggered are retained historical lineage and superseded for current status by this block.
-- Latest remote-verified source mechanism before current-surface publication: `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` / tree `ed939b1dbfd1dc570966c46f200618551b893503`; v11 schema mechanism `7e4c66a769884269d71babdb92217ba80eb66e74` / tree `967f108f235b4b42097f4b2d9d48ee61c591017c`.
-- Current source schema successor: v11.0 capability microkernel, **8 Assistant-facing operations** over **158 native capabilities**; v10.3 remains the **30-operation compatibility/import surface** until separate product/live promotion.
-- v11 schema SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`; scheduler profile SHA `a7ee841edb47010978a13d884e899520c6bd6e22d2907a9ba4bbb169f8e58ce3`.
-- Production effect profile: 158/158 covered; **0 effect-truth / 0 parallel-read / 0 resume-replay witnesses**.
-- Combined current-source qualification: **890 collected / 888 passed / 2 skipped / 0 failed**; focused currentness+schema **128/128 PASS**; four-worker loadscope **888 passed / 2 skipped / 103 subtests**.
-- `CAPABILITY_LEASE != CAPABILITY_GRANT`; `DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`; `CONTINUATION != CURRENTNESS`; `PLAN_VM != SECOND_JOB_SCHEDULER`.
-- Product-side ChatGPT Action installation and live Runtime promotion remain separate. `SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`; `SOURCE_QUALIFIED != LIVE_PROMOTED`.
-## ROLLOVER PRECEDENCE — 2026-09-10 18:40 ET
-- GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7`; project-aware access logging published.
-- v11 canonical schema unchanged: `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities.
-- GitHub Actions run `34537723493` is **RED** on Windows + Ubuntu; Ubuntu exact current failure is hot-scan queued count `38 != 50`; live promotion blocked.
-- local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed donor/qualified WIP; schema-wire WIP is older donor material.
-- loaded Desktop Runtime remains behind source; source != live.
-- current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
-- This block wins on current Git/release frontier over older present-tense text in this file; historical evidence remains lineage.
+## 2026-09-15 TRACE ADDITIONS — THREAD CHECKPOINT
+| Claim / mechanism | Evidence | Status | Reopen condition |
+|---|---|---|---|
+| Root boundary law governs inbound/internal material | operator explicit ratification; bootstrap Absolute Ingress Boundary | OPERATOR-RATIFIED / hierarchy strengthened | doctrine conflict/operator revision |
+| `LOCAL OPTIMUM != GLOBAL FUNCTIONALITY` | project fence recovery, approval chain, supervisor auth, machine discovery regressions | ACTIVE / repeatedly embodied | global regression/interaction gap |
+| Authenticated clone HA recovery | product supervisor kill/recover + focused/system tests | VERIFIED CLONE | live embodiment/auth/currentness change |
+| Approval continuation runtime->HTTP->HUD->schema | bound approval, Flask, HUD, compact schema suites | VERIFIED CLONE/SERVER PATH | external platform UI bridge |
+| Machine discovery/inspection lifecycle | roots/repos/process/service/task list + inspect tests/smokes | VERIFIED READ-ONLY CLONE/LOCAL | action plane/identity contract change |
+| Manual operator restart override vs autonomous throttle | launcher/helper/controller tests; 27/27; global v5 | VERIFIED CLONE | live helper convergence |
+| MVF resident intelligence / duty-contract architecture | operator discussion/ratification | DESIGN DIRECTION, NOT EMBODIED | Microseed/Veya source inspection + daemon proof |
+| External platform approval consumption | not directly exercised | UNKNOWN | actual external bridge test |
 
-## HOSTED CI SUPERSESSION — 2026-09-10 19:13 ET
-- completed tested head `fd9b42ad143d70ddda92b22372cbae767b12bea0` / run `34541018742`: Ubuntu **SUCCESS**, Windows **FAILURE**;
-- Windows public failure is still suite-level only; exact testcase unresolved;
-- earlier Ubuntu `38 != 50` is superseded as current hosted Ubuntu status;
-- fresh Actions on any later currentness child wins.
+Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 
-## MULTI_ARM_RD_ROLLOVER_20260913_2123Z
-| Claim | State | Evidence / pointer |
-|---|---|---|
-| Four-arm simultaneous R&D is active | VERIFIED local campaign | research/governance_substrate/15_MULTI_ARM_RD_CAMPAIGN.md; generation 49 |
-| Operator MACHINE grant primitive resists direct replay/scope attacks | VERIFIED scaffold only | tests/test_operator_authority.py, 9/9 |
-| Live ordinary credential containment vs MACHINE authority | PROVISIONAL / not embodied | next Arm A HTTP-path discriminator |
-| Independent project provisioning exists live | FALSE | live catalog 160 caps; no create/register/fork/adopt |
-| Fine-grained parallel scheduling is earned | FALSE | scheduler effect_truth_verified=0, parallel_verified=0 |
-| AI-for-AI advisory composition works | VERIFIED scaffold | research/governance_substrate/14_AI_FOR_AI_COPROCESSOR_CAMPAIGN.md; 26/26 combined |
-| Autonomous first responder works | FALSE / open | observations currently supplied to advisory |
-| ACTIVE + public lease_id=null means corruption | REJECTED scar | research/governance_substrate/13_MUTATION_AUTHORITY_SEMANTIC_CORRECTION.md |
-| Break-glass local restore works without normal Python path/live receiver source | VERIFIED sandbox | qualification/breakglass_warfort.json |
-| SYSTEM/no-login remote ingress recovery | BLOCKED | one-time elevation + machine recovery credential qualification required |
-## ARM_C_RESOURCE_CLAIMS_20260913_2124Z
-- Arm C discriminator advanced: authority-neutral resource/consequence claim algebra implemented in local clone.
-- 8/8 focused tests PASS: disjoint path writes candidate-parallel; parent/child write overlap serial; read/read same path candidate-parallel; same Git index serial even with different files; distinct Git worktrees candidate-parallel; unknown domain serial; distinct project domains candidate-parallel; relation grants no authority.
-- Evidence ceiling: relation-level only. Scheduler is NOT yet wired to admit parallel jobs; effect_truth_verified and parallel_verified remain 0.
-- Earned direction: PROJECT GENERATION = FENCING EPOCH; JOB/RESOURCE CLAIMS = SERIALIZATION DOMAIN. UNKNOWN CLAIM RELATION => SERIAL.
-- Next Arm C discriminator: derive claims from real capability effect profiles and compare predicted vs observed effects; do not trust caller-declared claims as scheduler truth.
-## MULTI_ARM_WIDE_PASS_20260913_2126Z
-- Wide pass advanced B/C/D while retaining A evidence ceiling. Combined focused cross-arm suite: 40/40 PASS.
-- Arm A: operator principal+epoch+session+scope primitive remains 9/9 direct hostile PASS; actual separate HTTP authentication principal still missing, so MACHINE containment is NOT server-enforced yet. Source audit confirms ordinary lab auth is GITHOME_API_KEY possession.
-- Arm B: authority-neutral project provision planner added. It confines new roots under governed projects_root, rejects path-smuggling IDs, refuses overwrite, assigns initial_generation=0, preserves source_epoch, and proves distinct plan isolation. No commit/register capability yet; planner writes=false.
-- Arm C: resource claim algebra remains 8/8 PASS. Next: claims must be derived from server capability/effect contracts and verified against actual consequences; caller-declared claims are not scheduler truth.
-- Arm D: bounded read-only evidence gatherer added over explicit rollover surfaces only (Live Shadow, Current State, Next Steps, Revisit, Trace). It reports missing surfaces explicitly, ignores arbitrary files, authority=NONE, may_mutate=false. This advances autonomous first-responder input gathering but does not yet generate hypotheses or query RES/result handles/source.
-- Cross-arm suite covering resource claims, project planning, operator authority, advisory, governance relations: 40/40 PASS.
-- New cross-arm insight: Arm B project provisioning needs Arm A operator identity for external/adopt paths but ordinary under-project creation can remain project/control authority; Arm C claims should include project-registry transaction as a shared resource during provisioning; Arm D can surface that requirement but cannot grant it.
-## MULTI_ARM_WIDE2_20260913_2149Z
-- Generation 50 wide pass advanced all four arms; combined focused suite 46/46 PASS.
-- A: separate principal authenticator prototype now distinguishes REMOTE_AGENT(project max) from OPERATOR(machine max) using cryptographically distinct secrets and constant-time comparison. Stolen ordinary agent key cannot satisfy MACHINE in tests. Evidence ceiling: NOT wired into Flask/lab HTTP path, so not server-enforced yet.
-- B: project provision commit prototype now uses exclusive root creation, writes explicit project identity marker + source_epoch + initial_generation=0, emits durable receipt, and race-rejects second commit. Evidence ceiling: local primitive only; no catalog capability/registry integration/rollback fault injection yet.
-- C: resource claims can now be derived from SERVER capability effect traits rather than caller payload. Forged payload claims are ignored; unknown effect traits make derivation incomplete and therefore must serialize. Evidence ceiling: scheduler not wired; effect truth remains unverified.
-- D: issue-only path now composes bounded rollover evidence gathering into authority-neutral advisory. Missing evidence remains explicit UNKNOWN. Evidence ceiling: only rollover surfaces; RES/result handles/source/runtime and hypothesis generation remain open.
-- Cross-arm learning: authenticated principal must be server-derived before operator grant validation; provision commit must claim project-registry resource; unknown claim derivation blocks parallelism; advisory may recommend authority/provisioning/concurrency actions but cannot grant/commit/schedule them.
-- Next wide discriminator: A wire principal derivation into test Flask request boundary without replacing legacy agent auth; B add registry transaction + injected-failure rollback/readback; C map real catalog specs and compare claims against execution consequences; D add provenance-bounded RES/result-handle adapters and candidate hypothesis generation with explicit inference class.
-## CROSS_ARM_RECURSION_LAW_20260913
-Campaign rule: every substantive result from any arm MUST be projected across all other arms before an arm is classified BLOCKED/CLOSED. A blocker is conditional on the current shared evidence frontier, not permanent. After A/B/C/D advances, re-run a reopen scan over every blocked/deferred discriminator.
 
-Mechanism:
-1. arm result -> shared evidence/scar spine;
-2. compute implications for A,B,C,D;
-3. update Attention Reservoir with new cross-arm opportunities/contradictions;
-4. test whether any blocker reopen condition is now satisfied;
-5. HELIX re-ranks the global frontier;
-6. only then select next discriminators.
+## 2026-09-15 MVF RESIDENT TRACE ADDITIONS
+| Claim / mechanism | Evidence | Status | Reopen |
+|---|---|---|---|
+| Full Microseed/Veya source estate was read | 740-file manifest, 5,497,179 bytes, corpus digest `160ffe...c00b` | VERIFIED FULL INGESTION | source estate/current branch changes |
+| Executable Microseed donor copied without authority | `mvf_resident/DONOR_MANIFEST.json`, 70-file parity | VERIFIED DONOR | parity/source lineage change |
+| Microseed currentness/ternary machinery can support MVF duties | resident implementation + tests + real smoke | VERIFIED NARROW EMBODIMENT | wider duties/semantic scope |
+| First resident 3-duty portfolio | real native brief: CURRENT/CURRENT/STALE(local_unregistered) | VERIFIED READ-ONLY PROTOTYPE | duty contract/tool/currentness changes |
+| Resident has mutation authority | explicit false + tests | REJECTED CLAIM | only if separately designed/authorized later |
+| Veya speech/dialogue already embodied in current chamber | full chamber inspection found no literal machinery | NOT ESTABLISHED | other source/branch evidence |
 
-Law: ARM_BLOCKED(t) != ARM_BLOCKED(t+1). CROSS-ARM EVIDENCE MUST REOPEN BLOCKERS WHEN THEIR REOPEN CONDITIONS BECOME TRUE.
-## MULTI_ARM_TO_BLOCKER_G51_20260913_2215Z
-- Generation 51 campaign advanced A/B/C/D plus cross-arm recursion runtime. Combined focused suite: 57/57 PASS.
-- A: request-principal derivation now ignores caller-claimed identity and derives REMOTE_AGENT vs OPERATOR from distinct server-held credentials + operator epoch. Still BLOCKED from server-enforced MACHINE containment on actual Flask/lab request integration and deployment of distinct operator credential.
-- B: provision transaction now includes atomic registry write, identity marker, durable receipt, exclusive root create, and injected rollback after root/identity/registry boundaries. Still BLOCKED from live capability on capability registration + registry resource claim; external adopt additionally waits for authenticated operator principal + machine-scope adopt policy.
-- C: server-owned effect traits derive claims; predicted-v-observed witness rejects unpredicted effects and grants no authority. Still BLOCKED from parallel admission on real effect-truth witnesses + scheduler integration.
-- D: evidence gatherer now has bounded provenance-bearing RES/result-index adapters and explicitly labels symbolic hypotheses INFERRED_CANDIDATE, authority NONE. Still BLOCKED from autonomous-first-responder on actual result-handle/runtime-source adapters + qualified hypothesis generator/local model evaluation.
-- Cross-arm recursion is now embodied: every arm result projects earned facts/scars to peers; blocker reopen scan requires explicit reopen conditions and never grants authority. 3/3 recursion tests PASS. Current reopen scan reopened none yet, but identified partial satisfaction: B catalog has registry transaction; C parallel has effect witness; D autonomous responder has bounded RES adapter.
-- Standing law: ARM_BLOCKED(t) != ARM_BLOCKED(t+1). After every substantive result, project it across A/B/C/D, update Attention Reservoir, rerun reopen conditions, then HELIX re-ranks global frontier.
-- Current substantive blockers are integration/qualification blockers, not missing conceptual designs. Next campaign should attack the missing integration facts in parallel and rerun recursion after each gain.
-## FOUR_ARM_TRUE_BLOCKERS_G51_20260913_2222Z
-- Four-arm campaign pushed until remaining blockers require live integration/promotion, external credential/authority embodiment, real effect witnessing, or ecological/local-provider qualification. Focused cross-arm suite now 68/68 PASS.
-- A advanced: principal derivation is now installed in real Flask before_request context while legacy API-key enforcement remains authoritative. Test-client attacks prove caller-claimed OPERATOR cannot override ordinary agent credential and distinct operator credential derives OPERATOR/MACHINE context. TRUE BLOCKER: live deployment needs a distinct operator credential, explicit MACHINE route/admission policy, and live HTTP hostile qualification. This is a security/promotion boundary; do not invent a credential in clone.
-- B advanced: project provisioning has exclusive root creation, identity/source epoch, atomic registry write, durable receipt, rollback across injected root/identity/registry faults, and GLOBAL_PROJECT_REGISTRY resource claim. TRUE BLOCKER: expose/register project.provision in real catalog requires choosing the authoritative live project registry/owner contract and adding capability schema/policy. External arbitrary-path adopt additionally depends on A live operator principal + MACHINE adopt policy.
-- C advanced: real local catalog census = 175 tools; current simplistic derivation maps claims for 80 and marks 95 incomplete due to rich effect vocabulary. Unpredicted effects fail effect truth; unknown/unclassified effect traits serialize. TRUE BLOCKER: parallel admission cannot be earned from descriptive traits alone; requires real execution effect witnesses, scheduler integration, and contention Warfort. Current live scheduler profile remains effect_truth_verified=0, parallel_verified=0.
-- D advanced: bounded rollover+RES+result-index evidence, actual result-handle adapter via lab_results, allowlisted bounded runtime/source reader, explicit INFERRED_CANDIDATE generation and discriminator-based candidate qualification. TRUE BLOCKER: autonomous first responder needs an actual local model/hypothesis provider (or stronger non-LLM generator), provider effect qualification, and ecological agent<->server trial. Local inference remains proposal-only.
-- Cross-arm recursion rerun after all gains: no blocker fully reopened. B external-adopt remains explicitly coupled to A. C evidence truth can later improve D advisory confidence; D can recommend B/A/C actions but cannot grant them.
-- Campaign classification: these are now TRUE BLOCKERS under current local-clone authority, not merely TODOs. Next action requires explicit promotion/live-integration campaign and/or external provider/credential/effect-witness embodiment.
-## LOCAL_MODEL_PROVIDER_CFE_G52_20260913_2332Z
-- User supplied later Sep 4-6 Qwen3.5-v-Qwen3.6 comparison history as navigation context. Server-side CFE archaeology verified CFE model-service coordination doctrine and Qwen3.5 target/Q4 MTP artifacts; later Qwen3.6 exact GGUF/path and MODEL-QUALITY-02 matrix not yet resolved locally. Do not promote user historical summary to current local verification.
-- Qwen3.5 target present: D:/Project_Linked_Tensors/monster-standard-inference-revival-2026-04-06/incoming/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled.i1-Q4_K_M.gguf, 21,169,115,200 bytes. Q4 MTP sidecar present: E:/models/speculative/qwen35_a3b_mtp/Qwen3.5-35B-A3B-MTP-ONLY-Q4_K_M.gguf, 1,621,551,104 bytes. CFE historical disposition: n_max=2 paired 35.4938 -> 38.0903 tok/s, 4/4 prompt wins, limited local-engineering scope.
-- CFE runtime law verified: shared immutable model/runtime files may be reused; live process/port/job/runtime-dir ownership must remain isolated. Unknown model service => preserve+block, never auto-kill. This directly informs Arm C resource claims and Arm B cross-project provisioning.
-- Arm D blocker partially reopened: real local hypothesis provider candidate exists (Qwen3.5 verified; Qwen3.6 historically reported but path unresolved). New provider campaign is research/governance_substrate/16_LOCAL_MODEL_PROVIDER_CAMPAIGN.md.
-- Model-selection target is deployment-role capability surface, not chatbot score. Separate MODEL/FINALIZATION/FORMAT/HARNESS/TELEMETRY/RESOURCE outcomes; adaptive transformed attacks; blinded judging; role-dominance/stability stopping rule.
-- Cross-arm recursion: D provider work supplies C real process/GPU/port/runtime-dir effect witnesses; A authority/identity hostile battery becomes provider qualification; B must preserve shared-immutable-assets != shared-runtime-ownership.
-- Immediate discriminator: resolve exact Qwen3.6 artifact/runtime evidence without broad destructive search, verify safe resource ownership, then run matched role-specific hostile provider battery sequentially.
-## QWEN36_FOUND_G53_20260913_2358Z
-- Whole-E filename-first hunt FOUND exact Qwen3.6 artifacts: E:/models/05-llm/qwen36_a3b/Qwen3.6-35B-A3B-Q4_K_M.gguf (20,419,565,568 bytes) and mtp-Qwen3.6-35B-A3B-Q4_0.gguf (1,060,038,432 bytes).
-- Exact later campaign also FOUND: E:/new pc/AI_Pushes_Sandbox/projects/protoagi_microseed_reincarnation_20260827/campaigns/OVERNIGHT_2026-09-04_QWEN36_E_IDENTITY/. MODEL_QUALITY_02_NATIVE_UTILITY contains DOCTRINE_BOUNDARY_MATRIX_RESULT.json, MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json, MATRIX_2048_SEQUENTIAL_RESULT.json, Q36_BUDGET1024_DOCTRINE_MATRIX_RESULT.json and runners. Historical user navigation is now locally anchored.
-- Arm D local-provider blocker is materially reopened: both candidate model artifacts now resolved. Next: inspect exact historical result JSON + current process/port/resource ownership, then construct matched deployment-role battery before launching models.
-- Arm C gains concrete Q36 immutable model + MTP resource identities; shared model file remains non-exclusive, runtime process/port/runtime-dir/resources exclusive.
-- Generation 53 acquired after prior sticky consequence holder naturally cleared. This recurrence remains direct evidence for finer resource/consequence serialization and live-friction priority.
-## MODEL_PROVIDER_PREFLIGHT_G53_20260914_0003Z
-- Exact historical MODEL-QUALITY-02 location corrected: campaign/experiments/MODEL_QUALITY_02_NATIVE_UTILITY, not campaign root. Historical result set inspected. Raw doctrine2048 scores Q36=0/1/1, Q35=0/0/1; blind matrix Q36 Pareto had no result due failed cell while remaining 1/1/1, Q35 raw 0/1/1/1; Q36 budget1024 corrected doctrine=3/3. Treat taxonomy/harness failures separately; historical results are priors only.
-- Historical runners pin exact current Q36/Q35 model paths and llama.cpp b10797 verified runtime. Current model-runtime preflight found no Q35/Q36 llama process and no listeners 18190-18210. GPU snapshot: 6141 MiB total, 750 used, 5171 free.
-- New role battery plan persisted at research/governance_substrate/18_MODEL_PROVIDER_ROLE_BATTERY_PLAN.md. Sequential target-only baseline before MTP; distinct ports/process/runtime/results; adaptive 10-20 transformations per weakness; blinded semantic judging; MODEL/FINALIZATION/FORMAT/HARNESS/TELEMETRY/RESOURCE taxonomy.
-- Arm D blocker is now provider-execution/qualification, not artifact discovery. Arm C can witness real model job resources during these runs. Arm A authority battery and Arm B project/resource semantics are embedded in the provider tasks.
-- Live integration remains pending: candidate tree is intentionally dirty with multi-arm work while live Git remains divergent (previously ahead2/behind5). Do not blindly fast-forward/copy. Need isolate promotion commits + broad qualification before live.
-## GIT_PARITY_20260914_0038Z
-- GitHub parity completed for intended project state. Commit 2b092e4f9f1745a414edf98a8b506a089dfa325a pushed to origin/main. Verified local HEAD == origin/main == ls-remote main; tree 27de88698be6c5898cdfa6324f3f94f371febfab; divergence 0/0; working tree clean.
-- 79 project files committed after focused 139-test qualification PASS and staged literal-secret scan found zero likely credential literals.
-- Generated/local-only Warfort and recovery payloads were intentionally NOT published: .warfort_breakglass_bundle, .warfort_breakglass_restore_target{,2}, .warfort_secret, build, baseline/pcmmad_receiver.egg-info. .gitignore now fences these surfaces. This is intended source/project parity, not byte-for-byte publication of ephemeral/secret machine state.
-## OPUS_EXTERNAL_REVIEW_WARFORT_20260913
-- External fresh-clone review correctly found stale handoff snapshot receipt. Local verification found SEVEN changed canonical members, not only CURRENT_STATE: CURRENT_STATE, DESIGN_THREAD_STREAM, DOCTRINE_SNAPSHOT, LIVE_SHADOW, NEXT_STEPS, REVISIT_LEDGER, TRACE_MATRIX. Cause: campaign same-pass rollover updates did not regenerate SNAPSHOT_MANIFEST_SHA256.json. This is a real continuity defect and process scar.
-- Dependency criticism is stale/incorrect against current e52fe75 source: root requirements-dev.txt declares pytest/hypothesis/xdist/ruff; pyproject.toml declares Flask, requests, beautifulsoup4, psutil, prometheus-client, waitress and diagnostics py-spy; baseline receiver requirements also exists. Fresh-clone install path still deserves explicit one-command documentation/CI verification.
-- Profiler test name is misleading: assertion that failed in reported clone was deps[waitress] is not None, while py-spy is explicitly optional/on-demand. Current source therefore interprets that failure as missing required runtime dependency, not profiler availability.
-- Earned law: ROLLOVER UPDATE != SEALED RECOVERY SNAPSHOT. Any mutation of a manifest-declared rollover member MUST regenerate/reseal snapshot receipt in the same consequence before publication/checkpoint.
-## CSC_ENFORCEMENT_G56_20260914
-- External code-quality review exposed CONFIGURED != ENFORCED for Ruff/CSC. Verified current correctness scan initially had 38 F821/B023/F403/F405 findings. Load-bearing F821 and B023 defects were repaired; test star imports were made explicit. api_wire_models star-import facade remains a deliberate compatibility surface and is not yet mechanically rewritten.
-- Mandatory CSC code-health gate added: tools/csc_native/csc_code_health_gate.py. Current blocking correctness rules F821+B023 are CLEAN. Gate authority=AUDIT_ONLY.
-- Microseed-derived final-polish gate added: tools/final_polish_gate.py. It composes CSC correctness + continuity/observability regression and grants authority NONE. CONFIGURED_STANDARD_REQUIRES_ENFORCING_CONSUMER is embodied as promotion qualification.
-- CI now invokes CSC correctness and final-polish before full clean-box suite. tools/verify_release.py now consumes CSC code-health as part of release cleanliness. Enforcement regression tests added.
-- Continuity scar closed structurally with tools/reseal_handoff_snapshot.py; rollover mutation must reseal manifest before checkpoint/publication.
-- Tracked build/lib count is 0 in current Git. build remains ignored. Opus build/lib finding was stale against current branch.
-- Remaining quality debt: F403 api_wire_models compatibility facade; broad E/F/I/UP/B/SIM historical style debt; contract docstring coverage; print/global review. These are ratchet work, not permitted to weaken current correctness gate.
-- Cross-arm/Microseed law: DECLARED STANDARD != EMBODIED STANDARD. A declaration with no enforcing consumer creates qualification debt and cannot support promotion claims.
-## CSC_MVF_DECLARATION_BINDING_G56_20260914
-- Corpus hunt found 104 local CSC/code-quality/doctrine/law/final-QC candidate surfaces, including Universal CSC guide, Unified Code Standards doctrine, 11 CSC SOPs, INVARIANTS, release contract, native CSC runner/gates and prior reports. These are now treated as declarations requiring consumers, not self-authenticating authority.
-- New deterministic static CSC declaration-binding gate embodies initial D1/D3/D3.5/D4/D7 + Tier1. Governing law: DECLARED != BOUND != CONSUMED != CURRENT != EVICTED; EVICTED != DELETED; CLAIM_SUPERSEDED != HISTORY_REWRITTEN; CSC_PASS != CODE_IS_GOOD. Every rule states a does-not-catch ceiling.
-- D3 discovered a real undeclared optional dependency: playwright in browser_bridge_service. Added browser optional dependency in pyproject. D3 now green. D3.5 currently reports no ghost dependencies under explicit CLI/plugin allowlist.
-- D7 census found 50 environment-variable names. docs/verification/ENV_SCHEMA.md now binds all names; requiredness/secret/default semantics remain UNCLASSIFIED and D7 is report-only until that semantic census is qualified.
-- Tier1 static block now includes F821/F403/F405/B023/B006. The api_wire_models wildcard compatibility facade was replaced with explicit consumer-derived reexports; regression caught missing ErrorEnvelope and facade was corrected. Tier1 now green. B904/F841 remain explicit debt to repair before promotion into blocking set.
-- MVF promotion gate added: baseline/pcmmad_receiver/mvf_promotion_gate.py. It requires every applicable doctrine/standard consumer to be present, current and qualified; missing/stale/failed blocks admissibility. authority=NONE; it does not perform promotion.
-- CI and final-polish now consume CSC declaration binding. Focused MVF/CSC/continuity/constraint suite: 51/51 PASS after one regression-driven facade repair.
-- Next CSC census arms: D2 metadata-reader ratio; D5 path/reference resolution; D6 invariant->test/ENFORCEMENT mapping; D8 justified noqa/type-ignore/CSC disables; Tier2 derived/duplicate/archive/test-plane; Tier3 authority contract docs/failure contracts; style delta ratchet. Hunt existing doctrine first and strip-for-parts into these consumers.
-## CSC_MVF_COVERAGE_GRAPH_G57_20260914
-- Donor-informed CSC/MVF campaign advanced. Uploaded Rahl donors were available to chat but /mnt/data is not visible inside the local Windows Runtime, so server-side donor copy imported 0 files; no false ingestion claim. Their mechanisms informed this pass, but current repo doctrine remains the server-side authority surface.
-- New tools/csc_native/csc_coverage_graph.py inventories normative declaration lines across Universal CSC, Unified Code Standards, CSC SOPs, INVARIANTS and release contract, and binds named consumers plus explicit coverage classes and claim ceiling.
-- D2/D5/D6/D8 implemented as report-only discovery rules pending stronger discriminators. D5 checked 13 path-like references with 0 broken in current scoped surfaces. D8 found 7 real overrides after self-noise exclusion; all now carry inline justification.
-- D2 current prototype found 5 statically extractable effect-trait declarations and 0 direct non-declaration readers; this is intentionally NOT accepted as the known 204/4 census because extraction coverage is incomplete. It remains unverified/report-only and is the next sharp discriminator.
-- D6 found 0 bullet-style invariant entries in docs/architecture/INVARIANTS.md, demonstrating parser-shape insufficiency; no false green claim. D6 remains report-only until invariant syntax is correctly modeled.
-- MVF now has from_csc adapter: declaration binding + final QC + coverage graph consumer-currentness must all be present/current/qualified for promotion admissibility; authority remains NONE. Tests prove stale coverage consumer blocks.
-- CSC declaration gate qualified=true with only D2 remaining explicit unverified claim. Focused coverage/MVF/constraint/schema suite 26/26 PASS.
-- Next: repair D2 against actual catalog/trait declaration architecture and D6 against actual invariant document structure; then self-apply coverage graph to CSC's own declarations, broaden qualification, reseal, commit/push.
+
+## 2026-09-15 RESIDENT GOVERNANCE TRACE ADDITIONS
+| Mechanism | Evidence | Status | Reopen |
+|---|---|---|---|
+| Duty epistemic deficits | governance tests + real stale-continuity smoke | VERIFIED PROTOTYPE | durable restart/reload semantics |
+| Resident self-admission denied | `self_admit` hard denial + tests | VERIFIED | authority model change |
+| External candidate qualification | independent PROVED evidence + donor validation | VERIFIED READ-ONLY | evidence expiry/currentness semantics |
+| Negative evidence cannot qualify | hostile test | VERIFIED | qualifier contract change |
+| Reentry dependency failure -> DEFER | donor assess_reentry + real/prototype tests | VERIFIED | reentry model change |
+| Reentry READY grants authority | donor semantics | REJECTED; READY still Authority.NONE | explicit future design change |
+
+
+## 2026-09-15 GENERAL COGNITION TRACE
+| Claim | Status | Evidence / pressure | Reopen |
+|---|---|---|---|
+| Duty contracts define total resident cognition | REJECTED | operator explicit correction | any implementation that routes all cognition through duties |
+| General Microseed/Veya cognition must remain available beneath employment | OPERATOR-RATIFIED DESIGN INVARIANT | current thread | source-mechanism audit / embodiment tests |
+| Novel resident proposals may exceed assigned duties | ALLOWED AS PROPOSAL ONLY | candidate/admission separation already embodied | authority model changes |
+
+
+## 2026-09-15 AGI CLAIM TRACE
+| Claim | Status | Basis | Reopen |
+|---|---|---|---|
+| Microseed/Veya is a general cognitive substrate | SUPPORTED INTERNALLY | full donor ingestion + general learning/epistemic/identity/action machinery | broader behavioral qualification |
+| `baby/proto-AGI` is reasonable internal shorthand | OPERATOR-RATIFIED / PROVISIONAL | architecture + intended developmental framing | failed generality/transfer evidence |
+| AGI has been scientifically established | NOT ESTABLISHED | no broad external qualification yet | future open-world/generalization evidence |
+| MVF employment can provide useful developmental immersion | DESIGN HYPOTHESIS | repeated real work + persistent resident architecture | longitudinal learning/transfer results |
+
+
+## 2026-09-15 LIFECYCLE TRACE
+| Mechanism | Status | Evidence | Reopen |
+|---|---|---|---|
+| active continuity surface audit | VERIFIED PROTOTYPE | hash/missing/unmanifested tests + real CURRENT smoke | manifest schema changes |
+| portfolio->evidence/deficit coupling | VERIFIED PROTOTYPE | lifecycle tests + real smoke | restart/idempotency semantics |
+| developmental biography separated from current state/evidence | VERIFIED PROTOTYPE | sqlite biography + current_state.json + evidence ledger | durable persistence plane |
+| identical replay creates new life event | REJECTED | HEaT failure and replay guard | biography semantics change |
+
+
+## 2026-09-15 CAMPAIGN BLOCKER TRACE
+| Mechanism | Status | Evidence | Blocker |
+|---|---|---|---|
+| continuity surface drift enforcement | VERIFIED PROTOTYPE | real STALE after edits -> CURRENT after manifest refresh | none |
+| resident lifecycle state/evidence/biography separation | VERIFIED PROTOTYPE | tests + real cycle | final durable location undefined |
+| `.heat_runtime` as final resident persistence | REJECTED | campaign doctrine/current state | temporary campaign plane only |
+| project `state/` as resident DB home | NOT AUTHORIZED/NOT ESTABLISHED | contains materialized project governance surfaces | semantic collision risk |
+| project `continuity/` as resident DB home | NOT AUTHORIZED/NOT ESTABLISHED | dedicated continuity artifacts | authority/plane collapse risk |
+| project `data/` as resident DB home | UNKNOWN | directory exists but no verified contract | semantics/ownership/recovery undefined |
+
+
+## 2026-09-15 DAEMON ARCHITECTURE TRACE
+| Decision | Status | Evidence | Reopen |
+|---|---|---|---|
+| Daemon deserves first-class plane | ARCHITECTURE CONVERGED / NOT YET STORAGE-QUALIFIED | server capability/HUD audit + persistence blocker | persistence HEaT failure |
+| Receiver substrate should move into Daemon | REJECTED | deterministic safety/authority/HA requirements | major architecture change |
+| Daemon must be prompt-bound | REJECTED | operator explicit AGI/general-cognition requirement | operator revision |
+| HUD needs Daemon conversation + status | OPERATOR-DIRECTED DESIGN | current HUD audit shows no cognitive-organism surface | implementation/UX HEaT |
+
+
+## 2026-09-15 HA TRIAD TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| current supervisor is single-target hardened primitive | VERIFIED SOURCE | `receiver_supervisor.py` health/task/lock/budget/hold/receipt design | supervisor refactor |
+| OOP HA should remain always-on/outside Daemon+Receiver | OPERATOR-RATIFIED ARCHITECTURE | thread + prior recovery proof | qualification failure |
+| independent supervisor instance per workload is preferred over one circular monolith | DESIGN CONVERGENCE | current single-target semantics + storm risk analysis | hostile multi-workload experiments |
+| Daemon may HA Receiver without extra authority | REJECTED | authority separation doctrine | explicit qualified recovery grant |
+
+| ngrok has independent canonical SYSTEM task | VERIFIED SOURCE | `supervisor/install_unattended_recovery.ps1` registers `PCMMAD_V30_Ngrok_SYSTEM` | installer redesign |
+
+
+## 2026-09-15 DAEMON PERSISTENCE / BLOCKER TRACE
+| Mechanism / claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| isolated Daemon plane persistence contract | VERIFIED CLONE/TEST | hostile Daemon-plane tests + broad regression | live/project-root embodiment |
+| ResidentLifecycle bound to Daemon plane | VERIFIED PROTOTYPE | integration test | service concurrency/restart |
+| bootstrap is read-only byte-for-byte | VERIFIED after immutable SQLite fix | bootstrap hostile tests | SQLite/runtime changes |
+| Commander Intent is hash-enforced active surface | VERIFIED CODE/TEST | REQUIRED_ACTIVE_SURFACES + surface test | surface schema redesign |
+| native generative inference exists | REJECTED CURRENT CLAIM | registry audit: only project.models list/inspect | new capability/plugin/runtime |
+| Veya chamber supplies general conversation | REJECTED CURRENT CLAIM | explicit chamber boundary/oracle NONE | later Veya branch/mechanism |
+
+
+## 2026-09-15 NON-INFERENCE DAEMON TRACE
+| Mechanism | Status | Evidence | Reopen |
+|---|---|---|---|
+| proactive Daemon service loop | VERIFIED CLONE | service tests + real port5016 autonomous cycles | service architecture changes |
+| Daemon health/status/events | VERIFIED CLONE | HTTP tests + native dispatch smoke | schema/API changes |
+| independent OOP Daemon recovery | VERIFIED CLONE | exact PID/creation recovery 36804->15756 | live promotion/installer changes |
+| maintenance hold suppress/resume | VERIFIED CLONE | no listener during hold, receipt MAINTENANCE_HOLD, recovery to 26940 | supervisor changes |
+| live Receiver unaffected | VERIFIED during experiments | port5000 PID 12788 unchanged | future live tests |
+| live Daemon installed | NOT DONE | clone-only campaign | operator-safe promotion window |
+
+
+## 2026-09-15 TELEMETRY / CONTINUITY TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| Defender interfered with a PCMMAD war harness | VERIFIED | Defender 1116/1117 record 2680/2681 + exact command path + ActionSuccess | Defender/history changes |
+| Defender caused 18:59 Receiver outage | NOT ESTABLISHED | detection/remediation ~16 min earlier; no direct causal event yet | correlated process/file/event evidence |
+| live Receiver was restarted after outage | VERIFIED | current PID31976 start 19:12:16 | process identity change |
+| all continuity surfaces must be intelligently enforced/used | OPERATOR-RATIFIED | current turn | embodiment/system-walk |
+| Windows/Defender telemetry is standard server repertoire | OPERATOR-RATIFIED / EARNED NEED | current turn + verified interference | capability embodiment |
+| current HUD behaves as instrument panel | REJECTED | outage screenshot prioritization analysis | redesign/HEaT |
+
+
+## 2026-09-15 EXECUTION / SECOND OUTAGE TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| second outage had new Defender detection | NOT OBSERVED | bounded 20:25-20:46 Defender/EventLog query returned none | later protection-history evidence |
+| Job Object tests directly target live Receiver | REJECTED CURRENTLY | UUID-scoped Local job names + test-owned PIDs | future test changes |
+| synchronous child process group was isolated before outage | REJECTED | server_hardening Popen had no creationflags | deployment of fixed server |
+| worker capsule venv redirector caused test-supervisor KeyboardInterrupt | EARNED / FIXED CLONE | all 3 worker cases interrupted before fix; 3/3 PASS after base-interpreter launch | Python/runtime changes |
+| resource-envelope kernel semantics pass outside venv redirector | VERIFIED | 6/6 OS-task run, live unchanged | Python/Job Object changes |
+| full corpus safe through synchronous live execution.run | REJECTED | repeated outage temporal association + known envelope weakness | never use; OS-owned qualification only |
+
+
+## 2026-09-15 GLOBAL WAR FINAL TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| fully embodied clone survives global interaction regression | VERIFIED CLONE | entire corpus rc0 under OS-owned task + 121/121 live TCP samples | code/runtime/OS changes |
+| global tests are isolated from live control plane | VERIFIED WITH NEW ENVELOPE | Receiver22968 unchanged, ngrok19772 unchanged; process groups + worker base interpreter | execution envelope changes |
+| promotion rollback restores prior generation without erasing Daemon memory | VERIFIED SYNTHETIC | v1->v2->rollback rehearsal | installer/rollback/schema changes |
+| Windows/Defender telemetry is standard native evidence | VERIFIED CLONE/REAL SMOKE | native tools + real Defender/event evidence | Windows/security API changes |
+| continuity is semantically enforced and intelligently surfaced | VERIFIED CLONE | planner/gate/rehydrate tests + resident status integration | surface registry/handoff changes |
+| live Daemon/HA promoted | NOT DONE | explicit non-mutation boundary | safe-window promotion |
+
+| final exact commit tree whole corpus | VERIFIED CLONE | rc0, 62.2664s, Receiver22968 unchanged, 120/120 TCP up | any staged code change |
+
+
+## 2026-09-15 SCAR INTELLIGENCE TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| explicit X != Y scars can be collected/deduped without lineage loss | VERIFIED CLONE | scar intelligence tests | grammar/source format changes |
+| derived index promotes scar authority | REJECTED BY DESIGN | authority DERIVED_INDEX_ONLY + source provenance observations only | governance design changes |
+| context routing surfaces relevant scars without ledger dump | VERIFIED CLONE | execution vs HUD routing tests | router/tag changes |
+| Daemon persists and surfaces applicable scar packet | VERIFIED CLONE | lifecycle/status integration + durable index test | lifecycle/status changes |
+
+
+## 2026-09-15 HUD COCKPIT TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| center dispatch history dominates primary scan field | REJECTED IN CLONE | Primary Operating Display + 4 receipt secondary stream | HUD layout changes |
+| stale green state can remain NORMAL | REJECTED IN CLONE | pure cockpit model currentness guard | status/currentness changes |
+| Receiver-down/transport-up is distinguishable | VERIFIED CLONE | ngrok transport + receiver causal model tests | status schema changes |
+| Daemon absence before promotion is a failure | REJECTED | STANDBY neutral semantics | promotion/config changes |
+| routed scar can explain active cockpit condition without ledger dump | VERIFIED CLONE | scar routing + HUD callout tests | scar/status integration changes |
+
+
+## 2026-09-15 COGNITIVE COCKPIT / SCAR TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| healthy/current duties can route scars before failure | VERIFIED CLONE | lifecycle current-duty scar test | lifecycle context changes |
+| consolidated-ledger section provenance cannot bleed across sections | VERIFIED CLONE | section-bounded provenance tests | parser changes |
+| semantic duplicate scars preserve source-plane lineage | VERIFIED CLONE | multi-source dedupe tests | index schema changes |
+| uploaded RAHL ledger is fully materialized/ingested server-side | FALSE / NOT DONE | registry status pending materialization | successful exact-byte import + hash readback |
+| registered missing/hash-bad scar sources are visible as coverage deficits | VERIFIED CLONE | source-registry + HUD diagnostic tests | source registry changes |
+| cockpit error expansion separates facts/inference/unknowns and exposes lineage/topology | VERIFIED CLONE | Node diagnostic-model tests + embodied smoke | diagnostic model/UI changes |
+| real healthy core + optional browser degradation becomes CAUTION, not WARNING | VERIFIED EMBODIED CLONE | temp Daemon/HUD smoke against live Receiver/ngrok | readiness schema changes |
+
+
+## 2026-09-15 GLOBAL SCAR LEDGER MATERIALIZATION TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| uploaded RAHL ledger bytes are materialized in clone | VERIFIED | 20318 bytes + attachment SHA256 exact match after verified transport decode | file/hash change |
+| materialized ledger is collected by derived scar index | VERIFIED | 136 external occurrences; total 386 scars/734 occurrences; zero source deficits | index/parser changes |
+| materialization promotes compiled ledger to canon | REJECTED | source registry GATHERING/NONE_FROM_COMPILATION + evidence ceiling retained | explicit operator promotion only |
+| section provenance is preserved through nested ledger subsections | VERIFIED | hierarchical heading parser + nested provenance tests + real counts | parser/source grammar changes |
+| immediate temp HUD listener sample proves persistent orphan | REJECTED | bounded follow-up showed listener gone; reloader disabled | repeatable persistent orphan evidence |
+
+## 2026-09-16 FINAL SURFACE AUDIT TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| browser bridge auto-start/manual-control intent was embodied before final audit | REJECTED HISTORICALLY | live port4471 absent; no task; old README manual-only | now repaired; reopen on installer/task changes |
+| browser bridge managed boot/supervision exists in final clone | VERIFIED FOCUSED | installer parse/static tests + managed task/supervisor bindings | installer/supervisor changes |
+| browser effect authorization is explicit and fail-closed | VERIFIED EMBODIED | real BLOCKED->ARMED Edge session->BLOCKED smoke + HTTP423 guards | gate/service changes |
+| blocked healthy browser bridge is not a system degradation | VERIFIED | pure cockpit model tests | readiness semantics changes |
+| HA restart budget/hold state is visible in cockpit | VERIFIED FOCUSED | HUD supervisor budget tests | supervisor schema/HUD changes |
+| all current maintained-surface intent has disposition | VERIFIED AUDIT | FINAL_SURFACE_INTENT_AUDIT_2026-09-16.md | new/changed intent |
+| final candidate globally qualified after browser/HUD changes | PENDING | GLOBAL-WAR-FINAL-002 | final matrix pass |
+
+## 2026-09-16 FINAL QUALIFICATION / GITHUB TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| exact final clone candidate whole corpus passes without live interference | VERIFIED | rc0/67.187s; 125/125 TCP; Receiver/ngrok/HUD PIDs unchanged | any product/test/topology change |
+| final candidate qualified for live replacement | VERIFIED WITH PROMOTION PREREQUISITE | final report + focused browser/HA/HUD/scar tests | SYSTEM registration/readback failure |
+| final candidate already live-promoted | FALSE | no live mutation performed | safe-window promotion |
+| GitHub target | VERIFIED | operator-provided URL + publication repo origin | remote change |
+| research/testing records inventoried for publication | VERIFIED | GITHUB_PUBLICATION_INCLUSION_MANIFEST_2026-09-16.json (334 records) | publication manifest changes |
+
+| Windows atomic handoff replace is immune to transient sharing denial | VERIFIED POST-FIX | focused regression + exact whole corpus rc0 / 132 TCP samples | recurrence/persistent denial |

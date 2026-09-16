@@ -6,25 +6,20 @@ Regression tests for server hardening primitives and bounded execution envelopes
 
 from __future__ import annotations
 
-import os
-import shutil
 import tempfile
 import unittest
 import zipfile
 from pathlib import Path
 import sys
-from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
+sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
 
 from server_hardening import (
     command_preflight,
     inspect_zip_safety,
     read_text_window,
-    resolve_command_executable_for_cwd,
     run_subprocess_envelope,
-    start_background_process,
     safe_extract_zip,
     safe_json_dumps,
     safe_project_cwd,
@@ -34,27 +29,6 @@ from server_hardening import (
 
 
 class ServerHardeningTests(unittest.TestCase):
-    def test_background_process_isolated_from_supervising_windows_process_group(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp, patch(
-            "server_hardening.subprocess.Popen"
-        ) as popen:
-            start_background_process(
-                [sys.executable, "-c", "print('ok')"],
-                cwd=tmp,
-                stdout=None,
-                stderr=None,
-                env=os.environ.copy(),
-            )
-        kwargs = popen.call_args.kwargs
-        if os.name == "nt":
-            import subprocess
-
-            expected = int(getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
-            self.assertNotEqual(expected, 0)
-            self.assertEqual(int(kwargs["creationflags"]) & expected, expected)
-        else:
-            self.assertEqual(kwargs["creationflags"], 0)
-
     def test_safe_json_dumps_stringifies_non_string_keys(self) -> None:
         text = safe_json_dumps({1: Path("x/y")})
         self.assertIn('"1"', text)
@@ -132,51 +106,6 @@ class ServerHardeningTests(unittest.TestCase):
             window = read_text_window(report, max_bytes=12, mode="head")
             self.assertTrue(window["truncated"])
             self.assertGreater(window["returned_bytes"], 0)
-
-    def test_path_like_relative_executable_resolves_against_requested_cwd(self) -> None:
-        if os.name != "nt":
-            self.skipTest("Windows executable-resolution regression")
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            job = root / "job"
-            tools = job / "tools"
-            tools.mkdir(parents=True)
-            source_cmd = Path(os.environ.get("COMSPEC", r"C:\Windows\System32\cmd.exe"))
-            local_cmd = tools / "cmd.exe"
-            shutil.copy2(source_cmd, local_cmd)
-            command = [r"tools\cmd.exe", "/c", "echo", "CWD_RELATIVE_OK"]
-            resolved = resolve_command_executable_for_cwd(command, job)
-            self.assertEqual(Path(resolved[0]), local_cmd.resolve())
-            envelope = run_subprocess_envelope(
-                command,
-                cwd=job,
-                timeout_seconds=5,
-                stdout_max_bytes=100,
-                stderr_max_bytes=100,
-            )
-            self.assertTrue(envelope["ok"], envelope)
-            self.assertIn("CWD_RELATIVE_OK", envelope["stdout"])
-
-    def test_missing_path_like_relative_executable_fails_before_launch(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            with self.assertRaises(FileNotFoundError):
-                resolve_command_executable_for_cwd([r"missing\tool.exe", "--version"], root)
-
-    def test_drive_relative_executable_is_rejected_as_ambiguous(self) -> None:
-        if os.name != "nt":
-            self.skipTest("Windows drive-relative executable semantics")
-        with tempfile.TemporaryDirectory() as tmp:
-            with self.assertRaises(ValueError):
-                resolve_command_executable_for_cwd([r"C:tool.exe"], Path(tmp))
-
-    def test_bare_command_keeps_path_lookup_semantics(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            self.assertEqual(
-                resolve_command_executable_for_cwd(["python", "--version"], root),
-                ["python", "--version"],
-            )
 
     def test_command_preflight_and_subprocess_envelope(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

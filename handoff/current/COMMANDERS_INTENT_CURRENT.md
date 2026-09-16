@@ -1,42 +1,9 @@
 # PCMMAD Receiver V30 — Commander's Intent / Architecture Direction / Active Campaign
 
-Status: **ACTIVE / CURRENT PRECEDENCE REFRESHED 2026-09-10 — HISTORICAL BODY RETAINED BELOW**
+Status: **ACTIVE / CURRENT AS OF 2026-09-07 15:21 ET**
 Purpose: this is the governing engineering-direction surface for the V29→V30 modernization. It is not release evidence. It exists so a fresh thread can recover not only *what is being worked on*, but *why the architecture is being shaped this way*, which choices are locked, which are provisional, and which paths are explicitly demoted.
 
 This file supersedes older status/checklist readings inside prior revisions of `V30_COMMANDERS_INTENT_AND_WORKLIST.md`. Historical pre-normalization copy is preserved under `reports/_history/`.
-
-
-## 0. Current precedence — 2026-09-10
-
-Where older present-tense statements in the retained historical body conflict with this block, **this block wins for current engineering direction**. Dated historical facts remain lineage.
-
-Current source frontier before this current-surface child:
-- latest remote-verified source mechanism `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` / tree `ed939b1dbfd1dc570966c46f200618551b893503` (`Make Runtime clean-box reproducible`);
-- v11 schema mechanism `7e4c66a769884269d71babdb92217ba80eb66e74` / tree `967f108f235b4b42097f4b2d9d48ee61c591017c`;
-- 158 native capabilities; v11.0 source schema successor **8 Assistant-facing operations**; v10.3 compatibility/import surface **30 operations**;
-- current combined qualification **890 collected / 888 passed / 2 skipped / 0 failed**;
-- v11 currentness+schema focused gate **128/128 PASS**;
-- four-worker `loadscope` **888 passed / 2 skipped / 103 subtests**;
-- ICF-CS **v1.2** current standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`.
-
-### Architecture closure
-The core Runtime substrate remains **CONVERGED AT THE CURRENT CLAIM CEILING**. The separately gated schema branch has been explicitly triggered, built, qualified and source-published. Subsequent clean-box reproducibility hardening remains part of the same Runtime substrate and does not replace the v11 schema contract.
-
-### Current schema successor
-Current source schema pointer: `handoff/current/SCHEMA_CURRENT.md`. v11.0 uses eight static primitives: `orient / invoke / flow / compose / execute / observe / resume / transfer`. The scheduler/effect gate remains conservative: **0 effect-truth / 0 parallel-read / 0 resume-replay witnesses** in production.
-
-`CAPABILITY_LEASE != CAPABILITY_GRANT`
-`DESCRIPTIVE_EFFECT_TRAITS != SCHEDULER_AUTHORITY`
-`DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`
-`CONTINUATION != CURRENTNESS`
-`COMPACT_PLAN != UNBOUNDED_RESOLVED_ARGUMENTS`
-`PLAN_VM != SECOND_JOB_SCHEDULER`
-
-### Current operational next step
-Publish/read back this isolated current-surface child. Product-side ChatGPT Action installation and live Runtime promotion/restart remain separate consequences.
-
-`SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`
-`SOURCE_QUALIFIED != LIVE_PROMOTED`
 
 ---
 
@@ -1029,17 +996,113 @@ A-042 compact-schema work is limited to current authority projection parity and 
 - Live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`. Final schema LAST/LOCKED/untriggered. Skills/UCM remain out of scope/paused.
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
-## ROLLOVER PRECEDENCE — 2026-09-10 18:40 ET
-- GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7`; project-aware access logging published.
-- v11 canonical schema unchanged: `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities.
-- GitHub Actions run `34537723493` is **RED** on Windows + Ubuntu; Ubuntu exact current failure is hot-scan queued count `38 != 50`; live promotion blocked.
-- local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed donor/qualified WIP; schema-wire WIP is older donor material.
-- loaded Desktop Runtime remains behind source; source != live.
-- current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
-- This block wins on current Git/release frontier over older present-tense text in this file; historical evidence remains lineage.
 
-## HOSTED CI SUPERSESSION — 2026-09-10 19:13 ET
-- completed tested head `fd9b42ad143d70ddda92b22372cbae767b12bea0` / run `34541018742`: Ubuntu **SUCCESS**, Windows **FAILURE**;
-- Windows public failure is still suite-level only; exact testcase unresolved;
-- earlier Ubuntu `38 != 50` is superseded as current hosted Ubuntu status;
-- fresh Actions on any later currentness child wins.
+
+## COMMANDER'S INTENT DELTA — 2026-09-15 DAEMON CAMPAIGN
+- At every campaign end, audit all continuity/context/shadow surfaces AND this Commander Intent surface before declaring the campaign complete. Hash-current surfaces are insufficient if intended functionality or command intent has drifted.
+- Preserve root law: cross our operational boundary -> lose special status -> strip for parts -> reality/HEaT decides survival; nothing is sacred.
+- Preserve `LOCAL OPTIMUM != GLOBAL FUNCTIONALITY`; campaign success requires negative system-walk/global regression, not component green alone.
+- Preserve general cognition: Daemon/MVF is not the sum of assigned duties; employment/authority ceilings must not become reasoning/learning ceilings.
+- Daemon is the first-class server-side cognitive organism; Receiver is its deterministic body/substrate. Daemon cognition is proactive/non-prompt-bound while consequential effects remain capability/authority-bound.
+- Preserve reciprocal HA triad: body can recover Daemon, Daemon cognitively HA's body, original out-of-process HA remains always-on and independent.
+- HUD eventually needs persistent Daemon conversation + status/attention sidebar; Daemon may initiate relevant communication.
+- Current campaign result: Daemon persistence/identity/current-state/evidence/biography/checkpoint/recovery/migration/bootstrap are qualified in isolated clone/temp roots. Do NOT create the project-control/live Daemon root yet.
+- Current substantive blocker: no qualified generative inference/conversation plane in current Receiver registry; Veya chamber explicitly has no external LLM oracle/general conversation. Next campaign highest value is the inference/cognitive-runtime bridge, not cosmetic HUD chat.
+
+
+## COMMANDER'S INTENT DELTA — NON-INFERENCE DAEMON CAMPAIGN
+- Inference/conversation bridge and HUD interface are explicitly deferred for now. Do not spend campaign effort there until operator reopens them.
+- Complete all other Daemon/server embodiment work first.
+- Non-inference Daemon must remain proactive/non-prompt-bound, persistent, generally cognitive beneath duties, and authority-bounded for effects.
+- Body/brain/OOP HA intent remains: Receiver/ngrok ecosystem keeps Daemon alive; Daemon cognitively monitors/HA-diagnoses Receiver+ngrok; original out-of-process recovery remains independently always-on.
+- Campaign-end surface + Commander Intent audit is mandatory before every campaign closure.
+- Current clone state now includes proactive Daemon service, durable status/events, native Receiver `daemon.health/status/events`, independent Daemon SYSTEM+supervisor task wiring, and real clone-only OOP recovery/maintenance-hold proof.
+- No live Daemon install/promotion occurred; live promotion must not be smuggled in as a clone checkpoint.
+
+
+## COMMANDER INTENT DELTA — CONTINUITY ENFORCEMENT / WINDOWS TELEMETRY / HUD — 2026-09-15
+- Every continuity/context/Commander Intent/shadow document is an enforced operational instrument: keep semantically current AND intelligently surface/use the smallest relevant authoritative slice where/when it provides value. No ritual touch-all, no blind reread, no context flooding.
+- Thread handoff loss/reinvention ends: handoff is a governed lifecycle event with pre-handoff surface/intent/state/evidence verification and fresh-thread rehydrate verification.
+- Windows Event Viewer and Microsoft Defender become standard native evidence/reasoning inputs for server diagnosis and all project failures where process/file/execution/security interference is plausible. They are normal repertoire, not a live semantic afterthought.
+- Defender findings enter causal analysis but are not automatically promoted to cause.
+- Anything not safely/currently embodied gets its own war matrix and hostile run rather than being forgotten.
+- HUD requires a dedicated cockpit/instrument-panel redesign campaign: compress primary operational state and causal/action information, use aviation/spacecraft/fictive donor concepts only after stripping/testing, and never trade representation quality for theme.
+- Current verified outage lineage: screenshot showed HUD alive and Receiver down around 18:59 local; recovered Receiver PID31976 started 19:12:16, ngrok PID37312 started 19:12:30, HUD PID25508 persisted from prior day. Defender Severe ClickFix detection/remediation at 18:43 affected exact PCMMAD soak command; it explains that harness failure but is not yet evidence of the later Receiver outage cause.
+
+
+## CAMPAIGN HIERARCHY CLARIFICATION — 2026-09-15
+- The active parent campaign remains the **GLOBAL INTERACTION WAR CAMPAIGN** against the fully embodied pre-live clone.
+- Continuity enforcement and Windows/Defender telemetry are **inline sub-campaigns / capability tranches inside that same war campaign** because they were directly earned by failures found during it. They do not replace, reset, or close the parent campaign.
+- The parent campaign remains responsible for the unfinished promotion transaction/rollback work, project-handoff authority, HA composition, correlated failure, soak/boundedness, and all previously discovered interaction scars until the whole organism reaches the live-promotion boundary with no unresolved clone-side blocker.
+- HUD cockpit redesign remains a **separate next campaign** after the parent server/global-interaction war campaign closes, unless a HUD defect directly blocks/obscures current recovery evidence and must be fixed inline.
+
+
+## GLOBAL INTERACTION WAR CAMPAIGN CLOSURE — 2026-09-15
+- Parent GLOBAL INTERACTION WAR CAMPAIGN is now CLOSED in clone at the live-promotion boundary after the entire corpus passed under an OS-owned envelope with zero live TCP liveness loss.
+- Closure is not live deployment. Do not infer that Daemon/project handoff/SYSTEM HA topology has been promoted into live.
+- Windows/Defender telemetry and intelligent continuity enforcement are now standard server practices earned inside this parent campaign.
+- Long/global test campaigns must not use synchronous live `execution.run`; use OS-owned jobs/tasks with result and live-identity readback.
+- Next separate campaign is HUD cockpit/instrument-panel redesign and HEaT. Inference/conversation remains deferred.
+
+
+## SCAR INTELLIGENCE DELTA — 2026-09-15
+- The global scar system receives the same intelligent-enforcement treatment as continuity: scars must be collected, semantically grouped/routed, and force-surfaced when applicable without ritual dumping.
+- Daemon maintains a DERIVED scar intelligence index from authored scar compression forms, preserving exact source lineage and occurrence history.
+- Automatic collection/routing MUST NOT promote authority or provenance. `DERIVED INDEX != CANON`, `AUTO-COLLECTED != EARNED`, `SOURCE PROVENANCE OBSERVED != STANDING PROMOTED`.
+- Scar routing should surface the smallest high-value applicable set for the current task/failure/campaign, with source drill-down available.
+- Scar collection/routing becomes a standard resident-intelligence duty and may feed HUD warnings/explanations where useful.
+
+
+## HUD COCKPIT WAR — EMBODIED TRANCHE DELTA — 2026-09-15
+- HUD primary scan path is now an instrument panel, not a dispatch-card center: MASTER NORMAL/CAUTION/WARNING, explicit operating mode/currentness, system synoptic, causal/recovery picture, bounded applicable scar, and secondary receipt history.
+- Transport/ngrok, Receiver, Daemon, Journal and Browser are represented independently; surviving components may not paint the organism green.
+- Daemon remains neutral STANDBY until configured/promoted; absence before promotion is not a fault.
+- Stale or unavailable status evidence overrides embedded green component values and forces WARNING/currentness recovery.
+- Security signal visibility preserves `SECURITY PRODUCT EVENT != CAUSE`; cockpit explicitly says causation is not established unless the evidence packet says otherwise.
+- Side wings are compressed instrument banks; operating distinctions are a strip, not prose cards. Existing dispatch/approval/security controls remain load-bearing and must survive visual recomposition.
+
+
+## HUD COGNITIVE COCKPIT + GLOBAL SCAR INTELLIGENCE DELTA — 2026-09-15
+- Daemon is explicitly intended to get ahead of repeated blind spots: every maintained continuity/context/Commander/shadow/scar surface should be both semantically current and intelligently surfaced before a known class of mistake is paid for again.
+- Scar intelligence is multi-source and provenance-preserving. Semantic dedupe may unify a scar concept, but source plane, provenance class, standing, scope, and occurrence lineage MUST remain separately inspectable.
+- Resident scar context includes healthy/current duties as well as non-current failures; scars are preventative guidance, not merely post-failure commentary.
+- Global scar-source registries may declare gathered/non-authoritative sources. Pending/missing/hash-mismatch sources must surface as coverage deficits; `REGISTERED != MATERIALIZED != INGESTED != EARNED`.
+- The uploaded RAHL consolidated doctrine/scar ledger is registered by exact attachment identity/hash as GATHERING with authority NONE_FROM_COMPILATION and its explicit evidence ceiling preserved. Its full bytes are NOT yet materialized in the server scar-source plane; no claim of full ingestion is permitted.
+- HUD cognitive diagnostics SHALL expand errors/warnings into bounded relevant evidence: observed facts, explicitly labeled triangulated inferences, unknowns/discriminators, informed-by surfaces, applicable scars, topology/cartography, and next evidence routes.
+- Stale evidence blocks causal inference. Security signals remain non-causal unless the evidence packet explicitly establishes linkage. Diagnostic expansion must prefer discriminating evidence over remediation guessing.
+
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN
+
+
+## GLOBAL SCAR LEDGER MATERIALIZATION VERIFIED — 2026-09-15
+- The uploaded RAHL consolidated doctrine/scar ledger is now byte-for-byte materialized in the clone `scar_sources/` plane: 20,318 bytes, SHA256 `7643b0faa7841205f374a0ce2cfecee970a807cba3ea322f8b4c1e93dd298696`, matching the original attachment identity.
+- Materialization does NOT alter its evidence ceiling: `CONSOLIDATION != CANON`, `COMPILED_BY_ASSISTANT != OPERATOR_RATIFIED`, `GATHERED != RE_EARNED`.
+- Daemon-derived scar collection now actually ingests the materialized source as a separate `scar_sources` plane while preserving each occurrence's provenance class and source-plane lineage. Semantic dedupe does not merge authority.
+- Current derived index readback: 386 semantic scars / 734 total occurrences; 136 occurrences from the external ledger; zero source deficits. External provenance readback: 124 EARNED, 3 DONOR, 3 PROPOSED, 3 OBSERVED, 3 UNSPECIFIED evidence-ceiling lines.
+
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN
+
+## FINAL PRE-LIVE SURFACE AUDIT / BROWSER INFRASTRUCTURE — 2026-09-16
+- Surface audit found no remaining unaccounted load-bearing intent after repairing Browser Bridge embodiment. Browser Bridge is a standard always-started runtime plane; browser actuation remains fail-closed behind an explicit operator `BLOCKED <-> ARMED` gate.
+- `BRIDGE ONLINE != ACTUATION AUTHORIZED`; `BLOCKED != DEGRADED`; `ARMED != READY`; `HEALTHY != ARMED`.
+- Browser Bridge joins Receiver/ngrok/Daemon under managed boot + independent supervisor discipline; Task Scheduler workload does not own a hidden restart loop. Runtime preflight must prove Flask+Playwright and an installed supported browser channel before recovery install mutation begins.
+- HUD must present browser gate state as a cockpit authority instrument, not a legacy settings card. HA restart budgets are first-class cockpit evidence.
+- Stale surface declarations superseded: HUD is no longer deferred; HUD annunciation/trend/restart-budget work is embodied; global scar source is materialized/indexed.
+- Promotion-only boundaries remain separate: live HUD/Daemon/browser/task estate and Desktop restart-helper convergence.
+- Historical outage root cause and external platform approval consumption remain explicit UNKNOWN/evidence gaps, not hidden blockers or false-green claims.
+
+Active parent campaign: FINAL PRE-LIVE GLOBAL WAR CAMPAIGN
+
+## FINAL GLOBAL QUALIFICATION + GITHUB PUBLICATION — 2026-09-16
+- Exact final candidate whole corpus PASS: rc0 / 67.187s / Receiver22968 unchanged / ngrok19772 unchanged / HUD25508 unchanged / 125 of 125 Receiver TCP samples up.
+- Final candidate is QUALIFIED FOR LIVE REPLACEMENT subject to promotion-time elevated SYSTEM task registration/readback; this ingress cannot register SYSTEM tasks (`Access is denied`) and must not claim otherwise.
+- GitHub publication target is explicitly `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`. GitHub publication is part of the same final promotion boundary.
+- Research, testing, qualification, continuity, doctrine, scar sources, audit records and relevant reports are publication content. Runtime scratch may be excluded only when durable evidence has been promoted into reports and the exclusion is explicitly indexed.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## PUBLICATION-TREE WINDOWS RACE HARDENING — 2026-09-16
+- GitHub publication-tree qualification exposed a real Windows atomic-rename race in project-handoff publication (`WinError 5` on `os.replace`). This is now treated as earned final hardening, not test flake.
+- `TRANSIENT WINDOWS SHARING DENIAL != ATOMIC WRITE FAILURE`; bounded retry is allowed only for transient access/sharing errors and must preserve fail-closed behavior for persistent/other errors.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN

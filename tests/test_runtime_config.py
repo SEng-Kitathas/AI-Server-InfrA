@@ -9,7 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
+sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
 
 from runtime_config import (
     BrowserBridgeRuntimeConfig,
@@ -33,22 +33,6 @@ class RuntimeConfigTests(unittest.TestCase):
         for value in ("file:///tmp/bridge", "bridge", "http://host/path?secret=x"):
             with self.subTest(value=value), self.assertRaises(RuntimeConfigurationError):
                 parse_http_base_url(value, "http://127.0.0.1:4471")
-
-    def test_default_global_concurrency_supports_twelve_workers(self) -> None:
-        with patch.dict(os.environ, {}, clear=True):
-            config = ExecutionRuntimeConfig.from_env()
-        self.assertEqual(config.global_concurrency, 12)
-        self.assertIsNone(config.project_concurrency)
-
-    def test_http_control_pool_is_separate_and_defaults_to_sixteen_threads(self) -> None:
-        with patch.dict(os.environ, {}, clear=True):
-            config = ServerRuntimeConfig.from_env()
-        self.assertEqual(config.http_threads, 16)
-        with patch.dict(os.environ, {"PCMMAD_HTTP_THREADS": "24"}, clear=False):
-            self.assertEqual(ServerRuntimeConfig.from_env().http_threads, 24)
-        with patch.dict(os.environ, {"PCMMAD_HTTP_THREADS": "unbounded"}, clear=False):
-            with self.assertRaises(RuntimeConfigurationError):
-                ServerRuntimeConfig.from_env()
 
     def test_execution_resync_intervals_are_typed_and_clamped(self) -> None:
         with patch.dict(

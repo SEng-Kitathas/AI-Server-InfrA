@@ -118,6 +118,52 @@ class HudBoundApprovalTests(unittest.TestCase):
             {"project_id": "alpha", "message": "m"},
         )
 
+    def test_exact_continuation_digest_and_authority_are_forwarded_without_reconstruction(self) -> None:
+        seen = {}
+        continuation = {
+            "kind": "resubmit_exact_tool_call",
+            "tool": "git.commit",
+            "arguments": {"project_id": "alpha", "message": "m"},
+            "expected_contract_digest": "c" * 64,
+            "authority_template": {"approval_handle": "apr-abc", "permit": False},
+            "permit_must_be_set_true_by_approver": True,
+            "single_use": True,
+        }
+        authority = dict(continuation["authority_template"])
+        authority["permit"] = True
+
+        def receiver_request(path, method="GET", payload=None, timeout=5.0):
+            seen.update({"path": path, "method": method, "payload": payload})
+            return 200, {"ok": True, "approved": True}
+
+        with patch.object(self.hud, "receiver_request", side_effect=receiver_request):
+            response = self.client.post(
+                "/api/dispatch",
+                json={
+                    "tool_name": continuation["tool"],
+                    "payload": continuation["arguments"],
+                    "authority": authority,
+                    "expected_contract_digest": continuation["expected_contract_digest"],
+                    "request_id": "req-continuation",
+                },
+            )
+        self.assertEqual(response.status_code, 200)
+        forwarded = seen["payload"]
+        self.assertEqual(forwarded["tool_name"], continuation["tool"])
+        self.assertEqual(forwarded["payload"], continuation["arguments"])
+        self.assertEqual(forwarded["authority"], authority)
+        self.assertEqual(forwarded["expected_contract_digest"], continuation["expected_contract_digest"])
+
+    def test_expected_contract_digest_must_be_string(self) -> None:
+        with patch.object(self.hud, "receiver_request") as receiver:
+            response = self.client.post(
+                "/api/dispatch",
+                json={"tool_name": "x", "payload": {}, "expected_contract_digest": {"bad": True}},
+            )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.get_json()["error_code"], "BAD_REQUEST")
+        receiver.assert_not_called()
+
     def test_legacy_approve_bit_is_rejected_before_receiver_call(self) -> None:
         with patch.object(self.hud, "receiver_request") as receiver:
             response = self.client.post(
@@ -199,15 +245,18 @@ class HudBoundApprovalTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         body = response.get_json()
         self.assertIn("target/argument/contract-bound challenge", body["approval_model"])
-        self.assertEqual(body["ui_version"], "ops-hud-20260911-readiness-authority-v7")
-        self.assertEqual(body["telemetry_model"], "receiver-owned RED+USE+scheduler projection")
+        self.assertEqual(body["ui_version"], "ops-hud-20260905-bound-approval")
 
     def test_frontend_uses_effective_approval_and_runtime_challenge_not_local_approve_bit(self) -> None:
         js = (HUD_ROOT / "static" / "app.js").read_text(encoding="utf-8")
         html = (HUD_ROOT / "static" / "index.html").read_text(encoding="utf-8")
         self.assertIn("effective_approval_required", js)
         self.assertIn("approval_challenge", js)
-        self.assertIn("approval_handle:challenge.handle", js)
+        self.assertIn("const continuation=d.continuation||null", js)
+        self.assertIn("...continuation.authority_template,permit:true", js)
+        self.assertIn("continuation.expected_contract_digest", js)
+        self.assertIn("continuation.arguments", js)
+        self.assertNotIn("approval_handle:challenge.handle", js)
         self.assertIn("Approve exact challenge", js)
         self.assertNotIn("sendDispatch(t,payload,true)", js)
         self.assertNotIn("approve,request_id", js)

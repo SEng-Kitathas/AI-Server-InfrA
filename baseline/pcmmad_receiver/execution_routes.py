@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 import shutil
 import sys
@@ -16,9 +15,9 @@ from pathlib import Path
 from typing import Any
 
 if os.name == "nt":
-    from . import windows_job_object as _wjo
+    import windows_job_object as _wjo
     try:
-        from .windows_directory_watch import (
+        from windows_directory_watch import (
             DirectoryChangeEvent as _DirectoryChangeEvent,
             WindowsRecursiveDirectoryWatcher as _WindowsRecursiveDirectoryWatcher,
         )
@@ -32,16 +31,15 @@ else:
 from collections.abc import MutableMapping
 
 from flask import Blueprint, jsonify, request
-from .runtime_config import EXECUTION_CONFIG
-from .project_mutation_authority import (
+from runtime_config import EXECUTION_CONFIG
+from project_mutation_authority import (
     ProjectMutationAuthorityError,
     consequence_guard,
     current_mutation_binding,
     runtime_bound_mutation_guard,
-    submission_mutation_binding,
 )
-from .server_hardening import ManagedProcess, start_background_process
-from .control_plane_models import (
+from server_hardening import ManagedProcess, start_background_process
+from control_plane_models import (
     CapacitySnapshot,
     CorruptJobFileRecord,
     ExecutionCapabilitiesEnvelope,
@@ -59,7 +57,7 @@ from .control_plane_models import (
 
 JsonObject = MutableMapping[str, Any]
 
-from .api_wire_models import (
+from api_wire_models import (
     ExecutionListRequest,
     ExecutionListResponse,
     ExecutionOutputRequest,
@@ -71,13 +69,8 @@ from .api_wire_models import (
     ExecutionStatusResponse,
     ExecutionTerminateRequest,
 )
-from .server_hardening import (
-    resolve_command_executable_for_cwd,
-    safe_json_dumps,
-    safe_json_loads,
-    safe_project_cwd,
-)
-from .shared_core import (
+from server_hardening import safe_json_dumps, safe_json_loads, safe_project_cwd
+from shared_core import (
     PROJECTS_ROOT,
     commits_ledger_path_for,
     ensure_parent,
@@ -984,66 +977,11 @@ def execution_readiness() -> JsonObject:
     ).to_dict()
 
 
-@dataclass(frozen=True)
-class _RunningCensusResult:
-    total: int
-    per_project: dict[str, int]
-    exclusive_projects: frozenset[str]
-
-    def __iter__(self):
-        # Backward-compatible two-value unpacking for existing callers/tests.
-        yield self.total
-        yield self.per_project
-
-
-def _job_extra_value(job: object, key: str) -> object:
-    getter = getattr(job, "get", None)
-    if callable(getter):
-        value = getter(key)
-        if value is not None:
-            return value
-    value = getattr(job, key, None)
-    if value is not None:
-        return value
-    extra = getattr(job, "extra", None)
-    if isinstance(extra, dict):
-        return extra.get(key)
-    if callable(getter):
-        extra = getter("extra")
-        if isinstance(extra, dict):
-            return extra.get(key)
-    return None
-
-
-def _job_requires_project_exclusive_execution(job: ExecutionJobRecord) -> bool:
-    explicit = _job_extra_value(job, "execution_project_exclusive")
-    if explicit is not None:
-        return bool(explicit)
-    # Backward compatibility: any durable job carrying a mutation binding was
-    # historically executed while holding the project-wide consequence guard.
-    return isinstance(_job_extra_value(job, "project_mutation_binding"), dict)
-
-
-def _can_start_now(
-    project_id: str,
-    job: ExecutionJobRecord | None = None,
-    *,
-    census: _RunningCensusResult | tuple[int, dict[str, int]] | None = None,
-) -> bool:
-    census = census if census is not None else _running_census()
-    running_global, running_by_project = census
-    if EXECUTION_GLOBAL_CONCURRENCY is not None and running_global >= EXECUTION_GLOBAL_CONCURRENCY:
-        return False
-    if (
-        EXECUTION_PROJECT_CONCURRENCY is not None
-        and int(running_by_project.get(project_id, 0)) >= EXECUTION_PROJECT_CONCURRENCY
-    ):
-        return False
-    if job is not None and _job_requires_project_exclusive_execution(job):
-        exclusive_projects = getattr(census, "exclusive_projects", frozenset())
-        if project_id in exclusive_projects:
-            return False
-    return True
+def _can_start_now(project_id: str) -> bool:
+    snap = _capacity_snapshot(project_id)
+    return (snap.global_limit is None or snap.running_global < snap.global_limit) and (
+        snap.project_limit is None or snap.running_project < snap.project_limit
+    )
 
 
 def _queue_allowed(project_id: str) -> bool:
@@ -1051,6 +989,13 @@ def _queue_allowed(project_id: str) -> bool:
     return (snap.global_queue_limit is None or snap.queued_global < snap.global_queue_limit) and (
         snap.project_queue_limit is None or snap.queued_project < snap.project_queue_limit
     )
+
+
+def _worker_python_executable() -> str:
+    """Use the real base interpreter for the internal Windows worker capsule."""
+    if os.name == "nt":
+        return str(getattr(sys, "_base_executable", None) or sys.executable)
+    return str(sys.executable)
 
 
 def _worker_paths(job: ExecutionJobRecord) -> dict[str, Path]:
@@ -1182,7 +1127,7 @@ def _spawn_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
         err_f = paths["control_stderr"].open("ab")
         try:
             proc = start_background_process(
-                [sys.executable, str(Path(__file__).with_name("execution_worker.py")), str(request_path)],
+                [_worker_python_executable(), str(Path(__file__).with_name("execution_worker.py")), str(request_path)],
                 cwd=_job_dir(job.project_id, job.job_id),
                 stdout=out_f,
                 stderr=err_f,
@@ -1417,9 +1362,6 @@ def _submit_payload_core(
     )
     try:
         cwd = _resolve_cwd(project_id, data.get("cwd"))
-        command = resolve_command_executable_for_cwd(command, cwd)
-    except FileNotFoundError as e:
-        raise ExecutionRequestError("COMMAND_NOT_FOUND", str(e), 400) from e
     except (OSError, ValueError, TypeError) as e:
         raise ExecutionRequestError("WORKDIR_INVALID", str(e), 400) from e
     return project_id, execution_mode, command, output_limits, str(cwd)
@@ -1652,15 +1594,12 @@ def _build_execution_job(
     binding = current_mutation_binding(payload.project_id)
     if binding is not None:
         job.extra["project_mutation_binding"] = binding
-        job.extra["execution_project_exclusive"] = True
-        job.extra["execution_exclusivity_reason"] = "project_mutation_binding"
     return job
 
 
 def _spawn_or_queue_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
     project_id = job.project_id
-    census = _running_census()
-    if _can_start_now(project_id, job, census=census):
+    if _can_start_now(project_id):
         try:
             return _spawn_job(job)
         except (OSError, RuntimeError, ValueError, TypeError) as e:
@@ -1686,15 +1625,7 @@ def _spawn_or_queue_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
             retry_after_basis="not_claimed_without_observed_service-time_model",
         )
     job.status = JOB_STATUS_QUEUED
-    exclusive_projects = getattr(census, "exclusive_projects", frozenset())
-    if _job_requires_project_exclusive_execution(job) and project_id in exclusive_projects:
-        job.stage = "queued_project_exclusive"
-        job.extra["queue_reason"] = "project_exclusive_execution"
-        job.extra["queue_law"] = "ASYNC_JOB != PROJECT_WIDE_EXCLUSION; UNKNOWN_EFFECT_EXECUTION_REMAINS_PROJECT_EXCLUSIVE"
-    else:
-        job.stage = "queued"
-        job.extra.pop("queue_reason", None)
-        job.extra.pop("queue_law", None)
+    job.stage = "queued"
     job.queue_position = _effective_queue_count(project_id) + 1
     return job
 
@@ -1842,7 +1773,7 @@ def submit_execution_job(
         return _submit_job_locked(payload, replay_of)
 
 
-def _running_census() -> _RunningCensusResult:
+def _running_census() -> tuple[int, dict[str, int]]:
     """Return effective global/per-project running counts from one durable-tree pass.
 
     Preserve the existing capacity semantics: live managed processes count even when
@@ -1859,7 +1790,6 @@ def _running_census() -> _RunningCensusResult:
     global_seen: set[str] = set(managed_alive)
     per_project_seen: dict[str, set[str]] = {}
     per_project: dict[str, int] = {}
-    exclusive_projects: set[str] = set()
     total = len(global_seen)
 
     for path in _iter_job_files(None):
@@ -1886,14 +1816,8 @@ def _running_census() -> _RunningCensusResult:
             continue
         seen.add(job_id)
         per_project[project_key] = per_project.get(project_key, 0) + 1
-        if _job_requires_project_exclusive_execution(job):
-            exclusive_projects.add(project_key)
 
-    return _RunningCensusResult(
-        total=total,
-        per_project=per_project,
-        exclusive_projects=frozenset(exclusive_projects),
-    )
+    return total, per_project
 
 
 def _queued_job_candidates(project_id: str | None = None) -> list[tuple[str, str, str]]:
@@ -1917,9 +1841,7 @@ def _drain_queue_locked(
     # admission lock is held, but one census is enough for the entire drain pass.
     queued_jobs = candidates if candidates is not None else _queued_job_candidates(project_id)
     started: list[str] = []
-    census = _running_census()
-    running_global, running_per_project = census
-    running_exclusive_projects = set(getattr(census, "exclusive_projects", frozenset()))
+    running_global, running_per_project = _running_census()
     global_limit = EXECUTION_GLOBAL_CONCURRENCY
     project_limit = EXECUTION_PROJECT_CONCURRENCY
 
@@ -1938,16 +1860,12 @@ def _drain_queue_locked(
             continue
         if job.status != JOB_STATUS_QUEUED:
             continue
-        if _job_requires_project_exclusive_execution(job) and pid in running_exclusive_projects:
-            continue
         try:
             job = _spawn_job(job)
             _write_job(pid, job.job_id, job)
             started.append(job.job_id)
             running_global += 1
             running_per_project[pid] = running_per_project.get(pid, 0) + 1
-            if _job_requires_project_exclusive_execution(job):
-                running_exclusive_projects.add(pid)
         except (OSError, RuntimeError, ValueError, TypeError) as e:
             _set_job_status(job, JOB_STATUS_FAILED, "spawn")
             job.finished_at = utc_now()
@@ -2261,23 +2179,6 @@ def _reconcile_job_locked(job: ExecutionJobRecord) -> None:
     job_id = str(job.job_id).strip()
     if not project_id or not job_id:
         return
-    if job.status == JOB_STATUS_SUBMITTED and not job.worker_token:
-        try:
-            resumed = _spawn_or_queue_job(job)
-        except ExecutionOverCapacity:
-            # Preserve the durable reservation and retry when queue/capacity changes.
-            return
-        except ExecutionRequestError:
-            # Spawn failures are already persisted as terminal failures by the submit path.
-            _scheduler_stat_inc("jobs_failed")
-            _scheduler_stat_inc("jobs_reconciled")
-            return
-        _journal_job_submission(resumed)
-        _write_job(project_id, job_id, resumed)
-        _scheduler_stat_inc("jobs_reconciled")
-        if resumed.status in {JOB_STATUS_STARTING, JOB_STATUS_RUNNING}:
-            _scheduler_stat_inc("jobs_started")
-        return
     if job.worker_token:
         if job.status in JOB_ACTIVE_STATUSES:
             _finalize_worker_job(project_id, job_id, job)
@@ -2503,7 +2404,7 @@ def submit_execution() -> object:
         request_payload = dict(request_payload)
         mutation_authority = request_payload.pop("mutation_authority", None)
         project_id = str(request_payload.get("project_id") or "").strip()
-        with submission_mutation_binding(
+        with consequence_guard(
             project_id,
             mutation_authority=mutation_authority,
             session_id=str(request_payload.get("session_id") or "execution"),
@@ -2519,7 +2420,11 @@ def submit_execution() -> object:
 
 
 def _status_payload(status_request: ExecutionStatusRequest) -> JsonObject:
-    job = _read_job(status_request.project_id, status_request.job_id)
+    job = _finalize(
+        status_request.project_id,
+        status_request.job_id,
+        _read_job(status_request.project_id, status_request.job_id),
+    )
     return ExecutionStatusResponse(ok=True, job=job).to_dict()
 
 
@@ -2567,8 +2472,9 @@ def _job_output_windows(
     )
 
 
-def _observed_output_job(output_request: ExecutionOutputRequest) -> ExecutionJobRecord:
-    return _read_job(output_request.project_id, output_request.job_id)
+def _finalized_output_job(output_request: ExecutionOutputRequest) -> ExecutionJobRecord:
+    job = _read_job(output_request.project_id, output_request.job_id)
+    return _finalize(output_request.project_id, output_request.job_id, job)
 
 
 def _output_response(
@@ -2598,7 +2504,7 @@ def _output_response(
 
 
 def _output_payload(output_request: ExecutionOutputRequest) -> JsonObject:
-    job = _observed_output_job(output_request)
+    job = _finalized_output_job(output_request)
     windows = _job_output_windows(job, output_request)
     return _output_response(output_request, job, windows).to_dict()
 
@@ -2606,6 +2512,7 @@ def _output_payload(output_request: ExecutionOutputRequest) -> JsonObject:
 def _list_payload(list_request: ExecutionListRequest) -> JsonObject:
     project_id = list_request.project_id
     limit = _request_optional_positive_int(list_request.limit, DEFAULT_LIST_LIMIT, minimum=1)
+    _drain_queue(project_id)
     jobs: list[ExecutionJobRecord] = []
     corrupt_job_files: list[CorruptJobFileRecord] = []
     job_files = sorted(
@@ -2617,7 +2524,7 @@ def _list_payload(list_request: ExecutionListRequest) -> JsonObject:
             corrupt_job_files.append(CorruptJobFileRecord(path=str(path), error=error))
             continue
         if job:
-            jobs.append(job)
+            jobs.append(_finalize(project_id, job.job_id, job) if job.job_id else job)
     return ExecutionListResponse(
         ok=True,
         project_id=project_id,

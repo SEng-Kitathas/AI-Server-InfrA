@@ -1,247 +1,175 @@
-# AI-Server-InfrA — Current Ingress
+# PCMMAD Receiver V30 — CURRENT INGRESS
 
-Status: **V30 ENGINEERING SOURCE / GIT-PUBLISHED / ICF-CS v1.2 CURRENT / LIVE PROMOTION SEPARATE**
+> **CURRENT BASELINE — 2026-09-16:** Active server source-of-truth is `29a80d40835025127daf2ea2c6c089f1bec02d58`. GitHub `main` before final integration (`32328ac65678f1f0df7f04587d27f71dc8c14abb`) and older frontier/currentness text below are **historical/reference**. See `CURRENT_BASELINE.md`.
+
+
+Status: CURRENT GIT COLD-START / RECOVERY POINTER
 Repository: `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`
 Branch: `main`
 
-This is a bounded repository ingress/recovery pointer and **recovery mirror**, not a second Runtime truth plane.
+**CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF**
+
+This repository handoff is a commit-bound recovery mirror, not a second Runtime truth plane.
 
 **INTENT IS A CONSTRAINT, NOT A CEILING.**
 
-```text
-CURRENT_INGRESS_POINTER != CURRENT_STATE_PROOF
-GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION
-HANDOFF_MIRROR != RUNTIME_AUTHORITY
-```
+## Cold-start order
+`CURRENT STATE -> ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> LIVE READBACK BEFORE MUTATION`
 
-## Rollover precedence — 2026-09-10 18:40 ET
+Read `handoff/current/SERVER_THREAD_HANDOFF_CURRENT.md` and `handoff/current/NEW_THREAD_HANDOFF_PROMPT_CURRENT.md` first, then the canonical mirror surfaces in `handoff/current/`. Reconcile against fresh Git/local/runtime state before consequence.
 
-This block supersedes lower present-tense Git/qualification statements where they conflict. Historical evidence remains lineage.
-
-- current GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7` / parent `2753e87b9cc8f3309666ab479413306ba85e9b11`;
-- project-aware access logging is source-published at `e1b2b8e`;
-- v11 schema mechanism remains `7e4c66a769884269d71babdb92217ba80eb66e74` / canonical SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities;
-- GitHub Actions run `34537723493` is **RED** on Windows + Ubuntu full-suite steps; Ubuntu exact current failure is `test_hot_scan_cost_is_independent_of_terminal_history_count` -> `38 != 50`;
-- local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed and not GitHub authority;
-- older schema-wire hardening WIP is donor evidence only and must be re-derived against current source;
-- loaded Desktop Runtime remains older and is not implicitly promoted.
-
-Current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
-
-`GIT_HEAD > STALE_CURRENT_POINTER`
-`LOCAL_GREEN != HOSTED_CLEANBOX_GREEN`
-`SOURCE_QUALIFIED != LIVE_PROMOTED`
-
-
-### Hosted CI supersession — completed parent run
-
-Latest completed tested head at this currentness update: `fd9b42ad143d70ddda92b22372cbae767b12bea0` / run `34541018742`.
-- Ubuntu: **SUCCESS**.
-- Windows: **FAILURE**; public annotation remains generic exit code 1.
-- The earlier Ubuntu `38 != 50` hot-scan failure is therefore no longer the current hosted Ubuntu blocker.
-- Any Actions run spawned by this documentation/currentness child must be read live and supersedes this parent-run snapshot.
-
-`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`
-
-## External evaluation
-
-Start with `README.md`, `docs/EXTERNAL_EVALUATION.md`, `docs/architecture/INVARIANTS.md`, then `reports/README.md`. Fresh Git/worktree/test/runtime readback outranks this prose.
-
-Cross-thread meeting surfaces retained for architecture/evidence reconciliation:
+Cross-thread meeting surfaces:
 - `reports/PCMMAD_RUNTIME_ADAPTER_COMPATIBILITY_CONTRACT_V0_1.md`
 - `reports/PCMMAD_RUNTIME_ADAPTER_PROJECTION_MATRIX_V0_1.md`
 - `reports/PCMMAD_RUNTIME_ADAPTER_PROJECTION_MATRIX_V0_1.json`
 - `handoff/current/RUNTIME_OBE_SKILLS_DUALITY.md`
 
-Fresh Git/local/runtime readback remains required before consequence.
-
-## Current engineering mechanism frontier
-
-Latest remote-verified source mechanism before this current-surface refresh:
-`e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` — `Add project-aware access logging`
-
-Current v11 schema mechanism in ancestry:
-`7e4c66a769884269d71babdb92217ba80eb66e74` — `Add v11 capability microkernel schema`
-
-Current source tree: `8fbded01e519a938ded1f2177378cd6693d788b7`
-Schema mechanism tree: `967f108f235b4b42097f4b2d9d48ee61c591017c`
-Schema mechanism parent: `92010b57dfc275dd6f9753121cd8def98792ed41`
-Substrate durability feature in ancestry: `673e3b15fa16053e6da6594604d9ce6db7faad1c` / tree `e39f0a6a3d3c3ba5ece16a04c48289186318096a`.
-
-Tree: `e39f0a6a3d3c3ba5ece16a04c48289186318096a`
-Immediate parent/currentness frontier: `2753e87b9cc8f3309666ab479413306ba85e9b11`
-Prior warfort feature: `c858914a1a9abac5d29f1943e23fed1e54c516d0`
-ICF-CS v1.2 fresh-ingress feature: `d926e2004b0a5794fb2934200091b836c0780104`
-UCM feature: `f01418c546e449acb3f98f4b64f5b4a7ad3f0960`
-RES feature: `8714dd87d2092e0f4c66f261fcf5cee8b75a0798`
-
-Current source registry: **158 native tools**.
-
-Current continuity surfaces include:
-- five `continuity.res.*` RES tools;
-- 31 canonical `ucm.*` tools plus eight legacy `memory.*` compatibility tools;
-- `continuity.ingress.rehydrate` for current ICF-CS v1.2 fresh-instance orchestration.
-
-Source schema successor is **v11.0 / 8 Assistant-facing operations / 33,844 bytes**. v10.3 remains the exact **30-operation compatibility/import surface** until separate product/live promotion.
-
-Current source qualification / release gate:
-- prior local repaired-byte suite: **995 JUnit / 0 failures / 0 errors / 2 skips** in serial, loadscope and worksteal;
-- current GitHub Actions run `34537723493` at `e1b2b8e`: **FAILURE** on Windows and Ubuntu full-suite steps;
-- Ubuntu current public annotation: `test_hot_scan_cost_is_independent_of_terminal_history_count` -> `AssertionError: 38 != 50`;
-- Windows current public annotation remains suite-level only;
-- canonical v11 schema identity remains `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations;
-- live promotion is blocked until hosted clean-box is green.
-
-## Substrate / embedding hardening
-
-Current source additionally guarantees:
-- durable, serialized session metadata and append-journal notes;
-- independently observable Andon stop vs session-pause projection;
-- observation-only lease/execution status/output/list/wait projections;
-- canonical installable package imports with one module/registry identity across legacy and package entrypoints;
-- exact-byte A-042 recovery evidence archived outside the current source namespace.
-
-`AUTHORITY_RIGOR != SUBSTRATE_RIGOR`
-`SESSION_NOTE_APPEND != SESSION_SNAPSHOT_REWRITE`
-`OBSERVATION != RECONCILIATION`
-`PROJECTION_READ != HIDDEN_RECONCILIATION`
-`PACKAGE_IMPORT_WORKS != SINGLE_RUNTIME_IDENTITY`
-
-## Warfort consequence boundaries
-
-Current source additionally fails closed on:
-- end-of-ingress ICF/RES/UCM TOCTOU drift;
-- UCM replay with stale derived snapshot;
-- equal-precedence identity/referent ambiguity;
-- multiple current collaboration contracts;
-- Windows case/device/trailing-dot namespace aliases;
-- project/filesystem/HTTP/legacy hardlink consequence escape;
-- NaN/Infinity/lone-surrogate/excess-depth UCM JSON;
-- Windows ZIP ADS/reserved-device/trailing-dot-space members;
-- transient Win32 atomic-replace contention;
-- transfer stage inode replacement/hardlink swaps and metadata-preserving source mutation.
-
-`PATH_CONTAINMENT != INODE_OWNERSHIP`
-`INGRESS_START_CURRENT != INGRESS_END_CURRENT`
-`PATH + SIZE + MTIME != FILE_CURRENTNESS`
-
-## Architecture-closure audit
-
-Current source audit result: **core Runtime architecture converged at the current claim ceiling; the separately gated schema campaign has now produced and published v11.0**.
-
-Effect-trait truth on the 158-tool source surface:
-- 204 distinct trait strings;
-- 133 occur on exactly one tool;
-- only four currently alter Runtime behavior: `project_mutation_fenced`, `idempotent_replay_while_unacked`, `exact_offset_required`, `requires_chunk_hash`;
-- no generic Plan-VM/effect scheduler currently infers safety or parallelism from arbitrary traits.
-
-`TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`.
-`DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY`.
-
-v11 no longer depends on deriving a flat compact membership list: eight static microkernel operations reach current native capabilities through exact contract digests. Effect truth remains separately witnessed and conservative. The 31 canonical `ucm.*` + eight legacy `memory.*` compatibility operations still share one authoritative store; the legacy-surface sunset remains a separate migration question.
-
-Full audit: `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`.
-
-## Schema v11 capability microkernel
-
-Current schema pointer: `handoff/current/SCHEMA_CURRENT.md`.
-
-Source successor: `baseline/pcmmad_receiver/pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json` / SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`.
-
-Eight static primitives: `orient / invoke / flow / compose / execute / observe / resume / transfer`. They project the 158-capability Runtime without creating a second job/result/authority/transfer plane.
-
-Production scheduler profile covers all 158 capabilities but currently trusts **zero** declarations as verified effect truth and enables **zero** automatic parallel/replay entries. Unwitnessed capabilities are `UNVERIFIED`, serial, recomposition-required, and conservatively costed.
-
-`CAPABILITY_LEASE != CAPABILITY_GRANT`
-`DESCRIPTIVE_EFFECT_TRAITS != SCHEDULER_AUTHORITY`
-`DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`
-`CONTINUATION != CURRENTNESS`
-`COMPACT_PLAN != UNBOUNDED_RESOLVED_ARGUMENTS`
-`PLAN_VM != SECOND_JOB_SCHEDULER`
-
-Source mechanism qualification: focused **127/127 PASS**; complete Runtime **878 collected / 876 passed / 2 skipped / 0 failures**; four-worker loadscope/worksteal **876 passed / 2 skipped / 103 subtests** each.
-
-`SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`
-
-## Current ICF-CS authority
-
-ICF-CS v1.2 is active binding additive **continuity/process doctrine**. R4.4 remains the sealed canonical parent and was not rewritten.
-
-Current carrier:
-- `handoff/current/ICF_CS_CURRENT.md`;
-- `handoff/current/INTENT_CONSTRAINT_FRONTIER_CONTINUITY_STANDARD.md` SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`;
-- activation receipt SHA `893409f28ea181c60ca9e3681eb9a1a4d08fa279befac4d679d2cfdb958d7279`;
-- detached qualification receipt SHA `59f66d7707508faa4015df86c728302961c0a13e2f4e8655425ce783248cbc7e`;
-- machine and fresh-instance contracts under `handoff/current/`.
-
-Rahl activation closed at continuity epoch **43**, closure `edef92465daa7e28fb64600d096ad709`.
-
-## Binding cold-start grammar
-
-Canonical one-line grammar:
-
-`CURRENT STATE -> CURRENT ICF-CS -> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE -> LIVE SHADOW -> DTS -> RES APPLICABILITY/CURRENTNESS -> UCM APPLICABILITY + SYSTEM DESCRIPTOR + USER STORE HEAD -> BOUNDED UCM CORE -> TASK-RELEVANT LAZY UCM HYDRATION -> OWNING-PLANE LIVE VERIFICATION -> LIVE READBACK BEFORE MUTATION`
-
-```text
-CURRENT STATE
--> CURRENT ICF-CS
--> CURRENT CANONICAL SOP + NEXT/DOCTRINE/REVISIT/TRACE
--> LIVE SHADOW
--> DTS
--> RES APPLICABILITY/CURRENTNESS
--> UCM APPLICABILITY + SYSTEM DESCRIPTOR + USER STORE HEAD
--> BOUNDED UCM CORE
--> TASK-RELEVANT LAZY UCM HYDRATION
--> OWNING-PLANE LIVE VERIFICATION
--> LIVE READBACK BEFORE MUTATION
-```
-
-Runtime requires an explicit session mode; it SHALL NOT guess a user/UCM profile.
-
-```text
-LIVE_SHADOW != DTS != RES != UCM
-MISSING != NOT_APPLICABLE
-RES_CONTENT != GOVERNING_DOCTRINE
-UCM != PROJECT_AUTHORITY
-UCM != RUNTIME_TRUTH
-UCM != DOCTRINE_AUTHORITY
-RETRIEVAL_PACKET != AUTHORITY
-```
-
-## Earlier Runtime contracts still active
-
-Ordinary dispatch may bind `expected_contract_digest`; stale mismatch is `CAPABILITY_CONTRACT_STALE`. Project mutation authority preserves `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY` and the `runtime-authority-envelope-v1` projection. Response-loss work preserves `IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY`, `RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS`, and `UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY`. Windows Job Object resource envelope work remains published ancestry.
-
-## Source versus live identity
-
-`VERSION` / `RELEASE.json` still identify the last packaged V29 release. Current Git is V30 engineering source.
-
-The loaded Desktop Runtime is still observed behind source: global execution concurrency 8 and the compact 30-operation control surface. It has **not** been silently restarted/reloaded.
-
-`SOURCE_QUALIFIED != LIVE_PROMOTED`
-
-## Open boundaries
-
-- actual private UCM instance is structurally verified and a private-safe importer is source-published, but the private instance has **not** been imported into the loaded Runtime;
-- live Runtime reload/promotion remains separately gated;
-- the explicit schema redesign trigger has been consumed and v11.0 is source-published; product-side Action installation and live Runtime promotion remain separately gated;
-- V30 source is not being mislabeled as a packaged release.
-
-If persisted prose conflicts with current Git/worktree/runtime reality:
-
+If material surfaces disagree:
 `CONFLICT -> RECOVERY/AUDIT -> LOCALIZE -> REPAIR/SUPERSEDE -> READBACK -> RESUME`
 
-## Claim ceiling
+## Required fresh Git proof
+Verify repository root, branch, HEAD, tree, status, remotes, and independently read `origin/main`. Git publication is not live Runtime promotion.
 
-Latest rollover checkpoint: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
+## Architecture
+- PCMMAD = methodology.
+- Laboratory Runtime = durable truth/state/capability.
+- MCP/OpenAPI/CLI/HUD = transport projections.
+- OBE/Skills = AI/operator intelligence and composition.
+- Model = replaceable co-processor.
+- Project Chat = replaceable mission surface.
 
-`V30_WORKING_TREE_SUCCESS != RELEASE_QUALIFICATION != LIVE_DEPLOYMENT`
+**TRANSPORT IS NOT ARCHITECTURE AUTHORITY.**
+**MECHANISM LIVES WHERE STATE LIVES.**
+**EMERGENT CAPABILITY IS ALLOWED. EMERGENT AUTHORITY IS NOT.**
+**LONG-RUNNING WORK SHALL NOT REQUIRE LONG-RUNNING MODEL ATTENTION.**
 
-## Hosted CI precedence — 2026-09-10 final readback
-- Current Git branch/documentation head at this update: `ddc934f015587bafd6af96e07acbf4af830261ad`.
-- Latest Runtime mechanism frontier remains `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4`.
-- GitHub Actions run `34541581729` on `ddc934f015587bafd6af96e07acbf4af830261ad`: Ubuntu **SUCCESS**, Windows **FAILURE**.
-- Windows public annotation remains suite-level `Process completed with exit code 1`; exact testcase is unresolved.
-- Next discriminator: make the Windows full-suite failure externally diagnosable, reproduce it, repair it, then require both hosted OS jobs green before live promotion.
+## Current engineering frontier
+A-041 `a97a00f67f3b79dbbe18e092d29b8971e588d4a2` is the last engineering feature before A-042 publication.
 
-`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`
+A-042 PROJECT MUTATION OWNERSHIP / EXCLUSIVITY is a **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING** at the pre-publication continuity snapshot:
+- 23 changed/new engineering files; inventory `e2dcb52475bf5869b6f3ebc4561955e27ef52669291bb7e06aa96ca196b2f31e`;
+- 22 changed/new Python paths compile PASS;
+- compact schema parse PASS / 30 operations / `runtime-authority-envelope-v1`;
+- CRLF-aware diff check PASS;
+- complete candidate suite `345 collected / 344 passed / 0 failed / 1 conditional skip`.
+
+Resolved contracts:
+- `SESSION_IDENTITY != FENCED_MUTATION_AUTHORITY`;
+- `LEASE_STATE_LOCK != MUTATION_CONSEQUENCE_LOCK`;
+- `NO AUTHORITY SMUGGLING THROUGH CAPABILITY ARGUMENTS`;
+- invocation authority projects `RuntimeAuthorityEnvelope`; approval and project-mutation fencing are independent dimensions.
+
+The `handoff/current/wip/` 13-file V2 copy is **historical rollover recovery evidence**, not the current engineering candidate and never authority over newer worktree/Git bytes.
+
+## OBE / Skills companion boundary
+The non-PCMMAD OBE/Skills campaign is donor evidence. Its 11-Skill interface remains unfrozen pending Runtime dogfood. A-001 expected-contract binding is queued **after A-042 engineering publication** and must be re-derived against the then-current Runtime; do not paste/promote the donor patch by provenance alone.
+
+## Final schema lock
+A-042 compact-schema parity is not the final schema redesign. Final schema redesign remains LAST, after whole-runtime convergence and only after the explicit user `hells yeah, ready` trigger.
+
+## Governance / release ceiling
+Governance Contact locator is present in the outer project, but activation token/ACTIVE receipt are absent: **NOT ACTIVE at this target**.
+
+**CHECKPOINT_PUBLICATION != ENGINEERING_PUBLICATION**
+**GIT_PUBLICATION != LIVE_RUNTIME_PROMOTION**
+**V30_WORKING_TREE_SUCCESS != RELEASE_QUALIFICATION != LIVE_DEPLOYMENT**
+## A-001 currentness frontier
+A-001 expected-contract binding is now **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING** against published A-042 Runtime.
+- optional `expected_contract_digest` at native dispatch;
+- `409 CAPABILITY_CONTRACT_STALE` on mismatch before authority/provider/handler consequence;
+- HTTP and batch propagation; legacy omission compatible;
+- qualification `352 collected / 351 passed / 0 failed / 1 conditional skip`; focused adjacency 49/49 PASS.
+
+This is not final schema redesign. The 11-Skill interface remains unfrozen pending dogfood. Final schema remains LAST and requires explicit `hells yeah, ready`.
+## A-001 publication supersession
+A-001 expected-contract currentness is **ENGINEERING-PUBLISHED / REMOTE-VERIFIED** at `a552af9957b99361c3aebf91c7abc65775e0ce43`, tree `e51be9f7fb2f1e125b19d30e9da0e5324b661e4c`.
+
+Runtime now natively supports optional `expected_contract_digest`; stale mismatch returns `409 CAPABILITY_CONTRACT_STALE` before provider/authority/handler consequence. Legacy omission remains compatible.
+
+Next integration frontier: OBE/Skills dogfood against this promoted interface. The 11-Skill interface remains unfrozen. Final schema redesign remains LAST and requires whole-runtime convergence plus explicit `hells yeah, ready`.
+## Idempotency raid frontier
+The idempotency response-loss raid is **QUALIFIED ENGINEERING CANDIDATE / PUBLICATION PENDING**.
+- candidate 7 files; inventory `1d81399d5f98e6e37481cb3070a5d987c340aab2c9bf067bf1efa600fa803efb`;
+- `IDEMPOTENCY_INDEX != CONSEQUENCE_AUTHORITY`;
+- `RETRY_SAFETY_REQUIRES_DURABLE_PRE_POST_CONSEQUENCE_WITNESS`;
+- `UNPROVEN_EFFECTS_DEFAULT_TO_UNSAFE_RETRY`;
+- 107-tool registry = 31 `safe_repeat`, 73 `unsafe_retry`, one `keyed_replay_when_keyed`, one `state_bound_replay`, one `position_bound_replay`;
+- hostile response-loss 12/12 PASS; broader adjacency 96/96 PASS; full suite 364 collected / 363 passed / 0 failed / 1 conditional skip; compile + CRLF-aware diff check PASS.
+
+Claim ceiling: the Runtime does not claim every mutation is idempotent. Unearned effects remain `unsafe_retry`. Next server campaign after publication is Windows Job Object resource envelope, then remaining cross-domain raids. Final schema remains LAST/untriggered.
+## Live promotion supersession
+The Desktop Runtime is now **LIVE-PROMOTED / REMOTE-RESTARTED / ASYNC-VERIFIED** at engineering feature `4163606459324feaa31252b3c2a6d58d73aaff46` / tree `4b2836e1add4d218748e45b929189d2d72ed839b`.
+- curated live Runtime parity: 70 files / 0 mismatches;
+- rollback bundle: `C:\Users\ancal\Desktop\PCMMAD_LIVE_ROLLBACKS\20260907_195134_pre_b8b6ca69`;
+- final live async job `job-4fbdd90dd2f3` completed rc=0; same-key replay returned the same job with `replayed=true`;
+- `completion_journal_status=recorded`;
+- live health online / 107 tools / scheduler+watcher active; optional browser bridge remains degraded.
+
+Next server campaign: Windows Job Object resource envelope, then remaining raids. OBE/Skills interface remains unfrozen. Final schema redesign remains LAST and requires explicit `hells yeah, ready`.
+## Windows Job Object resource-envelope publication
+Engineering has advanced beyond live to `0968ea5d9de36d766771c7930d9a0944a61ee546` / tree `810cc429067ff7e546fba732b1d0e5ec1d348c73` (`Enforce Windows Job Object resource budgets`).
+- qualification: 376 collected / 375 passed / 0 failed / 1 skipped;
+- Windows kernel readback persists per-process memory, aggregate Job memory, active-member limit, CPU hard-cap percent;
+- execution idempotency fingerprints bind the resource budget;
+- compact adapter remains exactly 30 operations; this is not final schema redesign;
+- live Runtime intentionally remains at `4163606459324feaa31252b3c2a6d58d73aaff46` until the remaining server campaigns finish.
+
+Therefore `ENGINEERING_FEATURE_HEAD != LIVE_RUNTIME_FEATURE_HEAD`. Next: current-tree audit of remaining cross-domain raids R6/R8/R9/R11/R12/R13; R10/final schema remains LAST/untriggered.
+## Retained non-schema raids closed / convergence frontier
+Engineering has advanced to `ee8ec16000f1d90eb60d034259f85f3b8b5148e1` / tree `0b20eed8220015d26b8315094f5009e2942120f7` (`Add replay-safe workload identity proof`).
+- final R13 qualification: 398 collected / 397 passed / 0 failed / 1 skipped;
+- final R13 candidate inventory: `523d113d9069e209d767c0444a2ad1296a35b07bdd786e0bd4faf9897301e2fb`;
+- native Runtime tools: 108 after R12 continuity convergence classifier;
+- live remains intentionally frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- retained non-schema raids are closed: R8/R11 substantially embodied/retired; R6/R7/R9/R12/R13 engineering-published.
+
+Next authorized frontier is whole-runtime convergence / OBE+Skills dogfood. Final schema R10 remains LAST and still requires explicit `hells yeah, ready`.
+## Whole-runtime / OBE convergence published
+Convergence/report metadata is remotely verified at `b2f9283eafbd5b0d62b7db08ad578a7a2fc5bf47` / tree `e23ca27b81bab4c68a64cce38022faad158914ba` (`Record runtime and skill convergence`).
+
+- last Runtime engineering feature remains `ee8ec16000f1d90eb60d034259f85f3b8b5148e1`;
+- live remains user-frozen at `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- engineering convergence gate PASS at current claim ceiling;
+- current Runtime 108 tools / 17 families; parity 31/31, execution 70/70, transfer/health 32/32, ICF rehydration 6/6;
+- semantic plane is explicitly optional CONVERGED-DEGRADED due `no_qualified_python_runtime`;
+- OBE v0.3 historical 11-Skill specimen requalified; expanded portfolio remains unfrozen;
+- exact next Skill artifact `MCP_CONNECTOR_CAPABILITY_SCOUT_V0_1`;
+- final schema LAST/LOCKED/untriggered; `hells yeah, ready` absent.
+
+Use `handoff/current/OBE_SKILL_THREAD_RESPONSE_2026-09-08.md` as the ready-to-paste response for the waiting Skill thread.
+## Server hardening / semantic / cockpit frontier
+Latest Runtime engineering feature is `c22381b2f02302196f239d0b6205a8005e238177` / tree `ca5b6bda928e8ebbe3dbc02dccac072df16ced15` (`Harden server and qualify operator cockpit`).
+
+- remote `main` independently verified at engineering feature before recovery publication;
+- full Runtime 434 collected / 433 passed / 0 failed / 1 conditional skip;
+- research HTTP auth defect closed;
+- legacy inline approval secure default OFF; bound challenges remain normal authority;
+- semantic executor environment qualified and real dual-lane retrieval proven (MiniLM 20 + Jina 20 hits);
+- operator HUD three-wing cockpit embodied and qualified;
+- Runtime remains 116 native tools / 18 families; imported action budget remains 30;
+- live remains frozen `4163606459324feaa31252b3c2a6d58d73aaff46`;
+- final schema remains LAST/LOCKED/untriggered;
+- Skills/UCM remain separate/paused; real memory not ingested;
+- paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
+
+## T0.2 rehydration Runtime repair publication frontier
+Latest engineering feature is `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce` / tree `5742bc9b24f6f3973ef79bbbe27170c0153d6596` (`Repair T0.2 rehydration runtime gaps`).
+
+- exact 9-file candidate inventory `f93b9efcf9d7cd0d56df5444a2c56da5d155455c644d7b0720dc5f0bf9ebb61d`;
+- full Runtime 441 collected / 440 passed / 0 failed / 1 conditional skip;
+- native nested Git repo grounding, context JSON projection/request imports, staging exclusion, and ICF tail-currentness repairs are published/remote-verified;
+- post-publication cold RECOVERY_ONLY receipt SHA `396589cd6a1464786d88208a4f62038cf165425e3f4c1d2935dda6c52e113844`; native rehydrate handle `res-6d0916afa1a0`;
+- previous recovery-only HEAD `22a38e7b82994597616c87d6e3cb4aff4b3cb91d` is historical pending this recovery mirror commit;
+- Runtime remains 116 native tools / 18 families / compact 30 imported operations;
+- live deployment has no Git metadata; live Git commit identity UNKNOWN from live plane; no live promotion occurred;
+- T0.2 Skill canonical package remains blocked on manifested interpreter bytecode; Skill thread owns exact repair;
+- UCM/memory remains paused; final schema LAST/LOCKED/untriggered.
+
+## Operating Library v1.0 server-boundary convergence
+- exact library archive `b3ac0c538c19e1bb4819569439905fdce707e071b26d9c8d9c58a054de845a7f` / 138090 bytes / 50 manifested payload members / fresh-extraction manifest 50/50, semantic 40/40, hostile 39/39; sealed-tree fingerprint unchanged;
+- exact repaired T0.2 `0805101ceefa8017186842c6a13c69d94523472e3491ef923357e1d2a146f6e0` / 40461 bytes / validator PASS / semantics 14/14 / hostile 19/19 / payload fingerprint unchanged / zero generated bytecode;
+- server Runtime seam harness: 0 failed checks against 116 native tools / 18 families; cold RECOVERY_ONLY remains CURRENT_CREDIBLE;
+- full 32-capability KEEP/NARROW/KILL/EMBODY disposition checkpoint SHA `7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e`;
+- net: KEEP library; NARROW deterministic work to Runtime; KILL duplicate state/authority/execution planes; EMBODY nothing new from v1.0 replay;
+- engineering feature remains `fb89bb1c6fef1ba97c58d3e93ae2b03db86b37ce` / tree `5742bc9b24f6f3973ef79bbbe27170c0153d6596`; previous recovery HEAD `19c52e6405e058e6415d760dc10e880d559f8015` until this handoff commit;
+- live/UCM/final-schema boundaries unchanged; independent real-world Skill dogfood breadth is the next reality-pressure program.

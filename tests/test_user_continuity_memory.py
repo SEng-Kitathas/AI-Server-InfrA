@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
-sys.path.insert(0, str(RUNTIME_ROOT.parent))
+sys.path.insert(0, str(RUNTIME_ROOT))
 
 import user_continuity_store as ucs
 
@@ -536,7 +536,7 @@ print(json.dumps({"seq":r["event"]["event_seq"],"id":r["event"]["event_id"]}))
 '''
         env = dict(os.environ)
         env["PCMMAD_USER_CONTINUITY_ROOT"] = str(shared_root)
-        env["PCMMAD_TEST_RUNTIME_ROOT"] = str(RUNTIME_ROOT.parent)
+        env["PCMMAD_TEST_RUNTIME_ROOT"] = str(RUNTIME_ROOT)
         procs = [
             subprocess.Popen(
                 [python, "-c", code, str(i)],
@@ -570,6 +570,30 @@ print(json.dumps({"seq":r["event"]["event_seq"],"id":r["event"]["event_id"]}))
             read = ucs.memory_read({"profile_id": "race-user", "sections": ["race"]})
             self.assertEqual(len(read["sections"]["race"]["facts"]), 6)
             self.assertEqual(read["snapshot_from_seq"], 6)
+
+
+class UserContinuityProfileDiscoveryTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temp = tempfile.TemporaryDirectory()
+        self.root_patch = patch.object(ucs, "SYSTEM_ROOT", Path(self.temp.name))
+        self.root_patch.start()
+
+    def tearDown(self) -> None:
+        self.root_patch.stop()
+        self.temp.cleanup()
+
+    def test_lists_only_materialized_valid_profiles_sorted(self) -> None:
+        root = Path(self.temp.name) / "user_continuity" / "profiles"
+        (root / "zeta").mkdir(parents=True)
+        (root / "zeta" / "events.jsonl").write_text("", encoding="utf-8")
+        (root / "alpha").mkdir()
+        (root / "alpha" / "current.json").write_text("{}", encoding="utf-8")
+        (root / "empty").mkdir()
+        (root / "bad profile").mkdir()
+        self.assertEqual(ucs.list_profiles(), {"ok": True, "profiles": ["alpha", "zeta"], "count": 2})
+
+    def test_empty_store_is_empty_not_default_invention(self) -> None:
+        self.assertEqual(ucs.list_profiles(), {"ok": True, "profiles": [], "count": 0})
 
 
 if __name__ == "__main__":

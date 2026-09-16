@@ -2,6 +2,7 @@ param(
     [ValidateSet("Setup", "Start", "Restart", "Stop", "Status", "Verify", "BrowserStart", "BrowserStop")]
     [string]$Action = "Status",
     [switch]$NoNgrok,
+    [switch]$ForceRestart,
     [int]$Port = 5000,
     [string]$HostAddress = "127.0.0.1"
 )
@@ -102,11 +103,11 @@ switch ($Action) {
         exit $LASTEXITCODE
     }
     "Start" {
-        & $RestartScript -Port $Port -HostAddress $HostAddress -DelaySeconds 1 -NoNgrok:$NoNgrok
+        & $RestartScript -Port $Port -HostAddress $HostAddress -DelaySeconds 1 -NoNgrok:$NoNgrok -ForceRestart:$ForceRestart
         exit $LASTEXITCODE
     }
     "Restart" {
-        & $RestartScript -Port $Port -HostAddress $HostAddress -DelaySeconds 3 -NoNgrok:$NoNgrok
+        & $RestartScript -Port $Port -HostAddress $HostAddress -DelaySeconds 3 -NoNgrok:$NoNgrok -ForceRestart:$ForceRestart
         exit $LASTEXITCODE
     }
     "Stop" {

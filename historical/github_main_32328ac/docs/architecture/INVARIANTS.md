@@ -1,0 +1,50 @@
+# PCMMAD Laboratory Runtime invariants
+
+## Global cycle
+
+Every promoted change follows **PROBE → DERIVE → VERIFY → EMBODY → RECURSE** at function, module, subsystem, and release scales.
+
+## Load-bearing invariants
+
+1. **Required route families fail hard.** Optional route families may degrade, but degradation is explicit in boot and health evidence.
+2. **Authentication is mandatory and singular.** `GITHOME_API_KEY` is the authority source; `X-GitHome-Key` is compared in constant time; no key is embedded in code, reports, launchers, or schemas.
+3. **Read does not mutate.** Inspection and result retrieval do not create project layouts or write state.
+4. **Project paths remain inside project roots.** General filesystem access is mount-governed; archive extraction rejects traversal, drive/UNC paths, normalized collisions, links, and special entries.
+5. **Mutation is explicit and mode-aware.** Artifact class, operation, project identity, approval policy, protocol mode, mutation domain, and result evidence are structured boundaries rather than prose conventions.
+6. **Protocol history is append-only and verifiable.** `events.jsonl` is authoritative, sequence and previous hashes are monotonic, event hashes commit to canonical bodies, and `state.json` is only a rebuildable projection.
+7. **Sealed identity cannot be silently rewritten.** A sealed artifact requires a digest; changed content requires a new identity and explicit lineage.
+8. **Evidence pressure is proportionate.** Ratification thresholds scale with `STANDARD`, `ELEVATED`, and `CRITICAL` rigor; duplicate, failed, or expired evidence cannot satisfy the gate.
+9. **Waivers remain visible and bounded.** Waivers require identity, scope, reason, doctrine basis, owner, status, optional future expiry, and affected-claim lineage. Inactive or expired waivers cannot authorize promotion.
+10. **Continuity roles remain separate.** Live Shadow is bounded active state, Design Thread Stream is chronological forensic history, and Research Epistemic Shadow is the epistemic-learning surface. They are not collapsed into one ambiguous file.
+11. **The Assistant surface remains compact without reducing server power.** Source schema v11.0 exposes 8 microkernel operations over 158 native capabilities; v10.3 retains 30 operations as a compatibility/import surface until separate product/live promotion.
+12. **Execution is bounded and observable.** Queue, concurrency, timeout, output, registration, replay, and termination state are explicit.
+13. **Optional sidecars fail cleanly.** Browser-bridge absence or failure cannot corrupt or falsely mark the receiver authority plane healthy.
+14. **No promotion without final-artifact verification.** Route trace, protocol contracts, negative contracts, replay, concurrency, security, schema authority, package integrity, launcher audit, CSC finalization, and fresh ZIP verification govern release claims.
+15. **RES history is append-oriented and authority-neutral.** Epistemic change is visible through addendum/promotion/demotion/supersession; consolidated RES snapshots are projections, not permission to rewrite history. `RES_CONTENT != GOVERNING_DOCTRINE`.
+16. **Research handoff readiness is derived, not asserted.** A research-intensive handoff fails closed when the canonical RES snapshot is missing/invalid/stale, when registered bytes drift, or when a currentness-closing addendum is not bound to the latest material protocol event. `RES_HANDOFF_READY != PROJECT_MUTATION_AUTHORITY`.
+17. **UCM is user continuity, not project/runtime/doctrine authority.** Canonical user continuity uses the existing append-only ledger with mandatory seq+hash CAS, explicit authority/currentness/verification components, bounded hydration, and `UCM != PROJECT_AUTHORITY / RUNTIME_TRUTH / DOCTRINE_AUTHORITY`.
+18. **Fresh-instance applicability is explicit.** ICF-CS v1.2 requires a session mode and distinguishes `REQUIRED` from `NOT_APPLICABLE_WITH_BASIS`; Runtime SHALL NOT guess a UCM profile or silently equate missing state with non-applicability.
+19. **Authority bytes, not labels, establish ICF currentness.** Fresh ingress binds the exact active ICF-CS v1.2 standard before RES/UCM hydration. `VERSION_LABEL != CURRENT_AUTHORITY_BYTES`.
+20. **Unbounded selection does not authorize unbounded allocation.** Omitted context budget uses a finite default; explicit unbounded selection still caps individual reads to actual file size.
+21. **Derived snapshots are caches, not history authority.** Canonical UCM retains bounded derived snapshot history while the append-only ledger remains authoritative.
+22. **Path containment does not prove inode ownership.** Existing multiply-linked regular files are rejected before direct write consequences across project/filesystem/power/legacy surfaces.
+23. **Fresh-ingress currentness is end-bound.** ICF, required RES and required UCM are reread/revalidated at the end of composed ingress; packet construction may not straddle authoritative heads silently.
+24. **Canonical UCM JSON is finite UTF-8 and bounded.** NaN/Infinity, invalid surrogates, non-JSON types and excessive depth/node count fail before fingerprint/hash/append.
+25. **Windows namespace identity outranks naïve strings.** Project/profile IDs and ZIP members reject device aliases, ADS/forbidden components, trailing-dot/space aliases and conflicting case identities.
+26. **Atomic JSON publication tolerates transient Windows sharing violations without abandoning atomicity.** Bounded retry is permitted; in-place partial-write fallback is not.
+27. **Transfer tickets bind file-object/content identity.** Import stage inode/link identity and export source inode/metadata/SHA currentness are verified across chunk/finalize boundaries.
+28. **Storage serialization is not mutation authority.** Byte-level cross-process serialization may be shared substrate; lease/generation/session semantics remain separate authority.
+29. **Observation is not reconciliation.** Status/output/list/wait/inspect reads must not hide queue advancement, expiry persistence, or other mutation; reconciliation belongs to explicit lifecycle/supervisor surfaces.
+30. **Session note append is not session snapshot rewrite.** Notes use durable append journals and are folded into the read model; bounded mutable session metadata is atomically published separately.
+31. **Package import success is insufficient without single Runtime identity.** Legacy and package entrypoints must resolve the same state/registry/lock module objects.
+32. **Historical recovery evidence is not current WIP.** Frozen recovery payloads remain exact and discoverable under archive namespace rather than appearing adjacent to current source.
+33. **Diagnostic paths must serialize.** Bounded text windows and corrupt-job diagnostics may not turn intended read/error reporting into secondary serialization failures.
+34. **Effect-trait declaration is not generic enforcement.** Current `effect_traits` mix descriptive annotations with a small explicitly consumed subset; no arbitrary trait may authorize scheduling, parallelism, retries, or mutation. `TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`; `DESCRIPTIVE_EFFECT != SCHEDULING_AUTHORITY`.
+35. **Schema operation count is not capability count.** v11.0 uses 8 static microkernel operations to discover/invoke/compose/observe the 158-capability native graph; native membership remains current-contract-bound rather than flattened into OpenAPI operations.
+36. **Compatibility projection is not a second truth plane.** `ucm.*` and legacy `memory.*` share one authoritative store; the legacy surface nevertheless requires an explicit exit criterion before being considered permanent steady state.
+37. **Core Runtime closure did not pre-complete the schema; explicit trigger did.** v11.0 was derived only after whole-Runtime convergence and explicit user direction, and remains an adapter over existing truth/authority/execution planes.
+38. **Capability lease is not capability grant.** Leases are advisory narrowing/currentness context and never replace native approval or project mutation authority.
+39. **Descriptive effect metadata is not scheduler truth.** v11 requires exact contract-bound effect-truth witnesses; unverified capabilities serialize, require recomposition after blocked prior work, and pay conservative static cost.
+40. **Continuation is not currentness.** Completed reads cannot be treated as current after a blocking interval without separately verified replay semantics; prior unwitnessed/effectful work forces recovery/recomposition.
+41. **Compact plan is not unbounded resolved dataflow.** Sealed plans bind static cost and a 65,536-byte post-reference argument ceiling; larger data travels by result handle.
+42. **Plan VM is not a second scheduler.** v11 composes native capabilities but reuses existing durable execution/jobs/results/authority/transfer planes. Goal text does not synthesize executable nodes in v11.0.

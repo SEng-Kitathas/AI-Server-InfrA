@@ -11,8 +11,10 @@ from pathlib import Path
 
 if os.name == "nt":
     RUNTIME_ROOT = Path(__file__).resolve().parents[1] / "baseline" / "pcmmad_receiver"
-    sys.path.insert(0, str(RUNTIME_ROOT.parent))
+    sys.path.insert(0, str(RUNTIME_ROOT))
     import windows_job_object as wjo
+
+REAL_PYTHON = getattr(sys, "_base_executable", None) or sys.executable
 
 
 @unittest.skipUnless(os.name == "nt", "Windows Job Object test")
@@ -23,7 +25,7 @@ class WindowsJobObjectAnchorTests(unittest.TestCase):
             ready = Path(td) / "ready.txt"
             code = (
                 "import sys,time; "
-                f"sys.path.insert(0, r'{RUNTIME_ROOT.parent}'); "
+                f"sys.path.insert(0, r'{RUNTIME_ROOT}'); "
                 "import windows_job_object as wjo; "
                 f"j=wjo.open_named_job(r'{name}', terminate=False); "
                 f"open(r'{ready}','w').write('ready'); "
@@ -31,7 +33,7 @@ class WindowsJobObjectAnchorTests(unittest.TestCase):
             )
             job = wjo.create_named_job(name)
             wjo.set_kill_on_close(job, True)
-            proc = subprocess.Popen([sys.executable, "-c", code])
+            proc = subprocess.Popen([REAL_PYTHON, "-c", code])
             try:
                 wjo.assign_pid(job, proc.pid)
                 deadline = time.time() + 5

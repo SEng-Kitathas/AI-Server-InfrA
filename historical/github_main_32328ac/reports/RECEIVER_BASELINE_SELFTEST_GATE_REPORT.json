@@ -1,0 +1,59 @@
+{
+  "created_at_utc": "2026-07-29T23:20:14.512866+00:00",
+  "clean": true,
+  "baseline_root": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/baseline",
+  "compile_result": {
+    "name": "baseline_compileall",
+    "command": [
+      "/opt/pyvenv/bin/python",
+      "-m",
+      "compileall",
+      "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/baseline/pcmmad_receiver"
+    ],
+    "return_code": 0,
+    "ok": true,
+    "stdout_tail": "Listing '/mnt/data/pcmmad_v29_work/PCMMAD_receiver/baseline/pcmmad_receiver'...\n",
+    "stderr_tail": ""
+  },
+  "hardening_tests": {
+    "name": "server_hardening_tests",
+    "command": [
+      "/opt/pyvenv/bin/python",
+      "-m",
+      "unittest",
+      "tests.test_server_hardening"
+    ],
+    "return_code": 0,
+    "ok": true,
+    "stdout_tail": "",
+    "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.674s\n\nOK\n"
+  },
+  "import_probe": {
+    "ok": true,
+    "route_count": 49,
+    "tool_count": 87,
+    "health_ok": true,
+    "preflight_ok": true,
+    "envelope_ok": true,
+    "envelope": {
+      "ok": true,
+      "status": "COMPLETED",
+      "return_code": 0,
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "-c",
+        "print(\"selftest\")"
+      ],
+      "cwd": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver",
+      "stdout": "selftest\n",
+      "stderr": "",
+      "stdout_truncated": false,
+      "stderr_truncated": false,
+      "duration_ms": 620,
+      "error": null
+    },
+    "encoded_has_path": true,
+    "return_code": 0,
+    "stderr_tail": ""
+  }
+}

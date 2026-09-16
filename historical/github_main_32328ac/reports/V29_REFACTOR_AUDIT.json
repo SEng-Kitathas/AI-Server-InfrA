@@ -1,0 +1,288 @@
+{
+  "created_at_utc": "2026-07-29T23:17:34.852307+00:00",
+  "project": "PCMMAD Receiver",
+  "release": "V29 Native Protocol Release Candidate",
+  "status": "sandbox promotion-ready; host promotion pending",
+  "source_inputs": [
+    {
+      "name": "PCMMAD_receiver(2).zip",
+      "role": "surviving executable specimen",
+      "sha256": "b4d8a284a0acc9ef37aa115d2be4e4b67550730d80555e06771bc41c820564a3"
+    },
+    {
+      "name": "PCMMAD_RECEIVER_V28_PDVER_REFACTOR.zip",
+      "role": "verified parity anchor",
+      "sha256": "0b024d46eadd96be43d609898874e3c051bb7a8941d33be5ac848b7271571f54"
+    },
+    {
+      "name": "UNIFIED_CODE_STANDARDS_AGNOSTIC_2026-04-11.md",
+      "role": "normative implementation standard",
+      "sha256": "6d5355d7c0e893a7af0de3cf20d7ac97f5c3a7126f285999b742322b2bb62532"
+    },
+    {
+      "name": "FORGE_DOCTRINE_AND_STANDARDS_2026-04-11.zip",
+      "role": "reference doctrine/evidence, translated into PCMMAD-native concepts only",
+      "sha256": "c241e679bc6a35cc3800644c5b0fb4be61a982ce2bd016c38d08b8aaed20da14"
+    },
+    {
+      "name": "e drive csc alternate.zip",
+      "role": "deferred then cross-evaluated CSC evidence set",
+      "sha256": "a0a907d4e1de95ff454fc3af8d1e66e5b3b361d0ce429742377264a265a4d8ec"
+    }
+  ],
+  "method": [
+    "PROBE: inventory every archive/tree/document and establish authority, lineage, hazards, duplicates, and parity anchors.",
+    "DERIVE: identify missing PCMMAD-native primitives rather than importing source-project namespaces.",
+    "VERIFY: preserve the 49-route, 75-tool V28, and 30-operation contracts before and after each structural pass.",
+    "EMBODY: add typed protocol state, append-only ledger, mode/promotion/evidence/waiver invariants, docs, schema identity, tests, and release controls.",
+    "RECURSE: repair false verification assumptions and remaining structural seams until aggregate and doctrine gates are clean."
+  ],
+  "source_review": {
+    "forge_documents_reviewed": 14,
+    "csc_main_files": 1705,
+    "csc_alternate_files": 1705,
+    "csc_identical_common": 1645,
+    "csc_different_common": 60,
+    "gain_decisions": [
+      {
+        "id": "native_protocol_state",
+        "source": [
+          "PCMMAD canonical runtime specification"
+        ],
+        "status": "implemented",
+        "embodiment": [
+          "protocol_models.py",
+          "protocol_store.py",
+          "lab_tools_protocol.py"
+        ]
+      },
+      {
+        "id": "append_only_mutation_honesty",
+        "source": [
+          "append-only protocol",
+          "CSC REQ-014"
+        ],
+        "status": "implemented",
+        "embodiment": [
+          "events.jsonl hash chain",
+          "superseding revisions",
+          "sealed artifact invariant"
+        ]
+      },
+      {
+        "id": "discourse_build_mode_gate",
+        "source": [
+          "PCMMAD LAW 0/3",
+          "CODEX OMEGA explicit mode"
+        ],
+        "status": "implemented_compatible",
+        "embodiment": [
+          "protocol.guard.check",
+          "PCMMAD_PROTOCOL_POLICY_MODE off/advisory/strict"
+        ]
+      },
+      {
+        "id": "proportionate_rigor",
+        "source": [
+          "Unified standard addendum",
+          "promotion doctrine"
+        ],
+        "status": "implemented",
+        "embodiment": [
+          "STANDARD/ELEVATED/CRITICAL evidence thresholds"
+        ]
+      },
+      {
+        "id": "evidence_freshness_and_authority",
+        "source": [
+          "CSC finalizer research vectors",
+          "verified truth law"
+        ],
+        "status": "implemented",
+        "embodiment": [
+          "evidence status/verifier/timestamps/expiry/distinctness"
+        ]
+      },
+      {
+        "id": "waiver_advisory_discipline",
+        "source": [
+          "CSC finalizer missing P1"
+        ],
+        "status": "implemented",
+        "embodiment": [
+          "scoped owned expiring waiver records; invalid waiver rejection at promotion"
+        ]
+      },
+      {
+        "id": "promotion_lineage",
+        "source": [
+          "PCMMAD promotion state",
+          "CSC promotion certificate chain"
+        ],
+        "status": "implemented_at_protocol_level",
+        "embodiment": [
+          "append-only promotion events committed by global ledger hash chain; latest projection remains rebuildable"
+        ]
+      },
+      {
+        "id": "branch_topology",
+        "source": [
+          "CSC CTO-specific extension work"
+        ],
+        "status": "not_imported",
+        "rationale": "Target-specific extension certificate topology is not a proven PCMMAD receiver requirement; artifact provenance and MERGE mode preserve the general invariant without importing CTO-specific machinery."
+      },
+      {
+        "id": "dataset_split_mechanics",
+        "source": [
+          "Forge dataset doctrine"
+        ],
+        "status": "not_imported",
+        "rationale": "Not a receiver runtime capability. Contamination and sidecar invariants are retained instead."
+      }
+    ]
+  },
+  "runtime_surface": {
+    "routes": 49,
+    "registered_tools": 87,
+    "protocol_tools": 12,
+    "custom_gpt_operations": 30
+  },
+  "verification": {
+    "regression_tests": 40,
+    "static_python_files": 91,
+    "static_python_lines": 28321,
+    "static_issues": 0,
+    "aggregate_clean": true,
+    "gates": [
+      {
+        "report": "RECEIVER_BASELINE_SELFTEST_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_SCHEMA_AUTHORITY_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "SEMANTIC_FOOTGUN_DATAFLOW_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_FULL_ROUTE_TRACE_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_RESILIENCE_GATE_SUITE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_NEGATIVE_CONTRACT_TRACE_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_STATEFUL_REPLAY_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_SECURITY_BOUNDARY_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_BROWSER_BRIDGE_RESILIENCE_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_PACKAGE_INTEGRITY_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_LIVE_PARITY_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_CONCURRENCY_TRACE_GATE_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "RECEIVER_LAUNCHER_SCRIPT_AUDIT_REPORT.json",
+        "clean": true
+      },
+      {
+        "report": "PCMMAD_RUNTIME_SURFACE_CONTRACT.json",
+        "clean": true
+      }
+    ]
+  },
+  "rubric": [
+    {
+      "dimension": "Invariant clarity",
+      "score": 5,
+      "basis": "Native protocol invariants are explicit in typed records, ledger rules, mode gates, promotion rules, and release contracts."
+    },
+    {
+      "dimension": "Boundary quality",
+      "score": 4,
+      "basis": "Runtime, router, protocol, schema, launch, and sidecar boundaries are explicit; some legacy modules remain broad."
+    },
+    {
+      "dimension": "Primitive quality",
+      "score": 4,
+      "basis": "Shared typed configuration, protocol records, registration context, evidence records, and ledger events replace repeated local derivation."
+    },
+    {
+      "dimension": "Type integrity",
+      "score": 4,
+      "basis": "Load-bearing protocol and machine boundaries are typed; compatible legacy routes still use mapping payloads."
+    },
+    {
+      "dimension": "Anti-pattern resistance",
+      "score": 4,
+      "basis": "No bare except/eval/exec or oversized functions in the audited Python tree; historical modules still carry some dynamic compatibility surfaces."
+    },
+    {
+      "dimension": "Verification quality",
+      "score": 5,
+      "basis": "40 regression tests plus route, security, replay, concurrency, browser, schema, package, launcher, CSC, and fresh-extraction contracts."
+    },
+    {
+      "dimension": "Embodiment clarity",
+      "score": 5,
+      "basis": "Code, schema, docs, reports, manifest, migration, and first-boot artifacts agree on one PCMMAD-native release identity."
+    },
+    {
+      "dimension": "Recursion discipline",
+      "score": 5,
+      "basis": "Changes were seam-driven, bounded by V28 parity, and terminated only after the aggregate release contract became clean."
+    },
+    {
+      "dimension": "Specimen/governance separation",
+      "score": 5,
+      "basis": "Executable runtime, append-only governance ledger, derived state, mutable reports/data, and immutable release manifest are separated."
+    },
+    {
+      "dimension": "Idiomatic expression",
+      "score": 4,
+      "basis": "New Python is low-surprise and decomposed; a wholesale rewrite of stable legacy code was intentionally avoided."
+    }
+  ],
+  "rubric_total": 45,
+  "rubric_maximum": 50,
+  "rubric_percent": 90,
+  "promotion_decision": "sandbox release candidate promoted; machine deployment not yet promoted",
+  "remaining_limits": [
+    "PowerShell parsing and process behavior must run on the target Windows machine.",
+    "Surviving D:/E: mounts must be mapped and verified against real data.",
+    "ngrok and a real authenticated Custom GPT callback remain host-bound.",
+    "Long-duration production soak/load behavior is not claimed by sandbox tests.",
+    "Some stable legacy modules remain broad/dynamic; they are preserved until a concrete seam justifies further refactoring."
+  ],
+  "body_diff": {
+    "comparison": "V28 parity anchor to V29 live release body; environments, caches, reports, and mutable data excluded",
+    "old_file_count": 161,
+    "new_file_count": 166,
+    "unchanged_count": 129,
+    "added_count": 14,
+    "modified_count": 23,
+    "removed_from_live_body_count": 9
+  }
+}

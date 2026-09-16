@@ -8,7 +8,6 @@ from pathlib import Path
 import hashlib
 import json
 import os
-import re
 import atexit
 import subprocess
 import sys
@@ -19,9 +18,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 from flask import Blueprint, current_app, jsonify, request
 
-from .execution_routes import execution_readiness
-from .runtime_config import LAB_BATCH_CONFIG
-from .lab_results import (
+from execution_routes import execution_readiness
+from runtime_config import LAB_BATCH_CONFIG
+from lab_results import (
     RESULT_INLINE_SAFE_BYTES,
     RESULT_PREVIEW_MAX_CHARS,
     RESULT_RANGE_MAX_BYTES,
@@ -32,27 +31,8 @@ from .lab_results import (
     store_result,
     summarize_payload,
 )
-from .server_hardening import safe_json_dumps
-from .lab_schema_validation import validate_schema_value
-from .approval_authority import (
-    APPROVAL_STATUS_ACTIVE,
-    APPROVAL_STATUS_GRANTED,
-    ApprovalAuthorityError,
-    grant_challenge,
-    list_challenges,
-    revoke_challenge,
-)
-from .standing_authority import load_profile, save_profile, delete_profile
-from .schema_vnext_runtime import (
-    compose as schema_vnext_compose,
-    execute as schema_vnext_execute,
-    invoke as schema_vnext_invoke,
-    observe as schema_vnext_observe,
-    orient as schema_vnext_orient,
-    resume as schema_vnext_resume,
-    transfer as schema_vnext_transfer,
-)
-from .lab_tools import (
+from server_hardening import safe_json_dumps
+from lab_tools import (
     LabToolError,
     dispatch_tool,
     list_tools,
@@ -62,8 +42,8 @@ from .lab_tools import (
 )
 
 JsonRecord = MutableMapping[str, Any]
-from .shared_core import PROJECTS_ROOT, ensure_parent, mount_summary, require_valid_api_key, utc_now
-from .control_plane_models import BatchExecutorTelemetry, BackgroundResultEnvelope
+from shared_core import ensure_parent, mount_summary, require_valid_api_key, utc_now
+from control_plane_models import BatchExecutorTelemetry, BackgroundResultEnvelope
 
 lab_bp = Blueprint("lab", __name__, url_prefix="/lab")
 
@@ -75,77 +55,6 @@ _BACKGROUND_BATCHES_SUBMITTED = 0
 
 _BATCH_EXECUTOR_STATS_LOCK = threading.RLock()
 _BATCH_EXECUTOR_TELEMETRY = BatchExecutorTelemetry()
-
-BATCH_DATAFLOW_MAX_STEPS = 30
-BATCH_DATAFLOW_MAX_RESOLVED_PAYLOAD_BYTES = 65_536
-BATCH_STEP_ID_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_.-]{0,63}$")
-
-_RUNTIME_IDENTITY_CACHE: JsonRecord | None = None
-_RUNTIME_PROJECT_CATALOG_LIMIT = 128
-
-
-def _runtime_git_text(*args: str) -> str | None:
-    repo_root = Path(__file__).resolve().parents[2]
-    try:
-        cp = subprocess.run(
-            ["git", "-C", str(repo_root), *args],
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=2,
-            check=False,
-        )
-    except (OSError, subprocess.SubprocessError, ValueError):
-        return None
-    value = (cp.stdout or "").strip()
-    return value if cp.returncode == 0 and value else None
-
-
-def _runtime_identity() -> JsonRecord:
-    global _RUNTIME_IDENTITY_CACHE
-    if _RUNTIME_IDENTITY_CACHE is None:
-        repo_root = Path(__file__).resolve().parents[2]
-        head = _runtime_git_text("rev-parse", "HEAD")
-        tree = _runtime_git_text("rev-parse", "HEAD^{tree}")
-        branch = _runtime_git_text("symbolic-ref", "--quiet", "--short", "HEAD")
-        _RUNTIME_IDENTITY_CACHE = {
-            "product": "PCMMAD Laboratory Runtime",
-            "generation": "V30",
-            "release_state": "engineering_current",
-            "source_head": head,
-            "source_tree": tree,
-            "source_branch": branch,
-            "source_root": str(repo_root),
-            "schema_primary": "v11.0 capability microkernel",
-            "schema_compatibility": "v10.3 compact 30-operation surface",
-            "identity_law": "RUNTIME_ENGINEERING_IDENTITY != HISTORICAL_PACKAGE_LINEAGE",
-        }
-    return dict(_RUNTIME_IDENTITY_CACHE)
-
-
-def _project_catalog() -> JsonRecord:
-    rows: list[str] = []
-    partial = False
-    error: str | None = None
-    try:
-        if PROJECTS_ROOT.is_dir():
-            for child in sorted(PROJECTS_ROOT.iterdir(), key=lambda item: item.name.casefold()):
-                if not child.is_dir() or child.name.startswith("."):
-                    continue
-                if len(rows) >= _RUNTIME_PROJECT_CATALOG_LIMIT:
-                    partial = True
-                    break
-                rows.append(child.name)
-    except OSError as exc:
-        error = f"{type(exc).__name__}: {exc}"
-    return {
-        "root": str(PROJECTS_ROOT),
-        "projects": rows,
-        "count": len(rows),
-        "partial": partial,
-        "error": error,
-    }
 
 
 def _batch_stat_inc(name: str, amount: int = 1) -> None:
@@ -353,110 +262,14 @@ def _parallel_map_ordered(steps: list[dict], worker: object, parallelism: int) -
     return [ordered[i] for i in sorted(ordered)]
 
 
-def _batch_ref_paths(value: object) -> set[str]:
-    refs: set[str] = set()
-    if isinstance(value, dict):
-        if set(value) == {"$ref"} and isinstance(value.get("$ref"), str):
-            refs.add(str(value["$ref"]).strip())
-        else:
-            for child in value.values():
-                refs.update(_batch_ref_paths(child))
-    elif isinstance(value, list):
-        for child in value:
-            refs.update(_batch_ref_paths(child))
-    return refs
-
-
-def _batch_lookup_ref(ref: str, prior: dict[str, dict]) -> object:
-    parts = [part for part in str(ref).split(".") if part]
-    if len(parts) < 2:
-        raise LabToolError("BATCH_REF_INVALID", f"dataflow reference must include step id and field path: {ref!r}", 400)
-    step_id = parts[0]
-    if step_id not in prior:
-        raise LabToolError("BATCH_REF_UNRESOLVED", f"dataflow reference is not a completed prior step: {ref}", 409)
-    value: object = prior[step_id]
-    for part in parts[1:]:
-        if isinstance(value, dict) and part in value:
-            value = value[part]
-        elif isinstance(value, list) and part.isdigit() and int(part) < len(value):
-            value = value[int(part)]
-        else:
-            raise LabToolError("BATCH_REF_UNRESOLVED", f"dataflow reference field cannot be resolved: {ref}", 409)
-    return value
-
-
-def _batch_resolve_refs(value: object, prior: dict[str, dict]) -> object:
-    if isinstance(value, dict):
-        if set(value) == {"$ref"}:
-            return _batch_lookup_ref(str(value["$ref"]), prior)
-        return {str(key): _batch_resolve_refs(child, prior) for key, child in value.items()}
-    if isinstance(value, list):
-        return [_batch_resolve_refs(child, prior) for child in value]
-    return value
-
-
-def _batch_contains_dataflow(steps: list[dict]) -> bool:
-    return any(
-        bool(_batch_ref_paths(step.get("payload") or {}))
-        for step in steps
-        if isinstance(step, dict)
-    )
-
-
-def _validate_batch_dataflow_shape(steps: list[dict], parallelism: int) -> None:
-    if len(steps) > BATCH_DATAFLOW_MAX_STEPS:
-        raise LabToolError("BATCH_LIMIT_EXCEEDED", f"batch exceeds maximum {BATCH_DATAFLOW_MAX_STEPS} steps", 400)
-    seen: set[str] = set()
-    has_refs = False
-    for idx, raw in enumerate(steps):
-        step = _validate_batch_step(idx, raw)
-        step_id = str(step.get("id") or "").strip()
-        if step_id:
-            if step_id in seen:
-                raise LabToolError("BAD_REQUEST", f"step {idx} id is duplicate: {step_id!r}", 400)
-        refs = _batch_ref_paths(step.get("payload") or {})
-        if refs:
-            has_refs = True
-            if not step_id:
-                raise LabToolError("BATCH_REF_INVALID", f"dataflow step {idx} must have an id", 400)
-            for ref in refs:
-                source_id = ref.split(".", 1)[0]
-                if source_id not in seen:
-                    raise LabToolError(
-                        "BATCH_REF_FORWARD_OR_UNKNOWN",
-                        f"step {step_id or idx} references non-prior step {source_id}",
-                        400,
-                    )
-        if step_id:
-            seen.add(step_id)
-    if has_refs and parallelism != 1:
-        raise LabToolError(
-            "BATCH_DATAFLOW_REQUIRES_SEQUENTIAL",
-            "dataflow batches remain sequential until the closed scheduler-effect profile is qualified",
-            409,
-        )
-
-
-def _batch_step_result(idx: int, step: dict, prior: dict[str, dict] | None = None) -> dict:
+def _batch_step_result(idx: int, step: dict) -> dict:
     tool_name = str(step.get("tool_name", "")).strip()
     payload = step.get("payload") or {}
-    if prior is not None:
-        payload = _batch_resolve_refs(payload, prior)
-        resolved_bytes = len(safe_json_dumps(payload).encode("utf-8"))
-        if resolved_bytes > BATCH_DATAFLOW_MAX_RESOLVED_PAYLOAD_BYTES:
-            raise LabToolError(
-                "BATCH_DATAFLOW_PAYLOAD_TOO_LARGE",
-                f"resolved step payload exceeds {BATCH_DATAFLOW_MAX_RESOLVED_PAYLOAD_BYTES} bytes; pass a result handle instead",
-                413,
-                resolved_bytes=resolved_bytes,
-            )
     authority = step.get("authority") or {}
     expected_contract_digest = step.get("expected_contract_digest")
-    identity = {"id": str(step.get("id"))} if step.get("id") else {}
     try:
         return {
             "index": idx,
-            **identity,
             **dispatch_tool(
                 tool_name,
                 payload,
@@ -467,7 +280,6 @@ def _batch_step_result(idx: int, step: dict, prior: dict[str, dict] | None = Non
     except LabToolError as exc:
         return {
             "index": idx,
-            **identity,
             "ok": False,
             "tool": tool_name,
             "error_code": exc.error_code,
@@ -484,11 +296,6 @@ def _validate_batch_step(idx: int, step: object) -> dict:
         raise LabToolError("BAD_REQUEST", f"step {idx} missing tool_name", 400)
     if "authority" in step and not isinstance(step.get("authority"), dict):
         raise LabToolError("BAD_REQUEST", f"step {idx} authority must be an object", 400)
-    step_id = str(step.get("id") or "").strip()
-    if step_id and not BATCH_STEP_ID_RE.fullmatch(step_id):
-        raise LabToolError("BAD_REQUEST", f"step {idx} id is invalid: {step_id!r}", 400)
-    if _batch_ref_paths(step.get("authority") or {}):
-        raise LabToolError("BATCH_AUTHORITY_REF_FORBIDDEN", "dataflow references are forbidden in authority envelopes", 400)
     return step
 
 
@@ -543,18 +350,13 @@ def _batch_request_payload() -> dict:
 
 
 def _execute_batch_steps(steps: list[dict], stop_on_error: bool, parallelism: int) -> list[dict]:
-    _validate_batch_dataflow_shape(steps, parallelism)
     if parallelism > 1 and not stop_on_error:
         return _parallel_map_ordered(steps, _batch_step_result, parallelism)
     results: list[dict] = []
-    prior: dict[str, dict] = {}
     for idx, raw_step in enumerate(steps):
         step = _validate_batch_step(idx, raw_step)
-        result = _batch_step_result(idx, step, prior)
+        result = _batch_step_result(idx, step)
         results.append(result)
-        step_id = str(step.get("id") or "").strip()
-        if step_id:
-            prior[step_id] = result
         if stop_on_error and not result.get("ok", False):
             break
     return results
@@ -590,8 +392,6 @@ def lab_health() -> object:
             "status": _merge_lab_status(boot_degraded, lab_status, execution_status, mounts),
             "router": True,
             "tool_count": len(list_tools()),
-            "runtime_identity": _runtime_identity(),
-            "project_catalog": _project_catalog(),
             "boot_report": boot_report,
             "lab_status": lab_status,
             "execution_readiness": execution_status,
@@ -744,65 +544,6 @@ def lab_results_get() -> object:
         return _error("RESULT_GET_FAILED", str(e), 500)
 
 
-@lab_bp.get("/authority")
-def lab_authority_get() -> object:
-    ae=_auth()
-    if ae:return ae
-    project_id=str(request.args.get("project_id") or "").strip()
-    if not project_id:return _error("BAD_REQUEST","project_id is required",400)
-    try:profile=load_profile(project_id)
-    except (OSError,ValueError) as exc:return _error("AUTHORITY_PROFILE_READ_FAILED",str(exc),400)
-    return jsonify({"ok":True,"project_id":project_id,"profile":profile,"source":"operator_standing_authority"})
-
-@lab_bp.post("/authority")
-def lab_authority_set() -> object:
-    ae=_auth()
-    if ae:return ae
-    body=request.get_json(silent=True) or {}
-    if not isinstance(body,dict):return _error("BAD_REQUEST","authority profile body must be an object",400)
-    try:profile=save_profile(body)
-    except (OSError,ValueError,TypeError) as exc:return _error("AUTHORITY_PROFILE_INVALID",str(exc),400)
-    return jsonify({"ok":True,"profile":profile,"source":"operator_standing_authority"})
-
-@lab_bp.delete("/authority")
-def lab_authority_delete() -> object:
-    ae=_auth()
-    if ae:return ae
-    body=request.get_json(silent=True) or {}; project_id=str((body if isinstance(body,dict) else {}).get("project_id") or request.args.get("project_id") or "").strip()
-    if not project_id:return _error("BAD_REQUEST","project_id is required",400)
-    try:removed=delete_profile(project_id)
-    except (OSError,ValueError) as exc:return _error("AUTHORITY_PROFILE_DELETE_FAILED",str(exc),400)
-    return jsonify({"ok":True,"project_id":project_id,"removed":removed})
-
-@lab_bp.get("/approvals")
-def lab_approvals() -> object:
-    status_arg = str(request.args.get("status") or "pending").strip().lower()
-    if status_arg == "pending": statuses = {APPROVAL_STATUS_ACTIVE, APPROVAL_STATUS_GRANTED}
-    elif status_arg == "all": statuses = None
-    else: statuses = {part.strip().upper() for part in status_arg.split(",") if part.strip()}
-    try: limit = int(request.args.get("limit") or 100)
-    except (TypeError, ValueError): return _error("BAD_REQUEST", "limit must be an integer", 400)
-    try: rows = list_challenges(statuses=statuses, limit=limit)
-    except ApprovalAuthorityError as exc: return jsonify({"ok": False, "error_code": exc.error_code, "message": exc.message, **exc.extra}), exc.status
-    return jsonify({"ok": True, "count": len(rows), "pending": sum(1 for row in rows if row.get("status") == APPROVAL_STATUS_ACTIVE), "granted": sum(1 for row in rows if row.get("status") == APPROVAL_STATUS_GRANTED), "approvals": rows})
-
-@lab_bp.post("/approvals/<handle>/grant")
-def lab_approval_grant(handle: str) -> object:
-    body = request.get_json(silent=True) or {}
-    if not isinstance(body, dict): return _error("BAD_REQUEST", "approval grant body must be an object", 400)
-    try: row = grant_challenge(handle, operator_id=str(body.get("operator_id") or "").strip(), provenance=str(body.get("provenance") or "").strip())
-    except ApprovalAuthorityError as exc: return jsonify({"ok": False, "error_code": exc.error_code, "message": exc.message, **exc.extra}), exc.status
-    return jsonify({"ok": True, "approval": row})
-
-@lab_bp.post("/approvals/<handle>/revoke")
-def lab_approval_revoke(handle: str) -> object:
-    body = request.get_json(silent=True) or {}
-    if not isinstance(body, dict): return _error("BAD_REQUEST", "approval revoke body must be an object", 400)
-    try: row = revoke_challenge(handle, reason=str(body.get("reason") or "operator rejected in HUD").strip())
-    except ApprovalAuthorityError as exc: return jsonify({"ok": False, "error_code": exc.error_code, "message": exc.message, **exc.extra}), exc.status
-    return jsonify({"ok": True, "approval": row})
-
-
 @lab_bp.post("/dispatch")
 def lab_dispatch() -> object:
     ae = _auth()
@@ -932,7 +673,6 @@ def lab_batch() -> object:
         parallelism = max(1, int(request_payload.get("parallelism", 1)))
         if not isinstance(steps, list) or not steps:
             return _error("BAD_REQUEST", "steps must be a non-empty array", 400)
-        _validate_batch_dataflow_shape(steps, parallelism)
         if background:
             project_id = str(request_payload.get("project_id", "")).strip()
             if not project_id:
@@ -946,157 +686,3 @@ def lab_batch() -> object:
         return _error(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
         return _error("LAB_BATCH_FAILED", str(e), 500)
-
-_SCHEMA_VNEXT_OPENAPI_PATH = Path(__file__).resolve().with_name(
-    "pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json"
-)
-_SCHEMA_VNEXT_REQUEST_COMPONENTS = {
-    "orient": "OrientRequest",
-    "invoke": "InvokeRequest",
-    "compose": "ComposeRequest",
-    "execute": "ExecuteRequest",
-    "observe": "ObserveRequest",
-    "resume": "ResumeRequest",
-    "transfer": "TransferRequest",
-}
-_SCHEMA_VNEXT_OPENAPI_CACHE: JsonRecord | None = None
-SCHEMA_VNEXT_MAX_REQUEST_BYTES = 1024 * 1024
-
-
-def _schema_vnext_openapi() -> JsonRecord:
-    global _SCHEMA_VNEXT_OPENAPI_CACHE
-    if _SCHEMA_VNEXT_OPENAPI_CACHE is None:
-        loaded = json.loads(_SCHEMA_VNEXT_OPENAPI_PATH.read_text(encoding="utf-8"))
-        if not isinstance(loaded, dict):
-            raise LabToolError("SCHEMA_INVALID", "v11 OpenAPI root must be an object", 500)
-        _SCHEMA_VNEXT_OPENAPI_CACHE = loaded
-    return _SCHEMA_VNEXT_OPENAPI_CACHE
-
-
-def _schema_vnext_resolve_refs(value: object, *, stack: tuple[str, ...] = ()) -> object:
-    if isinstance(value, list):
-        return [_schema_vnext_resolve_refs(item, stack=stack) for item in value]
-    if not isinstance(value, dict):
-        return value
-    ref = value.get("$ref")
-    if ref is not None:
-        ref_text = str(ref)
-        prefix = "#/components/schemas/"
-        if not ref_text.startswith(prefix):
-            raise LabToolError("SCHEMA_INVALID", f"unsupported v11 schema reference: {ref_text}", 500)
-        name = ref_text[len(prefix):]
-        if name in stack:
-            raise LabToolError("SCHEMA_INVALID", f"cyclic v11 schema reference: {name}", 500)
-        components = (_schema_vnext_openapi().get("components") or {}).get("schemas") or {}
-        target = components.get(name)
-        if not isinstance(target, dict):
-            raise LabToolError("SCHEMA_INVALID", f"missing v11 schema component: {name}", 500)
-        resolved = _schema_vnext_resolve_refs(target, stack=(*stack, name))
-        if len(value) == 1:
-            return resolved
-        merged = dict(resolved) if isinstance(resolved, dict) else {}
-        for key, child in value.items():
-            if key != "$ref":
-                merged[key] = _schema_vnext_resolve_refs(child, stack=stack)
-        return merged
-    return {str(key): _schema_vnext_resolve_refs(child, stack=stack) for key, child in value.items()}
-
-
-def _schema_vnext_raise_validation(code: str, message: str, status: int) -> None:
-    raise LabToolError(code, message, status)
-
-
-def _schema_vnext_request_payload(operation: str) -> JsonRecord:
-    if not request.is_json:
-        raise LabToolError("UNSUPPORTED_MEDIA_TYPE", "v11 request body must use application/json", 415)
-    content_length = request.content_length
-    if content_length is not None and int(content_length) > SCHEMA_VNEXT_MAX_REQUEST_BYTES:
-        raise LabToolError(
-            "REQUEST_TOO_LARGE",
-            f"v11 request body exceeds {SCHEMA_VNEXT_MAX_REQUEST_BYTES} bytes",
-            413,
-        )
-    cached = getattr(request, "_cached_data", None)
-    raw = (
-        bytes(cached)
-        if isinstance(cached, (bytes, bytearray))
-        else request.stream.read(SCHEMA_VNEXT_MAX_REQUEST_BYTES + 1)
-    )
-    if len(raw) > SCHEMA_VNEXT_MAX_REQUEST_BYTES:
-        raise LabToolError(
-            "REQUEST_TOO_LARGE",
-            f"v11 request body exceeds {SCHEMA_VNEXT_MAX_REQUEST_BYTES} bytes",
-            413,
-        )
-    try:
-        request_payload = json.loads(raw.decode("utf-8"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise LabToolError("BAD_JSON", "request body is not valid UTF-8 JSON", 400) from exc
-    if not isinstance(request_payload, dict):
-        raise LabToolError("BAD_JSON", "JSON body must be an object", 400)
-    component_name = _SCHEMA_VNEXT_REQUEST_COMPONENTS.get(operation)
-    if component_name is None:
-        raise LabToolError("SCHEMA_INVALID", f"unknown v11 route schema: {operation}", 500)
-    components = (_schema_vnext_openapi().get("components") or {}).get("schemas") or {}
-    component = components.get(component_name)
-    if not isinstance(component, dict):
-        raise LabToolError("SCHEMA_INVALID", f"missing v11 request schema: {component_name}", 500)
-    resolved = _schema_vnext_resolve_refs(component)
-    if not isinstance(resolved, dict):
-        raise LabToolError("SCHEMA_INVALID", f"resolved v11 request schema is invalid: {component_name}", 500)
-    validate_schema_value(resolved, request_payload, "payload", raise_error=_schema_vnext_raise_validation)
-    return request_payload
-
-
-def _schema_vnext_http_call(fn, operation: str) -> object:
-    ae = _auth()
-    if ae:
-        return ae
-    try:
-        return jsonify(fn(_schema_vnext_request_payload(operation)))
-    except LabToolError as exc:
-        return _error(exc.error_code, exc.message, exc.status, **exc.extra)
-    except FileNotFoundError:
-        return _error("NOT_FOUND", "referenced Runtime object was not found", 404)
-    except RuntimeError as exc:
-        message = str(exc)
-        if message.startswith("NOT_FOUND:"):
-            return _error("NOT_FOUND", message.split(":", 1)[1].strip(), 404)
-        return _error("SCHEMA_VNEXT_FAILED", message, 500)
-    except (OSError, ValueError, TypeError, KeyError) as exc:
-        return _error("SCHEMA_VNEXT_FAILED", str(exc), 500)
-
-
-@lab_bp.post("/vnext/orient")
-def lab_vnext_orient() -> object:
-    return _schema_vnext_http_call(schema_vnext_orient, "orient")
-
-
-@lab_bp.post("/vnext/invoke")
-def lab_vnext_invoke() -> object:
-    return _schema_vnext_http_call(schema_vnext_invoke, "invoke")
-
-
-@lab_bp.post("/vnext/compose")
-def lab_vnext_compose() -> object:
-    return _schema_vnext_http_call(schema_vnext_compose, "compose")
-
-
-@lab_bp.post("/vnext/execute")
-def lab_vnext_execute() -> object:
-    return _schema_vnext_http_call(schema_vnext_execute, "execute")
-
-
-@lab_bp.post("/vnext/observe")
-def lab_vnext_observe() -> object:
-    return _schema_vnext_http_call(schema_vnext_observe, "observe")
-
-
-@lab_bp.post("/vnext/resume")
-def lab_vnext_resume() -> object:
-    return _schema_vnext_http_call(schema_vnext_resume, "resume")
-
-
-@lab_bp.post("/vnext/transfer")
-def lab_vnext_transfer() -> object:
-    return _schema_vnext_http_call(schema_vnext_transfer, "transfer")

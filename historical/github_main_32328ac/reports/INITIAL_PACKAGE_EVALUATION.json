@@ -1,0 +1,17 @@
+{
+  "created_at_utc": "2026-07-29T21:15:22.951381+00:00",
+  "release": "PCMMAD Receiver V28 PDVER Recovery Refactor",
+  "module_count": 45,
+  "compileall_returncode": 0,
+  "baseline_regression_test_count": 25,
+  "refactored_regression_test_count": 32,
+  "runtime_route_count": 49,
+  "registered_tool_count": 75,
+  "custom_gpt_operation_count": 30,
+  "evaluation_status": "promotion-clean in sandbox; host-bound Windows/ngrok/mount checks deferred",
+  "finalized_at_utc": "2026-07-29T21:34:04.737794+00:00",
+  "release_verification_clean": true,
+  "csc_clean": true,
+  "full_route_trace": "49/49",
+  "launcher_findings": 0
+}

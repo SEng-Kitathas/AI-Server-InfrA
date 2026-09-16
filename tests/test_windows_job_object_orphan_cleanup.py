@@ -11,8 +11,10 @@ from pathlib import Path
 
 if os.name == "nt":
     RUNTIME_ROOT = Path(__file__).resolve().parents[1] / "baseline" / "pcmmad_receiver"
-    sys.path.insert(0, str(RUNTIME_ROOT.parent))
+    sys.path.insert(0, str(RUNTIME_ROOT))
     import windows_job_object as wjo
+
+REAL_PYTHON = getattr(sys, "_base_executable", None) or sys.executable
 
 
 @unittest.skipUnless(os.name == "nt", "Windows Job Object test")
@@ -26,7 +28,7 @@ class WindowsJobObjectOrphanCleanupTests(unittest.TestCase):
             child_pid_file = td_path / "child_pid.txt"
             code = (
                 "import sys,time,subprocess,pathlib; "
-                f"sys.path.insert(0, r'{RUNTIME_ROOT.parent}'); "
+                f"sys.path.insert(0, r'{RUNTIME_ROOT}'); "
                 "import windows_job_object as wjo; "
                 f"j=wjo.open_named_job(r'{name}', terminate=False); "
                 f"pathlib.Path(r'{ready}').write_text('ready'); "
@@ -39,7 +41,7 @@ class WindowsJobObjectOrphanCleanupTests(unittest.TestCase):
             )
             job = wjo.create_named_job(name)
             wjo.set_kill_on_close(job, True)
-            runner = subprocess.Popen([sys.executable, "-c", code])
+            runner = subprocess.Popen([REAL_PYTHON, "-c", code])
             child_pid = None
             try:
                 wjo.assign_pid(job, runner.pid)

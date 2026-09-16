@@ -1,0 +1,57 @@
+{
+  "clean": true,
+  "gate_count": 7,
+  "failure_count": 0,
+  "failures": [],
+  "results": [
+    {
+      "gate": "receiver_negative_contract_trace_gate.py",
+      "returncode": 0,
+      "pass_": true,
+      "stdout_tail": "{\n  \"report\": \"/mnt/data/pcmmad_v29_work/PCMMAD_receiver/reports/RECEIVER_NEGATIVE_CONTRACT_TRACE_GATE_REPORT.json\",\n  \"clean\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "gate": "receiver_stateful_replay_gate.py",
+      "returncode": 0,
+      "pass_": true,
+      "stdout_tail": "{\n  \"report\": \"/mnt/data/pcmmad_v29_work/PCMMAD_receiver/reports/RECEIVER_STATEFUL_REPLAY_GATE_REPORT.json\",\n  \"clean\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "gate": "receiver_security_boundary_gate.py",
+      "returncode": 0,
+      "pass_": true,
+      "stdout_tail": "{\n  \"report\": \"/mnt/data/pcmmad_v29_work/PCMMAD_receiver/reports/RECEIVER_SECURITY_BOUNDARY_GATE_REPORT.json\",\n  \"clean\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "gate": "receiver_browser_bridge_resilience_gate.py",
+      "returncode": 0,
+      "pass_": true,
+      "stdout_tail": "{\n  \"report\": \"/mnt/data/pcmmad_v29_work/PCMMAD_receiver/reports/RECEIVER_BROWSER_BRIDGE_RESILIENCE_GATE_REPORT.json\",\n  \"clean\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "gate": "receiver_package_integrity_gate.py",
+      "returncode": 0,
+      "pass_": true,
+      "stdout_tail": "{\n  \"report\": \"/mnt/data/pcmmad_v29_work/PCMMAD_receiver/reports/RECEIVER_PACKAGE_INTEGRITY_GATE_REPORT.json\",\n  \"clean\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "gate": "receiver_live_parity_gate.py",
+      "returncode": 0,
+      "pass_": true,
+      "stdout_tail": "{\n  \"report\": \"/mnt/data/pcmmad_v29_work/PCMMAD_receiver/reports/RECEIVER_LIVE_PARITY_GATE_REPORT.json\",\n  \"clean\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "gate": "receiver_concurrency_trace_gate.py",
+      "returncode": 0,
+      "pass_": true,
+      "stdout_tail": "{\n  \"report\": \"/mnt/data/pcmmad_v29_work/PCMMAD_receiver/reports/RECEIVER_CONCURRENCY_TRACE_GATE_REPORT.json\",\n  \"clean\": true\n}\n",
+      "stderr_tail": ""
+    }
+  ]
+}

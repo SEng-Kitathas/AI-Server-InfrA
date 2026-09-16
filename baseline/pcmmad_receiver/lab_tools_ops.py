@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import ipaddress
+import os
 import socket
 import time
 import urllib.error
@@ -13,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .server_hardening import run_subprocess_envelope
+from server_hardening import run_subprocess_envelope
 
 JsonObject = MutableMapping[str, Any]
 OpsRegistrar = Callable[..., Any]
@@ -27,6 +28,7 @@ class OpsToolDeps:
     exec_env: Callable[[JsonObject], dict[str, str]]
     append_reflexion: Callable[[str, JsonObject], object]
     beautiful_soup: Any
+    resolve_mount_spec: Callable[..., Path] | None
 
 
 VERIFY_MAX_GATES = 32
@@ -42,6 +44,7 @@ def _ops_deps(deps: JsonObject) -> OpsToolDeps:
         exec_env=deps["exec_env"],
         append_reflexion=deps["append_reflexion"],
         beautiful_soup=deps.get("beautiful_soup"),
+        resolve_mount_spec=deps.get("resolve_mount_spec"),
     )
 
 
@@ -85,23 +88,6 @@ def _git_repo_probe(
         raise dep.error_cls("BAD_REQUEST", "project_id is required", 400)
     project_root = dep.get_project_root(project_id).resolve()
     root = dep.resolve_cwd(project_id, repo_path or ".").resolve()
-    if not root.exists() or not root.is_dir():
-        return root, None, {
-            "ok": False,
-            "status": "FAILED",
-            "return_code": None,
-            "project_id": project_id,
-            "project_root": str(project_root),
-            "requested_repo_path": repo_path or ".",
-            "requested_repo_root": str(root),
-            "repo_grounded": False,
-            "error_code": "GIT_REPO_INVALID",
-            "error": "requested repository path does not exist or is not a directory",
-            "stderr": "",
-            "stderr_truncated": False,
-            "stdout": "",
-            "stdout_truncated": False,
-        }
     top_probe = _git_envelope(root, ["git", "rev-parse", "--show-toplevel"])
     if not top_probe.get("ok"):
         failure = dict(top_probe)
@@ -198,13 +184,209 @@ def _git_status_snapshot(root: Path) -> JsonObject:
     }
 
 
-GIT_READ_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"}}}
-GIT_DIFF_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"},"cached":{"type":"boolean"}}}
-GIT_COMMIT_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","message"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"},"message":{"type":"string","minLength":1}}}
-GIT_RESET_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"},"target":{"type":"string"}}}
-GIT_CLEAN_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"repo_path":{"type":"string"},"x":{"type":"boolean"}}}
+def _git_repositories_list_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
+    project_id = _project_id(payload)
+    if not project_id:
+        raise dep.error_cls("BAD_REQUEST", "project_id is required", 400)
+    project_root = dep.get_project_root(project_id).resolve()
+    start = dep.resolve_cwd(project_id, str(payload.get("path") or ".")).resolve()
+    try:
+        start.relative_to(project_root)
+    except ValueError as exc:
+        raise dep.error_cls(
+            "PROJECT_SCOPE_MISMATCH",
+            "repository discovery root escapes project root",
+            400,
+            scope="project",
+            lawful_next=["fs.tree", "fs.glob"],
+            recovery="use filesystem discovery for mounted/absolute paths, then operate through an explicit operator-scoped git route",
+        ) from exc
+    max_depth = int(payload.get("max_depth", 4))
+    max_results = int(payload.get("max_results", 50))
+    if max_depth < 0 or max_depth > 8:
+        raise dep.error_cls("BAD_REQUEST", "max_depth must be between 0 and 8", 400)
+    if max_results < 1 or max_results > 100:
+        raise dep.error_cls("BAD_REQUEST", "max_results must be between 1 and 100", 400)
+    max_directories = min(5000, max(200, int(payload.get("max_directories", 2000))))
+    repos: list[JsonObject] = []
+    seen: set[str] = set()
+    scanned = 0
+    truncated = False
+    skip = {".git", ".venv", "node_modules", "__pycache__"}
+    for current, dirs, files in os.walk(start):
+        current_path = Path(current).resolve()
+        rel_parts = current_path.relative_to(start).parts
+        depth = len(rel_parts)
+        scanned += 1
+        if scanned > max_directories:
+            truncated = True
+            break
+        dirs[:] = [d for d in dirs if d not in skip]
+        if depth >= max_depth:
+            dirs[:] = []
+        has_git_marker = (current_path / ".git").exists() or ".git" in files
+        if not has_git_marker:
+            continue
+        rel = current_path.relative_to(project_root).as_posix() or "."
+        _, identity, error = _git_repo_probe(project_id, dep, rel)
+        if error is not None or identity is None:
+            continue
+        repo_root = str(identity["repo_root"])
+        if repo_root in seen:
+            continue
+        seen.add(repo_root)
+        repos.append(identity)
+        if len(repos) >= max_results:
+            truncated = True
+            break
+    return {
+        "ok": True,
+        "project_id": project_id,
+        "scan_root": str(start),
+        "repositories": repos,
+        "count": len(repos),
+        "directories_scanned": scanned,
+        "max_depth": max_depth,
+        "max_results": max_results,
+        "truncated": truncated,
+    }
+
+
+def _machine_repositories_list_payload(payload: JsonObject, dep: OpsToolDeps) -> JsonObject:
+    raw_root = str(payload.get("root") or "").strip()
+    if not raw_root:
+        raise dep.error_cls(
+            "BAD_REQUEST",
+            "root is required; discover machine roots first and choose one explicitly",
+            400,
+            lawful_next=["machine.roots.list"],
+        )
+    candidate = Path(raw_root).expanduser()
+    if "://" not in raw_root and not candidate.is_absolute():
+        raise dep.error_cls("BAD_REQUEST", "root must be an explicit absolute path or mount spec", 400)
+    if dep.resolve_mount_spec is None:
+        raise dep.error_cls(
+            "CAPABILITY_UNAVAILABLE",
+            "machine repository discovery requires mount/path resolution support",
+            503,
+            capability="machine.repositories.list",
+        )
+    try:
+        root = dep.resolve_mount_spec(raw_root, default_root=None, allow_absolute=True).resolve()
+    except (OSError, ValueError, TypeError) as exc:
+        raise dep.error_cls("BAD_PATH", str(exc), 400) from exc
+    if not root.exists():
+        raise dep.error_cls("NOT_FOUND", "repository discovery root not found", 404, root=str(root))
+    if not root.is_dir():
+        raise dep.error_cls("BAD_PATH", "repository discovery root must be a directory", 400, root=str(root))
+    max_depth = int(payload.get("max_depth", 4))
+    max_results = int(payload.get("max_results", 50))
+    max_directories = int(payload.get("max_directories", 2000))
+    if max_depth < 0 or max_depth > 8:
+        raise dep.error_cls("BAD_REQUEST", "max_depth must be between 0 and 8", 400)
+    if max_results < 1 or max_results > 100:
+        raise dep.error_cls("BAD_REQUEST", "max_results must be between 1 and 100", 400)
+    if max_directories < 1 or max_directories > 5000:
+        raise dep.error_cls("BAD_REQUEST", "max_directories must be between 1 and 5000", 400)
+    repos: list[JsonObject] = []
+    seen: set[str] = set()
+    scanned = 0
+    escaped_paths_skipped = 0
+    truncated = False
+    skip = {".git", ".venv", "node_modules", "__pycache__"}
+    for current, dirs, files in os.walk(root):
+        current_path = Path(current).resolve()
+        try:
+            relative = current_path.relative_to(root)
+        except ValueError:
+            escaped_paths_skipped += 1
+            dirs[:] = []
+            continue
+        depth = len(relative.parts)
+        scanned += 1
+        if scanned > max_directories:
+            truncated = True
+            break
+        dirs[:] = [d for d in dirs if d not in skip]
+        if depth >= max_depth:
+            dirs[:] = []
+        if not ((current_path / ".git").exists() or ".git" in files):
+            continue
+        probe = _git_envelope(current_path, ["git", "rev-parse", "--show-toplevel"])
+        if not probe.get("ok"):
+            continue
+        top_raw = str(probe.get("stdout") or "").strip()
+        if not top_raw:
+            continue
+        top = Path(top_raw).resolve()
+        if top != current_path:
+            continue
+        top_key = str(top).casefold() if os.name == "nt" else str(top)
+        if top_key in seen:
+            continue
+        seen.add(top_key)
+        repos.append({
+            "repo_root": str(top),
+            "root_relative_path": relative.as_posix() or ".",
+            "discovery_scope": "operator_machine_read",
+            "exact_repo_identity": True,
+        })
+        if len(repos) >= max_results:
+            truncated = True
+            break
+    return {
+        "ok": True,
+        "scope": "operator_machine_read",
+        "root": str(root),
+        "repositories": repos,
+        "count": len(repos),
+        "directories_scanned": min(scanned, max_directories),
+        "escaped_paths_skipped": escaped_paths_skipped,
+        "max_depth": max_depth,
+        "max_results": max_results,
+        "max_directories": max_directories,
+        "truncated": truncated,
+        "recursive": True,
+        "mutation_authority": False,
+    }
+
 
 def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> None:
+    @register_tool(
+        "machine.repositories.list",
+        "Discover exact Git repository roots beneath one explicit operator-selected machine root.",
+        "low",
+        category="machine",
+        approval_required=False,
+        mutating=False,
+        side_effect_class="read",
+        effect_traits=["operator_scope", "repo_discovery", "explicit_root_required", "bounded_results", "bounded_traversal", "requires_exact_repo_identity", "does_not_grant_mutation_authority"],
+        input_schema={
+            "type": "object",
+            "properties": {
+                "root": {"type": "string", "minLength": 1},
+                "max_depth": {"type": "integer", "minimum": 0, "maximum": 8},
+                "max_results": {"type": "integer", "minimum": 1, "maximum": 100},
+                "max_directories": {"type": "integer", "minimum": 1, "maximum": 5000},
+            },
+            "required": ["root"],
+            "additionalProperties": False,
+        },
+    )
+    def tool_machine_repositories_list(payload: JsonObject) -> JsonObject:
+        return _machine_repositories_list_payload(payload, dep)
+
+    @register_tool(
+        "git.repositories.list",
+        "Discover exact Git repository roots within a bounded project path.",
+        "low",
+        category="git",
+        side_effect_class="read",
+        effect_traits=["reads_repo_state", "project_scope_enforced", "bounded_results", "repo_discovery"],
+    )
+    def tool_git_repositories_list(payload: JsonObject) -> JsonObject:
+        return _git_repositories_list_payload(payload, dep)
+
     @register_tool(
         "git.status",
         "Read git status, branch, and dirty state for a project repo.",
@@ -212,7 +394,6 @@ def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         category="git",
         side_effect_class="read",
         effect_traits=["reads_repo_state", "requires_exact_repo_identity"],
-        input_schema=GIT_READ_SCHEMA,
     )
     def tool_git_status(payload: JsonObject) -> JsonObject:
         project_id = _project_id(payload)
@@ -225,7 +406,7 @@ def _register_git_read_tools(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         result["repo_grounded"] = True
         return result
 
-    @register_tool("git.diff", "Read a git diff for a project repo.", "medium", category="git", side_effect_class="read", effect_traits=["reads_repo_state", "requires_exact_repo_identity", "bounded_output"], input_schema=GIT_DIFF_SCHEMA)
+    @register_tool("git.diff", "Read a git diff for a project repo.", "medium", category="git", side_effect_class="read", effect_traits=["reads_repo_state", "requires_exact_repo_identity", "bounded_output"])
     def tool_git_diff(payload: JsonObject) -> JsonObject:
         project_id = _project_id(payload)
         root, identity, error = _git_repo_probe(project_id, dep, _repo_path(payload))
@@ -434,7 +615,6 @@ def _register_git_commit_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> 
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "mutates_repo", "creates_commit", "requires_exact_repo_identity", "postcondition_verified", "project_mutation_fenced"],
-        input_schema=GIT_COMMIT_SCHEMA,
     )
     def tool_git_commit(payload: JsonObject) -> JsonObject:
         return _git_commit_payload(payload, dep)
@@ -450,7 +630,6 @@ def _register_git_reset_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "destructive", "mutates_repo", "requires_exact_repo_identity", "postcondition_verified", "project_mutation_fenced"],
-        input_schema=GIT_RESET_SCHEMA,
     )
     def tool_git_reset_hard(payload: JsonObject) -> JsonObject:
         return _git_reset_payload(payload, dep)
@@ -466,7 +645,6 @@ def _register_git_clean_tool(register_tool: OpsRegistrar, dep: OpsToolDeps) -> N
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "destructive", "deletes_files", "requires_exact_repo_identity", "dry_run_preview", "postcondition_verified", "project_mutation_fenced"],
-        input_schema=GIT_CLEAN_SCHEMA,
     )
     def tool_git_clean(payload: JsonObject) -> JsonObject:
         return _git_clean_payload(payload, dep)

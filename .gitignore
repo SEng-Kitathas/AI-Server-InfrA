@@ -26,10 +26,3 @@ baseline/pcmmad_receiver/_v30_backups/
 **/_v30_backups/
 *.bak.*
 operator_hud/runtime/
-# Local Warfort / recovery artifacts (generated, may contain protected or runtime material)
-.warfort_breakglass_bundle/
-.warfort_breakglass_restore_target/
-.warfort_breakglass_restore_target2/
-.warfort_secret/
-build/
-baseline/pcmmad_receiver.egg-info/

@@ -130,11 +130,6 @@ def gate_report_contract() -> dict[str, object]:
     return {"clean": all(bool(item["clean"]) for item in entries), "reports": entries}
 
 
-def csc_code_health_contract() -> dict[str, object]:
-    result = run("csc_code_health", [sys.executable, str(ROOT / "tools" / "csc_native" / "csc_code_health_gate.py")], timeout=120)
-    return {"clean": bool(result.get("ok")), "result": result}
-
-
 def csc_contract() -> dict[str, object]:
     event_path = CSC_OUTPUT / "CSC_EVENT_REPORT.json"
     if not event_path.exists():
@@ -178,7 +173,6 @@ def main() -> None:
     source = source_contract()
     gate_reports = gate_report_contract()
     csc = csc_contract()
-    csc_code_health = csc_code_health_contract()
     clean = (
         all(bool(result["clean"]) for result in commands)
         and bool(manifest["clean"])
@@ -186,7 +180,6 @@ def main() -> None:
         and bool(source["clean"])
         and bool(gate_reports["clean"])
         and bool(csc["clean"])
-        and bool(csc_code_health["clean"])
     )
     report = {
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -198,7 +191,6 @@ def main() -> None:
         "gate_report_contract": gate_reports,
         "schema_contract": schema,
         "csc_contract": csc,
-        "csc_code_health": csc_code_health,
         "host_bound_deferred": [
             "Windows PowerShell parser/runtime execution",
             "live ngrok tunnel and Custom GPT callback",

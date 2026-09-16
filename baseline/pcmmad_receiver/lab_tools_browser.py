@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
-from .lab_tool_primitives import (
+from lab_tool_primitives import (
     ToolPayload,
     ToolResult,
     payload_bool,
@@ -13,9 +13,6 @@ from .lab_tool_primitives import (
     payload_str,
 )
 from typing import Any, Callable
-from collections.abc import MutableMapping
-
-JsonObject = MutableMapping[str, Any]
 
 
 @dataclass(frozen=True)

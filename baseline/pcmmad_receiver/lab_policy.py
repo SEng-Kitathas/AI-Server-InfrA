@@ -12,12 +12,11 @@ from collections.abc import MutableMapping
 from dataclasses import dataclass, field
 from typing import Any
 
-from .approval_authority import (
+from approval_authority import (
     ApprovalAuthorityError,
     create_challenge,
     validate_and_consume,
 )
-from .standing_authority import resolve as resolve_standing_authority
 
 JsonObject = MutableMapping[str, Any]
 
@@ -126,25 +125,14 @@ def evaluate_tool_call(
     authority_data = _authority_dict(authority)
     requires_approval = _approval_required(spec)
 
-    bound = _bound_approval_decision(spec, payload, authority_data, mode)
-    if bound is not None:
-        return bound
-
-    standing = resolve_standing_authority(spec, payload)
-    if standing is not None:
-        action = str(standing.get("action") or "ask")
-        details = {"standing_authority": standing}
-        if action == "deny":
-            return PolicyDecision(False, "operator", False, "operator standing-authority profile denies this call", approval_mode="standing_authority", error_code="OPERATOR_POLICY_DENIED", details=details)
-        if action == "allow":
-            return PolicyDecision(True, "operator", True, "operator standing-authority profile permits this call", approval_mode="standing_authority", details=details)
-        challenge = create_challenge(spec, payload)
-        return PolicyDecision(False, "operator", False, "operator standing-authority profile requires HITL for this call", approval_mode="challenge_required", approval_handle=str(challenge.get("handle") or ""), error_code="APPROVAL_REQUIRED", details={**details, "approval_challenge": challenge})
-
     if mode == "open":
         return PolicyDecision(True, mode, False, "open mode permits all tool calls")
     if not requires_approval:
         return PolicyDecision(True, mode, False, "tool does not require approval")
+
+    bound = _bound_approval_decision(spec, payload, authority_data, mode)
+    if bound is not None:
+        return bound
 
     legacy = authority_data.get("legacy_approval")
     if _approval_present(legacy):
@@ -179,13 +167,23 @@ def evaluate_tool_call(
         )
 
     challenge = create_challenge(spec, payload)
+    handle = str(challenge.get("handle") or "")
+    continuation = {
+        "kind": "resubmit_exact_tool_call",
+        "tool": str(_spec_attr(spec, "name", "")),
+        "arguments": dict(payload),
+        "expected_contract_digest": str(_spec_attr(spec, "contract_digest", "")),
+        "authority_template": {"approval_handle": handle, "permit": False},
+        "permit_must_be_set_true_by_approver": True,
+        "single_use": True,
+    }
     return PolicyDecision(
         False,
         mode,
         False,
         "explicit approval is required for this exact capability contract and argument set",
         approval_mode="challenge_required",
-        approval_handle=str(challenge.get("handle") or ""),
+        approval_handle=handle,
         error_code="APPROVAL_REQUIRED",
-        details={"approval_challenge": challenge},
+        details={"approval_challenge": challenge, "continuation": continuation},
     )

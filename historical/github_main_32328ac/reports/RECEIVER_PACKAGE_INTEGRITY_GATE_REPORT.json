@@ -1,0 +1,35 @@
+{
+  "created_at_utc": "2026-07-29T23:18:36.139225+00:00",
+  "gate_name": "receiver_package_integrity",
+  "approach": "PROBE_DERIVE_VERIFY_EMBODY_RECURSE",
+  "levels": {
+    "nano": "individual probe",
+    "micro": "route family / boundary class",
+    "meso": "gate matrix",
+    "macro": "claim gate"
+  },
+  "clean": true,
+  "probe_count": 1,
+  "failure_count": 0,
+  "unexpected_500_count": 0,
+  "failures": [],
+  "unexpected_500": [],
+  "results": [
+    {
+      "name": "V29 release integrity",
+      "category": "package",
+      "route": "/mnt/data/pcmmad_v29_work/PCMMAD_receiver/PACKAGE_MANIFEST_V29.json",
+      "method": "MANIFEST_OR_ZIP",
+      "status": 200,
+      "expected_statuses": [
+        200
+      ],
+      "pass_": true,
+      "json_object": true,
+      "body_sample": {
+        "clean": true,
+        "failures": []
+      }
+    }
+  ]
+}

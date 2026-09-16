@@ -15,8 +15,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-from .lab_tool_primitives import ToolPayload, ToolResult, payload_optional_int, payload_str
-from .server_hardening import run_subprocess_envelope, safe_json_loads
+from lab_tool_primitives import ToolPayload, ToolResult, payload_optional_int, payload_str
+from server_hardening import run_subprocess_envelope, safe_json_loads
 
 SemanticRegistrar = Callable[
     ..., Callable[[Callable[[ToolPayload], ToolResult]], Callable[[ToolPayload], ToolResult]]
@@ -426,10 +426,6 @@ def _semantic_resolution(payload: ToolPayload) -> ToolResult:
     }
 
 
-MONSTER_BASE_PROPERTIES={"script_path":{"type":"string"},"db_path":{"type":"string"},"minilm_index_dir":{"type":"string"},"jina_index_dir":{"type":"string"},"minilm_model_path":{"type":"string"},"python_executable":{"type":"string"}}
-MONSTER_HEALTH_SCHEMA={"type":"object","additionalProperties":False,"properties":MONSTER_BASE_PROPERTIES}
-MONSTER_SEARCH_SCHEMA={"type":"object","additionalProperties":False,"properties":{**MONSTER_BASE_PROPERTIES,"query":{"type":"string"},"search":{"type":"string"},"topk":{"type":"integer","minimum":1},"k":{"type":"integer","minimum":1}}}
-
 def _register_monster_health(register_tool: SemanticRegistrar) -> None:
     @register_tool(
         "semantic.monster.health",
@@ -442,7 +438,6 @@ def _register_monster_health(register_tool: SemanticRegistrar) -> None:
         tags=["monster", "retrieval", "semantic", "database", "availability"],
         side_effect_class="read_probe",
         effect_traits=["reads_files", "hashes_content", "spawns_process", "probes_dependencies", "bounded_subprocess_output", "availability_probe"],
-        input_schema=MONSTER_HEALTH_SCHEMA,
     )
     def tool_semantic_monster_health(payload: ToolPayload) -> ToolResult:
         return _semantic_resolution(payload)
@@ -564,7 +559,6 @@ def _register_monster_search(register_tool: SemanticRegistrar, error_cls: type[E
         availability_scope="default_runtime; per-call explicit path/runtime overrides may change outcome",
         availability_provider_id="semantic.monster.default_runtime",
         availability_provider=_semantic_default_search_availability,
-        input_schema=MONSTER_SEARCH_SCHEMA,
     )
     def tool_semantic_monster_search(payload: ToolPayload) -> ToolResult:
         return _monster_search_payload(payload, error_cls)

@@ -18,9 +18,9 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Iterator
+from typing import Any, Iterator
 
-from .shared_core import SYSTEM_ROOT, save_json_atomic, validate_filesystem_component_id
+from shared_core import SYSTEM_ROOT, save_json_atomic
 
 SCHEMA_VERSION = "1.1"
 LEDGER_SCHEMA = "pcmmad.user-continuity-ledger.v1.1"
@@ -52,7 +52,6 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 MEMORY_CLASSES = frozenset(
     {
         "USER_STATED",
-        "UCM_RECORD",
         "USER_PREFERENCE",
         "USER_CONSTRAINT",
         "PROJECT_STATE",
@@ -142,17 +141,29 @@ def _profile_id(value: object | None) -> str:
     text = str(value or DEFAULT_PROFILE_ID).strip()
     if not _SAFE_ID.fullmatch(text):
         raise UserContinuityError("BAD_PROFILE_ID", "profile_id contains invalid characters", 400)
-    try:
-        validate_filesystem_component_id(text, field="profile_id")
-    except ValueError as exc:
-        raise UserContinuityError("BAD_PROFILE_ID", str(exc), 400) from exc
-    # Profile IDs are filesystem-backed. Canonicalize ASCII case so a
-    # case-insensitive host cannot map two logically distinct IDs onto one
-    # directory while preserving conflicting ledger profile_id fields.
-    canonical = text.lower()
-    if not _SAFE_ID.fullmatch(canonical):
-        raise UserContinuityError("BAD_PROFILE_ID", "canonical profile_id contains invalid characters", 400)
-    return canonical
+    return text
+
+
+def list_profiles() -> dict[str, Any]:
+    """Enumerate existing user-continuity profiles without requiring prior profile identity.
+
+    Profile identifiers are directory names only; profile contents remain isolated and are not read.
+    """
+    root = (Path(SYSTEM_ROOT) / "user_continuity" / "profiles").resolve()
+    profiles: list[str] = []
+    if root.is_dir():
+        for child in root.iterdir():
+            if not child.is_dir():
+                continue
+            try:
+                pid = _profile_id(child.name)
+            except UserContinuityError:
+                continue
+            # Only expose profiles with continuity material, not arbitrary directories.
+            if (child / "events.jsonl").is_file() or (child / "current.json").is_file():
+                profiles.append(pid)
+    profiles.sort()
+    return {"ok": True, "profiles": profiles, "count": len(profiles)}
 
 
 def _paths(profile_id: str) -> MemoryPaths:
@@ -160,19 +171,9 @@ def _paths(profile_id: str) -> MemoryPaths:
     expected = (MEMORY_ROOT / "profiles").resolve()
     root = (expected / pid).resolve()
     try:
-        expected_norm = os.path.normcase(str(expected))
-        root_norm = os.path.normcase(str(root))
-        common = os.path.commonpath([expected_norm, root_norm])
-    except (OSError, ValueError) as exc:
-        raise UserContinuityError("BAD_PROFILE_ID", "could not establish continuity-root containment", 400) from exc
-    if common != expected_norm:
-        raise UserContinuityError(
-            "BAD_PROFILE_ID",
-            "profile path escapes continuity root",
-            400,
-            expected_root=str(expected),
-            resolved_profile_root=str(root),
-        )
+        root.relative_to(expected)
+    except ValueError as exc:
+        raise UserContinuityError("BAD_PROFILE_ID", "profile path escapes continuity root", 400) from exc
     return MemoryPaths(
         root=root,
         ledger=root / "events.jsonl",
@@ -496,12 +497,7 @@ def _parse_event(raw: object, line_no: int, profile_id: str) -> dict[str, Any]:
         raise UserContinuityLedgerError(
             "MEMORY_LEDGER_CORRUPT", f"ledger line {line_no} missing fields: {missing}", 409
         )
-    raw_profile = str(raw.get("profile_id") or "")
-    try:
-        raw_profile_canonical = _profile_id(raw_profile)
-    except UserContinuityError as exc:
-        raise UserContinuityLedgerError("MEMORY_LEDGER_CORRUPT", f"ledger line {line_no} invalid profile identity", 409) from exc
-    if raw.get("schema") != LEDGER_SCHEMA or raw_profile_canonical != profile_id:
+    if raw.get("schema") != LEDGER_SCHEMA or raw.get("profile_id") != profile_id:
         raise UserContinuityLedgerError("MEMORY_LEDGER_CORRUPT", f"ledger line {line_no} schema/profile mismatch", 409)
     return dict(raw)
 
@@ -869,42 +865,7 @@ def _write_object(paths: MemoryPaths, document: dict[str, Any], encoded: bytes |
     return {"sha256": sha, "bytes": len(payload), "object": f"objects/{sha}.json"}
 
 
-def _manifest_object_paths(manifest: dict[str, Any]) -> set[str]:
-    refs=[]
-    for key in ("core","target_index"):
-        ref=manifest.get(key)
-        if isinstance(ref,dict) and ref.get("object"): refs.append(str(ref["object"]))
-    for ref in (manifest.get("sections") or {}).values():
-        if isinstance(ref,dict) and ref.get("object"): refs.append(str(ref["object"]))
-    return set(refs)
-
-
-def _prune_derived_snapshot_cache(paths: MemoryPaths, current_manifest: dict[str, Any], retain_count: int) -> dict[str, int]:
-    """Bound derived snapshot/cache history; the append-only ledger remains history authority."""
-    keep=max(1,int(retain_count))
-    snapshot_paths=sorted(paths.snapshots.glob("*.json")) if paths.snapshots.exists() else []
-    keep_paths=set(snapshot_paths[-keep:])
-    referenced=_manifest_object_paths(current_manifest)
-    for path in keep_paths:
-        try:
-            raw=json.loads(path.read_text(encoding="utf-8"))
-        except (OSError,json.JSONDecodeError):
-            continue
-        if isinstance(raw,dict): referenced.update(_manifest_object_paths(raw))
-    removed_snapshots=0
-    for path in snapshot_paths:
-        if path in keep_paths: continue
-        path.unlink(missing_ok=True); removed_snapshots += 1
-    removed_objects=0
-    if paths.objects.exists():
-        for path in paths.objects.glob("*.json"):
-            rel=f"objects/{path.name}"
-            if rel in referenced: continue
-            path.unlink(missing_ok=True); removed_objects += 1
-    return {"removed_snapshot_manifests":removed_snapshots,"removed_snapshot_objects":removed_objects}
-
-
-def _materialize_locked(profile_id: str, state: dict[str, Any], *, retain_snapshot_count: int | None = None) -> dict[str, Any]:
+def _materialize_locked(profile_id: str, state: dict[str, Any]) -> dict[str, Any]:
     paths = _paths(profile_id)
     _preflight_snapshot_limits(state)
     core, core_bytes = _preflight_core(state)
@@ -946,12 +907,7 @@ def _materialize_locked(profile_id: str, state: dict[str, Any], *, retain_snapsh
     if not immutable.exists():
         save_json_atomic(immutable, manifest)
     save_json_atomic(paths.current, manifest)
-    pruning = _prune_derived_snapshot_cache(paths, manifest, retain_snapshot_count) if retain_snapshot_count is not None else None
-    result={**manifest, "manifest_sha256": manifest_hash, "manifest_path": str(paths.current)}
-    if pruning is not None:
-        result["derived_cache_pruning"] = pruning
-        result["derived_snapshot_retention"] = max(1,int(retain_snapshot_count))
-    return result
+    return {**manifest, "manifest_sha256": manifest_hash, "manifest_path": str(paths.current)}
 
 
 def _load_current_manifest(profile_id: str) -> dict[str, Any] | None:
@@ -1050,8 +1006,6 @@ def _append_event_locked(
     provenance: dict[str, Any],
     idempotency_key: str,
     request_fingerprint: str,
-    preflight_hook: Callable[[dict[str, Any]], None] | None = None,
-    snapshot_retention: int | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     paths = _paths(profile_id)
     event_seq = int(state["event_count"]) + 1
@@ -1075,8 +1029,6 @@ def _append_event_locked(
 
     projected = copy.deepcopy(state)
     _apply_event(projected, event)
-    if preflight_hook is not None:
-        preflight_hook(projected)
     _preflight_snapshot_limits(projected)
 
     paths.ledger.parent.mkdir(parents=True, exist_ok=True)
@@ -1085,7 +1037,7 @@ def _append_event_locked(
         handle.flush()
         os.fsync(handle.fileno())
 
-    manifest = _materialize_locked(profile_id, projected, retain_snapshot_count=snapshot_retention)
+    manifest = _materialize_locked(profile_id, projected)
     _cache_state(profile_id, projected)
     return event, manifest
 

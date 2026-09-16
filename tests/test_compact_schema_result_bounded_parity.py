@@ -11,9 +11,9 @@ SCHEMA_PATH = (
     RUNTIME_ROOT
     / "pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json"
 )
-sys.path.insert(0, str(RUNTIME_ROOT.parent))
+sys.path.insert(0, str(RUNTIME_ROOT))
 
-from lab_results import (  # noqa: E402  # justification: test installs controlled import path before importing target
+from lab_results import (  # noqa: E402
     RESULT_INLINE_SAFE_BYTES,
     RESULT_PREVIEW_MAX_CHARS,
     RESULT_RANGE_MAX_BYTES,

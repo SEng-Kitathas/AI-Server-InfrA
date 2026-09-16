@@ -10,6 +10,7 @@ param(
   [string]$ExpectedSchemaFamily = "11."
 )
 $ErrorActionPreference='Stop'
+throw 'STANDALONE_SYSTEM_SUPERVISOR_INSTALL_DISABLED_USE_INSTALL_UNATTENDED_RECOVERY'
 $script = (Resolve-Path (Join-Path $PSScriptRoot 'receiver_supervisor.py')).Path
 if(-not (Test-Path $Python)){ throw "Python not found: $Python" }
 $arg = '"' + $script + '" --daemon --health-url "' + $HealthUrl + '" --task-name "' + $ReceiverTaskName + '" --receipt "' + $Receipt + '" --stop-file "' + $StopFile + '" --interval-seconds ' + $IntervalSeconds

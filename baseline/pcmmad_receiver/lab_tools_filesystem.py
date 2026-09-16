@@ -3,19 +3,19 @@
 from __future__ import annotations
 
 import glob
+import os
 import shutil
 import zipfile
 from dataclasses import dataclass
-from .lab_tool_primitives import (
+from lab_tool_primitives import (
     ToolPayload,
     ToolResult,
     payload_bool,
     payload_list_of_str,
     payload_str,
 )
-from .server_hardening import tolerant_rglob
-from .project_mutation_authority import ProjectMutationAuthorityError, resolved_paths_consequence_guard
-from .shared_core import ensure_safe_mutation_target_identity
+from server_hardening import tolerant_rglob
+from project_mutation_authority import ProjectMutationAuthorityError, resolved_paths_consequence_guard
 from pathlib import Path
 from typing import Any, Callable
 
@@ -60,34 +60,6 @@ class ZipReadRequest:
     entries: list[str]
     max_entry_bytes: int
 
-
-
-FS_READ_SCHEMA = {
-    "type":"object", "additionalProperties":False,
-    "required":["path"],
-    "properties": {
-        "path":{"type":"string","minLength":1}, "project_id":{"type":"string","minLength":1},
-        "max_bytes":{"type":"integer","minimum":1}
-    }
-}
-FS_GLOB_SCHEMA = {
-    "type":"object", "additionalProperties":False,
-    "required":["pattern"],
-    "properties":{"pattern":{"type":"string","minLength":1},"project_id":{"type":"string"},"recursive":{"type":"boolean"},"limit":{"type":"integer","minimum":1,"maximum":5000}}
-}
-FS_GREP_SCHEMA = {
-    "type":"object", "additionalProperties":False,
-    "required":["query","path"],
-    "properties":{"path":{"type":"string","minLength":1},"project_id":{"type":"string"},"query":{"type":"string","minLength":1},"limit":{"type":"integer","minimum":1},"max_file_bytes":{"type":"integer","minimum":1024}}
-}
-FS_WRITE_SCHEMA={"type":"object","additionalProperties":False,"required":["path","content"],"properties":{"path":{"type":"string","minLength":1},"project_id":{"type":"string"},"content":{"type":"string"},"session_id":{"type":"string"}}}
-FS_MOVE_SCHEMA={"type":"object","additionalProperties":False,"required":["src","dst"],"properties":{"src":{"type":"string","minLength":1},"dst":{"type":"string","minLength":1},"project_id":{"type":"string"},"session_id":{"type":"string"}}}
-ZIP_READ_SCHEMA={"type":"object","additionalProperties":False,"required":["zip_path"],"properties":{"zip_path":{"type":"string","minLength":1},"project_id":{"type":"string"},"entries":{"type":"array","items":{"type":"string"}},"max_entry_bytes":{"type":"integer","minimum":1024,"maximum":1048576}}}
-FS_TREE_SCHEMA = {
-    "type":"object", "additionalProperties":False,
-    "required":["path"],
-    "properties":{"path":{"type":"string","minLength":1},"project_id":{"type":"string"},"depth":{"type":"integer","minimum":1,"maximum":10},"include_hidden":{"type":"boolean"},"exclude_dirs":{"type":"array","items":{"type":"string"}},"extensions":{"type":"array","items":{"type":"string"}},"min_size_bytes":{"type":"integer","minimum":0},"limit":{"type":"integer","minimum":1}}
-}
 
 @dataclass(frozen=True)
 class FilesystemToolDeps:
@@ -194,12 +166,9 @@ def _fs_write_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResu
     path = dep.ensure_within_allowed(dep.resolve_general_path(payload))
     content = payload_str(payload, "content")
     try:
-        ensure_safe_mutation_target_identity(path)
         with resolved_paths_consequence_guard([path], session_id=payload_str(payload, "session_id")):
             dep.ensure_parent(path)
             path.write_text(content, encoding="utf-8")
-    except ValueError as exc:
-        raise dep.error_cls("BAD_PATH_ALIAS", str(exc), 409) from exc
     except ProjectMutationAuthorityError as exc:
         raise dep.error_cls(exc.error_code, exc.message, exc.status, **exc.extra) from exc
     return {"path": str(path), "bytes_written": len(content.encode("utf-8")), "ok": True}
@@ -221,10 +190,62 @@ def _fs_move_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResul
     return {"src": str(src), "dst": str(dst), "moved": True}
 
 
+def _machine_roots_list_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResult:
+    include_drives = payload_bool(payload, "include_drives", True)
+    mounts = list(dep.mount_summary() if dep.mount_summary is not None else [])
+    roots: list[ToolResult] = []
+    seen: set[str] = set()
+    for mount in mounts:
+        path = str(mount.get("path") or "")
+        if not path or path in seen:
+            continue
+        seen.add(path)
+        roots.append({"kind": "mount", "name": str(mount.get("name") or ""), "path": path, "allowed_root": True})
+    if include_drives:
+        drive_paths: list[str] = []
+        if os.name == "nt":
+            try:
+                import ctypes
+                mask = int(ctypes.windll.kernel32.GetLogicalDrives())
+                drive_paths = [f"{chr(ord('A') + i)}:\\" for i in range(26) if mask & (1 << i)]
+            except Exception:
+                drive_paths = []
+        else:
+            drive_paths = ["/"]
+        mount_paths = {str(item.get("path") or "") for item in mounts}
+        for path in drive_paths[:32]:
+            if path in seen:
+                continue
+            seen.add(path)
+            roots.append({"kind": "filesystem_root", "name": path, "path": path, "allowed_root": path in mount_paths})
+    return {
+        "ok": True,
+        "scope": "operator_machine_read",
+        "roots": roots[:64],
+        "count": min(len(roots), 64),
+        "truncated": len(roots) > 64,
+        "recursive": False,
+        "mutation_authority": False,
+    }
+
+
 def _register_basic_file_tools(register_tool: Callable[..., Any], dep: FilesystemToolDeps) -> None:
     @register_tool(
+        "machine.roots.list",
+        "List configured mount roots and local filesystem roots without recursive scanning.",
+        "low",
+        category="machine",
+        approval_required=False,
+        mutating=False,
+        side_effect_class="read",
+        effect_traits=["operator_scope", "reads_mount_metadata", "non_recursive", "bounded_results", "does_not_grant_mutation_authority"],
+    )
+    def tool_machine_roots_list(payload: ToolPayload) -> ToolResult:
+        return _machine_roots_list_payload(payload, dep)
+
+    @register_tool(
         "fs.read", "Read a file from a mounted or absolute path.", "medium", category="filesystem",
-        side_effect_class="read", effect_traits=["reads_files", "allowed_root_scope"], input_schema=FS_READ_SCHEMA
+        side_effect_class="read", effect_traits=["reads_files", "allowed_root_scope"]
     )
     def tool_fs_read(payload: ToolPayload) -> ToolResult:
         return _fs_read_payload(payload, dep)
@@ -238,7 +259,6 @@ def _register_basic_file_tools(register_tool: Callable[..., Any], dep: Filesyste
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "path_project_mutation_fenced", "allowed_root_scope"],
-        input_schema=FS_WRITE_SCHEMA,
     )
     def tool_fs_write(payload: ToolPayload) -> ToolResult:
         return _fs_write_payload(payload, dep)
@@ -252,7 +272,6 @@ def _register_basic_file_tools(register_tool: Callable[..., Any], dep: Filesyste
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "path_project_mutation_fenced", "allowed_root_scope"],
-        input_schema=FS_MOVE_SCHEMA,
     )
     def tool_fs_move(payload: ToolPayload) -> ToolResult:
         return _fs_move_payload(payload, dep)
@@ -290,7 +309,7 @@ def _register_filesystem_search_tools(
 ) -> None:
     @register_tool(
         "fs.glob", "Glob files under a mounted or absolute path.", "medium", category="filesystem",
-        side_effect_class="read", effect_traits=["reads_files", "traverses_filesystem", "allowed_root_scope", "bounded_results"], input_schema=FS_GLOB_SCHEMA
+        side_effect_class="read", effect_traits=["reads_files", "traverses_filesystem", "allowed_root_scope", "bounded_results"]
     )
     def tool_fs_glob(payload: ToolPayload) -> ToolResult:
         return _fs_glob_payload(payload, dep)
@@ -302,7 +321,6 @@ def _register_filesystem_search_tools(
         category="filesystem",
         side_effect_class="read",
         effect_traits=["reads_files", "traverses_filesystem", "allowed_root_scope", "bounded_results"],
-        input_schema=FS_GREP_SCHEMA,
     )
     def tool_fs_grep(payload: ToolPayload) -> ToolResult:
         request = _grep_request(payload, dep)
@@ -363,7 +381,7 @@ def _grep_path(path: Path, request: FsGrepRequest, dep: FilesystemToolDeps) -> T
 
 
 def _fs_tree_payload(payload: ToolPayload, dep: FilesystemToolDeps) -> ToolResult:
-    from .power_routes import TreeIterSpec, _iter_tree
+    from power_routes import TreeIterSpec, _iter_tree
 
     root = dep.ensure_within_allowed(dep.resolve_general_path(payload))
     if not root.exists():
@@ -401,9 +419,9 @@ def _zip_listing(zf: zipfile.ZipFile) -> list[ToolResult]:
 
 
 def _zip_contents(
-    zf: zipfile.ZipFile, request: ZipReadRequest, dep: FilesystemToolDeps
+    zf: zipfile.ZipFile, request: FsZipReadRequest, dep: FilesystemToolDeps
 ) -> ToolResult:
-    from .lab_tools import _bounded_zip_entry_text
+    from lab_tools import _bounded_zip_entry_text
 
     contents: ToolResult = {}
     for name in request.entries:
@@ -438,7 +456,6 @@ def _register_filesystem_tree_zip_tools(
         approval_required=True,
         side_effect_class="read",
         effect_traits=["reads_files", "traverses_filesystem", "allowed_root_scope", "bounded_results"],
-        input_schema=FS_TREE_SCHEMA,
     )
     def tool_fs_tree(payload: ToolPayload) -> ToolResult:
         return _fs_tree_payload(payload, dep)
@@ -450,7 +467,6 @@ def _register_filesystem_tree_zip_tools(
         category="filesystem",
         side_effect_class="read",
         effect_traits=["reads_files", "reads_archive", "allowed_root_scope", "bounded_output"],
-        input_schema=ZIP_READ_SCHEMA,
     )
     def tool_zip_read(payload: ToolPayload) -> ToolResult:
         return _zip_read_payload(payload, dep)

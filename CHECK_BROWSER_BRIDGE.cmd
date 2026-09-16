@@ -1,5 +1,5 @@
 @echo off
 setlocal
 if "%PCMMAD_BROWSER_BRIDGE_URL%"=="" set "PCMMAD_BROWSER_BRIDGE_URL=http://127.0.0.1:4471"
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { (Invoke-WebRequest -UseBasicParsing -Uri ($env:PCMMAD_BROWSER_BRIDGE_URL + '/health') -TimeoutSec 5).Content; exit 0 } catch { Write-Host ('PCMMAD browser bridge is not responding at ' + $env:PCMMAD_BROWSER_BRIDGE_URL + '/health'); Write-Host $_.Exception.Message; exit 1 }"
-pause
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $b=Invoke-RestMethod ($env:PCMMAD_BROWSER_BRIDGE_URL + '/health') -TimeoutSec 5; if($b.ok -ne $true -or [string]$b.service -ne 'pcmmad_browser_bridge'){ Write-Error 'Browser bridge health identity mismatch'; exit 2 }; $task=Get-ScheduledTask -TaskName 'PCMMAD_V30_BrowserBridge_SYSTEM' -ErrorAction SilentlyContinue; [pscustomobject]@{url=$env:PCMMAD_BROWSER_BRIDGE_URL;ok=$b.ok;service=$b.service;pid=$b.pid;sessions=$b.sessions;playwright=$b.playwright;gate_state=$b.gate_state;armed=$b.armed;ready_for_browser_automation=$b.ready_for_browser_automation;default_channel=$b.default_channel;managed_task_present=[bool]$task;managed_task_state=if($task){[string]$task.State}else{$null}}|ConvertTo-Json -Compress; exit 0 } catch { Write-Host ('PCMMAD browser bridge is not healthy at '+$env:PCMMAD_BROWSER_BRIDGE_URL); Write-Host $_.Exception.Message; exit 1 }"
+exit /b %ERRORLEVEL%

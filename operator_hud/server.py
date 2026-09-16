@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import secrets
 import threading
 import time
@@ -11,17 +10,10 @@ import urllib.request
 import urllib.parse
 import uuid
 from collections import deque
-from concurrent.futures import ThreadPoolExecutor
-from functools import wraps
 from pathlib import Path
 from typing import Any
 
 from flask import Flask, jsonify, request, send_from_directory
-
-try:
-    import psutil
-except ImportError:  # HUD remains usable when optional local process telemetry is unavailable.
-    psutil = None
 
 ROOT = Path(__file__).resolve().parent
 STATIC = ROOT / "static"
@@ -30,40 +22,13 @@ API_KEY = os.environ.get("GITHOME_API_KEY", "").strip()
 HUD_HOST = os.environ.get("PCMMAD_HUD_HOST", "127.0.0.1")
 HUD_PORT = int(os.environ.get("PCMMAD_HUD_PORT", "5090"))
 BRIDGE_BASE = os.environ.get("PCMMAD_BROWSER_BRIDGE_BASE", "http://127.0.0.1:4471").rstrip("/")
+DAEMON_BASE = os.environ.get("PCMMAD_DAEMON_URL", "").strip().rstrip("/")
+DAEMON_ID = os.environ.get("PCMMAD_DAEMON_ID", "pcmmad-daemon").strip()
+DAEMON_PROJECT_ID = os.environ.get("PCMMAD_DAEMON_PROJECT_ID", "RECEIVER-LAB").strip()
+NGROK_API_BASE = os.environ.get("PCMMAD_NGROK_API_BASE", "http://127.0.0.1:4040").strip().rstrip("/")
+BROWSER_GATE_FILE = Path(os.environ.get("PCMMAD_BROWSER_BRIDGE_GATE_FILE", str(Path(os.environ.get("PROGRAMDATA", str(ROOT / "runtime"))) / "PCMMAD" / "Recovery" / "browser_bridge_gate.json")))
+RECOVERY_ROOT = Path(os.environ.get("PCMMAD_RECOVERY_ROOT", str(Path(os.environ.get("PROGRAMDATA", str(ROOT / "runtime"))) / "PCMMAD" / "Recovery")))
 HUD_TOKEN = secrets.token_urlsafe(32)
-STATUS_POOL = ThreadPoolExecutor(max_workers=4, thread_name_prefix="pcmmad-hud-status")
-STATUS_CACHE_TTL_SECONDS = max(0.0, float(os.environ.get("PCMMAD_HUD_STATUS_CACHE_MS", "750")) / 1000.0)
-
-def _singleflight_status(fn):
-    lock = threading.Lock()
-    cache: dict[str, Any] = {"at": 0.0, "payload": None}
-    @wraps(fn)
-    def wrapped(*args, **kwargs):
-        if app.config.get("TESTING") or request.args.get("fresh") == "1" or STATUS_CACHE_TTL_SECONDS <= 0:
-            return fn(*args, **kwargs)
-        with lock:
-            now = time.monotonic()
-            payload = cache.get("payload")
-            if isinstance(payload, dict) and (now - float(cache.get("at") or 0.0)) <= STATUS_CACHE_TTL_SECONDS:
-                result = dict(payload)
-                result["status_cache"] = {"hit": True, "ttl_ms": round(STATUS_CACHE_TTL_SECONDS * 1000)}
-                return jsonify(result)
-            response = fn(*args, **kwargs)
-            try:
-                data = response.get_json() if hasattr(response, "get_json") else None
-                if isinstance(data, dict):
-                    cache["payload"] = data
-                    cache["at"] = time.monotonic()
-            except Exception:
-                pass
-            return response
-    return wrapped
-TELEMETRY_HISTORY: deque[dict[str, Any]] = deque(maxlen=180)
-TELEMETRY_LOCK = threading.Lock()
-HUD_PROCESS_STARTED_AT = time.time()
-HUD_PROCESS = psutil.Process(os.getpid()) if psutil is not None else None
-if HUD_PROCESS is not None:
-    HUD_PROCESS.cpu_percent(interval=None)
 
 app = Flask(__name__, static_folder=str(STATIC), static_url_path="/static")
 # DNS-rebinding boundary: only exact loopback identities are trusted.
@@ -179,6 +144,53 @@ def _require_hud_token():
     return None
 
 
+def _json_file(path: Path) -> tuple[dict[str, Any] | None, str | None]:
+    if not path.exists():return None,None
+    try:
+        obj=json.loads(path.read_text(encoding="utf-8-sig"));return (obj if isinstance(obj,dict) else None),None
+    except Exception as exc:return None,f"{type(exc).__name__}: {exc}"
+
+def _hold_file_state(path: Path, *, now_epoch: float) -> dict[str, Any]:
+    obj,error=_json_file(path)
+    if obj is None:return {"hold":False,"status":"MISSING" if error is None else "INVALID_HOLD","error":error}
+    try:
+        if obj.get("desired_state")!="STOPPED":return {"hold":False,"status":"INVALID_HOLD","reason":"BAD_SHAPE"}
+        expires=float(obj.get("expires_at_epoch") or 0)
+        if expires<=now_epoch:return {"hold":False,"status":"EXPIRED_HOLD"}
+        return {"hold":True,"status":"MAINTENANCE_HOLD","expires_at_epoch":expires,"operator_id":obj.get("operator_id"),"reason":obj.get("reason")}
+    except Exception as exc:return {"hold":False,"status":"INVALID_HOLD","error":f"{type(exc).__name__}: {exc}"}
+
+def _supervisor_budget(name: str, prefix: str, *, now_epoch: float, max_restarts: int = 3, window_seconds: float = 300.0) -> dict[str, Any]:
+    failure_path=RECOVERY_ROOT/f"{prefix}.failure_state.json";receipt_path=RECOVERY_ROOT/f"{prefix}_receipt.json";hold_path=RECOVERY_ROOT/f"{prefix}.maintenance_hold"
+    failure,error=_json_file(failure_path);receipt,receipt_error=_json_file(receipt_path);hold=_hold_file_state(hold_path,now_epoch=now_epoch)
+    if failure is None:
+        return {"name":name,"installed":RECOVERY_ROOT.exists(),"state_status":"MISSING" if error is None else "CORRUPT_HOLD","restart_events":0,"max_restarts":max_restarts,"remaining":max_restarts if error is None else 0,"window_seconds":window_seconds,"hold":hold,"receipt_action":receipt.get("action") if receipt else None,"failure_error":error,"receipt_error":receipt_error}
+    raw=failure.get("restart_events") or [];events=[]
+    for value in raw:
+        try:
+            epoch=float(value)
+            if 0<=now_epoch-epoch<=window_seconds:events.append(epoch)
+        except Exception:continue
+    state=str(failure.get("state_status") or "RESTORED");remaining=max(0,max_restarts-len(events))
+    if state=="CORRUPT_HOLD":remaining=0
+    return {"name":name,"installed":True,"state_status":state,"restart_events":len(events),"max_restarts":max_restarts,"remaining":remaining,"window_seconds":window_seconds,"hold":hold,"receipt_action":receipt.get("action") if receipt else None,"failure_error":error,"receipt_error":receipt_error}
+
+def supervisor_budgets() -> dict[str, Any]:
+    now_epoch=time.time();rows={
+        "receiver":_supervisor_budget("Receiver","receiver_supervisor",now_epoch=now_epoch),
+        "ngrok":_supervisor_budget("ngrok","ngrok_supervisor",now_epoch=now_epoch),
+        "daemon":_supervisor_budget("Daemon","daemon_supervisor",now_epoch=now_epoch),
+        "browser":_supervisor_budget("Browser Bridge","browser_bridge_supervisor",now_epoch=now_epoch),
+    }
+    active=[x for x in rows.values() if x["state_status"]!="MISSING" or x["hold"].get("hold")]
+    if not active:summary={"status":"STANDBY","remaining":None,"max_restarts":3}
+    elif any(x["hold"].get("hold") for x in active):summary={"status":"MAINTENANCE_HOLD","remaining":min(x["remaining"] for x in active),"max_restarts":3}
+    elif any(x["state_status"]=="CORRUPT_HOLD" for x in active):summary={"status":"CORRUPT_HOLD","remaining":0,"max_restarts":3}
+    elif any(x["remaining"]<=0 for x in active):summary={"status":"EXHAUSTED","remaining":0,"max_restarts":3}
+    else:summary={"status":"AVAILABLE","remaining":min(x["remaining"] for x in active),"max_restarts":3}
+    return {"schema":"pcmmad.ha-budget.v1","recovery_root":str(RECOVERY_ROOT),"summary":summary,"workloads":rows,"mutation_authority":False}
+
+
 def receiver_request(path: str, *, method: str = "GET", payload: dict[str, Any] | None = None, timeout: float = 8.0) -> tuple[int, Any]:
     if not API_KEY:
         return 503, {"ok": False, "error_code": "HUD_NO_API_KEY", "message": "GITHOME_API_KEY is not available to the HUD process"}
@@ -218,6 +230,50 @@ def bridge_request(path: str, *, method: str = "GET", payload: dict[str, Any] | 
         return 502,{"ok":False,"error":f"{type(exc).__name__}: {exc}"}
 
 
+def daemon_request(path: str, *, timeout: float = 1.5) -> tuple[int, Any]:
+    if not DAEMON_BASE:
+        return 0,{"ok":False,"configured":False,"status":"not_configured","mutation_authority":False}
+    req=urllib.request.Request(DAEMON_BASE+path,method="GET",headers={"Accept":"application/json"})
+    try:
+        with urllib.request.urlopen(req,timeout=timeout) as resp:
+            raw=resp.read(262144);return resp.status,json.loads(raw.decode("utf-8")) if raw else {"ok":True}
+    except urllib.error.HTTPError as exc:
+        raw=exc.read(262144)
+        try:data=json.loads(raw.decode("utf-8"))
+        except Exception:data={"ok":False,"error":raw.decode("utf-8",errors="replace")}
+        return exc.code,data
+    except Exception as exc:
+        return 502,{"ok":False,"configured":True,"status":"unavailable","error":f"{type(exc).__name__}: {exc}","mutation_authority":False}
+
+
+def daemon_scar_route(context: str, *, timeout: float=1.0) -> tuple[int, Any]:
+    if not DAEMON_BASE:
+        return 0,{"ok":False,"status":"not_configured","routing":{"selected":[]},"mutation_authority":False}
+    query=urllib.parse.urlencode({"context":str(context)[:2000],"limit":3})
+    req=urllib.request.Request(DAEMON_BASE+"/scars/route?"+query,method="GET",headers={"Accept":"application/json"})
+    try:
+        with urllib.request.urlopen(req,timeout=timeout) as resp:
+            raw=resp.read(262144);return resp.status,json.loads(raw.decode("utf-8")) if raw else {}
+    except urllib.error.HTTPError as exc:
+        raw=exc.read(262144)
+        try:data=json.loads(raw.decode("utf-8"))
+        except Exception:data={"ok":False,"error":raw.decode("utf-8",errors="replace")}
+        return exc.code,data
+    except Exception as exc:
+        return 502,{"ok":False,"status":"unavailable","error":f"{type(exc).__name__}: {exc}","routing":{"selected":[]},"mutation_authority":False}
+
+
+def ngrok_request(path: str="/api/tunnels", *, timeout: float=1.0) -> tuple[int, Any]:
+    if not NGROK_API_BASE:
+        return 0,{"ok":False,"configured":False,"status":"not_configured"}
+    req=urllib.request.Request(NGROK_API_BASE+path,method="GET",headers={"Accept":"application/json"})
+    try:
+        with urllib.request.urlopen(req,timeout=timeout) as resp:
+            raw=resp.read(262144);return resp.status,json.loads(raw.decode("utf-8")) if raw else {}
+    except Exception as exc:
+        return 502,{"ok":False,"configured":True,"error":f"{type(exc).__name__}: {exc}"}
+
+
 @app.after_request
 def no_cache(resp):
     resp.headers["X-Content-Type-Options"] = "nosniff"
@@ -240,227 +296,81 @@ def no_cache(resp):
 def index(): return send_from_directory(STATIC, "index.html")
 
 
-def _hud_process_snapshot() -> dict[str, Any]:
-    if HUD_PROCESS is None:
-        return {"available": False}
-    try:
-        with HUD_PROCESS.oneshot():
-            mem = HUD_PROCESS.memory_info()
-            full = HUD_PROCESS.memory_full_info()
-            return {
-                "available": True,
-                "pid": HUD_PROCESS.pid,
-                "uptime_seconds": round(max(0.0, time.time() - HUD_PROCESS_STARTED_AT), 3),
-                "cpu_percent": round(float(HUD_PROCESS.cpu_percent(interval=None)), 3),
-                "rss_bytes": mem.rss,
-                "uss_bytes": getattr(full, "uss", None),
-                "threads": HUD_PROCESS.num_threads(),
-                "handles": HUD_PROCESS.num_handles() if hasattr(HUD_PROCESS, "num_handles") else None,
-            }
-    except Exception as exc:
-        return {"available": False, "error": f"{type(exc).__name__}: {exc}"}
-
-
-def _telemetry_alerts(execution: dict[str, Any], observed: dict[str, Any]) -> list[dict[str, str]]:
-    alerts: list[dict[str, str]] = []
-    global_exec = execution.get("global") or {}
-    scheduler = execution.get("scheduler_telemetry") or {}
-    process = observed.get("process") or {}
-    system = observed.get("system") or {}
-    http = observed.get("http") or {}
-    server = observed.get("server") or {}
-    running = int(global_exec.get("running") or 0)
-    limit = int(global_exec.get("global_limit") or 0)
-    queued = int(global_exec.get("queued") or 0)
-    if execution.get("unsupervised_jobs"):
-        alerts.append({"severity": "critical", "code": "UNSUPERVISED_JOBS", "message": f"{len(execution['unsupervised_jobs'])} unsupervised execution record(s)"})
-    if execution.get("corrupt_job_files"):
-        alerts.append({"severity": "critical", "code": "CORRUPT_JOB_RECORDS", "message": f"{len(execution['corrupt_job_files'])} corrupt job record(s)"})
-    if scheduler.get("last_error") or int(scheduler.get("last_tick_reconcile_errors") or 0) > 0:
-        alerts.append({"severity": "critical", "code": "SCHEDULER_ERROR", "message": str(scheduler.get("last_error") or scheduler.get("last_reconcile_error") or "scheduler reconcile error")})
-    if int(scheduler.get("watcher_errors") or 0) > 0 or scheduler.get("last_watcher_error"):
-        alerts.append({"severity": "critical", "code": "WATCHER_ERROR", "message": str(scheduler.get("last_watcher_error") or f"watcher errors={scheduler.get('watcher_errors')}")})
-    if limit > 0 and running / limit >= 0.90:
-        alerts.append({"severity": "warning", "code": "EXECUTION_SATURATION", "message": f"execution workers {running}/{limit}"})
-    if queued > 0:
-        alerts.append({"severity": "warning", "code": "EXECUTION_QUEUE", "message": f"execution queue depth {queued}"})
-    if int(server.get("queue_depth") or 0) > 0:
-        alerts.append({"severity": "warning", "code": "HTTP_QUEUE", "message": f"HTTP queue depth {server.get('queue_depth')}"})
-    if float(system.get("cpu_percent") or 0.0) >= 90.0:
-        alerts.append({"severity": "warning", "code": "HOST_CPU", "message": f"host CPU {system.get('cpu_percent')}%"})
-    if float(system.get("memory_percent") or 0.0) >= 90.0:
-        alerts.append({"severity": "warning", "code": "HOST_MEMORY", "message": f"host memory {system.get('memory_percent')}%"})
-    storage = system.get("storage") or {}
-    storage_percent = float(storage.get("percent") or 0.0)
-    storage_free = storage.get("free_bytes")
-    critical_free = storage_free is not None and int(storage_free) < 10 * 1024**3
-    warning_free = storage_free is not None and int(storage_free) < 25 * 1024**3
-    if storage_percent >= 97.0 or critical_free:
-        alerts.append({"severity": "critical", "code": "STORAGE_SPACE", "message": f"storage {storage_percent:.1f}% used / {int(storage_free or 0) / 1024**3:.1f} GiB free"})
-    elif storage_percent >= 90.0 or warning_free:
-        alerts.append({"severity": "warning", "code": "STORAGE_SPACE", "message": f"storage {storage_percent:.1f}% used / {int(storage_free or 0) / 1024**3:.1f} GiB free"})
-    p95 = ((http.get("latency_ms") or {}).get("p95"))
-    if p95 is not None and float(p95) >= 2000.0:
-        alerts.append({"severity": "warning", "code": "HTTP_P95", "message": f"HTTP p95 {float(p95):.0f} ms"})
-    if float(http.get("server_error_rate") or 0.0) > 0.0:
-        alerts.append({"severity": "critical", "code": "HTTP_5XX", "message": f"HTTP 5xx rate {float(http.get('server_error_rate'))*100:.2f}%"})
-    return alerts
-
-
-def _telemetry_projection(receiver_health: dict[str, Any], observed: dict[str, Any], *, observed_ok: bool) -> dict[str, Any]:
-    execution = receiver_health.get("execution_readiness") or observed.get("execution") or {}
-    global_exec = execution.get("global") or {}
-    scheduler = execution.get("scheduler_telemetry") or {}
-    process = observed.get("process") or {}
-    system = observed.get("system") or {}
-    http = observed.get("http") or {}
-    server = observed.get("server") or {}
-    running = int(global_exec.get("running") or 0)
-    limit = int(global_exec.get("global_limit") or 0)
-    sample = {
-        "ts": time.time(),
-        "running": running,
-        "capacity": limit,
-        "queued": int(global_exec.get("queued") or 0),
-        "worker_utilization": round(running / limit, 6) if limit > 0 else None,
-        "cpu_percent": process.get("cpu_percent"),
-        "host_cpu_percent": system.get("cpu_percent"),
-        "rss_bytes": process.get("rss_bytes"),
-        "uss_bytes": process.get("uss_bytes"),
-        "handles": process.get("handles"),
-        "threads": process.get("threads"),
-        "host_memory_percent": system.get("memory_percent"),
-        "storage_free_bytes": (system.get("storage") or {}).get("free_bytes"),
-        "storage_percent": (system.get("storage") or {}).get("percent"),
-        "http_p95_ms": (http.get("latency_ms") or {}).get("p95"),
-        "http_rpm": http.get("requests_per_minute"),
-        "http_5xx_rate": http.get("server_error_rate"),
-        "http_queue": server.get("queue_depth"),
-        "http_active": server.get("active_workers"),
-    }
-    with TELEMETRY_LOCK:
-        TELEMETRY_HISTORY.append(sample)
-        history = list(TELEMETRY_HISTORY)[-60:]
-    alerts = _telemetry_alerts(execution, observed)
-    severity = "critical" if any(a["severity"] == "critical" for a in alerts) else "warning" if alerts else "nominal"
-    return {
-        "ok": bool(observed_ok),
-        "status": observed.get("status") if observed_ok else "unavailable",
-        "basis": "hud_projection_over_receiver_owned_observability",
-        "severity": severity,
-        "execution": execution,
-        "background_batch_executor": receiver_health.get("background_batch_executor") or {},
-        "process": process,
-        "system": system,
-        "http": http,
-        "server": server,
-        "dependencies": observed.get("dependencies") or {},
-        "alerts": alerts,
-        "history": history,
-        "scheduler": {
-            "thread_alive": bool(execution.get("scheduler_thread_alive")),
-            "last_error": scheduler.get("last_error"),
-            "reconcile_errors": int(scheduler.get("jobs_reconcile_errors") or 0),
-            "last_tick_reconcile_errors": int(scheduler.get("last_tick_reconcile_errors") or 0),
-            "watcher_alive": bool(scheduler.get("watcher_alive")),
-            "watcher_errors": int(scheduler.get("watcher_errors") or 0),
-            "unsupervised_jobs": len(execution.get("unsupervised_jobs") or []),
-            "corrupt_job_files": len(execution.get("corrupt_job_files") or []),
-        },
-    }
-
-
-def _readiness_payload(*, receiver_ok: bool, browser_bridge_ok: bool, journal_ok: bool, observability_ok: bool) -> dict[str, Any]:
-    planes = [
-        {"id": "hud", "label": "HUD presentation", "required_for_core": True, "ok": True, "state": "active", "source": "local HUD process"},
-        {"id": "receiver", "label": "Receiver control", "required_for_core": True, "ok": bool(receiver_ok), "state": "active" if receiver_ok else "down", "source": "GET /lab/health"},
-        {"id": "journal", "label": "Forensic journal", "required_for_core": True, "ok": bool(journal_ok), "state": "active" if journal_ok else "degraded", "source": "HUD durable journal read/write state"},
-        {"id": "observability", "label": "Observability", "required_for_core": False, "ok": bool(observability_ok), "state": "active" if observability_ok else "degraded", "source": "GET /observability/telemetry"},
-        {"id": "browser_bridge", "label": "Browser bridge", "required_for_core": False, "ok": bool(browser_bridge_ok), "state": "active" if browser_bridge_ok else "down", "source": "browser bridge GET /health"},
-    ]
-    required = {row["id"]: bool(row["ok"]) for row in planes if row["required_for_core"]}
-    optional = {row["id"]: bool(row["ok"]) for row in planes if not row["required_for_core"]}
+def _readiness_payload(*, receiver_ok: bool, browser_bridge_ok: bool, journal_ok: bool) -> dict[str, Any]:
+    required = {"hud": True, "receiver": bool(receiver_ok), "journal": bool(journal_ok)}
+    optional = {"browser_bridge": bool(browser_bridge_ok)}
     core_ready = all(required.values())
     optional_degraded = [name for name, ok in optional.items() if not ok]
-    core_status = "ready" if core_ready else ("degraded" if any(required.values()) else "down")
-    status = "ready_optional_degraded" if core_ready and optional_degraded else core_status
-    return {"status": status, "core_status": core_status, "core_ready": core_ready, "required": required, "optional": optional, "optional_status": "degraded" if optional_degraded else "nominal", "optional_degraded": optional_degraded, "planes": planes, "basis": "plane_separated_live_upstream_evidence"}
+    if core_ready and not optional_degraded:
+        status = "ready"
+    elif core_ready:
+        status = "ready_optional_degraded"
+    elif any(required.values()):
+        status = "degraded"
+    else:
+        status = "down"
+    return {
+        "status": status,
+        "core_ready": core_ready,
+        "required": required,
+        "optional": optional,
+        "optional_degraded": optional_degraded,
+        "basis": "hud_presentation_over_live_upstream_evidence",
+    }
 
 
 @app.get("/api/status")
-@_singleflight_status
 def api_status():
-    t0 = time.time()
-    health_future = STATUS_POOL.submit(receiver_request, "/lab/health", timeout=1.5)
-    telemetry_future = STATUS_POOL.submit(receiver_request, "/observability/telemetry", timeout=1.5)
-    bridge_future = STATUS_POOL.submit(bridge_request, "/health", timeout=1.5)
-    receiver_code, receiver_data = health_future.result()
-    telemetry_code, telemetry_data = telemetry_future.result()
-    bridge_code, bridge_data = bridge_future.result()
-    receiver_ok = receiver_code == 200 and isinstance(receiver_data, dict) and bool(receiver_data.get("ok"))
-    observability_ok = telemetry_code == 200 and isinstance(telemetry_data, dict) and bool(telemetry_data.get("ok"))
-    bridge_ok = bridge_code == 200 and isinstance(bridge_data, dict) and bool(bridge_data.get("ok"))
-    sessions = []
+    t0=time.time()
+    receiver_code, receiver_data = receiver_request("/lab/tools", timeout=1.5)
+    receiver_ok = receiver_code == 200 and bool(receiver_data.get("ok"))
+    bridge_code, bridge_data = bridge_request("/health", timeout=1.5)
+    bridge_ok = bridge_code == 200 and bool(bridge_data.get("ok"))
+    daemon_code,daemon_data=daemon_request("/status",timeout=1.0)
+    daemon_configured=bool(DAEMON_BASE)
+    daemon_ok=daemon_configured and daemon_code==200 and isinstance(daemon_data,dict) and str(daemon_data.get("schema") or "").startswith("mvf.daemon-status.") and daemon_data.get("mutation_authority") is False and str(daemon_data.get("daemon_id") or "")==DAEMON_ID and str(daemon_data.get("project_id") or "")==DAEMON_PROJECT_ID
+    ngrok_code,ngrok_data=ngrok_request(timeout=1.0)
+    tunnels=ngrok_data.get("tunnels",[]) if isinstance(ngrok_data,dict) else []
+    ngrok_ok=ngrok_code==200 and isinstance(tunnels,list) and len(tunnels)>0
+    scar_route_data=None
+    if daemon_ok:
+        if not receiver_ok:scar_context=f"hud cockpit receiver unavailable transport {'online' if ngrok_ok else 'down'} recovery supervisor windows defender"
+        elif not bool(JOURNAL_STATE.get('ok')):scar_context="hud cockpit journal evidence degraded consequence readback"
+        elif not bridge_ok:scar_context="hud cockpit optional browser degraded core ready"
+        else:scar_context="hud cockpit normal operation situational awareness"
+        route_code,route_data=daemon_scar_route(scar_context,timeout=1.0)
+        if route_code==200 and isinstance(route_data,dict) and route_data.get('ok') and str(route_data.get('daemon_id') or '')==DAEMON_ID and str(route_data.get('project_id') or '')==DAEMON_PROJECT_ID and route_data.get('mutation_authority') is False:
+            selected=(route_data.get('routing') or {}).get('selected') or []
+            scar_route_data={'applicable':selected[:3],'source_deficits':(route_data.get('source_deficits') or [])[:12],'authority':'DERIVED_ROUTING_ONLY','context':scar_context}
+    sessions=[]
     # Session inventory is routed through the receiver. Do not wait on that
     # path when receiver health has already failed merely because bridge health
     # itself is green.
     if bridge_ok and receiver_ok:
-        s_code, s_data = receiver_request(
-            "/lab/dispatch",
-            method="POST",
-            payload={"tool_name": "browser.sessions.list", "payload": {}},
-            timeout=2.5,
-        )
-        if s_code == 200 and s_data.get("ok"):
-            sessions = s_data.get("result", {}).get("sessions", []) or []
+        s_code,s_data=receiver_request("/lab/dispatch",method="POST",payload={"tool_name":"browser.sessions.list","payload":{}},timeout=2.5)
+        if s_code==200 and s_data.get("ok"):
+            sessions=s_data.get("result",{}).get("sessions",[]) or []
     with EVENT_LOCK:
-        events = list(EVENTS)[:40]
+        events=list(EVENTS)[:40]
     journal = {**JOURNAL_STATE, "path": str(JOURNAL_PATH), "memory_rows": len(EVENTS)}
     readiness = _readiness_payload(
         receiver_ok=receiver_ok,
         browser_bridge_ok=bridge_ok,
         journal_ok=bool(journal.get("ok")),
-        observability_ok=observability_ok,
-    )
-    telemetry = _telemetry_projection(
-        receiver_data if receiver_ok else {},
-        telemetry_data if observability_ok else {},
-        observed_ok=observability_ok,
     )
     return jsonify({
         "ok": True,
         "checked_at": time.time(),
-        "latency_ms": round((time.time() - t0) * 1000, 1),
-        "hud": {
-            "ok": True,
-            "host": HUD_HOST,
-            "port": HUD_PORT,
-            "api_key_exposed_to_browser": False,
-            "process": _hud_process_snapshot(),
-        },
-        "receiver": {
-            "ok": receiver_ok,
-            "http_status": receiver_code,
-            "status": receiver_data.get("status") if receiver_ok else None,
-            "tool_count": receiver_data.get("tool_count") if receiver_ok else None,
-            "runtime_identity": receiver_data.get("runtime_identity") if receiver_ok else None,
-            "project_catalog": receiver_data.get("project_catalog") if receiver_ok else None,
-            "error": None if receiver_ok else receiver_data,
-        },
-        "browser_bridge": {
-            "ok": bridge_ok,
-            "http_status": bridge_code,
-            "detail": bridge_data,
-            "required_for_core": False,
-        },
-        "observability": {
-            "ok": observability_ok,
-            "http_status": telemetry_code,
-            "required_for_core": False,
-            "error": None if observability_ok else telemetry_data,
-        },
+        "latency_ms": round((time.time()-t0)*1000,1),
+        "hud": {"ok": True, "host": HUD_HOST, "port": HUD_PORT, "api_key_exposed_to_browser": False},
+        "receiver": {"ok": receiver_ok, "http_status": receiver_code, "tool_count": receiver_data.get("count") if receiver_ok else None, "error": None if receiver_ok else receiver_data},
+        "browser_bridge": {"ok": bridge_ok, "http_status": bridge_code, "detail": bridge_data, "required_for_core": False, "gate_state": str(bridge_data.get("gate_state") or "UNKNOWN") if isinstance(bridge_data,dict) else "UNKNOWN", "armed": bool(bridge_data.get("armed")) if isinstance(bridge_data,dict) else False, "ready_for_browser_automation": bool(bridge_data.get("ready_for_browser_automation")) if isinstance(bridge_data,dict) else False, "playwright": bool(bridge_data.get("playwright")) if isinstance(bridge_data,dict) else False, "browser_channel_available": bool(bridge_data.get("browser_channel_available")) if isinstance(bridge_data,dict) else False, "default_channel": bridge_data.get("default_channel") if isinstance(bridge_data,dict) else None},
+        "daemon": {"configured": daemon_configured, "ok": daemon_ok, "http_status": daemon_code if daemon_configured else None, "status": daemon_data if daemon_configured else None, "required_for_core": False},
+        "ngrok": {"configured": bool(NGROK_API_BASE), "ok": ngrok_ok, "http_status": ngrok_code, "tunnel_count": len(tunnels) if isinstance(tunnels,list) else 0, "public_urls": [str(x.get("public_url")) for x in tunnels[:4] if isinstance(x,dict) and x.get("public_url")], "required_for_core": False},
+        "scar_intelligence": scar_route_data,
+        "failure_evidence": daemon_data.get("failure_evidence") if daemon_ok and isinstance(daemon_data,dict) else None,
+        "supervisor_budgets": supervisor_budgets(),
         "readiness": readiness,
-        "telemetry": telemetry,
         "browser_sessions": sessions,
         "journal": journal,
         "events": events,
@@ -469,26 +379,6 @@ def api_status():
 
 @app.get("/api/health")
 def api_health(): return api_status()
-
-
-@app.get("/api/architecture")
-def api_architecture():
-    project_id=str(request.args.get("project_id") or "").strip()
-    profile_id=str(request.args.get("ucm_profile_id") or "").strip()
-    if not project_id:
-        return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"project_id is required"}),400
-    payload={"project_id":project_id}
-    if profile_id:
-        payload["ucm_profile_id"]=profile_id
-    code,data=receiver_request(
-        "/lab/dispatch",
-        method="POST",
-        payload={"tool_name":"architecture.runtime.status","payload":payload},
-        timeout=3.5,
-    )
-    if code==200 and isinstance(data,dict) and data.get("ok") and isinstance(data.get("result"),dict):
-        return jsonify({"ok":True,"architecture":data["result"]}),200
-    return jsonify({"ok":False,"error_code":"ARCHITECTURE_STATUS_UNAVAILABLE","upstream":data}),code
 
 
 @app.get("/api/tools")
@@ -509,57 +399,22 @@ def api_events():
     return jsonify({"ok":True,"journal":{**JOURNAL_STATE,"path":str(JOURNAL_PATH)},"events":rows})
 
 
-@app.get("/api/authority")
-def api_authority_get():
-    project_id=str(request.args.get("project_id") or "").strip()
-    if not project_id:return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"project_id is required"}),400
-    code,data=receiver_request("/lab/authority?project_id="+urllib.parse.quote(project_id,safe=""),timeout=3.0); return jsonify(data),code
-
-@app.post("/api/authority")
-def api_authority_set():
-    denied=_require_hud_token()
-    if denied is not None:return denied
-    body=request.get_json(force=True,silent=False)
-    if not isinstance(body,dict):return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"authority profile body must be an object"}),400
-    code,data=receiver_request("/lab/authority",method="POST",payload=body,timeout=4.0); _event("standing_authority_updated",project_id=body.get("project_id"),mode=body.get("mode"),ok=bool(data.get("ok")) if isinstance(data,dict) else False); return jsonify(data),code
-
-@app.post("/api/authority/reset")
-def api_authority_reset():
-    denied=_require_hud_token()
-    if denied is not None:return denied
-    body=request.get_json(force=True,silent=False); code,data=receiver_request("/lab/authority",method="DELETE",payload=body if isinstance(body,dict) else {},timeout=4.0); return jsonify(data),code
-
-@app.get("/api/approvals")
-def api_approvals():
-    code, data = receiver_request("/lab/approvals?status=pending&limit=100", timeout=3.0)
-    return jsonify(data), code
-
-def _approval_handle_from_body(body: Any) -> str:
-    if not isinstance(body, dict): return ""
-    handle = str(body.get("handle") or "").strip()
-    return handle if re.fullmatch(r"apr-[0-9a-f]{16}", handle) else ""
-
-@app.post("/api/approvals/grant")
-def api_approvals_grant():
-    denied = _require_hud_token()
-    if denied is not None: return denied
-    body = request.get_json(force=True, silent=False)
-    handle = _approval_handle_from_body(body)
-    if not handle: return jsonify({"ok": False, "error_code": "BAD_REQUEST", "message": "valid approval handle required"}), 400
-    code, data = receiver_request(f"/lab/approvals/{handle}/grant", method="POST", payload={"operator_id": "local-hud-operator", "provenance": "pcmmad-local-hud:approval-inbox"}, timeout=4.0)
-    _event("approval_grant", approval_handle=handle, http_status=code, ok=bool(data.get("ok")) if isinstance(data, dict) else False)
-    return jsonify(data), code
-
-@app.post("/api/approvals/revoke")
-def api_approvals_revoke():
-    denied = _require_hud_token()
-    if denied is not None: return denied
-    body = request.get_json(force=True, silent=False)
-    handle = _approval_handle_from_body(body)
-    if not handle: return jsonify({"ok": False, "error_code": "BAD_REQUEST", "message": "valid approval handle required"}), 400
-    code, data = receiver_request(f"/lab/approvals/{handle}/revoke", method="POST", payload={"reason": "operator rejected in local HUD approval inbox"}, timeout=4.0)
-    _event("approval_revoke", approval_handle=handle, http_status=code, ok=bool(data.get("ok")) if isinstance(data, dict) else False)
-    return jsonify(data), code
+@app.post("/api/browser/gate")
+def api_browser_gate():
+    rejected=_require_hud_token()
+    if rejected is not None:return rejected
+    body=request.get_json(silent=True) or {};desired=str(body.get("state") or "").upper().strip()
+    if desired not in {"ARMED","BLOCKED"}:return jsonify({"ok":False,"error_code":"BROWSER_GATE_STATE_INVALID","message":"state must be ARMED or BLOCKED"}),400
+    try:
+        BROWSER_GATE_FILE.parent.mkdir(parents=True,exist_ok=True)
+        obj={"schema":"pcmmad.browser-bridge-gate.v1","state":desired,"changed_at":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"provenance":"HUD_EXPLICIT_OPERATOR_TOGGLE"}
+        tmp=BROWSER_GATE_FILE.with_suffix(BROWSER_GATE_FILE.suffix+".tmp");tmp.write_text(json.dumps(obj,sort_keys=True)+"\n",encoding="utf-8");os.replace(tmp,BROWSER_GATE_FILE)
+        _event("browser_gate_changed",state=desired,path=str(BROWSER_GATE_FILE))
+        code,health=bridge_request("/health",timeout=2.0)
+        return jsonify({"ok":True,"state":desired,"gate_file":str(BROWSER_GATE_FILE),"bridge_http_status":code,"bridge_health":health})
+    except Exception as exc:
+        _event("browser_gate_change_failed",state=desired,error=f"{type(exc).__name__}: {exc}")
+        return jsonify({"ok":False,"error_code":"BROWSER_GATE_WRITE_FAILED","message":f"{type(exc).__name__}: {exc}"}),500
 
 
 @app.post("/api/dispatch")
@@ -572,6 +427,7 @@ def api_dispatch():
     tool_name=str(body.get("tool_name","")).strip()
     payload=body.get("payload") or {}
     authority=body.get("authority") or {}
+    expected_contract_digest=body.get("expected_contract_digest")
     request_id=str(body.get("request_id","")).strip() or f"hud-{int(time.time()*1000)}"
     dispatch_id=uuid.uuid4().hex
     if not tool_name:
@@ -580,6 +436,8 @@ def api_dispatch():
         return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"payload must be an object","request_id":request_id}),400
     if not isinstance(authority,dict):
         return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"authority must be an object","request_id":request_id}),400
+    if expected_contract_digest is not None and not isinstance(expected_contract_digest,str):
+        return jsonify({"ok":False,"error_code":"BAD_REQUEST","message":"expected_contract_digest must be a string","request_id":request_id}),400
     if bool(body.get("approve",False)):
         return jsonify({
             "ok":False,
@@ -595,6 +453,8 @@ def api_dispatch():
     receiver_body={"tool_name":tool_name,"payload":payload}
     if authority:
         receiver_body["authority"]=authority
+    if expected_contract_digest is not None:
+        receiver_body["expected_contract_digest"]=expected_contract_digest
     _event(
         "dispatch_started",
         dispatch_id=dispatch_id,
@@ -701,16 +561,8 @@ def api_results_get():
 
 @app.get("/api/meta")
 def api_meta():
-    return jsonify({"ok":True,"hud":"PCMMAD Operations HUD","receiver_base":RECEIVER_BASE,"api_key_available":bool(API_KEY),"api_key_exposed_to_browser":False,"hud_token":HUD_TOKEN,"hud_token_scope":"local UI POST capability; rotates on HUD process restart","approval_model":"runtime-issued target/argument/contract-bound challenge; HUD supports inline confirmation and durable pending grants; consume remains exact and single-use","ui_version":"ops-hud-20260911-readiness-authority-v7","telemetry_model":"receiver-owned RED+USE+scheduler projection"})
+    return jsonify({"ok":True,"hud":"PCMMAD Operations HUD","receiver_base":RECEIVER_BASE,"api_key_available":bool(API_KEY),"api_key_exposed_to_browser":False,"hud_token":HUD_TOKEN,"hud_token_scope":"local UI POST capability; rotates on HUD process restart","approval_model":"runtime-issued target/argument/contract-bound challenge; HUD confirms exact single-use handle","ui_version":"ops-hud-20260905-bound-approval"})
 
 
 if __name__ == "__main__":
-    try:
-        from waitress import serve
-    except ImportError as exc:
-        print(f"[PCMMAD HUD] Waitress unavailable; Flask fallback: {exc}", flush=True)
-        app.run(host=HUD_HOST, port=HUD_PORT, debug=False, threaded=True, use_reloader=False)
-    else:
-        hud_threads = max(4, int(os.environ.get("PCMMAD_HUD_HTTP_THREADS", "8")))
-        print(f"[PCMMAD HUD] waitress threads={hud_threads} bind={HUD_HOST}:{HUD_PORT}", flush=True)
-        serve(app, host=HUD_HOST, port=HUD_PORT, threads=hud_threads, channel_timeout=120, cleanup_interval=10, asyncore_use_poll=True)
+    app.run(host=HUD_HOST,port=HUD_PORT,debug=False,threaded=True,use_reloader=False)

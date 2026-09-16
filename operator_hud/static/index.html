@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PCMMAD Operations HUD</title>
-  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260911-readiness-authority-v7">
+  <link rel="stylesheet" href="/static/style.css?v=ops-hud-20260908-cockpit-v1">
 </head>
 <body data-ui-tier="balanced">
 <div class="ambient-field" aria-hidden="true"></div>
@@ -15,8 +15,6 @@
     <div class="sub">runtime truth · bounded authority · live evidence · explicit lifecycle</div>
   </div>
   <div class="corona-center" aria-label="Keyboard navigation help">
-    <span class="corona-chip" id="runtimeIdentity">V30 · grounding source…</span>
-    <span class="corona-chip" id="projectFocus">PROJECTS · grounding…</span>
     <span class="corona-chip">⌘/Ctrl+K COMMAND</span>
     <span class="corona-chip">ALT+1…4 WINGS</span>
     <span class="corona-chip">ESC CANCEL</span>
@@ -30,10 +28,7 @@
       </select>
     </label>
     <button id="refreshAll" class="secondary">Refresh all</button>
-    <div class="readiness-cluster" aria-live="polite" aria-label="Runtime readiness">
-      <div id="coreState" class="readiness-orb core unknown"><span class="readiness-kicker">CORE</span><strong>CHECKING</strong></div>
-      <div id="optionalState" class="readiness-orb optional unknown"><span class="readiness-kicker">OPTIONAL</span><strong>CHECKING</strong></div>
-    </div>
+    <div id="globalState" class="state-pill unknown" aria-live="polite">CHECKING</div>
   </div>
 </header>
 
@@ -53,69 +48,35 @@
         <h2>State, gates & alerts</h2>
       </section>
 
-      <div class="service-grid cockpit-services">
-        <article class="service-card core-service" id="hudCard">
-          <div class="service-head"><span>HUD <em>CORE</em></span><span id="hudLamp" class="lamp unknown"></span></div>
-          <div id="hudState" class="service-state">checking</div><div id="hudDetail" class="service-detail">local presentation process</div>
+      <div class="instrument-bank systems-rack" aria-label="Core systems rack">
+        <article class="instrument-row service-card" id="hudCard">
+          <div class="instrument-identity"><span id="hudLamp" class="lamp unknown"></span><span>HUD</span></div>
+          <strong id="hudState" class="service-state">checking</strong><span id="hudDetail" class="service-detail">127.0.0.1:5090</span>
         </article>
-        <article class="service-card core-service" id="receiverCard">
-          <div class="service-head"><span>Receiver <em>CORE</em></span><span id="receiverLamp" class="lamp unknown"></span></div>
-          <div id="receiverState" class="service-state">checking</div><div id="receiverDetail" class="service-detail">127.0.0.1:5000</div>
+        <article class="instrument-row service-card" id="receiverCard">
+          <div class="instrument-identity"><span id="receiverLamp" class="lamp unknown"></span><span>Receiver</span></div>
+          <strong id="receiverState" class="service-state">checking</strong><span id="receiverDetail" class="service-detail">127.0.0.1:5000</span>
         </article>
-        <article class="service-card core-service" id="journalCard">
-          <div class="service-head"><span>Forensic Journal <em>CORE</em></span><span id="journalLamp" class="lamp unknown"></span></div>
-          <div id="journalState" class="service-state">checking</div><div id="journalDetail" class="service-detail">durable dispatch evidence</div>
+        <article class="instrument-row service-card" id="journalCard">
+          <div class="instrument-identity"><span id="journalLamp" class="lamp unknown"></span><span>Journal</span></div>
+          <strong id="journalState" class="service-state">checking</strong><span id="journalDetail" class="service-detail">durable dispatch evidence</span>
         </article>
-        <article class="service-card optional-service" id="observabilityCard">
-          <div class="service-head"><span>Observability <em>OPTIONAL</em></span><span id="observabilityLamp" class="lamp unknown"></span></div>
-          <div id="observabilityState" class="service-state">checking</div><div id="observabilityDetail" class="service-detail">RED + USE + scheduler telemetry</div>
-        </article>
-        <article class="service-card optional-service" id="bridgeCard">
-          <div class="service-head"><span>Browser Bridge <em>OPTIONAL</em></span><span id="bridgeLamp" class="lamp unknown"></span></div>
-          <div id="bridgeState" class="service-state">checking</div><div id="bridgeDetail" class="service-detail">127.0.0.1:4471</div>
+        <article class="instrument-row service-card optional-service" id="bridgeCard">
+          <div class="instrument-identity"><span id="bridgeLamp" class="lamp unknown"></span><span>Browser · optional</span></div>
+          <strong id="bridgeState" class="service-state">checking</strong><span id="bridgeDetail" class="service-detail">127.0.0.1:4471</span>
         </article>
       </div>
-
-      <section class="panel compact-panel plane-panel">
-        <div class="panel-head">
-          <div><div class="eyebrow holo-label">PLANE ASSURANCE</div><h2>Independent readiness</h2></div>
-          <div class="plane-summary"><span>CORE <strong id="corePlaneSummary">—</strong></span><span>OPTIONAL <strong id="optionalPlaneSummary">—</strong></span></div>
-        </div>
-        <div id="planeMatrix" class="plane-matrix"><div class="empty-note">Grounding plane evidence…</div></div>
-      </section>
 
       <section class="panel compact-panel">
         <div class="panel-head"><div><div class="eyebrow">ATTENTION</div><h2>Recent failures</h2></div><span id="failureCount" class="counter">0</span></div>
         <div id="failures" class="stack empty-note">No HUD dispatch failures recorded.</div>
       </section>
 
-      <section class="panel compact-panel approval-inbox-panel">
-        <div class="panel-head">
-          <div><div class="eyebrow holo-label">OPERATOR AUTHORITY</div><h2>Pending approvals</h2></div>
-          <span id="approvalInboxCount" class="counter">0</span>
-        </div>
-        <div class="authority-profile">
-          <div class="authority-profile-grid">
-            <label><span>SCOPE</span><select id="authorityScope"><option value="project">PROJECT</option><option value="universal">UNIVERSAL · ALL PROJECTS</option></select></label>
-            <label><span>PROJECT</span><input id="authorityProject" value="RECEIVER-LAB" spellcheck="false"></label>
-            <label><span>POSTURE</span><select id="authorityMode"><option value="standing">STANDING · allow unless HITL</option><option value="hitl">HITL · ask by default</option><option value="custom">CUSTOM</option></select></label>
-            <label><span>CUSTOM DEFAULT</span><select id="authorityDefault"><option value="allow">ALLOW</option><option value="ask">ASK</option></select></label>
-          </div>
-          <label class="authority-rule-field"><span>HITL RULES</span><textarea id="authorityAsk" rows="2" placeholder="git.push, execution.terminate, effect:external_side_effect"></textarea></label>
-          <label class="authority-rule-field"><span>ALLOW OVERRIDES</span><textarea id="authorityAllow" rows="2" placeholder="execution.*, category:filesystem"></textarea></label>
-          <label class="authority-rule-field"><span>DENY RULES</span><textarea id="authorityDeny" rows="2" placeholder="capability.*, category:*"></textarea></label>
-          <div class="authority-actions"><button id="saveAuthorityProfile" class="primary">Save standing authority</button><button id="resetAuthorityProfile">Use server fallback</button><span id="authorityProfileState" class="state-pill unknown">UNSET</span></div>
-          <div class="approval-inbox-note">Rules accept capability globs plus <code>category:</code>, <code>effect:</code>, and <code>tier:</code>. Deny wins; HITL beats allow. Project standing authority overrides server approval heuristics, not confinement, generation locks, hashes, or queue bounds.</div>
-        </div>
-        <div class="approval-inbox-note">Exact HITL challenges from any client appear below. A grant remains contract/arguments/target-bound and single-use.</div>
-        <div id="approvalInbox" class="approval-inbox empty-note">No pending approval challenges.</div>
-      </section>
-
       <section class="panel compact-panel">
         <div class="panel-head"><div><div class="eyebrow">QUICK CONTROL</div><h2>Common operations</h2></div></div>
         <div class="action-grid cockpit-actions">
-          <button class="action-card" id="quickBrowserAction" data-preset="browser">
-            <span class="action-icon">↗</span><span><strong>Browser launcher</strong><small>current Runtime capability</small></span>
+          <button class="action-card danger-action" data-preset="duckai">
+            <span class="action-icon">↗</span><span><strong>Duck.ai evaluator</strong><small>visible session · approval</small></span>
           </button>
           <button class="action-card" data-preset="sessions">
             <span class="action-icon">◉</span><span><strong>Browser sessions</strong><small>read-only</small></span>
@@ -139,89 +100,81 @@
         <span id="lastRefresh" class="muted"></span>
       </section>
 
-      <section class="focus-surface panel">
-        <div class="focus-assurance">
-          <div>
-            <span class="eyebrow">CURRENT ASSURANCE</span>
-            <strong id="cockpitAssurance">Grounding Runtime…</strong>
+      <section class="focus-surface panel primary-operating-display">
+        <div class="annunciator-row">
+          <div id="masterAnnunciator" class="master-annunciator advisory diagnostic-trigger" role="button" tabindex="0" title="Open cognitive diagnostic">
+            <span class="annunciator-kicker">MASTER</span>
+            <strong id="masterAnnunciatorLabel">ASSESSING</strong>
+            <span id="masterAnnunciatorMeta" class="annunciator-meta">waiting for current state</span>
+          </div>
+          <div class="mode-line">
+            <span class="eyebrow">OPERATING MODE</span>
+            <strong id="cockpitAssurance">Grounding runtime</strong>
+            <span id="cockpitModeDetail" class="muted">waiting for live evidence</span>
           </div>
           <div class="focus-metrics">
-            <div><span>TOOLS</span><strong id="cockpitToolCount">—</strong></div>
+            <div><span>TOOLS</span><strong id="cockpitToolCount">--</strong></div>
             <div><span>SESSIONS</span><strong id="sessionCount">0</strong><span id="sessionLamp" class="lamp unknown"></span></div>
-            <div><span>OPTIONAL</span><strong id="cockpitOptional">—</strong></div>
+            <div><span>OPTIONAL</span><strong id="cockpitOptional">--</strong></div>
           </div>
         </div>
         <div class="focus-rule"></div>
-        <div class="panel-head"><div><div class="eyebrow">LIVE ACTIVITY</div><h2>Recent dispatches</h2></div><span class="muted">machine-truth receipts</span></div>
-        <div id="recentActivity" class="activity-list center-stream"></div>
-      </section>
 
-      <section class="panel architecture-panel" id="architecturePanel">
-        <div class="panel-head">
-          <div><div class="eyebrow">ARCHITECTURE · CURRENTNESS</div><h2>Authority & lineage picture</h2></div>
-          <span id="architectureState" class="state-pill unknown">GROUNDING</span>
-        </div>
-        <div class="architecture-grid">
-          <div><span>MUTATION</span><strong id="architectureMutation">—</strong><small id="architectureMutationSub">project generation</small></div>
-          <div><span>PROTOCOL</span><strong id="architectureProtocol">—</strong><small id="architectureProtocolSub">mode · events</small></div>
-          <div><span>UCM</span><strong id="architectureUcm">—</strong><small id="architectureUcmSub">profile · head</small></div>
-          <div><span>EFFECT TRUTH</span><strong id="architectureEffects">—</strong><small id="architectureEffectsSub">verified / parallel</small></div>
-          <div><span>MIGRATIONS</span><strong id="architectureMigrations">—</strong><small>project receipts</small></div>
-          <div><span>COMPAT</span><strong id="architectureCompatibility">—</strong><small>legacy route posture</small></div>
-        </div>
-      </section>
+        <div class="primary-grid">
+          <div class="system-synoptic" aria-label="Core system synoptic">
+            <div class="eyebrow">SYSTEM SYNOPTIC</div>
+            <div class="synoptic-line">
+              <div id="synHud" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>HUD</span><strong>--</strong></div>
+              <span class="synoptic-link optional">⇄</span>
+              <div id="synNgrok" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>TRANSPORT</span><strong>--</strong></div>
+              <span class="synoptic-link">→</span>
+              <div id="synReceiver" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>RECEIVER</span><strong>--</strong></div>
+              <span class="synoptic-link">↔</span>
+              <div id="synDaemon" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>DAEMON</span><strong>STANDBY</strong></div>
+              <span class="synoptic-link">→</span>
+              <div id="synJournal" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>JOURNAL</span><strong>--</strong></div>
+              <span class="synoptic-link optional">⇢</span>
+              <div id="synBrowser" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>BROWSER</span><strong>--</strong></div>
+            </div>
+          </div>
 
-      <section class="panel telemetry-panel" id="telemetryPanel">
-        <div class="panel-head telemetry-head">
-          <div><div class="eyebrow">ACTIVE TELEMETRY · RED + USE + SCHEDULER</div><h2>Runtime observability</h2></div>
-          <span id="telemetryState" class="state-pill unknown">GROUNDING</span>
-        </div>
-        <div class="telemetry-primary-grid">
-          <div class="telemetry-primary">
-            <span>EXECUTION WORKERS</span><strong id="telemetryWorkers">—</strong><small id="telemetryWorkerSub">loaded capacity</small>
-            <div id="telemetryWorkerSpark" class="sparkline" aria-label="execution worker utilization history"></div>
-          </div>
-          <div class="telemetry-primary">
-            <span>EXECUTION QUEUE</span><strong id="telemetryQueue">—</strong><small id="telemetryQueueSub">oldest queued age</small>
-            <div id="telemetryQueueSpark" class="sparkline" aria-label="execution queue history"></div>
-          </div>
-          <div class="telemetry-primary">
-            <span>HTTP P95</span><strong id="telemetryP95">—</strong><small id="telemetryHttpSub">5 minute RED window</small>
-            <div id="telemetryP95Spark" class="sparkline" aria-label="HTTP p95 latency history"></div>
-          </div>
-          <div class="telemetry-primary">
-            <span>RECEIVER RSS</span><strong id="telemetryRss">—</strong><small id="telemetryRssSub">USS —</small>
-            <div id="telemetryRssSpark" class="sparkline" aria-label="receiver memory history"></div>
+          <div class="fault-picture">
+            <div class="eyebrow">CAUSAL / RECOVERY PICTURE</div>
+            <strong id="cockpitFaultTitle">No failure isolated</strong>
+            <div id="cockpitCausalChain" class="causal-chain">Waiting for live system evidence.</div>
+            <div id="cockpitRecoveryCue" class="recovery-cue">No operator action required.</div>
+            <button id="cockpitDiagnosticBtn" class="secondary diagnostic-open" title="Expand facts, triangulation, topology, sources, scars, and next evidence">▲ Expand diagnostic</button>
           </div>
         </div>
-        <div class="telemetry-resource-grid">
-          <div><span>Receiver CPU</span><strong id="telemetryCpu">—</strong></div>
-          <div><span>Host CPU</span><strong id="telemetryHostCpu">—</strong></div>
-          <div><span>Host memory</span><strong id="telemetryHostMem">—</strong></div>
-          <div><span>Storage free</span><strong id="telemetryStorage">—</strong></div>
-          <div><span>Handles</span><strong id="telemetryHandles">—</strong></div>
-          <div><span>Threads</span><strong id="telemetryThreads">—</strong></div>
-          <div><span>Sockets / files</span><strong id="telemetryDescriptors">—</strong></div>
-          <div><span>HTTP workers</span><strong id="telemetryHttpWorkers">—</strong></div>
-          <div><span>HTTP queue peak</span><strong id="telemetryHttpQueuePeak">—</strong></div>
-          <div><span>Requests / min</span><strong id="telemetryRpm">—</strong></div>
-          <div><span>HTTP 5xx</span><strong id="telemetry5xx">—</strong></div>
-          <div><span>Scheduler / watcher</span><strong id="telemetryScheduler">—</strong></div>
+
+        <div class="condition-tape" aria-label="Live operating trends">
+          <div><span>STATUS AGE</span><strong id="trendStatusAge">--</strong></div>
+          <div><span>LATENCY</span><strong id="trendLatency">--</strong><em id="trendLatencyDir">→</em></div>
+          <div><span>FAILURES</span><strong id="trendFailures">0</strong><em id="trendFailuresDir">→</em></div>
+          <div><span>TRANSPORT</span><strong id="trendTransport">--</strong></div>
+          <div><span>BROWSER</span><strong id="trendBrowser">BLOCKED</strong></div>
+          <div><span>HA BUDGET</span><strong id="trendHaBudget">STANDBY</strong></div>
+          <div><span>DAEMON</span><strong id="trendDaemon">STANDBY</strong></div>
         </div>
-        <div class="telemetry-integrity">
-          <div><span class="eyebrow">INTEGRITY ALARMS</span><div id="telemetryAlerts" class="telemetry-alerts">Awaiting receiver evidence.</div></div>
-          <div><span class="eyebrow">INSTRUMENTATION</span><div id="telemetryDependencies" class="telemetry-deps">Dependency readback pending.</div></div>
+
+        <div id="cockpitScar" class="scar-callout" hidden>
+          <span class="eyebrow">APPLICABLE SCAR</span>
+          <strong id="cockpitScarText"></strong>
+          <span id="cockpitScarReason" class="muted"></span>
+        </div>
+
+        <div class="activity-secondary">
+          <div class="panel-head"><div><div class="eyebrow">RECENT RECEIPTS</div><h3>Dispatch history</h3></div><span class="muted">secondary evidence · newest first</span></div>
+          <div id="recentActivity" class="activity-list center-stream compact-stream"></div>
         </div>
       </section>
 
-      <section class="panel center-guidance">
-        <div class="eyebrow">OPERATOR DOCTRINE</div>
-        <div class="guidance-grid">
-          <div><strong>Submitted ≠ Started</strong><span>Lifecycle stages remain visually distinct.</span></div>
-          <div><strong>Tool success ≠ Task success</strong><span>Readback and consequence evidence stay visible.</span></div>
-          <div><strong>Optional ≠ Core failure</strong><span>Plane degradation stays local unless required truth fails.</span></div>
-          <div><strong>Approval ≠ Payload</strong><span>Authority remains a separate bound runtime object.</span></div>
-        </div>
+      <section class="operating-law-strip" aria-label="Operating distinctions">
+        <span class="eyebrow">OPERATING LAWS</span>
+        <div class="law-chip"><strong>SUBMITTED ≠ STARTED</strong><span>lifecycle</span></div>
+        <div class="law-chip"><strong>TOOL SUCCESS ≠ TASK SUCCESS</strong><span>consequence</span></div>
+        <div class="law-chip"><strong>OPTIONAL ≠ CORE FAILURE</strong><span>degradation</span></div>
+        <div class="law-chip"><strong>APPROVAL ≠ PAYLOAD</strong><span>authority</span></div>
       </section>
     </section>
 
@@ -231,33 +184,21 @@
         <h2>Context & capability</h2>
       </section>
 
-      <section class="panel compact-panel topology-panel">
-        <div class="eyebrow">RUNTIME / PROJECT CONTEXT</div>
-        <div class="topology-value" id="runtimeGeneration">V30</div>
-        <div class="service-detail" id="runtimeSource">source grounding…</div>
-        <div id="projectContext" class="topology-list">Project catalog grounding…</div>
-      </section>
-
-      <section class="panel compact-panel topology-panel">
-        <div class="eyebrow">CAPABILITY SURFACE</div>
-        <div class="topology-value" id="cockpitFamilyCount">—</div>
-        <div class="service-detail">native tool families</div>
-        <div id="cockpitCapabilitySummary" class="topology-list">Catalog grounding…</div>
-        <button id="openToolExplorer" class="secondary full-button">Open Tool Explorer</button>
-      </section>
-
-      <section class="panel compact-panel">
-        <div class="panel-head"><div><div class="eyebrow">OPTIONAL PLANE</div><h2>Browser presence</h2></div></div>
-        <div id="cockpitSessionSummary" class="topology-list">No session evidence yet.</div>
-        <button id="openBrowserView" class="secondary full-button">Open Browser Runtime</button>
-      </section>
-
-      <section class="panel compact-panel">
-        <div class="eyebrow">FORENSIC ACCESS</div>
-        <p class="hint">The center shows bounded human-readable receipts. Full dispatch history and raw tool contracts stay one action away.</p>
-        <div class="right-actions">
-          <button id="openActivityView" class="secondary">Journal</button>
-          <button id="openRawTools" class="secondary">Raw contracts</button>
+      <section class="instrument-bank context-bank" aria-label="Context and capability instruments">
+        <div class="instrument-row topology-instrument">
+          <div><span class="eyebrow">CAPABILITY</span><strong class="topology-value" id="cockpitFamilyCount">--</strong></div>
+          <div id="cockpitCapabilitySummary" class="instrument-summary">Catalog grounding…</div>
+          <button id="openToolExplorer" class="secondary instrument-action">Tools</button>
+        </div>
+        <div class="instrument-row optional-instrument browser-gate-instrument">
+          <div><span class="eyebrow">BROWSER · SECURITY</span><strong id="browserGateState">BLOCKED</strong></div>
+          <div id="cockpitSessionSummary" class="instrument-summary">Bridge state unknown.</div>
+          <div class="instrument-actions browser-gate-actions"><button id="browserGateToggle" class="gate-control blocked" title="Explicitly arm browser actuation">ARM</button><button id="openBrowserView" class="secondary instrument-action">Runtime</button></div>
+        </div>
+        <div class="instrument-row evidence-instrument">
+          <div><span class="eyebrow">EVIDENCE</span><strong>FORENSIC</strong></div>
+          <div class="instrument-summary">Full journal and raw contracts remain one action away.</div>
+          <div class="instrument-actions"><button id="openActivityView" class="secondary">Journal</button><button id="openRawTools" class="secondary">Raw</button></div>
         </div>
       </section>
     </aside>
@@ -282,7 +223,7 @@
     </section>
     <section class="panel">
       <div class="eyebrow">NEW SESSION</div><h2>Launch browser</h2>
-      <label>URL<input id="launchUrl" value="about:blank"></label>
+      <label>URL<input id="launchUrl" value="https://duck.ai/"></label>
       <label>Profile name<input id="launchProfile" value="pcmmad_operator"></label>
       <div class="split"><label><input id="launchHeadless" type="checkbox"> headless</label><label><input id="launchPersistent" type="checkbox"> persistent</label></div>
       <button id="launchBrowser" class="primary danger-button">Request browser launch</button>
@@ -346,6 +287,24 @@
   </div>
 </div>
 
+<div id="diagnosticModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="diagnosticTitle">
+  <div class="modal-card diagnostic-modal-card">
+    <div class="diagnostic-header">
+      <div><div class="eyebrow">COGNITIVE DIAGNOSTIC</div><h2 id="diagnosticTitle">System condition</h2></div>
+      <div id="diagnosticSeverity" class="diagnostic-severity">ASSESSING</div>
+    </div>
+    <div id="diagnosticSummary" class="diagnostic-summary"></div>
+    <div id="diagnosticTopology" class="diagnostic-topology" aria-label="Fault topology"></div>
+    <details open><summary>Observed facts</summary><div id="diagnosticFacts" class="diagnostic-list"></div></details>
+    <details open><summary>Triangulated inferences</summary><div id="diagnosticInferences" class="diagnostic-list"></div></details>
+    <details open><summary>Unknowns / discriminators</summary><div id="diagnosticUnknowns" class="diagnostic-list"></div></details>
+    <details><summary>Informed by</summary><div id="diagnosticSources" class="diagnostic-chip-list"></div></details>
+    <details><summary>Applicable scars</summary><div id="diagnosticScars" class="diagnostic-list"></div></details>
+    <details open><summary>Next evidence routes</summary><div id="diagnosticNext" class="diagnostic-list"></div></details>
+    <div class="modal-actions"><button id="closeDiagnostic" class="primary">Close diagnostic</button></div>
+  </div>
+</div>
+
 <div id="dataModal" class="modal hidden" role="dialog" aria-modal="true">
   <div class="modal-card data-modal-card">
     <div class="eyebrow">OPERATOR RESULT</div><h2 id="dataTitle">Result</h2>
@@ -354,6 +313,6 @@
   </div>
 </div>
 <div id="toast" class="toast hidden" aria-live="polite"></div>
-<script src="/static/app.js?v=ops-hud-20260911-readiness-authority-v7"></script>
+<script src="/static/app.js?v=ops-hud-20260908-cockpit-v1"></script>
 </body>
 </html>

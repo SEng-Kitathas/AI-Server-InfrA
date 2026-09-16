@@ -93,7 +93,7 @@ def _execution_output_env_values() -> dict[str, int | None]:
 def _execution_queue_env_values() -> dict[str, int | None]:
     return {
         "global_concurrency": parse_optional_unbounded_int(
-            os.environ.get("PCMMAD_EXECUTION_GLOBAL_CONCURRENCY"), 12
+            os.environ.get("PCMMAD_EXECUTION_GLOBAL_CONCURRENCY"), 8
         ),
         "project_concurrency": parse_optional_unbounded_int(
             os.environ.get("PCMMAD_EXECUTION_PROJECT_CONCURRENCY"), None
@@ -139,21 +139,11 @@ class ServerRuntimeConfig:
 
     host: str = "127.0.0.1"
     port: int = 5000
-    http_threads: int = 16
 
     @classmethod
     def from_env(cls) -> "ServerRuntimeConfig":
         host = os.environ.get("PCMMAD_BIND_HOST", "127.0.0.1").strip() or "127.0.0.1"
-        threads = parse_optional_unbounded_int(
-            os.environ.get("PCMMAD_HTTP_THREADS"), 16, minimum=4
-        )
-        if threads is None:
-            raise RuntimeConfigurationError("PCMMAD_HTTP_THREADS must be a finite positive integer")
-        return cls(
-            host=host,
-            port=parse_port(os.environ.get("PCMMAD_BIND_PORT"), 5000),
-            http_threads=threads,
-        )
+        return cls(host=host, port=parse_port(os.environ.get("PCMMAD_BIND_PORT"), 5000))
 
 
 @dataclass(frozen=True)
@@ -179,7 +169,7 @@ class ExecutionRuntimeConfig:
     default_stdout_max_bytes: int | None = None
     default_stderr_max_bytes: int | None = None
     max_output_bytes: int | None = None
-    global_concurrency: int | None = 12
+    global_concurrency: int | None = 8
     project_concurrency: int | None = None
     global_queue_limit: int | None = None
     project_queue_limit: int | None = None

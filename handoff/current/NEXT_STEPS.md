@@ -1,95 +1,5 @@
 # PCMMAD Receiver V30 — Next Steps
 
-## MODEL_PROVIDER_PREFLIGHT_G53_20260914_0003Z
-- Exact historical MODEL-QUALITY-02 location corrected: campaign/experiments/MODEL_QUALITY_02_NATIVE_UTILITY, not campaign root. Historical result set inspected. Raw doctrine2048 scores Q36=0/1/1, Q35=0/0/1; blind matrix Q36 Pareto had no result due failed cell while remaining 1/1/1, Q35 raw 0/1/1/1; Q36 budget1024 corrected doctrine=3/3. Treat taxonomy/harness failures separately; historical results are priors only.
-- Historical runners pin exact current Q36/Q35 model paths and llama.cpp b10797 verified runtime. Current model-runtime preflight found no Q35/Q36 llama process and no listeners 18190-18210. GPU snapshot: 6141 MiB total, 750 used, 5171 free.
-- New role battery plan persisted at research/governance_substrate/18_MODEL_PROVIDER_ROLE_BATTERY_PLAN.md. Sequential target-only baseline before MTP; distinct ports/process/runtime/results; adaptive 10-20 transformations per weakness; blinded semantic judging; MODEL/FINALIZATION/FORMAT/HARNESS/TELEMETRY/RESOURCE taxonomy.
-- Arm D blocker is now provider-execution/qualification, not artifact discovery. Arm C can witness real model job resources during these runs. Arm A authority battery and Arm B project/resource semantics are embedded in the provider tasks.
-- Live integration remains pending: candidate tree is intentionally dirty with multi-arm work while live Git remains divergent (previously ahead2/behind5). Do not blindly fast-forward/copy. Need isolate promotion commits + broad qualification before live.
-
-
-## QWEN36_FOUND_G53_20260913_2358Z
-- Whole-E filename-first hunt FOUND exact Qwen3.6 artifacts: E:/models/05-llm/qwen36_a3b/Qwen3.6-35B-A3B-Q4_K_M.gguf (20,419,565,568 bytes) and mtp-Qwen3.6-35B-A3B-Q4_0.gguf (1,060,038,432 bytes).
-- Exact later campaign also FOUND: E:/new pc/AI_Pushes_Sandbox/projects/protoagi_microseed_reincarnation_20260827/campaigns/OVERNIGHT_2026-09-04_QWEN36_E_IDENTITY/. MODEL_QUALITY_02_NATIVE_UTILITY contains DOCTRINE_BOUNDARY_MATRIX_RESULT.json, MATRIX_2048_BLIND_SEQUENTIAL_RESULT.json, MATRIX_2048_SEQUENTIAL_RESULT.json, Q36_BUDGET1024_DOCTRINE_MATRIX_RESULT.json and runners. Historical user navigation is now locally anchored.
-- Arm D local-provider blocker is materially reopened: both candidate model artifacts now resolved. Next: inspect exact historical result JSON + current process/port/resource ownership, then construct matched deployment-role battery before launching models.
-- Arm C gains concrete Q36 immutable model + MTP resource identities; shared model file remains non-exclusive, runtime process/port/runtime-dir/resources exclusive.
-- Generation 53 acquired after prior sticky consequence holder naturally cleared. This recurrence remains direct evidence for finer resource/consequence serialization and live-friction priority.
-
-
-## LOCAL_MODEL_PROVIDER_CFE_G52_20260913_2332Z
-- User supplied later Sep 4-6 Qwen3.5-v-Qwen3.6 comparison history as navigation context. Server-side CFE archaeology verified CFE model-service coordination doctrine and Qwen3.5 target/Q4 MTP artifacts; later Qwen3.6 exact GGUF/path and MODEL-QUALITY-02 matrix not yet resolved locally. Do not promote user historical summary to current local verification.
-- Qwen3.5 target present: D:/Project_Linked_Tensors/monster-standard-inference-revival-2026-04-06/incoming/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled.i1-Q4_K_M.gguf, 21,169,115,200 bytes. Q4 MTP sidecar present: E:/models/speculative/qwen35_a3b_mtp/Qwen3.5-35B-A3B-MTP-ONLY-Q4_K_M.gguf, 1,621,551,104 bytes. CFE historical disposition: n_max=2 paired 35.4938 -> 38.0903 tok/s, 4/4 prompt wins, limited local-engineering scope.
-- CFE runtime law verified: shared immutable model/runtime files may be reused; live process/port/job/runtime-dir ownership must remain isolated. Unknown model service => preserve+block, never auto-kill. This directly informs Arm C resource claims and Arm B cross-project provisioning.
-- Arm D blocker partially reopened: real local hypothesis provider candidate exists (Qwen3.5 verified; Qwen3.6 historically reported but path unresolved). New provider campaign is research/governance_substrate/16_LOCAL_MODEL_PROVIDER_CAMPAIGN.md.
-- Model-selection target is deployment-role capability surface, not chatbot score. Separate MODEL/FINALIZATION/FORMAT/HARNESS/TELEMETRY/RESOURCE outcomes; adaptive transformed attacks; blinded judging; role-dominance/stability stopping rule.
-- Cross-arm recursion: D provider work supplies C real process/GPU/port/runtime-dir effect witnesses; A authority/identity hostile battery becomes provider qualification; B must preserve shared-immutable-assets != shared-runtime-ownership.
-- Immediate discriminator: resolve exact Qwen3.6 artifact/runtime evidence without broad destructive search, verify safe resource ownership, then run matched role-specific hostile provider battery sequentially.
-
-
-## FOUR_ARM_TRUE_BLOCKERS_G51_20260913_2222Z
-- Four-arm campaign pushed until remaining blockers require live integration/promotion, external credential/authority embodiment, real effect witnessing, or ecological/local-provider qualification. Focused cross-arm suite now 68/68 PASS.
-- A advanced: principal derivation is now installed in real Flask before_request context while legacy API-key enforcement remains authoritative. Test-client attacks prove caller-claimed OPERATOR cannot override ordinary agent credential and distinct operator credential derives OPERATOR/MACHINE context. TRUE BLOCKER: live deployment needs a distinct operator credential, explicit MACHINE route/admission policy, and live HTTP hostile qualification. This is a security/promotion boundary; do not invent a credential in clone.
-- B advanced: project provisioning has exclusive root creation, identity/source epoch, atomic registry write, durable receipt, rollback across injected root/identity/registry faults, and GLOBAL_PROJECT_REGISTRY resource claim. TRUE BLOCKER: expose/register project.provision in real catalog requires choosing the authoritative live project registry/owner contract and adding capability schema/policy. External arbitrary-path adopt additionally depends on A live operator principal + MACHINE adopt policy.
-- C advanced: real local catalog census = 175 tools; current simplistic derivation maps claims for 80 and marks 95 incomplete due to rich effect vocabulary. Unpredicted effects fail effect truth; unknown/unclassified effect traits serialize. TRUE BLOCKER: parallel admission cannot be earned from descriptive traits alone; requires real execution effect witnesses, scheduler integration, and contention Warfort. Current live scheduler profile remains effect_truth_verified=0, parallel_verified=0.
-- D advanced: bounded rollover+RES+result-index evidence, actual result-handle adapter via lab_results, allowlisted bounded runtime/source reader, explicit INFERRED_CANDIDATE generation and discriminator-based candidate qualification. TRUE BLOCKER: autonomous first responder needs an actual local model/hypothesis provider (or stronger non-LLM generator), provider effect qualification, and ecological agent<->server trial. Local inference remains proposal-only.
-- Cross-arm recursion rerun after all gains: no blocker fully reopened. B external-adopt remains explicitly coupled to A. C evidence truth can later improve D advisory confidence; D can recommend B/A/C actions but cannot grant them.
-- Campaign classification: these are now TRUE BLOCKERS under current local-clone authority, not merely TODOs. Next action requires explicit promotion/live-integration campaign and/or external provider/credential/effect-witness embodiment.
-
-
-## MULTI_ARM_TO_BLOCKER_G51_20260913_2215Z
-- Generation 51 campaign advanced A/B/C/D plus cross-arm recursion runtime. Combined focused suite: 57/57 PASS.
-- A: request-principal derivation now ignores caller-claimed identity and derives REMOTE_AGENT vs OPERATOR from distinct server-held credentials + operator epoch. Still BLOCKED from server-enforced MACHINE containment on actual Flask/lab request integration and deployment of distinct operator credential.
-- B: provision transaction now includes atomic registry write, identity marker, durable receipt, exclusive root create, and injected rollback after root/identity/registry boundaries. Still BLOCKED from live capability on capability registration + registry resource claim; external adopt additionally waits for authenticated operator principal + machine-scope adopt policy.
-- C: server-owned effect traits derive claims; predicted-v-observed witness rejects unpredicted effects and grants no authority. Still BLOCKED from parallel admission on real effect-truth witnesses + scheduler integration.
-- D: evidence gatherer now has bounded provenance-bearing RES/result-index adapters and explicitly labels symbolic hypotheses INFERRED_CANDIDATE, authority NONE. Still BLOCKED from autonomous-first-responder on actual result-handle/runtime-source adapters + qualified hypothesis generator/local model evaluation.
-- Cross-arm recursion is now embodied: every arm result projects earned facts/scars to peers; blocker reopen scan requires explicit reopen conditions and never grants authority. 3/3 recursion tests PASS. Current reopen scan reopened none yet, but identified partial satisfaction: B catalog has registry transaction; C parallel has effect witness; D autonomous responder has bounded RES adapter.
-- Standing law: ARM_BLOCKED(t) != ARM_BLOCKED(t+1). After every substantive result, project it across A/B/C/D, update Attention Reservoir, rerun reopen conditions, then HELIX re-ranks global frontier.
-- Current substantive blockers are integration/qualification blockers, not missing conceptual designs. Next campaign should attack the missing integration facts in parallel and rerun recursion after each gain.
-
-
-## MULTI_ARM_WIDE2_20260913_2149Z
-- Generation 50 wide pass advanced all four arms; combined focused suite 46/46 PASS.
-- A: separate principal authenticator prototype now distinguishes REMOTE_AGENT(project max) from OPERATOR(machine max) using cryptographically distinct secrets and constant-time comparison. Stolen ordinary agent key cannot satisfy MACHINE in tests. Evidence ceiling: NOT wired into Flask/lab HTTP path, so not server-enforced yet.
-- B: project provision commit prototype now uses exclusive root creation, writes explicit project identity marker + source_epoch + initial_generation=0, emits durable receipt, and race-rejects second commit. Evidence ceiling: local primitive only; no catalog capability/registry integration/rollback fault injection yet.
-- C: resource claims can now be derived from SERVER capability effect traits rather than caller payload. Forged payload claims are ignored; unknown effect traits make derivation incomplete and therefore must serialize. Evidence ceiling: scheduler not wired; effect truth remains unverified.
-- D: issue-only path now composes bounded rollover evidence gathering into authority-neutral advisory. Missing evidence remains explicit UNKNOWN. Evidence ceiling: only rollover surfaces; RES/result handles/source/runtime and hypothesis generation remain open.
-- Cross-arm learning: authenticated principal must be server-derived before operator grant validation; provision commit must claim project-registry resource; unknown claim derivation blocks parallelism; advisory may recommend authority/provisioning/concurrency actions but cannot grant/commit/schedule them.
-- Next wide discriminator: A wire principal derivation into test Flask request boundary without replacing legacy agent auth; B add registry transaction + injected-failure rollback/readback; C map real catalog specs and compare claims against execution consequences; D add provenance-bounded RES/result-handle adapters and candidate hypothesis generation with explicit inference class.
-
-
-## MULTI_ARM_WIDE_PASS_20260913_2126Z
-- Wide pass advanced B/C/D while retaining A evidence ceiling. Combined focused cross-arm suite: 40/40 PASS.
-- Arm A: operator principal+epoch+session+scope primitive remains 9/9 direct hostile PASS; actual separate HTTP authentication principal still missing, so MACHINE containment is NOT server-enforced yet. Source audit confirms ordinary lab auth is GITHOME_API_KEY possession.
-- Arm B: authority-neutral project provision planner added. It confines new roots under governed projects_root, rejects path-smuggling IDs, refuses overwrite, assigns initial_generation=0, preserves source_epoch, and proves distinct plan isolation. No commit/register capability yet; planner writes=false.
-- Arm C: resource claim algebra remains 8/8 PASS. Next: claims must be derived from server capability/effect contracts and verified against actual consequences; caller-declared claims are not scheduler truth.
-- Arm D: bounded read-only evidence gatherer added over explicit rollover surfaces only (Live Shadow, Current State, Next Steps, Revisit, Trace). It reports missing surfaces explicitly, ignores arbitrary files, authority=NONE, may_mutate=false. This advances autonomous first-responder input gathering but does not yet generate hypotheses or query RES/result handles/source.
-- Cross-arm suite covering resource claims, project planning, operator authority, advisory, governance relations: 40/40 PASS.
-- New cross-arm insight: Arm B project provisioning needs Arm A operator identity for external/adopt paths but ordinary under-project creation can remain project/control authority; Arm C claims should include project-registry transaction as a shared resource during provisioning; Arm D can surface that requirement but cannot grant it.
-
-
-## ARM_C_RESOURCE_CLAIMS_20260913_2124Z
-- Arm C discriminator advanced: authority-neutral resource/consequence claim algebra implemented in local clone.
-- 8/8 focused tests PASS: disjoint path writes candidate-parallel; parent/child write overlap serial; read/read same path candidate-parallel; same Git index serial even with different files; distinct Git worktrees candidate-parallel; unknown domain serial; distinct project domains candidate-parallel; relation grants no authority.
-- Evidence ceiling: relation-level only. Scheduler is NOT yet wired to admit parallel jobs; effect_truth_verified and parallel_verified remain 0.
-- Earned direction: PROJECT GENERATION = FENCING EPOCH; JOB/RESOURCE CLAIMS = SERIALIZATION DOMAIN. UNKNOWN CLAIM RELATION => SERIAL.
-- Next Arm C discriminator: derive claims from real capability effect profiles and compare predicted vs observed effects; do not trust caller-declared claims as scheduler truth.
-
-
-## MULTI_ARM_RD_ROLLOVER_20260913_2123Z
-- Mode: BUILD-COMMIT / simultaneous multi-arm R&D; local-clone first.
-- Active authority: RECEIVER-LAB generation 49, owner pcmmad-lab, session multi-arm-rd-20260913; public lease_id null is bearer redaction, not missing identity.
-- Arm A: universal operator MACHINE authority. Experimental principal+epoch+session+scope binding passed 9/9 direct attacks; ordinary live HTTP/operator principal separation NOT yet embodied.
-- Arm B: independent project provisioning. Live 160-cap catalog still lacks create/register/fork/adopt project lifecycle; Veya shard remains blocked on genuine independent registration.
-- Arm C: finer concurrency. Target is project generation=fencing epoch, job authority + resource/consequence claims; UNKNOWN conflict => SERIAL. Current scheduler effect_truth_verified=0, parallel_verified=0.
-- Arm D: Microseed/Veya full-stack developmental substrate + AI-for-AI. Governance relations/operator authority/advisory prototypes exist; advisory composition 26/26, autonomous evidence gathering not yet earned. Harvest mandate includes developmental semantics, relational affordances, representation admission, endogenous initiation, closure escape, goal dynamics, grounded experience, and latent->active capability composition.
-- Security: ordinary remote credential must remain project-contained; MACHINE authority must bind separately authenticated operator identity. Cooperative CustomGPT behavior is not a security control.
-- Recovery: break-glass sandbox restored receiver with normal Python path + live source absent and proved authenticated health/v11 orient. SYSTEM/no-login deployment remains blocked on one-time OS elevation and machine recovery credential qualification.
-- Mutation-authority correction: ACTIVE + public lease_id=null is deliberate secret redaction. inspect capability is non-reconciling persisted observation; persisted status != effective current status. Candidate observability clarification passed 24/24; no security-weakening live hotfix deployed.
-- Live/source lineage warning from prior readback: live Runtime HEAD 1d7e57d was ahead 2/behind 5 vs origin/main 30c4826; reconcile before next deployment.
-- Rollover invariant: update Live Shadow + DTS + Current State + Next Steps + Doctrine delta + Revisit + Trace after every substantive campaign state change; no transcript dumps.
-- Primary campaign spine: research/governance_substrate/15_MULTI_ARM_RD_CAMPAIGN.md. Supporting campaigns 08-14 retain exact evidence/scars.
-
-
 ## OPERATING LIBRARY v1.0 SERVER-BOUNDARY CONVERGENCE — 2026-09-09
 - Final library exact archive SHA-256 `b3ac0c538c19e1bb4819569439905fdce707e071b26d9c8d9c58a054de845a7f` / 138090 bytes / CRC PASS / 50 manifested payload members all size+SHA verified / zero extras / zero generated bytecode.
 - Fresh-extraction library replay: manifest **50/50 PASS**, semantic kernel **40/40 PASS**, hostile **39/39 REJECTED**, before/after sealed-tree fingerprint identical `a35ba247bb674452f3e2d581996c8ea138f3842ac5ab286b023b1fc46999b018`.
@@ -508,94 +418,174 @@ Web and already-audited research slices are qualified. Fix continuity rehydratio
 - Paused UCM recovery commit preserved on local holding branch at `26af5ef99426faf0ce6aae31439b614f1b0fe55c`.
 - No previously identified non-Skill/non-memory core engineering defect remains open at current claim ceiling; release/live promotion is deliberate, not implicit.
 
-## GITHUB TRUTH / ARCHITECTURE CLOSURE CURRENT PRECEDENCE — 2026-09-10
-- Latest remote-verified Runtime/currentness feature before current-surface refresh: `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` / tree `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`; parent `9be7ad603f50c079acc92d542add6a011a2ea2d7`; substrate feature `673e3b15fa16053e6da6594604d9ce6db7faad1c`.
-- Current source: **158 native tools**; compact transport: **30 operations**; full suite **775 collected / 773 passed / 2 skipped / 0 failed**.
-- ICF-CS **v1.2** is current; standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`. Low-level context rehydration now reports v1.2.
-- Core Runtime architecture is **converged at the current claim ceiling**; no currently reproduced defect requires another truth/authority/scheduler plane.
-- Separate schema/composition branch remains unmerged. Effect-trait split, static plan cost, continuation currentness, capability-lease non-grant, compact eligibility derivation, and legacy `memory.*` exit criterion are explicit schema/migration gates.
-- Effect-trait audit: 204 distinct strings / 133 singleton; only four generic Runtime behavior consumers today. `TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`; arbitrary traits SHALL NOT become scheduling/authorization truth.
-- RES non-doctrine authority is validator-enforced; UCM non-authority is mechanism-enforced; DTS is typed `history` and continuity records are not direct promotion targets.
-- Live Runtime has **not** been promoted by this reconciliation; fresh live preflight/restart/readback remains separate.
-- Audit: `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`.
 
-## Schema v11 source successor — CURRENT PRECEDENCE (2026-09-10)
-- Older statements saying the final schema is locked/untriggered are retained historical lineage and superseded for current status by this block.
-- Latest remote-verified source mechanism before current-surface publication: `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` / tree `ed939b1dbfd1dc570966c46f200618551b893503`; v11 schema mechanism `7e4c66a769884269d71babdb92217ba80eb66e74` / tree `967f108f235b4b42097f4b2d9d48ee61c591017c`.
-- Current source schema successor: v11.0 capability microkernel, **8 Assistant-facing operations** over **158 native capabilities**; v10.3 remains the **30-operation compatibility/import surface** until separate product/live promotion.
-- v11 schema SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`; scheduler profile SHA `a7ee841edb47010978a13d884e899520c6bd6e22d2907a9ba4bbb169f8e58ce3`.
-- Production effect profile: 158/158 covered; **0 effect-truth / 0 parallel-read / 0 resume-replay witnesses**.
-- Combined current-source qualification: **890 collected / 888 passed / 2 skipped / 0 failed**; focused currentness+schema **128/128 PASS**; four-worker loadscope **888 passed / 2 skipped / 103 subtests**.
-- `CAPABILITY_LEASE != CAPABILITY_GRANT`; `DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`; `CONTINUATION != CURRENTNESS`; `PLAN_VM != SECOND_JOB_SCHEDULER`.
-- Product-side ChatGPT Action installation and live Runtime promotion remain separate. `SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`; `SOURCE_QUALIFIED != LIVE_PROMOTED`.
-## ROLLOVER PRECEDENCE — 2026-09-10 18:40 ET
-- GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7`; project-aware access logging published.
-- v11 canonical schema unchanged: `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities.
-- GitHub Actions run `34537723493` is **RED** on Windows + Ubuntu; Ubuntu exact current failure is hot-scan queued count `38 != 50`; live promotion blocked.
-- local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed donor/qualified WIP; schema-wire WIP is older donor material.
-- loaded Desktop Runtime remains behind source; source != live.
-- current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
-- This block wins on current Git/release frontier over older present-tense text in this file; historical evidence remains lineage.
+## 2026-09-15 NEXT STEPS DELTA
+P0
+1. Verify continuity commit/readback and use `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md` as recovery pointer.
+2. Inspect current Microseed/Veya source for current/stale, competence, memory, self-monitoring, dialogue/speech and epistemic-control mechanisms. Do not reinvent weaker MVF substitutes first.
+3. Define minimal MVF resident-duty contract: identity, subject, maintained claim, dependencies, observations, currentness/stale/reopen, allowed cognition/effects, escalation, evidence, output/brief, cadence/trigger.
+4. Embody 2–3 resident duties using qualified primitives: Receiver currentness/HA; repository/currentness topology; continuity/evidence staleness. Produce compact Agent/operator briefing. HEaT + negative system-walk before widening.
+5. Defer machine ACT layer until exact identity/currentness evidence + explicit operator authority + consequence readback are bound.
+P1
+6. External platform approval continuation remains UNKNOWN; exercise actual bridge when safe.
+7. Live HA embodiment and Desktop restart-helper convergence deferred until operator available/live destructive tests allowed.
+8. Embody root law + Interaction Integrity + HEaT across doctrine/CSC/MVF honestly; avoid symbolic compliance.
 
-## HOSTED CI SUPERSESSION — 2026-09-10 19:13 ET
-- completed tested head `fd9b42ad143d70ddda92b22372cbae767b12bea0` / run `34541018742`: Ubuntu **SUCCESS**, Windows **FAILURE**;
-- Windows public failure is still suite-level only; exact testcase unresolved;
-- earlier Ubuntu `38 != 50` is superseded as current hosted Ubuntu status;
-- fresh Actions on any later currentness child wins.
 
-## Hosted CI precedence — 2026-09-10 final readback
-- Current Git branch/documentation head at this update: `ddc934f015587bafd6af96e07acbf4af830261ad`.
-- Latest Runtime mechanism frontier remains `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4`.
-- GitHub Actions run `34541581729` on `ddc934f015587bafd6af96e07acbf4af830261ad`: Ubuntu **SUCCESS**, Windows **FAILURE**.
-- Windows public annotation remains suite-level `Process completed with exit code 1`; exact testcase is unresolved.
-- Next discriminator: make the Windows full-suite failure externally diagnosable, reproduce it, repair it, then require both hosted OS jobs green before live promotion.
+## 2026-09-15 MVF RESIDENT NEXT STEPS DELTA
+P0
+1. Checkpoint/commit first resident + donor snapshot + this continuity delta.
+2. Deepen resident using already-ingested Microseed machinery rather than adding bespoke watchers: EpistemicDeficitRegistry/currentness anchors; historical reentry/dependency currentness; EvidenceLedger/FixedQualifier; continuity identity/biography.
+3. Give duties durable resident state with Veya-inspired separation of state/biography/evidence, but do NOT import Veya runtime sqlite state as authority.
+4. Replace static duty list over time with candidate duty discovery/admission: candidate != qualified duty; qualification must remain external/HEaT-bound.
+5. Consider native read-only `mvf.resident.brief` only after reentrancy/system-walk analysis.
+6. Keep generic machine ACT deferred until resident currentness/evidence model is stronger and action contracts consume exact identity + authority + consequence readback.
+P1
+7. Speech/dialogue faculty remains desired but unembodied in current chamber snapshot; find/derive/qualify actual mechanism before claiming it.
 
-`HOSTED_UBUNTU_GREEN != HOSTED_WINDOWS_GREEN`
-## CROSS_ARM_RECURSION_LAW_20260913
-Campaign rule: every substantive result from any arm MUST be projected across all other arms before an arm is classified BLOCKED/CLOSED. A blocker is conditional on the current shared evidence frontier, not permanent. After A/B/C/D advances, re-run a reopen scan over every blocked/deferred discriminator.
 
-Mechanism:
-1. arm result -> shared evidence/scar spine;
-2. compute implications for A,B,C,D;
-3. update Attention Reservoir with new cross-arm opportunities/contradictions;
-4. test whether any blocker reopen condition is now satisfied;
-5. HELIX re-ranks the global frontier;
-6. only then select next discriminators.
+## 2026-09-15 MVF GOVERNANCE NEXT STEPS DELTA
+P0
+1. Commit current governance deepening and continuity updates.
+2. Integrate governance with portfolio execution so non-CURRENT duty results can optionally produce evidence/deficits automatically while preserving idempotency and no self-admission.
+3. Add durable resident biography/state separation using Microseed DevelopmentalBiography + evidence ledger; keep evidence, biography, and current materialized state distinct.
+4. Add dependency epoch/currentness anchors to duty contracts and make targeted invalidation/reopen automatic when native tool/repo/process identities change.
+5. Build candidate-duty discovery from repeated residual/anomaly patterns only as proposal generation; qualification remains external HEaT boundary.
+P1
+6. Add evidence expiry/currentness semantics where donor machinery supports them; do not invent universal TTLs.
+7. Speech/dialogue remains a separate faculty backlog.
 
-Law: ARM_BLOCKED(t) != ARM_BLOCKED(t+1). CROSS-ARM EVIDENCE MUST REOPEN BLOCKERS WHEN THEIR REOPEN CONDITIONS BECOME TRUE.
-## GIT_PARITY_20260914_0038Z
-- GitHub parity completed for intended project state. Commit 2b092e4f9f1745a414edf98a8b506a089dfa325a pushed to origin/main. Verified local HEAD == origin/main == ls-remote main; tree 27de88698be6c5898cdfa6324f3f94f371febfab; divergence 0/0; working tree clean.
-- 79 project files committed after focused 139-test qualification PASS and staged literal-secret scan found zero likely credential literals.
-- Generated/local-only Warfort and recovery payloads were intentionally NOT published: .warfort_breakglass_bundle, .warfort_breakglass_restore_target{,2}, .warfort_secret, build, baseline/pcmmad_receiver.egg-info. .gitignore now fences these surfaces. This is intended source/project parity, not byte-for-byte publication of ephemeral/secret machine state.
-## OPUS_EXTERNAL_REVIEW_WARFORT_20260913
-- External fresh-clone review correctly found stale handoff snapshot receipt. Local verification found SEVEN changed canonical members, not only CURRENT_STATE: CURRENT_STATE, DESIGN_THREAD_STREAM, DOCTRINE_SNAPSHOT, LIVE_SHADOW, NEXT_STEPS, REVISIT_LEDGER, TRACE_MATRIX. Cause: campaign same-pass rollover updates did not regenerate SNAPSHOT_MANIFEST_SHA256.json. This is a real continuity defect and process scar.
-- Dependency criticism is stale/incorrect against current e52fe75 source: root requirements-dev.txt declares pytest/hypothesis/xdist/ruff; pyproject.toml declares Flask, requests, beautifulsoup4, psutil, prometheus-client, waitress and diagnostics py-spy; baseline receiver requirements also exists. Fresh-clone install path still deserves explicit one-command documentation/CI verification.
-- Profiler test name is misleading: assertion that failed in reported clone was deps[waitress] is not None, while py-spy is explicitly optional/on-demand. Current source therefore interprets that failure as missing required runtime dependency, not profiler availability.
-- Earned law: ROLLOVER UPDATE != SEALED RECOVERY SNAPSHOT. Any mutation of a manifest-declared rollover member MUST regenerate/reseal snapshot receipt in the same consequence before publication/checkpoint.
-## CSC_ENFORCEMENT_G56_20260914
-- External code-quality review exposed CONFIGURED != ENFORCED for Ruff/CSC. Verified current correctness scan initially had 38 F821/B023/F403/F405 findings. Load-bearing F821 and B023 defects were repaired; test star imports were made explicit. api_wire_models star-import facade remains a deliberate compatibility surface and is not yet mechanically rewritten.
-- Mandatory CSC code-health gate added: tools/csc_native/csc_code_health_gate.py. Current blocking correctness rules F821+B023 are CLEAN. Gate authority=AUDIT_ONLY.
-- Microseed-derived final-polish gate added: tools/final_polish_gate.py. It composes CSC correctness + continuity/observability regression and grants authority NONE. CONFIGURED_STANDARD_REQUIRES_ENFORCING_CONSUMER is embodied as promotion qualification.
-- CI now invokes CSC correctness and final-polish before full clean-box suite. tools/verify_release.py now consumes CSC code-health as part of release cleanliness. Enforcement regression tests added.
-- Continuity scar closed structurally with tools/reseal_handoff_snapshot.py; rollover mutation must reseal manifest before checkpoint/publication.
-- Tracked build/lib count is 0 in current Git. build remains ignored. Opus build/lib finding was stale against current branch.
-- Remaining quality debt: F403 api_wire_models compatibility facade; broad E/F/I/UP/B/SIM historical style debt; contract docstring coverage; print/global review. These are ratchet work, not permitted to weaken current correctness gate.
-- Cross-arm/Microseed law: DECLARED STANDARD != EMBODIED STANDARD. A declaration with no enforcing consumer creates qualification debt and cannot support promotion claims.
-## CSC_MVF_DECLARATION_BINDING_G56_20260914
-- Corpus hunt found 104 local CSC/code-quality/doctrine/law/final-QC candidate surfaces, including Universal CSC guide, Unified Code Standards doctrine, 11 CSC SOPs, INVARIANTS, release contract, native CSC runner/gates and prior reports. These are now treated as declarations requiring consumers, not self-authenticating authority.
-- New deterministic static CSC declaration-binding gate embodies initial D1/D3/D3.5/D4/D7 + Tier1. Governing law: DECLARED != BOUND != CONSUMED != CURRENT != EVICTED; EVICTED != DELETED; CLAIM_SUPERSEDED != HISTORY_REWRITTEN; CSC_PASS != CODE_IS_GOOD. Every rule states a does-not-catch ceiling.
-- D3 discovered a real undeclared optional dependency: playwright in browser_bridge_service. Added browser optional dependency in pyproject. D3 now green. D3.5 currently reports no ghost dependencies under explicit CLI/plugin allowlist.
-- D7 census found 50 environment-variable names. docs/verification/ENV_SCHEMA.md now binds all names; requiredness/secret/default semantics remain UNCLASSIFIED and D7 is report-only until that semantic census is qualified.
-- Tier1 static block now includes F821/F403/F405/B023/B006. The api_wire_models wildcard compatibility facade was replaced with explicit consumer-derived reexports; regression caught missing ErrorEnvelope and facade was corrected. Tier1 now green. B904/F841 remain explicit debt to repair before promotion into blocking set.
-- MVF promotion gate added: baseline/pcmmad_receiver/mvf_promotion_gate.py. It requires every applicable doctrine/standard consumer to be present, current and qualified; missing/stale/failed blocks admissibility. authority=NONE; it does not perform promotion.
-- CI and final-polish now consume CSC declaration binding. Focused MVF/CSC/continuity/constraint suite: 51/51 PASS after one regression-driven facade repair.
-- Next CSC census arms: D2 metadata-reader ratio; D5 path/reference resolution; D6 invariant->test/ENFORCEMENT mapping; D8 justified noqa/type-ignore/CSC disables; Tier2 derived/duplicate/archive/test-plane; Tier3 authority contract docs/failure contracts; style delta ratchet. Hunt existing doctrine first and strip-for-parts into these consumers.
-## CSC_MVF_COVERAGE_GRAPH_G57_20260914
-- Donor-informed CSC/MVF campaign advanced. Uploaded Rahl donors were available to chat but /mnt/data is not visible inside the local Windows Runtime, so server-side donor copy imported 0 files; no false ingestion claim. Their mechanisms informed this pass, but current repo doctrine remains the server-side authority surface.
-- New tools/csc_native/csc_coverage_graph.py inventories normative declaration lines across Universal CSC, Unified Code Standards, CSC SOPs, INVARIANTS and release contract, and binds named consumers plus explicit coverage classes and claim ceiling.
-- D2/D5/D6/D8 implemented as report-only discovery rules pending stronger discriminators. D5 checked 13 path-like references with 0 broken in current scoped surfaces. D8 found 7 real overrides after self-noise exclusion; all now carry inline justification.
-- D2 current prototype found 5 statically extractable effect-trait declarations and 0 direct non-declaration readers; this is intentionally NOT accepted as the known 204/4 census because extraction coverage is incomplete. It remains unverified/report-only and is the next sharp discriminator.
-- D6 found 0 bullet-style invariant entries in docs/architecture/INVARIANTS.md, demonstrating parser-shape insufficiency; no false green claim. D6 remains report-only until invariant syntax is correctly modeled.
-- MVF now has from_csc adapter: declaration binding + final QC + coverage graph consumer-currentness must all be present/current/qualified for promotion admissibility; authority remains NONE. Tests prove stale coverage consumer blocks.
-- CSC declaration gate qualified=true with only D2 remaining explicit unverified claim. Focused coverage/MVF/constraint/schema suite 26/26 PASS.
-- Next: repair D2 against actual catalog/trait declaration architecture and D6 against actual invariant document structure; then self-apply coverage graph to CSC's own declarations, broaden qualification, reseal, commit/push.
+
+## 2026-09-15 GENERAL COGNITION NEXT-STEP DELTA
+1. Before deepening resident persistence, identify and preserve Microseed mechanisms for general learning, abstraction/transfer, curiosity/epistemic action selection, metacognition and strategy formation so duty machinery cannot accidentally bypass or replace them.
+2. Add tests that assigned-duty portfolios do not prevent unassigned hypothesis formation/candidate discovery.
+3. Keep candidate-duty generation open-ended but proposal-only; authority/admission remains external.
+4. Treat future optimizations that collapse cognition into contract execution as architecture regressions.
+
+
+## 2026-09-15 AGI VALIDATION NEXT-STEPS
+1. Preserve general cognition while building resident employment.
+2. Add longitudinal tests for cross-domain transfer, continual learning, open-world hypothesis generation, strategy adaptation, and retention across restarts.
+3. Track whether experience improves future performance on structurally related but non-identical tasks.
+4. Maintain internal `baby/proto-AGI` shorthand but avoid promoting to externally established AGI without stronger evidence.
+
+
+## 2026-09-15 RESIDENT LIFECYCLE NEXT STEP DELTA
+1. Qualify broad regression and surface drift->refresh->CURRENT loop, then checkpoint.
+2. Determine lawful durable home/plane for resident state, evidence and biography; `.heat_runtime` is campaign evidence, not final daemon persistence.
+3. Do not register a native resident capability or daemon service until persistence/authority/reentrancy plane is explicit.
+
+
+## 2026-09-15 DURABLE PERSISTENCE BLOCKER
+P0 next work must define and pressure a resident persistence plane contract before daemon/native registration:
+1. storage identity/root and ownership;
+2. state vs evidence vs biography separation;
+3. registration/currentness semantics;
+4. backup/recovery/re-entry semantics;
+5. concurrency/locking/crash consistency;
+6. authority boundary for who may write/repair;
+7. relationship to project `state/`, `data/`, `continuity/` and Git handoff;
+8. migration/versioning and rollback.
+Do not resolve by simply choosing the empty `data/` directory.
+
+
+## 2026-09-15 DAEMON PLANE NEXT STEPS
+1. Design/qualify first-class `daemon/` persistence root using the audit tree.
+2. Specify identity, state/evidence/biography DB contracts, locks, crash consistency, backup/recovery, migration and reentry.
+3. Specify minimal Daemon APIs: status, event/utterance stream, conversation send/history, brief, duties/campaigns, proposals.
+4. Extend HUD with persistent Daemon communication panel + compact status sidebar; client displays Daemon state, does not reconstruct cognitive truth.
+5. Define initiative/relevance policy: proactive cognition/read-only investigation/communication vs authority-bound effects.
+6. System-walk Daemon plane against HA, approvals, memory, continuity, execution and project mutation before service install.
+
+
+## 2026-09-15 HA TRIAD NEXT STEPS
+1. Model three recoverable workloads: Receiver, ngrok, Daemon.
+2. Reuse hardened supervisor pattern as independent supervisor instances/tasks, not one multi-target loop.
+3. Define per-workload health contract, canonical recovery task, singleton lock, restart budget/window, maintenance hold and receipt.
+4. Add cross-workload coordination contract: restart dependency ordering, cooldown inheritance, and hard rule preventing A-restarts-B / B-restarts-A storms.
+5. Define Daemon's cognitive HA duty separately from deterministic restart authority; Daemon may diagnose/plan and invoke only qualified recovery capabilities.
+6. HEaT scenarios: Receiver dead/Daemon alive; Daemon dead/Receiver alive; ngrok dead; both body+brain dead; alternating crash loop; maintenance hold; stale lock; split-brain duplicate Daemon; restart during partial recovery.
+
+
+## 2026-09-15 NEXT CAMPAIGN — HIGHEST VALUE
+P0: qualify a provider-neutral Daemon inference/conversation plane.
+1. Inventory historical/local inference donors and current machine model assets/runtimes without reviving them by assumption.
+2. Define provider-neutral inference contract: model identity/currentness, bounded input/output, stream/cancel/status, failure/degradation, and no authority inheritance.
+3. Decide relationship between Microseed cognition and generative model resource: model != Daemon identity/memory/governance.
+4. Prove one isolated inference path with exact receipts and tool-bridge separation before HUD integration.
+5. Then expose Daemon status/conversation APIs and HUD surfaces; do not reverse this order.
+
+
+## 2026-09-15 NEXT STEPS AFTER NON-INFERENCE COMPLETION
+P0 non-deferred engineering is now at live-promotion boundary. Before any live install: run promotion/system-walk review for exact project daemon root, installed runtime copy, SYSTEM task identities, ports, secrets, backup/rollback and live HA interaction. Require operator-safe live window.
+Deferred until operator reopens: generative inference/conversation and HUD interaction/status UI.
+
+
+## 2026-09-15 INLINE CAMPAIGN EXTENSION
+1. Embody Windows/EventLog/Defender read-only native telemetry + standard project-failure discriminator.
+2. Embody intelligent continuity surface registry/surfacing/handoff gate; preserve no-ritual rule.
+3. Continue current global-interaction war campaign from uncommitted clone state and run these additions through it.
+4. Dedicated HUD cockpit war campaign after server/continuity tranche; inference/conversation remains deferred.
+5. Correlate 18:59 Receiver outage separately from 18:43 Defender harness remediation; do not merge without evidence.
+
+
+## ACTIVE CAMPAIGN ORDER — INTERRUPTION-SAFE
+1. Continue parent GLOBAL INTERACTION WAR CAMPAIGN from current uncommitted clone diff; do not restart or reframe it as complete.
+2. Finish inline Windows/Defender native telemetry tranche.
+3. Finish inline intelligent continuity enforcement / handoff+rehydration tranche.
+4. Resume/complete interrupted promotion transaction/rollback + authoritative handoff work and any remaining global-interaction beat-down.
+5. Run entire corpus + hostile matrix + campaign-end surface/Commander audit; commit only after green/readback.
+6. Then begin separate HUD cockpit war campaign.
+
+
+## 2026-09-15 NEXT — EXECUTION ISOLATION GATE
+Run complete test corpus only through OS-owned temp task with result artifact and before/after live identity readback. If green, continue campaign-end global interaction sweep/promotion rollback readback. If any failure, isolate under OS-owned envelope; do not return to synchronous whole-corpus execution.run.
+
+
+## POST-GLOBAL-WAR ORDER
+1. Seal/commit this qualified clone Global Interaction War slice.
+2. Begin separate HUD cockpit/instrument-panel war campaign: causal priority, warning/caution/advisory, mode awareness, system synoptic, trends, compression and exact evidence/action routing; no cosmetic cosplay.
+3. Keep live promotion as a distinct safe-window promotion operation with rollback/readback; do not smuggle it into HUD work.
+4. Inference/conversation remains deferred until operator reopens it.
+
+
+## SCAR + HUD ORDER
+Scar intelligence core is embodied/qualified. Continue active HUD cockpit war: use scar routing as an explanation/annunciation input where it improves operator cognition, not as another list panel. Then HEaT cockpit priority, failure causality, mode awareness, warning/caution/advisory semantics and compression.
+
+
+## HUD COCKPIT NEXT GATE
+Run whole project corpus OS-owned with live TCP liveness watcher against this exact HUD/scar tree. If green, continue hostile cockpit cases (alarm prioritization/deduplication, mode transition, failure recovery/clear, trend/restart-budget instrumentation) before campaign close/commit. Live HUD promotion remains separate.
+
+
+## HUD/SCAR CONVERGENCE GATE — 2026-09-15
+1. Refresh snapshot manifest after this continuity update and verify all required surfaces CURRENT.
+2. Run continuity handoff/rehydrate gate; no stale hashes or undeclared active work.
+3. Run exact converged whole corpus OS-owned with TCP liveness watcher; live Receiver/ngrok identities must remain stable.
+4. If green, inspect newline/diff hygiene, stage explicit allowlist excluding `.heat_runtime/` and historical synthetic helper, cached diff-check, then commit HUD/scar campaign slice.
+5. Live HUD/Daemon promotion remains a separate safe-window operation.
+6. Scar-source materialization for the uploaded consolidated ledger remains OPEN until a safe attachment-import path can preserve exact bytes/hash under project fencing.
+
+
+## FINAL HUD/SCAR CAMPAIGN GATE — 2026-09-15
+1. Refresh continuity manifest after this verified materialization update.
+2. Run continuity/handoff gate and focused scar-source/HUD diagnostics.
+3. Run final exact-tree whole corpus OS-owned with live TCP liveness watcher after materialized global ledger and hierarchical provenance parser changes.
+4. If green: cleanup temp HEaT tasks/listeners, inspect EOL/diff hygiene, stage explicit allowlist, cached diff check, commit `HUD: embody cognitive cockpit and scar intelligence`.
+5. No push/live promotion. Live HUD and Daemon promotion remain separate safe-window work.
+
+## FINAL PRE-LIVE GLOBAL WAR ORDER — 2026-09-16
+1. Treat older `HUD deferred`, `HUD-ANNUNCIATION OPEN`, and `scar materialization OPEN` text as superseded by latest surfaces/audit.
+2. Run final whole-system Global War matrix against this exact candidate, OS-owned with live TCP identity/liveness watcher. Include browser managed startup/security gate/supervisor interactions, HA-budget files, continuity/scar routing, Windows telemetry, promotion rollback, correlated workload failures and cleanup.
+3. If green: refresh all continuity surfaces/manifest, run semantic handoff gate, EOL/diff hygiene, explicit stage allowlist, cached diff check, commit final pre-live candidate.
+4. Then live replacement is a separate safe-window promotion with rollback/readback; converge Desktop restart helpers at that boundary.
+5. Daemon inference/speech remains excluded by operator.
+
+## FINAL PUBLICATION / PROMOTION ORDER — 2026-09-16
+1. Seal exact qualified clone commit including final evidence reports and publication inclusion manifest.
+2. Integrate into a clean tree based on current GitHub `AI-Server-InfrA/main`, preserving the existing dirty publication-working-tree changes rather than overwriting them.
+3. Run publication-tree verification, commit, push, independently read back GitHub remote HEAD/tree, and record publication receipt.
+4. Only after GitHub publication is current perform live replacement safe-window promotion with elevated SYSTEM registration + task/health/readback + rollback readiness.
+5. End project freeze after successful live readback; future development occurs on the embodied resident system.
+
+## PUBLICATION REBUILD AFTER WINDOWS RACE FIX
+Seal the post-atomic-retry qualified source commit, rebuild GitHub integration from current remote main using that new commit as the current parent, mark old GitHub implementation historical, rerun exact publication-tree corpus, then push/read back remote HEAD.

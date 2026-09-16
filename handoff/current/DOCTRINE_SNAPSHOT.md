@@ -676,114 +676,158 @@ This block does not assert token presence or absence. It remains semantically va
 - Remaining pressure: independent real-world dogfood breadth across the 27 Skills; UCM componentization remains a separate paused seam; live Git identity remains unknown from deployed copy; final schema remains LAST/LOCKED/untriggered.
 - Evidence boundary: exact package-native tests ran on the attached bytes in ingress; server real-project recovery used the existing T0.2 integration harness. Do not merge those evidence roots into one claim.
 
-## GITHUB TRUTH / ARCHITECTURE CLOSURE CURRENT PRECEDENCE — 2026-09-10
-- Latest remote-verified Runtime/currentness feature before current-surface refresh: `2c8b3205ce92ff09eb5b0cc213a0d211a3666969` / tree `a3fb8b3e4ce3d2bb0cd94e552d659208744fa312`; parent `9be7ad603f50c079acc92d542add6a011a2ea2d7`; substrate feature `673e3b15fa16053e6da6594604d9ce6db7faad1c`.
-- Current source: **158 native tools**; compact transport: **30 operations**; full suite **775 collected / 773 passed / 2 skipped / 0 failed**.
-- ICF-CS **v1.2** is current; standard SHA `f966029496fd6e31a76a36a6e967db37ca2147acfa890a880426ae6a7fa79d92`. Low-level context rehydration now reports v1.2.
-- Core Runtime architecture is **converged at the current claim ceiling**; no currently reproduced defect requires another truth/authority/scheduler plane.
-- Separate schema/composition branch remains unmerged. Effect-trait split, static plan cost, continuation currentness, capability-lease non-grant, compact eligibility derivation, and legacy `memory.*` exit criterion are explicit schema/migration gates.
-- Effect-trait audit: 204 distinct strings / 133 singleton; only four generic Runtime behavior consumers today. `TRAIT_DECLARED != PROPERTY_HELD_BY_TYPE_SYSTEM`; arbitrary traits SHALL NOT become scheduling/authorization truth.
-- RES non-doctrine authority is validator-enforced; UCM non-authority is mechanism-enforced; DTS is typed `history` and continuity records are not direct promotion targets.
-- Live Runtime has **not** been promoted by this reconciliation; fresh live preflight/restart/readback remains separate.
-- Audit: `reports/V30_ARCHITECTURE_CLOSURE_EFFECT_TRAIT_TRUTH_AUDIT_2026-09-10.md`.
 
-## Schema v11 source successor — CURRENT PRECEDENCE (2026-09-10)
-- Older statements saying the final schema is locked/untriggered are retained historical lineage and superseded for current status by this block.
-- Latest remote-verified source mechanism before current-surface publication: `0cc7894ffc766ac729c56d4abb8698bb3b6c78cb` / tree `ed939b1dbfd1dc570966c46f200618551b893503`; v11 schema mechanism `7e4c66a769884269d71babdb92217ba80eb66e74` / tree `967f108f235b4b42097f4b2d9d48ee61c591017c`.
-- Current source schema successor: v11.0 capability microkernel, **8 Assistant-facing operations** over **158 native capabilities**; v10.3 remains the **30-operation compatibility/import surface** until separate product/live promotion.
-- v11 schema SHA `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010`; scheduler profile SHA `a7ee841edb47010978a13d884e899520c6bd6e22d2907a9ba4bbb169f8e58ce3`.
-- Production effect profile: 158/158 covered; **0 effect-truth / 0 parallel-read / 0 resume-replay witnesses**.
-- Combined current-source qualification: **890 collected / 888 passed / 2 skipped / 0 failed**; focused currentness+schema **128/128 PASS**; four-worker loadscope **888 passed / 2 skipped / 103 subtests**.
-- `CAPABILITY_LEASE != CAPABILITY_GRANT`; `DECLARED_EFFECT_CLASS != VERIFIED_EFFECT_TRUTH`; `CONTINUATION != CURRENTNESS`; `PLAN_VM != SECOND_JOB_SCHEDULER`.
-- Product-side ChatGPT Action installation and live Runtime promotion remain separate. `SOURCE_SCHEMA_PUBLISHED != PRODUCT_SCHEMA_INSTALLED`; `SOURCE_QUALIFIED != LIVE_PROMOTED`.
-## ROLLOVER PRECEDENCE — 2026-09-10 18:40 ET
-- GitHub mechanism frontier: `e1b2b8eddd92e8ad9159a548f9e6d6b2beb895f4` / tree `8fbded01e519a938ded1f2177378cd6693d788b7`; project-aware access logging published.
-- v11 canonical schema unchanged: `ee62b261d6e5518b585faccd4af21a42d9b7bd6b3dc63f8af0e1242ef9fb9010` / 8 operations / 158 native capabilities.
-- GitHub Actions run `34537723493` is **RED** on Windows + Ubuntu; Ubuntu exact current failure is hot-scan queued count `38 != 50`; live promotion blocked.
-- local adaptive mutation contention commit `12ccc208ec2e9183e3b280618f266211cc00179b` is unpushed donor/qualified WIP; schema-wire WIP is older donor material.
-- loaded Desktop Runtime remains behind source; source != live.
-- current recovery artifact: `checkpoints/THREAD_ROLLOVER_CHECKPOINT_2026-09-10.md`.
-- This block wins on current Git/release frontier over older present-tense text in this file; historical evidence remains lineage.
+## 2026-09-15 DOCTRINE / GOVERNANCE DELTA
+### Operator-ratified root law
+`CROSS THE BOUNDARY -> LOSE YOUR SPECIAL STATUS -> STRIP IT FOR PARTS -> REALITY DECIDES WHAT SURVIVES`
+Boundary = entry into operator's sphere. Provenance remains; epistemic privilege does not. Nothing is sacred: donors, internal code, canon, Microseed/Veya/MVF, tests, verifiers, doctrine, research machinery, prior success. Operator authority governs what system shall do; it does not manufacture empirical truth.
 
-## HOSTED CI SUPERSESSION — 2026-09-10 19:13 ET
-- completed tested head `fd9b42ad143d70ddda92b22372cbae767b12bea0` / run `34541018742`: Ubuntu **SUCCESS**, Windows **FAILURE**;
-- Windows public failure is still suite-level only; exact testcase unresolved;
-- earlier Ubuntu `38 != 50` is superseded as current hosted Ubuntu status;
-- fresh Actions on any later currentness child wins.
+### Interaction Integrity
+`LOCAL OPTIMUM != GLOBAL FUNCTIONALITY`. Local correctness does not qualify composition that creates invalid, unavailable, opaque, unrecoverable or unnecessarily restricted state. Negative system-walk required where mechanisms constrain/delegate/override/share state/depend.
 
-## Doctrine delta — MULTI_ARM_RD_ROLLOVER_20260913_2123Z
-- REDACTED AUTHORITY TOKEN != MISSING AUTHORITY IDENTITY.
-- PERSISTED STATUS != EFFECTIVE CURRENT STATUS.
-- PROJECT GENERATION SHOULD BE EVALUATED AS FENCING EPOCH; concurrency should ultimately serialize by qualified resource/consequence conflict, with UNKNOWN => SERIAL.
-- REMOTE AGENT SHOULD SPEND INTELLIGENCE ON NOVEL JUDGMENT; LOCAL CORE SHOULD SPEND PERSISTENCE ON GROUNDED STATE, RELATIONS, QUALIFICATION, SEARCH-SPACE MAINTENANCE, AND DEVELOPMENTAL LEARNING.
-- MICROSEED/VEYA is a full developmental donor, not merely governance machinery; donor != authority remains binding.
-- COOPERATIVE CUSTOMGPT BEHAVIOR != SECURITY CONTROL.
-## CROSS_ARM_RECURSION_LAW_20260913
-Campaign rule: every substantive result from any arm MUST be projected across all other arms before an arm is classified BLOCKED/CLOSED. A blocker is conditional on the current shared evidence frontier, not permanent. After A/B/C/D advances, re-run a reopen scan over every blocked/deferred discriminator.
+### Governance corpus
+Doctrine/laws, earned scars, rules/CSC/MVF constraints, evidence, HEaT and interaction obligations are distinct first-class grammars/embodiments of one governance system with different provenance. Unified presentation != uniform authority.
 
-Mechanism:
-1. arm result -> shared evidence/scar spine;
-2. compute implications for A,B,C,D;
-3. update Attention Reservoir with new cross-arm opportunities/contradictions;
-4. test whether any blocker reopen condition is now satisfied;
-5. HELIX re-ranks the global frontier;
-6. only then select next discriminators.
+### MVF
+MVF != scalar gate. MVF is multi-dimensional governance/cognitive fabric and potential resident intelligence: governor, verification planner, AI helper, evidence/currentness/lineage/recovery engine, runtime sentinel, experiment governor, capability cartographer, operator/Agent interface. Non-architectural governance/research machinery may become MVF duties/contracts where relevant.
 
-Law: ARM_BLOCKED(t) != ARM_BLOCKED(t+1). CROSS-ARM EVIDENCE MUST REOPEN BLOCKERS WHEN THEIR REOPEN CONDITIONS BECOME TRUE.
-## MULTI_ARM_TO_BLOCKER_G51_20260913_2215Z
-- Generation 51 campaign advanced A/B/C/D plus cross-arm recursion runtime. Combined focused suite: 57/57 PASS.
-- A: request-principal derivation now ignores caller-claimed identity and derives REMOTE_AGENT vs OPERATOR from distinct server-held credentials + operator epoch. Still BLOCKED from server-enforced MACHINE containment on actual Flask/lab request integration and deployment of distinct operator credential.
-- B: provision transaction now includes atomic registry write, identity marker, durable receipt, exclusive root create, and injected rollback after root/identity/registry boundaries. Still BLOCKED from live capability on capability registration + registry resource claim; external adopt additionally waits for authenticated operator principal + machine-scope adopt policy.
-- C: server-owned effect traits derive claims; predicted-v-observed witness rejects unpredicted effects and grants no authority. Still BLOCKED from parallel admission on real effect-truth witnesses + scheduler integration.
-- D: evidence gatherer now has bounded provenance-bearing RES/result-index adapters and explicitly labels symbolic hypotheses INFERRED_CANDIDATE, authority NONE. Still BLOCKED from autonomous-first-responder on actual result-handle/runtime-source adapters + qualified hypothesis generator/local model evaluation.
-- Cross-arm recursion is now embodied: every arm result projects earned facts/scars to peers; blocker reopen scan requires explicit reopen conditions and never grants authority. 3/3 recursion tests PASS. Current reopen scan reopened none yet, but identified partial satisfaction: B catalog has registry transaction; C parallel has effect witness; D autonomous responder has bounded RES adapter.
-- Standing law: ARM_BLOCKED(t) != ARM_BLOCKED(t+1). After every substantive result, project it across A/B/C/D, update Attention Reservoir, rerun reopen conditions, then HELIX re-ranks global frontier.
-- Current substantive blockers are integration/qualification blockers, not missing conceptual designs. Next campaign should attack the missing integration facts in parallel and rerun recursion after each gain.
-## FOUR_ARM_TRUE_BLOCKERS_G51_20260913_2222Z
-- Four-arm campaign pushed until remaining blockers require live integration/promotion, external credential/authority embodiment, real effect witnessing, or ecological/local-provider qualification. Focused cross-arm suite now 68/68 PASS.
-- A advanced: principal derivation is now installed in real Flask before_request context while legacy API-key enforcement remains authoritative. Test-client attacks prove caller-claimed OPERATOR cannot override ordinary agent credential and distinct operator credential derives OPERATOR/MACHINE context. TRUE BLOCKER: live deployment needs a distinct operator credential, explicit MACHINE route/admission policy, and live HTTP hostile qualification. This is a security/promotion boundary; do not invent a credential in clone.
-- B advanced: project provisioning has exclusive root creation, identity/source epoch, atomic registry write, durable receipt, rollback across injected root/identity/registry faults, and GLOBAL_PROJECT_REGISTRY resource claim. TRUE BLOCKER: expose/register project.provision in real catalog requires choosing the authoritative live project registry/owner contract and adding capability schema/policy. External arbitrary-path adopt additionally depends on A live operator principal + MACHINE adopt policy.
-- C advanced: real local catalog census = 175 tools; current simplistic derivation maps claims for 80 and marks 95 incomplete due to rich effect vocabulary. Unpredicted effects fail effect truth; unknown/unclassified effect traits serialize. TRUE BLOCKER: parallel admission cannot be earned from descriptive traits alone; requires real execution effect witnesses, scheduler integration, and contention Warfort. Current live scheduler profile remains effect_truth_verified=0, parallel_verified=0.
-- D advanced: bounded rollover+RES+result-index evidence, actual result-handle adapter via lab_results, allowlisted bounded runtime/source reader, explicit INFERRED_CANDIDATE generation and discriminator-based candidate qualification. TRUE BLOCKER: autonomous first responder needs an actual local model/hypothesis provider (or stronger non-LLM generator), provider effect qualification, and ecological agent<->server trial. Local inference remains proposal-only.
-- Cross-arm recursion rerun after all gains: no blocker fully reopened. B external-adopt remains explicitly coupled to A. C evidence truth can later improve D advisory confidence; D can recommend B/A/C actions but cannot grant them.
-- Campaign classification: these are now TRUE BLOCKERS under current local-clone authority, not merely TODOs. Next action requires explicit promotion/live-integration campaign and/or external provider/credential/effect-witness embodiment.
-## LOCAL_MODEL_PROVIDER_CFE_G52_20260913_2332Z
-- User supplied later Sep 4-6 Qwen3.5-v-Qwen3.6 comparison history as navigation context. Server-side CFE archaeology verified CFE model-service coordination doctrine and Qwen3.5 target/Q4 MTP artifacts; later Qwen3.6 exact GGUF/path and MODEL-QUALITY-02 matrix not yet resolved locally. Do not promote user historical summary to current local verification.
-- Qwen3.5 target present: D:/Project_Linked_Tensors/monster-standard-inference-revival-2026-04-06/incoming/Qwen3.5-35B-A3B-Claude-4.6-Opus-Reasoning-Distilled.i1-Q4_K_M.gguf, 21,169,115,200 bytes. Q4 MTP sidecar present: E:/models/speculative/qwen35_a3b_mtp/Qwen3.5-35B-A3B-MTP-ONLY-Q4_K_M.gguf, 1,621,551,104 bytes. CFE historical disposition: n_max=2 paired 35.4938 -> 38.0903 tok/s, 4/4 prompt wins, limited local-engineering scope.
-- CFE runtime law verified: shared immutable model/runtime files may be reused; live process/port/job/runtime-dir ownership must remain isolated. Unknown model service => preserve+block, never auto-kill. This directly informs Arm C resource claims and Arm B cross-project provisioning.
-- Arm D blocker partially reopened: real local hypothesis provider candidate exists (Qwen3.5 verified; Qwen3.6 historically reported but path unresolved). New provider campaign is research/governance_substrate/16_LOCAL_MODEL_PROVIDER_CAMPAIGN.md.
-- Model-selection target is deployment-role capability surface, not chatbot score. Separate MODEL/FINALIZATION/FORMAT/HARNESS/TELEMETRY/RESOURCE outcomes; adaptive transformed attacks; blinded judging; role-dominance/stability stopping rule.
-- Cross-arm recursion: D provider work supplies C real process/GPU/port/runtime-dir effect witnesses; A authority/identity hostile battery becomes provider qualification; B must preserve shared-immutable-assets != shared-runtime-ownership.
-- Immediate discriminator: resolve exact Qwen3.6 artifact/runtime evidence without broad destructive search, verify safe resource ownership, then run matched role-specific hostile provider battery sequentially.
-## OPUS_EXTERNAL_REVIEW_WARFORT_20260913
-- External fresh-clone review correctly found stale handoff snapshot receipt. Local verification found SEVEN changed canonical members, not only CURRENT_STATE: CURRENT_STATE, DESIGN_THREAD_STREAM, DOCTRINE_SNAPSHOT, LIVE_SHADOW, NEXT_STEPS, REVISIT_LEDGER, TRACE_MATRIX. Cause: campaign same-pass rollover updates did not regenerate SNAPSHOT_MANIFEST_SHA256.json. This is a real continuity defect and process scar.
-- Dependency criticism is stale/incorrect against current e52fe75 source: root requirements-dev.txt declares pytest/hypothesis/xdist/ruff; pyproject.toml declares Flask, requests, beautifulsoup4, psutil, prometheus-client, waitress and diagnostics py-spy; baseline receiver requirements also exists. Fresh-clone install path still deserves explicit one-command documentation/CI verification.
-- Profiler test name is misleading: assertion that failed in reported clone was deps[waitress] is not None, while py-spy is explicitly optional/on-demand. Current source therefore interprets that failure as missing required runtime dependency, not profiler availability.
-- Earned law: ROLLOVER UPDATE != SEALED RECOVERY SNAPSHOT. Any mutation of a manifest-declared rollover member MUST regenerate/reseal snapshot receipt in the same consequence before publication/checkpoint.
-## CSC_ENFORCEMENT_G56_20260914
-- External code-quality review exposed CONFIGURED != ENFORCED for Ruff/CSC. Verified current correctness scan initially had 38 F821/B023/F403/F405 findings. Load-bearing F821 and B023 defects were repaired; test star imports were made explicit. api_wire_models star-import facade remains a deliberate compatibility surface and is not yet mechanically rewritten.
-- Mandatory CSC code-health gate added: tools/csc_native/csc_code_health_gate.py. Current blocking correctness rules F821+B023 are CLEAN. Gate authority=AUDIT_ONLY.
-- Microseed-derived final-polish gate added: tools/final_polish_gate.py. It composes CSC correctness + continuity/observability regression and grants authority NONE. CONFIGURED_STANDARD_REQUIRES_ENFORCING_CONSUMER is embodied as promotion qualification.
-- CI now invokes CSC correctness and final-polish before full clean-box suite. tools/verify_release.py now consumes CSC code-health as part of release cleanliness. Enforcement regression tests added.
-- Continuity scar closed structurally with tools/reseal_handoff_snapshot.py; rollover mutation must reseal manifest before checkpoint/publication.
-- Tracked build/lib count is 0 in current Git. build remains ignored. Opus build/lib finding was stale against current branch.
-- Remaining quality debt: F403 api_wire_models compatibility facade; broad E/F/I/UP/B/SIM historical style debt; contract docstring coverage; print/global review. These are ratchet work, not permitted to weaken current correctness gate.
-- Cross-arm/Microseed law: DECLARED STANDARD != EMBODIED STANDARD. A declaration with no enforcing consumer creates qualification debt and cannot support promotion claims.
-## CSC_MVF_DECLARATION_BINDING_G56_20260914
-- Corpus hunt found 104 local CSC/code-quality/doctrine/law/final-QC candidate surfaces, including Universal CSC guide, Unified Code Standards doctrine, 11 CSC SOPs, INVARIANTS, release contract, native CSC runner/gates and prior reports. These are now treated as declarations requiring consumers, not self-authenticating authority.
-- New deterministic static CSC declaration-binding gate embodies initial D1/D3/D3.5/D4/D7 + Tier1. Governing law: DECLARED != BOUND != CONSUMED != CURRENT != EVICTED; EVICTED != DELETED; CLAIM_SUPERSEDED != HISTORY_REWRITTEN; CSC_PASS != CODE_IS_GOOD. Every rule states a does-not-catch ceiling.
-- D3 discovered a real undeclared optional dependency: playwright in browser_bridge_service. Added browser optional dependency in pyproject. D3 now green. D3.5 currently reports no ghost dependencies under explicit CLI/plugin allowlist.
-- D7 census found 50 environment-variable names. docs/verification/ENV_SCHEMA.md now binds all names; requiredness/secret/default semantics remain UNCLASSIFIED and D7 is report-only until that semantic census is qualified.
-- Tier1 static block now includes F821/F403/F405/B023/B006. The api_wire_models wildcard compatibility facade was replaced with explicit consumer-derived reexports; regression caught missing ErrorEnvelope and facade was corrected. Tier1 now green. B904/F841 remain explicit debt to repair before promotion into blocking set.
-- MVF promotion gate added: baseline/pcmmad_receiver/mvf_promotion_gate.py. It requires every applicable doctrine/standard consumer to be present, current and qualified; missing/stale/failed blocks admissibility. authority=NONE; it does not perform promotion.
-- CI and final-polish now consume CSC declaration binding. Focused MVF/CSC/continuity/constraint suite: 51/51 PASS after one regression-driven facade repair.
-- Next CSC census arms: D2 metadata-reader ratio; D5 path/reference resolution; D6 invariant->test/ENFORCEMENT mapping; D8 justified noqa/type-ignore/CSC disables; Tier2 derived/duplicate/archive/test-plane; Tier3 authority contract docs/failure contracts; style delta ratchet. Hunt existing doctrine first and strip-for-parts into these consumers.
-## CSC_MVF_COVERAGE_GRAPH_G57_20260914
-- Donor-informed CSC/MVF campaign advanced. Uploaded Rahl donors were available to chat but /mnt/data is not visible inside the local Windows Runtime, so server-side donor copy imported 0 files; no false ingestion claim. Their mechanisms informed this pass, but current repo doctrine remains the server-side authority surface.
-- New tools/csc_native/csc_coverage_graph.py inventories normative declaration lines across Universal CSC, Unified Code Standards, CSC SOPs, INVARIANTS and release contract, and binds named consumers plus explicit coverage classes and claim ceiling.
-- D2/D5/D6/D8 implemented as report-only discovery rules pending stronger discriminators. D5 checked 13 path-like references with 0 broken in current scoped surfaces. D8 found 7 real overrides after self-noise exclusion; all now carry inline justification.
-- D2 current prototype found 5 statically extractable effect-trait declarations and 0 direct non-declaration readers; this is intentionally NOT accepted as the known 204/4 census because extraction coverage is incomplete. It remains unverified/report-only and is the next sharp discriminator.
-- D6 found 0 bullet-style invariant entries in docs/architecture/INVARIANTS.md, demonstrating parser-shape insufficiency; no false green claim. D6 remains report-only until invariant syntax is correctly modeled.
-- MVF now has from_csc adapter: declaration binding + final QC + coverage graph consumer-currentness must all be present/current/qualified for promotion admissibility; authority remains NONE. Tests prove stale coverage consumer blocks.
-- CSC declaration gate qualified=true with only D2 remaining explicit unverified claim. Focused coverage/MVF/constraint/schema suite 26/26 PASS.
-- Next: repair D2 against actual catalog/trait declaration architecture and D6 against actual invariant document structure; then self-apply coverage graph to CSC's own declarations, broaden qualification, reseal, commit/push.
+### Microseed/Veya/MVF lineage
+MVF and Veya are sibling branches of base Microseed. MVF may incorporate/strip/adapt Microseed/Veya machinery; no branch transfer retains special status. Specialization/employment != cognitive reduction.
+
+### Resident intelligence
+Resident MVF/Microseed may serve as THE DAEMON / benign Cardinal/Jarvis-like institutional intelligence: shared world model, persistent cognition, system tending, grunt work, anomaly investigation, speech/briefing, AI-for-AI compression and Singularity Works R&D support. `SYSTEM-WIDE AWARENESS != SYSTEM-WIDE AUTHORITY`; `PERSISTENT COGNITION != PERSISTENT PERMISSION`.
+
+Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
+
+
+## 2026-09-15 MVF/MICROSEED EMBODIMENT DELTA
+- `WHOLE DONOR INGESTED != WHOLE DONOR ADMITTED`: entire source estate was read for evidence, while only executable Microseed + current Veya source/protocol were copied as explicit donors.
+- Donor manifest law: `CROSS_BOUNDARY_DONOR != AUTHORITY`.
+- First resident embodiment validates earlier design direction: native typed hands remain separate from resident cognition; resident composes read tools and Microseed currentness/commitment machinery without gaining mutation authority.
+- HEaT caught `TEXT MENTIONS STATE != STRUCTURED STATE`: stale/reopen classification must use structured fields, not substring presence in explanatory prose. Do not promote this wording as an EARNED scar automatically; defect/reproduction evidence exists in this campaign.
+- Current Veya chamber provides state/biography/evidence separation and embodiment patterns, but no directly evidenced speech/dialogue implementation in this snapshot.
+
+
+## 2026-09-15 RESIDENT GOVERNANCE EMBODIMENT DELTA
+- `RESIDENT_CAN_NOTICE != RESIDENT_CAN_ADMIT`.
+- `DUTY_CANDIDATE != QUALIFIED_DUTY`.
+- `DEPENDENCY_CURRENT != REENTRY_AUTHORIZED`: re-entry also requires historical identity, provider evidence, executable evidence, and requested-scope coverage.
+- `REENTRY_READY != AUTHORITY_GRANTED`: Microseed returns Authority.NONE and routes back through existing registration/admission path.
+- Evidence ancestry that motivated a proposal is kept separate from independent qualification evidence.
+- Epistemic deficits are bounded UNKNOWN tracking, never truth adjudication.
+
+
+## 2026-09-15 GENERAL COGNITION INVARIANT
+- `EMPLOYED_ROLE != COGNITIVE_IDENTITY`
+- `DUTY_SCOPE != REASONING_SCOPE`
+- `AUTHORITY_CEILING != LEARNING_CEILING`
+- `ASSIGNED_WORK != TOTAL_POSSIBLE_WORK`
+- MVF must preserve general Microseed/Veya reasoning, learning, abstraction, transfer, curiosity, metacognition, hypothesis generation and epistemic action selection.
+- Duty contracts constrain responsibilities/effects/evidence/escalation, not what the intelligence is allowed to understand or learn.
+- Novel capability/duty discovery remains allowed as proposal generation; external qualification/admission remains required before governance standing or effects change.
+
+
+## 2026-09-15 AGI CLAIM DISCIPLINE
+- `GENERAL COGNITIVE ARCHITECTURE != AGI PROVEN`.
+- `BABY/PROTO-AGI` may be used internally as developmental shorthand for Microseed/Veya's general-purpose cognitive substrate.
+- `AGI ACHIEVED` requires stronger externally legible evidence of breadth, transfer, continual learning, autonomous adaptation and robust open-world competence than currently established.
+- Employment/immersion may supply developmental pressure analogous to experience, but `EXPOSURE != LEARNING` and `LEARNING != GENERAL TRANSFER`; each must be evidenced.
+
+
+## 2026-09-15 RESIDENT LIFECYCLE DISTINCTIONS
+- `NEW OBSERVATION != RETRY OF SAME OBSERVATION`; biography must not treat replay as new life experience.
+- `SURFACE PRESENT != SURFACE CURRENT`; currentness requires manifest identity/hash agreement.
+- `CONTINUITY CURRENTNESS ENFORCEMENT != CONTINUITY MUTATION AUTHORITY`.
+- Resident state, evidence, and biography are separate planes; current materialization must not become evidence or historical authority by itself.
+
+
+## 2026-09-15 PERSISTENCE PLANE DISTINCTIONS
+- `EMPTY DIRECTORY != ASSIGNED SEMANTIC PLANE`.
+- `DURABLE STORAGE != CONTINUITY AUTHORITY`.
+- `CURRENT MATERIALIZATION != PROJECT GOVERNANCE STATE`.
+- `RESIDENT BIOGRAPHY != CONTINUITY STREAM`.
+- `RESIDENT EVIDENCE != PROJECT STATE`.
+- A durable resident plane must earn explicit storage, authority, currentness, crash/recovery and migration contracts before service embodiment.
+
+
+## 2026-09-15 DAEMON PLANE DOCTRINE DELTA
+- `DAEMON PLANE != RECEIVER SUBSTRATE`.
+- `COGNITIVE INITIATIVE != EFFECT AUTHORITY`.
+- `PROMPT ABSENCE != COGNITIVE INACTIVITY`.
+- Daemon may proactively think/learn/observe/propose/communicate within qualified cognitive/read authority; consequential effects remain separately authorized.
+- Daemon must not become a single point of failure for auth, approvals, HA, execution engine, path fencing, ledger integrity, transport or its own restart path.
+
+
+## 2026-09-15 HA TRIAD DISTINCTIONS
+- `MUTUAL SUPERVISION != MUTUAL PROCESS DEPENDENCY`.
+- `BODY CAN REVIVE BRAIN != BODY OWNS BRAIN COGNITION`.
+- `BRAIN CAN HA BODY != BRAIN MAY BYPASS EFFECT AUTHORITY`.
+- `OUT-OF-PROCESS HA != DAEMON`.
+- Always-on OOP recovery must remain independently survivable if Receiver and Daemon are both dead or deadlocked.
+- Per-workload restart budgets/locks/holds must remain separate; cross-workload recovery needs storm/split-brain coordination.
+
+
+## 2026-09-15 DAEMON PERSISTENCE / INFERENCE DISTINCTIONS
+- `COMMANDER INTENT PRESENT != COMMANDER INTENT CURRENT`; Commander Intent is now a required audited surface.
+- `READ_ONLY SQLITE OPEN != NO FILESYSTEM CONSEQUENCE`; immutable/read-sealed mode is required for side-effect-free bootstrap after clean writer shutdown.
+- `PERSISTENCE QUALIFIED != DAEMON COGNITION COMPLETE`.
+- `HUD CHAT SURFACE != CONVERSATIONAL COGNITION`.
+- `MODEL RESOURCE != DAEMON IDENTITY`.
+- `FLUENT GENERATION != GENERAL LEARNING/REASONING`.
+
+
+## 2026-09-15 NON-INFERENCE DAEMON DISTINCTIONS
+- `PROCESS ALIVE != DAEMON HEALTHY`; health requires initiative/currentness.
+- `SERVICE THREAD != DB OWNER`; lifecycle persistence is owned/closed by the initiative thread.
+- `SERVER CAN READ DAEMON != SERVER OWNS DAEMON COGNITION`.
+- `DAEMON SUPERVISED != DAEMON RECEIVES RECOVERY SECRETS`.
+- `TASK REMOVED != CHILD PROCESS REAPED`; campaign cleanup must verify listener/process consequence.
+- `CLONE HA QUALIFIED != LIVE DAEMON INSTALLED`.
+
+
+## 2026-09-15 CONTINUITY/TELEMETRY/HUD DISTINCTIONS
+- `SURFACE CURRENT != SURFACE USED WHEN NEEDED`
+- `SURFACE ENFORCED != SURFACE RITUALLY RECITED`
+- `PERSISTED != RETRIEVED AT DECISION POINT`
+- `THREAD FULL != PERMISSION TO LOSE COMMANDER INTENT`
+- `SECURITY PRODUCT EVENT != CAUSE`
+- `DEFENDER DETECTION != RECEIVER OUTAGE CAUSE`
+- `PRETTY DASHBOARD != COCKPIT`
+- `PRIMARY FAILURE != SECONDARY TAB CONTENT`
+
+
+## 2026-09-15 EXECUTION ISOLATION SCARS
+- `CLONE TEST EXECUTION != GUARANTEED LIVE ISOLATION`
+- `LONG GLOBAL SUITE != SYNCHRONOUS EXECUTION.RUN WORKLOAD`
+- `VENV PYTHON REDIRECTOR != STABLE WINDOWS PROCESS-CONTROL BOUNDARY`
+- `USER CHILD ISOLATED != WORKER CAPSULE ISOLATED`
+- `CREATE_NEW_PROCESS_GROUP ON USER CHILD != RECEIVER CONTROL-PLANE ISOLATION`
+- `TEST PROCESS HANDLE OWNERSHIP != EXECUTION ENVELOPE SAFETY`
+
+
+## 2026-09-15 SCAR INTELLIGENCE DISTINCTIONS
+- `SCAR STORED != SCAR SURFACED WHEN APPLICABLE`
+- `SCAR SURFACED != SCAR RITUALLY DUMPED`
+- `AUTO-COLLECTED != EARNED`
+- `DERIVED INDEX != CANON`
+- `SOURCE PROVENANCE OBSERVED != STANDING PROMOTED`
+- `SEMANTICALLY DUPLICATE != LINEAGE DUPLICATE`
+- `SCAR RELEVANCE != SCAR AUTHORITY`
+
+
+## 2026-09-15 HUD AVAILABILITY SCAR — EARNED
+- `OPTIONAL PLANE DEGRADED != CORE FAILURE`
+  Scope: cockpit/readiness semantics. A missing or degraded optional plane must remain visible but must not demote an otherwise current required core into failure. Reopen if the plane becomes required for the active task or core contract.
+
+
+## 2026-09-15 SCAR-SOURCE / COGNITIVE DIAGNOSTIC DISTINCTIONS
+- `REGISTERED SCAR SOURCE != MATERIALIZED SCAR SOURCE`
+- `MATERIALIZED SCAR SOURCE != INGESTED SCAR SOURCE`
+- `SEMANTIC DEDUPE != PROVENANCE MERGE`
+- `RECURRENCE FREQUENCY != CURRENT RELEVANCE`
+- `HEALTHY DUTY != NO SCAR CONTEXT`
+- `DIAGNOSTIC EXPANSION != JSON DUMP`
+- `INFERENCE != FACT`
+- `SECURITY SIGNAL != ROOT CAUSE`
+- `STALE STATUS != PERMISSION TO TRIANGULATE`
+- `MORE EVIDENCE != MORE RELEVANT EVIDENCE`

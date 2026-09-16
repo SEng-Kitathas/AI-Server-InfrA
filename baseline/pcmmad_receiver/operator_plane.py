@@ -22,6 +22,7 @@ HUD_PORT = int(os.environ.get("PCMMAD_HUD_PORT", "5090"))
 RUNTIME_ROOT = Path(__file__).resolve().parent
 PACKAGE_ROOT = RUNTIME_ROOT.parents[1]
 RECEIVER_LOCAL_HUD = PACKAGE_ROOT / "operator_hud" / "server.py"
+LEGACY_HUD = Path(r"E:\new pc\AI_Pushes_Sandbox\projects\rahl-authorship-2026-08-29\hud\server.py")
 
 
 def _hud_server_candidates() -> list[tuple[Path, str]]:
@@ -29,7 +30,12 @@ def _hud_server_candidates() -> list[tuple[Path, str]]:
     raw: list[tuple[Path, str]] = []
     if override:
         raw.append((Path(override).expanduser(), "env_override"))
-    raw.append((RECEIVER_LOCAL_HUD, "receiver_local"))
+    raw.extend(
+        [
+            (RECEIVER_LOCAL_HUD, "receiver_local"),
+            (LEGACY_HUD, "legacy_rahl_fallback"),
+        ]
+    )
     found: list[tuple[Path, str]] = []
     seen: set[str] = set()
     for path, source in raw:
@@ -245,10 +251,6 @@ def ensure_hud_running(*, wait_seconds: float = 8.0) -> dict[str, Any]:
     env = os.environ.copy()
     env["PCMMAD_HUD_HOST"] = HUD_HOST
     env["PCMMAD_HUD_PORT"] = str(HUD_PORT)
-    if not str(env.get("PCMMAD_RECEIVER_BASE") or "").strip():
-        receiver_host = str(env.get("PCMMAD_BIND_HOST") or "127.0.0.1").strip() or "127.0.0.1"
-        receiver_port = str(env.get("PCMMAD_BIND_PORT") or "5000").strip() or "5000"
-        env["PCMMAD_RECEIVER_BASE"] = f"http://{receiver_host}:{receiver_port}"
     creationflags = 0
     if os.name == "nt":
         creationflags = int(getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)) | int(getattr(subprocess, "CREATE_NO_WINDOW", 0))

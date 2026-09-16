@@ -1,0 +1,434 @@
+{
+  "schema": "mvf.resident-donor-snapshot.v1",
+  "created_at": "2026-09-15T19:51:46.520723+00:00",
+  "status": "DONOR_ONLY_NOT_AUTHORITY",
+  "source_project": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\protoagi_microseed_reincarnation_20260827",
+  "source_microseed": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\protoagi_microseed_reincarnation_20260827\\baseline_ms1887\\microseed",
+  "source_veya_chamber": "E:\\new pc\\AI_Pushes_Sandbox\\projects\\protoagi_microseed_reincarnation_20260827\\sandbox_runtime\\veya_conversation_chamber_20260912",
+  "source_full_ingestion_corpus_digest": "160ffe8594964ca61570e18f668cb87f29346b8dfb247328b24be6791ff0c00b",
+  "law": "CROSS_BOUNDARY_DONOR != AUTHORITY",
+  "files": [
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/__init__.py",
+      "bytes": 8383,
+      "sha256": "1b105054ca44ec14d847d329c0835958f88b968774149cd8922a2fcc032e7026"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/__main__.py",
+      "bytes": 914,
+      "sha256": "c563787ba4d01f1f2736530a01c1b6612361c38e417a11dad776b376f261b13a"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/cognition/__init__.py",
+      "bytes": 148,
+      "sha256": "68c7817a4e58931b3ba0d7e2cbf58e96159646ec45fe89c60b9524fdce7198b9"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/cognition/event_frames.py",
+      "bytes": 1207,
+      "sha256": "b317f6c1bc53e0c24d1ab55c6ec61bc4cd2da787f6329a9884e7977d90e5de6e"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/cognition/hypothesis.py",
+      "bytes": 1742,
+      "sha256": "533de181c47fa946d77cd4f387cc329fb0870814633c71046b409e622fdadb6b"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/cognition/operator_language.py",
+      "bytes": 1653,
+      "sha256": "3c974451a99cf519ed9e81887d06c6357aea5168e37387daa7228b62a59141a9"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/cognition/predicates.py",
+      "bytes": 917,
+      "sha256": "84f66f5d4b1b221cacd32a2860c68acd3e13733aa420955fbeeb7485bfb36905"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/cognition/referents.py",
+      "bytes": 1213,
+      "sha256": "433fd946d1f7a1fae394ed2b1f9ea5c9a0b901e08f3b137bf2a410e82240a8fe"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/cognition/research_registry.py",
+      "bytes": 8146,
+      "sha256": "ce6fe4f92e65f767394e146a541d9cd19c106215a119e678d9c45d911e8c73bf"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/__init__.py",
+      "bytes": 7394,
+      "sha256": "30bed19292f4df499f340c8b861ba729075b365d87b30a80f96503754e857b9e"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/action_closure.py",
+      "bytes": 14487,
+      "sha256": "c5edf0e38c29a149251f7ea027769cb59567659e5463ed74bbc84593ece180d9"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/action_learning.py",
+      "bytes": 67653,
+      "sha256": "4e8f65055df088f66db1018776b77cb6166df0a865d742ce73b28c7ac38a3c54"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/action_licensing.py",
+      "bytes": 8455,
+      "sha256": "3c7854c12b9601bfa59d249938e8cb09fc07d009b27aad490d60c412a08e7edc"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/capability_admission.py",
+      "bytes": 5824,
+      "sha256": "9e14ce9b91c859e89141bf5ce8ac179ef62bdff83681f96b4c5ddb6d63e98435"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/commitment_adapters.py",
+      "bytes": 2924,
+      "sha256": "21dd5ff96e6162d3312e00756feb7484e8dc8b75c08de06a11c45c11b6f1714f"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/constructor_growth.py",
+      "bytes": 26503,
+      "sha256": "8697f2e5c25252702e1292f857c1c2f0a634bfc18b7478b3292ceb52db79c001"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/coordination.py",
+      "bytes": 5175,
+      "sha256": "b355c71f499eb016bfa06d70dfe9a235d799746942ca4c89be12cc8426ddd8d2"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/counterparty.py",
+      "bytes": 3665,
+      "sha256": "66eefd52d76079d18c36da2ebc0d6f56e106867645ec5d5826d3231f577431ad"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/discovery.py",
+      "bytes": 23227,
+      "sha256": "220f68400695c74e5730becd520e17898481bd4368f84ee4eaf6724e75b3726d"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/drift_intervention.py",
+      "bytes": 16625,
+      "sha256": "ab2fb1da695fb72a239f65541307571ab05e55756258bddb14eb90ac642109b6"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/drift_recurrence.py",
+      "bytes": 13358,
+      "sha256": "3d85a798ea28c5ce5f64ce7d8d8eefd4cbabddbdd3183f52a0c9bc1b500ed2cd"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/episode.py",
+      "bytes": 6086,
+      "sha256": "4f3d59111ff9dd8a2b655ca552ba399c06ea99f8a4a8769abe11d8c221078f41"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/epistemic.py",
+      "bytes": 33218,
+      "sha256": "a8ce1b3aef513702db7309c99ec202005866fb287c6652ce59b0e161449413b7"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/epistemic_action.py",
+      "bytes": 47237,
+      "sha256": "36352a9d415e80e8ca6639992f27bda48d735efd496a298c1c4842c2ae5ef3a7"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/epistemic_priority.py",
+      "bytes": 12195,
+      "sha256": "71b8fceb852cbaa36c824c4674b76ff1bab92a86cf5fe627ad8cc86c92838440"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/epistemic_program.py",
+      "bytes": 16095,
+      "sha256": "12c84ecd9ad3cde669a7d11e54b4de94b0027fde1f7c76cca297434f2036bd42"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/frame.py",
+      "bytes": 3125,
+      "sha256": "9c6cbcd13ccd15505520f642c810fafa4596d735951f70b5d612172ed3876b5c"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/path.py",
+      "bytes": 1518,
+      "sha256": "08320a5308e1ae2fc5a1ddf7eb29a636a195e8a50eb62ef1f6d9be310aa33807"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/predictive_adaptation.py",
+      "bytes": 7887,
+      "sha256": "0a7036cda5e43343ec226bbaa3f55a2dc31590cea3f12c1fea6707e0eb7b2f8c"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/projection_discovery.py",
+      "bytes": 16930,
+      "sha256": "e507c5b93ed2ec1b86aa6185200d503a09cabadc197cb4b06d861ac03b366cc7"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/recruitment.py",
+      "bytes": 8544,
+      "sha256": "969d463c3dfed76b72d3e2083feeed0654c3ddc079399b56f50d61c6147b3fab"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/reentry.py",
+      "bytes": 11932,
+      "sha256": "a953f61f242554acd83b7a6319789575b111ca4feeb3e91b2380818b036075fc"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/registry.py",
+      "bytes": 2522,
+      "sha256": "74777fc120a957a00aee55cf3d940fcc829028fbbf6430f75534d4fda56f857f"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/rehearsal.py",
+      "bytes": 15193,
+      "sha256": "195d4da424a5280130969b780abf047a9d3e3f8ede37ba8ed89b7cba5984c170"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/relational_algebra.py",
+      "bytes": 18316,
+      "sha256": "412afef89f8806c4280f5bd14ca5f1e81f0d060ba197a81320dc4ca16adcbebf"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/robust_constructor_growth.py",
+      "bytes": 21487,
+      "sha256": "752fc208bfeab05ec9900ed27a22b3c36900c8b730dd902aa60b19a5fd0c927e"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/topology.py",
+      "bytes": 6815,
+      "sha256": "4203714ba56d050d0e3b5fea96c9bfbac5cba02f5e7d96d6eafee334db35d175"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/development/value.py",
+      "bytes": 7335,
+      "sha256": "6f57c76c8c29d8cc09335f5088fd1917dc9d501ccccbf80fb63c3e0aa474a991"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/EMBODIMENT_STATUS.md",
+      "bytes": 6814,
+      "sha256": "292caf4ee35d767ce5544dc288cbfd7e6c381d0a0ed52a4025f55eba20e15423"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/evidence/__init__.py",
+      "bytes": 96,
+      "sha256": "4f78dd7691de73208929a041a2eac73a8f7c015024d41e8b6f3e6b64f3a995b9"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/evidence/authority.py",
+      "bytes": 3017,
+      "sha256": "320ebeb2954927e8d0789f421d6229d0a0938a88b03949a8862f654aaf22aecf"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/evidence/ledger.py",
+      "bytes": 3062,
+      "sha256": "446355090d2f348bb32088869327d44439be5ccd9176b4d21309e1547705247f"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/LOCKED_INVARIANTS.md",
+      "bytes": 30410,
+      "sha256": "0392da44887e5a3103b2e3cc2087a9341f7816a537ddeeded021934601ce9fb3"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/persistence/__init__.py",
+      "bytes": 180,
+      "sha256": "53bce01c7847e2e10b85d10d99f34b0627833687f962423091ade11740d07dd1"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/persistence/biography.py",
+      "bytes": 9482,
+      "sha256": "a2f7ad8cb75bdfba3dcd1bb7ff04ce4be0d84f797d34d86e4062ad19f80495a7"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/persistence/identity.py",
+      "bytes": 3628,
+      "sha256": "56a21905807834f8c382946d7281602663c8d44bcb4e0c1398edcbb04e08f33e"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/persistence/store.py",
+      "bytes": 1890,
+      "sha256": "89912a414172f6a9df6d54588c1cf2686132b16b2be916adbceaa80636e6b4a9"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/PROVENANCE.json",
+      "bytes": 62801,
+      "sha256": "418b6c4eec96cde163c9ecb9a70a643345322b64ff7dd31646f90a8baf69c762"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/__init__.py",
+      "bytes": 51,
+      "sha256": "507bed6edbbf0f27d189574494f641ae871108590e9823f469798a1a1ce22035"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/capabilities.py",
+      "bytes": 4114,
+      "sha256": "0a288d29a430f30c8fbb6453e276312d6dc6aadebcce895f3a0b69b8584595b9"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/commitment.py",
+      "bytes": 5072,
+      "sha256": "aced0107fd17d391e6c01d3416ac9f4f06699754c5baf84f4ffcc66cbb490701"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/composer.py",
+      "bytes": 2127,
+      "sha256": "99b5f77e901d3b837ecb97f5937d9ae26a58c3e673ed53cc653bf34f32ddebc7"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/entity.py",
+      "bytes": 343677,
+      "sha256": "5c201582ba0c68b439f9521bb5f9b3afc7abfbd4d7db0f4cbaea3fc17eaa14b9"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/ms175_tiny_core_v03.c",
+      "bytes": 3497,
+      "sha256": "47de0b5b0eb290d69cff8d6b295dad0cd6194aa2fa3c93a1de81c2170f04fd62"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/ms225_working_state_6b.c",
+      "bytes": 1216,
+      "sha256": "860d61a7f0886be49f0f1502f6b17e66d13763207634190f3e0ff4d4103f3a6f"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/ms250_intent_state.c",
+      "bytes": 1137,
+      "sha256": "6e15b1f60b192a8d1f8f8380898b407b7b0dd02a20fe14a74246b79548c068c9"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/ms275_micro_composer.c",
+      "bytes": 989,
+      "sha256": "7de5d110e29e933a7ec382906279f30d9ef4ef80c22f988f325971e682f2f7d6"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/ms350_runtime_to_hsp_bridge.py",
+      "bytes": 1517,
+      "sha256": "bec94e45e9edc689c00ef959cb052d6c408b9de97d2ed63992554d78744534de"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/ms450_external_observation_runtime.py",
+      "bytes": 2961,
+      "sha256": "1784259c5599d075baf173435563b5df13058e597dcb2bd25b07fed83c17125f"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/ms451_market_runtime.py",
+      "bytes": 2282,
+      "sha256": "c88fec317227e760cd2abc7b80d4b32cc0c985461c3258084112a51a58ab3a53"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/legacy/ms50_integrated_kernel.py",
+      "bytes": 4984,
+      "sha256": "60726809d2df9a2ff5bea8b7ff54b5a0c8eda566dd95045a6bcf28920edad602"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/observation.py",
+      "bytes": 793,
+      "sha256": "19ad95450f629fa227e2d55cd40ad5e339185b6d3ab372ebbb69540f93286a9f"
+    },
+    {
+      "donor": "microseed",
+      "path": "donor_microseed/runtime/types.py",
+      "bytes": 13703,
+      "sha256": "8fdf6f75f7090e7ef9a2387c85fb1d24773cf511733a6f3c43712bec6f0a548a"
+    },
+    {
+      "donor": "veya",
+      "path": "donor_veya_chamber/chamber.py",
+      "bytes": 18213,
+      "sha256": "0d265261a6502dfc8c43b268335397f23b31d5581139de0b2cf32a2212d77cb7"
+    },
+    {
+      "donor": "veya",
+      "path": "donor_veya_chamber/counterpart.json",
+      "bytes": 344,
+      "sha256": "43bf12db9c9edbf3059899f382b2f3f9184ead58ea84766a917e486b4dea3ac3"
+    },
+    {
+      "donor": "veya",
+      "path": "donor_veya_chamber/earned_boundary.json",
+      "bytes": 4633,
+      "sha256": "6a644a7d154641071e7a6dedeb60763aa17d216ed1d0756e9eb8349ebf25ec31"
+    },
+    {
+      "donor": "veya",
+      "path": "donor_veya_chamber/ECHO_PRIORITY_COMPARISON_P06.json",
+      "bytes": 1506,
+      "sha256": "5756586d29c02daf6bb4a410d2c3bc81990f42552873dd328c93bb0e4619e1f0"
+    },
+    {
+      "donor": "veya",
+      "path": "donor_veya_chamber/EMBODIMENT_PROTOCOL.md",
+      "bytes": 2180,
+      "sha256": "fb6ab9358cb954f612d6cb01e942853d53d24ba8b47d0d1fce2ad033d534a655"
+    },
+    {
+      "donor": "veya",
+      "path": "donor_veya_chamber/README.md",
+      "bytes": 527,
+      "sha256": "e536cb501c81e748be4ca99cc2088f6fb39af7acdc31d068478d31b4a120ded6"
+    }
+  ],
+  "file_count": 70,
+  "total_bytes": 992951
+}

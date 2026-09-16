@@ -7,13 +7,12 @@ from collections.abc import MutableMapping
 from dataclasses import dataclass
 from typing import Any, Callable, TypeAlias
 
-from .project_mutation_authority import (
+from project_mutation_authority import (
     ProjectMutationAuthorityError,
     consequence_guard,
     current_project_mutation_authority,
     validate_consequence_authority,
 )
-from .server_hardening import run_subprocess_envelope
 
 JsonObject = MutableMapping[str, Any]
 
@@ -384,16 +383,6 @@ def _lab_tools_reload_payload(dep: StateToolDeps) -> ToolResult:
     }
 
 
-EMPTY_SCHEMA={"type":"object","additionalProperties":False,"properties":{}}
-SESSION_START_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"title":{"type":"string"},"meta":{"type":"object"}}}
-SESSION_REF_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","session_id"],"properties":{"project_id":{"type":"string","minLength":1},"session_id":{"type":"string","minLength":1}}}
-SESSION_NOTE_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","session_id","note"],"properties":{"project_id":{"type":"string","minLength":1},"session_id":{"type":"string","minLength":1},"note":{"type":"string","minLength":1},"note_type":{"type":"string"}}}
-SESSION_END_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","session_id"],"properties":{"project_id":{"type":"string","minLength":1},"session_id":{"type":"string","minLength":1},"status":{"type":"string"}}}
-ANDON_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","reason"],"properties":{"project_id":{"type":"string","minLength":1},"session_id":{"type":"string"},"reason":{"type":"string","minLength":1},"details":{"type":"string"}}}
-REFLEXION_APPEND_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","title","content"],"properties":{"project_id":{"type":"string","minLength":1},"session_id":{"type":"string"},"title":{"type":"string","minLength":1},"content":{"type":"string","minLength":1},"tags":{"type":"array","items":{"type":"string"}}}}
-REFLEXION_READ_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"limit":{"type":"integer","minimum":1,"maximum":500}}}
-APOPTOSIS_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id"],"properties":{"project_id":{"type":"string","minLength":1},"session_id":{"type":"string"},"terminate_running_jobs":{"type":"boolean"},"git_reset_hard":{"type":"boolean"},"git_clean_fd":{"type":"boolean"},"reason":{"type":"string"}}}
-
 def _register_state_health_tools(register_tool: Callable[..., Any], dep: StateToolDeps) -> None:
     @register_tool(
         "lab.health",
@@ -402,7 +391,6 @@ def _register_state_health_tools(register_tool: Callable[..., Any], dep: StateTo
         category="lab",
         side_effect_class="read_probe",
         effect_traits=["reads_runtime_state", "reads_plugin_state", "reads_cache_state", "network_io", "probes_browser_bridge", "bounded_wait"],
-        input_schema=EMPTY_SCHEMA,
     )
     def tool_lab_health(payload: ToolPayload) -> ToolResult:
         return _lab_health_payload(payload, dep)
@@ -416,7 +404,6 @@ def _register_state_health_tools(register_tool: Callable[..., Any], dep: StateTo
         mutating=True,
         side_effect_class="runtime_mutation",
         effect_traits=["mutates_registry", "loads_code", "changes_capability_surface"],
-        input_schema=EMPTY_SCHEMA,
     )
     def tool_lab_tools_reload(payload: ToolPayload) -> ToolResult:
         return _lab_tools_reload_payload(dep)
@@ -461,14 +448,13 @@ def _register_session_start_tool(register_tool: Callable[..., Any], dep: StateTo
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
-        input_schema=SESSION_START_SCHEMA,
     )
     def tool_lab_session_start(payload: ToolPayload) -> ToolResult:
         return _session_start_payload(payload, dep)
 
 
 def _register_session_read_tool(register_tool: Callable[..., Any], dep: StateToolDeps) -> None:
-    @register_tool("lab.session.get", "Read a lab session record.", "low", category="lab", side_effect_class="read", effect_traits=["reads_project_state", "reads_persistent_state"], input_schema=SESSION_REF_SCHEMA)
+    @register_tool("lab.session.get", "Read a lab session record.", "low", category="lab", side_effect_class="read", effect_traits=["reads_project_state", "reads_persistent_state"])
     def tool_lab_session_get(payload: ToolPayload) -> ToolResult:
         return _session_get_payload(payload, dep)
 
@@ -482,7 +468,6 @@ def _register_session_note_tool(register_tool: Callable[..., Any], dep: StateToo
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
-        input_schema=SESSION_NOTE_SCHEMA,
     )
     def tool_lab_session_note(payload: ToolPayload) -> ToolResult:
         return _session_note_payload(payload, dep)
@@ -497,7 +482,6 @@ def _register_session_end_tool(register_tool: Callable[..., Any], dep: StateTool
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
-        input_schema=SESSION_END_SCHEMA,
     )
     def tool_lab_session_end(payload: ToolPayload) -> ToolResult:
         return _session_end_payload(payload, dep)
@@ -550,7 +534,6 @@ def _register_reflexion_tools(register_tool: Callable[..., Any], dep: StateToolD
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
-        input_schema=ANDON_SCHEMA,
     )
     def tool_lab_andon_pull(payload: ToolPayload) -> ToolResult:
         return _andon_payload(payload, dep)
@@ -563,12 +546,11 @@ def _register_reflexion_tools(register_tool: Callable[..., Any], dep: StateToolD
         mutating=True,
         side_effect_class="mutation",
         effect_traits=["durable_mutation", "project_mutation_fenced", "project_scope_enforced"],
-        input_schema=REFLEXION_APPEND_SCHEMA,
     )
     def tool_lab_reflexion_append(payload: ToolPayload) -> ToolResult:
         return _reflexion_append_payload(payload, dep)
 
-    @register_tool("lab.reflexion.read", "Read recent reflexion entries.", "low", category="lab", side_effect_class="read", effect_traits=["reads_project_state", "reads_persistent_state", "bounded_results"], input_schema=REFLEXION_READ_SCHEMA)
+    @register_tool("lab.reflexion.read", "Read recent reflexion entries.", "low", category="lab", side_effect_class="read", effect_traits=["reads_project_state", "reads_persistent_state", "bounded_results"])
     def tool_lab_reflexion_read(payload: ToolPayload) -> ToolResult:
         return _reflexion_read_payload(payload, dep)
 
@@ -680,7 +662,6 @@ def _register_apoptosis_tool(register_tool: Callable[..., Any], dep: StateToolDe
             "requires_explicit_project_mutation_authority_when_leased",
             "terminates_processes_before_project_consequence",
         ],
-        input_schema=APOPTOSIS_SCHEMA,
     )
     def tool_lab_apoptosis_trigger(payload: ToolPayload) -> ToolResult:
         return _apoptosis_payload(payload, dep)

@@ -1,7 +1,7 @@
 """Context subsystem cache, traversal, and bounded read configuration constants."""
 
 from __future__ import annotations
-from .shared_core import get_mount_roots
+from shared_core import get_mount_roots
 
 DEFAULT_ALLOWED_ROOTS = get_mount_roots()
 MAX_LIST_RESULTS = 500
@@ -11,7 +11,7 @@ MAX_SEARCH_HITS = 100
 DEFAULT_READ_BYTES = 0
 MAX_READ_BYTES = 200_000
 MAX_READ_LINES = 2000
-DEFAULT_REHYDRATE_BUDGET_BYTES = 40_000
+DEFAULT_REHYDRATE_BUDGET_BYTES = 0
 MAX_REHYDRATE_BUDGET_BYTES = 10**15
 MAX_REHYDRATE_ITEMS = 10**9
 MAX_SEARCH_FILE_BYTES = 300_000

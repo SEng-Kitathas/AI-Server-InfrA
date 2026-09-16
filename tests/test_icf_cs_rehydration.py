@@ -8,7 +8,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_ROOT = PROJECT_ROOT / "baseline" / "pcmmad_receiver"
-sys.path.insert(0, str(RUNTIME_ROOT.parent))
+sys.path.insert(0, str(RUNTIME_ROOT))
 
 import context_engine as ce
 
@@ -29,7 +29,6 @@ class IcfCsRehydrationTests(unittest.TestCase):
             "state/revisit_ledger/REVISIT_LEDGER.md": "CONSTRAINTS revisit\nkeep scars visible\n",
             "state/trace_matrix/TRACE_MATRIX.md": "CONSTRAINTS trace\nclaims require evidence\n",
             "continuity/live_shadow/LIVE_SHADOW.md": "HISTORY ACTIVE\nlive shadow shadowwarmtoken\n",
-            "continuity/research_epistemic_shadow/RESEARCH_EPISTEMIC_SHADOW.md": "EPISTEMIC RES\nUNKNOWN — fixture research frontier\n",
             "continuity/design_thread_stream/DESIGN_THREAD_STREAM.md": "HISTORY CHRONOLOGY\nphase sequence\n",
             ".pcmmad_sync_runs/noise.log": "needle needle needle newest misleading transient log\n",
             ".pcmmad_hardening_postpub_stage/stale.md": "needle needle stale staged recovery replica\n",
@@ -121,14 +120,14 @@ class IcfCsRehydrationTests(unittest.TestCase):
         self.assertFalse(any(Path(row["path"]).name.startswith(".pcmmad_") for row in result["selected"]))
         paths = [row["path"] for row in result["selected"]]
         self.assertEqual(len(paths), len(set(paths)))
-        self.assertEqual(result["icf_cs"]["version"], "1.2")
+        self.assertEqual(result["icf_cs"]["version"], "1.0")
         self.assertEqual(
             result["icf_cs"]["cold_start_law"],
             "DIRECTION != CONSTRAINTS != FRONTIER != HISTORY",
         )
         self.assertEqual(result["open_seams"], [])
         roles = {row.get("authority_role") for row in result["selected"] if row.get("seeded")}
-        self.assertTrue({"frontier", "standard", "intent", "constraints", "epistemic", "history"}.issubset(roles))
+        self.assertTrue({"frontier", "standard", "intent", "constraints", "history"}.issubset(roles))
 
     def test_moving_frontier_anchor_seeds_bounded_tail_not_stale_header(self) -> None:
         with tempfile.TemporaryDirectory() as td:

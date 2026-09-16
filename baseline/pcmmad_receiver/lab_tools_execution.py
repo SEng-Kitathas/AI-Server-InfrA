@@ -8,25 +8,15 @@ import tempfile
 import time
 from datetime import datetime, timezone
 from dataclasses import dataclass
-from .lab_tool_primitives import ToolPayload, ToolResult, payload_str, payload_value
+from lab_tool_primitives import ToolPayload, ToolResult, payload_str, payload_value
 from pathlib import Path
-from .server_hardening import run_subprocess_envelope
-from .project_mutation_authority import (
-    current_project_mutation_authority,
-    submission_mutation_binding,
-)
+from server_hardening import run_subprocess_envelope
 from typing import Any, Callable
 
 
 AI_WAIT_DEFAULT_SECONDS = 8
 AI_WAIT_MAX_SECONDS = 30
 AI_WAIT_DEFAULT_OUTPUT_BYTES = 4096
-
-
-EXEC_ID_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","job_id"],"properties":{"project_id":{"type":"string","minLength":1},"job_id":{"type":"string","minLength":1}}}
-EXEC_WAIT_SCHEMA={"type":"object","additionalProperties":False,"required":["project_id","job_id"],"properties":{"project_id":{"type":"string","minLength":1},"job_id":{"type":"string","minLength":1},"timeout_seconds":{"type":"integer","minimum":1},"max_bytes":{"type":"integer","minimum":1024}}}
-EXEC_COMMAND_SCHEMA={"type":"object","additionalProperties":False,"required":["command"],"properties":{"project_id":{"type":"string"},"command":{"type":"array","minItems":1,"items":{"type":"string","minLength":1}},"args":{"type":"array","items":{"type":"string"}},"cwd":{"type":"string"},"timeout_seconds":{"type":"integer","minimum":1},"stdout_max_bytes":{"type":"integer","minimum":1024},"stderr_max_bytes":{"type":"integer","minimum":1024},"env":{"type":"object"}}}
-PYTHON_RUN_SCHEMA={"type":"object","additionalProperties":False,"required":["code"],"properties":{"project_id":{"type":"string"},"code":{"type":"string","minLength":1},"cwd":{"type":"string"},"timeout_seconds":{"type":"integer","minimum":1},"stdout_max_bytes":{"type":"integer","minimum":1024},"stderr_max_bytes":{"type":"integer","minimum":1024},"env":{"type":"object"}}}
 AI_WAIT_MAX_OUTPUT_BYTES = 16384
 ACTIVE_JOB_STATUSES = {"RUNNING", "SUBMITTED", "QUEUED", "STARTING", "TERMINATING"}
 
@@ -250,7 +240,6 @@ def _register_sync_execution_tools(
         approval_required=True,
         side_effect_class="execution",
         effect_traits=["executes_code", "spawns_process", "arbitrary_process_side_effects", "project_mutation_fenced"],
-        input_schema=EXEC_COMMAND_SCHEMA,
     )
     def tool_execution_run(payload: ToolPayload) -> ToolResult:
         return _sync_execution_payload(payload, dep)
@@ -263,7 +252,6 @@ def _register_sync_execution_tools(
         approval_required=True,
         side_effect_class="execution",
         effect_traits=["executes_code", "spawns_process", "arbitrary_process_side_effects", "project_mutation_fenced"],
-        input_schema=PYTHON_RUN_SCHEMA,
     )
     def tool_python_run(payload: ToolPayload) -> ToolResult:
         return _python_execution_payload(payload, dep)
@@ -278,19 +266,8 @@ def _as_tool_result(job: Any) -> ToolResult:
 
 
 def _submit_async_job_payload(payload: ToolPayload, dep: ExecutionToolDeps) -> ToolResult:
-    """Validate/bind mutation authority, then delegate to the durable scheduler.
-
-    Queue admission is a short control-plane mutation. The arbitrary-code
-    consequence is fenced later by the worker, so the request thread must not hold
-    the project-wide consequence lock while scheduler admission/queueing occurs.
-    """
-    project_id = str(payload.get("project_id") or "").strip()
-    session_id = str(payload.get("session_id") or "execution").strip() or "execution"
-    mutation_authority = current_project_mutation_authority()
-    if mutation_authority is None:
-        raise dep.error_cls("PROJECT_MUTATION_AUTHORITY_REQUIRED", "async project execution requires explicit fenced project mutation authority", 423)
-    with submission_mutation_binding(project_id, mutation_authority=mutation_authority, session_id=session_id):
-        return _as_tool_result(dep.submit_job(payload))
+    """Delegate async submission to the canonical durable scheduler."""
+    return _as_tool_result(dep.submit_job(payload))
 
 
 def _register_async_submit_tool(register_tool: Callable[..., Any], dep: ExecutionToolDeps) -> None:
@@ -301,9 +278,8 @@ def _register_async_submit_tool(register_tool: Callable[..., Any], dep: Executio
         category="execution",
         approval_required=True,
         side_effect_class="execution",
-        effect_traits=["creates_durable_state", "queues_work", "executes_code", "arbitrary_process_side_effects", "mutation_authority_validated_before_enqueue", "requires_explicit_project_mutation_authority"],
+        effect_traits=["creates_durable_state", "queues_work", "executes_code", "arbitrary_process_side_effects", "project_mutation_fenced", "requires_explicit_project_mutation_authority"],
         idempotency_semantics="keyed_replay_when_keyed",
-        input_schema=EXEC_COMMAND_SCHEMA,
     )
     def tool_execution_submit(payload: ToolPayload) -> ToolResult:
         return _submit_async_job_payload(payload, dep)
@@ -463,15 +439,7 @@ def _wait_request_from_payload(payload: ToolPayload, dep: ExecutionToolDeps) -> 
     )
 
 
-def _observed_job(identity: ExecutionIdentity, dep: ExecutionToolDeps) -> ToolResult:
-    try:
-        job = dep.read_job(identity.project_id, identity.job_id)
-        return job.to_dict() if hasattr(job, "to_dict") else job
-    except FileNotFoundError:
-        raise dep.error_cls("NOT_FOUND", "job not found", 404)
-
-
-def _finalized_job(identity: ExecutionIdentity, dep: ExecutionToolDeps) -> ToolResult:
+def _finalized_job(identity: JobIdentity, dep: ExecutionToolDeps) -> ToolResult:
     try:
         return dep.finalize_job(
             identity.project_id,
@@ -489,40 +457,38 @@ def _wait_until_done(request: WaitRequest, dep: ExecutionToolDeps) -> ToolResult
     )
     deadline = time.time() + timeout_seconds
     while time.time() < deadline:
-        job = _observed_job(request.identity, dep)
+        job = _finalized_job(request.identity, dep)
         if str(job.get("status") or "").upper() not in ACTIVE_JOB_STATUSES:
             return _completed_wait_payload(request, job, dep)
         time.sleep(0.5)
     return _timed_out_wait_payload(
-        request, _observed_job(request.identity, dep), dep
+        request, _finalized_job(request.identity, dep), dep
     )
 
 
 def _register_async_status_tools(register_tool: Callable[..., Any], dep: ExecutionToolDeps) -> None:
     @register_tool(
         "execution.status",
-        "Read persisted async execution job status without reconciling or advancing the queue.",
+        "Read and finalize async execution job status.",
         "medium",
         category="execution",
-        side_effect_class="read",
-        effect_traits=["reads_state", "non_reconciling"],
-        input_schema=EXEC_ID_SCHEMA,
+        side_effect_class="read_reconcile",
+        effect_traits=["reads_state", "reconciles_state", "may_advance_queue"],
     )
     def tool_execution_status(payload: ToolPayload) -> ToolResult:
-        return _observed_job(_require_identity(dep.error_cls, payload), dep)
+        return _finalized_job(_require_identity(dep.error_cls, payload), dep)
 
     @register_tool(
         "execution.output",
         "Read bounded stdout/stderr for an async execution job.",
         "medium",
         category="execution",
-        side_effect_class="read",
-        effect_traits=["reads_state", "reads_logs", "non_reconciling"],
-        input_schema=EXEC_WAIT_SCHEMA,
+        side_effect_class="read_reconcile",
+        effect_traits=["reads_state", "reads_logs", "reconciles_state", "may_advance_queue"],
     )
     def tool_execution_output(payload: ToolPayload) -> ToolResult:
         request = _wait_request_from_payload(payload, dep)
-        return _job_output_payload(request, _observed_job(request.identity, dep), dep)
+        return _job_output_payload(request, _finalized_job(request.identity, dep), dep)
 
     @register_tool(
         "execution.progress",
@@ -530,13 +496,12 @@ def _register_async_status_tools(register_tool: Callable[..., Any], dep: Executi
         "low",
         category="execution",
         tags=["progress", "bounded", "ai-control"],
-        side_effect_class="read",
-        effect_traits=["reads_state", "non_reconciling"],
-        input_schema=EXEC_ID_SCHEMA,
+        side_effect_class="read_reconcile",
+        effect_traits=["reads_state", "reconciles_state", "may_advance_queue"],
     )
     def tool_execution_progress(payload: ToolPayload) -> ToolResult:
         identity = _require_identity(dep.error_cls, payload)
-        return _progress_receipt(identity, _observed_job(identity, dep), dep)
+        return _progress_receipt(identity, _finalized_job(identity, dep), dep)
 
     @register_tool(
         "execution.wait",
@@ -544,9 +509,8 @@ def _register_async_status_tools(register_tool: Callable[..., Any], dep: Executi
         "medium",
         category="execution",
         tags=["wait", "progress", "bounded", "ai-control"],
-        side_effect_class="read",
-        effect_traits=["reads_state", "bounded_wait", "non_reconciling"],
-        input_schema=EXEC_WAIT_SCHEMA,
+        side_effect_class="read_reconcile",
+        effect_traits=["reads_state", "bounded_wait", "reconciles_state", "may_advance_queue"],
     )
     def tool_execution_wait(payload: ToolPayload) -> ToolResult:
         return _wait_until_done(_wait_request_from_payload(payload, dep), dep)
@@ -562,7 +526,6 @@ def _register_async_terminate_tool(
         category="execution",
         approval_required=True,
         mutating=True,
-        input_schema=EXEC_ID_SCHEMA,
     )
     def tool_execution_terminate(payload: ToolPayload) -> ToolResult:
         identity = _require_identity(dep.error_cls, payload)

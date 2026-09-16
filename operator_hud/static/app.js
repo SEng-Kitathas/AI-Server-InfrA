@@ -1,4 +1,4 @@
-const state={tools:[],filtered:[],category:'all',selected:null,status:null,pendingApproval:null,lastDispatch:null,hudToken:null,availabilityChecks:{},approvals:[],liveActivity:[],lastRuntimePulseTs:0};
+const state={tools:[],filtered:[],category:'all',selected:null,status:null,pendingApproval:null,lastDispatch:null,hudToken:null,availabilityChecks:{},cockpitAnnunciation:null,cockpitTrends:{latency:[],failures:[]},lastDiagnostic:null};
 const $=id=>document.getElementById(id);
 const now=()=>new Date().toLocaleTimeString();
 
@@ -21,83 +21,223 @@ function setLamp(id,mode){const el=$(id);el.className=`lamp ${mode}`;}
 function fmtTime(ts){if(!ts)return '';return new Date(ts*1000).toLocaleTimeString();}
 function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function uid(){return `ui-${Date.now()}-${Math.random().toString(16).slice(2,8)}`;}
-function fmtBytes(value){
-  const n=Number(value);if(!Number.isFinite(n)||n<0)return '—';
-  const units=['B','KiB','MiB','GiB','TiB'];let x=n,i=0;while(x>=1024&&i<units.length-1){x/=1024;i++;}
-  return `${x>=100||i===0?x.toFixed(0):x>=10?x.toFixed(1):x.toFixed(2)} ${units[i]}`;
-}
-function fmtPercent(value,digits=1){const n=Number(value);return Number.isFinite(n)?`${n.toFixed(digits)}%`:'—';}
-function sparkSvg(values){
-  const rows=values.map(Number).filter(Number.isFinite);if(rows.length<2)return '<svg viewBox="0 0 100 30" preserveAspectRatio="none"><line class="spark-base" x1="0" y1="15" x2="100" y2="15"/></svg>';
-  const min=Math.min(...rows),max=Math.max(...rows),span=max-min||1;
-  const points=rows.map((v,i)=>`${(i/(rows.length-1)*100).toFixed(2)},${(27-((v-min)/span)*24).toFixed(2)}`).join(' ');
-  return `<svg viewBox="0 0 100 30" preserveAspectRatio="none"><line class="spark-base" x1="0" y1="27" x2="100" y2="27"/><polyline class="spark-path" points="${points}"/></svg>`;
-}
-function setSpark(id,values,severity='nominal'){const el=$(id);if(!el)return;el.className=`sparkline ${severity}`;el.innerHTML=sparkSvg(values);}
 
-function renderTelemetry(t){
-  const exec=t?.execution||{},g=exec.global||{},proc=t?.process||{},sys=t?.system||{},http=t?.http||{},server=t?.server||{},scheduler=t?.scheduler||{};
-  const pill=$('telemetryState');const severity=String(t?.severity||(!t?.ok?'warning':'nominal'));
-  if(pill){pill.className=`state-pill ${severity==='critical'?'bad':severity==='warning'?'degraded':t?.ok?'good':'unknown'}`;pill.textContent=t?.ok?(severity==='critical'?'ALERT':severity==='warning'?'ATTENTION':'NOMINAL'):'TELEMETRY DEGRADED';}
-  const running=Number(g.running||0),limit=Number(g.global_limit||0),queued=Number(g.queued||0),util=limit>0?running/limit:null;
-  $('telemetryWorkers').textContent=limit>0?`${running} / ${limit}`:`${running} / ∞`;
-  $('telemetryWorkerSub').textContent=util!==null?`${(util*100).toFixed(0)}% utilized · loaded capacity`:'unbounded loaded capacity';
-  $('telemetryQueue').textContent=String(queued);
-  const oldest=g.oldest_queued_age_seconds;$('telemetryQueueSub').textContent=oldest==null?'no queued work':`oldest ${Number(oldest).toFixed(1)} s`;
-  const p95=http.latency_ms?.p95;$('telemetryP95').textContent=p95==null?'—':`${Number(p95).toFixed(p95>=1000?0:1)} ms`;
-  $('telemetryHttpSub').textContent=`${Number(http.request_count||0)} req · ${Number(http.client_error_count||0)} 4xx`;
-  $('telemetryRss').textContent=fmtBytes(proc.rss_bytes);$('telemetryRssSub').textContent=`USS ${fmtBytes(proc.uss_bytes)}`;
-  $('telemetryCpu').textContent=fmtPercent(proc.cpu_percent);
-  $('telemetryHostCpu').textContent=fmtPercent(sys.cpu_percent);
-  $('telemetryHostMem').textContent=fmtPercent(sys.memory_percent);
-  $('telemetryStorage').textContent=`${fmtBytes(sys.storage?.free_bytes)} free`;
-  $('telemetryHandles').textContent=proc.handles??'—';
-  $('telemetryThreads').textContent=proc.threads??'—';
-  $('telemetryDescriptors').textContent=`${proc.connections??'—'} / ${proc.open_files??'—'}`;
-  $('telemetryHttpWorkers').textContent=server.worker_threads!=null?`${server.active_workers??0} / ${server.worker_threads}`:`${server.implementation||'unbound'}`;
-  $('telemetryHttpQueuePeak').textContent=server.queue_peak??'—';
-  $('telemetryRpm').textContent=Number.isFinite(Number(http.requests_per_minute))?Number(http.requests_per_minute).toFixed(1):'—';
-  $('telemetry5xx').textContent=fmtPercent(Number(http.server_error_rate||0)*100,2);
-  $('telemetryScheduler').textContent=`${scheduler.thread_alive?'SCHED ✓':'SCHED !'} · ${scheduler.watcher_alive?'WATCH ✓':'WATCH !'}`;
-  const alerts=Array.isArray(t?.alerts)?t.alerts:[];
-  $('telemetryAlerts').innerHTML=alerts.length?alerts.map(a=>`<span class="telemetry-alert-chip ${escapeHtml(a.severity||'warning')}">${escapeHtml(a.code||'ALERT')} · ${escapeHtml(a.message||'')}</span>`).join(''):'<span class="telemetry-alert-chip nominal">NO ACTIVE INTEGRITY ALARMS</span>';
-  const deps=t?.dependencies||{};
-  $('telemetryDependencies').textContent=`psutil ${deps.psutil||'—'} · Prometheus ${deps.prometheus_client||'—'} · Waitress ${deps.waitress||'—'} · py-spy ${deps.py_spy_available?(deps.py_spy||'available'):'on-demand unavailable'}`;
-  const hist=Array.isArray(t?.history)?t.history:[];
-  setSpark('telemetryWorkerSpark',hist.map(x=>Number(x.worker_utilization||0)*100),severity);
-  setSpark('telemetryQueueSpark',hist.map(x=>Number(x.queued||0)),queued>0?'warning':'nominal');
-  setSpark('telemetryP95Spark',hist.map(x=>x.http_p95_ms).filter(x=>x!=null),p95!=null&&Number(p95)>=2000?'warning':'nominal');
-  setSpark('telemetryRssSpark',hist.map(x=>x.rss_bytes).filter(x=>x!=null),'nominal');
+function deriveCockpitPicture(data,nowEpochSeconds=Date.now()/1000){
+  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},n=data.ngrok||{},d=data.daemon||{},ready=data.readiness||{};
+  const checked=Number(data.checked_at); const age=Number.isFinite(checked)?Math.max(0,nowEpochSeconds-checked):Infinity;
+  const stale=!Number.isFinite(checked)||age>15||data.error_code==='HUD_FETCH_FAILED';
+  const coreReady=ready.core_ready!==undefined?!!ready.core_ready:!!(h.ok&&r.ok&&j.ok);
+  const optionalDegraded=Array.isArray(ready.optional_degraded)?[...ready.optional_degraded]:(!b.ok?['browser_bridge']:[]);
+  if(b.ok&&b.armed&&!b.ready_for_browser_automation&&!optionalDegraded.includes('browser_armed_not_ready'))optionalDegraded.push('browser_armed_not_ready');
+  let level='normal',label='NORMAL',faultTitle='Required planes nominal',chain='HUD → Receiver → Journal evidence chain is available.',cue='No operator action required.';
+  if(stale){
+    level='warning';label='WARNING';faultTitle='Status evidence stale or unavailable';
+    chain=`Last trustworthy cockpit sample is ${Number.isFinite(age)?Math.round(age)+'s old':'unavailable'}; embedded component state is not sufficient for readiness.`;
+    cue='Refresh status and re-establish current evidence before mutation or recovery decisions.';
+  }else if(!coreReady){
+    level='warning';label='WARNING';
+    if(!r.ok){
+      faultTitle='Receiver unavailable';
+      chain=`HUD ${h.ok?'ONLINE':'DEGRADED'} → transport ${n.ok?'ONLINE':'UNKNOWN/DOWN'} → Receiver DOWN${r.http_status?` (HTTP ${r.http_status})`:''} → native dispatch/readback unavailable.`;
+      cue='Inspect supervisor/restart state and correlated Windows / Defender evidence before mutation.';
+    }else if(!j.ok){
+      faultTitle='Forensic journal degraded';
+      chain=`Receiver ONLINE → journal ${j.ok?'READY':'DEGRADED'} → durable consequence/readback evidence is incomplete.`;
+      cue='Preserve runtime state; inspect journal load/write evidence before relying on dispatch history.';
+    }else{
+      faultTitle='Required control-plane evidence degraded';chain='One or more required planes are non-current; isolate the failed plane before acting.';cue='Use the failing plane evidence and recovery state; do not infer readiness from surviving components.';
+    }
+  }else if(optionalDegraded.length){
+    level='caution';label='CAUTION';faultTitle='Core ready; optional degradation isolated';chain=`Required planes nominal → optional ${optionalDegraded.join(', ')} degraded.`;cue='Continue core work; inspect optional plane only if the current task depends on it.';
+  }
+  const evidence=data.failure_evidence;
+  if(evidence?.security_signal_present){cue+=evidence.causation_established?' Security evidence is causally linked.':' Security signal present; causation is NOT established.';}
+  return {h,r,b,j,n,d,ready,age,stale,coreReady,optionalDegraded,level,label,faultTitle,chain,cue};
 }
 
-function planeClass(row){const s=String(row?.state||'unknown').toLowerCase();return ['active','degraded','down'].includes(s)?s:'unknown';}
-function renderPlaneMatrix(ready){
-  const rows=Array.isArray(ready?.planes)?ready.planes:[];
-  const box=$('planeMatrix');if(!box)return;
-  const core=rows.filter(x=>x.required_for_core),optional=rows.filter(x=>!x.required_for_core);
-  if($('corePlaneSummary'))$('corePlaneSummary').textContent=`${core.filter(x=>x.ok).length}/${core.length||0} ACTIVE`;
-  if($('optionalPlaneSummary'))$('optionalPlaneSummary').textContent=`${optional.filter(x=>x.ok).length}/${optional.length||0} ACTIVE`;
-  box.innerHTML=rows.length?rows.map(row=>`<div class="plane-row ${planeClass(row)}"><div class="plane-marker"></div><div><div class="plane-name">${escapeHtml(row.label||row.id||'plane')}<span>${row.required_for_core?'CORE':'OPTIONAL'}</span></div><div class="plane-source">${escapeHtml(row.source||'source unspecified')}</div></div><strong>${escapeHtml(String(row.state||'unknown').toUpperCase())}</strong></div>`).join(''):'<div class="empty-note">No readiness plane evidence.</div>';
+function deriveDiagnosticPacket(data,picture=deriveCockpitPicture(data)){
+  const facts=[],inferences=[],unknowns=[],informedBy=[],nextEvidence=[];
+  const addFact=(label,text,source)=>facts.push({truth:'FACT',label,text,source});
+  const addInference=(truth,text,basis)=>inferences.push({truth,label:truth==='INFERRED'?'Triangulation':'Inference guard',text,basis});
+  const addUnknown=(text,discriminator)=>unknowns.push({truth:'UNKNOWN',text,discriminator});
+  const addSource=(name,detail)=>{if(name&&!informedBy.some(x=>x.name===name))informedBy.push({name,detail:detail||''});};
+  const h=picture.h||{},r=picture.r||{},n=picture.n||{},d=picture.d||{},j=picture.j||{},b=picture.b||{};
+  addSource('HUD /api/status','cockpit aggregation/currentness');
+  addFact('Currentness',picture.stale?'STALE / UNTRUSTED':`${Math.round(picture.age)}s old`,'HUD /api/status');
+  addFact('HUD',h.ok?'ONLINE':'DEGRADED','HUD self-status');
+  addFact('Transport',n.configured?(n.ok?`${n.tunnel_count||1} tunnel(s) online`:'DOWN'):'STANDBY','ngrok /api/tunnels');
+  addFact('Receiver',r.ok?'ONLINE':`DOWN${r.http_status?` · HTTP ${r.http_status}`:''}`,'Receiver health probe');
+  addFact('Journal',j.ok?'DURABLE':'DEGRADED','HUD journal state');
+  addFact('Daemon',d.configured?(d.ok?'ONLINE':'DEGRADED'):'STANDBY','Daemon /status');
+  addFact('Browser',!b.ok?'OPTIONAL / DEGRADED':(b.armed?(b.ready_for_browser_automation?'ONLINE · ARMED':'ONLINE · ARMED / NOT READY'):'ONLINE · BLOCKED'),'Browser bridge health + security gate');
+  const ha=data.supervisor_budgets||{};const haSummary=ha.summary||{};addFact('HA budget',haSummary.status?`${haSummary.status}${haSummary.remaining===null||haSummary.remaining===undefined?'':` · ${haSummary.remaining}/${haSummary.max_restarts} remaining`}`:'UNKNOWN','Supervisor failure/hold/receipt state');
+  if(n.configured)addSource('ngrok /api/tunnels','transport/tunnel evidence');
+  addSource('Receiver health probe','body/control-plane evidence');
+  addSource('HUD journal','dispatch/consequence evidence');
+  if(d.configured)addSource('Daemon /status','resident cognition/currentness');
+  if(b.configured!==false)addSource('Browser bridge /health','optional browser evidence');
+
+  if(picture.stale){
+    addInference('INFERENCE BLOCKED','Causal triangulation is suspended because the status sample is stale or unavailable.','Currentness boundary');
+    addUnknown('Current component state','Refresh /api/status and compare source timestamps before causal reasoning.');
+    nextEvidence.push('Refresh HUD /api/status and confirm checked_at currentness.');
+  }else{
+    if(!r.ok&&n.ok){
+      addInference('INFERRED','Transport is alive while Receiver is unavailable; the observed break is downstream of tunnel establishment and upstream of native dispatch/readback.','Transport ONLINE + Receiver DOWN');
+      addUnknown('Receiver failure mechanism','Inspect exact Receiver process identity, scheduled task/supervisor state, maintenance hold and restart budget.');
+      nextEvidence.push('Inspect Receiver process/task/supervisor identity and restart budget.');
+      nextEvidence.push('Query windows.failure_evidence.inspect around the failure window.');
+    }else if(!r.ok&&!n.ok){
+      addInference('INFERRED','Transport and Receiver are both unavailable; current observations do not establish which failed first.','Transport DOWN + Receiver DOWN');
+      addUnknown('Failure ordering','Compare ngrok process/API timestamps with Receiver process/task timestamps.');
+      nextEvidence.push('Inspect ngrok and Receiver process creation identities and Windows event timestamps.');
+    }
+    if(r.ok&&!j.ok){
+      addInference('INFERRED','Execution/control may be live while durable consequence evidence is incomplete.','Receiver ONLINE + Journal DEGRADED');
+      addUnknown('Journal degradation mechanism','Inspect journal load/write error and storage/permission state.');
+      nextEvidence.push('Inspect journal error/readback before trusting dispatch history.');
+    }
+    if(picture.coreReady&&picture.optionalDegraded.length){
+      addInference('INFERRED','Required core remains ready; optional degradation only matters if the active task depends on that plane.','Core ready + optional degraded');
+      nextEvidence.push('Inspect the optional plane only if current work depends on it.');
+    }
+    if(b.ok&&b.armed&&!b.ready_for_browser_automation){
+      addUnknown('Browser armed but automation not ready','Verify Playwright package/runtime and configured browser channel before browser actuation.');
+      nextEvidence.push('Check browser bridge Playwright readiness and default browser channel.');
+    }
+    if(d.configured&&!d.ok&&r.ok){
+      addInference('INFERRED','Resident intelligence is degraded independently of the Receiver body.','Receiver ONLINE + Daemon DEGRADED');
+      addUnknown('Daemon failure mechanism','Inspect Daemon health, host lock, plane audit and last cycle error.');
+      nextEvidence.push('Inspect Daemon /health, /status, host lock and plane audit.');
+    }
+  }
+
+  const evidence=data.failure_evidence;
+  if(evidence?.security_signal_present){
+    addFact('Security telemetry','Security signal present','Windows / Defender failure evidence');addSource('Windows / Defender failure evidence','security telemetry correlation');
+    if(evidence.causation_established)addInference('INFERRED','Security evidence is marked causally linked by the resident evidence packet.','failure_evidence.causation_established=true');
+    else{addInference('INFERENCE BLOCKED','A security signal exists, but causation is not established. Do not promote it to root cause.','SECURITY PRODUCT EVENT != CAUSE');addUnknown('Security causal role','Correlate event time/resource/process identity with the failing process transition.');}
+  }
+
+  const daemonStatus=d.status||{};
+  const surfaces=daemonStatus?.continuity_enforcement?.surfacing_plan?.selected||[];
+  for(const item of surfaces.slice(0,8))addSource(`continuity:${item.surface}`,item.reason||item.authority||'surfaced by resident');
+  const scars=(data.scar_intelligence?.applicable||[]).slice(0,5);
+  for(const scar of scars){if(scar.best_occurrence?.source)addSource(`scar:${scar.best_occurrence.source}`,scar.reason||'applicable scar occurrence');}
+  const haWorkloads=data.supervisor_budgets?.workloads||{};
+  for(const [key,row] of Object.entries(haWorkloads)){
+    if(row.state_status&&row.state_status!=='MISSING')addSource(`ha:${key}`,`${row.state_status} · ${row.restart_events}/${row.max_restarts} restarts in window`);
+    if(row.hold?.hold){addUnknown(`${row.name} maintenance hold active`,row.hold.reason||'Inspect supervisor maintenance-hold record.');nextEvidence.push(`Inspect ${row.name} maintenance-hold expiry/reason before expecting automatic recovery.`);}
+    if(row.state_status==='CORRUPT_HOLD'){addUnknown(`${row.name} restart budget corrupt-hold`,'Inspect and repair supervisor failure-state provenance; do not reset budget silently.');nextEvidence.push(`Inspect ${row.name} supervisor failure state before restart.`);}
+    if(Number(row.remaining)===0&&row.state_status!=='MISSING'&&row.state_status!=='CORRUPT_HOLD'){addUnknown(`${row.name} restart budget exhausted`,'Inspect crash-loop evidence before manual restart or promotion.');}
+  }
+  const scarDeficits=(data.scar_intelligence?.source_deficits||[]).slice(0,8);
+  for(const deficit of scarDeficits){addUnknown('Scar-source coverage incomplete',`${deficit.source_id||'registered source'} · ${deficit.status||'unknown status'}`);addSource(`scar-source:${deficit.source_id||'unknown'}`,deficit.status||'source deficit');}
+  if(scarDeficits.length)nextEvidence.push('Materialize/verify registered scar sources before claiming complete scar coverage.');
+
+  const topology={
+    nodes:[
+      {id:'hud',label:'HUD',state:picture.stale?'unknown':(h.ok?'good':'bad')},
+      {id:'transport',label:'TRANSPORT',state:picture.stale||!n.configured?'unknown':(n.ok?'good':'bad')},
+      {id:'receiver',label:'RECEIVER',state:picture.stale?'unknown':(r.ok?'good':'bad')},
+      {id:'daemon',label:'DAEMON',state:picture.stale||!d.configured?'unknown':(d.ok?'good':'bad')},
+      {id:'journal',label:'JOURNAL',state:picture.stale?'unknown':(j.ok?'good':'bad')},
+      {id:'browser',label:'BROWSER',state:picture.stale?'unknown':(b.ok?'good':'degraded')},
+    ],
+    edges:[['hud','transport'],['transport','receiver'],['receiver','daemon'],['daemon','journal'],['journal','browser']],
+  };
+  return {schema:'pcmmad.hud-diagnostic.v1',severity:picture.label,title:picture.faultTitle,summary:picture.chain,currentness:{stale:picture.stale,age_seconds:picture.age},facts,inferences,unknowns,informedBy,scars,nextEvidence,topology,mutation_authority:false};
+}
+
+function renderDiagnosticList(id,rows,emptyText){
+  const root=$(id);if(!root)return;root.innerHTML='';
+  if(!rows?.length){root.innerHTML=`<div class="diagnostic-empty">${escapeHtml(emptyText)}</div>`;return;}
+  for(const row of rows){const div=document.createElement('div');div.className='diagnostic-row';const truth=row.truth?`<span class="truth-tag ${row.truth.toLowerCase().replace(/\s+/g,'-')}">${escapeHtml(row.truth)}</span>`:'';const title=escapeHtml(row.label||row.text||'');const text=row.label&&row.text?`<div>${escapeHtml(row.text)}</div>`:'';const foot=row.source||row.basis||row.discriminator?`<small>${escapeHtml(row.source||row.basis||row.discriminator)}</small>`:'';div.innerHTML=`${truth}<strong>${title}</strong>${text}${foot}`;root.appendChild(div);}
+}
+
+function renderDiagnosticTopology(packet){
+  const root=$('diagnosticTopology');if(!root)return;root.innerHTML='';
+  const map=document.createElement('div');map.className='diagnostic-map';
+  packet.topology.nodes.forEach((node,i)=>{const n=document.createElement('span');n.className=`diagnostic-node ${node.state}`;n.textContent=node.label;map.appendChild(n);if(i<packet.topology.nodes.length-1){const edge=document.createElement('span');edge.className='diagnostic-edge';edge.textContent='→';map.appendChild(edge);}});root.appendChild(map);
+}
+
+async function toggleBrowserGate(){
+  const armed=!!state.status?.browser_bridge?.armed;const desired=armed?'BLOCKED':'ARMED';const result=await api('/api/browser/gate',{method:'POST',body:JSON.stringify({state:desired}),timeoutMs:5000});
+  if(!result.ok){showToast(`Browser gate ${desired} failed: ${result.error_code||result.message||'unknown error'}`,false);return;}
+  showToast(`Browser actuation ${desired}`);await refreshStatus();
+}
+
+function openDiagnostic(){
+  const data=state.status||{ok:false,error_code:'HUD_FETCH_FAILED'};const picture=deriveCockpitPicture(data);const packet=deriveDiagnosticPacket(data,picture);state.lastDiagnostic=packet;
+  $('diagnosticTitle').textContent=packet.title;$('diagnosticSeverity').textContent=packet.severity;$('diagnosticSeverity').className=`diagnostic-severity ${packet.severity.toLowerCase()}`;$('diagnosticSummary').textContent=packet.summary;renderDiagnosticTopology(packet);
+  renderDiagnosticList('diagnosticFacts',packet.facts,'No direct facts available.');renderDiagnosticList('diagnosticInferences',packet.inferences,'No inference needed.');renderDiagnosticList('diagnosticUnknowns',packet.unknowns,'No unresolved discriminator identified.');
+  const sources=$('diagnosticSources');sources.innerHTML='';packet.informedBy.forEach(x=>{const chip=document.createElement('span');chip.className='diagnostic-chip';chip.textContent=x.name;chip.title=x.detail||x.name;sources.appendChild(chip);});
+  renderDiagnosticList('diagnosticScars',packet.scars.map(x=>({truth:'SCAR',label:x.expression,text:x.reason||'',source:x.best_occurrence?.source||''})),'No applicable routed scar.');renderDiagnosticList('diagnosticNext',packet.nextEvidence.map(x=>({truth:'NEXT',text:x})),'No additional evidence route required.');$('diagnosticModal').classList.remove('hidden');
+}
+
+function closeDiagnostic(){$('diagnosticModal').classList.add('hidden');}
+
+function advanceAnnunciation(previous,picture,nowEpochSeconds=Date.now()/1000){
+  const identity=`${picture.level}|${picture.faultTitle}`;
+  if(!previous)return {identity,level:picture.level,faultTitle:picture.faultTitle,since:nowEpochSeconds,changed:true,cleared:null};
+  if(previous.identity===identity)return {...previous,changed:false};
+  const cleared=(previous.level==='warning'||previous.level==='caution')&&picture.level==='normal'?{level:previous.level,faultTitle:previous.faultTitle,at:nowEpochSeconds}:null;
+  return {identity,level:picture.level,faultTitle:picture.faultTitle,since:nowEpochSeconds,changed:true,cleared};
+}
+
+function trendDirection(values,lowerIsBetter=true){
+  if(!Array.isArray(values)||values.length<3)return '→';
+  const recent=values.slice(-3); const delta=recent[2]-recent[0];
+  if(Math.abs(delta)<0.5)return '→';
+  const improving=lowerIsBetter?delta<0:delta>0; return improving?'↓':'↑';
+}
+
+function pushTrend(values,value,max=12){
+  if(Number.isFinite(Number(value)))values.push(Number(value));
+  while(values.length>max)values.shift(); return values;
+}
+
+function setSynopticNode(id,ok,label,degraded=false,unknown=false){
+  const node=$(id); if(!node)return;
+  node.className=`synoptic-node ${unknown?'unknown':(ok?(degraded?'degraded':'good'):'bad')}`;
+  const value=node.querySelector('strong'); if(value)value.textContent=label;
 }
 
 function renderCockpitStatus(data){
-  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
-  const coreReady=ready.core_ready!==undefined?!!ready.core_ready:!!(h.ok&&r.ok&&j.ok);
-  const optional=ready.optional||{};
-  const optionalDegraded=ready.optional_degraded||[];
-  const optionalEntries=Object.entries(optional);
-  const optionalActive=optionalEntries.filter(([,ok])=>!!ok).length;
-  const assurance=$('cockpitAssurance');
-  if(assurance)assurance.textContent=coreReady?(optionalDegraded.length?'Core ready; optional planes degraded':'Core ready; required planes nominal'):'Required control-plane evidence is degraded';
-  const optionalEl=$('cockpitOptional');if(optionalEl)optionalEl.textContent=`${optionalActive}/${optionalEntries.length||0} ACTIVE`;
-  const sessions=data.browser_sessions||[];
-  const sessionSummary=$('cockpitSessionSummary');
-  if(sessionSummary){
-    sessionSummary.innerHTML=sessions.length
-      ? `<strong>${sessions.length}</strong> active session${sessions.length===1?'':'s'}<br>${sessions.slice(0,3).map(x=>escapeHtml(x.session_id||x.id||'session')).join('<br>')}`
-      : `${b.ok?'Bridge online; no active sessions.':'Optional browser bridge unavailable.'}`;
-  }
-  renderPlaneMatrix(ready);
+  const picture=deriveCockpitPicture(data); const {h,r,b,j,n,d,coreReady,optionalDegraded,level,label,faultTitle,chain,cue,stale}=picture;
+  const ann=advanceAnnunciation(state.cockpitAnnunciation,picture);state.cockpitAnnunciation=ann;
+  const assurance=$('cockpitAssurance'),modeDetail=$('cockpitModeDetail'),master=$('masterAnnunciator'),masterLabel=$('masterAnnunciatorLabel');
+  if(master)master.className=`master-annunciator ${level}`;
+  if(masterLabel)masterLabel.textContent=label;
+  const masterMeta=$('masterAnnunciatorMeta');if(masterMeta){const age=Math.max(0,Math.round(Date.now()/1000-ann.since));masterMeta.textContent=ann.cleared?`cleared ${ann.cleared.level.toUpperCase()} · monitoring`:`${ann.changed?'new':'active'} · ${age}s`;}
+  if(assurance)assurance.textContent=stale?'STATUS STALE · CURRENTNESS REQUIRED':coreReady?(optionalDegraded.length?'CORE READY · OPTIONAL DEGRADED':'CORE READY · REQUIRED PLANES NOMINAL'):'CORE DEGRADED · REQUIRED EVIDENCE LOST';
+  if(modeDetail)modeDetail.textContent=stale?'do not trust embedded green states':coreReady?(optionalDegraded.length?`${optionalDegraded.length} optional plane${optionalDegraded.length===1?'':'s'} isolated`:'machine-truth path available'):'recovery / fault isolation mode';
+  const optional=$('cockpitOptional');if(optional)optional.textContent=optionalDegraded.length?`${optionalDegraded.length} DEGRADED`:'NOMINAL';
+  setSynopticNode('synHud',!!h.ok,h.ok?'ONLINE':'DOWN',false,stale);
+  setSynopticNode('synNgrok',!!n.ok,n.ok?`${n.tunnel_count||1} TUNNEL${(n.tunnel_count||1)===1?'':'S'}`:(n.configured?'DOWN':'STANDBY'),false,!n.configured||stale);
+  setSynopticNode('synReceiver',!!r.ok,r.ok?'ONLINE':'DOWN',false,stale);
+  setSynopticNode('synDaemon',!!d.ok,d.configured?(d.ok?'ONLINE':'DEGRADED'):'STANDBY',d.configured&&!d.ok,!d.configured||stale);
+  setSynopticNode('synJournal',!!j.ok,j.ok?'DURABLE':'DEGRADED',!j.ok,stale);
+  const browserLabel=!b.ok?'OPTIONAL':(b.armed?(b.ready_for_browser_automation?'ARMED':'ARMED / NOT READY'):'BLOCKED');
+  setSynopticNode('synBrowser',!!b.ok,browserLabel,!!(b.ok&&b.armed&&!b.ready_for_browser_automation),!b.ok&&stale);
+  const synBrowser=$('synBrowser');if(synBrowser&&b.ok&&!b.armed)synBrowser.className='synoptic-node blocked diagnostic-trigger';
+  const ft=$('cockpitFaultTitle');if(ft)ft.textContent=faultTitle; const cc=$('cockpitCausalChain');if(cc)cc.textContent=chain; const rc=$('cockpitRecoveryCue');if(rc)rc.textContent=cue;
+  const completed=(data.events||[]).filter(e=>e.kind==='dispatch_completed');const failureCount=completed.filter(e=>!e.ok).length;
+  pushTrend(state.cockpitTrends.latency,data.latency_ms);pushTrend(state.cockpitTrends.failures,failureCount);
+  const tsa=$('trendStatusAge');if(tsa)tsa.textContent=Number.isFinite(picture.age)?`${Math.round(picture.age)}s`:'--';
+  const tl=$('trendLatency');if(tl)tl.textContent=Number.isFinite(Number(data.latency_ms))?`${Math.round(Number(data.latency_ms))}ms`:'--';
+  const tld=$('trendLatencyDir');if(tld)tld.textContent=trendDirection(state.cockpitTrends.latency,true);
+  const tf=$('trendFailures');if(tf)tf.textContent=String(failureCount);const tfd=$('trendFailuresDir');if(tfd)tfd.textContent=trendDirection(state.cockpitTrends.failures,true);
+  const tt=$('trendTransport');if(tt)tt.textContent=n.ok?`${n.tunnel_count||1} UP`:(n.configured?'DOWN':'STANDBY');
+  const tb=$('trendBrowser');if(tb)tb.textContent=!b.ok?'DOWN':(b.armed?(b.ready_for_browser_automation?'ARMED':'ARMED !READY'):'BLOCKED');
+  const hb=data.supervisor_budgets?.summary||{};const thb=$('trendHaBudget');if(thb)thb.textContent=hb.status==='AVAILABLE'?`${hb.remaining}/${hb.max_restarts}`:(hb.status||'STANDBY');
+  const td=$('trendDaemon');if(td)td.textContent=d.configured?(d.ok?`${d.status?.cycle_count??'--'} CYCLES`:'DEGRADED'):'STANDBY';
+
+  const scarPacket=data.scar_intelligence||data.daemon?.scar_intelligence||data.resident?.scar_intelligence; const routed=Array.isArray(scarPacket?.applicable)?scarPacket.applicable:[];
+  const scarBox=$('cockpitScar'),scarText=$('cockpitScarText'),scarReason=$('cockpitScarReason');
+  if(scarBox&&routed.length){const scar=routed[0];scarBox.hidden=false;if(scarText)scarText.textContent=scar.expression||'Applicable scar';if(scarReason)scarReason.textContent=scar.reason||`routed from ${scar.occurrence_count||1} source occurrence${scar.occurrence_count===1?'':'s'}`;}else if(scarBox){scarBox.hidden=true;}
+  const sessions=data.browser_sessions||[];const sessionSummary=$('cockpitSessionSummary');if(sessionSummary){sessionSummary.innerHTML=!b.ok?'Optional browser bridge unavailable.':(!b.armed?`<strong>BLOCKED</strong> · bridge online · actuation disabled`:(!b.ready_for_browser_automation?`<strong>ARMED</strong> · automation runtime not ready`:(sessions.length?`<strong>${sessions.length}</strong> active session${sessions.length===1?'':'s'}<br>${sessions.slice(0,3).map(x=>escapeHtml(x.session_id||x.id||'session')).join('<br>')}`:`<strong>ARMED</strong> · automation ready · no active sessions`)));}
+  const gateState=$('browserGateState');if(gateState)gateState.textContent=b.armed?'ARMED':'BLOCKED';const gateBtn=$('browserGateToggle');if(gateBtn){gateBtn.textContent=b.armed?'BLOCK':'ARM';gateBtn.className=`gate-control ${b.armed?'armed':'blocked'}`;gateBtn.title=b.armed?'Block browser actuation immediately':'Explicitly arm browser actuation';}
 }
 
 function renderCockpitTools(){
@@ -111,75 +251,30 @@ function renderCockpitTools(){
   toolCount.textContent=String(state.tools.length);
   familyCount.textContent=String(families.size);
   summary.innerHTML=`<strong>${state.tools.length}</strong> native tools<br><strong>${mutating}</strong> mutating · <strong>${approvals}</strong> approval-gated<br><strong>${dynamic}</strong> dynamic availability${unavailable?` · <strong>${unavailable}</strong> unavailable`:''}`;
-  const browserStart=state.tools.find(t=>t.name==='browser.session.start');
-  const quickBrowser=$('quickBrowserAction');
-  if(quickBrowser){quickBrowser.classList.toggle('hidden',!browserStart);quickBrowser.disabled=!browserStart;}
 }
 
 function renderStatus(data){
   state.status=data;
-  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},o=data.observability||{},ready=data.readiness||{};
-  const identity=r.runtime_identity||{},catalog=r.project_catalog||{};
-  const head=String(identity.source_head||'').slice(0,8)||'unbound';
-  const runtimeText=`${identity.generation||'Runtime'} · ${head}`;
-  if($('runtimeIdentity'))$('runtimeIdentity').textContent=runtimeText;
-  if($('runtimeGeneration'))$('runtimeGeneration').textContent=identity.generation||'Runtime';
-  if($('runtimeSource'))$('runtimeSource').textContent=`${identity.product||'PCMMAD Laboratory Runtime'} · ${head}${identity.source_branch?` · ${identity.source_branch}`:''}`;
-  const projects=Array.isArray(catalog.projects)?catalog.projects:[];
-  if($('projectFocus'))$('projectFocus').textContent=projects.length?`PROJECTS · ${projects.length}`:'PROJECTS · —';
-  if($('projectContext'))$('projectContext').innerHTML=projects.length
-    ? `<strong>${projects.length}${catalog.partial?'+':''}</strong> project folders<br>${projects.slice(0,8).map(escapeHtml).join('<br>')}${catalog.partial?'<br>…':''}<br><span class="muted">${escapeHtml(catalog.root||'')}</span>`
-    : `No project catalog evidence.<br><span class="muted">${escapeHtml(catalog.root||'')}</span>`;
+  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},n=data.ngrok||{},ready=data.readiness||{};
   setLamp('hudLamp',h.ok?'good':'bad');$('hudState').textContent=h.ok?'ONLINE':'DOWN';$('hudDetail').textContent=h.ok?`${h.host}:${h.port}`:'HUD unavailable';
   setLamp('receiverLamp',r.ok?'good':'bad');$('receiverState').textContent=r.ok?'ONLINE':'DOWN';$('receiverDetail').textContent=r.ok?`${r.tool_count??'?'} live tools · HTTP ${r.http_status}`:`HTTP ${r.http_status??'?'}`;
-  setLamp('bridgeLamp',b.ok?'good':'bad');$('bridgeState').textContent=b.ok?'ACTIVE':'DOWN';$('bridgeDetail').textContent=b.ok?`PID ${b.detail?.pid??'?'} · ${b.detail?.sessions??0} sessions`:(b.detail?.error||'bridge unavailable');
-  setLamp('observabilityLamp',o.ok?'good':'bad');$('observabilityState').textContent=o.ok?'ACTIVE':'DEGRADED';$('observabilityDetail').textContent=o.ok?`HTTP ${o.http_status??200} · live receiver telemetry`:(o.error?.message||o.error?.error_code||`HTTP ${o.http_status??'?'}`);
-  setLamp('journalLamp',j.ok?'good':'bad');$('journalState').textContent=j.ok?'ACTIVE':'DEGRADED';$('journalDetail').textContent=j.ok?`${j.memory_rows??0} recent rows · ${j.malformed_rows_skipped??0} malformed skipped`:(j.load_error||j.write_error||`journal degraded · ${j.malformed_rows_skipped??0} malformed skipped`);
-  const sessions=data.browser_sessions||[];const sessionsObservable=!!b.ok;$('sessionCount').textContent=sessionsObservable?String(sessions.length):'—';setLamp('sessionLamp',sessionsObservable?'good':'bad');
+  setLamp('bridgeLamp',b.ok?'good':'bad');$('bridgeState').textContent=b.ok?'ONLINE':'DOWN';$('bridgeDetail').textContent=b.ok?`PID ${b.detail?.pid??'?'} · ${b.detail?.sessions??0} sessions`:(b.detail?.error||'bridge unavailable');
+  setLamp('journalLamp',j.ok?'good':'bad');$('journalState').textContent=j.ok?'DURABLE':'DEGRADED';$('journalDetail').textContent=j.ok?`${j.memory_rows??0} recent rows · ${j.malformed_rows_skipped??0} malformed skipped`:(j.load_error||j.write_error||`journal degraded · ${j.malformed_rows_skipped??0} malformed skipped`);
+  const sessions=data.browser_sessions||[];$('sessionCount').textContent=String(sessions.length);setLamp('sessionLamp',b.ok?'good':'bad');
   const coreReady=ready.core_ready!==undefined?!!ready.core_ready:!!(h.ok&&r.ok&&j.ok);
-  const optionalDegraded=ready.optional_degraded||[];
+  const optionalDegraded=Array.isArray(ready.optional_degraded)?ready.optional_degraded:(!b.ok?['browser_bridge']:[]);
   const corePartiallyAlive=!!(h.ok&&(r.ok||j.ok));
-  const coreState=$('coreState'),optionalState=$('optionalState');
-  if(coreState){
-    const coreClass=coreReady?'good':(corePartiallyAlive?'degraded':'bad');
-    coreState.className=`readiness-orb core ${coreClass}`;
-    const label=coreState.querySelector('strong');
-    if(label)label.textContent=coreReady?'READY':(corePartiallyAlive?'DEGRADED':'DOWN');
-  }
-  if(optionalState){
-    const optionalClass=optionalDegraded.length?'degraded':'good';
-    optionalState.className=`readiness-orb optional ${optionalClass}`;
-    const label=optionalState.querySelector('strong');
-    if(label)label.textContent=optionalDegraded.length?'DEGRADED':'NOMINAL';
-  }
+  const g=$('globalState');
+  if(coreReady&&optionalDegraded.length){g.className='state-pill degraded';g.textContent='CORE READY · OPTIONAL DEGRADED';}
+  else if(coreReady){g.className='state-pill good';g.textContent='CORE READY';}
+  else if(corePartiallyAlive){g.className='state-pill degraded';g.textContent='CORE DEGRADED';}
+  else{g.className='state-pill bad';g.textContent='CONTROL PLANE DOWN';}
   $('lastRefresh').textContent=`checked ${now()} · ${data.latency_ms??'?'} ms`;
-  renderCockpitStatus(data); renderTelemetry(data.telemetry||{}); renderSessions(sessions,{observable:sessionsObservable,error:b.detail?.error||b.error||null}); ingestRuntimePulse(data); renderEvents(data.events||[]);
-}
-
-function renderArchitecture(data){
-  const a=data?.architecture||data||{};state.architecture=a;
-  const mutation=a.mutation||{},protocol=a.protocol||{},ucm=a.ucm||{},effects=a.effect_profile||{},migrations=a.migrations||{},compat=a.compatibility||{};
-  const current=effects.current!==false;
-  const el=$('architectureState');if(el){el.className=`state-pill ${current?'good':'degraded'}`;el.textContent=current?'CURRENT':'DRIFT';}
-  if($('architectureMutation'))$('architectureMutation').textContent=`${mutation.status||'—'} · G${mutation.generation??'—'}`;
-  if($('architectureMutationSub'))$('architectureMutationSub').textContent=mutation.owner_id?`${mutation.owner_id} · ${mutation.session_id||'session?'}`:'project generation';
-  if($('architectureProtocol'))$('architectureProtocol').textContent=protocol.mode||'—';
-  if($('architectureProtocolSub'))$('architectureProtocolSub').textContent=`${protocol.event_count??0} events · ${String(protocol.head_hash||'').slice(0,8)||'genesis'}`;
-  if($('architectureUcm'))$('architectureUcm').textContent=ucm?.ledger_head_seq!==undefined?`HEAD ${ucm.ledger_head_seq}`:'UNBOUND';
-  if($('architectureUcmSub'))$('architectureUcmSub').textContent=ucm?.profile_id?`${ucm.profile_id} · snapshot ${ucm.snapshot_current?'current':'stale'}`:'explicit profile not bound';
-  if($('architectureEffects'))$('architectureEffects').textContent=`${effects.effect_truth_verified??0} / ${effects.parallel_verified??0}`;
-  if($('architectureEffectsSub'))$('architectureEffectsSub').textContent=`${effects.capability_count??a.capabilities?.count??'—'} capabilities`;
-  if($('architectureMigrations'))$('architectureMigrations').textContent=String(migrations.receipt_count??0);
-  if($('architectureCompatibility'))$('architectureCompatibility').textContent=compat.legacy_commit_route==='DEPRECATED_COMPATIBILITY'?'DEPRECATED':'—';
-}
-async function loadArchitecture(){
-  const project=($('authorityProject')?.value||'RECEIVER-LAB').trim()||'RECEIVER-LAB';
-  const qs=new URLSearchParams({project_id:project,ucm_profile_id:'private-primary-user'});
-  try{const d=await api(`/api/architecture?${qs.toString()}`,{timeoutMs:4500});renderArchitecture(d);}catch(e){const el=$('architectureState');if(el){el.className='state-pill bad';el.textContent='UNAVAILABLE';}}
+  renderCockpitStatus(data); renderSessions(sessions); renderEvents(data.events||[]);
 }
 
 async function refreshStatus(){
-  const [d]=await Promise.all([api('/api/status',{timeoutMs:5000}),loadApprovals(),loadArchitecture()]); renderStatus(d);
+  const d=await api('/api/status',{timeoutMs:5000}); renderStatus(d);
   const liveCount=d.receiver?.tool_count;
   if(d.receiver?.ok && Number.isInteger(liveCount) && state.tools.length && liveCount!==state.tools.length){
     $('toolCount').textContent=`catalog stale: ${state.tools.length} cached / ${liveCount} live`;
@@ -190,52 +285,11 @@ async function refreshStatus(){
   return d;
 }
 
-
-function approvalAge(iso){if(!iso)return 'unknown age';const t=Date.parse(iso);if(!Number.isFinite(t))return 'unknown age';const sec=Math.max(0,Math.floor((Date.now()-t)/1000));if(sec<60)return `${sec}s`;const min=Math.floor(sec/60);return min<60?`${min}m`:`${Math.floor(min/60)}h`; }
-function renderApprovalInbox(data){
-  const rows=Array.isArray(data?.approvals)?data.approvals:[];state.approvals=rows;
-  const box=$('approvalInbox'),count=$('approvalInboxCount');if(count)count.textContent=String(rows.length);if(!box)return;
-  if(!rows.length){box.className='approval-inbox empty-note';box.innerHTML='No pending approval challenges.';return;}
-  box.className='approval-inbox';
-  box.innerHTML=rows.map(a=>{const granted=String(a.status||'').toUpperCase()==='GRANTED';const contract=String(a.contract_digest||'').slice(0,12);const args=String(a.arguments_digest||'').slice(0,12);const target=JSON.stringify(a.target||{});return `<article class="approval-row ${granted?'granted':'active'}" data-approval-handle="${escapeHtml(a.handle||'')}"><div class="approval-row-head"><div><strong>${escapeHtml(a.capability_id||'unknown capability')}</strong><span class="approval-status">${escapeHtml(String(a.status||'').toUpperCase())}</span></div><span>${escapeHtml(String(a.danger_tier||'').toUpperCase())}</span></div><div class="approval-row-meta">${escapeHtml(a.handle||'')} · age ${escapeHtml(approvalAge(a.issued_at))}<br>contract ${escapeHtml(contract)} · args ${escapeHtml(args)}<br>target ${escapeHtml(target)}</div><div class="approval-row-actions">${granted?'<span class="granted-note">Granted; waiting for exact caller retry.</span>':`<button class="danger-button" data-approval-grant="${escapeHtml(a.handle||'')}">Grant exact challenge</button>`}<button class="secondary" data-approval-revoke="${escapeHtml(a.handle||'')}">Reject / revoke</button></div></article>`;}).join('');
-}
-function parseAuthorityRules(text){
-  const out={capabilities:[],categories:[],effect_traits:[],danger_tiers:[]};
-  String(text||'').split(/[\n,]+/).map(x=>x.trim()).filter(Boolean).forEach(rule=>{
-    const m=rule.match(/^(category|effect|tier|capability|cap):\s*(.+)$/i);
-    if(!m){out.capabilities.push(rule);return;}
-    const key=m[1].toLowerCase(),value=m[2].trim();if(!value)return;
-    if(key==='category')out.categories.push(value);else if(key==='effect')out.effect_traits.push(value);else if(key==='tier')out.danger_tiers.push(value);else out.capabilities.push(value);
-  });return out;
-}
-function authorityRulesText(sel){sel=sel||{};return [...(sel.capabilities||[]),...(sel.categories||[]).map(x=>`category:${x}`),...(sel.effect_traits||[]).map(x=>`effect:${x}`),...(sel.danger_tiers||[]).map(x=>`tier:${x}`)].join(', ');}
-function authorityModeChanged(){const custom=$('authorityMode').value==='custom';$('authorityDefault').disabled=!custom;}
-const UNIVERSAL_AUTHORITY_PROJECT='__ALL_PROJECTS__';
-function authorityScopeChanged(){const universal=$('authorityScope')?.value==='universal';const input=$('authorityProject');if(input){if(universal){input.dataset.projectValue=input.value;input.disabled=true;}else{input.disabled=false;if(input.dataset.projectValue)input.value=input.dataset.projectValue;}}loadAuthorityProfile();}
-function authorityTargetProject(){return $('authorityScope')?.value==='universal'?UNIVERSAL_AUTHORITY_PROJECT:$('authorityProject').value.trim();}
-function authorityTargetLabel(){return $('authorityScope')?.value==='universal'?'ALL PROJECTS':$('authorityProject').value.trim();}
-function renderAuthorityProfile(profile){const st=$('authorityProfileState');if(!profile){st.className='state-pill unknown';st.textContent='SERVER FALLBACK';$('authorityMode').value='standing';$('authorityDefault').value='allow';$('authorityAsk').value='';$('authorityAllow').value='';$('authorityDeny').value='';authorityModeChanged();return;}$('authorityMode').value=profile.mode||'standing';$('authorityDefault').value=profile.default_action||'allow';$('authorityAsk').value=authorityRulesText(profile.ask);$('authorityAllow').value=authorityRulesText(profile.allow);$('authorityDeny').value=authorityRulesText(profile.deny);authorityModeChanged();st.className='state-pill good';st.textContent=`${String(profile.mode||'standing').toUpperCase()} · ${String(profile.default_action||'allow').toUpperCase()}`;}
-async function loadAuthorityProfile(){const project=authorityTargetProject();if(!project)return;const d=await api(`/api/authority?project_id=${encodeURIComponent(project)}`,{timeoutMs:4000});if(d?.ok){state.authorityProfile=d.profile||null;renderAuthorityProfile(state.authorityProfile);}else showToast(`Authority read failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
-async function saveAuthorityProfile(){const project=authorityTargetProject();if(!project)return showToast('Project is required',false);const body={project_id:project,mode:$('authorityMode').value,default_action:$('authorityDefault').value,ask:parseAuthorityRules($('authorityAsk').value),allow:parseAuthorityRules($('authorityAllow').value),deny:parseAuthorityRules($('authorityDeny').value),operator_id:'local-hud-operator',provenance:'pcmmad-local-hud:standing-authority'};const d=await api('/api/authority',{method:'POST',body:JSON.stringify(body),timeoutMs:8000});if(d?.ok){state.authorityProfile=d.profile;renderAuthorityProfile(d.profile);showToast(`Standing authority saved for ${authorityTargetLabel()}`);}else showToast(`Authority save failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
-async function resetAuthorityProfile(){const project=authorityTargetProject();if(!project)return;const d=await api('/api/authority/reset',{method:'POST',body:JSON.stringify({project_id:project}),timeoutMs:8000});if(d?.ok){state.authorityProfile=null;renderAuthorityProfile(null);showToast(`Server fallback restored for ${authorityTargetLabel()}`);}else showToast(`Authority reset failed: ${d.error_code||d.message||'unknown'}`,false);return d;}
-
-async function loadApprovals(){const d=await api('/api/approvals',{timeoutMs:4000});if(d?.ok)renderApprovalInbox(d);else renderApprovalInbox({approvals:[]});return d;}
-async function decideInboxApproval(handle,action){if(!handle)return;const d=await api(`/api/approvals/${action}`,{method:'POST',body:JSON.stringify({handle}),timeoutMs:8000});showToast(d.ok?`${action==='grant'?'Granted':'Revoked'} ${handle}`:`Approval ${action} failed: ${d.error_code||d.message||'unknown'}`,!d.ok);await loadApprovals();return d;}
-
-function renderSessions(rows,meta={}){
-  const observable=meta.observable!==false; const box=$('sessionList'); const sel=$('uploadSession'); if(sel){sel.innerHTML='<option value="">Select session</option>'+rows.map(r=>`<option value="${escapeHtml(r.session_id||r.id||'')}">${escapeHtml(r.session_id||r.id||'')}</option>`).join('');sel.disabled=!observable;}
-  if(!observable){box.innerHTML='<div class="empty-note"><strong>Session inventory unavailable.</strong><br>Optional browser bridge is down; 0 sessions is not being inferred.</div>';return;}
-  if(!rows.length){box.innerHTML='<div class="empty-note">Bridge online; no active browser sessions.</div>';return;}
+function renderSessions(rows){
+  const box=$('sessionList'); const sel=$('uploadSession'); if(sel){sel.innerHTML='<option value="">Select session</option>'+rows.map(r=>`<option value="${escapeHtml(r.session_id||r.id||'')}">${escapeHtml(r.session_id||r.id||'')}</option>`).join('');}
+  if(!rows.length){box.innerHTML='<div class="empty-note">No active browser sessions.</div>';return;}
   box.innerHTML=rows.map(s=>`<div class="session-row"><div><div class="session-title">${escapeHtml(s.session_id||s.id||'session')}</div><div class="session-meta">${escapeHtml(s.url||s.current_url||'')} ${s.profile_name?`· ${escapeHtml(s.profile_name)}`:''}</div></div><button class="secondary" data-stop-session="${escapeHtml(s.session_id||s.id||'')}">Stop…</button></div>`).join('');
   box.querySelectorAll('[data-stop-session]').forEach(btn=>btn.onclick=()=>{const t=state.tools.find(x=>x.name==='browser.session.stop'); if(!t)return showToast('browser.session.stop unavailable',false); dispatchTool(t,{session_id:btn.dataset.stopSession,timeout_seconds:20});});
-}
-
-function ingestRuntimePulse(data){
-  const tele=data?.telemetry||{},exec=tele.execution?.global||{},proc=tele.process||{},sched=tele.scheduler||{},http=tele.http||{};
-  const sampleTs=Number((tele.history||[]).slice(-1)[0]?.ts||data?.checked_at||Date.now()/1000);
-  if(!Number.isFinite(sampleTs)||sampleTs<=state.lastRuntimePulseTs)return; state.lastRuntimePulseTs=sampleTs;
-  state.liveActivity.unshift({kind:'runtime_pulse',ts:sampleTs,tool_name:'runtime pulse',ok:tele.ok!==false,elapsed_ms:null,summary:`HTTP ${Number(http.requests_per_minute??http.rpm??0).toFixed(1)} rpm · ${Number(exec.running||0)} running · ${Number(exec.queued||0)} queued · CPU ${Number(proc.cpu_percent||0).toFixed(1)}% · RSS ${fmtBytes(proc.rss_bytes)} · watcher ${sched.watcher_alive===false?'DOWN':'alive'}`});
-  state.liveActivity=state.liveActivity.slice(0,24);
 }
 
 function renderEvents(events){
@@ -244,13 +298,12 @@ function renderEvents(events){
   $('failureCount').textContent=String(failures.length);
   $('failures').className=failures.length?'stack':'stack empty-note';
   $('failures').innerHTML=failures.length?failures.slice(0,6).map(e=>`<div class="failure-row"><strong>${escapeHtml(e.tool_name)}</strong><div class="session-meta">${fmtTime(e.ts)} · HTTP ${e.http_status} · ${escapeHtml(e.error_code||'unspecified failure')}</div></div>`).join(''):'No HUD dispatch failures recorded.';
-  const journalRows=events.filter(e=>['dispatch_completed','dispatch_started','approval_grant','approval_revoke','batch_started','batch_completed','batch_rejected_approval'].includes(e.kind));
-  const merged=[...state.liveActivity,...journalRows].sort((a,b)=>Number(b.ts||0)-Number(a.ts||0));
-  $('recentActivity').innerHTML=merged.length?merged.slice(0,10).map(eventRow).join(''):'<div class="empty-note">No live activity evidence yet.</div>';
-  $('activityTable').innerHTML=merged.length?merged.slice(0,60).map(eventRow).join(''):'<div class="empty-note">No live activity evidence yet.</div>';
+  const rows=completed.slice(0,4);
+  $('recentActivity').innerHTML=rows.length?rows.map(eventRow).join(''):'<div class="empty-note">No HUD dispatches yet.</div>';
+  $('activityTable').innerHTML=completed.length?completed.map(eventRow).join(''):'<div class="empty-note">No HUD dispatch history yet.</div>';
 }
 
-function eventRow(e){const pulse=e.kind==='runtime_pulse';const ids=pulse?(e.summary||'live receiver telemetry'):[e.request_id,e.dispatch_id?`dispatch ${String(e.dispatch_id).slice(0,12)}`:null,e.kind&&!String(e.kind).startsWith('dispatch_')?e.kind:null].filter(Boolean).join(' · ');const status=pulse?'LIVE':(e.ok===false?'FAILED':'SUCCESS');const timing=pulse?'telemetry':(e.elapsed_ms!=null?`${e.elapsed_ms} ms`:'—');return `<div class="event-row"><span>${fmtTime(e.ts)}</span><span><span class="event-kind">${escapeHtml(e.tool_name||e.kind||'activity')}</span><br><span class="muted">${escapeHtml(ids)}</span></span><span class="${e.ok===false?'event-bad':'event-ok'}">${status}</span><span>${timing}</span></div>`;}
+function eventRow(e){const ids=[e.request_id,e.dispatch_id?`dispatch ${e.dispatch_id.slice(0,12)}`:null].filter(Boolean).join(' · ');return `<div class="event-row"><span>${fmtTime(e.ts)}</span><span><span class="event-kind">${escapeHtml(e.tool_name)}</span><br><span class="muted">${escapeHtml(ids)}</span></span><span class="${e.ok?'event-ok':'event-bad'}">${e.ok?'SUCCESS':'FAILED'}</span><span>${e.elapsed_ms??'?'} ms</span></div>`;}
 
 function toolNeedsApproval(t){if(t?.effective_approval_required!==undefined)return !!t.effective_approval_required;return !!t?.approval_required||!!t?.mutating||['high','critical'].includes(String(t?.danger_tier||'').toLowerCase());}
 function availabilityClass(a){const status=String(a?.status||'unknown').toLowerCase();return ['available','unavailable','degraded'].includes(status)?`availability-${status}`:'availability-unknown';}
@@ -325,9 +378,9 @@ function openToolPreset(name,payload={}){const t=state.tools.find(x=>x.name===na
 function approvalOpen(t,payload,challenge,onApproved){state.pendingApproval={tool:t,payload,challenge,onApproved};$('approvalTool').textContent=t.name;$('approvalTier').textContent=String(t.danger_tier||'unknown').toUpperCase();$('approvalDescription').textContent=t.description||'';$('approvalPayload').textContent=JSON.stringify({payload,approval_challenge:challenge},null,2);$('approvalModal').classList.remove('hidden');}
 function approvalBusy(on){$('confirmApproval').disabled=on;$('rejectApproval').disabled=on;$('confirmApproval').textContent=on?'Dispatching...':'Approve exact challenge';}
 function approvalClose(){approvalBusy(false);state.pendingApproval=null;$('approvalModal').classList.add('hidden');}
-async function sendDispatch(t,payload,authority=null){
+async function sendDispatch(t,payload,authority=null,expectedContractDigest=null){
   const request_id=uid(); state.lastDispatch=request_id;
-  const body={tool_name:t.name,payload,request_id};if(authority&&Object.keys(authority).length)body.authority=authority;
+  const body={tool_name:t.name,payload,request_id};if(authority&&Object.keys(authority).length)body.authority=authority;if(expectedContractDigest)body.expected_contract_digest=expectedContractDigest;
   const data=await api('/api/dispatch',{method:'POST',body:JSON.stringify(body),timeoutMs:35000});
   if(data.error_code==='HUD_TOKEN_REQUIRED'){
     const meta=await api('/api/meta',{timeoutMs:3000});
@@ -342,16 +395,18 @@ async function dispatchTool(t,payload){
   const d=await sendDispatch(t,payload,null);
   if(d.error_code==='APPROVAL_REQUIRED'){
     const challenge=d.approval_challenge||null;
-    if(!challenge?.handle){dispatchResult(t,d);showToast(`Approval challenge missing for ${t.name}`,false);return d;}
+    const continuation=d.continuation||null;
+    if(!challenge?.handle||!continuation||continuation.kind!=='resubmit_exact_tool_call'||!continuation.tool||!continuation.arguments||!continuation.expected_contract_digest||!continuation.authority_template){dispatchResult(t,d);showToast(`Approval continuation missing for ${t.name}`,false);return d;}
     const backendRiskTool={...t,effective_approval_required:true,danger_tier:d.danger_tier||t.danger_tier};
     dispatchResult(t,d);
     const approvedSend=async()=>{
       approvalBusy(true);
-      const authority={approval_handle:challenge.handle,permit:true,operator_id:'local-hud-operator',provenance:`pcmmad-local-hud:${d.request_id||state.lastDispatch||'unknown'}`};
-      const confirmed=await sendDispatch(t,payload,authority);
+      const authority={...continuation.authority_template,permit:true,operator_id:'local-hud-operator',provenance:`pcmmad-local-hud:${d.request_id||state.lastDispatch||'unknown'}`};
+      const continuationTool={...t,name:continuation.tool};
+      const confirmed=await sendDispatch(continuationTool,continuation.arguments,authority,continuation.expected_contract_digest);
       approvalClose();dispatchResult(t,confirmed);return confirmed;
     };
-    approvalOpen(backendRiskTool,payload,challenge,approvedSend);
+    approvalOpen(backendRiskTool,continuation.arguments,challenge,approvedSend);
     showToast(`Runtime issued ${String(backendRiskTool.danger_tier||'approval').toUpperCase()} challenge: ${t.name}`,false);
     return d;
   }
@@ -369,7 +424,7 @@ async function rawToolDispatch(){if(!state.selected)return;let payload;try{paylo
 async function presetAction(name){
   if(name==='sessions'){await refreshStatus();activateTab('browser');return;}
   if(name==='mounts'){const d=await api('/api/mounts');showData('Mounted roots',d);showToast(d.ok?'Mounts loaded':'Mounts failed',!!d.ok);return;}
-  if(name==='browser'){const t=state.tools.find(x=>x.name==='browser.session.start');if(!t)return showToast('browser.session.start unavailable',false);activateTab('browser');$('launchUrl')?.focus();return;}
+  if(name==='duckai'){const t=state.tools.find(x=>x.name==='browser.session.start');if(!t)return showToast('browser.session.start unavailable',false);return dispatchTool(t,{browser:'chrome',headless:false,persistent:false,profile_name:'da001_duckai_operator',url:'https://duck.ai/',timeout_seconds:60});}
   if(name==='upload'){openToolPreset('browser.upload',{session_id:'',selector:'input[type=file]',paths:[],timeout_seconds:60});}
 }
 
@@ -409,13 +464,14 @@ function wire(){
   $('toolSearch').oninput=applyToolFilter;$('syncFormBtn').onclick=()=>{try{syncFormToJson();}catch(e){showToast(String(e),false);}};$('dispatchBtn').onclick=rawToolDispatch;$('checkAvailabilityBtn').onclick=checkSelectedAvailability;
   $('openToolExplorer').onclick=()=>activateTab('tools');$('openRawTools').onclick=()=>activateTab('tools');$('openBrowserView').onclick=()=>activateTab('browser');$('openActivityView').onclick=()=>activateTab('activity');
   $('runCockpitCommand').onclick=runCockpitCommand;$('cockpitCommand').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();runCockpitCommand();}});
+  const diagnosticIds=['masterAnnunciator','synHud','synNgrok','synReceiver','synDaemon','synJournal','synBrowser','cockpitDiagnosticBtn'];diagnosticIds.forEach(id=>{const el=$(id);if(!el)return;el.onclick=openDiagnostic;el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDiagnostic();}});});$('closeDiagnostic').onclick=closeDiagnostic;
+  $('browserGateToggle').onclick=toggleBrowserGate;
   $('uiTier').onchange=e=>setUiTier(e.target.value);
   $('rejectApproval').onclick=()=>{const name=state.pendingApproval?.tool?.name;approvalClose();showToast(`Rejected: ${name||'action'}`,false);};
-  $('authorityMode').onchange=authorityModeChanged;$('authorityScope').onchange=authorityScopeChanged;$('authorityProject').onchange=loadAuthorityProfile;$('saveAuthorityProfile').onclick=saveAuthorityProfile;$('resetAuthorityProfile').onclick=resetAuthorityProfile;
-  $('approvalInbox')?.addEventListener('click',e=>{const grant=e.target.closest('[data-approval-grant]');if(grant){decideInboxApproval(grant.dataset.approvalGrant,'grant');return;}const revoke=e.target.closest('[data-approval-revoke]');if(revoke)decideInboxApproval(revoke.dataset.approvalRevoke,'revoke');});
   $('confirmApproval').onclick=()=>{const p=state.pendingApproval;if(!p)return;const cb=p.onApproved;cb();};
   window.addEventListener('keydown',e=>{
     if(e.key==='Escape'&&!$('approvalModal').classList.contains('hidden')){$('rejectApproval').click();return;}
+    if(e.key==='Escape'&&!$('diagnosticModal').classList.contains('hidden')){closeDiagnostic();return;}
     const target=e.target;const editing=target&&(['INPUT','TEXTAREA','SELECT'].includes(target.tagName)||target.isContentEditable);
     if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();focusCockpitCommand();return;}
     if(e.altKey&&['1','2','3','4'].includes(e.key)){e.preventDefault();activateTab(['ops','browser','activity','tools'][Number(e.key)-1]);return;}
@@ -423,5 +479,5 @@ function wire(){
   });
 }
 
-async function init(){wire();restoreUiTier();const meta=await api('/api/meta');state.hudToken=meta.hud_token||null;if(!state.hudToken)showToast('HUD POST capability token unavailable',false);await Promise.all([loadTools(),refreshStatus(),loadApprovals()]);await loadAuthorityProfile();setInterval(refreshStatus,5000);}
+async function init(){wire();restoreUiTier();const meta=await api('/api/meta');state.hudToken=meta.hud_token||null;if(!state.hudToken)showToast('HUD POST capability token unavailable',false);await Promise.all([loadTools(),refreshStatus()]);setInterval(refreshStatus,5000);}
 init();

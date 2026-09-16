@@ -15,7 +15,7 @@ from collections.abc import Mapping, MutableMapping
 from typing import Callable, TypeAlias
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT / "baseline"))
+sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
 
 from lab_tools_ops import register_ops_tools
 
@@ -77,6 +77,47 @@ class GitOpsHardeningTests(unittest.TestCase):
             self.assertIn("duration_ms", result["results"][0])
             self.assertIn("stdout_truncated", result["results"][0])
 
+    def test_git_repository_discovery_finds_exact_nested_repo_and_feeds_status(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            repo = root / "nested" / "repo"
+            repo.mkdir(parents=True)
+            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+            registry = _registry_for(root)
+            discovery = registry["git.repositories.list"]({"project_id": "x", "max_depth": 4})
+            self.assertTrue(discovery["ok"])
+            self.assertEqual(discovery["count"], 1)
+            identity = discovery["repositories"][0]
+            self.assertEqual(identity["repo_path"], "nested/repo")
+            self.assertEqual(Path(identity["repo_root"]), repo.resolve())
+            status = registry["git.status"]({"project_id": "x", "repo_path": identity["repo_path"]})
+            self.assertTrue(status["ok"])
+            self.assertTrue(status["repo_grounded"])
+
+    def test_git_repository_discovery_respects_depth_and_result_bounds(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            shallow = root / "one"
+            deep = root / "a" / "b" / "repo"
+            shallow.mkdir(parents=True); deep.mkdir(parents=True)
+            subprocess.run(["git", "init"], cwd=shallow, check=True, capture_output=True)
+            subprocess.run(["git", "init"], cwd=deep, check=True, capture_output=True)
+            registry = _registry_for(root)
+            depth_limited = registry["git.repositories.list"]({"project_id": "x", "max_depth": 1, "max_results": 10})
+            self.assertEqual([x["repo_path"] for x in depth_limited["repositories"]], ["one"])
+            result_limited = registry["git.repositories.list"]({"project_id": "x", "max_depth": 4, "max_results": 1})
+            self.assertEqual(result_limited["count"], 1)
+            self.assertTrue(result_limited["truncated"])
+
+    def test_git_repository_discovery_rejects_project_escape_with_recovery_edges(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "project"; root.mkdir()
+            registry = _registry_for(root)
+            with self.assertRaises(ToolError) as caught:
+                registry["git.repositories.list"]({"project_id": "x", "path": "../outside"})
+            self.assertEqual(caught.exception.error_code, "PROJECT_SCOPE_MISMATCH")
+            self.assertIn("fs.tree", caught.exception.extra["lawful_next"])
+
     def test_git_status_supports_exact_nested_repo_path(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -96,32 +137,6 @@ class GitOpsHardeningTests(unittest.TestCase):
             self.assertTrue(result["repo_grounded"])
             self.assertEqual(result["repo_identity"]["repo_path"], "nested/repo")
             self.assertEqual(Path(result["repo_identity"]["repo_root"]), repo.resolve())
-
-    def test_git_read_tools_return_typed_failure_for_missing_nested_repo(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            registry = _registry_for(root)
-            for name in ("git.status", "git.diff"):
-                with self.subTest(tool=name):
-                    result = registry[name]({"project_id": "x", "repo_path": "missing/repo"})
-                    self.assertFalse(result["ok"])
-                    self.assertFalse(result["repo_grounded"])
-                    self.assertEqual(result["error_code"], "GIT_REPO_INVALID")
-                    self.assertEqual(result["status"], "FAILED")
-                    self.assertIsNone(result["return_code"])
-                    self.assertIn("does not exist", result["error"])
-
-    def test_git_read_tools_return_typed_failure_for_file_repo_path(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            (root / "not-a-dir").write_text("x", encoding="utf-8")
-            registry = _registry_for(root)
-            for name in ("git.status", "git.diff"):
-                with self.subTest(tool=name):
-                    result = registry[name]({"project_id": "x", "repo_path": "not-a-dir"})
-                    self.assertFalse(result["ok"])
-                    self.assertFalse(result["repo_grounded"])
-                    self.assertEqual(result["error_code"], "GIT_REPO_INVALID")
 
     def test_git_status_returns_envelope_even_outside_repo(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

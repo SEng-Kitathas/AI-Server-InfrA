@@ -8,15 +8,13 @@ import os
 import re
 import secrets
 import tempfile
-import time
-from contextlib import contextmanager
 from datetime import datetime, timezone
 from types import MappingProxyType
 from pathlib import Path
-from collections.abc import Iterator, Mapping
+from collections.abc import Mapping
 from typing import Any
 
-from .workload_identity import (
+from workload_identity import (
     WorkloadIdentityError,
     canonical_target as workload_canonical_target,
     proof_headers_present as workload_proof_headers_present,
@@ -67,8 +65,6 @@ ARCHIVE_EXTENSIONS = frozenset({".zip", ".tar", ".tgz", ".gz", ".7z"})
 BASE_DIRS = (
     "continuity/live_shadow",
     "continuity/design_thread_stream",
-    "continuity/research_epistemic_shadow",
-    "continuity/research_epistemic_shadow/addenda",
     "state/current",
     "state/next_steps",
     "state/doctrine_snapshot",
@@ -99,7 +95,6 @@ ARTIFACT_RELATIVE_MAP = MappingProxyType(
     {
         "continuity.live_shadow": Path("continuity/live_shadow"),
         "continuity.design_thread_stream": Path("continuity/design_thread_stream"),
-        "continuity.research_epistemic_shadow": Path("continuity/research_epistemic_shadow"),
         "continuity.checkpoint": Path("checkpoints"),
         "state.current": Path("state/current"),
         "state.next_steps": Path("state/next_steps"),
@@ -195,119 +190,18 @@ def ensure_parent(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
 
 
-def _lock_one_byte(handle: Any, *, blocking: bool) -> None:
-    if os.name == "nt":
-        import msvcrt
-
-        handle.seek(0)
-        msvcrt.locking(handle.fileno(), msvcrt.LK_LOCK if blocking else msvcrt.LK_NBLCK, 1)
-    else:
-        import fcntl
-
-        fcntl.flock(handle.fileno(), fcntl.LOCK_EX | (0 if blocking else fcntl.LOCK_NB))
-
-
-def _unlock_one_byte(handle: Any) -> None:
-    if os.name == "nt":
-        import msvcrt
-
-        handle.seek(0)
-        msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
-    else:
-        import fcntl
-
-        fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
-
-
-@contextmanager
-def cross_process_file_guard(path: Path, *, timeout_seconds: float = 5.0) -> Iterator[None]:
-    """Serialize a state transition without importing authority semantics."""
-    ensure_parent(path)
-    deadline = time.monotonic() + max(0.05, float(timeout_seconds))
-    with path.open("a+b") as handle:
-        handle.seek(0, os.SEEK_END)
-        if handle.tell() == 0:
-            handle.write(b"\0")
-            handle.flush()
-        while True:
-            try:
-                _lock_one_byte(handle, blocking=False)
-                break
-            except (OSError, BlockingIOError) as exc:
-                if time.monotonic() >= deadline:
-                    raise TimeoutError(f"state transition guard is busy: {path}") from exc
-                time.sleep(0.01)
-        try:
-            yield
-        finally:
-            _unlock_one_byte(handle)
-
-
-def ensure_safe_mutation_target_identity(path: Path) -> None:
-    """Reject existing multiply-linked regular files before mutation.
-
-    Path containment proves namespace location, not inode ownership. A project-
-    local hardlink can share an inode with data outside the declared boundary.
-    Mutating such a pathname would escape the intended consequence scope.
-    """
-    if not path.exists():
-        return
-    try:
-        stat_result = path.stat()
-    except OSError as exc:
-        raise ValueError(f"could not inspect mutation target identity: {exc}") from exc
-    if path.is_file() and int(getattr(stat_result, "st_nlink", 1)) > 1:
-        raise ValueError(
-            f"multiply-linked mutation target is not uniquely owned by this pathname (link_count={stat_result.st_nlink})"
-        )
-
-
 def load_json(path: Path, default: Any) -> Any:
     if not path.exists():
         return default
     return parse_json_boundary(path.read_text(encoding="utf-8"))
 
 
-_ATOMIC_REPLACE_RETRY_SECONDS = 0.75
-_ATOMIC_REPLACE_RETRY_INITIAL_DELAY_SECONDS = 0.002
-_ATOMIC_REPLACE_RETRY_MAX_DELAY_SECONDS = 0.05
-_ATOMIC_REPLACE_TRANSIENT_WINERRORS = frozenset({5, 32, 33})
-
-
-def _atomic_replace_transient(exc: OSError) -> bool:
-    winerror = getattr(exc, "winerror", None)
-    if winerror in _ATOMIC_REPLACE_TRANSIENT_WINERRORS:
-        return True
-    # PermissionError maps common sharing/access violations to EACCES on Python/Windows.
-    return isinstance(exc, PermissionError) and os.name == "nt"
-
-
 def save_json_atomic(path: Path, data: Any) -> None:
     ensure_parent(path)
-    tmp_path: Path | None = None
-    try:
-        with tempfile.NamedTemporaryFile("w", delete=False, dir=path.parent, encoding="utf-8") as tmp:
-            tmp.write(render_json_boundary(data))
-            tmp.flush()
-            os.fsync(tmp.fileno())
-            tmp_path = Path(tmp.name)
-        deadline = time.monotonic() + _ATOMIC_REPLACE_RETRY_SECONDS
-        delay = _ATOMIC_REPLACE_RETRY_INITIAL_DELAY_SECONDS
-        while True:
-            try:
-                tmp_path.replace(path)
-                return
-            except OSError as exc:
-                if not _atomic_replace_transient(exc) or time.monotonic() >= deadline:
-                    raise
-                time.sleep(delay)
-                delay = min(delay * 2.0, _ATOMIC_REPLACE_RETRY_MAX_DELAY_SECONDS)
-    finally:
-        if tmp_path is not None and tmp_path.exists():
-            try:
-                tmp_path.unlink()
-            except OSError:
-                pass
+    with tempfile.NamedTemporaryFile("w", delete=False, dir=path.parent, encoding="utf-8") as tmp:
+        tmp.write(render_json_boundary(data))
+        tmp_path = Path(tmp.name)
+    tmp_path.replace(path)
 
 
 def _json_ready(value: Any) -> Any:
@@ -319,31 +213,10 @@ def _json_ready(value: Any) -> Any:
 def append_jsonl(path: Path, record: Any) -> None:
     ensure_parent(path)
     payload = _json_ready(record)
-    guard = path.with_name(f".{path.name}.append.guard")
-    with cross_process_file_guard(guard, timeout_seconds=5.0):
-        with path.open("a", encoding="utf-8") as f:
-            f.write(render_jsonl_boundary(payload) + "\n")
-            f.flush()
-            os.fsync(f.fileno())
-
-
-_WINDOWS_RESERVED_COMPONENT_NAMES = frozenset(
-    {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}
-)
-
-
-def validate_filesystem_component_id(value: str, *, field: str) -> str:
-    text = str(value or "").strip()
-    if not text or text in {".", ".."}:
-        raise ValueError(f"{field} is empty or aliases a parent/current directory")
-    if text.endswith((".", " ")):
-        raise ValueError(f"{field} has a trailing dot/space filesystem alias")
-    if any(ch in text for ch in '<>:"/\\|?*'):
-        raise ValueError(f"{field} contains a Windows-reserved path character")
-    stem = text.rstrip(". ").split(".", 1)[0].upper()
-    if stem in _WINDOWS_RESERVED_COMPONENT_NAMES:
-        raise ValueError(f"{field} is a reserved Windows device name")
-    return text
+    with path.open("a", encoding="utf-8") as f:
+        f.write(render_jsonl_boundary(payload) + "\n")
+        f.flush()
+        os.fsync(f.fileno())
 
 
 def validate_project_id(project_id: str) -> str:
@@ -351,7 +224,6 @@ def validate_project_id(project_id: str) -> str:
         raise ValueError("project_id is required")
     if not SAFE_PROJECT_RE.fullmatch(project_id):
         raise ValueError("project_id contains invalid characters")
-    validate_filesystem_component_id(project_id, field="project_id")
     return project_id
 
 
@@ -391,18 +263,8 @@ def resolve_mount_spec(
 
 def get_project_root(project_id: str) -> Path:
     pid = validate_project_id(project_id)
-    projects_root = PROJECTS_ROOT.resolve()
-    if projects_root.exists():
-        try:
-            for child in projects_root.iterdir():
-                if child.name.casefold() == pid.casefold() and child.name != pid:
-                    raise ValueError(
-                        f"project_id case conflicts with existing filesystem identity: requested={pid!r} existing={child.name!r}"
-                    )
-        except OSError as exc:
-            raise ValueError(f"could not inspect project namespace identity: {exc}") from exc
-    root = (projects_root / pid).resolve()
-    if projects_root not in [root, *root.parents]:
+    root = (PROJECTS_ROOT / pid).resolve()
+    if PROJECTS_ROOT.resolve() not in [root, *root.parents]:
         raise ValueError("project root escaped projects root")
     return root
 

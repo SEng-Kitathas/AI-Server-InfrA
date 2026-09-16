@@ -15,12 +15,11 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import uuid
-import zipfile
 from pathlib import Path
 from typing import Any
 from collections.abc import Iterator, MutableMapping, Callable
 
-from .context_engine import (
+from context_engine import (
     BadPathError,
     ContextPlaneError,
     NotFoundError,
@@ -40,7 +39,7 @@ from .context_engine import (
 JsonRecord = MutableMapping[str, Any]
 JsonObject = MutableMapping[str, Any]
 
-from .execution_routes import (
+from execution_routes import (
     DEFAULT_STDERR_MAX_BYTES,
     DEFAULT_STDOUT_MAX_BYTES,
     DEFAULT_TIMEOUT_SECONDS,
@@ -57,44 +56,35 @@ from .execution_routes import (
     _write_job,
     submit_execution_job,
     terminate_execution_job,
-    ExecutionRequestError,
 )
-from .lab_plugins import load_plugins
-from .lab_policy import PolicyDecision, evaluate_tool_call, policy_mode
-from .protocol_policy import evaluate_protocol_tool_call
-from .lab_schema_validation import validate_payload_schema
-from .lab_errors import LabToolError
-from .lab_tools_browser import register_browser_tools
-from .lab_tools_execution import register_execution_tools
-from .lab_tools_filesystem import register_filesystem_tools
-from .lab_tools_project import register_project_tools
-from .lab_tools_state import register_state_tools
-from .lab_tools_research import register_research_tools
-from .lab_tools_ops import register_ops_tools
-from .lab_tools_sop import register_sop_tools
-from .lab_tools_semantic import register_semantic_tools
-from .lab_tools_doctrine import register_doctrine_tools
-from .lab_tools_governance import register_governance_tools
-from .lab_tools_protocol import register_protocol_tools
-from .lab_tools_continuity import register_continuity_tools
-from .lab_tools_architecture import register_architecture_tools
-from .lab_tools_derived import register_derived_state_tools
-from .lab_tools_icf_ingress import register_icf_ingress_tool
-from .lab_tools_res import register_res_tools
-from .lab_tools_memory import register_memory_tools
-from .lab_tools_ucm import register_ucm_tools
-from .lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
-from .project_mutation_authority import (
-    ProjectMutationAuthorityError,
-    project_mutation_authority_context,
-    validate_consequence_authority,
-)
-from .research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
-from .research_arxiv import get_cache_stats
-from .server_hardening import safe_json_dumps, safe_json_loads
-from .runtime_axioms import constitutional_seed
-from .lab_results import get_result, store_result, summarize_payload
-from .lab_state import (
+from lab_plugins import load_plugins
+from lab_policy import evaluate_tool_call, policy_mode
+from protocol_policy import evaluate_protocol_tool_call
+from lab_schema_validation import validate_payload_schema
+from lab_tools_browser import register_browser_tools
+from lab_tools_execution import register_execution_tools
+from lab_tools_filesystem import register_filesystem_tools
+from lab_tools_project import register_project_tools
+from lab_tools_state import register_state_tools
+from lab_tools_research import register_research_tools
+from lab_tools_ops import register_ops_tools
+from lab_tools_sop import register_sop_tools
+from lab_tools_semantic import register_semantic_tools
+from lab_tools_doctrine import register_doctrine_tools
+from lab_tools_protocol import register_protocol_tools
+from lab_tools_continuity import register_continuity_tools
+from lab_tools_memory import register_memory_tools
+from lab_tools_machine import register_machine_tools
+from lab_tools_daemon import register_daemon_tools
+from lab_tools_windows_telemetry import register_windows_telemetry_tools
+from lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
+from project_mutation_authority import project_mutation_authority_context
+from research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
+from research_arxiv import get_cache_stats
+from server_hardening import safe_json_dumps, safe_json_loads
+from runtime_axioms import constitutional_seed
+from lab_results import get_result, store_result, summarize_payload
+from lab_state import (
     append_reflexion,
     append_session_note,
     end_session,
@@ -103,26 +93,21 @@ from .lab_state import (
     read_reflexion,
     start_session,
 )
-from .shared_core import (
+from shared_core import (
     TEXT_EXTENSIONS,
-    append_jsonl,
     ensure_parent,
     get_mount_roots,
     get_project_root,
     commits_ledger_path_for,
     resolve_target,
-    save_json_atomic,
     init_project_layout,
-    manifest_path_for,
-    load_json,
     mount_summary,
     resolve_mount_spec,
     sha256_file,
     utc_now,
     validate_project_id,
 )
-from .sop_ingest import (
-    SopError,
+from sop_ingest import (
     ack_chunk as sop_ack_chunk,
     complete_file as sop_complete_file,
     guard_check as sop_guard_check,
@@ -132,7 +117,7 @@ from .sop_ingest import (
     register_package as sop_register_package,
     reset_ingestion as sop_reset_ingestion,
 )
-from .control_plane_models import (
+from control_plane_models import (
     CapabilityFamilyCard,
     CompactControlSurfaceDescriptor,
     PluginLoadRecord,
@@ -147,6 +132,15 @@ try:
     from bs4 import BeautifulSoup
 except ImportError:  # pragma: no cover
     BeautifulSoup = None
+
+
+class LabToolError(Exception):
+    def __init__(self, error_code: str, message: str, status: int = 400, **extra: Any) -> None:
+        super().__init__(message)
+        self.error_code = error_code
+        self.message = message
+        self.status = status
+        self.extra = extra
 
 
 _TOOL_REGISTRY: dict[str, ToolSpec] = {}
@@ -600,7 +594,7 @@ def _dispatch_decision(
     spec: ToolSpec,
     payload: JsonObject,
     authority: JsonObject | None,
-) -> PolicyDecision:
+) -> ToolCallDecision:
     decision = evaluate_tool_call(spec, payload, authority)
     if decision.allowed:
         return decision
@@ -639,35 +633,6 @@ def _merge_warnings(*warnings: str | None) -> str | None:
 
 def _project_mutation_fenced(spec: ToolSpec) -> bool:
     return "project_mutation_fenced" in set(spec.effect_traits or [])
-
-
-def _preflight_present_project_mutation_authority(
-    spec: ToolSpec, arguments: JsonObject, authority_data: JsonObject
-) -> None:
-    """Reject stale/invalid supplied project authority before consuming approval.
-
-    Missing project mutation authority intentionally remains a later consequence-time
-    concern so an unapproved request can still receive its exact bound approval
-    challenge. When a caller does present project authority, validating its current
-    generation/ownership is independent of approval consumption and must fail first
-    if stale.
-    """
-    if not _project_mutation_fenced(spec):
-        return
-    mutation_authority = authority_data.get("project_mutation")
-    if mutation_authority is None:
-        return
-    project_id = str(arguments.get("project_id") or "").strip()
-    if not project_id:
-        return
-    try:
-        validate_consequence_authority(
-            project_id,
-            mutation_authority=mutation_authority,
-            session_id=str(arguments.get("session_id") or "").strip(),
-        )
-    except ProjectMutationAuthorityError as exc:
-        raise LabToolError(exc.error_code, exc.message, exc.status, **exc.extra) from exc
 
 
 def _dispatch_result(tool_name: str, spec: ToolSpec, payload: JsonObject) -> JsonObject:
@@ -759,11 +724,8 @@ def dispatch_tool(
     arguments, authority_data = _split_authority(payload, authority)
     if router_validation.validation_mode == "strict":
         _validate_payload_schema(tool_name, spec.input_schema, arguments)
-    # Protocol eligibility and any supplied project-mutation authority are checked
-    # before consuming single-use approval authority. Independent stale authority
-    # must not burn an otherwise-valid approval challenge.
+    # Protocol eligibility is checked before consuming single-use approval authority.
     protocol_decision = _dispatch_protocol_decision(tool_name, spec, arguments)
-    _preflight_present_project_mutation_authority(spec, arguments, authority_data)
     decision = _dispatch_decision(tool_name, spec, arguments, authority_data)
     with project_mutation_authority_context(authority_data.get("project_mutation")):
         if _project_mutation_fenced(spec):
@@ -1117,13 +1079,6 @@ register_project_tools(
 )
 
 
-def _submit_execution_job_for_lab(payload: JsonObject):
-    try:
-        return submit_execution_job(payload, require_mutation_authority=True)
-    except ExecutionRequestError as exc:
-        raise LabToolError(exc.error_code, exc.message, exc.status, **exc.extra) from exc
-
-
 register_execution_tools(
     register_tool,
     error_cls=LabToolError,
@@ -1139,7 +1094,7 @@ register_execution_tools(
     default_stdout_max_bytes=DEFAULT_STDOUT_MAX_BYTES,
     default_stderr_max_bytes=DEFAULT_STDERR_MAX_BYTES,
     max_timeout_seconds=MAX_TIMEOUT_SECONDS,
-    submit_job=_submit_execution_job_for_lab,
+    submit_job=lambda payload: submit_execution_job(payload, require_mutation_authority=True),
     terminate_job=terminate_execution_job,
     utc_now=utc_now,
 )
@@ -1150,48 +1105,7 @@ register_continuity_tools(
     get_project_root=get_project_root,
     resolve_target=resolve_target,
     commits_ledger_path_for=commits_ledger_path_for,
-    manifest_path_for=manifest_path_for,
     sha256_file=sha256_file,
-    load_json=load_json,
-    save_json_atomic=save_json_atomic,
-    append_jsonl=append_jsonl,
-    utc_now=utc_now,
-)
-
-from .lab_tools_continuity import AdoptionDeps as _ArchitectureAdoptionDeps
-register_architecture_tools(
-    register_tool,
-    error_cls=LabToolError,
-    get_project_root=get_project_root,
-    resolve_target=resolve_target,
-    commits_ledger_path_for=commits_ledger_path_for,
-    sha256_file=sha256_file,
-    utc_now=utc_now,
-    save_json_atomic=save_json_atomic,
-    adoption_deps=_ArchitectureAdoptionDeps(
-        error_cls=LabToolError,
-        get_project_root=get_project_root,
-        resolve_target=resolve_target,
-        commits_ledger_path_for=commits_ledger_path_for,
-        manifest_path_for=manifest_path_for,
-        sha256_file=sha256_file,
-        load_json=load_json,
-        save_json_atomic=save_json_atomic,
-        append_jsonl=append_jsonl,
-        utc_now=utc_now,
-    ),
-)
-
-register_derived_state_tools(register_tool, error_cls=LabToolError)
-
-register_icf_ingress_tool(
-    register_tool,
-    error_cls=LabToolError,
-)
-
-register_res_tools(
-    register_tool,
-    error_cls=LabToolError,
 )
 
 register_memory_tools(
@@ -1199,7 +1113,17 @@ register_memory_tools(
     error_cls=LabToolError,
 )
 
-register_ucm_tools(
+register_machine_tools(
+    register_tool,
+    error_cls=LabToolError,
+)
+
+register_daemon_tools(
+    register_tool,
+    error_cls=LabToolError,
+)
+
+register_windows_telemetry_tools(
     register_tool,
     error_cls=LabToolError,
 )
@@ -1209,6 +1133,7 @@ register_ops_tools(
     error_cls=LabToolError,
     get_project_root=get_project_root,
     resolve_cwd=_resolve_cwd,
+    resolve_mount_spec=resolve_mount_spec,
     exec_env=_exec_env,
     append_reflexion=append_reflexion,
     beautiful_soup=BeautifulSoup,
@@ -1257,11 +1182,6 @@ register_semantic_tools(
 )
 
 register_doctrine_tools(
-    register_tool,
-    error_cls=LabToolError,
-)
-
-register_governance_tools(
     register_tool,
     error_cls=LabToolError,
 )
@@ -1323,7 +1243,6 @@ def tool_lab_health() -> JsonRecord:
     """Compatibility health surface expected by lab_routes."""
     return {
         "ok": True,
-        "status": "online",
         "tool_count": len(_registry_snapshot()),
         "plugin_load_count": len(_PLUGIN_LOADS),
         "plugin_error_count": len(_PLUGIN_ERRORS),

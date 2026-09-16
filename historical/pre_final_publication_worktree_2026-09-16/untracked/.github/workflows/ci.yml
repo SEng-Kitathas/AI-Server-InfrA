@@ -1,0 +1,44 @@
+name: receiver-cleanbox
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  cleanbox:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install declared dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r baseline/pcmmad_receiver/requirements.txt -r requirements-dev.txt
+          python -m pip check
+      - name: Remove operator-local PCMMAD/Python environment
+        shell: pwsh
+        run: |
+          Get-ChildItem Env: | Where-Object { $_.Name -like 'PCMMAD_*' -or $_.Name -in @('PYTHONPATH','PYTHONHOME','VIRTUAL_ENV') } | ForEach-Object { Remove-Item "Env:$($_.Name)" -ErrorAction SilentlyContinue }
+          python -c "import os; assert not any(k.startswith('PCMMAD_') for k in os.environ); print('sanitized environment')"
+      - name: Full clean-box suite
+        shell: pwsh
+        run: python -m pytest -q
+      - name: Four-worker Windows contention burn
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          python -m pytest -q -n 4 --dist loadscope
+          python -m pytest -q -n 4 --dist worksteal

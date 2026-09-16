@@ -4,9 +4,8 @@ import base64, hashlib, json, os, secrets, tempfile, threading, time
 from pathlib import Path
 from typing import Any, Callable
 from flask import Blueprint, jsonify, request, send_file
-from .shared_core import get_mount_roots, get_project_root, resolve_mount_spec, utc_now, require_valid_api_key
-from .lab_errors import LabToolError
-from .project_mutation_authority import (
+from shared_core import get_mount_roots, get_project_root, resolve_mount_spec, utc_now, require_valid_api_key
+from project_mutation_authority import (
     ProjectMutationAuthorityError,
     project_id_for_resolved_path,
     resolved_paths_consequence_guard,
@@ -98,43 +97,12 @@ def create_export(path: str, project_id: str | None = None, ttl_seconds: int = D
         raise FileNotFoundError("source file not found")
     ttl = max(60, min(int(ttl_seconds), MAX_TTL)); chunk = max(4096, min(int(chunk_bytes), MAX_CHUNK))
     now = time.time(); ticket = secrets.token_hex(32); st = src.stat()
-    source_identity = _path_identity(src)
     obj = {"ticket": ticket, "direction": "export", "created_at": utc_now(),
            "expires_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now + ttl)), "expires_epoch": now + ttl,
            "path": str(src), "name": src.name, "size": st.st_size, "mtime_ns": st.st_mtime_ns,
-           "sha256": source_identity["sha256"], "source_identity_at_create": source_identity,
-           "chunk_bytes": chunk, "offset": 0, "complete": True}
+           "sha256": _sha(src), "chunk_bytes": chunk, "offset": 0, "complete": True}
     with _LOCK: _save(obj)
     return _public(obj)
-
-
-def _file_object_identity(path: Path) -> dict[str, Any]:
-    st = path.stat()
-    identity = {
-        "st_dev": int(getattr(st, "st_dev", 0)),
-        "st_ino": int(getattr(st, "st_ino", 0)),
-        "st_nlink": int(getattr(st, "st_nlink", 1)),
-        # st_ino alone is not a stable generation witness: filesystems may reuse
-        # an inode immediately after unlink/recreate. ctime changes when the inode
-        # metadata generation changes and therefore closes that substitution hole.
-        "st_ctime_ns": int(getattr(st, "st_ctime_ns", int(getattr(st, "st_ctime", 0.0) * 1_000_000_000))),
-    }
-    birth_ns = getattr(st, "st_birthtime_ns", None)
-    if birth_ns is not None:
-        identity["st_birthtime_ns"] = int(birth_ns)
-    elif getattr(st, "st_birthtime", None) is not None:
-        identity["st_birthtime_ns"] = int(float(st.st_birthtime) * 1_000_000_000)
-    return identity
-
-
-def _same_file_object_identity(current: dict[str, Any], expected: dict[str, Any]) -> bool:
-    required = ("st_dev", "st_ino", "st_ctime_ns")
-    if any(current.get(key) != expected.get(key) for key in required):
-        return False
-    expected_birth = expected.get("st_birthtime_ns")
-    if expected_birth is not None and current.get("st_birthtime_ns") != expected_birth:
-        return False
-    return True
 
 
 def _path_identity(path: Path) -> dict[str, Any]:
@@ -149,33 +117,7 @@ def _path_identity(path: Path) -> dict[str, Any]:
         "size": int(st.st_size),
         "mtime_ns": int(st.st_mtime_ns),
         "sha256": _sha(path),
-        "file_object": _file_object_identity(path),
     }
-
-
-def _require_stage_identity(path: Path, expected: dict[str, Any]) -> None:
-    if not path.exists() or not path.is_file():
-        raise ValueError("import stage identity changed after ticket creation")
-    current = _file_object_identity(path)
-    if not _same_file_object_identity(current, expected):
-        raise ValueError("import stage identity changed after ticket creation")
-    if int(current.get("st_nlink", 1)) != 1:
-        raise ValueError("import stage identity is multiply linked")
-
-
-def _require_export_source_identity(path: Path, ticket: dict[str, Any]) -> None:
-    current = _path_identity(path)
-    if current.get("kind") != "file":
-        raise ValueError("source changed after export ticket creation")
-    original = ticket.get("source_identity_at_create") or {}
-    current_object = current.get("file_object") or {}
-    original_object = original.get("file_object") or {}
-    if not _same_file_object_identity(current_object, original_object):
-        raise ValueError("source changed: source identity changed after export ticket creation")
-    if current.get("size") != original.get("size") or current.get("mtime_ns") != original.get("mtime_ns"):
-        raise ValueError("source changed after export ticket creation")
-    if current.get("sha256") != original.get("sha256"):
-        raise ValueError("source changed after export ticket creation")
 
 
 def create_import(path: str, expected_size: int, expected_sha256: str, project_id: str | None = None,
@@ -201,16 +143,11 @@ def create_import(path: str, expected_size: int, expected_sha256: str, project_i
             stage_dir.mkdir(parents=True, exist_ok=True)
             stage = stage_dir / f"{ticket}.part"
             stage.write_bytes(b"")
-            stage_identity = _file_object_identity(stage)
-            if int(stage_identity.get("st_nlink", 1)) != 1:
-                raise ValueError("import stage identity is multiply linked at creation")
             obj = {"ticket": ticket, "direction": "import", "created_at": utc_now(),
                    "expires_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now + ttl)), "expires_epoch": now + ttl,
                    "project_id": resolved_project_id, "path": str(dst), "stage": str(stage), "name": dst.name, "size": size, "sha256": digest,
                    "chunk_bytes": chunk, "offset": 0, "complete": False, "overwrite": bool(overwrite),
-                   "destination_identity_at_create": destination_identity,
-                   "stage_identity_at_create": stage_identity,
-                   "stage_identity_current": stage_identity}
+                   "destination_identity_at_create": destination_identity}
             with _LOCK: _save(obj)
     except ProjectMutationAuthorityError:
         raise
@@ -220,7 +157,9 @@ def create_import(path: str, expected_size: int, expected_sha256: str, project_i
 def read_chunk(ticket: str, offset: int = 0, length: int | None = None) -> dict[str, Any]:
     obj = _load(ticket)
     if obj["direction"] != "export": raise ValueError("not an export ticket")
-    src = Path(obj["path"]); _require_export_source_identity(src, obj)
+    src = Path(obj["path"]); st = src.stat()
+    if st.st_size != int(obj["size"]) or st.st_mtime_ns != int(obj["mtime_ns"]):
+        raise ValueError("source changed after export ticket creation")
     off = max(0, int(offset)); n = min(max(1, int(length or obj["chunk_bytes"])), int(obj["chunk_bytes"]))
     if off > int(obj["size"]): raise ValueError("offset beyond EOF")
     with src.open("rb") as f: f.seek(off); data = f.read(n)
@@ -253,15 +192,8 @@ def append_chunk(ticket: str, offset: int, data_b64: str, chunk_sha256: str | No
             if actual != expected_chunk:
                 raise ValueError("chunk sha256 mismatch")
             stage = Path(obj["stage"])
-            _require_stage_identity(
-                stage,
-                obj.get("stage_identity_current") or obj.get("stage_identity_at_create") or {},
-            )
             with stage.open("r+b") as f:
                 f.seek(off); f.write(data); f.flush(); os.fsync(f.fileno())
-            # Authorized writes legitimately advance POSIX ctime. Persist the new
-            # object-generation witness only after the fsynced write succeeds.
-            obj["stage_identity_current"] = _file_object_identity(stage)
             obj["offset"] = off + len(data); _save(obj)
             return {**_public(obj), "chunk_bytes_written": len(data), "chunk_sha256": actual}
 
@@ -276,10 +208,7 @@ def finalize_import(ticket: str) -> dict[str, Any]:
             obj = _load(ticket)
             if obj["direction"] != "import": raise ValueError("not an import ticket")
             if int(obj["offset"]) != int(obj["size"]): raise ValueError(f"incomplete: {obj['offset']} of {obj['size']} bytes")
-            stage = Path(obj["stage"]); _require_stage_identity(
-                stage,
-                obj.get("stage_identity_current") or obj.get("stage_identity_at_create") or {},
-            ); actual = _sha(stage)
+            stage = Path(obj["stage"]); actual = _sha(stage)
             if actual != obj["sha256"]: raise ValueError(f"full sha256 mismatch: {actual}")
             dst = Path(obj["path"]); dst.parent.mkdir(parents=True, exist_ok=True)
             if dst.exists() and not obj["overwrite"]: raise FileExistsError("destination exists")
@@ -343,7 +272,7 @@ def _lab_error_response(exc: Exception):
 
 def _dispatch_transfer_mutation(tool_name: str, payload: dict[str, Any], authority: dict[str, Any] | None):
     try:
-        from .lab_tools import dispatch_tool
+        from lab_tools import dispatch_tool
         envelope = dispatch_tool(tool_name, payload, authority=authority or {})
         result = envelope.get("result") if isinstance(envelope, dict) else None
         body = {"ok": True, **(result if isinstance(result, dict) else {})}
@@ -441,36 +370,26 @@ def r_cleanup():
     return jsonify({"ok":True, **cleanup_expired()})
 
 
-TRANSFER_EXPORT_SCHEMA={"type":"object","additionalProperties":False,"required":["path"],"properties":{"path":{"type":"string","minLength":1},"project_id":{"type":"string"},"ttl_seconds":{"type":"integer","minimum":1},"chunk_bytes":{"type":"integer","minimum":1}}}
-TRANSFER_TICKET_SCHEMA={"type":"object","additionalProperties":False,"required":["ticket"],"properties":{"ticket":{"type":"string","minLength":1}}}
-TRANSFER_READ_SCHEMA={"type":"object","additionalProperties":False,"required":["ticket"],"properties":{"ticket":{"type":"string","minLength":1},"offset":{"type":"integer","minimum":0},"length":{"type":"integer","minimum":1}}}
-TRANSFER_IMPORT_SCHEMA={"type":"object","additionalProperties":False,"required":["path","expected_size","expected_sha256"],"properties":{"path":{"type":"string","minLength":1},"expected_size":{"type":"integer","minimum":0},"expected_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"project_id":{"type":"string"},"ttl_seconds":{"type":"integer","minimum":1},"chunk_bytes":{"type":"integer","minimum":1},"overwrite":{"type":"boolean"}}}
-TRANSFER_WRITE_SCHEMA={"type":"object","additionalProperties":False,"required":["ticket","offset","data_b64"],"properties":{"ticket":{"type":"string","minLength":1},"offset":{"type":"integer","minimum":0},"data_b64":{"type":"string"},"chunk_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}}}
-
 def register(register_tool: Callable[..., Any]) -> None:
     def wrap(fn, *a, **kw):
-        try:
-            return fn(*a, **kw)
-        except FileNotFoundError as exc:
-            raise LabToolError("NOT_FOUND", str(exc), 404, transfer_exception=type(exc).__name__) from exc
-        except Exception as exc:
-            status = 410 if isinstance(exc, TimeoutError) else 409 if isinstance(exc, FileExistsError) else 400
-            raise LabToolError("TRANSFER_ERROR", str(exc), status, transfer_exception=type(exc).__name__) from exc
+        try: return fn(*a, **kw)
+        except FileNotFoundError as e: raise RuntimeError(f"NOT_FOUND: {e}")
+        except Exception as e: raise RuntimeError(f"TRANSFER_ERROR: {e}")
 
-    @register_tool("transfer.export.create", "Create one short-lived, resumable, hash-verified export ticket.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="ephemeral_mutation", effect_traits=["creates_ephemeral_state","reads_files","hashes_content"], input_schema=TRANSFER_EXPORT_SCHEMA)
+    @register_tool("transfer.export.create", "Create one short-lived, resumable, hash-verified export ticket.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="ephemeral_mutation", effect_traits=["creates_ephemeral_state","reads_files","hashes_content"])
     def _export(p): return wrap(create_export, str(p.get("path","")), str(p.get("project_id","")) or None, int(p.get("ttl_seconds",DEFAULT_TTL)), int(p.get("chunk_bytes",DEFAULT_CHUNK)))
 
-    @register_tool("transfer.meta", "Inspect transfer metadata without materializing file bytes.", "low", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_ephemeral_state","bounded_output","ticket_scoped"], input_schema=TRANSFER_TICKET_SCHEMA)
+    @register_tool("transfer.meta", "Inspect transfer metadata without materializing file bytes.", "low", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_ephemeral_state","bounded_output","ticket_scoped"])
     def _meta(p): return wrap(lambda t: _public(_load(t)), str(p.get("ticket","")))
 
-    @register_tool("transfer.chunk.read", "Read one bounded export chunk with per-chunk SHA-256 and Base64 transport.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_files","bounded_output","chunk_hash","ticket_scoped","source_currentness_check"], input_schema=TRANSFER_READ_SCHEMA)
+    @register_tool("transfer.chunk.read", "Read one bounded export chunk with per-chunk SHA-256 and Base64 transport.", "medium", category="transfer", tags=["binary","resumable","sha256"], side_effect_class="read", effect_traits=["reads_files","bounded_output","chunk_hash","ticket_scoped","source_currentness_check"])
     def _chunk(p): return wrap(read_chunk, str(p.get("ticket","")), int(p.get("offset",0)), int(p.get("length",0)) or None)
 
-    @register_tool("transfer.import.create", "Create one staged import ticket; destination is not mutated until full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","creates_staging_file","creates_ephemeral_state","binds_destination_identity","project_scope_enforced","path_project_mutation_fenced"], input_schema=TRANSFER_IMPORT_SCHEMA)
+    @register_tool("transfer.import.create", "Create one staged import ticket; destination is not mutated until full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","creates_staging_file","creates_ephemeral_state","binds_destination_identity","project_scope_enforced","path_project_mutation_fenced"])
     def _import(p): return wrap(create_import, str(p.get("path","")), int(p.get("expected_size",-1)), str(p.get("expected_sha256","")), str(p.get("project_id","")) or None, int(p.get("ttl_seconds",DEFAULT_TTL)), int(p.get("chunk_bytes",DEFAULT_CHUNK)), bool(p.get("overwrite",False)))
 
-    @register_tool("transfer.chunk.write", "Append one verified chunk to a staged import at the exact expected offset.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","writes_staging_file","exact_offset_required","requires_chunk_hash","fsync","ticket_scoped","path_project_mutation_fenced"], input_schema=TRANSFER_WRITE_SCHEMA)
+    @register_tool("transfer.chunk.write", "Append one verified chunk to a staged import at the exact expected offset.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","writes_staging_file","exact_offset_required","requires_chunk_hash","fsync","ticket_scoped","path_project_mutation_fenced"])
     def _write(p): return wrap(append_chunk, str(p.get("ticket","")), int(p.get("offset",-1)), str(p.get("data_b64","")), str(p.get("chunk_sha256","")) or None)
 
-    @register_tool("transfer.import.finalize", "Atomically promote a staged import only after exact size and full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","full_hash_verification","atomic_replace","binds_destination_identity","ticket_scoped","postcondition_verified","path_project_mutation_fenced"], input_schema=TRANSFER_TICKET_SCHEMA)
+    @register_tool("transfer.import.finalize", "Atomically promote a staged import only after exact size and full SHA-256 verification.", "high", category="transfer", tags=["binary","resumable","sha256"], approval_required=True, mutating=True, side_effect_class="mutation", effect_traits=["durable_mutation","full_hash_verification","atomic_replace","binds_destination_identity","ticket_scoped","postcondition_verified","path_project_mutation_fenced"])
     def _final(p): return wrap(finalize_import, str(p.get("ticket","")))

@@ -1,0 +1,508 @@
+[
+  {
+    "path": "CSC_TRI_DOCTRINE_COVERAGE_REPORT.json",
+    "main_bytes": 12764,
+    "alternate_bytes": 1669,
+    "main_sha256": "7f204985880b95325f1995080702de62e9b546b2020fe6aa2f7bb4a73a0dbcd9",
+    "alternate_sha256": "ed512ce4eb5b8baea8eb97522c1497d236aa83e3278b2c9d045a7ab4db4c59da",
+    "line_similarity": 0.1559,
+    "changed_line_estimate": 433
+  },
+  {
+    "path": "CSC_EVENT_REPORT.json",
+    "main_bytes": 155197,
+    "alternate_bytes": 38751,
+    "main_sha256": "366af1bfbdbad7fc3f279f648b11e2c801ac03c10b7af0a9e1c94f219e65bbcb",
+    "alternate_sha256": "bf59d53e7cd063dde5ef5c06bff6289a3797b2ef5a18b1cc6fa2414173703bf5",
+    "line_similarity": 0.0773,
+    "changed_line_estimate": 4395
+  },
+  {
+    "path": "11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+    "main_bytes": 5023,
+    "alternate_bytes": 9543,
+    "main_sha256": "131e7f8fa75fa1ba6a28c1c4446e88818b396793fd03670e7331865c7ab84925",
+    "alternate_sha256": "903745581bb434da787bbe3dc8043ccc7f77ef0a9c3453fb3e1908990c2b072c",
+    "line_similarity": 0.8106,
+    "changed_line_estimate": 50
+  },
+  {
+    "path": "05_CSC_REQUIRED_SOP_SET.md",
+    "main_bytes": 2556,
+    "alternate_bytes": 7097,
+    "main_sha256": "7326a95fa3b984905a399a2374c72cda111d2271d22662374a13b9064c4909be",
+    "alternate_sha256": "8736411fe0831a227c9ae1895bf0112405171ae988ec170f493f8a7315ce21f1",
+    "line_similarity": 0.7222,
+    "changed_line_estimate": 40
+  },
+  {
+    "path": "06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+    "main_bytes": 2693,
+    "alternate_bytes": 7153,
+    "main_sha256": "800a651c61204ddf7380312ce112b48fad94a45833ec6d320237de3d1a9aad4a",
+    "alternate_sha256": "5d19072be496d75f487dd93d01041ee03b8e783b9757ad0209290d10c92b6433",
+    "line_similarity": 0.7976,
+    "changed_line_estimate": 34
+  },
+  {
+    "path": "CSC_SOP_FRESHNESS_REPORT.json",
+    "main_bytes": 2961,
+    "alternate_bytes": 2968,
+    "main_sha256": "2e7aeb9faf6b8cc9882c95d5b9d3d56862b4ea50b4d201e972682e3886a3df15",
+    "alternate_sha256": "d65f65c315398ab1826e455c64708cc4e93d039b5f0b7a76b74d74abcf6394cb",
+    "line_similarity": 0.2262,
+    "changed_line_estimate": 130
+  },
+  {
+    "path": "CSC_TRI_DOCTRINE_AUTHORITY_REPORT.json",
+    "main_bytes": 912,
+    "alternate_bytes": 1257,
+    "main_sha256": "501db7949d3b03f758bacfc686b5202e53b55db26904d4c13326dc9b09e7b9c6",
+    "alternate_sha256": "d3609202bc27f6d3bc5cb83e78ef44926b84ba68e1d1f55be9308b3ed1dbb98d",
+    "line_similarity": 0.4,
+    "changed_line_estimate": 36
+  },
+  {
+    "path": "02_CSC_HOLONIC_AUDIT_SOP.md",
+    "main_bytes": 2755,
+    "alternate_bytes": 7295,
+    "main_sha256": "5a0a523540ff430d3fb00199f21640a9468b48e771a2f1fa325db4965cd2e430",
+    "alternate_sha256": "5c32b820d47ca490a0c286be8600536c3ad2e5f2fc039a9e209b5d74064654d8",
+    "line_similarity": 0.7875,
+    "changed_line_estimate": 34
+  },
+  {
+    "path": "csc_doctrine_manifest.py",
+    "main_bytes": 32106,
+    "alternate_bytes": 7909,
+    "main_sha256": "bb5ebf679d53012df7c22dbac33c0a6a267f146c9f031712ec9393b65d6a117d",
+    "alternate_sha256": "a192ed9e9b7b0be1d59a76f5b90a64087dd1ffc92f486e24ce36920a2ab9f9f6",
+    "line_similarity": 0.1753,
+    "changed_line_estimate": 513
+  },
+  {
+    "path": "CSC_ANTI_PATTERN_INVERSION_REPORT.json",
+    "main_bytes": 59290,
+    "alternate_bytes": 197,
+    "main_sha256": "33a9e164bf07b6f91f69682576b7bd4ffba3563cb0c383e5251d17bb408c1180",
+    "alternate_sha256": "cabd3c0241b0d0a613223b79dfa4b5c1812f6b11462c181bcb4aa2ca23ab08e5",
+    "line_similarity": 0.0059,
+    "changed_line_estimate": 1349
+  },
+  {
+    "path": "07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+    "main_bytes": 2744,
+    "alternate_bytes": 7241,
+    "main_sha256": "4b2abba52d3dd36052b9b8edbf5803d7df877aeb53832e2a9ee6b5043d23a701",
+    "alternate_sha256": "121bb1f2c40722c238e783e229f46d26c73abfed792b57022cf6e3c00e3cb463",
+    "line_similarity": 0.7733,
+    "changed_line_estimate": 34
+  },
+  {
+    "path": "csc_gate.cpython-312.pyc",
+    "main_bytes": 2485,
+    "alternate_bytes": 2114,
+    "main_sha256": "35052d40f52be6fd476e9e9db2e69aaeb2bd82f7febf0def6cbf9cd2e1307733",
+    "alternate_sha256": "d7887cbb63f797445d9316fa59b3520825ab5196e18b7b86e33659b912b36480"
+  },
+  {
+    "path": "UNIVERSAL_CSC_FINALIZER_REPORT.json",
+    "main_bytes": 20225,
+    "alternate_bytes": 14805,
+    "main_sha256": "7a5d5b50449acb26ef85292702ad8959ee8c3cd2e4e17b163f7c775277878474",
+    "alternate_sha256": "39e2b50ef3c8d7105bb3206e35898090b62765ed6adcbb16f6db83e342d42da4",
+    "line_similarity": 0.5227,
+    "changed_line_estimate": 523
+  },
+  {
+    "path": "10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+    "main_bytes": 11498,
+    "alternate_bytes": 15994,
+    "main_sha256": "a7ab0be31da26b4cabe51bc32317d22abf2392baef2c4f103361b4252262024c",
+    "alternate_sha256": "c21ed9a851095a325b4843ceb14e9b9251daeefa42b87f6e3c7a9e916bd3fd88",
+    "line_similarity": 0.9299,
+    "changed_line_estimate": 55
+  },
+  {
+    "path": "csc_doctrine_passes.cpython-312.pyc",
+    "main_bytes": 29450,
+    "alternate_bytes": 36880,
+    "main_sha256": "934d781775077cb0ca1d8f502d34a80e5ca9403c910f8190bfe0664259c52807",
+    "alternate_sha256": "353f3a4faa3e6ca7032743bfc1dc3e347bd4c35ae062dca5316446f571fc632a"
+  },
+  {
+    "path": "csc_gate.py",
+    "main_bytes": 1411,
+    "alternate_bytes": 1241,
+    "main_sha256": "52df7958f307d8a5db5567c0171aabea3db1eeb55177c4f62fea304462e415f0",
+    "alternate_sha256": "42c8ab8875896e981e0025ed988a3b158cd159268010ec0cf37cc5eea4da2830",
+    "line_similarity": 0.8235,
+    "changed_line_estimate": 12
+  },
+  {
+    "path": "csc_doctrine_passes.py",
+    "main_bytes": 23523,
+    "alternate_bytes": 30392,
+    "main_sha256": "c408dbc047e49d04262d9626fbcb22242d91b5349dadb541a04dc9c40f88e5bf",
+    "alternate_sha256": "ba3e3e5d810b96444f023a003f8614c169c2af3c5733ff94533c9c579270ea84",
+    "line_similarity": 0.4055,
+    "changed_line_estimate": 800
+  },
+  {
+    "path": "08_CSC_IDIOMATIC_EXPRESSION_SOP.md",
+    "main_bytes": 2145,
+    "alternate_bytes": 6624,
+    "main_sha256": "285c3c88c3738d3b201496a617ef2c93db650b49b661a4c532659b6a275c9aa8",
+    "alternate_sha256": "402936f72a59ae3ed35defad16b43f4c61884c4d49ab5be449c2d04dfad33fa5",
+    "line_similarity": 0.7018,
+    "changed_line_estimate": 34
+  },
+  {
+    "path": "csc_doctrine_manifest.cpython-312.pyc",
+    "main_bytes": 25653,
+    "alternate_bytes": 8319,
+    "main_sha256": "9b00947e2903783432e1720e836f38d0e8e1c9ec51b716a43c07683f9ba108b7",
+    "alternate_sha256": "7b68e57cde81661a2f38636e89149f5512978745384d9a465293fc44e4838e7d"
+  },
+  {
+    "path": "CSC_SOP_AVAILABILITY_REPORT.json",
+    "main_bytes": 5901,
+    "alternate_bytes": 1778,
+    "main_sha256": "073ed6367c8fa84ad1e63b49036a1ae150a9b5dc48f54effd33031d23db5e954",
+    "alternate_sha256": "e809127c37e0c690d77d38c855a4f7bc129b6768e376533129e37a1bbb97917e",
+    "line_similarity": 0.1577,
+    "changed_line_estimate": 235
+  },
+  {
+    "path": "csc_runtime_bindings.cpython-312.pyc",
+    "main_bytes": 2629,
+    "alternate_bytes": 2129,
+    "main_sha256": "c6ad301836f993b048ad2bcb28cb646bc4dfaebe3b569897e1050a62e0f32e4f",
+    "alternate_sha256": "de0d8d699d5053fb1305d18ee6212498cc5b0e1162d470255a57e5de66bed1fb"
+  },
+  {
+    "path": "universal_csc_finalize.cpython-312.pyc",
+    "main_bytes": 780,
+    "alternate_bytes": 780,
+    "main_sha256": "69e398277371c68993d22d10c89f36f924425952c6c2616acebe08c1007c5319",
+    "alternate_sha256": "6f090b578003e39145ea23a528f9a31a12830b0487f7991c41d74a0b0f17ee45"
+  },
+  {
+    "path": "code_slop_cleanup_csc.cpython-312.pyc",
+    "main_bytes": 2431,
+    "alternate_bytes": 4233,
+    "main_sha256": "aa9aa443d72bd88b6dd4c6b0e10727fc81aa42114606a642865aa3e3ceb08093",
+    "alternate_sha256": "00220c612128ff8bd6c2d625f277059b2916689711e07223776aea8e0a64a151"
+  },
+  {
+    "path": "UNIVERSAL_CSC_FINALIZER_REPORT.md",
+    "main_bytes": 2993,
+    "alternate_bytes": 1951,
+    "main_sha256": "a29e8c9903a2d3e09966cbd4734309bbf3fa8208c3c5b52c022dfded6afc04da",
+    "alternate_sha256": "fbdb0cd026999396606a20dc7afa14c08060a7e46b03a03c62ff67494f350150",
+    "line_similarity": 0.5676,
+    "changed_line_estimate": 32
+  },
+  {
+    "path": "csc_universal_runner.cpython-312.pyc",
+    "main_bytes": 3861,
+    "alternate_bytes": 3730,
+    "main_sha256": "351c144fa5c20e525d8f2590f73af51bec52a3f049ec21cdfe0d8280f07695c1",
+    "alternate_sha256": "189f6bf1e884ad439b7fcc65f88179ddd00599663044be5f3df61e334927de6c"
+  },
+  {
+    "path": "00_CSC_START_AND_AUTHORITY.md",
+    "main_bytes": 2814,
+    "alternate_bytes": 7231,
+    "main_sha256": "d94401926b24ee3c8e2582ff059f6558dd2c6fe446b15dda9286c7fb4211b041",
+    "alternate_sha256": "c273cb834156e46a1859af8e8508f55f6c00ab25ad3dc602416395b86d9dacd9",
+    "line_similarity": 0.7284,
+    "changed_line_estimate": 44
+  },
+  {
+    "path": "03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+    "main_bytes": 2642,
+    "alternate_bytes": 7171,
+    "main_sha256": "2255ead2543b4ac0d9f48ae52332ff1947d363ff77e1ad7ecdfbc92b40a574e0",
+    "alternate_sha256": "57253efd1488ba7f9a2dc4df74e4d51d022307f0589d3caa4ccec2ebee995a7c",
+    "line_similarity": 0.7639,
+    "changed_line_estimate": 34
+  },
+  {
+    "path": "code_slop_cleanup_csc.py",
+    "main_bytes": 1778,
+    "alternate_bytes": 3382,
+    "main_sha256": "54553af64aa48753cd60b204ebbd00b02fc0c78938a07e09ce689e8a1e0bcc9a",
+    "alternate_sha256": "5e36506ae3c917bf294323c767409772cb0090a6c6834f2502cdc40381120ece",
+    "line_similarity": 0.5735,
+    "changed_line_estimate": 58
+  },
+  {
+    "path": "csc_universal_runner.py",
+    "main_bytes": 2225,
+    "alternate_bytes": 2355,
+    "main_sha256": "b7b3255bd938bd41a8720db756a496778db9d3ef5254695816094de40c89fc3c",
+    "alternate_sha256": "0f519f563561bc64864218071b2cd4ab1255da1acb8a6c1fd58344ad745411f9",
+    "line_similarity": 0.4559,
+    "changed_line_estimate": 74
+  },
+  {
+    "path": "04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+    "main_bytes": 2433,
+    "alternate_bytes": 6908,
+    "main_sha256": "fd62771f0d9856cc2229179adf3e28c65109f10395a458002ed3b3d358a1fc19",
+    "alternate_sha256": "f8f87a47b1b4e23346fc60a24badfa4150895611ea0465fad80203ad850a7c18",
+    "line_similarity": 0.7901,
+    "changed_line_estimate": 34
+  },
+  {
+    "path": "09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+    "main_bytes": 2862,
+    "alternate_bytes": 7379,
+    "main_sha256": "29137eff408966e8ecf10b87d433afafc3cbf3798a5b3d102b15acbe5a7dcc5f",
+    "alternate_sha256": "2ed25789bb015f0cf0ee2f2f8f38b5b1e1b3e41bbb33646dcc78e64f0d717c1e",
+    "line_similarity": 0.7703,
+    "changed_line_estimate": 34
+  },
+  {
+    "path": "csc_runtime_bindings.py",
+    "main_bytes": 1763,
+    "alternate_bytes": 1319,
+    "main_sha256": "6bd89d22201744b69562677da120c11888b9a755b025f8f2f4f9eb16cb686bc1",
+    "alternate_sha256": "155871493f37c4afd8b1b87caf6c91164cedfd2204d09dedfc94d464a9f3ebb0",
+    "line_similarity": 0.7126,
+    "changed_line_estimate": 25
+  },
+  {
+    "path": "01_CSC_DOCTRINE_LINKAGE.md",
+    "main_bytes": 3135,
+    "alternate_bytes": 7638,
+    "main_sha256": "442315d12d15bc15cce703610e8c25f2e634e927136c9c7530a403265a053df7",
+    "alternate_sha256": "98687fd6922bcb40b052a15580c2fb6a53cf5223b7e55f87170c704b34ad5ba0",
+    "line_similarity": 0.8172,
+    "changed_line_estimate": 34
+  },
+  {
+    "path": "CSC_HOLONIC_AUDIT_REPORT.json",
+    "main_bytes": 7990,
+    "alternate_bytes": 2440,
+    "main_sha256": "5c655cb8b0983ec592611814607129e81571473a3579fe87be211a32341ae6e0",
+    "alternate_sha256": "a6fd76e34f9d29b79fa2fca2746dba5b67c241fe957a99c0da788f7c5edec1fa",
+    "line_similarity": 0.2868,
+    "changed_line_estimate": 189
+  },
+  {
+    "path": "csc_doctrine_passes.py.before",
+    "main_bytes": 29323,
+    "alternate_bytes": 30617,
+    "main_sha256": "dc9a05083d48efa30962ed4df96bae002460b9cc82c21077a0fff7ba1c005b50",
+    "alternate_sha256": "a0e00aa90ae1a50cff8b05edce8fa8a708d86976e6b5df337cd440373af25bdc"
+  },
+  {
+    "path": "csc_sop/11_CSC_SERVER_EXECUTION_METHODOLOGY_FOR_UNRELIABLE_PLANES.md",
+    "main_bytes": 5023,
+    "alternate_bytes": 5362,
+    "main_sha256": "131e7f8fa75fa1ba6a28c1c4446e88818b396793fd03670e7331865c7ab84925",
+    "alternate_sha256": "0e434a9f03ae011c3b455f19d3538d2a655ca14fd17993cb7e99cd2eb6017d04",
+    "line_similarity": 0.9304,
+    "changed_line_estimate": 16
+  },
+  {
+    "path": "csc_sop/05_CSC_REQUIRED_SOP_SET.md",
+    "main_bytes": 2556,
+    "alternate_bytes": 2574,
+    "main_sha256": "7326a95fa3b984905a399a2374c72cda111d2271d22662374a13b9064c4909be",
+    "alternate_sha256": "bd371eb28ec69218a9401dbfbda9217f41248b5361105761f7ffa1b6b9ef8619",
+    "line_similarity": 0.6847,
+    "changed_line_estimate": 35
+  },
+  {
+    "path": "csc_sop/06_CSC_TRI_DOCTRINE_AUTHORITY.md",
+    "main_bytes": 2693,
+    "alternate_bytes": 3351,
+    "main_sha256": "800a651c61204ddf7380312ce112b48fad94a45833ec6d320237de3d1a9aad4a",
+    "alternate_sha256": "abc50559bc4754572b1eeea6e267bc17c733f33204939c54e9f64c76dd5b978a",
+    "line_similarity": 0.9178,
+    "changed_line_estimate": 12
+  },
+  {
+    "path": "csc_sop/02_CSC_HOLONIC_AUDIT_SOP.md",
+    "main_bytes": 2755,
+    "alternate_bytes": 2430,
+    "main_sha256": "5a0a523540ff430d3fb00199f21640a9468b48e771a2f1fa325db4965cd2e430",
+    "alternate_sha256": "eb69d3623be637deb121f90dbeb3c690fa414ad1be894706414c5ec40ea94c98",
+    "line_similarity": 0.7538,
+    "changed_line_estimate": 32
+  },
+  {
+    "path": "csc_sop/07_CSC_TRI_DOCTRINE_COVERAGE_POLICY.md",
+    "main_bytes": 2744,
+    "alternate_bytes": 3402,
+    "main_sha256": "4b2abba52d3dd36052b9b8edbf5803d7df877aeb53832e2a9ee6b5043d23a701",
+    "alternate_sha256": "3a67aa8b4c2fb18e7608c6ac964cf00f6a8e6a4ad8003bf875cd3a976da9ee39",
+    "line_similarity": 0.9062,
+    "changed_line_estimate": 12
+  },
+  {
+    "path": "csc_sop/10_CSC_GENERAL_GUIDE_AND_UNIVERSALIZATION.md",
+    "main_bytes": 11498,
+    "alternate_bytes": 11376,
+    "main_sha256": "a7ab0be31da26b4cabe51bc32317d22abf2392baef2c4f103361b4252262024c",
+    "alternate_sha256": "b442c8dee34b5baa0d26774da65f6dca823505d5a1321df2076f1e9ef668aff0",
+    "line_similarity": 0.9108,
+    "changed_line_estimate": 64
+  },
+  {
+    "path": "csc_sop/08_CSC_IDIOMATIC_EXPRESSION_SOP.md",
+    "main_bytes": 2145,
+    "alternate_bytes": 2803,
+    "main_sha256": "285c3c88c3738d3b201496a617ef2c93db650b49b661a4c532659b6a275c9aa8",
+    "alternate_sha256": "ddf0858e7375cc6fff4b0ee65a4a45da4d7d6c1b381b42e127f3a1740b98a12f",
+    "line_similarity": 0.8696,
+    "changed_line_estimate": 12
+  },
+  {
+    "path": "csc_sop/00_CSC_START_AND_AUTHORITY.md",
+    "main_bytes": 2814,
+    "alternate_bytes": 3357,
+    "main_sha256": "d94401926b24ee3c8e2582ff059f6558dd2c6fe446b15dda9286c7fb4211b041",
+    "alternate_sha256": "495c51978a3dc59d2aa5c90551547ee3a4fbb5c4aa3c6ab66dfe33081d848279",
+    "line_similarity": 0.6087,
+    "changed_line_estimate": 54
+  },
+  {
+    "path": "csc_sop/03_CSC_ANTI_PATTERN_INVERSION_SOP.md",
+    "main_bytes": 2642,
+    "alternate_bytes": 3300,
+    "main_sha256": "2255ead2543b4ac0d9f48ae52332ff1947d363ff77e1ad7ecdfbc92b40a574e0",
+    "alternate_sha256": "32c86c7311768722466d738e62661f98f68ef950e819419d71e73e2107845849",
+    "line_similarity": 0.9016,
+    "changed_line_estimate": 12
+  },
+  {
+    "path": "csc_sop/04_CSC_PROMOTION_AND_RECURSION_SOP.md",
+    "main_bytes": 2433,
+    "alternate_bytes": 3091,
+    "main_sha256": "fd62771f0d9856cc2229179adf3e28c65109f10395a458002ed3b3d358a1fc19",
+    "alternate_sha256": "6253c763cdcb20a7451d4964f9e72a9822c17b5a8726642df21d9ccbe5b5768a",
+    "line_similarity": 0.9143,
+    "changed_line_estimate": 12
+  },
+  {
+    "path": "csc_sop/09_CSC_SOP_FRESHNESS_AND_MUTATION_LAG_SOP.md",
+    "main_bytes": 2862,
+    "alternate_bytes": 3520,
+    "main_sha256": "29137eff408966e8ecf10b87d433afafc3cbf3798a5b3d102b15acbe5a7dcc5f",
+    "alternate_sha256": "20881e20ef39b0541192812feeef0a301e86f74acd3c4b345ecb5441c1e8802b",
+    "line_similarity": 0.9048,
+    "changed_line_estimate": 12
+  },
+  {
+    "path": "csc_sop/01_CSC_DOCTRINE_LINKAGE.md",
+    "main_bytes": 3135,
+    "alternate_bytes": 3793,
+    "main_sha256": "442315d12d15bc15cce703610e8c25f2e634e927136c9c7530a403265a053df7",
+    "alternate_sha256": "05563f061bc9b863c4a9cc881a57b799a8ea0060897481ee3f61f4b53beee471",
+    "line_similarity": 0.9268,
+    "changed_line_estimate": 12
+  },
+  {
+    "path": "csc_native/csc_doctrine_manifest.py",
+    "main_bytes": 32106,
+    "alternate_bytes": 7909,
+    "main_sha256": "bb5ebf679d53012df7c22dbac33c0a6a267f146c9f031712ec9393b65d6a117d",
+    "alternate_sha256": "a192ed9e9b7b0be1d59a76f5b90a64087dd1ffc92f486e24ce36920a2ab9f9f6",
+    "line_similarity": 0.1753,
+    "changed_line_estimate": 513
+  },
+  {
+    "path": "csc_native/receiver_schema_authority_gate.py",
+    "main_bytes": 4243,
+    "alternate_bytes": 7186,
+    "main_sha256": "f093189ed5a70ce8fb442aff1a34792b0bfb7d3b74bb3757adb5da39358d14f7",
+    "alternate_sha256": "bb26a5fb9a0b95048a502f6454442596dddad4590cece50b15b40d02981eb9b7",
+    "line_similarity": 0.1842,
+    "changed_line_estimate": 248
+  },
+  {
+    "path": "csc_native/csc_universal_runner.py",
+    "main_bytes": 2225,
+    "alternate_bytes": 2355,
+    "main_sha256": "b7b3255bd938bd41a8720db756a496778db9d3ef5254695816094de40c89fc3c",
+    "alternate_sha256": "0f519f563561bc64864218071b2cd4ab1255da1acb8a6c1fd58344ad745411f9",
+    "line_similarity": 0.4559,
+    "changed_line_estimate": 74
+  },
+  {
+    "path": "csc_native/csc_runtime_bindings.py",
+    "main_bytes": 1763,
+    "alternate_bytes": 1319,
+    "main_sha256": "6bd89d22201744b69562677da120c11888b9a755b025f8f2f4f9eb16cb686bc1",
+    "alternate_sha256": "155871493f37c4afd8b1b87caf6c91164cedfd2204d09dedfc94d464a9f3ebb0",
+    "line_similarity": 0.7126,
+    "changed_line_estimate": 25
+  },
+  {
+    "path": "csc_native/__pycache__/csc_gate.cpython-312.pyc",
+    "main_bytes": 2485,
+    "alternate_bytes": 2114,
+    "main_sha256": "35052d40f52be6fd476e9e9db2e69aaeb2bd82f7febf0def6cbf9cd2e1307733",
+    "alternate_sha256": "d7887cbb63f797445d9316fa59b3520825ab5196e18b7b86e33659b912b36480"
+  },
+  {
+    "path": "csc_native/__pycache__/csc_doctrine_passes.cpython-312.pyc",
+    "main_bytes": 29450,
+    "alternate_bytes": 36880,
+    "main_sha256": "934d781775077cb0ca1d8f502d34a80e5ca9403c910f8190bfe0664259c52807",
+    "alternate_sha256": "353f3a4faa3e6ca7032743bfc1dc3e347bd4c35ae062dca5316446f571fc632a"
+  },
+  {
+    "path": "csc_native/__pycache__/strict_json_boundary.cpython-312.pyc",
+    "main_bytes": 2668,
+    "alternate_bytes": 3049,
+    "main_sha256": "707846c502d5223b818632727af8baf7229c7b975eefc34d25b81ff2ccdef882",
+    "alternate_sha256": "9abc35a3e2bfa866231722c8990b06b25e427e04647437f280959d4263239e51"
+  },
+  {
+    "path": "csc_native/__pycache__/csc_doctrine_manifest.cpython-312.pyc",
+    "main_bytes": 25653,
+    "alternate_bytes": 8319,
+    "main_sha256": "9b00947e2903783432e1720e836f38d0e8e1c9ec51b716a43c07683f9ba108b7",
+    "alternate_sha256": "7b68e57cde81661a2f38636e89149f5512978745384d9a465293fc44e4838e7d"
+  },
+  {
+    "path": "csc_native/__pycache__/csc_runtime_bindings.cpython-312.pyc",
+    "main_bytes": 2629,
+    "alternate_bytes": 2129,
+    "main_sha256": "c6ad301836f993b048ad2bcb28cb646bc4dfaebe3b569897e1050a62e0f32e4f",
+    "alternate_sha256": "de0d8d699d5053fb1305d18ee6212498cc5b0e1162d470255a57e5de66bed1fb"
+  },
+  {
+    "path": "csc_native/__pycache__/universal_csc_finalize.cpython-312.pyc",
+    "main_bytes": 780,
+    "alternate_bytes": 780,
+    "main_sha256": "6f090b578003e39145ea23a528f9a31a12830b0487f7991c41d74a0b0f17ee45",
+    "alternate_sha256": "69e398277371c68993d22d10c89f36f924425952c6c2616acebe08c1007c5319"
+  },
+  {
+    "path": "csc_native/__pycache__/code_slop_cleanup_csc.cpython-312.pyc",
+    "main_bytes": 2431,
+    "alternate_bytes": 4233,
+    "main_sha256": "aa9aa443d72bd88b6dd4c6b0e10727fc81aa42114606a642865aa3e3ceb08093",
+    "alternate_sha256": "00220c612128ff8bd6c2d625f277059b2916689711e07223776aea8e0a64a151"
+  },
+  {
+    "path": "csc_native/__pycache__/csc_universal_runner.cpython-312.pyc",
+    "main_bytes": 3861,
+    "alternate_bytes": 3730,
+    "main_sha256": "351c144fa5c20e525d8f2590f73af51bec52a3f049ec21cdfe0d8280f07695c1",
+    "alternate_sha256": "189f6bf1e884ad439b7fcc65f88179ddd00599663044be5f3df61e334927de6c"
+  },
+  {
+    "path": "csc_native/__pycache__/pdver_lab_hardening_cycle.cpython-312.pyc",
+    "main_bytes": 28040,
+    "alternate_bytes": 52579,
+    "main_sha256": "dcbf1d9152cad8a6aa0faa7f2d4c306e5f0d2af56298baafd442d777c7100ec6",
+    "alternate_sha256": "fd7bf3c9c6f7bc561a235e341e581e8371eb6fde7b5a1028732bac194ed7d8a3"
+  }
+]

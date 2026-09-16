@@ -22,4 +22,3 @@ $baseline=Join-Path $sourceOut 'baseline';$probe="import sys;sys.path.insert(0,r
 & $py -I -c $probe
 if($LASTEXITCODE -ne 0){throw "RECOVERY_RECEIVER_FUNCTIONAL_PROBE_FAILED:$LASTEXITCODE"}
 Write-Output "BREAKGLASS_RESTORE_OK TARGET=$TargetRoot"
-

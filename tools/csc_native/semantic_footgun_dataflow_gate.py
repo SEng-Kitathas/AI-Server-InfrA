@@ -226,8 +226,8 @@ def _missing_to_dict_findings(path: Path, tree: ast.AST, lines: list[str]) -> li
     for node in ast.walk(tree):
         if not _is_immediate_to_dict_call(node):
             continue
-        value = node.func.value  # type: ignore[union-attr]  # justification: guarded AST shape establishes attribute form
-        class_name = value.func.id  # type: ignore[union-attr]  # justification: guarded AST shape establishes attribute form
+        value = node.func.value  # type: ignore[union-attr]
+        class_name = value.func.id  # type: ignore[union-attr]
         if class_name in class_info and not class_info[class_name]:
             findings.append(
                 FootgunFinding(

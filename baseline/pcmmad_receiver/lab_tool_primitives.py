@@ -8,7 +8,6 @@ from typing import Mapping
 
 ToolPayload = Mapping[str, Any]
 ToolResult = MutableMapping[str, Any]
-JsonObject = MutableMapping[str, Any]
 
 
 def payload_value(payload: ToolPayload, key: str, default: object | None = None) -> object | None:

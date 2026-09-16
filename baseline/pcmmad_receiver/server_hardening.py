@@ -16,8 +16,6 @@ import sys
 import tempfile
 from typing import Any, Iterable, Iterator, Sequence, TypedDict
 
-JsonObject = MutableMapping[str, Any]
-
 
 class WalkErrorRecord(TypedDict):
     path: str
@@ -140,34 +138,6 @@ def _zip_entry_is_special(info: zipfile.ZipInfo) -> bool:
     return not (stat.S_ISREG(mode) or stat.S_ISDIR(mode))
 
 
-_WINDOWS_RESERVED_DEVICE_NAMES = frozenset(
-    {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}
-)
-_WINDOWS_FORBIDDEN_COMPONENT_CHARS = frozenset('<>:"|?*')
-
-
-def _windows_zip_component_reason(part: str) -> str | None:
-    if not part:
-        return "empty Windows path component"
-    if part.endswith((".", " ")):
-        return "trailing dot/space Windows path alias"
-    if any(ch in part for ch in _WINDOWS_FORBIDDEN_COMPONENT_CHARS):
-        if ":" in part:
-            return "NTFS alternate data stream or colon-qualified path component"
-        return "Windows-forbidden path character"
-    normalized = part.rstrip(". ")
-    stem = normalized.split(".", 1)[0].upper()
-    if stem in _WINDOWS_RESERVED_DEVICE_NAMES:
-        return "reserved Windows device name"
-    return None
-
-
-def _windows_zip_destination_identity(name: str) -> str:
-    normalized = _normalized_zip_name(name).rstrip("/")
-    parts = [part.rstrip(". ").casefold() for part in PurePosixPath(normalized).parts]
-    return "/".join(parts)
-
-
 def _zip_entry_reason(info: zipfile.ZipInfo) -> str | None:
     name = info.filename
     normalized = _normalized_zip_name(name)
@@ -179,10 +149,6 @@ def _zip_entry_reason(info: zipfile.ZipInfo) -> str | None:
         return "absolute, drive-qualified, or UNC entry"
     if any(part in {"", ".", ".."} for part in posix.parts):
         return "ambiguous or traversing path component"
-    for part in posix.parts:
-        windows_reason = _windows_zip_component_reason(part)
-        if windows_reason:
-            return windows_reason
     if _zip_entry_is_special(info):
         return "symlink or special filesystem entry"
     return None
@@ -195,7 +161,7 @@ def inspect_zip_safety(zip_path: Path) -> ZipSafetyResult:
         infos = archive.infolist()
         for info in infos:
             reason = _zip_entry_reason(info)
-            normalized = _windows_zip_destination_identity(info.filename)
+            normalized = _normalized_zip_name(info.filename).rstrip("/").casefold()
             if normalized in normalized_targets:
                 reason = reason or "duplicate normalized destination"
             normalized_targets.add(normalized)
@@ -384,6 +350,13 @@ class SubprocessRunSpec:
 ManagedProcess = subprocess.Popen[bytes]
 
 
+def _child_creationflags() -> int:
+    """Isolate child console/process-group control events from the Receiver on Windows."""
+    if os.name != 'nt':
+        return 0
+    return int(getattr(subprocess,'CREATE_NEW_PROCESS_GROUP',0))
+
+
 def start_background_process(command: Sequence[str], **options: Any) -> ManagedProcess:
     spec = BackgroundProcessSpec(
         cwd=options["cwd"],
@@ -391,14 +364,6 @@ def start_background_process(command: Sequence[str], **options: Any) -> ManagedP
         stderr=options["stderr"],
         env=options.get("env"),
     )
-    creationflags = 0
-    if os.name == "nt":
-        # Worker capsules must not share the supervising receiver/pytest console
-        # process group. Restart/timeout/termination tests intentionally kill
-        # descendants; without a distinct group, Windows control events can
-        # escape upward and interrupt the supervisor itself.
-        creationflags |= int(getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
-        creationflags |= int(getattr(subprocess, "CREATE_NO_WINDOW", 0))
     return subprocess.Popen(
         list(command),
         cwd=str(spec.cwd),
@@ -407,7 +372,7 @@ def start_background_process(command: Sequence[str], **options: Any) -> ManagedP
         stdin=subprocess.DEVNULL,
         shell=False,
         env=spec.env,
-        creationflags=creationflags,
+        creationflags=_child_creationflags(),
     )
 
 
@@ -509,35 +474,6 @@ def read_text_window(path: Path, **options: Any) -> TextWindowResult:
     return _partial_text_window(path, mode, request, file_size)
 
 
-def resolve_command_executable_for_cwd(command: Sequence[str], cwd: Path) -> list[str]:
-    """Resolve a path-like relative executable against the requested child cwd.
-
-    Windows CreateProcess/Python subprocess executable lookup can otherwise resolve
-    a token such as ``.venv/Scripts/python.exe`` against the receiver process
-    working directory rather than the supplied child ``cwd``. Bare command names
-    remain PATH-resolved. Absolute executable paths remain unchanged.
-    """
-    items = [str(item) for item in command]
-    if not items:
-        raise ValueError("command must be non-empty")
-    executable = items[0]
-    windows_path = PureWindowsPath(executable)
-    path_like = "/" in executable or "\\" in executable or bool(windows_path.drive)
-    if not path_like or Path(executable).is_absolute():
-        return items
-    if windows_path.drive and not windows_path.is_absolute():
-        raise ValueError(
-            f"drive-relative executable is ambiguous; use an absolute path: {executable!r}"
-        )
-    candidate = (Path(cwd).resolve() / executable).resolve()
-    if not candidate.exists() or not candidate.is_file():
-        raise FileNotFoundError(
-            f"relative executable does not exist under requested cwd: {executable!r} -> {candidate}"
-        )
-    items[0] = str(candidate)
-    return items
-
-
 def command_preflight(
     project_root: Path, command: Sequence[str], cwd_path: str | None
 ) -> CommandPreflightResult:
@@ -550,12 +486,11 @@ def command_preflight(
         )
     try:
         cwd = safe_project_cwd(project_root, cwd_path)
-        resolved_command = resolve_command_executable_for_cwd(command, cwd)
     except (OSError, ValueError, TypeError) as exc:
         return CommandPreflightResult(
             ok=False, command=list(command), cwd=str(project_root), error=str(exc)
         )
-    return CommandPreflightResult(ok=True, command=resolved_command, cwd=str(cwd), error=None)
+    return CommandPreflightResult(ok=True, command=list(command), cwd=str(cwd), error=None)
 
 
 def _subprocess_success_envelope(
@@ -645,7 +580,6 @@ def run_subprocess_envelope(command: Sequence[str], **options: Any) -> Subproces
         stdout_max_bytes=options.get("stdout_max_bytes"),
         stderr_max_bytes=options.get("stderr_max_bytes"),
     )
-    resolved_command = resolve_command_executable_for_cwd(command, Path(spec.cwd))
     import time as _time
 
     started = _time.time()
@@ -657,13 +591,14 @@ def run_subprocess_envelope(command: Sequence[str], **options: Any) -> Subproces
     try:
         with stdout_path.open("wb") as stdout_handle, stderr_path.open("wb") as stderr_handle:
             proc = subprocess.Popen(
-                resolved_command,
+                list(command),
                 cwd=str(spec.cwd),
                 stdout=stdout_handle,
                 stderr=stderr_handle,
                 stdin=subprocess.DEVNULL,
                 shell=False,
                 env=options.get("env"),
+                creationflags=_child_creationflags(),
             )
             try:
                 return_code = proc.wait(timeout=spec.timeout_seconds)

@@ -9,7 +9,7 @@ from dataclasses import dataclass
 
 from typing import Any, Callable
 
-from .research_arxiv import (
+from research_arxiv import (
     ArxivBadResponseError,
     ArxivRateLimitedError,
     ArxivUnavailableError,
@@ -17,21 +17,17 @@ from .research_arxiv import (
     get_cache_stats,
     search_arxiv,
 )
-from .research_config import (
+from research_config import (
     PER_QUERY_MAX_RESULTS,
     RESEARCH_HUNT_DEFAULT_WALL_SECONDS,
     RESEARCH_HUNT_MAX_WALL_SECONDS,
     REQUEST_TIMEOUT_SECONDS,
 )
-from .research_distill import distill_paper
-from .research_predator import dedupe_and_rank, generate_query_family
-from .research_starmap import build_evidence_topology
+from research_distill import distill_paper
+from research_predator import dedupe_and_rank, generate_query_family
+from research_starmap import build_evidence_topology
 
 JsonObject = MutableMapping[str, Any]
-ARXIV_SEARCH_SCHEMA={"type":"object","additionalProperties":False,"required":["query"],"properties":{"query":{"type":"string","minLength":1},"max_results":{"type":"integer","minimum":1},"sort_by":{"type":"string","enum":["relevance","lastUpdatedDate","submittedDate"]}}}
-ARXIV_PAPER_SCHEMA={"type":"object","additionalProperties":False,"required":["paper_id"],"properties":{"paper_id":{"type":"string","minLength":1},"ingestion_run_id":{"type":"string"}}}
-RESEARCH_HUNT_SCHEMA={"type":"object","additionalProperties":False,"required":["topic"],"properties":{"topic":{"type":"string","minLength":1},"mode":{"type":"string","enum":["direct_hunt"]},"max_results":{"type":"integer","minimum":1},"wall_time_seconds":{"type":"integer","minimum":3}}}
-
 ResearchRegistrar = Callable[
     ..., Callable[[Callable[[JsonObject], JsonObject]], Callable[[JsonObject], JsonObject]]
 ]
@@ -72,7 +68,6 @@ def _register_arxiv_search(register_tool: ResearchRegistrar, error_cls: type[Exc
         category="research",
         side_effect_class="external_read",
         effect_traits=["network_io", "reads_external_state", "may_write_cache", "bounded_network_timeout"],
-        input_schema=ARXIV_SEARCH_SCHEMA,
     )
     def tool_research_arxiv_search(payload: JsonObject) -> JsonObject:
         query = str(payload.get("query", "")).strip()
@@ -96,7 +91,6 @@ def _register_arxiv_paper(register_tool: ResearchRegistrar, error_cls: type[Exce
         category="research",
         side_effect_class="external_read",
         effect_traits=["network_io", "reads_external_state", "may_write_cache", "bounded_network_timeout"],
-        input_schema=ARXIV_PAPER_SCHEMA,
     )
     def tool_research_arxiv_paper(payload: JsonObject) -> JsonObject:
         paper_id = str(payload.get("paper_id", "")).strip()
@@ -217,7 +211,6 @@ def _register_research_hunt(register_tool: ResearchRegistrar, error_cls: type[Ex
         category="research",
         side_effect_class="external_read",
         effect_traits=["network_io", "reads_external_state", "may_write_cache", "bounded_network_timeout", "bounded_wall_time", "partial_results"],
-        input_schema=RESEARCH_HUNT_SCHEMA,
     )
     def tool_research_hunt(payload: JsonObject) -> JsonObject:
         topic = str(payload.get("topic", "")).strip()
