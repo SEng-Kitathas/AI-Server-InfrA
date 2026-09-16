@@ -16,8 +16,11 @@ import lab_tools_ops as ops
 
 
 def git(root: Path, *args: str) -> str:
+    executable, error = ops._resolve_git_executable()
+    if executable is None or error is not None:
+        raise RuntimeError(error or "GIT_EXECUTABLE_NOT_FOUND")
     cp = subprocess.run(
-        ["git", *args],
+        [executable, *args],
         cwd=root,
         capture_output=True,
         text=True,

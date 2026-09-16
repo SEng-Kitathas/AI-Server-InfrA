@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import sys
-import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -13,31 +13,35 @@ import server_hardening as sh
 
 
 class SubprocessBoundedCaptureTests(unittest.TestCase):
-    def _capture_dirs(self) -> set[str]:
-        root = Path(tempfile.gettempdir())
-        return {p.name for p in root.glob("pcmmad-subprocess-*") if p.is_dir()}
-
     def test_large_stdout_and_stderr_are_return_bounded_and_temp_capture_is_cleaned(self) -> None:
-        before = self._capture_dirs()
-        result = sh.run_subprocess_envelope(
-            [
-                sys.executable,
-                "-c",
-                "import sys; sys.stdout.write('x'*2000000); sys.stderr.write('y'*1500000)",
-            ],
-            cwd=PROJECT_ROOT,
-            timeout_seconds=30,
-            stdout_max_bytes=4096,
-            stderr_max_bytes=3072,
-        )
-        after = self._capture_dirs()
+        created: list[Path] = []
+        real_mkdtemp = sh.tempfile.mkdtemp
+
+        def tracked_mkdtemp(*args, **kwargs):
+            path = Path(real_mkdtemp(*args, **kwargs))
+            created.append(path)
+            return str(path)
+
+        with mock.patch.object(sh.tempfile, "mkdtemp", side_effect=tracked_mkdtemp):
+            result = sh.run_subprocess_envelope(
+                [
+                    sys.executable,
+                    "-c",
+                    "import sys; sys.stdout.write('x'*2000000); sys.stderr.write('y'*1500000)",
+                ],
+                cwd=PROJECT_ROOT,
+                timeout_seconds=30,
+                stdout_max_bytes=4096,
+                stderr_max_bytes=3072,
+            )
         self.assertTrue(result["ok"])
         self.assertEqual(result["status"], "COMPLETED")
         self.assertLessEqual(len(result["stdout"].encode("utf-8")), 4096)
         self.assertLessEqual(len(result["stderr"].encode("utf-8")), 3072)
         self.assertTrue(result["stdout_truncated"])
         self.assertTrue(result["stderr_truncated"])
-        self.assertEqual(after, before)
+        self.assertEqual(len(created), 1)
+        self.assertFalse(created[0].exists())
 
     def test_nonzero_exit_semantics_are_preserved(self) -> None:
         result = sh.run_subprocess_envelope(

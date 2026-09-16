@@ -7,6 +7,9 @@ from collections.abc import MutableMapping
 from dataclasses import dataclass
 from typing import Any, Callable, TypeAlias
 
+from lab_tools_ops import _resolve_git_executable
+from server_hardening import run_subprocess_envelope
+
 from project_mutation_authority import (
     ProjectMutationAuthorityError,
     consequence_guard,
@@ -568,12 +571,23 @@ def _terminate_running_jobs(dep: StateToolDeps) -> list[str]:
     return terminated
 
 
-def _apoptosis_git_actions(request: ApoptosisTriggerRequest, dep: StateToolDeps) -> list[str]:
+def _require_apoptosis_git_executable(dep: StateToolDeps) -> str:
+    executable, error = _resolve_git_executable()
+    if executable is None:
+        raise dep.error_cls(
+            "GIT_EXECUTABLE_UNAVAILABLE",
+            error or "Git executable could not be resolved",
+            503,
+        )
+    return executable
+
+
+def _apoptosis_git_actions(request: ApoptosisTriggerRequest, dep: StateToolDeps, git_executable: str | None = None) -> list[str]:
     actions: list[str] = []
     root = dep.get_project_root(request.project_id)
     if request.git_reset_hard:
         reset_result = run_subprocess_envelope(
-            ["git", "reset", "--hard", "HEAD"],
+            [git_executable or _require_apoptosis_git_executable(dep), "reset", "--hard", "HEAD"],
             cwd=root,
             timeout_seconds=None,
             stdout_max_bytes=None,
@@ -582,7 +596,7 @@ def _apoptosis_git_actions(request: ApoptosisTriggerRequest, dep: StateToolDeps)
         actions.append("git_reset_hard" if reset_result.get("ok") else "git_reset_hard_failed")
     if request.git_clean_fd:
         clean_result = run_subprocess_envelope(
-            ["git", "clean", "-fd"],
+            [git_executable or _require_apoptosis_git_executable(dep), "clean", "-fd"],
             cwd=root,
             timeout_seconds=None,
             stdout_max_bytes=None,
@@ -617,6 +631,9 @@ def _apoptosis_payload(payload: ToolPayload, dep: StateToolDeps) -> ToolResult:
 
     actions: list[str] = []
     terminated: list[str] = []
+    git_executable = None
+    if request.git_reset_hard or request.git_clean_fd:
+        git_executable = _require_apoptosis_git_executable(dep)
     if request.terminate_running_jobs:
         terminated = _terminate_running_jobs(dep)
         actions.append("terminate_running_jobs")
@@ -627,7 +644,7 @@ def _apoptosis_payload(payload: ToolPayload, dep: StateToolDeps) -> ToolResult:
             mutation_authority=authority,
             session_id=session_id,
         ):
-            actions.extend(_apoptosis_git_actions(request, dep))
+            actions.extend(_apoptosis_git_actions(request, dep, git_executable))
             _end_apoptosis_session(request, payload, dep, actions)
             dep.append_reflexion(
                 request.project_id,

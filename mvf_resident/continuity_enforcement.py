@@ -1,10 +1,20 @@
 from __future__ import annotations
 
-import json,re,subprocess
+import json,os,re,shutil,subprocess
 from dataclasses import dataclass,asdict
 from pathlib import Path
 from typing import Any
 from .surfaces import audit_continuity_surfaces
+
+def _git_executable()->str:
+    configured=str(os.environ.get("PCMMAD_GIT_EXE") or "").strip()
+    if configured:
+        candidate=Path(configured).expanduser()
+        if candidate.is_file(): return str(candidate.resolve())
+        raise FileNotFoundError(f"PCMMAD_GIT_EXE_MISSING:{candidate}")
+    discovered=shutil.which("git")
+    if discovered: return str(Path(discovered).resolve())
+    raise FileNotFoundError("GIT_EXECUTABLE_NOT_FOUND")
 
 @dataclass(frozen=True)
 class SurfaceSpec:
@@ -71,8 +81,8 @@ def handoff_gate(handoff_dir:Path,*,repo_root:Path|None=None)->dict[str,Any]:
     git={'head':None,'status':[]}
     if repo_root is not None:
         try:
-            git['head']=subprocess.check_output(['git','-C',str(repo_root),'rev-parse','HEAD'],text=True,timeout=5).strip()
-            raw=subprocess.check_output(['git','-C',str(repo_root),'status','--short'],text=True,timeout=5)
+            git['head']=subprocess.check_output([_git_executable(),'-C',str(repo_root),'rev-parse','HEAD'],text=True,timeout=5).strip()
+            raw=subprocess.check_output([_git_executable(),'-C',str(repo_root),'status','--short'],text=True,timeout=5)
             git['status']=[x for x in raw.splitlines() if x.strip()]
         except Exception as exc:failures.append('GIT_STATE_UNAVAILABLE:'+type(exc).__name__)
         if git['status']:

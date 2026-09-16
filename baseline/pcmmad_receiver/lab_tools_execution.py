@@ -198,6 +198,7 @@ def _sync_execution_payload(payload: ToolPayload, dep: ExecutionToolDeps) -> Too
     result = run_subprocess_envelope(
         request.command + request.args,
         cwd=cwd,
+        env=dep.exec_env(dict(payload)),
         timeout_seconds=request.timeout_seconds,
         stdout_max_bytes=request.stdout_max_bytes,
         stderr_max_bytes=request.stderr_max_bytes,
@@ -218,6 +219,7 @@ def _python_execution_payload(payload: ToolPayload, dep: ExecutionToolDeps) -> T
         result = run_subprocess_envelope(
             [sys.executable, str(tmp_path)],
             cwd=cwd,
+            env=dep.exec_env(dict(payload)),
             timeout_seconds=request.timeout_seconds,
             stdout_max_bytes=request.stdout_max_bytes,
             stderr_max_bytes=request.stderr_max_bytes,

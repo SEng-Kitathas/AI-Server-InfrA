@@ -1,9 +1,19 @@
-﻿from __future__ import annotations
-import hashlib,json,tempfile,subprocess
+from __future__ import annotations
+import hashlib,json,tempfile,subprocess,sys
 from pathlib import Path
 import pytest
 from mvf_resident.continuity_enforcement import plan_surface_use,handoff_gate,rehydrate_packet,SURFACE_REGISTRY
 from mvf_resident.surfaces import REQUIRED_ACTIVE_SURFACES
+
+ROOT=Path(__file__).resolve().parents[1]
+RUNTIME=ROOT/"baseline"/"pcmmad_receiver"
+if str(RUNTIME) not in sys.path: sys.path.insert(0,str(RUNTIME))
+from lab_tools_ops import _resolve_git_executable
+
+def _git():
+    executable,error=_resolve_git_executable()
+    if executable is None or error is not None: raise RuntimeError(error or "GIT_EXECUTABLE_NOT_FOUND")
+    return executable
 
 def _handoff(root:Path):
     files={}
@@ -37,7 +47,7 @@ def test_handoff_gate_blocks_stale_surface_and_campaign_conflict():
 
 def test_uncommitted_repo_requires_handoff_declaration():
     with tempfile.TemporaryDirectory() as td:
-        b=Path(td);h=b/'h';h.mkdir();_handoff(h);repo=b/'repo';repo.mkdir();subprocess.run(['git','init'],cwd=repo,capture_output=True,check=True);subprocess.run(['git','config','user.email','a@b.c'],cwd=repo,check=True);subprocess.run(['git','config','user.name','x'],cwd=repo,check=True);(repo/'x').write_text('1');subprocess.run(['git','add','.'],cwd=repo,check=True);subprocess.run(['git','commit','-m','x'],cwd=repo,capture_output=True,check=True);(repo/'x').write_text('2')
+        b=Path(td);h=b/'h';h.mkdir();_handoff(h);repo=b/'repo';repo.mkdir();subprocess.run([_git(),'init'],cwd=repo,capture_output=True,check=True);subprocess.run([_git(),'config','user.email','a@b.c'],cwd=repo,check=True);subprocess.run([_git(),'config','user.name','x'],cwd=repo,check=True);(repo/'x').write_text('1');subprocess.run([_git(),'add','.'],cwd=repo,check=True);subprocess.run([_git(),'commit','-m','x'],cwd=repo,capture_output=True,check=True);(repo/'x').write_text('2')
         # current synthetic Current State declares uncommitted, so ready
         assert handoff_gate(h,repo_root=repo)['ready'] is True
         (h/'CURRENT_STATE.md').write_text('Active parent campaign: GLOBAL INTERACTION WAR CAMPAIGN\nclean claim',encoding='utf-8');files=json.loads((h/'SNAPSHOT_MANIFEST_SHA256.json').read_text());data=(h/'CURRENT_STATE.md').read_bytes();files['files']['CURRENT_STATE.md']={'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()};(h/'SNAPSHOT_MANIFEST_SHA256.json').write_text(json.dumps(files),encoding='utf-8')

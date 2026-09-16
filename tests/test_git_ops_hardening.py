@@ -17,7 +17,7 @@ from typing import Callable, TypeAlias
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "baseline" / "pcmmad_receiver"))
 
-from lab_tools_ops import register_ops_tools
+from lab_tools_ops import _resolve_git_executable, register_ops_tools
 
 ToolValue: TypeAlias = (
     str | int | float | bool | None | list["ToolValue"] | Mapping[str, "ToolValue"]
@@ -34,6 +34,13 @@ class ToolError(Exception):
         self.error_code = error_code
         self.status = status
         self.extra = extra
+
+
+def _git() -> str:
+    executable, error = _resolve_git_executable()
+    if executable is None or error is not None:
+        raise RuntimeError(error or "GIT_EXECUTABLE_NOT_FOUND")
+    return executable
 
 
 def _registry_for(root: Path) -> ToolRegistry:
@@ -82,7 +89,7 @@ class GitOpsHardeningTests(unittest.TestCase):
             root = Path(tmp)
             repo = root / "nested" / "repo"
             repo.mkdir(parents=True)
-            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+            subprocess.run([_git(), "init"], cwd=repo, check=True, capture_output=True)
             registry = _registry_for(root)
             discovery = registry["git.repositories.list"]({"project_id": "x", "max_depth": 4})
             self.assertTrue(discovery["ok"])
@@ -100,8 +107,8 @@ class GitOpsHardeningTests(unittest.TestCase):
             shallow = root / "one"
             deep = root / "a" / "b" / "repo"
             shallow.mkdir(parents=True); deep.mkdir(parents=True)
-            subprocess.run(["git", "init"], cwd=shallow, check=True, capture_output=True)
-            subprocess.run(["git", "init"], cwd=deep, check=True, capture_output=True)
+            subprocess.run([_git(), "init"], cwd=shallow, check=True, capture_output=True)
+            subprocess.run([_git(), "init"], cwd=deep, check=True, capture_output=True)
             registry = _registry_for(root)
             depth_limited = registry["git.repositories.list"]({"project_id": "x", "max_depth": 1, "max_results": 10})
             self.assertEqual([x["repo_path"] for x in depth_limited["repositories"]], ["one"])
@@ -123,12 +130,13 @@ class GitOpsHardeningTests(unittest.TestCase):
             root = Path(tmp)
             repo = root / "nested" / "repo"
             repo.mkdir(parents=True)
-            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
-            subprocess.run(["git", "config", "user.email", "pcmmad-test@example.invalid"], cwd=repo, check=True)
-            subprocess.run(["git", "config", "user.name", "PCMMAD Test"], cwd=repo, check=True)
+            git = _git()
+            subprocess.run([git, "init"], cwd=repo, check=True, capture_output=True)
+            subprocess.run([git, "config", "user.email", "pcmmad-test@example.invalid"], cwd=repo, check=True)
+            subprocess.run([git, "config", "user.name", "PCMMAD Test"], cwd=repo, check=True)
             (repo / "a.txt").write_text("one", encoding="utf-8")
-            subprocess.run(["git", "add", "."], cwd=repo, check=True)
-            subprocess.run(["git", "commit", "-m", "one"], cwd=repo, check=True, capture_output=True)
+            subprocess.run([git, "add", "."], cwd=repo, check=True)
+            subprocess.run([git, "commit", "-m", "one"], cwd=repo, check=True, capture_output=True)
             registry = _registry_for(root)
             result = registry["git.status"](
                 {"project_id": "x", "repo_path": "nested/repo"}

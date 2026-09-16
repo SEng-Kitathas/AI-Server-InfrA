@@ -14,6 +14,14 @@ sys.path.insert(0, str(RUNTIME_ROOT))
 
 from lab_tools import LabToolError
 from lab_tools_continuity import ContinuityDeps, inspect_convergence
+from lab_tools_ops import _resolve_git_executable
+
+
+def _git() -> str:
+    executable, error = _resolve_git_executable()
+    if executable is None or error is not None:
+        raise RuntimeError(error or "GIT_EXECUTABLE_NOT_FOUND")
+    return executable
 
 
 class ContinuityConvergenceClassifierTests(unittest.TestCase):
@@ -128,7 +136,7 @@ class ContinuityConvergenceClassifierTests(unittest.TestCase):
             repo.mkdir(parents=True)
             def git(*args: str) -> str:
                 completed = subprocess.run(
-                    ["git", *args], cwd=repo, capture_output=True, text=True, check=True
+                    [_git(), *args], cwd=repo, capture_output=True, text=True, check=True
                 )
                 return completed.stdout.strip()
 
@@ -191,7 +199,7 @@ class ContinuityConvergenceClassifierTests(unittest.TestCase):
             repo = deps.get_project_root("alpha") / "repo"
             child = repo / "child"
             child.mkdir(parents=True)
-            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+            subprocess.run([_git(), "init"], cwd=repo, check=True, capture_output=True)
             with self.assertRaises(LabToolError) as raised:
                 inspect_convergence(
                     {

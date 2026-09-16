@@ -13,11 +13,19 @@ if str(RUNTIME) not in sys.path:
     sys.path.insert(0, str(RUNTIME))
 
 import lab_tools
+from lab_tools_ops import _resolve_git_executable
+
+
+def _git() -> str:
+    executable, error = _resolve_git_executable()
+    if executable is None or error is not None:
+        raise RuntimeError(error or "GIT_EXECUTABLE_NOT_FOUND")
+    return executable
 
 
 def _init_repo(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
-    subprocess.run(["git", "init"], cwd=path, check=True, capture_output=True)
+    subprocess.run([_git(), "init"], cwd=path, check=True, capture_output=True)
 
 
 def _result(payload):

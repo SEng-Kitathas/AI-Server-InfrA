@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from server_hardening import run_subprocess_envelope
+from lab_tools_ops import _resolve_git_executable
 
 JsonObject = MutableMapping[str, Any]
 Registrar = Callable[..., Any]
@@ -234,8 +235,20 @@ def inspect_artifact_lineage(payload: JsonObject, dep: ContinuityDeps) -> JsonOb
 
 
 def _git(root: Path, args: list[str]) -> JsonObject:
+    command = list(args)
+    if command and Path(command[0]).name.lower() in {"git", "git.exe"}:
+        executable, error = _resolve_git_executable()
+        if executable is None:
+            return {
+                "ok": False, "status": "FAILED", "return_code": None,
+                "command": command, "cwd": str(root), "stdout": "",
+                "stderr": error or "GIT_EXECUTABLE_NOT_FOUND",
+                "stdout_truncated": False, "stderr_truncated": False,
+                "duration_ms": 0, "error": error or "GIT_EXECUTABLE_NOT_FOUND",
+            }
+        command[0] = executable
     return run_subprocess_envelope(
-        args,
+        command,
         cwd=root,
         timeout_seconds=10,
         stdout_max_bytes=32768,
