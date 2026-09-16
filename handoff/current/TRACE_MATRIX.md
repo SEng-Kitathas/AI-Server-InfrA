@@ -604,3 +604,11 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | GitHub AI-Server-InfrA contains qualified current server | VERIFIED | push + independent ls-remote `ec1aee65b4f78dd1e000720edfa16ea93b070c2d` | remote mutation/new product change |
 | old GitHub baseline is current server | REJECTED | `32328ac65678f1f0df7f04587d27f71dc8c14abb` preserved as historical parent/material only | explicit future promotion |
 | live replacement completed | FALSE | no live deployment yet | safe-window promotion |
+
+## 2026-09-16 MULTI-PLANE COUPLING HEaT
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| Browser Bridge is architecturally detached because it has no import edges | REJECTED | current task/HTTP/HUD/capability/test coupling audit | service/task topology changes |
+| windows_job_object is unused isolated substrate | REJECTED | execution route/worker + test/report references | execution architecture changes |
+| six named governance modules are current unconnected modules | REJECTED FOR CURRENT TREE | filenames absent from active current baseline | module reintroduction/new snapshot |
+| import graph alone is sufficient system-coupling verifier | REJECTED | out-of-process Browser Bridge counterexample | never as sole verifier |
