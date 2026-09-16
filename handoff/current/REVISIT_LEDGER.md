@@ -486,3 +486,5 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **GLOBAL-WAR-FINAL-002 — CLOSED CLONE / QUALIFIED FOR LIVE REPLACEMENT.** Exact final tree entire corpus rc0, 125/125 TCP liveness, live Receiver/ngrok/HUD identities unchanged. Reopen on product/topology changes or failed promotion readback.
 - **GITHUB-PUBLICATION-FINAL-001 — ACTIVE.** Publish exact qualified candidate + relevant research/testing/records to `SEng-Kitathas/AI-Server-InfrA`, preserving existing dirty publication work; close only after remote HEAD readback.
 - **LIVE-REPLACEMENT-FINAL-001 — PROMOTION-ONLY / PENDING.** Requires elevated SYSTEM task registration and immediate organism readback.
+
+- **WINDOWS-ATOMIC-REPLACE-001 — CLOSED / EARNED.** Clean publication-tree run exposed transient WinError5 during concurrent handoff pointer replace; bounded transient retry implemented and whole corpus requalified. Reopen on recurrence outside retry budget or non-transient rename failure.

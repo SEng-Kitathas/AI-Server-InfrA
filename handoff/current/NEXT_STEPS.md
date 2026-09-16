@@ -586,3 +586,6 @@ Run whole project corpus OS-owned with live TCP liveness watcher against this ex
 3. Run publication-tree verification, commit, push, independently read back GitHub remote HEAD/tree, and record publication receipt.
 4. Only after GitHub publication is current perform live replacement safe-window promotion with elevated SYSTEM registration + task/health/readback + rollback readiness.
 5. End project freeze after successful live readback; future development occurs on the embodied resident system.
+
+## PUBLICATION REBUILD AFTER WINDOWS RACE FIX
+Seal the post-atomic-retry qualified source commit, rebuild GitHub integration from current remote main using that new commit as the current parent, mark old GitHub implementation historical, rerun exact publication-tree corpus, then push/read back remote HEAD.

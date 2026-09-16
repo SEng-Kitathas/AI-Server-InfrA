@@ -4350,3 +4350,7 @@ A pre-live cross-surface audit found Browser Bridge was the only current load-be
 ---
 # FINAL GLOBAL QUALIFICATION + GITHUB PUBLICATION FRONTIER — 2026-09-16
 Exact final candidate entire corpus passed OS-owned in 67.187s while live Receiver22968, ngrok19772 and HUD25508 remained unchanged; 125/125 Receiver TCP samples stayed up. Durable final qualification result/report and GitHub publication inclusion manifest were promoted from runtime scratch into reports. Operator fixed publication target as https://github.com/SEng-Kitathas/AI-Server-InfrA.git. Existing publication working repo is behind GitHub by two commits and dirty, therefore publication must use controlled integration rather than overwrite. Candidate is qualified for live replacement subject to elevated SYSTEM task registration/readback at promotion.
+
+---
+# PUBLICATION-TREE WINDOWS ATOMIC REPLACE HARDENING — 2026-09-16
+A clean GitHub publication-tree run surfaced a transient WinError5 in concurrent handoff pointer publication. `atomic_json` was hardened with bounded Windows-only retry for transient sharing/access denials while preserving persistent-failure propagation and temp cleanup. Focused regression passed and the entire current source requalified rc0 with 132/132 Receiver TCP samples up and unchanged live identities. This post-fix source supersedes the earlier final candidate for GitHub publication.

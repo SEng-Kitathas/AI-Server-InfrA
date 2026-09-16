@@ -88,3 +88,29 @@ def test_failed_migration_rolls_back_current_state():
         with pytest.raises(DaemonPlaneMigrationError,match='ROLLED_BACK'): migrate(root,2,bad)
         assert p.current_state.read_bytes()==before
         assert audit(root).status=='CURRENT'
+
+def test_atomic_json_retries_transient_windows_permission_denial(monkeypatch,tmp_path):
+    import mvf_resident.daemon_plane as dp
+    target=tmp_path/'state.json';real=dp.os.replace;calls={'n':0}
+    def flaky(src,dst):
+        calls['n']+=1
+        if calls['n']<3:
+            exc=PermissionError(13,'denied');setattr(exc,'winerror',5);raise exc
+        return real(src,dst)
+    monkeypatch.setattr(dp.os,'name','nt',raising=False);monkeypatch.setattr(dp.os,'replace',flaky);monkeypatch.setattr(dp.time,'sleep',lambda _x:None)
+    dp.atomic_json(target,{'ok':True})
+    assert calls['n']==3
+    assert json.loads(target.read_text())=={'ok':True}
+
+def test_atomic_json_persistent_windows_permission_denial_still_raises(monkeypatch,tmp_path):
+    import mvf_resident.daemon_plane as dp
+    target=tmp_path/'state.json';calls={'n':0}
+    def denied(src,dst):
+        calls['n']+=1
+        exc=PermissionError(13,'denied');setattr(exc,'winerror',32);raise exc
+    monkeypatch.setattr(dp.os,'name','nt',raising=False);monkeypatch.setattr(dp.os,'replace',denied);monkeypatch.setattr(dp.time,'sleep',lambda _x:None)
+    import pytest
+    with pytest.raises(PermissionError):dp.atomic_json(target,{'ok':True})
+    assert calls['n']==8
+    assert not target.exists()
+    assert not list(tmp_path.glob('state.json.*.tmp'))

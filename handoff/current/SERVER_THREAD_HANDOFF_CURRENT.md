@@ -363,3 +363,6 @@ Surface audit complete excluding Daemon speech/inference per operator. Browser B
 
 ## FINAL QUALIFICATION / PUBLICATION HANDOFF
 Exact final tree global rc0, 125/125 TCP up, live identities unchanged. Candidate QUALIFIED FOR LIVE REPLACEMENT with SYSTEM-registration promotion prerequisite. GitHub target is SEng-Kitathas/AI-Server-InfrA; final evidence reports/inclusion manifest exist. GitHub publication must preserve dirty working publication repo content and independently read back remote HEAD.
+
+## PUBLICATION HARDENING DELTA
+Current source includes bounded Windows transient atomic-replace retry discovered during clean GitHub publication-tree testing. Whole corpus requalified after fix. GitHub integration must use the post-fix commit, not 4411edf as final current.

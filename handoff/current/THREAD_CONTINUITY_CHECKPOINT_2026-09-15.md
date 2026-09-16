@@ -218,3 +218,6 @@ Entire exact final candidate corpus rc0 in 67.187415s; Receiver22968/ngrok19772/
 
 ## 38. Exact byte-tree publication candidate
 After EOL hygiene, the exact bytes intended for commit passed the entire corpus OS-owned in 67.560s with Receiver22968/ngrok19772/HUD25508 unchanged and 126/126 Receiver TCP samples up. GitHub evidence report/result/inclusion manifest were regenerated from this exact tree.
+
+## 39. Publication-tree Windows race hardening
+Clean GitHub publication-tree testing exposed transient WinError5 in concurrent handoff pointer replacement. Bounded Windows-only replace retry implemented; persistent denial still raises and temp cleanup is verified. Exact post-fix whole corpus rc0 / 70.616s / 132/132 TCP up / live identities unchanged. This post-fix commit will become the current qualified source for GitHub publication.

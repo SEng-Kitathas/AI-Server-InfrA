@@ -1100,3 +1100,9 @@ Active parent campaign: FINAL PRE-LIVE GLOBAL WAR CAMPAIGN
 - Research, testing, qualification, continuity, doctrine, scar sources, audit records and relevant reports are publication content. Runtime scratch may be excluded only when durable evidence has been promoted into reports and the exclusion is explicitly indexed.
 
 Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## PUBLICATION-TREE WINDOWS RACE HARDENING — 2026-09-16
+- GitHub publication-tree qualification exposed a real Windows atomic-rename race in project-handoff publication (`WinError 5` on `os.replace`). This is now treated as earned final hardening, not test flake.
+- `TRANSIENT WINDOWS SHARING DENIAL != ATOMIC WRITE FAILURE`; bounded retry is allowed only for transient access/sharing errors and must preserve fail-closed behavior for persistent/other errors.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN

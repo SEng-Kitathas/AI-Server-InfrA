@@ -799,3 +799,8 @@ Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
 Final byte-level tree PASS: rc0 / 67.560s / 126 of 126 TCP samples up / live Receiver-ngrok-HUD identities unchanged.
 
 Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## PUBLICATION-TREE HARDENING CURRENT
+Publication integration exposed and repaired a transient Windows atomic replace race in project handoff. Current qualified source includes that fix; prior qualified commit `4411edf...` is superseded as current source once this fix commit is sealed.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN

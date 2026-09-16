@@ -565,3 +565,9 @@ Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
 Exact commit-intended tree whole corpus rc0 / 67.560s / Receiver22968 unchanged / ngrok19772 unchanged / HUD25508 unchanged / 126/126 TCP samples up. Durable reports and GitHub inclusion manifest regenerated from these exact bytes.
 
 Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## POST-PUBLICATION-RACE FINAL RECEIPT — 2026-09-16
+- `atomic_json` now has bounded Windows-only transient replace retry. Regression tests cover transient success and persistent denial failure/cleanup.
+- Exact post-fix entire corpus rc0 / 70.616s / Receiver22968 unchanged / ngrok19772 unchanged / HUD25508 unchanged / 132/132 TCP samples up.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN

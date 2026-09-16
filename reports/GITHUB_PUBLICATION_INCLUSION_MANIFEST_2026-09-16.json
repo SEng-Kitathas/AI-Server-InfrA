@@ -1,16 +1,9 @@
 {
   "schema": "pcmmad.github-publication-inclusion.v1",
   "target": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
-  "generated_at": "2026-09-16T04:59:12.243691+00:00",
-  "final_global_result": {
-    "path": "reports/FINAL_PRELIVE_GLOBAL_RESULT_2026-09-16.json",
-    "sha256": "8801c3b81dd1f1e83813f4a04335b17046ab648385c4d8a7ce15c11eb1c58eb8"
-  },
-  "final_global_report": {
-    "path": "reports/FINAL_PRELIVE_GLOBAL_WAR_2026-09-16.md",
-    "sha256": "12167ebb91b783bc3f199f6a977940829c2246c9c66a6d74a33b07a15a79aee7"
-  },
-  "included_research_test_record_candidates": [
+  "generated_at": "2026-09-16T05:09:13.417711+00:00",
+  "record_count": 334,
+  "records": [
     {
       "path": ".pytest_cache/README.md",
       "bytes": 302,
@@ -283,8 +276,8 @@
     },
     {
       "path": "handoff/current/COMMANDERS_INTENT_CURRENT.md",
-      "bytes": 78048,
-      "sha256": "eec639e2081504a7bf8d432eddbb9adaf663211278c1db3a2172dece34b1e3f2"
+      "bytes": 78591,
+      "sha256": "23e0df032d3c31ce4f730f28836fa8b27c3d70d23023e4d8227a03df08bd35a2"
     },
     {
       "path": "handoff/current/CONTINUITY_CONVERGENCE_CLASSIFIER_QUALIFICATION_2026-09-07.md",
@@ -303,8 +296,8 @@
     },
     {
       "path": "handoff/current/CURRENT_STATE.md",
-      "bytes": 75422,
-      "sha256": "3e0c8e77e6f94470e64f0d8dabb703519633c3c6507a094c3b573d3af6748ca6"
+      "bytes": 76024,
+      "sha256": "2343fcfe0f0e1cbbbc6c95271a39e810df67050376fb662499bfc104d15e768a"
     },
     {
       "path": "handoff/current/DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md",
@@ -323,8 +316,8 @@
     },
     {
       "path": "handoff/current/DESIGN_THREAD_STREAM.md",
-      "bytes": 228989,
-      "sha256": "41fb320b7fd0bf143413770bd47a51298d277469967d77a3f53fb3586559921f"
+      "bytes": 229557,
+      "sha256": "cb67bb0eb9b911ed7fd67c2c13b934a1a2c9d7af35dca10855162b6f649cc1ef"
     },
     {
       "path": "handoff/current/DOCTRINE_SNAPSHOT.md",
@@ -398,8 +391,8 @@
     },
     {
       "path": "handoff/current/LIVE_SHADOW.md",
-      "bytes": 66560,
-      "sha256": "b3811e54b3173ce7679dbf2955610673c8bc6c180b8b9b166b0f5be7ed525888"
+      "bytes": 67348,
+      "sha256": "ebaec6270f2f563a054e49c90c4db3843394e67a9f2c141e53eb1f7c4d3f7a83"
     },
     {
       "path": "handoff/current/NEW_THREAD_HANDOFF_PROMPT_CURRENT.md",
@@ -408,8 +401,8 @@
     },
     {
       "path": "handoff/current/NEXT_STEPS.md",
-      "bytes": 59220,
-      "sha256": "d6e9d0c2015d4aff485c644241378a6fbe821bf3d721d5d90030daf109172ae6"
+      "bytes": 59529,
+      "sha256": "8827fd62e8118bc332f446263b7f5fad8e96191f6eb5936400afa7801bc5c1ae"
     },
     {
       "path": "handoff/current/OBE_SKILL_THREAD_RESPONSE_2026-09-08.md",
@@ -423,8 +416,8 @@
     },
     {
       "path": "handoff/current/REVISIT_LEDGER.md",
-      "bytes": 75550,
-      "sha256": "912bcdab04d5ecb0b749db69bfc2231f70b9714a1f87999ae54f333b763d457b"
+      "bytes": 75844,
+      "sha256": "8907e7256cb5bc84b7e1dd4c8951cda06c35bb05b6deb6dee7aa68d9f990eeb4"
     },
     {
       "path": "handoff/current/RUNTIME_OBE_SKILLS_DUALITY.md",
@@ -438,13 +431,13 @@
     },
     {
       "path": "handoff/current/SERVER_THREAD_HANDOFF_CURRENT.md",
-      "bytes": 43014,
-      "sha256": "aa60ff6b7c79dc811102cd9101a48d799815a60fcb442b4d2ea9eba6e5189ab0"
+      "bytes": 43289,
+      "sha256": "e5bd5b2459754792062b4d6af8fd6a040999bb2c6b68b95e6c057b89f892298f"
     },
     {
       "path": "handoff/current/SNAPSHOT_MANIFEST_SHA256.json",
       "bytes": 10730,
-      "sha256": "42d8a3b36e9303542040f819cb49b98ace31b2efa19f18dbb41a5bdbd9fee2eb"
+      "sha256": "663947203487bef81ad2bd59c390f3423f375799c1ab49172d87c7172408afc1"
     },
     {
       "path": "handoff/current/T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md",
@@ -453,8 +446,8 @@
     },
     {
       "path": "handoff/current/THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md",
-      "bytes": 35840,
-      "sha256": "51bafc54f03ab944f53e8f02d9074c6b323de1c6f15e4f13432fe818575a1767"
+      "bytes": 36600,
+      "sha256": "864725a1c966c2de72ddc99833accffdf076b30a3f6802143b2aa32d3582994a"
     },
     {
       "path": "handoff/current/THREAD_ROLLOVER_RECOVERY_2026-09-07.md",
@@ -468,8 +461,8 @@
     },
     {
       "path": "handoff/current/TRACE_MATRIX.md",
-      "bytes": 94038,
-      "sha256": "67cc60d7ba4c09f5b72a8ace888d4a7d0928eed48cd849d632f332f53dd8895b"
+      "bytes": 94227,
+      "sha256": "de1256e2d098d1994c93b717a31e406004327fdc4a782618a85f41c4aeb420e4"
     },
     {
       "path": "handoff/current/WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md",
@@ -598,18 +591,13 @@
     },
     {
       "path": "reports/FINAL_PRELIVE_GLOBAL_RESULT_2026-09-16.json",
-      "bytes": 1526,
-      "sha256": "8801c3b81dd1f1e83813f4a04335b17046ab648385c4d8a7ce15c11eb1c58eb8"
+      "bytes": 1528,
+      "sha256": "f49627d409aaec7c05cda797442f451a18bae8b406801567c65ece9ac6f1216a"
     },
     {
       "path": "reports/FINAL_PRELIVE_GLOBAL_WAR_2026-09-16.md",
-      "bytes": 1501,
-      "sha256": "12167ebb91b783bc3f199f6a977940829c2246c9c66a6d74a33b07a15a79aee7"
-    },
-    {
-      "path": "reports/GITHUB_PUBLICATION_INCLUSION_MANIFEST_2026-09-16.json",
-      "bytes": 63458,
-      "sha256": "a1509865adce881bd32c8472a6069bea0ff3a7204373942be106c128aabd81fd"
+      "bytes": 2267,
+      "sha256": "dcf82952033399b1b5a3b722bfe0970c75fcd0abda9889827546f5f5b13cf8a1"
     },
     {
       "path": "reports/hostile_inputs/CROSS_DOMAIN_RAIDS_2026-09-06_RECEIPT.md",
@@ -1143,8 +1131,8 @@
     },
     {
       "path": "tests/test_daemon_plane.py",
-      "bytes": 5103,
-      "sha256": "db0b328843606242656ec49a2b78ae6447f17d947e5eb94cee2adbdb22f1cf42"
+      "bytes": 6420,
+      "sha256": "8bb3372796f9e28bc6407864c477fb38eeb6ded904f59d5dce49d52b859cb64a"
     },
     {
       "path": "tests/test_daemon_scar_route.py",
@@ -1548,8 +1536,8 @@
     },
     {
       "path": "tests/test_scar_intelligence.py",
-      "bytes": 8597,
-      "sha256": "61c56008c008ddd6f07f3dd78a590c6b9c47c06bdbb85df30468a0d15117bf84"
+      "bytes": 8596,
+      "sha256": "4e29367eb1071606f8dab3e10dc0dfeac8651cb26b57b03d4bb38427cdca98d6"
     },
     {
       "path": "tests/test_scar_source_registry.py",
@@ -1690,20 +1678,11 @@
   "explicit_exclusions": [
     {
       "path": ".heat_runtime/",
-      "reason": "ephemeral runtime/test scratch; durable qualification receipts promoted to reports/"
+      "reason": "ephemeral runtime/test scratch; durable evidence promoted to reports/"
     },
     {
       "path": "tools/synthetic_dyno_server.py",
-      "reason": "historical untracked synthetic helper intentionally excluded from qualified product commit"
-    },
-    {
-      "path": "build/ and *.egg-info/",
-      "reason": "generated packaging artifacts"
+      "reason": "historical untracked synthetic helper intentionally excluded"
     }
-  ],
-  "policy": [
-    "qualification/recovery/doctrine/research/testing records are publication content",
-    "runtime scratch is not evidence unless promoted to a durable report",
-    "exclusion must be explicit rather than silent"
   ]
 }

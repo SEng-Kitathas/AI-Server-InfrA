@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import json, os, shutil, sqlite3, tempfile, hashlib, contextlib, threading
+import json, os, shutil, sqlite3, tempfile, hashlib, contextlib, threading, time
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any, Callable, Iterator, Mapping
@@ -60,6 +60,17 @@ def _fsync_dir(path: Path) -> None:
     try: os.fsync(fd)
     finally: os.close(fd)
 
+def _replace_atomic_windows_tolerant(src: Path, dst: Path, *, attempts: int=8) -> None:
+    if os.name!='nt':
+        os.replace(src,dst);return
+    for attempt in range(max(1,attempts)):
+        try:
+            os.replace(src,dst);return
+        except PermissionError as exc:
+            transient=(getattr(exc,'winerror',None) in {5,32}) or (getattr(exc,'errno',None) in {13})
+            if not transient or attempt+1>=attempts: raise
+            time.sleep(min(0.25,0.02*(2**attempt)))
+
 def atomic_json(path: Path, payload: Any, *, before_replace: Callable[[Path],None] | None=None) -> None:
     path.parent.mkdir(parents=True,exist_ok=True)
     fd,tmp=tempfile.mkstemp(prefix=path.name+'.',suffix='.tmp',dir=path.parent)
@@ -68,7 +79,7 @@ def atomic_json(path: Path, payload: Any, *, before_replace: Callable[[Path],Non
         with os.fdopen(fd,'w',encoding='utf-8',newline='\n') as h:
             json.dump(payload,h,sort_keys=True,indent=2);h.write('\n');h.flush();os.fsync(h.fileno())
         if before_replace is not None: before_replace(tp)
-        os.replace(tp,path);_fsync_dir(path.parent)
+        _replace_atomic_windows_tolerant(tp,path);_fsync_dir(path.parent)
     finally:
         if tp.exists(): tp.unlink(missing_ok=True)
 

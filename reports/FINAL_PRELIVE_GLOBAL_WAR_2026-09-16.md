@@ -25,3 +25,8 @@ This ingress cannot register SYSTEM Scheduled Tasks (`Access is denied`). Live r
 
 ## Live effect boundary
 No live replacement was performed during qualification. Receiver/ngrok/HUD remained unchanged throughout the exact final run.
+
+## Publication-tree Windows atomic replace hardening
+The first clean GitHub publication-tree run exposed a real Windows concurrency race in `mvf_resident.daemon_plane.atomic_json`: `os.replace()` could transiently fail with WinError 5 during concurrent project-handoff pointer publication. The current source now retries only transient Windows sharing/access denials (WinError 5/32 / PermissionError), bounded to eight attempts with backoff; other errors still fail immediately and persistent denial still raises.
+
+Focused daemon-plane/project-handoff regression tests pass. Exact post-fix whole-corpus receipt: rc0 / 70.616s / Receiver22968 unchanged / ngrok19772 unchanged / HUD25508 unchanged / 132/132 Receiver TCP samples up.

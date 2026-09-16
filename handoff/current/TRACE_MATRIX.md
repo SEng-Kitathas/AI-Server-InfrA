@@ -598,3 +598,5 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | final candidate already live-promoted | FALSE | no live mutation performed | safe-window promotion |
 | GitHub target | VERIFIED | operator-provided URL + publication repo origin | remote change |
 | research/testing records inventoried for publication | VERIFIED | GITHUB_PUBLICATION_INCLUSION_MANIFEST_2026-09-16.json (334 records) | publication manifest changes |
+
+| Windows atomic handoff replace is immune to transient sharing denial | VERIFIED POST-FIX | focused regression + exact whole corpus rc0 / 132 TCP samples | recurrence/persistent denial |
