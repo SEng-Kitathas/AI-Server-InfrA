@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ipaddress
 import os
+import shutil
 import socket
 import time
 import urllib.error
@@ -56,11 +57,47 @@ def _repo_path(payload: JsonObject) -> str:
     return str(payload.get("repo_path") or ".").strip() or "."
 
 
+def _resolve_git_executable() -> tuple[str | None, str | None]:
+    configured = str(os.environ.get("PCMMAD_GIT_EXE") or "").strip()
+    if configured:
+        candidate = Path(configured).expanduser()
+        if candidate.is_file():
+            return str(candidate.resolve()), None
+        return None, f"PCMMAD_GIT_EXE_MISSING:{candidate}"
+    discovered = shutil.which("git")
+    if discovered:
+        return str(Path(discovered).resolve()), None
+    candidates: list[Path] = []
+    local = str(os.environ.get("LOCALAPPDATA") or "").strip()
+    if local:
+        candidates.append(Path(local) / "Programs" / "Git" / "cmd" / "git.exe")
+    for key in ("ProgramFiles", "ProgramFiles(x86)"):
+        base = str(os.environ.get(key) or "").strip()
+        if base:
+            candidates.append(Path(base) / "Git" / "cmd" / "git.exe")
+    existing: list[Path] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        try: resolved = candidate.resolve()
+        except OSError: continue
+        key = str(resolved).casefold() if os.name == "nt" else str(resolved)
+        if resolved.is_file() and key not in seen:
+            seen.add(key); existing.append(resolved)
+    if len(existing) == 1: return str(existing[0]), None
+    if len(existing) > 1: return None, "GIT_EXECUTABLE_AMBIGUOUS:" + "|".join(str(x) for x in existing)
+    return None, "GIT_EXECUTABLE_NOT_FOUND"
+
 def _git_envelope(
     root: Path, args: list[str], timeout_seconds: int = 30, stdout_max_bytes: int = 65536
 ) -> JsonObject:
+    command = list(args)
+    if command and str(command[0]).casefold() in {"git", "git.exe"}:
+        executable, resolution_error = _resolve_git_executable()
+        if resolution_error is not None or executable is None:
+            return {"ok":False,"status":"FAILED","return_code":None,"stdout":"","stderr":resolution_error or "GIT_EXECUTABLE_NOT_FOUND","stdout_truncated":False,"stderr_truncated":False,"duration_ms":0}
+        command = [executable, *command[1:]]
     return run_subprocess_envelope(
-        args,
+        command,
         cwd=root,
         timeout_seconds=timeout_seconds,
         stdout_max_bytes=stdout_max_bytes,
