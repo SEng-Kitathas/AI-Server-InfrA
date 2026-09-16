@@ -518,6 +518,14 @@ class UserContinuityMemoryTests(unittest.TestCase):
         self.assertEqual(result["count"], 1)
         self.assertTrue(result["bounded"])
 
+    @unittest.skipUnless(os.name == "nt", "Windows extended-length path semantics")
+    def test_extended_length_prefix_is_equivalent_for_containment(self) -> None:
+        expected = Path(r"C:\Temp\pcmmad\profiles")
+        candidate = Path(r"\\?\C:\Temp\pcmmad\profiles\race-user")
+        escaped = Path(r"\\?\C:\Temp\pcmmad\profiles-evil\race-user")
+        self.assertTrue(ucs._path_within(candidate, expected))
+        self.assertFalse(ucs._path_within(escaped, expected))
+
     def test_concurrent_process_appends_serialize_and_preserve_hash_chain(self) -> None:
         shared_root = Path(self.tmp.name) / "cross-process-memory"
         python = sys.executable

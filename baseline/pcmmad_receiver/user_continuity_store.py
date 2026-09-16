@@ -166,14 +166,34 @@ def list_profiles() -> dict[str, Any]:
     return {"ok": True, "profiles": profiles, "count": len(profiles)}
 
 
+def _windows_compare_path(path: Path) -> str:
+    text = os.path.normcase(os.path.abspath(str(path)))
+    if os.name == "nt":
+        slash = os.sep
+        extended = slash * 2 + "?" + slash
+        extended_unc = extended + "UNC" + slash
+        if text.startswith(extended_unc):
+            text = slash * 2 + text[len(extended_unc):]
+        elif text.startswith(extended):
+            text = text[len(extended):]
+    return os.path.normcase(os.path.normpath(text))
+
+
+def _path_within(candidate: Path, expected: Path) -> bool:
+    candidate_key = _windows_compare_path(candidate)
+    expected_key = _windows_compare_path(expected)
+    try:
+        return os.path.commonpath([candidate_key, expected_key]) == expected_key
+    except ValueError:
+        return False
+
+
 def _paths(profile_id: str) -> MemoryPaths:
     pid = _profile_id(profile_id)
     expected = (MEMORY_ROOT / "profiles").resolve()
     root = (expected / pid).resolve()
-    try:
-        root.relative_to(expected)
-    except ValueError as exc:
-        raise UserContinuityError("BAD_PROFILE_ID", "profile path escapes continuity root", 400) from exc
+    if not _path_within(root, expected):
+        raise UserContinuityError("BAD_PROFILE_ID", "profile path escapes continuity root", 400)
     return MemoryPaths(
         root=root,
         ledger=root / "events.jsonl",

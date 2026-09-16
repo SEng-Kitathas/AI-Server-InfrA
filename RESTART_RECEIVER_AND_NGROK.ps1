@@ -19,6 +19,13 @@ $ServerPy = Join-Path $Runtime "server.py"
 $VenvPython = Join-Path $Runtime ".venv\Scripts\python.exe"
 $SchemaTemplate = Join-Path $Runtime "pcmmad_lab_action_schema_v10_3_pcmmad_native_protocol_compact_30_router.json"
 $ActiveSchema = Join-Path $Runtime "pcmmad_lab_action_schema_ACTIVE.json"
+$RecoveryRoot = Join-Path $env:ProgramData "PCMMAD\Recovery"
+$MachineConfigPath = Join-Path $RecoveryRoot "machine_config.json"
+$ReceiverTaskName = "PCMMAD_V30_Receiver_SYSTEM"
+$NgrokTaskName = "PCMMAD_V30_Ngrok_SYSTEM"
+$ReceiverSupervisorTaskName = "PCMMAD_V30_Supervisor_SYSTEM"
+$NgrokSupervisorTaskName = "PCMMAD_V30_NgrokSupervisor_SYSTEM"
+$Script:UseRecoveryTaskEstate = $false
 $ReceiptRoot = Join-Path $env:TEMP "pcmmad_restart_receipts"
 if ([string]::IsNullOrWhiteSpace($ReceiptPath)) {
     New-Item -ItemType Directory -Force -Path $ReceiptRoot | Out-Null
@@ -229,6 +236,62 @@ function Import-UserEnvironment {
     }
 }
 
+function Import-RecoveryMachineConfig {
+    if (-not (Test-Path -LiteralPath $MachineConfigPath -PathType Leaf)) { return }
+    $config = Get-Content -Raw -LiteralPath $MachineConfigPath | ConvertFrom-Json
+    foreach ($prop in @($config.PSObject.Properties)) {
+        if ($prop.Name -eq "LIVE_RECEIVER_ROOT") { continue }
+        $value = [string]$prop.Value
+        if (-not [string]::IsNullOrWhiteSpace($value)) {
+            Set-Item -Path ("Env:" + $prop.Name) -Value $value
+        }
+    }
+}
+
+function Test-RecoveryTask([string]$Name) {
+    return $null -ne (Get-ScheduledTask -TaskName $Name -ErrorAction SilentlyContinue)
+}
+
+function Initialize-RecoveryTaskEstate {
+    $required = @(
+        $ReceiverTaskName, $NgrokTaskName,
+        $ReceiverSupervisorTaskName, $NgrokSupervisorTaskName
+    )
+    $missing = @($required | Where-Object { -not (Test-RecoveryTask $_) })
+    if ($missing.Count -eq 0) {
+        $Script:UseRecoveryTaskEstate = $true
+        Write-Host "Recovery task estate: ACTIVE"
+    }
+    elseif ($missing.Count -ne $required.Count) {
+        throw "Recovery task estate is partial; refusing mixed direct/task restart: $($missing -join ', ')"
+    }
+}
+
+function Test-IsRecoverySupervisorProcess($Process) {
+    if (-not $Process -or -not $Process.CommandLine) { return $false }
+    if ($Process.Name -notin @("python.exe", "pythonw.exe", "powershell.exe", "pwsh.exe")) { return $false }
+    $cmd = [string]$Process.CommandLine
+    return ($cmd -match '(?i)receiver_supervisor\.py') -or ($cmd -match '(?i)ngrok_supervisor\.py')
+}
+
+function Stop-RecoveryTaskEstate {
+    if (-not $Script:UseRecoveryTaskEstate) { return }
+    Stop-ScheduledTask -TaskName $ReceiverSupervisorTaskName -ErrorAction SilentlyContinue
+    Stop-ScheduledTask -TaskName $NgrokSupervisorTaskName -ErrorAction SilentlyContinue
+    Start-Sleep -Milliseconds 500
+    $supervisors = @(Get-AllProcesses | Where-Object { Test-IsRecoverySupervisorProcess $_ })
+    Stop-ProcessSet -Processes $supervisors -Kind "wrapper"
+    Stop-ScheduledTask -TaskName $ReceiverTaskName -ErrorAction SilentlyContinue
+    Stop-ScheduledTask -TaskName $NgrokTaskName -ErrorAction SilentlyContinue
+    Start-Sleep -Milliseconds 500
+}
+
+function Start-RecoverySupervisors {
+    if (-not $Script:UseRecoveryTaskEstate) { return }
+    Start-ScheduledTask -TaskName $ReceiverSupervisorTaskName -ErrorAction Stop
+    Start-ScheduledTask -TaskName $NgrokSupervisorTaskName -ErrorAction Stop
+}
+
 function Resolve-ApiKey([string]$ExplicitKey) {
     if (-not [string]::IsNullOrWhiteSpace($ExplicitKey)) { return $ExplicitKey }
     if (-not [string]::IsNullOrWhiteSpace($env:GITHOME_API_KEY)) { return $env:GITHOME_API_KEY }
@@ -329,6 +392,11 @@ function Resolve-NgrokExe {
 }
 
 function Start-Receiver {
+    if ($Script:UseRecoveryTaskEstate) {
+        Start-ScheduledTask -TaskName $ReceiverTaskName -ErrorAction Stop
+        Write-Host "Receiver start delegated to SYSTEM task: $ReceiverTaskName"
+        return
+    }
     $env:PCMMAD_RECEIVER_INSTANCE = "desktop_canonical"
     $env:PCMMAD_BIND_HOST = $HostAddress
     $env:PCMMAD_BIND_PORT = [string]$Port
@@ -350,10 +418,20 @@ function Wait-ReceiverHealth([string]$Url, [string]$Key, [int]$TimeoutSeconds = 
 }
 
 function Start-Ngrok([string]$TargetUrl) {
+    if ($Script:UseRecoveryTaskEstate) {
+        Start-ScheduledTask -TaskName $NgrokTaskName -ErrorAction Stop
+        Write-Host "ngrok start delegated to SYSTEM task: $NgrokTaskName"
+        return
+    }
     $exe = Resolve-NgrokExe
     try { & $exe version *> $null } catch { throw "ngrok failed version preflight: $exe" }
     if ($LASTEXITCODE -ne 0) { throw "ngrok failed version preflight: $exe" }
-    $proc = Start-Process -FilePath $exe -ArgumentList @("http", $TargetUrl) -PassThru
+    $args = @("http")
+    if (-not [string]::IsNullOrWhiteSpace($env:PCMMAD_NGROK_URL)) {
+        $args += @("--url", $env:PCMMAD_NGROK_URL)
+    }
+    $args += $TargetUrl
+    $proc = Start-Process -FilePath $exe -ArgumentList $args -PassThru
     Write-Host "ngrok PID: $($proc.Id)"
 }
 
@@ -409,6 +487,8 @@ try {
         }
     }
 
+    Import-RecoveryMachineConfig
+    Initialize-RecoveryTaskEstate
     $ResolvedApiKey = Resolve-ApiKey -ExplicitKey $ApiKey
     $env:GITHOME_API_KEY = $ResolvedApiKey
 
@@ -426,6 +506,7 @@ try {
             Start-Sleep -Seconds ([Math]::Min($PreDelaySeconds, 30))
         }
         Write-Stage "stopping"
+        Stop-RecoveryTaskEstate
         Stop-PcmmadStack
         Refresh-ObservedState
         if ($Action -eq "Stop") {
@@ -451,6 +532,9 @@ try {
             Write-Stage "starting_ngrok"
             Start-Ngrok -TargetUrl $LocalBase
             $PublicUrl = Get-NgrokPublicUrl -TimeoutSeconds 20
+            if (-not [string]::IsNullOrWhiteSpace($env:PCMMAD_NGROK_URL) -and $PublicUrl.TrimEnd('/') -ne $env:PCMMAD_NGROK_URL.TrimEnd('/')) {
+                throw "ngrok public URL mismatch: expected $($env:PCMMAD_NGROK_URL) observed $PublicUrl"
+            }
             $Script:Receipt.public_url = $PublicUrl
             Write-ActiveSchema -PublicUrl $PublicUrl
             Write-Host "Public URL: $PublicUrl"
@@ -461,6 +545,7 @@ try {
         if ($Script:Receipt.receiver_process_pids.Count -lt 1) { throw "Post-start verification failed: no canonical receiver process found." }
         if (-not $NoNgrok -and $Script:Receipt.ngrok_pids.Count -ne 1) { throw "Post-start verification failed: expected exactly one ngrok process, found $($Script:Receipt.ngrok_pids.Count)." }
 
+        Start-RecoverySupervisors
         Save-Receipt -Stage "ready" -Ok $true
         Write-Host "PCMMAD restart converged successfully."
         Write-Host "Receipt: $ReceiptPath"
@@ -468,6 +553,9 @@ try {
     }
 }
 catch {
+    if ($Action -in @("Restart", "Start") -and $Script:UseRecoveryTaskEstate) {
+        try { Start-RecoverySupervisors } catch { }
+    }
     Refresh-ObservedState
     Save-Receipt -Stage "failed" -Ok $false -ErrorText $_.Exception.Message
     Write-Error $_.Exception.Message
