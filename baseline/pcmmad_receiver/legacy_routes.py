@@ -624,43 +624,47 @@ def plan() -> object:
         return error_response("PLAN_FAILED", str(e), 400)
 
 
+def _commit_artifact_under_guard(request_model: LegacyCommitRequest) -> JsonObject:
+    idem = get_idempotency(request_model.plan.project_id)
+    existing = idem.get(request_model.idempotency_key)
+    if existing is not None:
+        record, replayed = _replay_or_resume_legacy_commit(request_model, existing)
+        return {"ok": True, "replayed": replayed, **record.to_dict()}
+    validation = _validate_legacy_plan(request_model.plan)
+    prepared = _prepared_idempotency_entry(request_model, validation)
+    idem[request_model.idempotency_key] = prepared
+    save_idempotency(request_model.plan.project_id, idem)
+    record = _finalize_prepared_legacy_commit(request_model, prepared, apply_effect=True)
+    return {"ok": True, "replayed": False, **record.to_dict()}
+
+
+def commit_artifact_transaction(payload: JsonObject, *, acquire_guard: bool = True) -> JsonObject:
+    request_model = LegacyCommitRequest.from_payload(payload)
+    if (
+        not request_model.plan.project_id
+        or not request_model.session_id
+        or not request_model.commit_id
+        or not request_model.idempotency_key
+    ):
+        raise ValueError("Missing project_id, session_id, commit_id, or idempotency_key")
+    init_project_layout(request_model.plan.project_id)
+    if not acquire_guard:
+        return _commit_artifact_under_guard(request_model)
+    with consequence_guard(
+        request_model.plan.project_id,
+        mutation_authority=request_model.mutation_authority,
+        session_id=request_model.session_id,
+    ):
+        return _commit_artifact_under_guard(request_model)
+
+
 @legacy_bp.post("/commit")
 def commit() -> object:
     ae = require_api_key()
     if ae:
         return ae
     try:
-        request_model = LegacyCommitRequest.from_payload(get_request_json())
-        if (
-            not request_model.plan.project_id
-            or not request_model.session_id
-            or not request_model.commit_id
-            or not request_model.idempotency_key
-        ):
-            return error_response(
-                "BAD_REQUEST", "Missing project_id, session_id, commit_id, or idempotency_key", 400
-            )
-        init_project_layout(request_model.plan.project_id)
-        with consequence_guard(
-            request_model.plan.project_id,
-            mutation_authority=request_model.mutation_authority,
-            session_id=request_model.session_id,
-        ):
-            # Idempotency and optimistic currentness are checked while writer exclusion
-            # is held; the lease supplements, never replaces, hash/version validation.
-            idem = get_idempotency(request_model.plan.project_id)
-            existing = idem.get(request_model.idempotency_key)
-            if existing is not None:
-                record, replayed = _replay_or_resume_legacy_commit(request_model, existing)
-                return jsonify({"ok": True, "replayed": replayed, **record.to_dict()})
-            validation = _validate_legacy_plan(request_model.plan)
-            prepared = _prepared_idempotency_entry(request_model, validation)
-            idem[request_model.idempotency_key] = prepared
-            save_idempotency(request_model.plan.project_id, idem)
-            record = _finalize_prepared_legacy_commit(
-                request_model, prepared, apply_effect=True
-            )
-            return jsonify({"ok": True, "replayed": False, **record.to_dict()})
+        return jsonify(commit_artifact_transaction(get_request_json(), acquire_guard=True))
     except PermissionError as e:
         return error_response("HASH_MISMATCH", str(e), 409)
     except ArithmeticError as e:

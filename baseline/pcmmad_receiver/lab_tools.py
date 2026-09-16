@@ -65,6 +65,7 @@ from lab_tools_browser import register_browser_tools
 from lab_tools_execution import register_execution_tools
 from lab_tools_filesystem import register_filesystem_tools
 from lab_tools_project import register_project_tools
+from lab_tools_artifact_commit import register_artifact_commit_tools
 from lab_tools_state import register_state_tools
 from lab_tools_research import register_research_tools
 from lab_tools_ops import register_ops_tools
@@ -1078,6 +1079,7 @@ register_project_tools(
     iter_tree=lambda *args, **kwargs: __import__("power_routes")._iter_tree(*args, **kwargs),
 )
 
+register_artifact_commit_tools(register_tool, error_cls=LabToolError)
 
 register_execution_tools(
     register_tool,
