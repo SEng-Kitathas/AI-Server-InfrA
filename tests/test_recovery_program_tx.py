@@ -43,3 +43,34 @@ def test_mid_copy_failure_rolls_back_previous_program(monkeypatch):
 def test_committed_transaction_can_be_archived_and_later_rolled_back():
     with tempfile.TemporaryDirectory() as td:
         b=Path(td);install=b/'install';bundle1,support1,daemon1=_sources(b/'s1','v1');bundle2,support2,daemon2=_sources(b/'s2','v2');t1=tx.stage(bundle1,support1,daemon1,install);tx.commit(t1);old=(install/'payload.txt').read_bytes();(install/'secret.dpapi').write_text('keep');t2=tx.stage(bundle2,support2,daemon2,install);arch=tx.commit(t2,archive_root=install/'promotion_backups');assert arch and arch.exists();tx.rollback(arch,install_root=install);assert (install/'payload.txt').read_bytes()==old;assert (install/'secret.dpapi').read_text()=='keep'
+
+
+def test_bundle_excludes_vcs_and_runtime_debris():
+    with tempfile.TemporaryDirectory() as td:
+        b=Path(td);install=b/'install';bundle,support,daemon=_sources(b/'s','v')
+        for rel in ['.git/objects/x','.pytest_cache/v/cache/x','.heat_runtime/tmp.txt','build/out.bin','pkg.egg-info/PKG-INFO','nested/__pycache__/x.pyc']:
+            p=bundle/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('junk',encoding='utf-8')
+        txid=tx.stage(bundle,support,daemon,install)
+        manifest=json.loads((install/tx.MANIFEST_NAME).read_text())
+        files=set(manifest['files'])
+        assert 'payload.txt' in files
+        assert not any(name.startswith('.git/') for name in files)
+        assert not any(name.startswith('.pytest_cache/') for name in files)
+        assert not any(name.startswith('.heat_runtime/') for name in files)
+        assert not any('/__pycache__/' in '/'+name or name.endswith('.pyc') for name in files)
+        assert not any(name.startswith('build/') or '.egg-info/' in name for name in files)
+        tx.rollback(txid,install_root=install)
+
+def test_safe_unlink_retries_permission_error_after_chmod(monkeypatch,tmp_path):
+    p=tmp_path/'locked.txt';p.write_text('x',encoding='utf-8');real=Path.unlink;calls={'n':0}
+    def flaky(self,*a,**k):
+        if self==p and calls['n']==0:
+            calls['n']+=1;raise PermissionError(13,'denied')
+        return real(self,*a,**k)
+    chmod_calls=[]
+    real_chmod=tx.os.chmod
+    def chmod(path,mode):
+        chmod_calls.append((Path(path),mode));return real_chmod(path,mode)
+    monkeypatch.setattr(Path,'unlink',flaky);monkeypatch.setattr(tx.os,'chmod',chmod)
+    tx._safe_unlink(p)
+    assert calls['n']==1 and chmod_calls and not p.exists()

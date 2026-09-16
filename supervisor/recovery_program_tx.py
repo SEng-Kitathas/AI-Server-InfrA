@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,hashlib,json,os,shutil,tempfile,uuid
+import argparse,hashlib,json,os,shutil,tempfile,uuid,stat
 from pathlib import Path
 MANIFEST_NAME='installed_program_manifest.json';SCHEMA='pcmmad.recovery-installed-program.v2'
 SUPPORT_FILES=('RecoverySecret.psm1','breakglass_restore.ps1','receiver_supervisor.py','ngrok_supervisor.py','recovery_program_tx.py','rollback_unattended_recovery.ps1')
+EXCLUDED_PARTS={'.git','.pytest_cache','.heat_runtime','__pycache__','build'}
 class ProgramTxError(RuntimeError):pass
 def _rooted(root:Path,rel:str)->Path:
  root=root.resolve();candidate=(root/rel).resolve()
@@ -17,10 +18,17 @@ def _atomic_json(path:Path,obj):
   with os.fdopen(fd,'w',encoding='utf-8',newline='\n') as h:json.dump(obj,h,indent=2,sort_keys=True);h.write('\n');h.flush();os.fsync(h.fileno())
   os.replace(tp,path)
  finally:tp.unlink(missing_ok=True)
+def _excluded(rel:Path)->bool:
+ return any(part in EXCLUDED_PARTS or part.endswith('.egg-info') for part in rel.parts) or rel.suffix=='.pyc'
+def _safe_unlink(path:Path):
+ try:path.unlink()
+ except PermissionError:
+  os.chmod(path,stat.S_IREAD|stat.S_IWRITE);path.unlink()
 def _collect(bundle:Path,support:Path,daemon:Path)->dict[str,Path]:
  out={}
  for src in sorted(bundle.rglob('*')):
-  if src.is_file():out[src.relative_to(bundle).as_posix()]=src
+  rel=src.relative_to(bundle)
+  if src.is_file() and not _excluded(rel):out[rel.as_posix()]=src
  for name in SUPPORT_FILES:
   src=support/name
   if not src.is_file():raise ProgramTxError(f'SUPPORT_FILE_MISSING:{name}')
@@ -51,7 +59,7 @@ def rollback(tx:Path,*,install_root:Path|None=None,ignore_missing_meta:bool=Fals
   meta['phase']='ROLLED_BACK_UNTOUCHED';_atomic_json(meta_path,meta);return
  for rel in meta.get('new_files',[]):
   p=_rooted(root,str(rel))
-  if p.is_file():p.unlink()
+  if p.is_file():_safe_unlink(p)
  backup=tx/'backup';old=meta.get('old_manifest')
  if old:
   missing=[rel for rel in _manifest_files(old) if not (backup/rel).is_file()]
@@ -73,7 +81,7 @@ def stage(bundle_source:Path,support_root:Path,daemon_source:Path,install_root:P
   meta['phase']='BACKED_UP';_atomic_json(tx/'tx.json',meta)
   for rel in _manifest_files(old):
    target=_rooted(install_root,rel)
-   if target.exists():target.unlink()
+   if target.exists():_safe_unlink(target)
   for rel,src in mapping.items():
    dst=_rooted(install_root,rel);dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
   new={'schema':SCHEMA,'files':{rel:{'sha256':_sha(_rooted(install_root,rel)),'bytes':_rooted(install_root,rel).stat().st_size} for rel in sorted(mapping)}};_atomic_json(manifest_path,new);meta['phase']='STAGED';_atomic_json(tx/'tx.json',meta);return tx
