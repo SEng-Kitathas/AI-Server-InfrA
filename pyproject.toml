@@ -10,6 +10,7 @@ description = "Authenticated local authority, persistence, execution, research, 
 requires-python = ">=3.12,<3.14"
 dependencies = [
   "Flask>=3,<4",
+  "playwright>=1,<2",
   "requests>=2.31,<3",
   "beautifulsoup4>=4.12,<5",
 ]

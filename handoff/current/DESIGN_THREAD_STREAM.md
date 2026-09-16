@@ -4322,3 +4322,31 @@ A second Receiver loss followed a full-corpus run through live synchronous execu
 ---
 # GLOBAL INTERACTION WAR CAMPAIGN CLOSEOUT — 2026-09-15
 The parent fully embodied clone war campaign closed at the live-promotion boundary after the final entire corpus passed under an OS-owned envelope in 63.0s while live Receiver PID22968 and ngrok PID19772 remained unchanged and TCP liveness held 121/121. The campaign earned and repaired interaction defects spanning persistence, duplicate ownership, recovery races, restart budgets, maintenance holds, ngrok supervision, semantic health, body/brain independence, observability failure, transactional replay, handoff authority, promotion rollback, continuity usage, Defender telemetry and Windows execution isolation. Live promotion remains explicitly unperformed. Next separate campaign is HUD cockpit/instrument-panel HEaT.
+
+
+---
+# SCAR INTELLIGENCE INLINE TRANCHE — 2026-09-15
+Inside the active HUD cockpit campaign, operator extended intelligent continuity enforcement to the global scar system. Daemon now derives a durable scar index from explicit compression-form scars, preserves source occurrences/provenance observations, assigns transparent semantic tags, routes a bounded relevant subset to current context, and exposes that packet in resident state/status. Automatic collection/routing confers no authority or promotion. Focused qualification 18/18 PASS. HUD work continues with scar packets available as causal/explanatory instruments rather than a dump panel.
+
+
+---
+# HUD COCKPIT FIRST EMBODIED TRANCHE — 2026-09-15
+The active HUD war replaced center-card priority with a Primary Operating Display: master annunciation, currentness/mode, system synoptic, causal/recovery picture, applicable scar and demoted receipt history. Transport/ngrok and optional Daemon evidence were added without widening core readiness; side wings became dense instrument banks and doctrine became an operating-law strip. A pure cockpit-state model now pressure-tests nominal, optional-only caution, Receiver-down transport-up warning, security-signal noncausality, and stale-status override. Live HUD remains unchanged.
+
+
+---
+# COGNITIVE COCKPIT / GLOBAL SCAR INTELLIGENCE CONVERGENCE — 2026-09-15
+Scar intelligence was extended from one active handoff plane into provenance-preserving multi-source indexing. Current duties now contribute semantic routing context before failures; frequency no longer substitutes for condition specificity; consolidated-ledger provenance is section-bounded. A source registry now records the uploaded RAHL consolidated doctrine/scar ledger as GATHERING/NONE_FROM_COMPILATION with exact 20318-byte identity and SHA256 7643b0...8696, but the full attachment bytes remain pending server materialization and therefore scar coverage explicitly reports a deficit. HUD now provides a cognitive diagnostic inspector behind master/synoptic warnings: direct facts, triangulated inference, inference blocks, unknown discriminators, informed-by continuity/scar lineage, system topology, applicable scars, and next evidence routes. Alternate-port temp Daemon/HUD smoke against the real local Receiver/ngrok produced CAUTION for browser-only degradation and preserved live identities.
+
+
+---
+# GLOBAL SCAR LEDGER EXACT-BYTE MATERIALIZATION — 2026-09-15
+The previously registered RAHL consolidated doctrine/scar ledger was transferred into the clone scar_sources plane in bounded compressed chunks with transport-level hash verification, decoded to exactly 20,318 bytes, and matched attachment SHA256 7643b0...8696 before registry promotion to MATERIALIZED_VERIFIED. Derived collection now includes the source as a distinct source plane: 386 semantic scars / 734 occurrences total / 136 external occurrences / zero source deficits. Provenance is inherited through markdown heading ancestry without sibling bleed; real external provenance counts are EARNED124, DONOR3, PROPOSED3, OBSERVED3, plus three UNSPECIFIED evidence-ceiling lines. The source remains a gathering, not canon.
+
+---
+# FINAL SURFACE AUDIT + BROWSER INFRASTRUCTURE REPAIR — 2026-09-16
+A pre-live cross-surface audit found Browser Bridge was the only current load-bearing intent that was operationally dropped: service existed but was neither auto-started nor installed as a managed task, and manual helpers assumed a stale venv. Final candidate now makes the bridge a boot workload with independent hardened supervisor, explicit runtime dependency/preflight, canonical manual helpers, and fail-closed BLOCKED/ARMED browser-actuation gate. Real smoke proved HTTP423 while blocked, real headless Edge session while armed, immediate re-block, cleanup route availability and live isolation. HUD represents gate state as cockpit authority instrumentation and now exposes HA restart budgets/holds. Stale HUD/scar deferred/open texts were superseded. Because final topology changed after prior Global War closure, GLOBAL-WAR-FINAL-002 reopens exact-tree global qualification once before live promotion.
+
+---
+# FINAL GLOBAL QUALIFICATION + GITHUB PUBLICATION FRONTIER — 2026-09-16
+Exact final candidate entire corpus passed OS-owned in 67.187s while live Receiver22968, ngrok19772 and HUD25508 remained unchanged; 125/125 Receiver TCP samples stayed up. Durable final qualification result/report and GitHub publication inclusion manifest were promoted from runtime scratch into reports. Operator fixed publication target as https://github.com/SEng-Kitathas/AI-Server-InfrA.git. Existing publication working repo is behind GitHub by two commits and dirty, therefore publication must use controlled integration rather than overwrite. Candidate is qualified for live replacement subject to elevated SYSTEM task registration/readback at promotion.

@@ -1043,3 +1043,60 @@ A-042 compact-schema work is limited to current authority projection parity and 
 - Windows/Defender telemetry and intelligent continuity enforcement are now standard server practices earned inside this parent campaign.
 - Long/global test campaigns must not use synchronous live `execution.run`; use OS-owned jobs/tasks with result and live-identity readback.
 - Next separate campaign is HUD cockpit/instrument-panel redesign and HEaT. Inference/conversation remains deferred.
+
+
+## SCAR INTELLIGENCE DELTA — 2026-09-15
+- The global scar system receives the same intelligent-enforcement treatment as continuity: scars must be collected, semantically grouped/routed, and force-surfaced when applicable without ritual dumping.
+- Daemon maintains a DERIVED scar intelligence index from authored scar compression forms, preserving exact source lineage and occurrence history.
+- Automatic collection/routing MUST NOT promote authority or provenance. `DERIVED INDEX != CANON`, `AUTO-COLLECTED != EARNED`, `SOURCE PROVENANCE OBSERVED != STANDING PROMOTED`.
+- Scar routing should surface the smallest high-value applicable set for the current task/failure/campaign, with source drill-down available.
+- Scar collection/routing becomes a standard resident-intelligence duty and may feed HUD warnings/explanations where useful.
+
+
+## HUD COCKPIT WAR — EMBODIED TRANCHE DELTA — 2026-09-15
+- HUD primary scan path is now an instrument panel, not a dispatch-card center: MASTER NORMAL/CAUTION/WARNING, explicit operating mode/currentness, system synoptic, causal/recovery picture, bounded applicable scar, and secondary receipt history.
+- Transport/ngrok, Receiver, Daemon, Journal and Browser are represented independently; surviving components may not paint the organism green.
+- Daemon remains neutral STANDBY until configured/promoted; absence before promotion is not a fault.
+- Stale or unavailable status evidence overrides embedded green component values and forces WARNING/currentness recovery.
+- Security signal visibility preserves `SECURITY PRODUCT EVENT != CAUSE`; cockpit explicitly says causation is not established unless the evidence packet says otherwise.
+- Side wings are compressed instrument banks; operating distinctions are a strip, not prose cards. Existing dispatch/approval/security controls remain load-bearing and must survive visual recomposition.
+
+
+## HUD COGNITIVE COCKPIT + GLOBAL SCAR INTELLIGENCE DELTA — 2026-09-15
+- Daemon is explicitly intended to get ahead of repeated blind spots: every maintained continuity/context/Commander/shadow/scar surface should be both semantically current and intelligently surfaced before a known class of mistake is paid for again.
+- Scar intelligence is multi-source and provenance-preserving. Semantic dedupe may unify a scar concept, but source plane, provenance class, standing, scope, and occurrence lineage MUST remain separately inspectable.
+- Resident scar context includes healthy/current duties as well as non-current failures; scars are preventative guidance, not merely post-failure commentary.
+- Global scar-source registries may declare gathered/non-authoritative sources. Pending/missing/hash-mismatch sources must surface as coverage deficits; `REGISTERED != MATERIALIZED != INGESTED != EARNED`.
+- The uploaded RAHL consolidated doctrine/scar ledger is registered by exact attachment identity/hash as GATHERING with authority NONE_FROM_COMPILATION and its explicit evidence ceiling preserved. Its full bytes are NOT yet materialized in the server scar-source plane; no claim of full ingestion is permitted.
+- HUD cognitive diagnostics SHALL expand errors/warnings into bounded relevant evidence: observed facts, explicitly labeled triangulated inferences, unknowns/discriminators, informed-by surfaces, applicable scars, topology/cartography, and next evidence routes.
+- Stale evidence blocks causal inference. Security signals remain non-causal unless the evidence packet explicitly establishes linkage. Diagnostic expansion must prefer discriminating evidence over remediation guessing.
+
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN
+
+
+## GLOBAL SCAR LEDGER MATERIALIZATION VERIFIED — 2026-09-15
+- The uploaded RAHL consolidated doctrine/scar ledger is now byte-for-byte materialized in the clone `scar_sources/` plane: 20,318 bytes, SHA256 `7643b0faa7841205f374a0ce2cfecee970a807cba3ea322f8b4c1e93dd298696`, matching the original attachment identity.
+- Materialization does NOT alter its evidence ceiling: `CONSOLIDATION != CANON`, `COMPILED_BY_ASSISTANT != OPERATOR_RATIFIED`, `GATHERED != RE_EARNED`.
+- Daemon-derived scar collection now actually ingests the materialized source as a separate `scar_sources` plane while preserving each occurrence's provenance class and source-plane lineage. Semantic dedupe does not merge authority.
+- Current derived index readback: 386 semantic scars / 734 total occurrences; 136 occurrences from the external ledger; zero source deficits. External provenance readback: 124 EARNED, 3 DONOR, 3 PROPOSED, 3 OBSERVED, 3 UNSPECIFIED evidence-ceiling lines.
+
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN
+
+## FINAL PRE-LIVE SURFACE AUDIT / BROWSER INFRASTRUCTURE — 2026-09-16
+- Surface audit found no remaining unaccounted load-bearing intent after repairing Browser Bridge embodiment. Browser Bridge is a standard always-started runtime plane; browser actuation remains fail-closed behind an explicit operator `BLOCKED <-> ARMED` gate.
+- `BRIDGE ONLINE != ACTUATION AUTHORIZED`; `BLOCKED != DEGRADED`; `ARMED != READY`; `HEALTHY != ARMED`.
+- Browser Bridge joins Receiver/ngrok/Daemon under managed boot + independent supervisor discipline; Task Scheduler workload does not own a hidden restart loop. Runtime preflight must prove Flask+Playwright and an installed supported browser channel before recovery install mutation begins.
+- HUD must present browser gate state as a cockpit authority instrument, not a legacy settings card. HA restart budgets are first-class cockpit evidence.
+- Stale surface declarations superseded: HUD is no longer deferred; HUD annunciation/trend/restart-budget work is embodied; global scar source is materialized/indexed.
+- Promotion-only boundaries remain separate: live HUD/Daemon/browser/task estate and Desktop restart-helper convergence.
+- Historical outage root cause and external platform approval consumption remain explicit UNKNOWN/evidence gaps, not hidden blockers or false-green claims.
+
+Active parent campaign: FINAL PRE-LIVE GLOBAL WAR CAMPAIGN
+
+## FINAL GLOBAL QUALIFICATION + GITHUB PUBLICATION — 2026-09-16
+- Exact final candidate whole corpus PASS: rc0 / 67.187s / Receiver22968 unchanged / ngrok19772 unchanged / HUD25508 unchanged / 125 of 125 Receiver TCP samples up.
+- Final candidate is QUALIFIED FOR LIVE REPLACEMENT subject to promotion-time elevated SYSTEM task registration/readback; this ingress cannot register SYSTEM tasks (`Access is denied`) and must not claim otherwise.
+- GitHub publication target is explicitly `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`. GitHub publication is part of the same final promotion boundary.
+- Research, testing, qualification, continuity, doctrine, scar sources, audit records and relevant reports are publication content. Runtime scratch may be excluded only when durable evidence has been promoted into reports and the exclusion is explicitly indexed.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN

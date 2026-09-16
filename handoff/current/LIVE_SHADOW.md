@@ -503,3 +503,65 @@ Entire corpus rc0 in 62.2664s against exact commit tree; Receiver22968 ->22968, 
 
 ## POST-EOL FINAL RECEIPT — 2026-09-15 21:10 EDT
 After restoring original newline conventions, entire corpus rc0 / 60.8588s / Receiver22968 unchanged / ngrok19772 unchanged / TCP117/117 up.
+
+
+## SCAR INTELLIGENCE INLINE TRANCHE — 2026-09-15
+- Added `mvf_resident/scar_intelligence.py`: conservative explicit `X != Y` extraction, normalized semantic identity, duplicate collapse with all source occurrences preserved, source-context provenance observations, adaptive semantic tags, relevance routing, bounded top-scar surfacing.
+- Added durable Daemon plane `scars/index.json`; refresh is source-hash-driven.
+- Resident lifecycle now emits bounded `scar_intelligence` packet alongside continuity enforcement; Daemon status exposes it.
+- Derived index/routing explicitly has no mutation authority and no authority promotion.
+- Focused scar/plane/lifecycle/service qualification: 18/18 PASS.
+- HUD campaign remains active parent; scar intelligence is inline infrastructure because cockpit warnings should be able to surface the scar explaining why a condition matters.
+
+
+## HUD COCKPIT EMBODIED TRANCHE — 2026-09-15
+- Clone HUD center now has Primary Operating Display: MASTER annunciator NORMAL/CAUTION/WARNING, mode/currentness, HUD↔transport→Receiver↔Daemon→Journal⇢Browser synoptic, causal/fault title, recovery cue, bounded routed scar, and only 4 center receipts.
+- Left service cards compressed into systems instrument rack; right capability/browser/evidence cards compressed into context instrument bank; four doctrine cards compressed into operating-law strip. Existing hook IDs retained.
+- HUD server optionally consumes valid local Daemon status/scar/failure-evidence only when configured; Daemon absent is neutral. ngrok local API is represented as independent transport evidence.
+- Pure `deriveCockpitPicture()` enforces stale-status WARNING and directly testable nominal/caution/Receiver-down/security-noncausal semantics.
+- Focused HUD/Daemon/scar suite + JS syntax + Python compile + diff check: PASS after latest state-model/side-wing tranche.
+
+
+## COGNITIVE COCKPIT + MULTI-SOURCE SCAR CURRENT STATE — 2026-09-15
+- Resident scar routing now includes every active duty's duty_id/subject/commitment/status even when CURRENT; non-current reasons add failure context rather than defining all context.
+- Scar routing now prioritizes expression specificity + best local occurrence context; recurrence count is lineage metadata, not relevance.
+- Multi-source scar index supports `active_handoff` plus external `scar_sources/`; semantic duplicates preserve source-plane observations and all occurrences.
+- Section-level provenance inheritance is bounded to the enclosing markdown section, preventing EARNED/PROPOSED/DONOR bleed across consolidated-ledger sections.
+- Clone `scar_sources/SOURCE_REGISTRY.json` registers uploaded RAHL consolidated ledger identity: 20318 bytes, sha256 7643b0faa7841205f374a0ce2cfecee970a807cba3ea322f8b4c1e93dd298696, class GATHERING, authority NONE_FROM_COMPILATION, status REGISTERED_ATTACHMENT_IDENTITY_PENDING_MATERIALIZATION. Full ledger bytes are NOT materialized/ingested on server.
+- Scar source deficits are propagated through Daemon route -> HUD scar packet -> cognitive diagnostic UNKNOWN/informed-by/next-evidence fields.
+- HUD cognitive diagnostic modal is implemented: FACT / INFERRED / INFERENCE BLOCKED / UNKNOWN / SCAR / NEXT truth labels, topology map, informed-by continuity surfaces + scar occurrence lineage, and bounded evidence routes.
+- Alternate-port embodied diagnostic smoke: temp Daemon5030 + HUD5092 consumed real Receiver/ngrok; picture CAUTION for browser-only degradation; contextual scar route selected `OPTIONAL PLANE DEGRADED != CORE FAILURE` first; diagnostic contained 7 direct facts, one inference, exact continuity/scar lineage, mutation_authority=false; temp services cleaned; live Receiver22968/ngrok19772 unchanged.
+
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN
+
+
+## GLOBAL SCAR SOURCE VERIFIED / INGESTED INTO DERIVED INDEX — 2026-09-15
+- `scar_sources/RAHL ENGINEERING CONSOLIDATED DOCTRINE AND SCAR LEDGER 2026-09-13.md` now exists byte-for-byte at 20,318 bytes / sha256 7643b0faa7841205f374a0ce2cfecee970a807cba3ea322f8b4c1e93dd298696. Registry status: MATERIALIZED_VERIFIED.
+- Transport itself was verified in two stages: compressed transfer SHA 9ea336a4a1e99c427eceaa02805f4f2865a1fc41031050301a05fc685ce2043f, then decoded attachment SHA match.
+- Derived multi-source index now reports 386 scars / 734 occurrences / 136 external-ledger occurrences / zero source deficits. Provenance hierarchy parsing yields external counts EARNED124, DONOR3, PROPOSED3, OBSERVED3, UNSPECIFIED3; the UNSPECIFIED entries are the ledger's own evidence-ceiling distinctions, correctly outside provenance-class sections.
+- Real alternate-port temp Daemon/HUD smoke after materialization remained CAUTION for browser-only degradation, routed the specific optional-plane scar first, preserved live Receiver22968/ngrok19772, and temp services were cleaned within bounded shutdown. Immediate HUD listener shutdown latency was observed once; persistent orphan was NOT established.
+
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN
+
+## FINAL PRE-LIVE CANDIDATE DELTA — 2026-09-16
+- Browser Bridge gap repaired: managed boot workload `PCMMAD_V30_BrowserBridge_SYSTEM` + independent `PCMMAD_V30_BrowserBridgeSupervisor_SYSTEM`; port4471 quiescence/transaction/task backup coverage; supervisor identity binds `service=pcmmad_browser_bridge`.
+- Runtime dependency contract now declares Playwright; setup verifies it; installer preflights live Receiver venv + supported system browser before mutation. Clone disposable test venv has Playwright 1.63.0 for qualification.
+- Explicit `ARM_BROWSER_BRIDGE.cmd` / `BLOCK_BROWSER_BRIDGE.cmd`; bridge defaults/fails BLOCKED, BOM-tolerant gate JSON, central effect-route guard, session stop/read-only routes remain available. Real state-machine smoke created a headless Edge session only while ARMED, denied actuation with HTTP423 while BLOCKED, reblocked immediately, and preserved live Receiver/ngrok/HUD identities.
+- HUD browser security gate is integrated in synoptic/right instrument/condition tape/diagnostic via existing HUD POST token boundary. BLOCKED healthy is normal standby; ARMED-not-ready is CAUTION.
+- HUD now reads supervisor failure-state/maintenance-hold/receipt files and renders HA BUDGET; corrupt state fails closed to zero budget.
+- Final surface intent audit artifact: `FINAL_SURFACE_INTENT_AUDIT_2026-09-16.md`.
+
+Active parent campaign: FINAL PRE-LIVE GLOBAL WAR CAMPAIGN
+
+## FINAL GITHUB CANDIDATE RECEIPT — 2026-09-16
+- Whole corpus exact final tree: rc0, 67.187415s. Live identities Receiver22968 ->22968, ngrok19772 ->19772, HUD25508 ->25508; browser absent/BLOCKED standby; TCP liveness 125/125 up.
+- Durable reports created: `reports/FINAL_PRELIVE_GLOBAL_WAR_2026-09-16.md`, `reports/FINAL_PRELIVE_GLOBAL_RESULT_2026-09-16.json`, `reports/GITHUB_PUBLICATION_INCLUSION_MANIFEST_2026-09-16.json`. Inclusion inventory contains 334 relevant research/test/report/continuity/scar/doc records.
+- GitHub target confirmed by operator and remote readback: `https://github.com/SEng-Kitathas/AI-Server-InfrA.git`; remote main at pre-publication readback `32328ac65678f1f0df7f04587d27f71dc8c14abb`.
+- Working publication repo is dirty and behind remote by 2 commits; publication must integrate without overwriting its uncommitted work.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## FINAL BYTE-TREE COMMIT RECEIPT — 2026-09-16
+Exact commit-intended tree whole corpus rc0 / 67.560s / Receiver22968 unchanged / ngrok19772 unchanged / HUD25508 unchanged / 126/126 TCP samples up. Durable reports and GitHub inclusion manifest regenerated from these exact bytes.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN

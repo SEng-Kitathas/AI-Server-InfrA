@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse, json, os, signal, sys, threading, time, importlib, ipaddress
+from urllib.parse import urlsplit,parse_qs
 from collections import deque
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -8,6 +9,7 @@ from typing import Any
 
 from .daemon_bootstrap import rehydrate
 from .daemon_plane import audit as audit_daemon_plane, paths as daemon_paths, atomic_json, service_lease, DaemonPlaneBusy
+from .scar_intelligence import load_index, route_scars
 from .lifecycle import ResidentLifecycle
 from .resident import MVFResident, LabToolsAdapter, default_receiver_lab_duties
 
@@ -145,6 +147,13 @@ class DaemonService:
         ctx=self._service_lease_ctx;self._service_lease_ctx=None
         if ctx is not None:ctx.__exit__(None,None,None)
         return True
+    def scar_route(self,context:str,limit:int=3):
+        context=str(context or '').strip()[:2000];limit=max(1,min(int(limit),7));index=load_index(daemon_paths(self.daemon_root).scar_index)
+        if not index:
+            return {'schema':'mvf.daemon-scar-route.v1','ok':False,'status':'index_unavailable','daemon_id':self.daemon_id,'project_id':self.project_id,'routing':{'selected':[]},'mutation_authority':False}
+        routing=route_scars(index,context,limit=limit)
+        return {'schema':'mvf.daemon-scar-route.v1','ok':True,'status':'current','daemon_id':self.daemon_id,'project_id':self.project_id,'routing':routing,'source_deficits':index.get('source_deficits',[]),'mutation_authority':False}
+
     def health(self):
         plane=audit_daemon_plane(self.daemon_root);now_mono=time.monotonic();age=None if self.last_cycle_monotonic is None else max(0.0,now_mono-self.last_cycle_monotonic)
         uptime=max(0.0,now_mono-self.started_monotonic);grace=max(self.interval*3,30.0);initiative_alive=self._thread is not None and self._thread.is_alive();first_cycle_ok=(self.last_cycle_monotonic is not None) or uptime<=grace
@@ -155,7 +164,8 @@ class DaemonService:
         with self._lock:
             compact=(self.last_cycle or {}).get('portfolio',{}).get('compact') if self.last_cycle else None
             continuity=(self.last_cycle or {}).get('continuity_enforcement') if self.last_cycle else None
-            return self._bounded({'schema':'mvf.daemon-status.v1','daemon_id':self.daemon_id,'project_id':self.project_id,'started_at_epoch':self.started_at,'cycle_count':self.cycle_count,'last_cycle_at_epoch':self.last_cycle_at,'last_error':self.last_error,'compact':compact,'surface_status':(self.last_cycle or {}).get('surface_audit',{}).get('status') if self.last_cycle else None,'continuity_enforcement':continuity,'failure_evidence':self.last_failure_evidence,'observability_error':self.observability_error,'mutation_authority':False})
+            scars=(self.last_cycle or {}).get('scar_intelligence') if self.last_cycle else None
+            return self._bounded({'schema':'mvf.daemon-status.v1','daemon_id':self.daemon_id,'project_id':self.project_id,'started_at_epoch':self.started_at,'cycle_count':self.cycle_count,'last_cycle_at_epoch':self.last_cycle_at,'last_error':self.last_error,'compact':compact,'surface_status':(self.last_cycle or {}).get('surface_audit',{}).get('status') if self.last_cycle else None,'continuity_enforcement':continuity,'scar_intelligence':scars,'failure_evidence':self.last_failure_evidence,'observability_error':self.observability_error,'mutation_authority':False})
     def _persist_status(self):
         try:
             atomic_json(daemon_paths(self.daemon_root).status_current,self._status_snapshot())
@@ -180,6 +190,11 @@ class _Handler(BaseHTTPRequestHandler):
             snapshot=svc.health();self._send(200 if snapshot['ok'] else 503,snapshot);return
         if self.path=='/status':self._send(200,svc.status());return
         if self.path=='/events':self._send(200,{'schema':'mvf.daemon-events.v1','ok':True,'daemon_id':svc.daemon_id,'project_id':svc.project_id,'mutation_authority':False,'events':svc.event_rows(limit=50)});return
+        if self.path.startswith('/scars/route'):
+            q=parse_qs(urlsplit(self.path).query);context=str((q.get('context') or [''])[0])
+            try:limit=int((q.get('limit') or ['3'])[0])
+            except Exception:limit=3
+            body=svc.scar_route(context,limit);self._send(200 if body.get('ok') else 503,body);return
         self._send(404,{'ok':False,'error':'NOT_FOUND'})
 
 def _validate_bind_host(host:str) -> None:

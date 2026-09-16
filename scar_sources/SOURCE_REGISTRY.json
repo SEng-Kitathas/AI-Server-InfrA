@@ -1,0 +1,27 @@
+{
+  "schema": "pcmmad.scar-source-registry.v1",
+  "sources": [
+    {
+      "source_id": "rahl-engineering-consolidated-doctrine-scar-ledger-2026-09-13",
+      "filename": "RAHL ENGINEERING CONSOLIDATED DOCTRINE AND SCAR LEDGER 2026-09-13.md",
+      "sha256": "7643b0faa7841205f374a0ce2cfecee970a807cba3ea322f8b4c1e93dd298696",
+      "bytes": 20318,
+      "materialized_path": "scar_sources/RAHL ENGINEERING CONSOLIDATED DOCTRINE AND SCAR LEDGER 2026-09-13.md",
+      "source_class": "GATHERING",
+      "authority": "NONE_FROM_COMPILATION",
+      "evidence_ceiling": [
+        "CONSOLIDATION != CANON",
+        "COMPILED_BY_ASSISTANT != OPERATOR_RATIFIED",
+        "GATHERED != RE_EARNED"
+      ],
+      "provenance_classes": [
+        "LAW",
+        "EARNED",
+        "OBSERVED",
+        "DONOR",
+        "PROPOSED"
+      ],
+      "status": "MATERIALIZED_VERIFIED"
+    }
+  ]
+}

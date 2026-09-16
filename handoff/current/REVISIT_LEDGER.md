@@ -450,3 +450,39 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **DAEMON-LIVE-PROMOTION-001 — OPEN.** Distinct safe-window operation; not performed.
 - **HUD-COCKPIT-WAR-001 — NEXT ACTIVE CAMPAIGN.**
 - **DAEMON-INFERENCE-001 — DEFERRED BY OPERATOR.**
+
+
+## 2026-09-15 SCAR INTELLIGENCE
+- **SCAR-INTELLIGENCE-001 — EMBODIED/QUALIFIED CLONE.** Derived collection + semantic routing + resident surfacing implemented. Future work: richer semantic embedding/learned routing may be explored only if it beats current transparent router under HEaT; current mechanism remains authoritative implementation baseline.
+
+
+## HUD COCKPIT WAR OPEN ITEMS — 2026-09-15
+- **HUD-COCKPIT-WAR-001 — ACTIVE.** First information-architecture tranche embodied/qualified focused; whole-corpus gate still pending.
+- **HUD-ANNUNCIATION-002 — OPEN.** Pressure alarm deduplication, clear/recovery transitions, persistent-vs-transient warnings, and restart-budget/trend instruments before campaign closure.
+- **HUD-LIVE-PROMOTION-003 — NOT DONE.** Live HUD PID25508 remains old embodiment; promotion only after campaign qualification/safe window.
+
+
+## HUD / SCAR INTELLIGENCE OPEN/CLOSED ITEMS — 2026-09-15
+- **SCAR-INTELLIGENCE-001 — QUALIFIED CLONE.** Multi-source derived index, source-plane lineage, section provenance, specificity-first routing, healthy-duty context, contextual Daemon route.
+- **SCAR-GLOBAL-LEDGER-MATERIALIZE-002 — OPEN.** Uploaded RAHL consolidated ledger exact identity registered; full bytes not server-materialized because current transfer/project fence bridge does not expose a usable attachment-import authority envelope. Never claim complete global-ledger ingestion until exact bytes/hash verified.
+- **HUD-COGNITIVE-DIAGNOSTIC-003 — QUALIFIED FOCUSED/EMBODIED.** Expandable warning/error diagnostic with FACT/INFERRED/UNKNOWN layers, topology, informed-by continuity/scar lineage, next evidence routes. Whole-corpus final gate pending after continuity convergence.
+- **HUD-LIVE-PROMOTION-003 — NOT DONE.** Live HUD PID25508 remains old embodiment.
+
+
+## GLOBAL SCAR SOURCE MATERIALIZATION UPDATE — 2026-09-15
+- **SCAR-GLOBAL-LEDGER-MATERIALIZE-002 — CLOSED CLONE.** Exact uploaded bytes materialized and hash-verified; derived index collects external source with provenance/source-plane separation and zero source deficit. Reopen on source/hash/schema changes.
+- **HUD-LIVE-PROMOTION-003 — STILL NOT DONE.** Clone qualification only.
+
+## 2026-09-16 FINAL SURFACE AUDIT / PRE-LIVE REOPEN
+- **HUD-ANNUNCIATION-002 — CLOSED CLONE.** Alarm dedupe, persistent/new/clear transitions, condition trends and read-only HA restart-budget/hold/corrupt-state instrumentation embodied/tested.
+- **DAEMON-HUD-001 — SUPERSEDED / CLOSED CLONE.** Historical defer no longer current; cognitive HUD cockpit is embodied in clone. Live promotion remains separate under HUD-LIVE-PROMOTION-003.
+- **BROWSER-BRIDGE-MANAGED-001 — EMBODIED/FOCUSED-QUALIFIED.** Managed boot workload + OOP supervisor + manual helpers + Playwright/runtime preflight + explicit BLOCKED/ARMED gate + cockpit instrument. Final global interaction qualification pending.
+- **SCAR-GLOBAL-LEDGER-MATERIALIZE-002 — CLOSED CLONE / VERIFIED.** Older OPEN references are stale history.
+- **OUTAGE-CAUSE-20260915-1859 — OPEN NON-BLOCKING EVIDENCE GAP.** Do not invent historical causality; current execution isolation/global stability must qualify independently.
+- **APPROVAL-EXT-001 — UNKNOWN EXTERNAL CONSUMER / NON-BLOCKING SERVER GAP.** Local bound continuation remains qualified.
+- **GLOBAL-WAR-FINAL-002 — ACTIVE.** Reopened because final candidate changed after prior closure: Browser managed topology/security/runtime + HUD HA-budget instrumentation. Close only after exact-tree global war matrix + continuity/readback.
+
+## 2026-09-16 FINAL GLOBAL WAR RESULT
+- **GLOBAL-WAR-FINAL-002 — CLOSED CLONE / QUALIFIED FOR LIVE REPLACEMENT.** Exact final tree entire corpus rc0, 125/125 TCP liveness, live Receiver/ngrok/HUD identities unchanged. Reopen on product/topology changes or failed promotion readback.
+- **GITHUB-PUBLICATION-FINAL-001 — ACTIVE.** Publish exact qualified candidate + relevant research/testing/records to `SEng-Kitathas/AI-Server-InfrA`, preserving existing dirty publication work; close only after remote HEAD readback.
+- **LIVE-REPLACEMENT-FINAL-001 — PROMOTION-ONLY / PENDING.** Requires elevated SYSTEM task registration and immediate organism readback.

@@ -193,3 +193,28 @@ After the final continuity-gate normalization change, the exact tree intended fo
 
 ## 31. Post-newline-hygiene final confirmation
 Original CRLF conventions were restored in 10 pre-existing tracked files to remove cosmetic diff churn. Entire corpus then passed again OS-owned in 60.8588s with Receiver PID22968 unchanged and 117/117 TCP liveness samples up. No semantic code change occurred during newline hygiene.
+
+
+## 32. Scar intelligence inline tranche
+Daemon scar intelligence now mirrors continuity enforcement: explicit X != Y scars are auto-collected into a derived index, semantically deduplicated while preserving all source occurrences, source-context provenance observations retained without promotion, context tags/routing select only the relevant top set, and resident status exposes the bounded applicable packet. Durable index path is daemon/scars/index.json. 18/18 focused tests PASS. Active parent remains HUD cockpit/instrument-panel war; scar intelligence is inline infrastructure.
+
+
+## 33. HUD cockpit first embodied tranche
+Clone HUD now behaves substantially more like an operating instrument panel: NORMAL/CAUTION/WARNING master state, stale-status override, system synoptic including transport and neutral-until-configured Daemon, explicit causal/recovery field, bounded applicable scar, compressed systems/context banks, and demoted dispatch history. Scar intelligence remains resident-owned. Focused HUD/Daemon/scar tests and syntax/compile/diff gates pass. Whole-corpus OS-owned gate remains next; live HUD promotion has not occurred.
+
+
+## 34. Cognitive cockpit + multi-source scar convergence
+Daemon scar intelligence now routes preventative scars from healthy duties, preserves semantic identity separately from provenance/source plane, supports external scar-source registries, and exposes pending/hash-bad source deficits. The uploaded RAHL consolidated ledger is registered by exact attachment identity (20318 bytes; sha256 7643b0faa7841205f374a0ce2cfecee970a807cba3ea322f8b4c1e93dd298696) as GATHERING/NONE_FROM_COMPILATION but is not yet byte-materialized/ingested server-side. HUD cognitive diagnostic expansion now exposes current facts, triangulated inferences, inference blocks, unknown discriminators, informed-by continuity/scar sources, topology/cartography and bounded next-evidence routes. Real alternate-port temp Daemon/HUD smoke succeeded against live Receiver/ngrok without moving live identities. Final convergence requires manifest refresh, handoff gate, exact-tree whole-corpus OS-owned pass, then commit; live promotion remains separate.
+
+
+## 35. Global consolidated scar ledger materialized and indexed
+The uploaded RAHL consolidated doctrine/scar ledger is now exact-byte materialized in clone scar_sources: 20,318 bytes; SHA256 7643b0faa7841205f374a0ce2cfecee970a807cba3ea322f8b4c1e93dd298696. Transfer integrity was verified before decode and again after write. Source registry is MATERIALIZED_VERIFIED. Derived multi-source scar collection now reports 386 semantic scars, 734 occurrences, 136 external-ledger occurrences and zero source deficits; external provenance readback is EARNED124/DONOR3/PROPOSED3/OBSERVED3/UNSPECIFIED3 (the latter are evidence-ceiling lines outside provenance sections). Materialization does not promote the compilation to canon. Final HUD/scar campaign qualification remains exact-tree whole-corpus OS-owned pass, then commit; live promotion remains separate.
+
+## 36. Final surface audit and Browser Bridge repair
+Cross-surface audit found one real dropped current feature: Browser Bridge was not automatically embodied despite being treated as infrastructure. Clone now adds managed SYSTEM workload + independent supervisor, browser-runtime preflight (Flask+Playwright + supported installed channel), canonical manual start/check/stop, explicit ARM/BLOCK helpers, fail-closed effect-route gate, HUD-token-protected cockpit toggle, and HA restart-budget instrumentation. Real bridge smoke: starts BLOCKED; HTTP423 effect denial; explicit ARM -> Playwright/Edge ready; real headless Edge session; explicit BLOCK -> effect denial; session cleanup allowed; live Receiver/ngrok/HUD unchanged. Stale current-surface declarations corrected by final audit. Final code/topology changes reopen one exact-tree global war pass before live replacement.
+
+## 37. Final exact-tree global qualification and GitHub publication boundary
+Entire exact final candidate corpus rc0 in 67.187415s; Receiver22968/ngrok19772/HUD25508 unchanged; 125/125 Receiver TCP liveness samples up. Final qualification report/result and GitHub inclusion manifest are durable under reports/. Target repository explicitly confirmed as https://github.com/SEng-Kitathas/AI-Server-InfrA.git. Final clone candidate is qualified for live replacement subject to promotion-time elevated SYSTEM task registration/readback. Active work moves to controlled GitHub integration/publication, then live promotion; no additional pre-live feature work is authorized by this checkpoint.
+
+## 38. Exact byte-tree publication candidate
+After EOL hygiene, the exact bytes intended for commit passed the entire corpus OS-owned in 67.560s with Receiver22968/ngrok19772/HUD25508 unchanged and 126/126 Receiver TCP samples up. GitHub evidence report/result/inclusion manifest were regenerated from this exact tree.

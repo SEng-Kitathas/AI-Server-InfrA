@@ -537,3 +537,64 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | live Daemon/HA promoted | NOT DONE | explicit non-mutation boundary | safe-window promotion |
 
 | final exact commit tree whole corpus | VERIFIED CLONE | rc0, 62.2664s, Receiver22968 unchanged, 120/120 TCP up | any staged code change |
+
+
+## 2026-09-15 SCAR INTELLIGENCE TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| explicit X != Y scars can be collected/deduped without lineage loss | VERIFIED CLONE | scar intelligence tests | grammar/source format changes |
+| derived index promotes scar authority | REJECTED BY DESIGN | authority DERIVED_INDEX_ONLY + source provenance observations only | governance design changes |
+| context routing surfaces relevant scars without ledger dump | VERIFIED CLONE | execution vs HUD routing tests | router/tag changes |
+| Daemon persists and surfaces applicable scar packet | VERIFIED CLONE | lifecycle/status integration + durable index test | lifecycle/status changes |
+
+
+## 2026-09-15 HUD COCKPIT TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| center dispatch history dominates primary scan field | REJECTED IN CLONE | Primary Operating Display + 4 receipt secondary stream | HUD layout changes |
+| stale green state can remain NORMAL | REJECTED IN CLONE | pure cockpit model currentness guard | status/currentness changes |
+| Receiver-down/transport-up is distinguishable | VERIFIED CLONE | ngrok transport + receiver causal model tests | status schema changes |
+| Daemon absence before promotion is a failure | REJECTED | STANDBY neutral semantics | promotion/config changes |
+| routed scar can explain active cockpit condition without ledger dump | VERIFIED CLONE | scar routing + HUD callout tests | scar/status integration changes |
+
+
+## 2026-09-15 COGNITIVE COCKPIT / SCAR TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| healthy/current duties can route scars before failure | VERIFIED CLONE | lifecycle current-duty scar test | lifecycle context changes |
+| consolidated-ledger section provenance cannot bleed across sections | VERIFIED CLONE | section-bounded provenance tests | parser changes |
+| semantic duplicate scars preserve source-plane lineage | VERIFIED CLONE | multi-source dedupe tests | index schema changes |
+| uploaded RAHL ledger is fully materialized/ingested server-side | FALSE / NOT DONE | registry status pending materialization | successful exact-byte import + hash readback |
+| registered missing/hash-bad scar sources are visible as coverage deficits | VERIFIED CLONE | source-registry + HUD diagnostic tests | source registry changes |
+| cockpit error expansion separates facts/inference/unknowns and exposes lineage/topology | VERIFIED CLONE | Node diagnostic-model tests + embodied smoke | diagnostic model/UI changes |
+| real healthy core + optional browser degradation becomes CAUTION, not WARNING | VERIFIED EMBODIED CLONE | temp Daemon/HUD smoke against live Receiver/ngrok | readiness schema changes |
+
+
+## 2026-09-15 GLOBAL SCAR LEDGER MATERIALIZATION TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| uploaded RAHL ledger bytes are materialized in clone | VERIFIED | 20318 bytes + attachment SHA256 exact match after verified transport decode | file/hash change |
+| materialized ledger is collected by derived scar index | VERIFIED | 136 external occurrences; total 386 scars/734 occurrences; zero source deficits | index/parser changes |
+| materialization promotes compiled ledger to canon | REJECTED | source registry GATHERING/NONE_FROM_COMPILATION + evidence ceiling retained | explicit operator promotion only |
+| section provenance is preserved through nested ledger subsections | VERIFIED | hierarchical heading parser + nested provenance tests + real counts | parser/source grammar changes |
+| immediate temp HUD listener sample proves persistent orphan | REJECTED | bounded follow-up showed listener gone; reloader disabled | repeatable persistent orphan evidence |
+
+## 2026-09-16 FINAL SURFACE AUDIT TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| browser bridge auto-start/manual-control intent was embodied before final audit | REJECTED HISTORICALLY | live port4471 absent; no task; old README manual-only | now repaired; reopen on installer/task changes |
+| browser bridge managed boot/supervision exists in final clone | VERIFIED FOCUSED | installer parse/static tests + managed task/supervisor bindings | installer/supervisor changes |
+| browser effect authorization is explicit and fail-closed | VERIFIED EMBODIED | real BLOCKED->ARMED Edge session->BLOCKED smoke + HTTP423 guards | gate/service changes |
+| blocked healthy browser bridge is not a system degradation | VERIFIED | pure cockpit model tests | readiness semantics changes |
+| HA restart budget/hold state is visible in cockpit | VERIFIED FOCUSED | HUD supervisor budget tests | supervisor schema/HUD changes |
+| all current maintained-surface intent has disposition | VERIFIED AUDIT | FINAL_SURFACE_INTENT_AUDIT_2026-09-16.md | new/changed intent |
+| final candidate globally qualified after browser/HUD changes | PENDING | GLOBAL-WAR-FINAL-002 | final matrix pass |
+
+## 2026-09-16 FINAL QUALIFICATION / GITHUB TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| exact final clone candidate whole corpus passes without live interference | VERIFIED | rc0/67.187s; 125/125 TCP; Receiver/ngrok/HUD PIDs unchanged | any product/test/topology change |
+| final candidate qualified for live replacement | VERIFIED WITH PROMOTION PREREQUISITE | final report + focused browser/HA/HUD/scar tests | SYSTEM registration/readback failure |
+| final candidate already live-promoted | FALSE | no live mutation performed | safe-window promotion |
+| GitHub target | VERIFIED | operator-provided URL + publication repo origin | remote change |
+| research/testing records inventoried for publication | VERIFIED | GITHUB_PUBLICATION_INCLUSION_MANIFEST_2026-09-16.json (334 records) | publication manifest changes |

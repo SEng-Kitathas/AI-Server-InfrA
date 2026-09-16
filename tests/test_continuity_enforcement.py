@@ -57,3 +57,14 @@ def test_campaign_identity_ignores_descriptive_parenthetical_but_rejects_differe
     from mvf_resident.continuity_enforcement import _normalize_campaign_identity
     assert _normalize_campaign_identity('GLOBAL INTERACTION WAR CAMPAIGN (fully embodied clone -> pre-live organism beat-down)') == _normalize_campaign_identity('GLOBAL INTERACTION WAR CAMPAIGN')
     assert _normalize_campaign_identity('HUD COCKPIT WAR CAMPAIGN') != _normalize_campaign_identity('GLOBAL INTERACTION WAR CAMPAIGN')
+
+
+def test_campaign_label_uses_latest_explicit_declaration_not_historical_first_match():
+    with tempfile.TemporaryDirectory() as td:
+        h=Path(td);_handoff(h)
+        for name in ('COMMANDERS_INTENT_CURRENT.md','LIVE_SHADOW.md','CURRENT_STATE.md'):
+            p=h/name;p.write_text(p.read_text()+"\nActive parent campaign: HUD COCKPIT WAR CAMPAIGN\n",encoding='utf-8')
+            manifest=json.loads((h/'SNAPSHOT_MANIFEST_SHA256.json').read_text());data=p.read_bytes();manifest['files'][name]={'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()};(h/'SNAPSHOT_MANIFEST_SHA256.json').write_text(json.dumps(manifest),encoding='utf-8')
+        g=handoff_gate(h)
+        assert g['ready'] is True
+        assert set(g['campaign_labels'].values())=={'HUD COCKPIT WAR CAMPAIGN'}

@@ -48,22 +48,22 @@
         <h2>State, gates & alerts</h2>
       </section>
 
-      <div class="service-grid cockpit-services">
-        <article class="service-card" id="hudCard">
-          <div class="service-head"><span>HUD</span><span id="hudLamp" class="lamp unknown"></span></div>
-          <div id="hudState" class="service-state">checking</div><div id="hudDetail" class="service-detail">127.0.0.1:5090</div>
+      <div class="instrument-bank systems-rack" aria-label="Core systems rack">
+        <article class="instrument-row service-card" id="hudCard">
+          <div class="instrument-identity"><span id="hudLamp" class="lamp unknown"></span><span>HUD</span></div>
+          <strong id="hudState" class="service-state">checking</strong><span id="hudDetail" class="service-detail">127.0.0.1:5090</span>
         </article>
-        <article class="service-card" id="receiverCard">
-          <div class="service-head"><span>Receiver</span><span id="receiverLamp" class="lamp unknown"></span></div>
-          <div id="receiverState" class="service-state">checking</div><div id="receiverDetail" class="service-detail">127.0.0.1:5000</div>
+        <article class="instrument-row service-card" id="receiverCard">
+          <div class="instrument-identity"><span id="receiverLamp" class="lamp unknown"></span><span>Receiver</span></div>
+          <strong id="receiverState" class="service-state">checking</strong><span id="receiverDetail" class="service-detail">127.0.0.1:5000</span>
         </article>
-        <article class="service-card" id="journalCard">
-          <div class="service-head"><span>Forensic Journal</span><span id="journalLamp" class="lamp unknown"></span></div>
-          <div id="journalState" class="service-state">checking</div><div id="journalDetail" class="service-detail">durable dispatch evidence</div>
+        <article class="instrument-row service-card" id="journalCard">
+          <div class="instrument-identity"><span id="journalLamp" class="lamp unknown"></span><span>Journal</span></div>
+          <strong id="journalState" class="service-state">checking</strong><span id="journalDetail" class="service-detail">durable dispatch evidence</span>
         </article>
-        <article class="service-card optional-service" id="bridgeCard">
-          <div class="service-head"><span>Browser Bridge · Optional</span><span id="bridgeLamp" class="lamp unknown"></span></div>
-          <div id="bridgeState" class="service-state">checking</div><div id="bridgeDetail" class="service-detail">127.0.0.1:4471</div>
+        <article class="instrument-row service-card optional-service" id="bridgeCard">
+          <div class="instrument-identity"><span id="bridgeLamp" class="lamp unknown"></span><span>Browser · optional</span></div>
+          <strong id="bridgeState" class="service-state">checking</strong><span id="bridgeDetail" class="service-detail">127.0.0.1:4471</span>
         </article>
       </div>
 
@@ -100,31 +100,81 @@
         <span id="lastRefresh" class="muted"></span>
       </section>
 
-      <section class="focus-surface panel">
-        <div class="focus-assurance">
-          <div>
-            <span class="eyebrow">CURRENT ASSURANCE</span>
-            <strong id="cockpitAssurance">Grounding Runtime…</strong>
+      <section class="focus-surface panel primary-operating-display">
+        <div class="annunciator-row">
+          <div id="masterAnnunciator" class="master-annunciator advisory diagnostic-trigger" role="button" tabindex="0" title="Open cognitive diagnostic">
+            <span class="annunciator-kicker">MASTER</span>
+            <strong id="masterAnnunciatorLabel">ASSESSING</strong>
+            <span id="masterAnnunciatorMeta" class="annunciator-meta">waiting for current state</span>
+          </div>
+          <div class="mode-line">
+            <span class="eyebrow">OPERATING MODE</span>
+            <strong id="cockpitAssurance">Grounding runtime</strong>
+            <span id="cockpitModeDetail" class="muted">waiting for live evidence</span>
           </div>
           <div class="focus-metrics">
-            <div><span>TOOLS</span><strong id="cockpitToolCount">—</strong></div>
+            <div><span>TOOLS</span><strong id="cockpitToolCount">--</strong></div>
             <div><span>SESSIONS</span><strong id="sessionCount">0</strong><span id="sessionLamp" class="lamp unknown"></span></div>
-            <div><span>OPTIONAL</span><strong id="cockpitOptional">—</strong></div>
+            <div><span>OPTIONAL</span><strong id="cockpitOptional">--</strong></div>
           </div>
         </div>
         <div class="focus-rule"></div>
-        <div class="panel-head"><div><div class="eyebrow">LIVE ACTIVITY</div><h2>Recent dispatches</h2></div><span class="muted">machine-truth receipts</span></div>
-        <div id="recentActivity" class="activity-list center-stream"></div>
+
+        <div class="primary-grid">
+          <div class="system-synoptic" aria-label="Core system synoptic">
+            <div class="eyebrow">SYSTEM SYNOPTIC</div>
+            <div class="synoptic-line">
+              <div id="synHud" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>HUD</span><strong>--</strong></div>
+              <span class="synoptic-link optional">⇄</span>
+              <div id="synNgrok" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>TRANSPORT</span><strong>--</strong></div>
+              <span class="synoptic-link">→</span>
+              <div id="synReceiver" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>RECEIVER</span><strong>--</strong></div>
+              <span class="synoptic-link">↔</span>
+              <div id="synDaemon" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>DAEMON</span><strong>STANDBY</strong></div>
+              <span class="synoptic-link">→</span>
+              <div id="synJournal" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>JOURNAL</span><strong>--</strong></div>
+              <span class="synoptic-link optional">⇢</span>
+              <div id="synBrowser" class="synoptic-node unknown diagnostic-trigger" role="button" tabindex="0" title="Inspect this system condition"><span>BROWSER</span><strong>--</strong></div>
+            </div>
+          </div>
+
+          <div class="fault-picture">
+            <div class="eyebrow">CAUSAL / RECOVERY PICTURE</div>
+            <strong id="cockpitFaultTitle">No failure isolated</strong>
+            <div id="cockpitCausalChain" class="causal-chain">Waiting for live system evidence.</div>
+            <div id="cockpitRecoveryCue" class="recovery-cue">No operator action required.</div>
+            <button id="cockpitDiagnosticBtn" class="secondary diagnostic-open" title="Expand facts, triangulation, topology, sources, scars, and next evidence">▲ Expand diagnostic</button>
+          </div>
+        </div>
+
+        <div class="condition-tape" aria-label="Live operating trends">
+          <div><span>STATUS AGE</span><strong id="trendStatusAge">--</strong></div>
+          <div><span>LATENCY</span><strong id="trendLatency">--</strong><em id="trendLatencyDir">→</em></div>
+          <div><span>FAILURES</span><strong id="trendFailures">0</strong><em id="trendFailuresDir">→</em></div>
+          <div><span>TRANSPORT</span><strong id="trendTransport">--</strong></div>
+          <div><span>BROWSER</span><strong id="trendBrowser">BLOCKED</strong></div>
+          <div><span>HA BUDGET</span><strong id="trendHaBudget">STANDBY</strong></div>
+          <div><span>DAEMON</span><strong id="trendDaemon">STANDBY</strong></div>
+        </div>
+
+        <div id="cockpitScar" class="scar-callout" hidden>
+          <span class="eyebrow">APPLICABLE SCAR</span>
+          <strong id="cockpitScarText"></strong>
+          <span id="cockpitScarReason" class="muted"></span>
+        </div>
+
+        <div class="activity-secondary">
+          <div class="panel-head"><div><div class="eyebrow">RECENT RECEIPTS</div><h3>Dispatch history</h3></div><span class="muted">secondary evidence · newest first</span></div>
+          <div id="recentActivity" class="activity-list center-stream compact-stream"></div>
+        </div>
       </section>
 
-      <section class="panel center-guidance">
-        <div class="eyebrow">OPERATOR DOCTRINE</div>
-        <div class="guidance-grid">
-          <div><strong>Submitted ≠ Started</strong><span>Lifecycle stages remain visually distinct.</span></div>
-          <div><strong>Tool success ≠ Task success</strong><span>Readback and consequence evidence stay visible.</span></div>
-          <div><strong>Optional ≠ Core failure</strong><span>Plane degradation stays local unless required truth fails.</span></div>
-          <div><strong>Approval ≠ Payload</strong><span>Authority remains a separate bound runtime object.</span></div>
-        </div>
+      <section class="operating-law-strip" aria-label="Operating distinctions">
+        <span class="eyebrow">OPERATING LAWS</span>
+        <div class="law-chip"><strong>SUBMITTED ≠ STARTED</strong><span>lifecycle</span></div>
+        <div class="law-chip"><strong>TOOL SUCCESS ≠ TASK SUCCESS</strong><span>consequence</span></div>
+        <div class="law-chip"><strong>OPTIONAL ≠ CORE FAILURE</strong><span>degradation</span></div>
+        <div class="law-chip"><strong>APPROVAL ≠ PAYLOAD</strong><span>authority</span></div>
       </section>
     </section>
 
@@ -134,26 +184,21 @@
         <h2>Context & capability</h2>
       </section>
 
-      <section class="panel compact-panel topology-panel">
-        <div class="eyebrow">CAPABILITY SURFACE</div>
-        <div class="topology-value" id="cockpitFamilyCount">—</div>
-        <div class="service-detail">native tool families</div>
-        <div id="cockpitCapabilitySummary" class="topology-list">Catalog grounding…</div>
-        <button id="openToolExplorer" class="secondary full-button">Open Tool Explorer</button>
-      </section>
-
-      <section class="panel compact-panel">
-        <div class="panel-head"><div><div class="eyebrow">OPTIONAL PLANE</div><h2>Browser presence</h2></div></div>
-        <div id="cockpitSessionSummary" class="topology-list">No session evidence yet.</div>
-        <button id="openBrowserView" class="secondary full-button">Open Browser Runtime</button>
-      </section>
-
-      <section class="panel compact-panel">
-        <div class="eyebrow">FORENSIC ACCESS</div>
-        <p class="hint">The center shows bounded human-readable receipts. Full dispatch history and raw tool contracts stay one action away.</p>
-        <div class="right-actions">
-          <button id="openActivityView" class="secondary">Journal</button>
-          <button id="openRawTools" class="secondary">Raw contracts</button>
+      <section class="instrument-bank context-bank" aria-label="Context and capability instruments">
+        <div class="instrument-row topology-instrument">
+          <div><span class="eyebrow">CAPABILITY</span><strong class="topology-value" id="cockpitFamilyCount">--</strong></div>
+          <div id="cockpitCapabilitySummary" class="instrument-summary">Catalog grounding…</div>
+          <button id="openToolExplorer" class="secondary instrument-action">Tools</button>
+        </div>
+        <div class="instrument-row optional-instrument browser-gate-instrument">
+          <div><span class="eyebrow">BROWSER · SECURITY</span><strong id="browserGateState">BLOCKED</strong></div>
+          <div id="cockpitSessionSummary" class="instrument-summary">Bridge state unknown.</div>
+          <div class="instrument-actions browser-gate-actions"><button id="browserGateToggle" class="gate-control blocked" title="Explicitly arm browser actuation">ARM</button><button id="openBrowserView" class="secondary instrument-action">Runtime</button></div>
+        </div>
+        <div class="instrument-row evidence-instrument">
+          <div><span class="eyebrow">EVIDENCE</span><strong>FORENSIC</strong></div>
+          <div class="instrument-summary">Full journal and raw contracts remain one action away.</div>
+          <div class="instrument-actions"><button id="openActivityView" class="secondary">Journal</button><button id="openRawTools" class="secondary">Raw</button></div>
         </div>
       </section>
     </aside>
@@ -239,6 +284,24 @@
     <div class="payload-label">Exact Runtime Challenge + Payload</div><pre id="approvalPayload" class="approval-payload"></pre>
     <div class="approval-warning">The Runtime bound this challenge to the exact capability contract, arguments, target, and expiry. Confirmation consumes this single-use handle; changed arguments require a new challenge.</div>
     <div class="modal-actions"><button id="rejectApproval" class="secondary">Reject</button><button id="confirmApproval" class="danger-button">Approve exact challenge</button></div>
+  </div>
+</div>
+
+<div id="diagnosticModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="diagnosticTitle">
+  <div class="modal-card diagnostic-modal-card">
+    <div class="diagnostic-header">
+      <div><div class="eyebrow">COGNITIVE DIAGNOSTIC</div><h2 id="diagnosticTitle">System condition</h2></div>
+      <div id="diagnosticSeverity" class="diagnostic-severity">ASSESSING</div>
+    </div>
+    <div id="diagnosticSummary" class="diagnostic-summary"></div>
+    <div id="diagnosticTopology" class="diagnostic-topology" aria-label="Fault topology"></div>
+    <details open><summary>Observed facts</summary><div id="diagnosticFacts" class="diagnostic-list"></div></details>
+    <details open><summary>Triangulated inferences</summary><div id="diagnosticInferences" class="diagnostic-list"></div></details>
+    <details open><summary>Unknowns / discriminators</summary><div id="diagnosticUnknowns" class="diagnostic-list"></div></details>
+    <details><summary>Informed by</summary><div id="diagnosticSources" class="diagnostic-chip-list"></div></details>
+    <details><summary>Applicable scars</summary><div id="diagnosticScars" class="diagnostic-list"></div></details>
+    <details open><summary>Next evidence routes</summary><div id="diagnosticNext" class="diagnostic-list"></div></details>
+    <div class="modal-actions"><button id="closeDiagnostic" class="primary">Close diagnostic</button></div>
   </div>
 </div>
 

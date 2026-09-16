@@ -20,8 +20,8 @@
       "sha256": "1e64c62f39681025a400d071d037b23fe508ab841bad2099a3ada2e037255246"
     },
     "COMMANDERS_INTENT_CURRENT.md": {
-      "bytes": 71060,
-      "sha256": "2579a34f560e30d0d73c817b79b4f747a73f938c2e48870b000e36ec7378f789"
+      "bytes": 78048,
+      "sha256": "eec639e2081504a7bf8d432eddbb9adaf663211278c1db3a2172dece34b1e3f2"
     },
     "CONTINUITY_CONVERGENCE_CLASSIFIER_QUALIFICATION_2026-09-07.md": {
       "bytes": 4416,
@@ -36,8 +36,8 @@
       "sha256": "90ba40b110dae5b4a533aba059aac483c60c92c4d6846b4286d1562871c0e44c"
     },
     "CURRENT_STATE.md": {
-      "bytes": 72687,
-      "sha256": "50351a744588cd0cfd17769d1ff35c7ce097e3c46def420de57b83fd28a573cc"
+      "bytes": 75656,
+      "sha256": "0c0165ed95a0438ee2c691b71242ee6103c78e86ef5672bf59df60f521d4da06"
     },
     "DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md": {
       "bytes": 10720,
@@ -52,12 +52,16 @@
       "sha256": "646c7411848a003b5f41da46c98b2ecc2acf77c35d6cd7981672ba2c16aa10f1"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 224090,
-      "sha256": "6caa3ef0482535267ae0cfac9c668d8715a346a1d27e096b71c09aaa8210acea"
+      "bytes": 228989,
+      "sha256": "41fb320b7fd0bf143413770bd47a51298d277469967d77a3f53fb3586559921f"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 62274,
-      "sha256": "8f9b15a21918d304476b62f18528281baaff54b73d234334ac9717b3c3125576"
+      "bytes": 63415,
+      "sha256": "deccc34481ebbd6cddf958308b4bb8c037cf0160c61d79682faae9dad13b8c5d"
+    },
+    "FINAL_SURFACE_INTENT_AUDIT_2026-09-16.md": {
+      "bytes": 4080,
+      "sha256": "25c4e062d9fcd65fdc217a420bfb6b50926554f673ccdafb2c7a0cda3483e666"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
@@ -108,16 +112,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 59193,
-      "sha256": "f591527d7e8066ae2534f323d283a1ffb7e0506848f465d25c732a5f438a3a84"
+      "bytes": 66922,
+      "sha256": "7b30ecfe5ab66cbe59090595b93088cb7b92187f45432533040ddb471e885c01"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 38127,
-      "sha256": "dccf50691a9b0bf4a8fd8d2fad1730274ceeb61bbc88533d84c53f16486fdb11"
+      "bytes": 39701,
+      "sha256": "9fa95d834f5a5ea71d228ddcb9647c7fb1aa12cc436db11b41acbf7822afd749"
     },
     "NEXT_STEPS.md": {
-      "bytes": 55512,
-      "sha256": "9730a4c0573c0a831f9d6bb3b77a98f5293c1bc812956b4e00b9aa8480354994"
+      "bytes": 59220,
+      "sha256": "d6e9d0c2015d4aff485c644241378a6fbe821bf3d721d5d90030daf109172ae6"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -128,8 +132,8 @@
       "sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 71330,
-      "sha256": "1c93c0475efbee13c1478413c38c7753d2087889c2fca4a5bfadf9e709904b23"
+      "bytes": 75550,
+      "sha256": "912bcdab04d5ecb0b749db69bfc2231f70b9714a1f87999ae54f333b763d457b"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
@@ -140,16 +144,16 @@
       "sha256": "e5e099932e4447aa4679bc329b40396060ee4017de0deb3209cf20b60c7c4308"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 41322,
-      "sha256": "83089193fe95804ee1a723984c753aeb16562fc7421509888d3d695bef6afcb6"
+      "bytes": 43014,
+      "sha256": "aa60ff6b7c79dc811102cd9101a48d799815a60fcb442b4d2ea9eba6e5189ab0"
     },
     "T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md": {
       "bytes": 10887,
       "sha256": "4ccd5d692aa85e049cae60c714298b44f9bf3359fcdfead5b4eb00d869cacda1"
     },
     "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md": {
-      "bytes": 31240,
-      "sha256": "52289af45d78d3e3b7b59ebfd6ec263461daa79c418b642f695c39577905b04a"
+      "bytes": 36160,
+      "sha256": "95f6951c64c12d2fa1d702c7417764f214d65709652ef0a6c54dbae1d12b60b7"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -160,8 +164,8 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 88321,
-      "sha256": "b46c1a1794c1513a6e41c75ef4034eccedd9796c5b48779c251a4c821ce1b366"
+      "bytes": 94038,
+      "sha256": "67cc60d7ba4c09f5b72a8ace888d4a7d0928eed48cd849d632f332f53dd8895b"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,
@@ -236,9 +240,9 @@
       "sha256": "bd2a1981ae6be1306fdc06e3241d59cc33bb61187d9c0c637e2f2adc8665bc7f"
     }
   },
-  "updated_at": "2026-09-16T01:10:28.177321+00:00",
+  "updated_at": "2026-09-16T04:59:12.291087+00:00",
   "continuity_checkpoint": "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md",
-  "continuity_checkpoint_sha256": "52289af45d78d3e3b7b59ebfd6ec263461daa79c418b642f695c39577905b04a",
+  "continuity_checkpoint_sha256": "95f6951c64c12d2fa1d702c7417764f214d65709652ef0a6c54dbae1d12b60b7",
   "continuity_checkpoint_source_head": "1b821bb4a8666f714084eabbd14c4954e774940b",
   "mvf_resident_source_corpus_digest": "160ffe8594964ca61570e18f668cb87f29346b8dfb247328b24be6791ff0c00b"
 }

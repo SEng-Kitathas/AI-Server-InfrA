@@ -349,3 +349,17 @@ Second Receiver outage exposed live/global-test isolation weakness. Clone now is
 
 ## 2026-09-15 GLOBAL WAR CLOSURE HANDOFF
 Parent Global Interaction War is closed in clone. Final whole corpus rc0 under OS-owned task, Receiver22968/ngrok19772 stable, 0/121 TCP liveness loss. Promotion transaction/rollback, authoritative project handoff, Windows/Defender telemetry, continuity enforcement and execution isolation are embodied in clone. Live promotion NOT DONE. Next separate campaign: HUD cockpit/instrument-panel war.
+
+
+## 2026-09-15 HUD/SCAR CONVERGENCE HANDOFF
+Active campaign: HUD cockpit war. Multi-source scar intelligence, healthy-duty context, contextual scar route and cognitive diagnostic inspector are embodied in clone. Uploaded RAHL consolidated ledger identity/hash is registered but full bytes are NOT materialized/ingested; source deficit remains open. Alternate-port diagnostic smoke succeeded with live Receiver22968/ngrok19772 unchanged. Final continuity manifest/gate + exact-tree whole corpus remain before commit.
+
+
+## GLOBAL SCAR LEDGER MATERIALIZED
+RAHL consolidated ledger is now exact-byte materialized in clone scar_sources at 20318 bytes / sha256 7643b0...8696 and collected into derived index with zero deficits. It remains GATHERING/NONE_FROM_COMPILATION; no authority promotion. HUD cockpit campaign final exact-tree corpus/commit remains next.
+
+## FINAL PRE-LIVE AUDIT DELTA — 2026-09-16
+Surface audit complete excluding Daemon speech/inference per operator. Browser Bridge dropped embodiment repaired: managed boot + OOP supervisor + runtime preflight + explicit BLOCKED/ARMED gate + cockpit integration. HUD annunciation/HA budget complete; global scar source materialized. Final exact-tree Global War requalification ACTIVE before commit/live replacement.
+
+## FINAL QUALIFICATION / PUBLICATION HANDOFF
+Exact final tree global rc0, 125/125 TCP up, live identities unchanged. Candidate QUALIFIED FOR LIVE REPLACEMENT with SYSTEM-registration promotion prerequisite. GitHub target is SEng-Kitathas/AI-Server-InfrA; final evidence reports/inclusion manifest exist. GitHub publication must preserve dirty working publication repo content and independently read back remote HEAD.

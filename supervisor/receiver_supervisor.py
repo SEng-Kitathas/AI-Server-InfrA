@@ -227,6 +227,7 @@ def main() -> int:
     parser.add_argument("--expected-schema-family",default="11.")
     parser.add_argument("--expected-daemon-id")
     parser.add_argument("--expected-project-id")
+    parser.add_argument("--expected-health-service")
     parser.add_argument("--failure-state-file")
     parser.add_argument("--receipt-action",default="TRIGGER_CANONICAL_RECEIVER_TASK")
     args=parser.parse_args()
@@ -238,6 +239,7 @@ def main() -> int:
         expected_identity={};
         if args.expected_daemon_id:expected_identity['daemon_id']=args.expected_daemon_id
         if args.expected_project_id:expected_identity['project_id']=args.expected_project_id
+        if args.expected_health_service:expected_identity['service']=args.expected_health_service
         return supervise_loop(health_url=args.health_url,task_name=args.task_name,receipt_path=Path(args.receipt),interval_seconds=max(1.0,args.interval_seconds),recovery_seconds=args.recovery_seconds,stop_path=Path(args.stop_file) if args.stop_file else None,max_restarts=max(1,args.max_restarts),restart_window_seconds=max(10.0,args.restart_window_seconds),hold_max_age_seconds=max(60.0,args.hold_max_age_seconds),expected_schema_family=args.expected_schema_family,expected_identity=expected_identity or None,failure_state_path=Path(args.failure_state_file) if args.failure_state_file else None,receipt_action=args.receipt_action)
     receipt=supervise_once(health_url=args.health_url,task_name=args.task_name,receipt_path=Path(args.receipt),recovery_seconds=args.recovery_seconds)
     print(json.dumps(receipt,sort_keys=True))

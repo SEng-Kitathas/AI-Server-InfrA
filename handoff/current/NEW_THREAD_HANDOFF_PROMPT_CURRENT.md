@@ -318,3 +318,17 @@ Never run the full/global corpus through live synchronous `execution.run`. Use O
 
 ## 2026-09-15 POST-GLOBAL-WAR REHYDRATE
 Treat Global Interaction War as closed/qualified in clone, not live-promoted. Preserve rule: global/long suites are OS-owned, never synchronous live execution.run. Current live at closure: Receiver22968, ngrok19772, HUD25508. Next campaign is HUD cockpit/instrument-panel HEaT; live promotion remains a separate safe-window operation; inference deferred.
+
+
+## HUD/SCAR REHYDRATE DELTA
+On rehydrate, treat RAHL consolidated scar ledger as registered gathering source with pending materialization, not as ingested canon. Scar engine is multi-source/provenance-safe and routes healthy-duty context. HUD cognitive diagnostics must preserve FACT/INFERRED/UNKNOWN separation, currentness boundary, continuity/scar lineage and evidence discriminators. Final corpus/commit may still be pending depending on latest checkpoint.
+
+
+## SCAR SOURCE REHYDRATE UPDATE
+The RAHL consolidated scar ledger is no longer pending: clone scar_sources contains exact verified bytes and Daemon-derived collection includes it. Preserve its evidence ceiling and provenance classes; materialized/collected does not mean canon or re-earned. HUD cockpit campaign may still require final corpus/commit depending on latest checkpoint.
+
+## FINAL PRE-LIVE REHYDRATE
+Do not reopen old `HUD deferred`, `HUD-ANNUNCIATION OPEN`, or `scar materialization OPEN` states: latest audit supersedes them. Browser Bridge is managed always-started infrastructure but browser actuation is explicit BLOCKED/ARMED. Final candidate must still close GLOBAL-WAR-FINAL-002 before live promotion. Speech/inference excluded by operator.
+
+## FINAL PUBLICATION REHYDRATE
+Candidate has earned final clone qualification. Do not rerun development unless integration changes product bytes. Next active item is GITHUB-PUBLICATION-FINAL-001 to AI-Server-InfrA, preserving existing publication-worktree changes, then safe-window live replacement with elevated SYSTEM task registration/readback.

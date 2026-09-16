@@ -32,10 +32,11 @@ def _campaign_labels(handoff:Path)->dict[str,str]:
     for name in ('COMMANDERS_INTENT_CURRENT.md','LIVE_SHADOW.md','CURRENT_STATE.md'):
         p=handoff/name
         if not p.exists():continue
-        txt=_text(p)
+        txt=_text(p);matches=[]
         for pat in patterns:
-            m=re.search(pat,txt,re.I)
-            if m:out[name]=m.group(1).strip(' .*`');break
+            matches.extend((m.start(),m.group(1).strip(' .*`')) for m in re.finditer(pat,txt,re.I))
+        if matches:
+            matches.sort(key=lambda x:x[0]);out[name]=matches[-1][1]
     return out
 
 def plan_surface_use(handoff_dir:Path,context:str,*,mode:str='discussion',limit:int=5)->dict[str,Any]:

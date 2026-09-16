@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import json
 import base64
 import os
+import shutil
 import time
 import uuid
 from pathlib import Path
@@ -46,6 +48,36 @@ app = Flask(__name__)
 PW = None
 SESSIONS: dict[str, BrowserSession] = {}
 STARTED_AT = time.time()
+GATE_FILE = Path(os.environ.get("PCMMAD_BROWSER_BRIDGE_GATE_FILE", str(Path(os.environ.get("LOCALAPPDATA", str(Path.cwd()))) / "PCMMAD" / "browser_bridge_gate.json")))
+
+def _gate_state() -> dict[str, object]:
+    try:
+        if not GATE_FILE.exists():
+            return {"state":"BLOCKED","armed":False,"path":str(GATE_FILE),"reason":"gate_file_absent"}
+        obj=json.loads(GATE_FILE.read_text(encoding="utf-8-sig"))
+        armed=str(obj.get("state") or "").upper()=="ARMED"
+        return {"state":"ARMED" if armed else "BLOCKED","armed":armed,"path":str(GATE_FILE),"changed_at":obj.get("changed_at"),"provenance":obj.get("provenance")}
+    except Exception as exc:
+        return {"state":"BLOCKED","armed":False,"path":str(GATE_FILE),"reason":f"invalid_gate:{type(exc).__name__}"}
+
+def _require_armed():
+    gate=_gate_state()
+    if not gate["armed"]:
+        return _err("BROWSER_BRIDGE_BLOCKED","Browser bridge actuation is blocked. Use ARM_BROWSER_BRIDGE.cmd to arm explicitly.",423,gate=gate)
+    return None
+
+ACTUATION_PATHS={
+    "/session/attach","/session/start","/pages/select","/pages/new","/pages/close",
+    "/navigate","/fill","/click","/press","/evaluate","/screenshot",
+}
+
+@app.before_request
+def _browser_security_gate():
+    if request.method.upper()=="POST" and request.path in ACTUATION_PATHS:
+        blocked=_require_armed()
+        if blocked is not None:return blocked
+    return None
+
 SCREENSHOT_DIR = Path(
     os.environ.get("PCMMAD_BROWSER_SCREENSHOT_DIR", str(Path.cwd() / "browser_screenshots"))
 )
@@ -130,8 +162,10 @@ def _new_session(spec: NewSessionSpec) -> str:
 
 def _browser_channel(name: str | None) -> str | None:
     if not name:
+        name=os.environ.get("PCMMAD_BROWSER_DEFAULT_CHANNEL")
+    if not name:
         return None
-    normalized_name = name.lower().strip()
+    normalized_name = str(name).lower().strip()
     if normalized_name in {"edge", "msedge", "microsoft-edge"}:
         return "msedge"
     if normalized_name in {"chrome", "google-chrome"}:
@@ -139,13 +173,39 @@ def _browser_channel(name: str | None) -> str | None:
     return None
 
 
+def _browser_channel_available(channel: str | None) -> bool:
+    if not channel:return False
+    if channel=="msedge":
+        candidates=[
+            Path(os.environ.get("PROGRAMFILES(X86)",""))/"Microsoft"/"Edge"/"Application"/"msedge.exe",
+            Path(os.environ.get("PROGRAMFILES", ""))/"Microsoft"/"Edge"/"Application"/"msedge.exe",
+            Path(os.environ.get("LOCALAPPDATA", ""))/"Microsoft"/"Edge"/"Application"/"msedge.exe",
+        ]
+        return bool(shutil.which("msedge") or any(x.is_file() for x in candidates if str(x)))
+    if channel=="chrome":
+        candidates=[
+            Path(os.environ.get("PROGRAMFILES", ""))/"Google"/"Chrome"/"Application"/"chrome.exe",
+            Path(os.environ.get("PROGRAMFILES(X86)",""))/"Google"/"Chrome"/"Application"/"chrome.exe",
+            Path(os.environ.get("LOCALAPPDATA", ""))/"Google"/"Chrome"/"Application"/"chrome.exe",
+        ]
+        return bool(shutil.which("chrome") or any(x.is_file() for x in candidates if str(x)))
+    return False
+
+
 @app.get("/health")
 def health() -> ResponseReturnValue:
+    gate=_gate_state();channel=_browser_channel(None);channel_available=_browser_channel_available(channel)
     return _ok(
         service="pcmmad_browser_bridge",
         uptime_seconds=round(time.time() - STARTED_AT, 3),
         sessions=len(SESSIONS),
         playwright=PW is not None,
+        gate_state=gate["state"],
+        gate_reason=gate.get("reason"),
+        armed=gate["armed"],
+        browser_channel_available=channel_available,
+        ready_for_browser_automation=bool(PW is not None and gate["armed"] and channel_available),
+        default_channel=channel,
         pid=os.getpid(),
         screenshot_dir=str(SCREENSHOT_DIR),
     )

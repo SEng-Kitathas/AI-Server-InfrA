@@ -1,4 +1,4 @@
-const state={tools:[],filtered:[],category:'all',selected:null,status:null,pendingApproval:null,lastDispatch:null,hudToken:null,availabilityChecks:{}};
+const state={tools:[],filtered:[],category:'all',selected:null,status:null,pendingApproval:null,lastDispatch:null,hudToken:null,availabilityChecks:{},cockpitAnnunciation:null,cockpitTrends:{latency:[],failures:[]},lastDiagnostic:null};
 const $=id=>document.getElementById(id);
 const now=()=>new Date().toLocaleTimeString();
 
@@ -22,22 +22,222 @@ function fmtTime(ts){if(!ts)return '';return new Date(ts*1000).toLocaleTimeStrin
 function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function uid(){return `ui-${Date.now()}-${Math.random().toString(16).slice(2,8)}`;}
 
-function renderCockpitStatus(data){
-  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
+function deriveCockpitPicture(data,nowEpochSeconds=Date.now()/1000){
+  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},n=data.ngrok||{},d=data.daemon||{},ready=data.readiness||{};
+  const checked=Number(data.checked_at); const age=Number.isFinite(checked)?Math.max(0,nowEpochSeconds-checked):Infinity;
+  const stale=!Number.isFinite(checked)||age>15||data.error_code==='HUD_FETCH_FAILED';
   const coreReady=ready.core_ready!==undefined?!!ready.core_ready:!!(h.ok&&r.ok&&j.ok);
-  const optionalDegraded=Array.isArray(ready.optional_degraded)?ready.optional_degraded:(!b.ok?['browser_bridge']:[]);
-  const assurance=$('cockpitAssurance');
-  if(assurance){
-    assurance.textContent=coreReady?(optionalDegraded.length?'Core ready; optional degradation isolated':'Core ready; required planes nominal'):'Required control-plane evidence is degraded';
+  const optionalDegraded=Array.isArray(ready.optional_degraded)?[...ready.optional_degraded]:(!b.ok?['browser_bridge']:[]);
+  if(b.ok&&b.armed&&!b.ready_for_browser_automation&&!optionalDegraded.includes('browser_armed_not_ready'))optionalDegraded.push('browser_armed_not_ready');
+  let level='normal',label='NORMAL',faultTitle='Required planes nominal',chain='HUD → Receiver → Journal evidence chain is available.',cue='No operator action required.';
+  if(stale){
+    level='warning';label='WARNING';faultTitle='Status evidence stale or unavailable';
+    chain=`Last trustworthy cockpit sample is ${Number.isFinite(age)?Math.round(age)+'s old':'unavailable'}; embedded component state is not sufficient for readiness.`;
+    cue='Refresh status and re-establish current evidence before mutation or recovery decisions.';
+  }else if(!coreReady){
+    level='warning';label='WARNING';
+    if(!r.ok){
+      faultTitle='Receiver unavailable';
+      chain=`HUD ${h.ok?'ONLINE':'DEGRADED'} → transport ${n.ok?'ONLINE':'UNKNOWN/DOWN'} → Receiver DOWN${r.http_status?` (HTTP ${r.http_status})`:''} → native dispatch/readback unavailable.`;
+      cue='Inspect supervisor/restart state and correlated Windows / Defender evidence before mutation.';
+    }else if(!j.ok){
+      faultTitle='Forensic journal degraded';
+      chain=`Receiver ONLINE → journal ${j.ok?'READY':'DEGRADED'} → durable consequence/readback evidence is incomplete.`;
+      cue='Preserve runtime state; inspect journal load/write evidence before relying on dispatch history.';
+    }else{
+      faultTitle='Required control-plane evidence degraded';chain='One or more required planes are non-current; isolate the failed plane before acting.';cue='Use the failing plane evidence and recovery state; do not infer readiness from surviving components.';
+    }
+  }else if(optionalDegraded.length){
+    level='caution';label='CAUTION';faultTitle='Core ready; optional degradation isolated';chain=`Required planes nominal → optional ${optionalDegraded.join(', ')} degraded.`;cue='Continue core work; inspect optional plane only if the current task depends on it.';
   }
+  const evidence=data.failure_evidence;
+  if(evidence?.security_signal_present){cue+=evidence.causation_established?' Security evidence is causally linked.':' Security signal present; causation is NOT established.';}
+  return {h,r,b,j,n,d,ready,age,stale,coreReady,optionalDegraded,level,label,faultTitle,chain,cue};
+}
+
+function deriveDiagnosticPacket(data,picture=deriveCockpitPicture(data)){
+  const facts=[],inferences=[],unknowns=[],informedBy=[],nextEvidence=[];
+  const addFact=(label,text,source)=>facts.push({truth:'FACT',label,text,source});
+  const addInference=(truth,text,basis)=>inferences.push({truth,label:truth==='INFERRED'?'Triangulation':'Inference guard',text,basis});
+  const addUnknown=(text,discriminator)=>unknowns.push({truth:'UNKNOWN',text,discriminator});
+  const addSource=(name,detail)=>{if(name&&!informedBy.some(x=>x.name===name))informedBy.push({name,detail:detail||''});};
+  const h=picture.h||{},r=picture.r||{},n=picture.n||{},d=picture.d||{},j=picture.j||{},b=picture.b||{};
+  addSource('HUD /api/status','cockpit aggregation/currentness');
+  addFact('Currentness',picture.stale?'STALE / UNTRUSTED':`${Math.round(picture.age)}s old`,'HUD /api/status');
+  addFact('HUD',h.ok?'ONLINE':'DEGRADED','HUD self-status');
+  addFact('Transport',n.configured?(n.ok?`${n.tunnel_count||1} tunnel(s) online`:'DOWN'):'STANDBY','ngrok /api/tunnels');
+  addFact('Receiver',r.ok?'ONLINE':`DOWN${r.http_status?` · HTTP ${r.http_status}`:''}`,'Receiver health probe');
+  addFact('Journal',j.ok?'DURABLE':'DEGRADED','HUD journal state');
+  addFact('Daemon',d.configured?(d.ok?'ONLINE':'DEGRADED'):'STANDBY','Daemon /status');
+  addFact('Browser',!b.ok?'OPTIONAL / DEGRADED':(b.armed?(b.ready_for_browser_automation?'ONLINE · ARMED':'ONLINE · ARMED / NOT READY'):'ONLINE · BLOCKED'),'Browser bridge health + security gate');
+  const ha=data.supervisor_budgets||{};const haSummary=ha.summary||{};addFact('HA budget',haSummary.status?`${haSummary.status}${haSummary.remaining===null||haSummary.remaining===undefined?'':` · ${haSummary.remaining}/${haSummary.max_restarts} remaining`}`:'UNKNOWN','Supervisor failure/hold/receipt state');
+  if(n.configured)addSource('ngrok /api/tunnels','transport/tunnel evidence');
+  addSource('Receiver health probe','body/control-plane evidence');
+  addSource('HUD journal','dispatch/consequence evidence');
+  if(d.configured)addSource('Daemon /status','resident cognition/currentness');
+  if(b.configured!==false)addSource('Browser bridge /health','optional browser evidence');
+
+  if(picture.stale){
+    addInference('INFERENCE BLOCKED','Causal triangulation is suspended because the status sample is stale or unavailable.','Currentness boundary');
+    addUnknown('Current component state','Refresh /api/status and compare source timestamps before causal reasoning.');
+    nextEvidence.push('Refresh HUD /api/status and confirm checked_at currentness.');
+  }else{
+    if(!r.ok&&n.ok){
+      addInference('INFERRED','Transport is alive while Receiver is unavailable; the observed break is downstream of tunnel establishment and upstream of native dispatch/readback.','Transport ONLINE + Receiver DOWN');
+      addUnknown('Receiver failure mechanism','Inspect exact Receiver process identity, scheduled task/supervisor state, maintenance hold and restart budget.');
+      nextEvidence.push('Inspect Receiver process/task/supervisor identity and restart budget.');
+      nextEvidence.push('Query windows.failure_evidence.inspect around the failure window.');
+    }else if(!r.ok&&!n.ok){
+      addInference('INFERRED','Transport and Receiver are both unavailable; current observations do not establish which failed first.','Transport DOWN + Receiver DOWN');
+      addUnknown('Failure ordering','Compare ngrok process/API timestamps with Receiver process/task timestamps.');
+      nextEvidence.push('Inspect ngrok and Receiver process creation identities and Windows event timestamps.');
+    }
+    if(r.ok&&!j.ok){
+      addInference('INFERRED','Execution/control may be live while durable consequence evidence is incomplete.','Receiver ONLINE + Journal DEGRADED');
+      addUnknown('Journal degradation mechanism','Inspect journal load/write error and storage/permission state.');
+      nextEvidence.push('Inspect journal error/readback before trusting dispatch history.');
+    }
+    if(picture.coreReady&&picture.optionalDegraded.length){
+      addInference('INFERRED','Required core remains ready; optional degradation only matters if the active task depends on that plane.','Core ready + optional degraded');
+      nextEvidence.push('Inspect the optional plane only if current work depends on it.');
+    }
+    if(b.ok&&b.armed&&!b.ready_for_browser_automation){
+      addUnknown('Browser armed but automation not ready','Verify Playwright package/runtime and configured browser channel before browser actuation.');
+      nextEvidence.push('Check browser bridge Playwright readiness and default browser channel.');
+    }
+    if(d.configured&&!d.ok&&r.ok){
+      addInference('INFERRED','Resident intelligence is degraded independently of the Receiver body.','Receiver ONLINE + Daemon DEGRADED');
+      addUnknown('Daemon failure mechanism','Inspect Daemon health, host lock, plane audit and last cycle error.');
+      nextEvidence.push('Inspect Daemon /health, /status, host lock and plane audit.');
+    }
+  }
+
+  const evidence=data.failure_evidence;
+  if(evidence?.security_signal_present){
+    addFact('Security telemetry','Security signal present','Windows / Defender failure evidence');addSource('Windows / Defender failure evidence','security telemetry correlation');
+    if(evidence.causation_established)addInference('INFERRED','Security evidence is marked causally linked by the resident evidence packet.','failure_evidence.causation_established=true');
+    else{addInference('INFERENCE BLOCKED','A security signal exists, but causation is not established. Do not promote it to root cause.','SECURITY PRODUCT EVENT != CAUSE');addUnknown('Security causal role','Correlate event time/resource/process identity with the failing process transition.');}
+  }
+
+  const daemonStatus=d.status||{};
+  const surfaces=daemonStatus?.continuity_enforcement?.surfacing_plan?.selected||[];
+  for(const item of surfaces.slice(0,8))addSource(`continuity:${item.surface}`,item.reason||item.authority||'surfaced by resident');
+  const scars=(data.scar_intelligence?.applicable||[]).slice(0,5);
+  for(const scar of scars){if(scar.best_occurrence?.source)addSource(`scar:${scar.best_occurrence.source}`,scar.reason||'applicable scar occurrence');}
+  const haWorkloads=data.supervisor_budgets?.workloads||{};
+  for(const [key,row] of Object.entries(haWorkloads)){
+    if(row.state_status&&row.state_status!=='MISSING')addSource(`ha:${key}`,`${row.state_status} · ${row.restart_events}/${row.max_restarts} restarts in window`);
+    if(row.hold?.hold){addUnknown(`${row.name} maintenance hold active`,row.hold.reason||'Inspect supervisor maintenance-hold record.');nextEvidence.push(`Inspect ${row.name} maintenance-hold expiry/reason before expecting automatic recovery.`);}
+    if(row.state_status==='CORRUPT_HOLD'){addUnknown(`${row.name} restart budget corrupt-hold`,'Inspect and repair supervisor failure-state provenance; do not reset budget silently.');nextEvidence.push(`Inspect ${row.name} supervisor failure state before restart.`);}
+    if(Number(row.remaining)===0&&row.state_status!=='MISSING'&&row.state_status!=='CORRUPT_HOLD'){addUnknown(`${row.name} restart budget exhausted`,'Inspect crash-loop evidence before manual restart or promotion.');}
+  }
+  const scarDeficits=(data.scar_intelligence?.source_deficits||[]).slice(0,8);
+  for(const deficit of scarDeficits){addUnknown('Scar-source coverage incomplete',`${deficit.source_id||'registered source'} · ${deficit.status||'unknown status'}`);addSource(`scar-source:${deficit.source_id||'unknown'}`,deficit.status||'source deficit');}
+  if(scarDeficits.length)nextEvidence.push('Materialize/verify registered scar sources before claiming complete scar coverage.');
+
+  const topology={
+    nodes:[
+      {id:'hud',label:'HUD',state:picture.stale?'unknown':(h.ok?'good':'bad')},
+      {id:'transport',label:'TRANSPORT',state:picture.stale||!n.configured?'unknown':(n.ok?'good':'bad')},
+      {id:'receiver',label:'RECEIVER',state:picture.stale?'unknown':(r.ok?'good':'bad')},
+      {id:'daemon',label:'DAEMON',state:picture.stale||!d.configured?'unknown':(d.ok?'good':'bad')},
+      {id:'journal',label:'JOURNAL',state:picture.stale?'unknown':(j.ok?'good':'bad')},
+      {id:'browser',label:'BROWSER',state:picture.stale?'unknown':(b.ok?'good':'degraded')},
+    ],
+    edges:[['hud','transport'],['transport','receiver'],['receiver','daemon'],['daemon','journal'],['journal','browser']],
+  };
+  return {schema:'pcmmad.hud-diagnostic.v1',severity:picture.label,title:picture.faultTitle,summary:picture.chain,currentness:{stale:picture.stale,age_seconds:picture.age},facts,inferences,unknowns,informedBy,scars,nextEvidence,topology,mutation_authority:false};
+}
+
+function renderDiagnosticList(id,rows,emptyText){
+  const root=$(id);if(!root)return;root.innerHTML='';
+  if(!rows?.length){root.innerHTML=`<div class="diagnostic-empty">${escapeHtml(emptyText)}</div>`;return;}
+  for(const row of rows){const div=document.createElement('div');div.className='diagnostic-row';const truth=row.truth?`<span class="truth-tag ${row.truth.toLowerCase().replace(/\s+/g,'-')}">${escapeHtml(row.truth)}</span>`:'';const title=escapeHtml(row.label||row.text||'');const text=row.label&&row.text?`<div>${escapeHtml(row.text)}</div>`:'';const foot=row.source||row.basis||row.discriminator?`<small>${escapeHtml(row.source||row.basis||row.discriminator)}</small>`:'';div.innerHTML=`${truth}<strong>${title}</strong>${text}${foot}`;root.appendChild(div);}
+}
+
+function renderDiagnosticTopology(packet){
+  const root=$('diagnosticTopology');if(!root)return;root.innerHTML='';
+  const map=document.createElement('div');map.className='diagnostic-map';
+  packet.topology.nodes.forEach((node,i)=>{const n=document.createElement('span');n.className=`diagnostic-node ${node.state}`;n.textContent=node.label;map.appendChild(n);if(i<packet.topology.nodes.length-1){const edge=document.createElement('span');edge.className='diagnostic-edge';edge.textContent='→';map.appendChild(edge);}});root.appendChild(map);
+}
+
+async function toggleBrowserGate(){
+  const armed=!!state.status?.browser_bridge?.armed;const desired=armed?'BLOCKED':'ARMED';const result=await api('/api/browser/gate',{method:'POST',body:JSON.stringify({state:desired}),timeoutMs:5000});
+  if(!result.ok){showToast(`Browser gate ${desired} failed: ${result.error_code||result.message||'unknown error'}`,false);return;}
+  showToast(`Browser actuation ${desired}`);await refreshStatus();
+}
+
+function openDiagnostic(){
+  const data=state.status||{ok:false,error_code:'HUD_FETCH_FAILED'};const picture=deriveCockpitPicture(data);const packet=deriveDiagnosticPacket(data,picture);state.lastDiagnostic=packet;
+  $('diagnosticTitle').textContent=packet.title;$('diagnosticSeverity').textContent=packet.severity;$('diagnosticSeverity').className=`diagnostic-severity ${packet.severity.toLowerCase()}`;$('diagnosticSummary').textContent=packet.summary;renderDiagnosticTopology(packet);
+  renderDiagnosticList('diagnosticFacts',packet.facts,'No direct facts available.');renderDiagnosticList('diagnosticInferences',packet.inferences,'No inference needed.');renderDiagnosticList('diagnosticUnknowns',packet.unknowns,'No unresolved discriminator identified.');
+  const sources=$('diagnosticSources');sources.innerHTML='';packet.informedBy.forEach(x=>{const chip=document.createElement('span');chip.className='diagnostic-chip';chip.textContent=x.name;chip.title=x.detail||x.name;sources.appendChild(chip);});
+  renderDiagnosticList('diagnosticScars',packet.scars.map(x=>({truth:'SCAR',label:x.expression,text:x.reason||'',source:x.best_occurrence?.source||''})),'No applicable routed scar.');renderDiagnosticList('diagnosticNext',packet.nextEvidence.map(x=>({truth:'NEXT',text:x})),'No additional evidence route required.');$('diagnosticModal').classList.remove('hidden');
+}
+
+function closeDiagnostic(){$('diagnosticModal').classList.add('hidden');}
+
+function advanceAnnunciation(previous,picture,nowEpochSeconds=Date.now()/1000){
+  const identity=`${picture.level}|${picture.faultTitle}`;
+  if(!previous)return {identity,level:picture.level,faultTitle:picture.faultTitle,since:nowEpochSeconds,changed:true,cleared:null};
+  if(previous.identity===identity)return {...previous,changed:false};
+  const cleared=(previous.level==='warning'||previous.level==='caution')&&picture.level==='normal'?{level:previous.level,faultTitle:previous.faultTitle,at:nowEpochSeconds}:null;
+  return {identity,level:picture.level,faultTitle:picture.faultTitle,since:nowEpochSeconds,changed:true,cleared};
+}
+
+function trendDirection(values,lowerIsBetter=true){
+  if(!Array.isArray(values)||values.length<3)return '→';
+  const recent=values.slice(-3); const delta=recent[2]-recent[0];
+  if(Math.abs(delta)<0.5)return '→';
+  const improving=lowerIsBetter?delta<0:delta>0; return improving?'↓':'↑';
+}
+
+function pushTrend(values,value,max=12){
+  if(Number.isFinite(Number(value)))values.push(Number(value));
+  while(values.length>max)values.shift(); return values;
+}
+
+function setSynopticNode(id,ok,label,degraded=false,unknown=false){
+  const node=$(id); if(!node)return;
+  node.className=`synoptic-node ${unknown?'unknown':(ok?(degraded?'degraded':'good'):'bad')}`;
+  const value=node.querySelector('strong'); if(value)value.textContent=label;
+}
+
+function renderCockpitStatus(data){
+  const picture=deriveCockpitPicture(data); const {h,r,b,j,n,d,coreReady,optionalDegraded,level,label,faultTitle,chain,cue,stale}=picture;
+  const ann=advanceAnnunciation(state.cockpitAnnunciation,picture);state.cockpitAnnunciation=ann;
+  const assurance=$('cockpitAssurance'),modeDetail=$('cockpitModeDetail'),master=$('masterAnnunciator'),masterLabel=$('masterAnnunciatorLabel');
+  if(master)master.className=`master-annunciator ${level}`;
+  if(masterLabel)masterLabel.textContent=label;
+  const masterMeta=$('masterAnnunciatorMeta');if(masterMeta){const age=Math.max(0,Math.round(Date.now()/1000-ann.since));masterMeta.textContent=ann.cleared?`cleared ${ann.cleared.level.toUpperCase()} · monitoring`:`${ann.changed?'new':'active'} · ${age}s`;}
+  if(assurance)assurance.textContent=stale?'STATUS STALE · CURRENTNESS REQUIRED':coreReady?(optionalDegraded.length?'CORE READY · OPTIONAL DEGRADED':'CORE READY · REQUIRED PLANES NOMINAL'):'CORE DEGRADED · REQUIRED EVIDENCE LOST';
+  if(modeDetail)modeDetail.textContent=stale?'do not trust embedded green states':coreReady?(optionalDegraded.length?`${optionalDegraded.length} optional plane${optionalDegraded.length===1?'':'s'} isolated`:'machine-truth path available'):'recovery / fault isolation mode';
   const optional=$('cockpitOptional');if(optional)optional.textContent=optionalDegraded.length?`${optionalDegraded.length} DEGRADED`:'NOMINAL';
-  const sessions=data.browser_sessions||[];
-  const sessionSummary=$('cockpitSessionSummary');
-  if(sessionSummary){
-    sessionSummary.innerHTML=sessions.length
-      ? `<strong>${sessions.length}</strong> active session${sessions.length===1?'':'s'}<br>${sessions.slice(0,3).map(x=>escapeHtml(x.session_id||x.id||'session')).join('<br>')}`
-      : `${b.ok?'Bridge online; no active sessions.':'Optional browser bridge unavailable.'}`;
-  }
+  setSynopticNode('synHud',!!h.ok,h.ok?'ONLINE':'DOWN',false,stale);
+  setSynopticNode('synNgrok',!!n.ok,n.ok?`${n.tunnel_count||1} TUNNEL${(n.tunnel_count||1)===1?'':'S'}`:(n.configured?'DOWN':'STANDBY'),false,!n.configured||stale);
+  setSynopticNode('synReceiver',!!r.ok,r.ok?'ONLINE':'DOWN',false,stale);
+  setSynopticNode('synDaemon',!!d.ok,d.configured?(d.ok?'ONLINE':'DEGRADED'):'STANDBY',d.configured&&!d.ok,!d.configured||stale);
+  setSynopticNode('synJournal',!!j.ok,j.ok?'DURABLE':'DEGRADED',!j.ok,stale);
+  const browserLabel=!b.ok?'OPTIONAL':(b.armed?(b.ready_for_browser_automation?'ARMED':'ARMED / NOT READY'):'BLOCKED');
+  setSynopticNode('synBrowser',!!b.ok,browserLabel,!!(b.ok&&b.armed&&!b.ready_for_browser_automation),!b.ok&&stale);
+  const synBrowser=$('synBrowser');if(synBrowser&&b.ok&&!b.armed)synBrowser.className='synoptic-node blocked diagnostic-trigger';
+  const ft=$('cockpitFaultTitle');if(ft)ft.textContent=faultTitle; const cc=$('cockpitCausalChain');if(cc)cc.textContent=chain; const rc=$('cockpitRecoveryCue');if(rc)rc.textContent=cue;
+  const completed=(data.events||[]).filter(e=>e.kind==='dispatch_completed');const failureCount=completed.filter(e=>!e.ok).length;
+  pushTrend(state.cockpitTrends.latency,data.latency_ms);pushTrend(state.cockpitTrends.failures,failureCount);
+  const tsa=$('trendStatusAge');if(tsa)tsa.textContent=Number.isFinite(picture.age)?`${Math.round(picture.age)}s`:'--';
+  const tl=$('trendLatency');if(tl)tl.textContent=Number.isFinite(Number(data.latency_ms))?`${Math.round(Number(data.latency_ms))}ms`:'--';
+  const tld=$('trendLatencyDir');if(tld)tld.textContent=trendDirection(state.cockpitTrends.latency,true);
+  const tf=$('trendFailures');if(tf)tf.textContent=String(failureCount);const tfd=$('trendFailuresDir');if(tfd)tfd.textContent=trendDirection(state.cockpitTrends.failures,true);
+  const tt=$('trendTransport');if(tt)tt.textContent=n.ok?`${n.tunnel_count||1} UP`:(n.configured?'DOWN':'STANDBY');
+  const tb=$('trendBrowser');if(tb)tb.textContent=!b.ok?'DOWN':(b.armed?(b.ready_for_browser_automation?'ARMED':'ARMED !READY'):'BLOCKED');
+  const hb=data.supervisor_budgets?.summary||{};const thb=$('trendHaBudget');if(thb)thb.textContent=hb.status==='AVAILABLE'?`${hb.remaining}/${hb.max_restarts}`:(hb.status||'STANDBY');
+  const td=$('trendDaemon');if(td)td.textContent=d.configured?(d.ok?`${d.status?.cycle_count??'--'} CYCLES`:'DEGRADED'):'STANDBY';
+
+  const scarPacket=data.scar_intelligence||data.daemon?.scar_intelligence||data.resident?.scar_intelligence; const routed=Array.isArray(scarPacket?.applicable)?scarPacket.applicable:[];
+  const scarBox=$('cockpitScar'),scarText=$('cockpitScarText'),scarReason=$('cockpitScarReason');
+  if(scarBox&&routed.length){const scar=routed[0];scarBox.hidden=false;if(scarText)scarText.textContent=scar.expression||'Applicable scar';if(scarReason)scarReason.textContent=scar.reason||`routed from ${scar.occurrence_count||1} source occurrence${scar.occurrence_count===1?'':'s'}`;}else if(scarBox){scarBox.hidden=true;}
+  const sessions=data.browser_sessions||[];const sessionSummary=$('cockpitSessionSummary');if(sessionSummary){sessionSummary.innerHTML=!b.ok?'Optional browser bridge unavailable.':(!b.armed?`<strong>BLOCKED</strong> · bridge online · actuation disabled`:(!b.ready_for_browser_automation?`<strong>ARMED</strong> · automation runtime not ready`:(sessions.length?`<strong>${sessions.length}</strong> active session${sessions.length===1?'':'s'}<br>${sessions.slice(0,3).map(x=>escapeHtml(x.session_id||x.id||'session')).join('<br>')}`:`<strong>ARMED</strong> · automation ready · no active sessions`)));}
+  const gateState=$('browserGateState');if(gateState)gateState.textContent=b.armed?'ARMED':'BLOCKED';const gateBtn=$('browserGateToggle');if(gateBtn){gateBtn.textContent=b.armed?'BLOCK':'ARM';gateBtn.className=`gate-control ${b.armed?'armed':'blocked'}`;gateBtn.title=b.armed?'Block browser actuation immediately':'Explicitly arm browser actuation';}
 }
 
 function renderCockpitTools(){
@@ -55,7 +255,7 @@ function renderCockpitTools(){
 
 function renderStatus(data){
   state.status=data;
-  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},ready=data.readiness||{};
+  const h=data.hud||{},r=data.receiver||{},b=data.browser_bridge||{},j=data.journal||{},n=data.ngrok||{},ready=data.readiness||{};
   setLamp('hudLamp',h.ok?'good':'bad');$('hudState').textContent=h.ok?'ONLINE':'DOWN';$('hudDetail').textContent=h.ok?`${h.host}:${h.port}`:'HUD unavailable';
   setLamp('receiverLamp',r.ok?'good':'bad');$('receiverState').textContent=r.ok?'ONLINE':'DOWN';$('receiverDetail').textContent=r.ok?`${r.tool_count??'?'} live tools · HTTP ${r.http_status}`:`HTTP ${r.http_status??'?'}`;
   setLamp('bridgeLamp',b.ok?'good':'bad');$('bridgeState').textContent=b.ok?'ONLINE':'DOWN';$('bridgeDetail').textContent=b.ok?`PID ${b.detail?.pid??'?'} · ${b.detail?.sessions??0} sessions`:(b.detail?.error||'bridge unavailable');
@@ -98,7 +298,7 @@ function renderEvents(events){
   $('failureCount').textContent=String(failures.length);
   $('failures').className=failures.length?'stack':'stack empty-note';
   $('failures').innerHTML=failures.length?failures.slice(0,6).map(e=>`<div class="failure-row"><strong>${escapeHtml(e.tool_name)}</strong><div class="session-meta">${fmtTime(e.ts)} · HTTP ${e.http_status} · ${escapeHtml(e.error_code||'unspecified failure')}</div></div>`).join(''):'No HUD dispatch failures recorded.';
-  const rows=completed.slice(0,10);
+  const rows=completed.slice(0,4);
   $('recentActivity').innerHTML=rows.length?rows.map(eventRow).join(''):'<div class="empty-note">No HUD dispatches yet.</div>';
   $('activityTable').innerHTML=completed.length?completed.map(eventRow).join(''):'<div class="empty-note">No HUD dispatch history yet.</div>';
 }
@@ -264,11 +464,14 @@ function wire(){
   $('toolSearch').oninput=applyToolFilter;$('syncFormBtn').onclick=()=>{try{syncFormToJson();}catch(e){showToast(String(e),false);}};$('dispatchBtn').onclick=rawToolDispatch;$('checkAvailabilityBtn').onclick=checkSelectedAvailability;
   $('openToolExplorer').onclick=()=>activateTab('tools');$('openRawTools').onclick=()=>activateTab('tools');$('openBrowserView').onclick=()=>activateTab('browser');$('openActivityView').onclick=()=>activateTab('activity');
   $('runCockpitCommand').onclick=runCockpitCommand;$('cockpitCommand').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();runCockpitCommand();}});
+  const diagnosticIds=['masterAnnunciator','synHud','synNgrok','synReceiver','synDaemon','synJournal','synBrowser','cockpitDiagnosticBtn'];diagnosticIds.forEach(id=>{const el=$(id);if(!el)return;el.onclick=openDiagnostic;el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDiagnostic();}});});$('closeDiagnostic').onclick=closeDiagnostic;
+  $('browserGateToggle').onclick=toggleBrowserGate;
   $('uiTier').onchange=e=>setUiTier(e.target.value);
   $('rejectApproval').onclick=()=>{const name=state.pendingApproval?.tool?.name;approvalClose();showToast(`Rejected: ${name||'action'}`,false);};
   $('confirmApproval').onclick=()=>{const p=state.pendingApproval;if(!p)return;const cb=p.onApproved;cb();};
   window.addEventListener('keydown',e=>{
     if(e.key==='Escape'&&!$('approvalModal').classList.contains('hidden')){$('rejectApproval').click();return;}
+    if(e.key==='Escape'&&!$('diagnosticModal').classList.contains('hidden')){closeDiagnostic();return;}
     const target=e.target;const editing=target&&(['INPUT','TEXTAREA','SELECT'].includes(target.tagName)||target.isContentEditable);
     if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();focusCockpitCommand();return;}
     if(e.altKey&&['1','2','3','4'].includes(e.key)){e.preventDefault();activateTab(['ops','browser','activity','tools'][Number(e.key)-1]);return;}

@@ -764,3 +764,38 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 
 ## FINAL COMMIT-TREE GATE
 Exact commit tree entire corpus PASS: rc0 / 62.2664s / Receiver22968 unchanged / ngrok19772 unchanged / 120 of 120 TCP samples up.
+
+
+## HUD COCKPIT CURRENT STATE DELTA — 2026-09-15
+Active parent campaign: HUD COCKPIT / INSTRUMENT-PANEL WAR. Clone now embodies the first cockpit-grade information architecture tranche: primary annunciation/currentness, synoptic topology, causal/recovery picture, scar explanation, transport/Daemon optional evidence, compressed side instruments and operating-law strip. Live HUD remains unmodified.
+
+
+## HUD COGNITIVE COCKPIT / SCAR INTELLIGENCE CURRENT — 2026-09-15
+Active parent campaign remains HUD COCKPIT / INSTRUMENT-PANEL WAR. Clone now includes multi-source provenance-safe scar intelligence, healthy-duty preventative scar routing, contextual Daemon scar routing, cognitive diagnostic expansion with truth layers/cartography/lineage/discriminators, and scar-source coverage deficits. Uploaded global ledger identity is registered but bytes remain pending materialization; therefore global scar coverage is explicitly incomplete rather than silently treated as complete. Live HUD/Daemon promotion remains NOT DONE.
+
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN
+
+
+## MATERIALIZED GLOBAL SCAR CORPUS STATE — 2026-09-15
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN. Global consolidated scar ledger is now exact-byte materialized and collected into the derived multi-source scar index with no source deficit. Compilation remains non-authoritative by its own evidence ceiling. Cognitive cockpit + contextual scar routing + diagnostic expansion remain clone-only; live HUD/Daemon promotion NOT DONE.
+
+Active parent campaign: HUD COCKPIT WAR CAMPAIGN
+
+## FINAL PRE-LIVE AUDIT STATE — 2026-09-16
+- HUD interaction/status UI is EMBODIED in clone; old deferred wording is superseded.
+- HUD annunciation lifecycle + trend + restart-budget instrumentation are EMBODIED/FOCUSED-QUALIFIED.
+- Global scar-source materialization is CLOSED/VERIFIED.
+- Browser Bridge is now always-started managed infrastructure with explicit BLOCKED/ARMED effect gate; live estate has NOT yet been promoted.
+- Final candidate includes browser workload/supervisor/runtime preflight + HUD HA-budget changes after prior Global War closure, therefore one final Global War requalification is ACTIVE.
+
+Active parent campaign: FINAL PRE-LIVE GLOBAL WAR CAMPAIGN
+
+## FINAL PRE-LIVE QUALIFICATION STATE — 2026-09-16
+Final clone candidate has passed the exact-tree entire corpus with zero live liveness loss and is qualified for live replacement subject to elevated SYSTEM task registration/readback during promotion. GitHub publication to AI-Server-InfrA is now an explicit final-step requirement and must include the durable research/testing/qualification record set.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## EXACT COMMIT TREE QUALIFICATION
+Final byte-level tree PASS: rc0 / 67.560s / 126 of 126 TCP samples up / live Receiver-ngrok-HUD identities unchanged.
+
+Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN

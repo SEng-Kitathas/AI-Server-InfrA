@@ -1,6 +1,5 @@
 @echo off
 setlocal
-powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0PCMMAD.ps1" -Action BrowserStop
-set "RC=%ERRORLEVEL%"
-pause
-exit /b %RC%
+set "TASK=PCMMAD_V30_BrowserBridge_SYSTEM"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$t=Get-ScheduledTask -TaskName '%TASK%' -ErrorAction SilentlyContinue; if($t){ Stop-ScheduledTask -TaskName '%TASK%' -ErrorAction SilentlyContinue; $deadline=(Get-Date).AddSeconds(15); do { Start-Sleep -Milliseconds 250; if(-not(Get-NetTCPConnection -LocalPort 4471 -State Listen -ErrorAction SilentlyContinue)){ Write-Host 'PCMMAD browser bridge managed task stopped'; exit 0 } } while((Get-Date)-lt $deadline); Write-Error 'Browser bridge listener did not stop'; exit 3 } else { $c=Get-NetTCPConnection -LocalPort 4471 -State Listen -ErrorAction SilentlyContinue; if(-not $c){ Write-Host 'No browser bridge listener found on port 4471'; exit 0 }; foreach($procId in @($c|Select-Object -ExpandProperty OwningProcess -Unique)){ $proc=Get-CimInstance Win32_Process -Filter ('ProcessId='+$procId); if([string]$proc.CommandLine -notmatch 'browser_bridge_service\.py'){ Write-Error ('Refusing to stop unrelated PID '+$procId); exit 4 }; Stop-Process -Id $procId -Force }; exit 0 }"
+exit /b %ERRORLEVEL%

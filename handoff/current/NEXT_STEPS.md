@@ -547,3 +547,42 @@ Run complete test corpus only through OS-owned temp task with result artifact an
 2. Begin separate HUD cockpit/instrument-panel war campaign: causal priority, warning/caution/advisory, mode awareness, system synoptic, trends, compression and exact evidence/action routing; no cosmetic cosplay.
 3. Keep live promotion as a distinct safe-window promotion operation with rollback/readback; do not smuggle it into HUD work.
 4. Inference/conversation remains deferred until operator reopens it.
+
+
+## SCAR + HUD ORDER
+Scar intelligence core is embodied/qualified. Continue active HUD cockpit war: use scar routing as an explanation/annunciation input where it improves operator cognition, not as another list panel. Then HEaT cockpit priority, failure causality, mode awareness, warning/caution/advisory semantics and compression.
+
+
+## HUD COCKPIT NEXT GATE
+Run whole project corpus OS-owned with live TCP liveness watcher against this exact HUD/scar tree. If green, continue hostile cockpit cases (alarm prioritization/deduplication, mode transition, failure recovery/clear, trend/restart-budget instrumentation) before campaign close/commit. Live HUD promotion remains separate.
+
+
+## HUD/SCAR CONVERGENCE GATE — 2026-09-15
+1. Refresh snapshot manifest after this continuity update and verify all required surfaces CURRENT.
+2. Run continuity handoff/rehydrate gate; no stale hashes or undeclared active work.
+3. Run exact converged whole corpus OS-owned with TCP liveness watcher; live Receiver/ngrok identities must remain stable.
+4. If green, inspect newline/diff hygiene, stage explicit allowlist excluding `.heat_runtime/` and historical synthetic helper, cached diff-check, then commit HUD/scar campaign slice.
+5. Live HUD/Daemon promotion remains a separate safe-window operation.
+6. Scar-source materialization for the uploaded consolidated ledger remains OPEN until a safe attachment-import path can preserve exact bytes/hash under project fencing.
+
+
+## FINAL HUD/SCAR CAMPAIGN GATE — 2026-09-15
+1. Refresh continuity manifest after this verified materialization update.
+2. Run continuity/handoff gate and focused scar-source/HUD diagnostics.
+3. Run final exact-tree whole corpus OS-owned with live TCP liveness watcher after materialized global ledger and hierarchical provenance parser changes.
+4. If green: cleanup temp HEaT tasks/listeners, inspect EOL/diff hygiene, stage explicit allowlist, cached diff check, commit `HUD: embody cognitive cockpit and scar intelligence`.
+5. No push/live promotion. Live HUD and Daemon promotion remain separate safe-window work.
+
+## FINAL PRE-LIVE GLOBAL WAR ORDER — 2026-09-16
+1. Treat older `HUD deferred`, `HUD-ANNUNCIATION OPEN`, and `scar materialization OPEN` text as superseded by latest surfaces/audit.
+2. Run final whole-system Global War matrix against this exact candidate, OS-owned with live TCP identity/liveness watcher. Include browser managed startup/security gate/supervisor interactions, HA-budget files, continuity/scar routing, Windows telemetry, promotion rollback, correlated workload failures and cleanup.
+3. If green: refresh all continuity surfaces/manifest, run semantic handoff gate, EOL/diff hygiene, explicit stage allowlist, cached diff check, commit final pre-live candidate.
+4. Then live replacement is a separate safe-window promotion with rollback/readback; converge Desktop restart helpers at that boundary.
+5. Daemon inference/speech remains excluded by operator.
+
+## FINAL PUBLICATION / PROMOTION ORDER — 2026-09-16
+1. Seal exact qualified clone commit including final evidence reports and publication inclusion manifest.
+2. Integrate into a clean tree based on current GitHub `AI-Server-InfrA/main`, preserving the existing dirty publication-working-tree changes rather than overwriting them.
+3. Run publication-tree verification, commit, push, independently read back GitHub remote HEAD/tree, and record publication receipt.
+4. Only after GitHub publication is current perform live replacement safe-window promotion with elevated SYSTEM registration + task/health/readback + rollback readiness.
+5. End project freeze after successful live readback; future development occurs on the embodied resident system.

@@ -31,6 +31,7 @@ class DaemonPlanePaths:
     status_timeline: Path
     status_alerts: Path
     service_lock: Path
+    scar_index: Path
 
 @dataclass(frozen=True)
 class DaemonPlaneAudit:
@@ -42,7 +43,7 @@ class DaemonPlaneAudit:
     def to_dict(self) -> dict[str,Any]: return asdict(self)
 
 def paths(root: Path) -> DaemonPlanePaths:
-    return DaemonPlanePaths(root,root/'identity'/'daemon_identity.json',root/'state'/'current.json',root/'evidence'/'evidence.sqlite',root/'biography'/'biography.sqlite',root/'runtime'/'locks'/'plane.lock',root/'runtime'/'checkpoints',root/'migrations',root/'quarantine',root/'status'/'current.json',root/'status'/'timeline.jsonl',root/'status'/'alerts.jsonl',root/'runtime'/'locks'/'service.lock')
+    return DaemonPlanePaths(root,root/'identity'/'daemon_identity.json',root/'state'/'current.json',root/'evidence'/'evidence.sqlite',root/'biography'/'biography.sqlite',root/'runtime'/'locks'/'plane.lock',root/'runtime'/'checkpoints',root/'migrations',root/'quarantine',root/'status'/'current.json',root/'status'/'timeline.jsonl',root/'status'/'alerts.jsonl',root/'runtime'/'locks'/'service.lock',root/'scars'/'index.json')
 
 def qualify_root(root: Path, *, project_root: Path | None=None) -> None:
     root=root.resolve()
@@ -126,7 +127,7 @@ def open_db(path: Path) -> sqlite3.Connection:
 
 def initialize(root: Path, *, daemon_id: str, project_id: str) -> DaemonPlanePaths:
     qualify_root(root); p=paths(root)
-    for d in [p.identity.parent,p.current_state.parent,p.evidence_db.parent,p.biography_db.parent,p.lock.parent,p.checkpoints,p.migrations,p.quarantine,p.status_current.parent]: d.mkdir(parents=True,exist_ok=True)
+    for d in [p.identity.parent,p.current_state.parent,p.evidence_db.parent,p.biography_db.parent,p.lock.parent,p.checkpoints,p.migrations,p.quarantine,p.status_current.parent,p.scar_index.parent]: d.mkdir(parents=True,exist_ok=True)
     with plane_lock(p.lock):
         if p.identity.exists():
             try: ident=json.loads(p.identity.read_text(encoding='utf-8'))
