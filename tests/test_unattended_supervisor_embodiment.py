@@ -3,7 +3,9 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def test_unattended_recovery_embodies_authenticated_system_supervisor():
     s=(ROOT/"supervisor/install_unattended_recovery.ps1").read_text(encoding="utf-8")
-    assert "receiver_supervisor.py') $InstallRoot" in s
+    assert "recovery_program_tx.py" in s
+    helper=(ROOT/'supervisor/recovery_program_tx.py').read_text(encoding='utf-8')
+    assert "receiver_supervisor.py" in helper and "SUPPORT_FILES" in helper
     assert "start_supervisor_system.ps1" in s
     assert "PCMMAD_V30_Supervisor_SYSTEM" in s
     assert "PCMMAD_V30_Receiver_SYSTEM" in s

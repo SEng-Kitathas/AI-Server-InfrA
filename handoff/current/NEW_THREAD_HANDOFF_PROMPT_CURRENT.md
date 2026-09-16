@@ -306,3 +306,15 @@ Surface + Commander Intent audit is mandatory at each campaign end. Current comp
 
 ## 2026-09-15 NON-INFERENCE DAEMON ADDENDUM
 Do not redo clone non-inference runtime/HA work: it is qualified. Inference and HUD are deferred. Next non-deferred bridge is live-promotion review/safe-window decision for dedicated Daemon root + SYSTEM workload/supervisor. Preserve mandatory campaign-end surface + Commander Intent audit.
+
+
+## 2026-09-15 NEW HANDOFF REQUIREMENT
+On every fresh thread, treat continuity surfacing as task/relevance-driven rather than dump-driven. Verify Commander Intent, Live Shadow, active campaign/uncommitted diff, current runtime identities, open blockers, latest green/failure evidence, and Windows/Defender causal evidence before mutation. Current war campaign remains uncommitted.
+
+
+## EXECUTION SAFETY ON REHYDRATE
+Never run the full/global corpus through live synchronous `execution.run`. Use OS-owned task/job + result-file readback. Current live Receiver PID22968/ngrok19772; parent Global War remains uncommitted and active.
+
+
+## 2026-09-15 POST-GLOBAL-WAR REHYDRATE
+Treat Global Interaction War as closed/qualified in clone, not live-promoted. Preserve rule: global/long suites are OS-owned, never synchronous live execution.run. Current live at closure: Receiver22968, ngrok19772, HUD25508. Next campaign is HUD cockpit/instrument-panel HEaT; live promotion remains a separate safe-window operation; inference deferred.

@@ -20,20 +20,24 @@
       "sha256": "1e64c62f39681025a400d071d037b23fe508ab841bad2099a3ada2e037255246"
     },
     "COMMANDERS_INTENT_CURRENT.md": {
-      "bytes": 67622,
-      "sha256": "d1f61dc39ac35c20704dda011f50c6c2c7d29af47da9665a00c7e5b2a54ce373"
+      "bytes": 71060,
+      "sha256": "2579a34f560e30d0d73c817b79b4f747a73f938c2e48870b000e36ec7378f789"
     },
     "CONTINUITY_CONVERGENCE_CLASSIFIER_QUALIFICATION_2026-09-07.md": {
       "bytes": 4416,
       "sha256": "9b4c29e5459d8cf21c2bacaa1d15cc3583355b81cd0b1d6d3d3fab8b553877bd"
+    },
+    "CONTINUITY_ENFORCEMENT_WAR_MATRIX_2026-09-15.md": {
+      "bytes": 2635,
+      "sha256": "ada129e620de07a3e7f7a6841f5ff1ffb68a3feb40399a48b4a7356006d852de"
     },
     "CURRENT_CANONICAL_SOP_POINTER.md": {
       "bytes": 3923,
       "sha256": "90ba40b110dae5b4a533aba059aac483c60c92c4d6846b4286d1562871c0e44c"
     },
     "CURRENT_STATE.md": {
-      "bytes": 70633,
-      "sha256": "4eecba0099f2d43da360befad5277b22e636e493733cae560da90c0e5c5b3018"
+      "bytes": 72687,
+      "sha256": "50351a744588cd0cfd17769d1ff35c7ce097e3c46def420de57b83fd28a573cc"
     },
     "DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md": {
       "bytes": 10720,
@@ -48,12 +52,12 @@
       "sha256": "646c7411848a003b5f41da46c98b2ecc2acf77c35d6cd7981672ba2c16aa10f1"
     },
     "DESIGN_THREAD_STREAM.md": {
-      "bytes": 221083,
-      "sha256": "fe989b2a827a9f3baa94cd96dc82c4c9c080bcfea56bc31b1ab67e5182e0cb3f"
+      "bytes": 224090,
+      "sha256": "6caa3ef0482535267ae0cfac9c668d8715a346a1d27e096b71c09aaa8210acea"
     },
     "DOCTRINE_SNAPSHOT.md": {
-      "bytes": 61443,
-      "sha256": "20f3f7ab80888e3808733a06c84af38a87f6d7ae09cf842f6875634c71e1db94"
+      "bytes": 62274,
+      "sha256": "8f9b15a21918d304476b62f18528281baaff54b73d234334ac9717b3c3125576"
     },
     "GIT_PUBLICATION_BASE.md": {
       "bytes": 1282,
@@ -63,9 +67,17 @@
       "bytes": 34768,
       "sha256": "34e1676b6d4b9a152fb31953a4dd71351960a2c0d54969ca472207b462fc8a6d"
     },
+    "GLOBAL_INTERACTION_WAR_CAMPAIGN_2026-09-15.md": {
+      "bytes": 8335,
+      "sha256": "9333a8f1f87c4e9244b383843c467c29fce7fdadd4530bc13b64d37c545dbc0a"
+    },
     "HANDOFF_QUALIFICATION.md": {
       "bytes": 6862,
       "sha256": "60cda6ce50047c4dee77aaaa59d38bae4e9678636ced42f0bf06f59e9dd3fe9a"
+    },
+    "HUD_COCKPIT_WAR_MATRIX_2026-09-15.md": {
+      "bytes": 2133,
+      "sha256": "69cc6108724a670d5fdb446c6bd775e03f80f5b12d5a3e357d3e305dfee01a7e"
     },
     "ICF_CS_ADDENDUM_QUALIFICATION_RECEIPT.md": {
       "bytes": 4656,
@@ -96,16 +108,16 @@
       "sha256": "10e2fd0ffdf9eb13df7b87a53ec4fdf36b6900c36a0e3d0a4eb225e5bd36260d"
     },
     "LIVE_SHADOW.md": {
-      "bytes": 54806,
-      "sha256": "d55be162f6570f874621fb635a452c799c4e6a5ab94cbeeedf4d47770f29ee8d"
+      "bytes": 59193,
+      "sha256": "f591527d7e8066ae2534f323d283a1ffb7e0506848f465d25c732a5f438a3a84"
     },
     "NEW_THREAD_HANDOFF_PROMPT_CURRENT.md": {
-      "bytes": 37099,
-      "sha256": "1d33ccf0e90cd4f2c74a37d32c15a7cd9521c2168c58d9945d275b1b1126c00b"
+      "bytes": 38127,
+      "sha256": "dccf50691a9b0bf4a8fd8d2fad1730274ceeb61bbc88533d84c53f16486fdb11"
     },
     "NEXT_STEPS.md": {
-      "bytes": 53434,
-      "sha256": "36fcee1b6158f4a66f51c0dbbbfec1b5997967a93f6ff4e0ac266348f26ba7b4"
+      "bytes": 55512,
+      "sha256": "9730a4c0573c0a831f9d6bb3b77a98f5293c1bc812956b4e00b9aa8480354994"
     },
     "OBE_SKILL_THREAD_RESPONSE_2026-09-08.md": {
       "bytes": 6659,
@@ -116,8 +128,8 @@
       "sha256": "7123ed9ee88e55defb30f2aa000f841ea6675a7138eea3c950a3a87e9491486e"
     },
     "REVISIT_LEDGER.md": {
-      "bytes": 69406,
-      "sha256": "bbe429c33fc2cebd4137c8db3f5a6c37f45a2e753325fff0be45453fde1b4dd9"
+      "bytes": 71330,
+      "sha256": "1c93c0475efbee13c1478413c38c7753d2087889c2fca4a5bfadf9e709904b23"
     },
     "RUNTIME_OBE_SKILLS_DUALITY.md": {
       "bytes": 10131,
@@ -128,16 +140,16 @@
       "sha256": "e5e099932e4447aa4679bc329b40396060ee4017de0deb3209cf20b60c7c4308"
     },
     "SERVER_THREAD_HANDOFF_CURRENT.md": {
-      "bytes": 40139,
-      "sha256": "ed47e5435fdca45223e126a5fcebc2de57474ab6364e76e21c978d9e1600e850"
+      "bytes": 41322,
+      "sha256": "83089193fe95804ee1a723984c753aeb16562fc7421509888d3d695bef6afcb6"
     },
     "T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md": {
       "bytes": 10887,
       "sha256": "4ccd5d692aa85e049cae60c714298b44f9bf3359fcdfead5b4eb00d869cacda1"
     },
     "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md": {
-      "bytes": 27524,
-      "sha256": "0286b2dbd684736551a7acc0ea832d7846c33e041be9b631dfcef2a3bcc9c90d"
+      "bytes": 31240,
+      "sha256": "52289af45d78d3e3b7b59ebfd6ec263461daa79c418b642f695c39577905b04a"
     },
     "THREAD_ROLLOVER_RECOVERY_2026-09-07.md": {
       "bytes": 2410,
@@ -148,12 +160,16 @@
       "sha256": "844cf6084979df1610614f6b504dcf447f018546a775e218472ceed821f6fa3e"
     },
     "TRACE_MATRIX.md": {
-      "bytes": 85078,
-      "sha256": "52132ab49f6d7d7f7b1e78c349ea2f2f484bf6faf64a049b513be8f731962057"
+      "bytes": 88321,
+      "sha256": "b46c1a1794c1513a6e41c75ef4034eccedd9796c5b48779c251a4c821ce1b366"
     },
     "WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md": {
       "bytes": 8506,
       "sha256": "f95bed8112c367cf21e8d3fe9277ea3329edcf05c6ae0fe722cd243f2c9f3544"
+    },
+    "WINDOWS_DEFENDER_TELEMETRY_WAR_MATRIX_2026-09-15.md": {
+      "bytes": 1837,
+      "sha256": "795edf0e1b1628c9a23974c8c6219eb2a687648f1725c4b521c7c62ca951af9b"
     },
     "WINDOWS_JOB_OBJECT_RESOURCE_ENVELOPE_QUALIFICATION_2026-09-07.md": {
       "bytes": 4244,
@@ -220,9 +236,9 @@
       "sha256": "bd2a1981ae6be1306fdc06e3241d59cc33bb61187d9c0c637e2f2adc8665bc7f"
     }
   },
-  "updated_at": "2026-09-15T21:44:43.220700+00:00",
+  "updated_at": "2026-09-16T01:10:28.177321+00:00",
   "continuity_checkpoint": "THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md",
-  "continuity_checkpoint_sha256": "0286b2dbd684736551a7acc0ea832d7846c33e041be9b631dfcef2a3bcc9c90d",
+  "continuity_checkpoint_sha256": "52289af45d78d3e3b7b59ebfd6ec263461daa79c418b642f695c39577905b04a",
   "continuity_checkpoint_source_head": "1b821bb4a8666f714084eabbd14c4954e774940b",
   "mvf_resident_source_corpus_digest": "160ffe8594964ca61570e18f668cb87f29346b8dfb247328b24be6791ff0c00b"
 }

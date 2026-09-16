@@ -427,3 +427,26 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **DAEMON-INFERENCE-001** — DEFERRED BY OPERATOR.
 - **DAEMON-HUD-001** — DEFERRED BY OPERATOR.
 - **DAEMON-CHILD-REAP-001** — scheduled task removal did not reap child service; installer/uninstaller/recovery procedures must verify process/listener consequence.
+
+
+## 2026-09-15 NEW WAR ITEMS
+- **CONTINUITY-ENFORCEMENT-WAR-001** — implement and beat down semantic currentness + intelligent surfacing + handoff/rehydrate gates. HIGH.
+- **WINDOWS-TELEMETRY-WAR-001** — native EventLog/Defender query/correlation + standard failure discriminator. HIGH / inline current campaign.
+- **HUD-COCKPIT-WAR-001** — dedicated instrument-panel redesign/interaction war matrix after server tranche. HIGH, deferred until current server war slice closes.
+- **OUTAGE-CAUSE-20260915-1859** — correlate Receiver outage separately from Defender 18:43 remediation. OPEN.
+
+
+## 2026-09-15 CAMPAIGN HIERARCHY GUARD
+- **GLOBAL-WAR-PARENT-001 — ACTIVE / MUST NOT BE LOST.** Fully embodied clone global-interaction beat-down remains the parent campaign. Inline continuity/Windows telemetry work must return to and close this parent rather than strand its uncommitted promotion/rollback/HA work.
+
+
+## 2026-09-15 EXECUTION ISOLATION WAR ITEM
+- **GLOBAL-TEST-LIVE-ISOLATION-001** — EARNED defect. Full-corpus test runs through live synchronous execution envelope correlated with Receiver loss; process-group and worker-interpreter isolation fixed in clone. All long/global qualification must be OS-owned with result readback and live identity readback. Keep open until whole corpus passes under OS-owned envelope with live unchanged.
+
+
+## 2026-09-15 GLOBAL WAR CLOSURE
+- **GLOBAL-WAR-PARENT-001 — CLOSED CLONE / QUALIFIED TO PROMOTION BOUNDARY.** Reopen on code/OS/runtime/topology changes or failed live promotion readback.
+- **GLOBAL-TEST-LIVE-ISOLATION-001 — CLOSED CLONE.** Entire corpus OS-owned, rc0, 121/121 TCP liveness, live PID unchanged. Never regress to synchronous whole-corpus execution.run.
+- **DAEMON-LIVE-PROMOTION-001 — OPEN.** Distinct safe-window operation; not performed.
+- **HUD-COCKPIT-WAR-001 — NEXT ACTIVE CAMPAIGN.**
+- **DAEMON-INFERENCE-001 — DEFERRED BY OPERATOR.**

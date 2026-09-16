@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from typing import Any, Callable, Mapping, Protocol
+import sys
 
 from .donor_microseed.runtime.types import Observation
 from .donor_microseed.runtime.observation import currentness as microseed_currentness
@@ -17,10 +18,23 @@ class ToolAdapter(Protocol):
 
 class LabToolsAdapter:
     """Read-only bridge to the native runtime router. Adapter grants no authority."""
-    def __init__(self, dispatch: Callable[..., Json]) -> None:
+    def __init__(self, dispatch: Callable[..., Json], *, spec_lookup: Callable[[str], Any] | None = None) -> None:
         self._dispatch = dispatch
+        if spec_lookup is None and callable(getattr(dispatch,'spec_lookup',None)):
+            spec_lookup=dispatch.spec_lookup
+        if spec_lookup is None:
+            module=sys.modules.get(getattr(dispatch,'__module__',''))
+            registry=getattr(module,'_TOOL_REGISTRY',None) if module is not None else None
+            if isinstance(registry,dict): spec_lookup=registry.get
+        self._spec_lookup=spec_lookup
 
     def call(self, name: str, payload: Mapping[str, Any]) -> Json:
+        if self._spec_lookup is not None:
+            spec=self._spec_lookup(name)
+            if spec is None:
+                raise RuntimeError(f'RESIDENT_TOOL_NOT_REGISTERED:{name}')
+            if bool(getattr(spec,'mutating',False)) or str(getattr(spec,'side_effect_class','')) != 'read':
+                raise RuntimeError(f'RESIDENT_EFFECT_FORBIDDEN:{name}:{getattr(spec,"side_effect_class",None)}')
         return self._dispatch(name, dict(payload))
 
 
@@ -37,6 +51,7 @@ class DutyContract:
     allowed_effects: tuple[str, ...] = ("read",)
     escalation_conditions: tuple[str, ...] = ("UNKNOWN_INCOMPLETE", "STALE", "VIOLATED")
     evidence_requirements: tuple[str, ...] = ()
+    observation_requirements: tuple[tuple[str, str, str, str], ...] = ()
     cadence: str = "triggered_or_periodic"
     authority_ceiling: str = "OBSERVATION_ONLY"
 
@@ -122,6 +137,30 @@ def _obs(tool: str, value: Json, observed_at: str) -> Observation:
     )
 
 
+def _iter_path_values(value: Any, path: str) -> list[Any]:
+    parts=path.split('.') if path else []
+    current=[value]
+    for part in parts:
+        many=part.endswith('[]');key=part[:-2] if many else part;next_values=[]
+        for item in current:
+            if not isinstance(item,Mapping) or key not in item: continue
+            child=item[key]
+            if many and isinstance(child,(list,tuple)): next_values.extend(child)
+            else: next_values.append(child)
+        current=next_values
+    return current
+
+def _observation_requirement_matches(observations: list[DutyObservation], requirement: tuple[str,str,str,str]) -> bool:
+    tool,path,op,expected=requirement
+    values=[]
+    for o in observations:
+        if o.tool==tool: values.extend(_iter_path_values(o.payload,path))
+    exp=str(expected).casefold()
+    if op=='equals': return any(str(v).casefold()==exp for v in values)
+    if op=='contains': return any(exp in str(v).casefold() for v in values)
+    if op=='present': return bool(values)
+    raise ValueError(f'UNKNOWN_OBSERVATION_REQUIREMENT_OP:{op}')
+
 class MVFResident:
     """First read-only resident prototype. Cognitive composition != mutation authority."""
 
@@ -158,6 +197,13 @@ class MVFResident:
         for condition in contract.reopen_conditions:
             if _condition_matches(observations, condition):
                 reopen.append(condition)
+
+        for requirement in contract.observation_requirements:
+            relevant=[o for o in observations if o.tool==requirement[0]]
+            if relevant and all(o.status=='UNKNOWN_INCOMPLETE' for o in relevant):
+                continue
+            if not _observation_requirement_matches(observations,requirement):
+                failures.append(f"{requirement[0]}:REQUIRED_OBSERVATION_MISSING:{requirement[1]}:{requirement[2]}:{requirement[3]}")
 
         if failures:
             status = "UNKNOWN_INCOMPLETE" if all(x.endswith("ERROR") or "UNKNOWN" in x for x in failures) else "VIOLATED"
@@ -224,6 +270,11 @@ def default_receiver_lab_duties(project_id: str = "RECEIVER-LAB") -> tuple[DutyC
             stale_conditions=("status=STALE",),
             reopen_conditions=("status=VIOLATED",),
             evidence_requirements=("process identity metadata", "scheduled task state"),
+            observation_requirements=(
+                ("machine.processes.list","processes[].command_line","contains","baseline\\pcmmad_receiver\\server.py"),
+                ("machine.processes.list","processes[].name","equals","ngrok.exe"),
+                ("machine.scheduled_tasks.list","scheduled_tasks[].task_name","contains","PCMMAD"),
+            ),
         ),
         DutyContract(
             duty_id="repository-topology-currentness",

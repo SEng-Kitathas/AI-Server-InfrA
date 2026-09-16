@@ -169,3 +169,27 @@ The next server-wide audit found the substantive blocker: active Receiver regist
 
 ## 25. Campaign end — all non-inference Daemon work to live-promotion boundary
 With inference/conversation and HUD explicitly deferred, campaign completed the remaining clone-side Daemon runtime/HA integration: proactive non-prompt-bound service; local health/status/events; durable status/timeline; initiative-thread-owned lifecycle persistence; Receiver-native read-only `daemon.health/status/events`; ngrok-aware body-health duty; unattended-recovery installer wiring for independent Daemon workload and independent OOP Daemon supervisor with separate receipt/lock/hold/restart budget and no recovery-secret inheritance into cognitive workload. Real clone-only Daemon ran on port5016; exact-identity kill recovered `36804@2026-09-15T21:39:34.9493119Z -> 15756@2026-09-15T21:39:53.3496423Z` while live port5000 stayed PID12788. Maintenance hold then suppressed recovery after PID15756 kill, receipt reported MAINTENANCE_HOLD, and clearing hold recovered PID26940; live remained unchanged. Campaign temp tasks were removed; task removal left a child listener which was explicitly reaped by exact port/command guard, proving cleanup must verify consequence. Broad non-inference suite passed 48 test files with compile/diff clean; final focused config/status suite 11/11 PASS. No live Daemon root/task/service was installed. Next non-deferred boundary is live promotion/system-walk under a safe operator window.
+
+
+## 26. Live outage recovery + continuity/telemetry/HUD commander delta
+HUD survived while Receiver was down around 18:59. Receiver recovered as PID31976 at 19:12:16; ngrok PID37312 at 19:12:30. Defender telemetry proves Severe ClickFix detection/remediation against the exact Daemon soak harness at 18:43:42/18:43:55, explaining that harness interference but not yet proving the later Receiver outage cause. Operator ratified semantic + intelligent enforcement of all continuity/context/Commander/shadow surfaces with an explicit no-ritual counter-law, governed thread handoff/rehydration, Windows Event/Defender standard evidence repertoire for server/general project failures, and a dedicated HUD cockpit/instrument-panel war matrix.
+
+
+## 27. Interruption-safe campaign hierarchy
+The active parent remains the fully embodied clone GLOBAL INTERACTION WAR CAMPAIGN. Continuity enforcement and Windows/Defender native telemetry are inline sub-tranches directly earned by failures in that campaign. They do not reset or close the parent. Uncommitted promotion transaction/rollback, authoritative project-handoff, HA composition, correlated-failure and final global regression work remain active until campaign closure. HUD cockpit redesign follows as a separate campaign; inference/HUD conversation remain deferred.
+
+
+## 28. Second live outage -> execution isolation defect earned
+Receiver dropped again after a synchronous full-corpus test run; no new Defender/event evidence identified cause. Source audit ruled out direct production-target names in the suspect Job Object tests. Synchronous subprocesses lacked Windows process-group isolation; internal execution worker capsules used the venv redirector and generated KeyboardInterrupt in all restart-recovery scenarios even inside OS-owned tasks. Clone fixes add CREATE_NEW_PROCESS_GROUP to sync/background children and launch worker capsules with base Python. Resource-envelope 6/6 and worker restart/recovery 3/3 pass under OS-owned task, with live PID22968/ngrok19772 unchanged. Whole-corpus qualification must now be OS-owned.
+
+
+## 29. Parent Global Interaction War CLOSED in clone
+Final decisive qualification used an OS-owned Scheduled Task rather than live synchronous execution.run. Entire test corpus returned rc0 in 63.0367s. Receiver PID22968 remained identical start/end; TCP liveness watcher recorded 121 samples and zero down; ngrok PID19772 remained stable. Prior execution-isolation defects were fixed by Windows CREATE_NEW_PROCESS_GROUP for synchronous/background children and base-Python worker capsules. Promotion transaction/rollback, authoritative project handoff, HA topology, Windows/Defender telemetry, intelligent continuity enforcement and Daemon global interaction hardening are all embodied in the clone. No live Daemon promotion occurred. Parent campaign is closed at promotion boundary; next separate campaign is HUD cockpit/instrument-panel redesign/HEaT; inference remains deferred.
+
+
+## 30. Final exact-tree confirmation
+After the final continuity-gate normalization change, the exact tree intended for commit passed the entire corpus under OS-owned execution: rc0 in 62.2664s, Receiver PID22968 unchanged start/end, ngrok PID19772 unchanged, and 120/120 TCP liveness samples up. Parent Global Interaction War clone qualification is therefore closed on the actual commit tree, not a predecessor.
+
+
+## 31. Post-newline-hygiene final confirmation
+Original CRLF conventions were restored in 10 pre-existing tracked files to remove cosmetic diff churn. Entire corpus then passed again OS-owned in 60.8588s with Receiver PID22968 unchanged and 117/117 TCP liveness samples up. No semantic code change occurred during newline hygiene.

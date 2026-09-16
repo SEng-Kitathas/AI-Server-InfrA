@@ -8,7 +8,7 @@ from typing import Any
 from .donor_microseed.runtime.types import Authority, CapabilityContract, EpistemicStatus, QualificationState
 from .donor_microseed.evidence.ledger import EvidenceLedger
 from .donor_microseed.development.capability_admission import CapabilityCandidate, CapabilityQualificationTicket, ExternalCapabilityQualifier, validate_external_ticket
-from .donor_microseed.development.epistemic import EpistemicDeficitRegistry, EpistemicDeficitRecord, EpistemicCurrentnessAnchor
+from .donor_microseed.development.epistemic import EpistemicDeficitRegistry, EpistemicDeficitRecord, EpistemicCurrentnessAnchor, EpistemicDeficitState
 from .donor_microseed.development.reentry import HistoricalReentryProjection, HistoricalReentryRecord, ReentryWarrant, assess_reentry
 
 
@@ -44,6 +44,28 @@ class ResidentGovernance:
 
     def __exit__(self, exc_type, exc, tb) -> None:
         self.close()
+
+    def restore_deficits(self, snapshot: dict[str, Any] | None) -> int:
+        if not isinstance(snapshot, dict): return 0
+        restored=0
+        for deficit_id, raw in snapshot.items():
+            if deficit_id in self.deficits.records or not isinstance(raw,dict): continue
+            anchors=tuple(EpistemicCurrentnessAnchor(str(a.get('kind') or ''),str(a.get('object_id') or ''),int(a.get('epoch') or 0)) for a in raw.get('premise_anchors',[]) if isinstance(a,dict))
+            rec=EpistemicDeficitRecord(
+                deficit_id=str(raw.get('deficit_id') or deficit_id),question_key=str(raw.get('question_key') or ''),
+                hypothesis_digest_sha256=str(raw.get('hypothesis_digest_sha256') or ''),unknown_evidence_id=str(raw.get('unknown_evidence_id') or ''),
+                missing_discriminator_signature_sha256=str(raw.get('missing_discriminator_signature_sha256') or ''),
+                identifiability_class=str(raw.get('identifiability_class') or 'C_ACTION_LIMITED'),
+                state=EpistemicDeficitState(str(raw.get('state') or 'ACTION_LIMITED')),
+                probe_capability_id=raw.get('probe_capability_id'),probe_capability_epoch=raw.get('probe_capability_epoch'),
+                candidate_ids=tuple(str(x) for x in raw.get('candidate_ids',[])),probe_evidence_ids=tuple(str(x) for x in raw.get('probe_evidence_ids',[])),
+                relevant_evidence_ids=tuple(str(x) for x in raw.get('relevant_evidence_ids',[])),premise_anchors=anchors,
+                stale_reason=raw.get('stale_reason'),stale_evidence_id=raw.get('stale_evidence_id'),
+                assistance_ancestry=tuple(str(x) for x in raw.get('assistance_ancestry',[])),
+                truth_authority=str(raw.get('truth_authority') or 'NONE'),semantic_question_authority=str(raw.get('semantic_question_authority') or 'NONE'),
+            )
+            self.deficits.register(rec);restored+=1
+        return restored
 
     def record_observation_evidence(self, evidence_id: str, payload: Any, *, status: EpistemicStatus) -> Any:
         return self.ledger.append(evidence_id, payload, status, source='MVF_RESIDENT')

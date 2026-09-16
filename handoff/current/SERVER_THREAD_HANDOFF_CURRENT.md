@@ -337,3 +337,15 @@ Daemon plane persistence and fresh-process read-only rehydration are qualified i
 
 ## 2026-09-15 NON-INFERENCE DAEMON SERVER DELTA
 Clone now includes proactive Daemon service, durable status/event backend, Receiver-native read tools, Daemon SYSTEM workload/supervisor installer wiring, and real clone-only independent recovery + maintenance-hold proof. Live Receiver remained PID 12788. Temp tasks/processes cleaned. No live Daemon install performed. Inference/HUD explicitly deferred.
+
+
+## 2026-09-15 RECOVERY / COMMANDER DELTA
+Receiver recovered PID31976 after outage; ngrok PID37312. Defender Severe event hit exact soak harness at 18:43; do not conflate with later Receiver outage without evidence. Current campaign scope now includes intelligent continuity enforcement + native Windows/Defender telemetry. HUD cockpit redesign is next dedicated war campaign.
+
+
+## 2026-09-15 EXECUTION ISOLATION DELTA
+Second Receiver outage exposed live/global-test isolation weakness. Clone now isolates sync/background Windows process groups and uses base Python for execution worker capsules. Resource 6/6 + worker restart 3/3 pass in OS-owned tasks with live unchanged. Full corpus must run OS-owned next; parent Global War remains open.
+
+
+## 2026-09-15 GLOBAL WAR CLOSURE HANDOFF
+Parent Global Interaction War is closed in clone. Final whole corpus rc0 under OS-owned task, Receiver22968/ngrok19772 stable, 0/121 TCP liveness loss. Promotion transaction/rollback, authoritative project handoff, Windows/Defender telemetry, continuity enforcement and execution isolation are embodied in clone. Live promotion NOT DONE. Next separate campaign: HUD cockpit/instrument-panel war.

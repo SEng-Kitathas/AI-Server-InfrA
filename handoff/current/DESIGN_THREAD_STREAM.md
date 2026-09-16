@@ -4302,3 +4302,23 @@ The campaign then audited the server for the next bridge and found no qualified 
 ---
 # CAMPAIGN — ALL NON-INFERENCE DAEMON WORK TO LIVE-PROMOTION BOUNDARY — 2026-09-15
 Inference/HUD were deferred by operator. Campaign embodied a proactive Daemon service with durable status/events, initiative-thread-owned persistence, Receiver-native Daemon read capabilities, ngrok-aware HA duty, and unattended-recovery task wiring for independent Daemon workload + OOP supervisor. Real clone-only service ran autonomously on port 5016. Existing supervisor recovered exact Daemon identity after guarded kill while live Receiver stayed PID12788; maintenance hold suppressed recovery and clearing hold resumed it. Broad regression remained green. Campaign temp tasks were removed; a surviving child process exposed `TASK REMOVED != CHILD REAPED` and was then safely reaped by exact port/command identity. Remaining non-deferred boundary is live promotion, not clone engineering.
+
+
+---
+# COMMANDER DELTA — CONTINUITY AS ACTIVE INSTRUMENT / WINDOWS TELEMETRY / HUD COCKPIT — 2026-09-15
+After live Receiver outage/recovery, operator required every continuity/context/Commander/shadow surface to be enforced both for semantic freshness and intelligent decision-time surfacing, explicitly counterbalanced by no-ritual/no-context-flooding doctrine. Thread handoff loss/reinvention is now a target defect class. Windows Event Viewer and Defender become standard native evidence for server and general project failures. Immediate evidence validated the requirement: Defender Severe ClickFix detection/remediation targeted the exact PCMMAD soak harness command earlier in the war campaign. HUD screenshot establishes a separate cockpit/instrument-panel redesign war: current card dashboard under-prioritizes causal/action information during a Receiver outage.
+
+
+---
+# INTERRUPTION-SAFE CAMPAIGN HIERARCHY — 2026-09-15
+Operator clarified that the interrupted fully embodied clone war campaign must not be lost. Parent campaign remains GLOBAL INTERACTION WAR CAMPAIGN. Continuity enforcement and Windows/Defender telemetry are inline tranches earned by parent-campaign failures, not replacement campaigns. Promotion transaction/rollback, authoritative project handoff, HA composition, correlated failure, soak/boundedness and final whole-corpus qualification remain open parent responsibilities. HUD cockpit redesign is the next separate campaign after parent closure.
+
+
+---
+# EXECUTION ENVELOPE / SECOND LIVE OUTAGE — 2026-09-15
+A second Receiver loss followed a full-corpus run through live synchronous execution.run. No new Defender evidence was found in the outage window. Hostile isolation showed UUID-scoped Job tests did not directly target live. The synchronous envelope lacked Windows child process-group isolation, and internal worker capsules were launched via the venv redirector. All worker-restart scenarios generated KeyboardInterrupt even inside an OS-owned task until the worker capsule was moved to base Python. After fixes: resource envelope 6/6 and worker restart 3/3 PASS with live Receiver/ngrok unchanged. Global tests are henceforth OS-owned, never synchronous execution.run.
+
+
+---
+# GLOBAL INTERACTION WAR CAMPAIGN CLOSEOUT — 2026-09-15
+The parent fully embodied clone war campaign closed at the live-promotion boundary after the final entire corpus passed under an OS-owned envelope in 63.0s while live Receiver PID22968 and ngrok PID19772 remained unchanged and TCP liveness held 121/121. The campaign earned and repaired interaction defects spanning persistence, duplicate ownership, recovery races, restart budgets, maintenance holds, ngrok supervision, semantic health, body/brain independence, observability failure, transactional replay, handoff authority, promotion rollback, continuity usage, Defender telemetry and Windows execution isolation. Live promotion remains explicitly unperformed. Next separate campaign is HUD cockpit/instrument-panel HEaT.

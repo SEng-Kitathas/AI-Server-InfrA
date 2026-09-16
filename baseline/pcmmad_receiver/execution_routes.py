@@ -991,6 +991,13 @@ def _queue_allowed(project_id: str) -> bool:
     )
 
 
+def _worker_python_executable() -> str:
+    """Use the real base interpreter for the internal Windows worker capsule."""
+    if os.name == "nt":
+        return str(getattr(sys, "_base_executable", None) or sys.executable)
+    return str(sys.executable)
+
+
 def _worker_paths(job: ExecutionJobRecord) -> dict[str, Path]:
     root = _job_dir(job.project_id, job.job_id)
     return {
@@ -1120,7 +1127,7 @@ def _spawn_job(job: ExecutionJobRecord) -> ExecutionJobRecord:
         err_f = paths["control_stderr"].open("ab")
         try:
             proc = start_background_process(
-                [sys.executable, str(Path(__file__).with_name("execution_worker.py")), str(request_path)],
+                [_worker_python_executable(), str(Path(__file__).with_name("execution_worker.py")), str(request_path)],
                 cwd=_job_dir(job.project_id, job.job_id),
                 stdout=out_f,
                 stderr=err_f,

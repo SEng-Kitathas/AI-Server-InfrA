@@ -17,6 +17,8 @@ sys.path.insert(0, str(RUNTIME_ROOT))
 
 import execution_routes as er
 
+REAL_PYTHON = getattr(sys, "_base_executable", None) or sys.executable
+
 if os.name == "nt":
     import windows_job_object as wjo
 
@@ -77,7 +79,7 @@ class ExecutionResourceEnvelopeTests(unittest.TestCase):
             )
             with wjo.create_named_job(name) as job:
                 wjo.configure_resource_envelope(job, active_process_limit=1)
-                proc = subprocess.Popen([sys.executable, "-c", parent_code])
+                proc = subprocess.Popen([REAL_PYTHON, "-c", parent_code])
                 try:
                     wjo.assign_pid(job, proc.pid)
                     release.write_text("go", encoding="utf-8")

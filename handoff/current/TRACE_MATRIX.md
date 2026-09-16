@@ -502,3 +502,38 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | maintenance hold suppress/resume | VERIFIED CLONE | no listener during hold, receipt MAINTENANCE_HOLD, recovery to 26940 | supervisor changes |
 | live Receiver unaffected | VERIFIED during experiments | port5000 PID 12788 unchanged | future live tests |
 | live Daemon installed | NOT DONE | clone-only campaign | operator-safe promotion window |
+
+
+## 2026-09-15 TELEMETRY / CONTINUITY TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| Defender interfered with a PCMMAD war harness | VERIFIED | Defender 1116/1117 record 2680/2681 + exact command path + ActionSuccess | Defender/history changes |
+| Defender caused 18:59 Receiver outage | NOT ESTABLISHED | detection/remediation ~16 min earlier; no direct causal event yet | correlated process/file/event evidence |
+| live Receiver was restarted after outage | VERIFIED | current PID31976 start 19:12:16 | process identity change |
+| all continuity surfaces must be intelligently enforced/used | OPERATOR-RATIFIED | current turn | embodiment/system-walk |
+| Windows/Defender telemetry is standard server repertoire | OPERATOR-RATIFIED / EARNED NEED | current turn + verified interference | capability embodiment |
+| current HUD behaves as instrument panel | REJECTED | outage screenshot prioritization analysis | redesign/HEaT |
+
+
+## 2026-09-15 EXECUTION / SECOND OUTAGE TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| second outage had new Defender detection | NOT OBSERVED | bounded 20:25-20:46 Defender/EventLog query returned none | later protection-history evidence |
+| Job Object tests directly target live Receiver | REJECTED CURRENTLY | UUID-scoped Local job names + test-owned PIDs | future test changes |
+| synchronous child process group was isolated before outage | REJECTED | server_hardening Popen had no creationflags | deployment of fixed server |
+| worker capsule venv redirector caused test-supervisor KeyboardInterrupt | EARNED / FIXED CLONE | all 3 worker cases interrupted before fix; 3/3 PASS after base-interpreter launch | Python/runtime changes |
+| resource-envelope kernel semantics pass outside venv redirector | VERIFIED | 6/6 OS-task run, live unchanged | Python/Job Object changes |
+| full corpus safe through synchronous live execution.run | REJECTED | repeated outage temporal association + known envelope weakness | never use; OS-owned qualification only |
+
+
+## 2026-09-15 GLOBAL WAR FINAL TRACE
+| Claim | Status | Evidence | Reopen |
+|---|---|---|---|
+| fully embodied clone survives global interaction regression | VERIFIED CLONE | entire corpus rc0 under OS-owned task + 121/121 live TCP samples | code/runtime/OS changes |
+| global tests are isolated from live control plane | VERIFIED WITH NEW ENVELOPE | Receiver22968 unchanged, ngrok19772 unchanged; process groups + worker base interpreter | execution envelope changes |
+| promotion rollback restores prior generation without erasing Daemon memory | VERIFIED SYNTHETIC | v1->v2->rollback rehearsal | installer/rollback/schema changes |
+| Windows/Defender telemetry is standard native evidence | VERIFIED CLONE/REAL SMOKE | native tools + real Defender/event evidence | Windows/security API changes |
+| continuity is semantically enforced and intelligently surfaced | VERIFIED CLONE | planner/gate/rehydrate tests + resident status integration | surface registry/handoff changes |
+| live Daemon/HA promoted | NOT DONE | explicit non-mutation boundary | safe-window promotion |
+
+| final exact commit tree whole corpus | VERIFIED CLONE | rc0, 62.2664s, Receiver22968 unchanged, 120/120 TCP up | any staged code change |

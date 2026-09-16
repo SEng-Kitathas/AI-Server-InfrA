@@ -519,3 +519,31 @@ P0: qualify a provider-neutral Daemon inference/conversation plane.
 ## 2026-09-15 NEXT STEPS AFTER NON-INFERENCE COMPLETION
 P0 non-deferred engineering is now at live-promotion boundary. Before any live install: run promotion/system-walk review for exact project daemon root, installed runtime copy, SYSTEM task identities, ports, secrets, backup/rollback and live HA interaction. Require operator-safe live window.
 Deferred until operator reopens: generative inference/conversation and HUD interaction/status UI.
+
+
+## 2026-09-15 INLINE CAMPAIGN EXTENSION
+1. Embody Windows/EventLog/Defender read-only native telemetry + standard project-failure discriminator.
+2. Embody intelligent continuity surface registry/surfacing/handoff gate; preserve no-ritual rule.
+3. Continue current global-interaction war campaign from uncommitted clone state and run these additions through it.
+4. Dedicated HUD cockpit war campaign after server/continuity tranche; inference/conversation remains deferred.
+5. Correlate 18:59 Receiver outage separately from 18:43 Defender harness remediation; do not merge without evidence.
+
+
+## ACTIVE CAMPAIGN ORDER — INTERRUPTION-SAFE
+1. Continue parent GLOBAL INTERACTION WAR CAMPAIGN from current uncommitted clone diff; do not restart or reframe it as complete.
+2. Finish inline Windows/Defender native telemetry tranche.
+3. Finish inline intelligent continuity enforcement / handoff+rehydration tranche.
+4. Resume/complete interrupted promotion transaction/rollback + authoritative handoff work and any remaining global-interaction beat-down.
+5. Run entire corpus + hostile matrix + campaign-end surface/Commander audit; commit only after green/readback.
+6. Then begin separate HUD cockpit war campaign.
+
+
+## 2026-09-15 NEXT — EXECUTION ISOLATION GATE
+Run complete test corpus only through OS-owned temp task with result artifact and before/after live identity readback. If green, continue campaign-end global interaction sweep/promotion rollback readback. If any failure, isolate under OS-owned envelope; do not return to synchronous whole-corpus execution.run.
+
+
+## POST-GLOBAL-WAR ORDER
+1. Seal/commit this qualified clone Global Interaction War slice.
+2. Begin separate HUD cockpit/instrument-panel war campaign: causal priority, warning/caution/advisory, mode awareness, system synoptic, trends, compression and exact evidence/action routing; no cosmetic cosplay.
+3. Keep live promotion as a distinct safe-window promotion operation with rollback/readback; do not smuggle it into HUD work.
+4. Inference/conversation remains deferred until operator reopens it.

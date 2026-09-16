@@ -350,6 +350,13 @@ class SubprocessRunSpec:
 ManagedProcess = subprocess.Popen[bytes]
 
 
+def _child_creationflags() -> int:
+    """Isolate child console/process-group control events from the Receiver on Windows."""
+    if os.name != 'nt':
+        return 0
+    return int(getattr(subprocess,'CREATE_NEW_PROCESS_GROUP',0))
+
+
 def start_background_process(command: Sequence[str], **options: Any) -> ManagedProcess:
     spec = BackgroundProcessSpec(
         cwd=options["cwd"],
@@ -365,6 +372,7 @@ def start_background_process(command: Sequence[str], **options: Any) -> ManagedP
         stdin=subprocess.DEVNULL,
         shell=False,
         env=spec.env,
+        creationflags=_child_creationflags(),
     )
 
 
@@ -590,6 +598,7 @@ def run_subprocess_envelope(command: Sequence[str], **options: Any) -> Subproces
                 stdin=subprocess.DEVNULL,
                 shell=False,
                 env=options.get("env"),
+                creationflags=_child_creationflags(),
             )
             try:
                 return_code = proc.wait(timeout=spec.timeout_seconds)

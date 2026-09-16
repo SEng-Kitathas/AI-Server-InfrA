@@ -14,6 +14,8 @@ if os.name == "nt":
     sys.path.insert(0, str(RUNTIME_ROOT))
     import windows_job_object as wjo
 
+REAL_PYTHON = getattr(sys, "_base_executable", None) or sys.executable
+
 
 @unittest.skipUnless(os.name == "nt", "Windows Job Object test")
 class WindowsJobObjectOrphanCleanupTests(unittest.TestCase):
@@ -39,7 +41,7 @@ class WindowsJobObjectOrphanCleanupTests(unittest.TestCase):
             )
             job = wjo.create_named_job(name)
             wjo.set_kill_on_close(job, True)
-            runner = subprocess.Popen([sys.executable, "-c", code])
+            runner = subprocess.Popen([REAL_PYTHON, "-c", code])
             child_pid = None
             try:
                 wjo.assign_pid(job, runner.pid)

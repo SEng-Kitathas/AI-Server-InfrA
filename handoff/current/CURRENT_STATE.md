@@ -732,3 +732,35 @@ Any earlier NOT ACTIVE statement in this file remains an accurate pre-token snap
 - Clone now has qualified proactive Daemon service/runtime, durable status/event backend, native Receiver read capabilities, Daemon-aware unattended recovery installer, and real clone-only OOP HA recovery/hold evidence.
 - Daemon is not live-installed. Project-control `daemon/` root and SYSTEM tasks remain uncreated on live system.
 - Inference/conversation and HUD are deferred by operator.
+
+
+## 2026-09-15 LIVE RECOVERY CURRENT STATE
+- Live Receiver restored as PID31976 on port5000; ngrok PID37312; HUD PID25508 remained alive.
+- Clone global-interaction war campaign remains uncommitted/in progress.
+- Verified Defender severe detection/remediation affected PCMMAD soak harness earlier in campaign.
+- Continuity-enforcement + Windows/Defender native telemetry added to current campaign scope; HUD cockpit redesign has its own war matrix next.
+
+
+## 2026-09-15 CAMPAIGN HIERARCHY CURRENT STATE
+- Active parent campaign: GLOBAL INTERACTION WAR CAMPAIGN.
+- Current inline additions: continuity enforcement and Windows/Defender native telemetry.
+- Parent campaign remains uncommitted and unfinished; prior promotion/rollback/handoff/HA/global-interaction work is still in the working tree and remains authoritative active work.
+
+
+## 2026-09-15 EXECUTION ISOLATION CURRENT DELTA
+- Live recovered again: Receiver PID22968, ngrok PID19772.
+- Clone patches isolate synchronous/background subprocess process groups and launch internal execution worker capsule with base Python on Windows.
+- Resource-envelope 6/6 and worker-restart 3/3 pass under OS-owned tasks with live identities unchanged.
+- Parent Global Interaction War remains active/uncommitted; next decisive check is entire corpus via OS-owned task, never synchronous execution.run.
+
+
+## 2026-09-15 GLOBAL WAR CLOSED STATE
+- Fully embodied clone now qualifies through global interaction/HA/persistence/continuity/security-telemetry/promotion-rollback/execution-isolation testing to the live-promotion boundary.
+- Entire corpus PASS under OS-owned test envelope with zero live TCP liveness loss.
+- Live promotion remains NOT DONE.
+- Windows/Defender native telemetry + intelligent continuity enforcement are part of standard server design.
+- Next active design campaign after checkpoint/commit: HUD cockpit/instrument-panel redesign.
+
+
+## FINAL COMMIT-TREE GATE
+Exact commit tree entire corpus PASS: rc0 / 62.2664s / Receiver22968 unchanged / ngrok19772 unchanged / 120 of 120 TCP samples up.

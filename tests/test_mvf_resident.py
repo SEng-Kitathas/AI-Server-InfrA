@@ -94,3 +94,51 @@ def test_semantic_note_text_does_not_trigger_structured_stale_or_reopen_predicat
     assert result.status == 'CURRENT'
     assert result.stale_reasons == ()
     assert result.reopen_reasons == ()
+
+
+def test_real_lab_adapter_blocks_mutation_and_execution_tools_even_if_named_by_a_duty():
+    import sys
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    sys.path.insert(0,str(root/'baseline'/'pcmmad_receiver'))
+    import lab_tools
+    adapter=LabToolsAdapter(lab_tools.dispatch_tool)
+    for tool,payload in [('fs.write',{'path':'x','content':'x'}),('execution.run',{'command':['cmd','/c','echo','x']})]:
+        with pytest.raises(RuntimeError,match='RESIDENT_EFFECT_FORBIDDEN'):
+            adapter.call(tool,payload)
+
+def test_default_resident_duties_resolve_only_to_native_read_capabilities():
+    import sys
+    from pathlib import Path
+    root=Path(__file__).resolve().parents[1]
+    sys.path.insert(0,str(root/'baseline'/'pcmmad_receiver'))
+    import lab_tools
+    for duty in default_receiver_lab_duties():
+        for tool,_payload in duty.observation_plan:
+            spec=lab_tools._TOOL_REGISTRY[tool]
+            assert spec.mutating is False
+            assert spec.side_effect_class=='read'
+
+
+def test_body_health_duty_rejects_filter_self_contamination_without_exact_ngrok_identity():
+    rows={
+        'machine.processes.list': {'ok':True,'processes':[{'name':'python.exe','command_line':'observer querying ngrok'}]},
+        'machine.scheduled_tasks.list': {'ok':True,'scheduled_tasks':[{'task_name':'PCMMAD_TEST'}]},
+    }
+    class A:
+        def call(self,name,payload):
+            if name=='machine.processes.list' and payload.get('name_filter')=='python':
+                return {'ok':True,'processes':[{'name':'python.exe','command_line':r'C:\x\baseline\pcmmad_receiver\server.py'}]}
+            return rows[name]
+    result=MVFResident(A(),now=lambda:'2026-09-15T00:00:00+00:00').run_duty(default_receiver_lab_duties()[0])
+    assert result.status=='VIOLATED'
+    assert 'REQUIRED_OBSERVATION_MISSING' in result.reason
+
+def test_body_health_duty_accepts_exact_receiver_ngrok_and_task_evidence():
+    class A:
+        def call(self,name,payload):
+            if name=='machine.processes.list' and payload.get('name_filter')=='python': return {'ok':True,'processes':[{'name':'python.exe','command_line':r'C:\x\baseline\pcmmad_receiver\server.py'}]}
+            if name=='machine.processes.list': return {'ok':True,'processes':[{'name':'ngrok.exe','command_line':'ngrok http 5000'}]}
+            return {'ok':True,'scheduled_tasks':[{'task_name':'PCMMAD_V30_Receiver_SYSTEM'}]}
+    result=MVFResident(A(),now=lambda:'2026-09-15T00:00:00+00:00').run_duty(default_receiver_lab_duties()[0])
+    assert result.status=='CURRENT'

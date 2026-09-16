@@ -11,13 +11,14 @@ import time
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Callable
 
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def probe(url: str, timeout: float, expected_schema_family: str | None = None, identity_url: str | None = None, minimum_capabilities: int = 1) -> tuple[bool, str | None]:
+def probe(url: str, timeout: float, expected_schema_family: str | None = None, identity_url: str | None = None, minimum_capabilities: int = 1, expected_identity: dict[str,str] | None = None) -> tuple[bool, str | None]:
     try:
         api_key = str(os.environ.get("GITHOME_API_KEY") or "").strip()
         request = urllib.request.Request(url, headers={"X-GitHome-Key": api_key}) if api_key and str(url).lower().startswith(("http://", "https://")) else url
@@ -29,9 +30,23 @@ def probe(url: str, timeout: float, expected_schema_family: str | None = None, i
         if not isinstance(body,dict):return False,"INVALID_HEALTH_SHAPE"
         if body.get("ok") is not True:return False,"CORE_NOT_OK"
         status=str(body.get("status") or "").lower()
-        if status not in {"ok","healthy","degraded"}:return False,f"CORE_STATUS:{status or 'missing'}"
+        allowed_status={"ok","healthy","degraded"}
+        if expected_schema_family and str(expected_schema_family).startswith("mvf.daemon-health."):allowed_status.add("starting")
+        if status not in allowed_status:return False,f"CORE_STATUS:{status or 'missing'}"
         schema=str(body.get("schema_version") or body.get("schema") or "")
-        if expected_schema_family and schema and not schema.startswith(expected_schema_family):return False,f"SCHEMA_IDENTITY_MISMATCH:{schema}"
+        daemon_health_family=bool(expected_schema_family and str(expected_schema_family).startswith("mvf.daemon-health."))
+        # Receiver/core identity is verified by the dedicated identity endpoint when supplied.
+        # Daemon deliberately self-identifies in /health and therefore must carry schema here.
+        if expected_schema_family and not identity_url:
+            if not schema:return False,"SCHEMA_IDENTITY_MISSING"
+            if not schema.startswith(expected_schema_family):return False,f"SCHEMA_IDENTITY_MISMATCH:{schema}"
+        if expected_identity:
+            for key,expected in expected_identity.items():
+                if str(body.get(key) or '') != str(expected):return False,f"HEALTH_IDENTITY_MISMATCH:{key}"
+        if daemon_health_family:
+            if not str(body.get('daemon_id') or '').strip():return False,"DAEMON_IDENTITY_MISSING"
+            if not str(body.get('project_id') or '').strip():return False,"DAEMON_PROJECT_MISSING"
+            if body.get('mutation_authority') is not False:return False,"DAEMON_AUTHORITY_SHAPE_INVALID"
         if identity_url:
             try:
                 with urllib.request.urlopen(identity_url,timeout=timeout) as ir:
@@ -129,27 +144,34 @@ def write_atomic(path: Path, data: dict) -> None:
             os.unlink(temp)
 
 
-def supervise_once(*, health_url: str, task_name: str, receipt_path: Path, timeout: float = 3.0, recovery_seconds: float = 20.0, poll_seconds: float = 1.0, trigger=trigger_task, health_probe=probe, failure_state: dict | None = None, max_restarts: int = 3, restart_window_seconds: float = 300.0, now_monotonic=time.monotonic, expected_schema_family: str | None = None) -> dict:
+def supervise_once(*, health_url: str, task_name: str, receipt_path: Path, timeout: float = 3.0, recovery_seconds: float = 20.0, poll_seconds: float = 1.0, trigger=trigger_task, health_probe=probe, failure_state: dict | None = None, max_restarts: int = 3, restart_window_seconds: float = 300.0, now_monotonic=time.time, expected_schema_family: str | None = None, expected_identity: dict[str,str] | None = None, hold_check:Callable[[],dict]|None=None, receipt_action:str='TRIGGER_CANONICAL_RECEIVER_TASK', failure_state_persist:Callable[[dict],None]|None=None) -> dict:
     checked_at = utc_now()
-    try: healthy, error = health_probe(health_url, timeout, expected_schema_family)
+    try: healthy, error = health_probe(health_url, timeout, expected_schema_family, None, 1, expected_identity)
     except TypeError: healthy, error = health_probe(health_url, timeout)
     receipt = {"schema":"pcmmad.receiver-supervisor.v1","checked_at":checked_at,"health_url":health_url,"task_name":task_name,"healthy_before":healthy,"probe_error_before":error,"action":"NONE","triggered":False,"healthy_after":healthy,"probe_error_after":error}
     if healthy:
         write_atomic(receipt_path, receipt)
         return receipt
+    if hold_check is not None:
+        hs=hold_check()
+        if hs.get("hold"):
+            receipt.update({"desired_state":"STOPPED","action":"MAINTENANCE_HOLD","triggered":False,"healthy_after":False,"hold_status":hs.get("status"),"operator_id":hs.get("operator_id"),"reason":hs.get("reason"),"expires_at_epoch":hs.get("expires_at_epoch")});write_atomic(receipt_path,receipt);return receipt
     if failure_state is not None:
         now=now_monotonic();events=[float(x) for x in failure_state.get("restart_events",[]) if now-float(x)<=restart_window_seconds];failure_state["restart_events"]=events
         if len(events)>=max_restarts:
-            receipt["action"]="CRASH_LOOP_HOLD";receipt["triggered"]=False;receipt["healthy_after"]=False;receipt["crash_loop"]={"events":len(events),"window_seconds":restart_window_seconds,"max_restarts":max_restarts};write_atomic(receipt_path,receipt);return receipt
+            receipt["action"]="CRASH_LOOP_HOLD";receipt["triggered"]=False;receipt["healthy_after"]=False;receipt["crash_loop"]={"events":len(events),"window_seconds":restart_window_seconds,"max_restarts":max_restarts,"state_status":failure_state.get("state_status")};write_atomic(receipt_path,receipt);return receipt
         events.append(now);failure_state["restart_events"]=events
+        if failure_state_persist is not None:failure_state_persist(failure_state)
     ok, detail = trigger(task_name)
-    receipt["action"] = "TRIGGER_CANONICAL_RECEIVER_TASK"
+    receipt["action"] = receipt_action
+    receipt["action_family"] = "TRIGGER_CANONICAL_TASK"
+    receipt["target_task"] = task_name
     receipt["triggered"] = ok
     receipt["trigger_detail"] = detail
     deadline = time.monotonic() + recovery_seconds
     final_error = error
     while time.monotonic() < deadline:
-        try: healthy, final_error = health_probe(health_url, timeout, expected_schema_family)
+        try: healthy, final_error = health_probe(health_url, timeout, expected_schema_family, None, 1, expected_identity)
         except TypeError: healthy, final_error = health_probe(health_url, timeout)
         if healthy:
             break
@@ -161,19 +183,32 @@ def supervise_once(*, health_url: str, task_name: str, receipt_path: Path, timeo
     return receipt
 
 
-def supervise_loop(*, health_url: str, task_name: str, receipt_path: Path, interval_seconds: float = 10.0, timeout: float = 3.0, recovery_seconds: float = 20.0, stop_path: Path | None = None, max_restarts: int = 3, restart_window_seconds: float = 300.0, hold_max_age_seconds: float = 7200.0, expected_schema_family: str | None = None) -> int:
+def load_failure_state(path: Path | None, *, max_restarts:int, restart_window_seconds:float) -> dict:
+    if path is None or not path.exists(): return {"restart_events":[],"state_status":"FRESH"}
+    now=time.time()
+    try:
+        raw=json.loads(path.read_text(encoding="utf-8-sig"));events=[float(x) for x in raw.get("restart_events",[])]
+        if any(x<0 or x>now+60 for x in events): raise ValueError("restart event outside sane epoch range")
+        events=[x for x in events if now-x<=restart_window_seconds]
+        return {"restart_events":events,"state_status":"RESTORED"}
+    except Exception:
+        # Corrupt safety state must not silently erase the restart budget. Hold for one window, then self-recover.
+        return {"restart_events":[now]*max_restarts,"state_status":"CORRUPT_HOLD"}
+
+def save_failure_state(path: Path | None, state: dict) -> None:
+    if path is None:return
+    write_atomic(path,{"schema":"pcmmad.supervisor-failure-state.v1","updated_at":utc_now(),"restart_events":[float(x) for x in state.get("restart_events",[])],"state_status":state.get("state_status")})
+
+def supervise_loop(*, health_url: str, task_name: str, receipt_path: Path, interval_seconds: float = 10.0, timeout: float = 3.0, recovery_seconds: float = 20.0, stop_path: Path | None = None, max_restarts: int = 3, restart_window_seconds: float = 300.0, hold_max_age_seconds: float = 7200.0, expected_schema_family: str | None = None, expected_identity:dict[str,str]|None=None, failure_state_path:Path|None=None, health_probe:Callable[...,tuple[bool,str|None]]=probe, receipt_action:str='TRIGGER_CANONICAL_RECEIVER_TASK') -> int:
     """Continuously reconcile RUNNING desired state. A stop file changes desired state; killing a process does not."""
-    failure_state={}
+    failure_state=load_failure_state(failure_state_path,max_restarts=max_restarts,restart_window_seconds=restart_window_seconds)
     while True:
-        if stop_path is not None and stop_path.exists():
-            age=max(0.0,time.time()-stop_path.stat().st_mtime)
-            if age <= hold_max_age_seconds:
-                receipt={"schema":"pcmmad.receiver-supervisor.v1","checked_at":utc_now(),"desired_state":"STOPPED","action":"MAINTENANCE_HOLD","healthy_after":False,"hold_age_seconds":age}
-                write_atomic(receipt_path,receipt);time.sleep(interval_seconds);continue
-            # A forgotten hold must not strand unattended infrastructure forever. Preserve evidence, then resume desired RUNNING state.
-            try: stop_path.unlink()
-            except OSError: pass
-        supervise_once(health_url=health_url,task_name=task_name,receipt_path=receipt_path,timeout=timeout,recovery_seconds=recovery_seconds,failure_state=failure_state,max_restarts=max_restarts,restart_window_seconds=restart_window_seconds,expected_schema_family=expected_schema_family)
+        hs=hold_state(stop_path,max_hold_seconds=hold_max_age_seconds)
+        if hs.get("hold"):
+            receipt={"schema":"pcmmad.receiver-supervisor.v1","checked_at":utc_now(),"desired_state":"STOPPED","action":"MAINTENANCE_HOLD","healthy_after":False,"hold_status":hs.get("status"),"operator_id":hs.get("operator_id"),"reason":hs.get("reason"),"expires_at_epoch":hs.get("expires_at_epoch")}
+            write_atomic(receipt_path,receipt);time.sleep(interval_seconds);continue
+        supervise_once(health_url=health_url,task_name=task_name,receipt_path=receipt_path,timeout=timeout,recovery_seconds=recovery_seconds,failure_state=failure_state,max_restarts=max_restarts,restart_window_seconds=restart_window_seconds,expected_schema_family=expected_schema_family,expected_identity=expected_identity,health_probe=health_probe,hold_check=(lambda:hold_state(stop_path,max_hold_seconds=hold_max_age_seconds)),receipt_action=receipt_action,failure_state_persist=(lambda st:save_failure_state(failure_state_path,st)))
+        save_failure_state(failure_state_path,failure_state)
         time.sleep(interval_seconds)
 
 def main() -> int:
@@ -190,13 +225,20 @@ def main() -> int:
     parser.add_argument("--hold-max-age-seconds",type=float,default=7200.0)
     parser.add_argument("--lock-file")
     parser.add_argument("--expected-schema-family",default="11.")
+    parser.add_argument("--expected-daemon-id")
+    parser.add_argument("--expected-project-id")
+    parser.add_argument("--failure-state-file")
+    parser.add_argument("--receipt-action",default="TRIGGER_CANONICAL_RECEIVER_TASK")
     args=parser.parse_args()
     lock_fd=None
     if args.daemon and args.lock_file:
         lock_fd=acquire_singleton(Path(args.lock_file))
         if lock_fd is None:return 73
     if args.daemon:
-        return supervise_loop(health_url=args.health_url,task_name=args.task_name,receipt_path=Path(args.receipt),interval_seconds=max(1.0,args.interval_seconds),recovery_seconds=args.recovery_seconds,stop_path=Path(args.stop_file) if args.stop_file else None,max_restarts=max(1,args.max_restarts),restart_window_seconds=max(10.0,args.restart_window_seconds),hold_max_age_seconds=max(60.0,args.hold_max_age_seconds),expected_schema_family=args.expected_schema_family)
+        expected_identity={};
+        if args.expected_daemon_id:expected_identity['daemon_id']=args.expected_daemon_id
+        if args.expected_project_id:expected_identity['project_id']=args.expected_project_id
+        return supervise_loop(health_url=args.health_url,task_name=args.task_name,receipt_path=Path(args.receipt),interval_seconds=max(1.0,args.interval_seconds),recovery_seconds=args.recovery_seconds,stop_path=Path(args.stop_file) if args.stop_file else None,max_restarts=max(1,args.max_restarts),restart_window_seconds=max(10.0,args.restart_window_seconds),hold_max_age_seconds=max(60.0,args.hold_max_age_seconds),expected_schema_family=args.expected_schema_family,expected_identity=expected_identity or None,failure_state_path=Path(args.failure_state_file) if args.failure_state_file else None,receipt_action=args.receipt_action)
     receipt=supervise_once(health_url=args.health_url,task_name=args.task_name,receipt_path=Path(args.receipt),recovery_seconds=args.recovery_seconds)
     print(json.dumps(receipt,sort_keys=True))
     return 0 if receipt.get("healthy_after") else 2

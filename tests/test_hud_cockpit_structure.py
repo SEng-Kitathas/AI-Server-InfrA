@@ -39,7 +39,10 @@ class HudCockpitStructureTests(unittest.TestCase):
         ):
             self.assertIn(token, self.html)
         self.assertIn("approval_challenge", self.js)
-        self.assertIn("approval_handle:challenge.handle", self.js)
+        self.assertIn("continuation.authority_template", self.js)
+        self.assertIn("permit:true", self.js)
+        self.assertIn("sendDispatch(continuationTool,continuation.arguments,authority,continuation.expected_contract_digest)", self.js)
+        self.assertIn("challenge?.handle", self.js)
 
     def test_keyboard_first_navigation_and_presentation_only_tiers_exist(self) -> None:
         self.assertIn("focusCockpitCommand", self.js)

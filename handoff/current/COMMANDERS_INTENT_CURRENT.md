@@ -1018,3 +1018,28 @@ A-042 compact-schema work is limited to current authority projection parity and 
 - Campaign-end surface + Commander Intent audit is mandatory before every campaign closure.
 - Current clone state now includes proactive Daemon service, durable status/events, native Receiver `daemon.health/status/events`, independent Daemon SYSTEM+supervisor task wiring, and real clone-only OOP recovery/maintenance-hold proof.
 - No live Daemon install/promotion occurred; live promotion must not be smuggled in as a clone checkpoint.
+
+
+## COMMANDER INTENT DELTA — CONTINUITY ENFORCEMENT / WINDOWS TELEMETRY / HUD — 2026-09-15
+- Every continuity/context/Commander Intent/shadow document is an enforced operational instrument: keep semantically current AND intelligently surface/use the smallest relevant authoritative slice where/when it provides value. No ritual touch-all, no blind reread, no context flooding.
+- Thread handoff loss/reinvention ends: handoff is a governed lifecycle event with pre-handoff surface/intent/state/evidence verification and fresh-thread rehydrate verification.
+- Windows Event Viewer and Microsoft Defender become standard native evidence/reasoning inputs for server diagnosis and all project failures where process/file/execution/security interference is plausible. They are normal repertoire, not a live semantic afterthought.
+- Defender findings enter causal analysis but are not automatically promoted to cause.
+- Anything not safely/currently embodied gets its own war matrix and hostile run rather than being forgotten.
+- HUD requires a dedicated cockpit/instrument-panel redesign campaign: compress primary operational state and causal/action information, use aviation/spacecraft/fictive donor concepts only after stripping/testing, and never trade representation quality for theme.
+- Current verified outage lineage: screenshot showed HUD alive and Receiver down around 18:59 local; recovered Receiver PID31976 started 19:12:16, ngrok PID37312 started 19:12:30, HUD PID25508 persisted from prior day. Defender Severe ClickFix detection/remediation at 18:43 affected exact PCMMAD soak command; it explains that harness failure but is not yet evidence of the later Receiver outage cause.
+
+
+## CAMPAIGN HIERARCHY CLARIFICATION — 2026-09-15
+- The active parent campaign remains the **GLOBAL INTERACTION WAR CAMPAIGN** against the fully embodied pre-live clone.
+- Continuity enforcement and Windows/Defender telemetry are **inline sub-campaigns / capability tranches inside that same war campaign** because they were directly earned by failures found during it. They do not replace, reset, or close the parent campaign.
+- The parent campaign remains responsible for the unfinished promotion transaction/rollback work, project-handoff authority, HA composition, correlated failure, soak/boundedness, and all previously discovered interaction scars until the whole organism reaches the live-promotion boundary with no unresolved clone-side blocker.
+- HUD cockpit redesign remains a **separate next campaign** after the parent server/global-interaction war campaign closes, unless a HUD defect directly blocks/obscures current recovery evidence and must be fixed inline.
+
+
+## GLOBAL INTERACTION WAR CAMPAIGN CLOSURE — 2026-09-15
+- Parent GLOBAL INTERACTION WAR CAMPAIGN is now CLOSED in clone at the live-promotion boundary after the entire corpus passed under an OS-owned envelope with zero live TCP liveness loss.
+- Closure is not live deployment. Do not infer that Daemon/project handoff/SYSTEM HA topology has been promoted into live.
+- Windows/Defender telemetry and intelligent continuity enforcement are now standard server practices earned inside this parent campaign.
+- Long/global test campaigns must not use synchronous live `execution.run`; use OS-owned jobs/tasks with result and live-identity readback.
+- Next separate campaign is HUD cockpit/instrument-panel redesign and HEaT. Inference/conversation remains deferred.

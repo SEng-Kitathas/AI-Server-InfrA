@@ -76,6 +76,7 @@ from lab_tools_continuity import register_continuity_tools
 from lab_tools_memory import register_memory_tools
 from lab_tools_machine import register_machine_tools
 from lab_tools_daemon import register_daemon_tools
+from lab_tools_windows_telemetry import register_windows_telemetry_tools
 from lab_tools_mutation_authority import project_mutation_scope, register_mutation_authority_tools
 from project_mutation_authority import project_mutation_authority_context
 from research_config import ENABLED_HUNT_MODES, ENABLED_SOURCES, PARSER_VERSION
@@ -1118,6 +1119,11 @@ register_machine_tools(
 )
 
 register_daemon_tools(
+    register_tool,
+    error_cls=LabToolError,
+)
+
+register_windows_telemetry_tools(
     register_tool,
     error_cls=LabToolError,
 )

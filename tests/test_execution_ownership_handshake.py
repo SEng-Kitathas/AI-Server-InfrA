@@ -20,6 +20,8 @@ import execution_routes as er
 if os.name == "nt":
     import windows_job_object as wjo
 
+REAL_PYTHON = getattr(sys, "_base_executable", None) or sys.executable
+
 
 @unittest.skipUnless(os.name == "nt", "Windows ownership-handshake tests")
 class ExecutionOwnershipHandshakeTests(unittest.TestCase):

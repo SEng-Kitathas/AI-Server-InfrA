@@ -462,3 +462,44 @@
 - Broad non-inference regression: 48 test files PASS, compile rc 0, diff rc 0; final focused config/status slice 11/11 PASS.
 - No live/project-control Daemon root or SYSTEM tasks installed. Remaining non-clone boundary is live promotion/safe-window decision. Deferred: inference + HUD.
 - Full record: `DAEMON_NONINFERENCE_RUNTIME_CAMPAIGN_2026-09-15.md`.
+
+
+## LIVE RECOVERY + NEW STANDARD PRACTICES — 2026-09-15 19:14 EDT
+- Live recovered: Receiver port5000 PID31976 start 19:12:16-04:00; ngrok local API PID37312 start 19:12:30; HUD port5090 PID25508 persisted from 2026-09-14. Prior live PID12788 is historical.
+- Screenshot at ~18:59 showed HUD ONLINE but Receiver DOWN/HTTP502; ngrok external path subsequently returned ERR_NGROK_8012 upstream refusal before recovery.
+- Defender Operational 1116 (record2680) at 18:43:42 detected Severe `Trojan:Win32/ClickFix.DAD!MTB` on exact Daemon soak PowerShell command; 1117 record2681 at 18:43:55 reports remediation. `Get-MpThreatDetection` reports ActionSuccess true. Treat as verified campaign interference, not proven cause of later Receiver outage.
+- New commander invariant: continuity/context/intent/shadow surfaces must be both current and intelligently surfaced; no ritual. Handoff is governed. Windows/Defender telemetry becomes standard native evidence. HUD cockpit redesign has dedicated war matrix.
+
+
+## ACTIVE CAMPAIGN HIERARCHY — 2026-09-15
+Parent: GLOBAL INTERACTION WAR CAMPAIGN (fully embodied clone -> pre-live organism beat-down).
+Inline current tranches: (A) intelligent continuity/context/Commander/shadow enforcement; (B) native Windows EventLog/Defender telemetry + project-failure discriminator.
+Still-unfinished parent work from before the interruption: uncommitted global-interaction fixes; promotion transactionality; rollback archive/restore; authoritative project-handoff generations; HA/body-brain/OOP interactions; final full-corpus/global regression; campaign-end surface+Commander audit.
+Next separate campaign after parent closes: HUD cockpit/instrument-panel redesign war. Inference/conversation remains deferred.
+
+
+## SECOND OUTAGE / EXECUTION ISOLATION FINDING — 2026-09-15 20:56 EDT
+- Receiver dropped again during/after a full-corpus run launched through synchronous live `execution.run`; ngrok stayed up and returned ERR_NGROK_8012 until Receiver was manually/recoverably restored. Current Receiver PID22968 start 20:43:09; ngrok PID19772 start 20:43:18; HUD persisted.
+- Windows Application/System/TaskScheduler/Defender query over 20:25-20:46 found no matching new Defender detection or clear OS fault event. This weakens Defender-as-cause for the second outage.
+- Direct test audit found Job Object tests use UUID-scoped Local\PCMMAD_* names and process handles created by the tests; no direct production Receiver kill was found.
+- Earned execution defect: synchronous `run_subprocess_envelope` children lacked Windows `CREATE_NEW_PROCESS_GROUP`; full corpus had KeyboardInterrupt coincident with live Receiver loss. Patched sync/background child creation to isolate process groups.
+- Earned worker defect: execution worker capsule launched through venv Python redirector; all worker-restart scenarios produced KeyboardInterrupt in their supervisor even under OS-owned Scheduled Task. Worker capsule now uses `sys._base_executable` on Windows; resource-envelope kernel tests likewise bypass venv redirector.
+- Qualification after fix: resource-envelope 6/6 PASS; worker restart/recovery 3/3 PASS under OS-owned temp tasks; live Receiver/ngrok identities unchanged.
+- Global/full corpus tests are now prohibited from synchronous `execution.run`; use OS-owned task/job + result-file readback.
+
+
+## GLOBAL WAR FINAL READBACK — 2026-09-15 21:01 EDT
+- Parent Global Interaction War clone qualification: PASS / CLOSED at live-promotion boundary.
+- Final entire corpus ran OS-owned: rc0, 63.0367s, Receiver PID22968 start/end unchanged, 121 TCP liveness samples / 0 down, ngrok PID19772 unchanged.
+- Temp `PCMMAD_HEAT_*` tasks removed; closeout temp listener set empty.
+- Install/rollback PowerShell parse 0 errors; load-bearing Python compile rc0.
+- No live Daemon promotion occurred. Live remains Receiver22968 / ngrok19772 / HUD25508.
+- Next separate campaign: HUD cockpit/instrument-panel war.
+
+
+## FINAL EXACT-TREE QUALIFICATION RECEIPT — 2026-09-15 21:06 EDT
+Entire corpus rc0 in 62.2664s against exact commit tree; Receiver22968 ->22968, ngrok19772 unchanged, TCP liveness 120/120 up. This is the final parent-campaign clone qualification receipt.
+
+
+## POST-EOL FINAL RECEIPT — 2026-09-15 21:10 EDT
+After restoring original newline conventions, entire corpus rc0 / 60.8588s / Receiver22968 unchanged / ngrok19772 unchanged / TCP117/117 up.
