@@ -32,6 +32,15 @@ from lab_results import (
     summarize_payload,
 )
 from server_hardening import safe_json_dumps
+from schema_vnext_runtime import (
+    compose as schema_vnext_compose,
+    execute as schema_vnext_execute,
+    invoke as schema_vnext_invoke,
+    observe as schema_vnext_observe,
+    orient as schema_vnext_orient,
+    resume as schema_vnext_resume,
+    transfer as schema_vnext_transfer,
+)
 from lab_tools import (
     LabToolError,
     dispatch_tool,
@@ -686,3 +695,198 @@ def lab_batch() -> object:
         return _error(e.error_code, e.message, e.status, **e.extra)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError) as e:
         return _error("LAB_BATCH_FAILED", str(e), 500)
+
+_VNEXT_CONTRACT_PATH = Path(__file__).with_name("pcmmad_lab_action_schema_v11_0_capability_microkernel_8.json")
+_VNEXT_CANONICAL = {
+    "orient": ("/lab/vnext/orient", "orientCapabilities"),
+    "invoke": ("/lab/vnext/invoke", "invokeCapability"),
+    "flow": ("/lab/batch", "flowCapabilities"),
+    "compose": ("/lab/vnext/compose", "composePlan"),
+    "execute": ("/lab/vnext/execute", "executePlan"),
+    "observe": ("/lab/vnext/observe", "observeRuntime"),
+    "resume": ("/lab/vnext/resume", "resumeContinuation"),
+    "transfer": ("/lab/vnext/transfer", "transferData"),
+}
+_VNEXT_LEGACY = {
+    "/orient": "orient",
+    "/invoke": "invoke",
+    "/compose": "compose",
+    "/execute": "execute",
+    "/observe": "observe",
+    "/resume": "resume",
+    "/transfer": "transfer",
+    "/vnext/flow": "flow",
+    "/vnext/orientCapabilities": "orient",
+    "/vnext/invokeCapability": "invoke",
+    "/vnext/composePlan": "compose",
+    "/vnext/executePlan": "execute",
+    "/vnext/observeRuntime": "observe",
+    "/vnext/resumeContinuation": "resume",
+    "/vnext/transferData": "transfer",
+}
+
+def _vnext_openapi() -> dict:
+    try:
+        raw=json.loads(_VNEXT_CONTRACT_PATH.read_text(encoding="utf-8-sig"))
+        return raw if isinstance(raw,dict) else {}
+    except Exception:
+        return {}
+
+def _vnext_contract(operation: str) -> dict:
+    canonical,operation_id=_VNEXT_CANONICAL[operation]
+    doc=_vnext_openapi()
+    op=((doc.get("paths") or {}).get(canonical) or {}).get("post") or {}
+    schema=((((op.get("requestBody") or {}).get("content") or {}).get("application/json") or {}).get("schema") or {})
+    ref=str(schema.get("$ref") or "")
+    name=ref.rsplit("/",1)[-1] if ref else None
+    component=((doc.get("components") or {}).get("schemas") or {}).get(name or "") or {}
+    props=component.get("properties") or {}
+    required=component.get("required") or []
+    return {
+        "canonical_path":canonical,
+        "method":"POST",
+        "operation_id":operation_id,
+        "request_schema":name,
+        "required":[str(x) for x in required],
+        "accepted_fields":sorted(str(x) for x in props),
+    }
+
+def _vnext_correction(operation: str, classification: str, status: int=400, *, detail=None):
+    payload={
+        "ok":False,
+        "error_code":"INGRESS_CORRECTION",
+        "classification":classification,
+        "message":"Recognized PCMMAD Action ingress is not in the current accepted shape.",
+        "correction":_vnext_contract(operation),
+        "time":utc_now(),
+    }
+    if detail is not None:
+        payload["detail"]=detail
+    return jsonify(payload),status
+
+@lab_bp.before_request
+def _vnext_shape_guard():
+    path=request.path
+    by_path={meta[0]:op for op,meta in _VNEXT_CANONICAL.items()}
+    operation=by_path.get(path)
+    if operation is None or request.method!="POST":
+        return None
+    ae=_auth()
+    if ae:
+        return ae
+    if not request.is_json:
+        return _vnext_correction(operation,"NON_JSON_CURRENT_CALL",415)
+    body=request.get_json(silent=True)
+    if not isinstance(body,dict):
+        return _vnext_correction(operation,"MALFORMED_CURRENT_CALL",400,detail={"reason":"JSON body must be an object"})
+    contract=_vnext_contract(operation)
+    accepted=set(contract.get("accepted_fields") or [])
+    required=set(contract.get("required") or [])
+    unknown=sorted(set(body)-accepted) if accepted else []
+    missing=sorted(x for x in required if x not in body)
+    if unknown or missing:
+        return _vnext_correction(
+            operation,
+            "MALFORMED_CURRENT_CALL",
+            400,
+            detail={"unknown_fields":unknown,"missing_required":missing},
+        )
+    return None
+
+def _vnext_legacy_view(operation: str):
+    def view():
+        ae=_auth()
+        if ae:
+            return ae
+        return _vnext_correction(
+            operation,
+            "RECOGNIZED_LEGACY_ROUTE",
+            400,
+            detail={"legacy_path":request.path,"received_method":request.method},
+        )
+    return view
+
+def _vnext_wrong_method_view(operation: str):
+    def view():
+        ae=_auth()
+        if ae:
+            return ae
+        return _vnext_correction(
+            operation,
+            "WRONG_METHOD",
+            405,
+            detail={"received_method":request.method},
+        )
+    return view
+
+for _idx,(_route,_operation) in enumerate(_VNEXT_LEGACY.items()):
+    lab_bp.add_url_rule(
+        _route,
+        endpoint=f"_vnext_legacy_{_idx}",
+        view_func=_vnext_legacy_view(_operation),
+        methods=["GET","POST","PUT","PATCH","DELETE"],
+    )
+
+for _idx,(_operation,(_canonical,_opid)) in enumerate(_VNEXT_CANONICAL.items()):
+    _relative=_canonical[len("/lab"):] if _canonical.startswith("/lab") else _canonical
+    lab_bp.add_url_rule(
+        _relative,
+        endpoint=f"_vnext_wrong_method_{_idx}",
+        view_func=_vnext_wrong_method_view(_operation),
+        methods=["GET","PUT","PATCH","DELETE"],
+    )
+
+def _schema_vnext_request_payload() -> JsonRecord:
+    request_payload = request.get_json(silent=False, force=True)
+    if not isinstance(request_payload, dict):
+        raise LabToolError("BAD_JSON", "JSON body must be an object", 400)
+    return request_payload
+
+
+def _schema_vnext_http_call(fn) -> object:
+    ae = _auth()
+    if ae:
+        return ae
+    try:
+        return jsonify(fn(_schema_vnext_request_payload()))
+    except LabToolError as exc:
+        return _error(exc.error_code, exc.message, exc.status, **exc.extra)
+    except FileNotFoundError:
+        return _error("NOT_FOUND", "referenced Runtime object was not found", 404)
+    except (OSError, RuntimeError, ValueError, TypeError, KeyError) as exc:
+        return _error("SCHEMA_VNEXT_FAILED", str(exc), 500)
+
+
+@lab_bp.post("/vnext/orient")
+def lab_vnext_orient() -> object:
+    return _schema_vnext_http_call(schema_vnext_orient)
+
+
+@lab_bp.post("/vnext/invoke")
+def lab_vnext_invoke() -> object:
+    return _schema_vnext_http_call(schema_vnext_invoke)
+
+
+@lab_bp.post("/vnext/compose")
+def lab_vnext_compose() -> object:
+    return _schema_vnext_http_call(schema_vnext_compose)
+
+
+@lab_bp.post("/vnext/execute")
+def lab_vnext_execute() -> object:
+    return _schema_vnext_http_call(schema_vnext_execute)
+
+
+@lab_bp.post("/vnext/observe")
+def lab_vnext_observe() -> object:
+    return _schema_vnext_http_call(schema_vnext_observe)
+
+
+@lab_bp.post("/vnext/resume")
+def lab_vnext_resume() -> object:
+    return _schema_vnext_http_call(schema_vnext_resume)
+
+
+@lab_bp.post("/vnext/transfer")
+def lab_vnext_transfer() -> object:
+    return _schema_vnext_http_call(schema_vnext_transfer)

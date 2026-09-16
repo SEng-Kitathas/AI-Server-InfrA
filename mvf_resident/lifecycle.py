@@ -6,6 +6,7 @@ from typing import Any
 
 from .resident import MVFResident, DutyContract
 from .governance import ResidentGovernance
+from .initiative import AttentionSignal, InquiryEngine
 from .surfaces import audit_continuity_surfaces
 from .continuity_enforcement import plan_surface_use, handoff_gate
 from .scar_intelligence import refresh_index, route_scars
@@ -124,7 +125,45 @@ class ResidentLifecycle:
         scar_index=refresh_index(scar_sources,scar_path)
         scar_context=' '.join([ctx,brief.get('overall_status',''),surface.get('status',''),*(' '.join(str(d.get(k,'')) for k in ('duty_id','subject','commitment','status')) for d in brief['duties']),*(d.get('reason','') for d in brief['duties'] if d.get('status')!='CURRENT')])
         scar_routing=route_scars(scar_index,scar_context,limit=7)
-        state={'schema':'mvf.resident-current-state.v1','portfolio':brief,'surface_audit':surface,'continuity_enforcement':{'surfacing_plan':continuity_plan,'handoff_ready':continuity_gate['ready'],'handoff_failures':continuity_gate['failures'],'handoff_warnings':continuity_gate['warnings'],'campaign_labels':continuity_gate['campaign_labels']},'scar_intelligence':{'index_changed':scar_index['changed'],'scar_count':scar_index['scar_count'],'occurrence_count':scar_index['occurrence_count'],'source_digest':scar_index['source_digest'],'source_dirs':scar_index.get('source_dirs',[]),'source_deficits':scar_index.get('source_deficits',[]),'applicable':scar_routing['selected'],'candidate_count':scar_routing['candidate_count'],'ritual_dump_avoided':scar_routing['ritual_dump_avoided'],'authority':'DERIVED_ROUTING_ONLY'},'evidence_count':len(self.governance.ledger.list()),'deficits':self.governance.deficits.snapshot(),'biography_graph_digest':self.biography.graph_digest(),'mutation_authority':False}
+        initiative_signals=[]
+        for d in brief['duties']:
+            if d.get('status')=='CURRENT': continue
+            sig=self._duty_signature(d);eid=f"duty:{d['duty_id']}:{_digest(sig)}"
+            initiative_signals.append(AttentionSignal(
+                signal_id=f"attention:duty:{d['duty_id']}:{_digest(sig)}",
+                source_kind='duty_currentness',
+                question_key=f"duty:{d['duty_id']}",
+                subject=str(d.get('subject') or d['duty_id']),
+                reason=str(d.get('reason') or d.get('status') or 'non-current duty'),
+                evidence_ids=(eid,) if self.governance.ledger.get(eid) is not None else (),
+                priority=80,
+            ))
+        if surface.get('status')!='CURRENT':
+            seid=f"surface:{_digest(ssig)}"
+            initiative_signals.append(AttentionSignal(
+                signal_id=f"attention:surface:{_digest(ssig)}",
+                source_kind='continuity_surface',
+                question_key='continuity:active-surfaces',
+                subject='continuity active surfaces',
+                reason=str(surface.get('status') or 'non-current continuity surface'),
+                evidence_ids=(seid,) if self.governance.ledger.get(seid) is not None else (),
+                priority=90,
+            ))
+        for raw in scar_index.get('source_deficits',[]) or []:
+            initiative_signals.append(AttentionSignal(
+                signal_id=f"attention:scar:{_digest(raw)}",
+                source_kind='scar_source_deficit',
+                question_key=f"scar-source:{_digest(raw)[:16]}",
+                subject='scar source currentness',
+                reason=str(raw),
+                evidence_ids=(),
+                priority=55,
+            ))
+        initiative=InquiryEngine().reconcile(
+            previous.get('initiative') if isinstance(previous,dict) else None,
+            tuple(initiative_signals),
+        )
+        state={'schema':'mvf.resident-current-state.v1','portfolio':brief,'surface_audit':surface,'continuity_enforcement':{'surfacing_plan':continuity_plan,'handoff_ready':continuity_gate['ready'],'handoff_failures':continuity_gate['failures'],'handoff_warnings':continuity_gate['warnings'],'campaign_labels':continuity_gate['campaign_labels']},'scar_intelligence':{'index_changed':scar_index['changed'],'scar_count':scar_index['scar_count'],'occurrence_count':scar_index['occurrence_count'],'source_digest':scar_index['source_digest'],'source_dirs':scar_index.get('source_dirs',[]),'source_deficits':scar_index.get('source_deficits',[]),'applicable':scar_routing['selected'],'candidate_count':scar_routing['candidate_count'],'ritual_dump_avoided':scar_routing['ritual_dump_avoided'],'authority':'DERIVED_ROUTING_ONLY'},'initiative':initiative,'evidence_count':len(self.governance.ledger.list()),'deficits':self.governance.deficits.snapshot(),'biography_graph_digest':self.biography.graph_digest(),'mutation_authority':False}
         if self.daemon_root is not None:
             daemon_write_current_unlocked(self.daemon_root,state)
         else:
