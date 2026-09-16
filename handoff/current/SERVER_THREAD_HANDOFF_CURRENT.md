@@ -366,3 +366,6 @@ Exact final tree global rc0, 125/125 TCP up, live identities unchanged. Candidat
 
 ## PUBLICATION HARDENING DELTA
 Current source includes bounded Windows transient atomic-replace retry discovered during clean GitHub publication-tree testing. Whole corpus requalified after fix. GitHub integration must use the post-fix commit, not 4411edf as final current.
+
+## GITHUB PUBLICATION COMPLETE
+Remote AI-Server-InfrA/main is verified at `ec1aee65b4f78dd1e000720edfa16ea93b070c2d`. Qualified product source is `29a80d40835025127daf2ea2c6c089f1bec02d58`. Next active operation is safe-window live replacement; no further pre-live feature development.

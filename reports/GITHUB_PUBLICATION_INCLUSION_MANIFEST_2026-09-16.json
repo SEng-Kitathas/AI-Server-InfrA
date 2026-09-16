@@ -1,14 +1,14 @@
 {
   "schema": "pcmmad.github-publication-inclusion.v3",
   "target": "https://github.com/SEng-Kitathas/AI-Server-InfrA.git",
-  "generated_at": "2026-09-16T05:13:31.917487+00:00",
+  "generated_at": "2026-09-16T05:14:41.510680+00:00",
   "historical_github_main": "32328ac65678f1f0df7f04587d27f71dc8c14abb",
   "qualified_current_source": "29a80d40835025127daf2ea2c6c089f1bec02d58",
   "publication_tree_result": {
     "path": "reports/GITHUB_PUBLICATION_TREE_RESULT_2026-09-16.json",
     "sha256": "1b200bf9f6c1058aa7e42f8ce4be9d92b027fa422606667ca88d25b99e0ae4a8"
   },
-  "record_count": 688,
+  "record_count": 690,
   "records": [
     {
       "path": ".pytest_cache/README.md",
@@ -32,8 +32,8 @@
     },
     {
       "path": "CURRENT_BASELINE.md",
-      "bytes": 858,
-      "sha256": "ccec8dbf19b301409882e18fc750c933a5b5f83b307eec5274804bb321b6a5c5"
+      "bytes": 1269,
+      "sha256": "73102c752201edded3ee86893fa2255b344cf3fe04c97b1cce26a7e46d1ca745"
     },
     {
       "path": "CURRENT_INGRESS.md",
@@ -292,8 +292,8 @@
     },
     {
       "path": "handoff/current/COMMANDERS_INTENT_CURRENT.md",
-      "bytes": 78591,
-      "sha256": "23e0df032d3c31ce4f730f28836fa8b27c3d70d23023e4d8227a03df08bd35a2"
+      "bytes": 79175,
+      "sha256": "5cad76c2c3f08491ee3590545b63fddd919344b726e6ab79c829f57313f61b08"
     },
     {
       "path": "handoff/current/CONTINUITY_CONVERGENCE_CLASSIFIER_QUALIFICATION_2026-09-07.md",
@@ -312,8 +312,8 @@
     },
     {
       "path": "handoff/current/CURRENT_STATE.md",
-      "bytes": 76024,
-      "sha256": "2343fcfe0f0e1cbbbc6c95271a39e810df67050376fb662499bfc104d15e768a"
+      "bytes": 76432,
+      "sha256": "c1aee73972c61b97dc862d527ce80bc206d64bec85dbdecc58f50d25ffd0df77"
     },
     {
       "path": "handoff/current/DAEMON_ARCHITECTURE_AUDIT_2026-09-15.md",
@@ -332,8 +332,8 @@
     },
     {
       "path": "handoff/current/DESIGN_THREAD_STREAM.md",
-      "bytes": 229557,
-      "sha256": "cb67bb0eb9b911ed7fd67c2c13b934a1a2c9d7af35dca10855162b6f649cc1ef"
+      "bytes": 230092,
+      "sha256": "8f10f685cfe5f6c6279f8f7c71b63b78b0c192ffd73331f7d58f3934076239a7"
     },
     {
       "path": "handoff/current/DOCTRINE_SNAPSHOT.md",
@@ -352,8 +352,8 @@
     },
     {
       "path": "handoff/current/GIT_PUBLICATION_CURRENT.md",
-      "bytes": 34768,
-      "sha256": "34e1676b6d4b9a152fb31953a4dd71351960a2c0d54969ca472207b462fc8a6d"
+      "bytes": 34872,
+      "sha256": "f557f796a3a1392b5557131439b94f11d083a01c164af2d2637d0b3096f9f438"
     },
     {
       "path": "handoff/current/GLOBAL_INTERACTION_WAR_CAMPAIGN_2026-09-15.md",
@@ -407,18 +407,18 @@
     },
     {
       "path": "handoff/current/LIVE_SHADOW.md",
-      "bytes": 67348,
-      "sha256": "ebaec6270f2f563a054e49c90c4db3843394e67a9f2c141e53eb1f7c4d3f7a83"
+      "bytes": 67930,
+      "sha256": "c7cbf50b314ed8c1b459d22706f3e6d0587f4306f23db4fb23a9ddcbf48ba9b7"
     },
     {
       "path": "handoff/current/NEW_THREAD_HANDOFF_PROMPT_CURRENT.md",
-      "bytes": 39701,
-      "sha256": "9fa95d834f5a5ea71d228ddcb9647c7fb1aa12cc436db11b41acbf7822afd749"
+      "bytes": 40069,
+      "sha256": "e6a572d79bdc24dbecb636de9e8f7440d3483442708f76a7335cac0cfc7b1900"
     },
     {
       "path": "handoff/current/NEXT_STEPS.md",
-      "bytes": 59529,
-      "sha256": "8827fd62e8118bc332f446263b7f5fad8e96191f6eb5936400afa7801bc5c1ae"
+      "bytes": 60138,
+      "sha256": "1d438694d2ef3e726f150cddd9d26629668e56130d623afab14d3b7bb2561ce5"
     },
     {
       "path": "handoff/current/OBE_SKILL_THREAD_RESPONSE_2026-09-08.md",
@@ -432,8 +432,8 @@
     },
     {
       "path": "handoff/current/REVISIT_LEDGER.md",
-      "bytes": 75844,
-      "sha256": "8907e7256cb5bc84b7e1dd4c8951cda06c35bb05b6deb6dee7aa68d9f990eeb4"
+      "bytes": 76134,
+      "sha256": "35aa2a9eaa77811a7bee14bfd571011c393a4f1350d65840070e0ff87291097e"
     },
     {
       "path": "handoff/current/RUNTIME_OBE_SKILLS_DUALITY.md",
@@ -447,13 +447,13 @@
     },
     {
       "path": "handoff/current/SERVER_THREAD_HANDOFF_CURRENT.md",
-      "bytes": 43289,
-      "sha256": "e5bd5b2459754792062b4d6af8fd6a040999bb2c6b68b95e6c057b89f892298f"
+      "bytes": 43576,
+      "sha256": "e441010ea7da1524b1590c0be6486176acc62665768e4138147b879819725ae6"
     },
     {
       "path": "handoff/current/SNAPSHOT_MANIFEST_SHA256.json",
       "bytes": 10730,
-      "sha256": "81e38dcdca66d8201153ca812dde8051acbb55d1e2a41b7542924c66071f5591"
+      "sha256": "c819f4a5dad2050ef5b0b3fc9064569a8fc825a8729952fd4c28d30c27593537"
     },
     {
       "path": "handoff/current/T0_2_PROJECT_REHYDRATION_DOGFOOD_2026-09-08.md",
@@ -462,8 +462,8 @@
     },
     {
       "path": "handoff/current/THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md",
-      "bytes": 36600,
-      "sha256": "864725a1c966c2de72ddc99833accffdf076b30a3f6802143b2aa32d3582994a"
+      "bytes": 37066,
+      "sha256": "c8391a4a979dc43c0a27b6d40644cb25f8bf16fe09f0ad2fd7e77471ccf85b8b"
     },
     {
       "path": "handoff/current/THREAD_ROLLOVER_RECOVERY_2026-09-07.md",
@@ -477,8 +477,8 @@
     },
     {
       "path": "handoff/current/TRACE_MATRIX.md",
-      "bytes": 94227,
-      "sha256": "de1256e2d098d1994c93b717a31e406004327fdc4a782618a85f41c4aeb420e4"
+      "bytes": 94670,
+      "sha256": "2750ec5d8f6e97bc562cff76a5e542c217dffb756ab54a21d56f7bfe61702aad"
     },
     {
       "path": "handoff/current/WHOLE_RUNTIME_CONVERGENCE_AND_OBE_RECONCILIATION_2026-09-08.md",
@@ -2366,6 +2366,16 @@
       "sha256": "0f622c05b44a6ba742c43b3e06c7113aca5ef62b2ddcce91a66503decf6d0a8b"
     },
     {
+      "path": "reports/GITHUB_PUBLICATION_RECEIPT_2026-09-16.json",
+      "bytes": 612,
+      "sha256": "be7b1285295acb8ee13b54eb2f151394b8e956315c230dd5939369c1999a622b"
+    },
+    {
+      "path": "reports/GITHUB_PUBLICATION_RECEIPT_2026-09-16.md",
+      "bytes": 614,
+      "sha256": "f84e4c3b6a4ed8bcf7730d056bb07757da1f22a274bf861043ee9501a5a7e2ab"
+    },
+    {
       "path": "reports/GITHUB_PUBLICATION_TREE_QUALIFICATION_2026-09-16.md",
       "bytes": 584,
       "sha256": "41134abf39f1c1f0bfde2d9ec560023c59fdd59a57f722d8f7654b119586a3c2"
@@ -3466,5 +3476,9 @@
       "path": "__pycache__/ and *.pyc",
       "reason": "generated interpreter artifacts"
     }
-  ]
+  ],
+  "publication_receipt": {
+    "path": "reports/GITHUB_PUBLICATION_RECEIPT_2026-09-16.json",
+    "sha256": "be7b1285295acb8ee13b54eb2f151394b8e956315c230dd5939369c1999a622b"
+  }
 }

@@ -589,3 +589,12 @@ Run whole project corpus OS-owned with live TCP liveness watcher against this ex
 
 ## PUBLICATION REBUILD AFTER WINDOWS RACE FIX
 Seal the post-atomic-retry qualified source commit, rebuild GitHub integration from current remote main using that new commit as the current parent, mark old GitHub implementation historical, rerun exact publication-tree corpus, then push/read back remote HEAD.
+
+## NEXT: LIVE REPLACEMENT
+1. Enter safe/elevated promotion window.
+2. Verify live identities/backups/rollback and browser runtime preflight.
+3. Install qualified current tree and SYSTEM Receiver/ngrok/Daemon/Browser workload+supervisor estate.
+4. Start/read back organism: Receiver, ngrok, Daemon, HUD cognitive cockpit, Browser Bridge BLOCKED standby, continuity/scar currentness and HA budgets.
+5. Exercise explicit Browser ARM/BLOCK and one bounded browser operation.
+6. Verify external-facing ingress, rollback readiness and post-promotion liveness.
+7. End project freeze only after exact live readback.

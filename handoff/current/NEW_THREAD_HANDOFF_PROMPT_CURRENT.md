@@ -332,3 +332,6 @@ Do not reopen old `HUD deferred`, `HUD-ANNUNCIATION OPEN`, or `scar materializat
 
 ## FINAL PUBLICATION REHYDRATE
 Candidate has earned final clone qualification. Do not rerun development unless integration changes product bytes. Next active item is GITHUB-PUBLICATION-FINAL-001 to AI-Server-InfrA, preserving existing publication-worktree changes, then safe-window live replacement with elevated SYSTEM task registration/readback.
+
+## REHYDRATE AFTER GITHUB PUBLICATION
+GitHub publication is complete/read back at `ec1aee65b4f78dd1e000720edfa16ea93b070c2d`. Treat `32328ac65678f1f0df7f04587d27f71dc8c14abb` as historical and `29a80d40835025127daf2ea2c6c089f1bec02d58` as qualified current product lineage. Proceed only with live replacement preparation/promotion unless a new blocker is discovered.

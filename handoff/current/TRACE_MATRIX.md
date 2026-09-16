@@ -600,3 +600,7 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 | research/testing records inventoried for publication | VERIFIED | GITHUB_PUBLICATION_INCLUSION_MANIFEST_2026-09-16.json (334 records) | publication manifest changes |
 
 | Windows atomic handoff replace is immune to transient sharing denial | VERIFIED POST-FIX | focused regression + exact whole corpus rc0 / 132 TCP samples | recurrence/persistent denial |
+
+| GitHub AI-Server-InfrA contains qualified current server | VERIFIED | push + independent ls-remote `ec1aee65b4f78dd1e000720edfa16ea93b070c2d` | remote mutation/new product change |
+| old GitHub baseline is current server | REJECTED | `32328ac65678f1f0df7f04587d27f71dc8c14abb` preserved as historical parent/material only | explicit future promotion |
+| live replacement completed | FALSE | no live deployment yet | safe-window promotion |

@@ -221,3 +221,6 @@ After EOL hygiene, the exact bytes intended for commit passed the entire corpus 
 
 ## 39. Publication-tree Windows race hardening
 Clean GitHub publication-tree testing exposed transient WinError5 in concurrent handoff pointer replacement. Bounded Windows-only replace retry implemented; persistent denial still raises and temp cleanup is verified. Exact post-fix whole corpus rc0 / 70.616s / 132/132 TCP up / live identities unchanged. This post-fix commit will become the current qualified source for GitHub publication.
+
+## 40. GitHub publication complete
+AI-Server-InfrA/main was updated and independently read back at `ec1aee65b4f78dd1e000720edfa16ea93b070c2d`. Qualified current product lineage is `29a80d40835025127daf2ea2c6c089f1bec02d58`; historical GitHub main `32328ac65678f1f0df7f04587d27f71dc8c14abb` remains in ancestry/historical material. Publication tree had already passed full active tests with live identities stable. Active frontier is now LIVE-REPLACEMENT-FINAL-001.

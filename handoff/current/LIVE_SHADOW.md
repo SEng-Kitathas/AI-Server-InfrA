@@ -571,3 +571,11 @@ Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
 - Exact post-fix entire corpus rc0 / 70.616s / Receiver22968 unchanged / ngrok19772 unchanged / HUD25508 unchanged / 132/132 TCP samples up.
 
 Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## GITHUB PUBLICATION READBACK — 2026-09-16
+- Remote `main` push succeeded and independent `ls-remote` returned `ec1aee65b4f78dd1e000720edfa16ea93b070c2d` for both HEAD and refs/heads/main.
+- Qualified product lineage: `29a80d40835025127daf2ea2c6c089f1bec02d58`. Historical prior GitHub main: `32328ac65678f1f0df7f04587d27f71dc8c14abb`.
+- Publication tree exact active tests passed before push; historical research/tests/docs remain browsable under `historical/`.
+- Live Receiver/ngrok/HUD have not yet been replaced.
+
+Active parent campaign: LIVE REPLACEMENT PROMOTION CAMPAIGN

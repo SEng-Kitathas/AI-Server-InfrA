@@ -488,3 +488,6 @@ Recovery pointer: `THREAD_CONTINUITY_CHECKPOINT_2026-09-15.md`.
 - **LIVE-REPLACEMENT-FINAL-001 — PROMOTION-ONLY / PENDING.** Requires elevated SYSTEM task registration and immediate organism readback.
 
 - **WINDOWS-ATOMIC-REPLACE-001 — CLOSED / EARNED.** Clean publication-tree run exposed transient WinError5 during concurrent handoff pointer replace; bounded transient retry implemented and whole corpus requalified. Reopen on recurrence outside retry budget or non-transient rename failure.
+
+- **GITHUB-PUBLICATION-FINAL-001 — CLOSED / VERIFIED.** Qualified final server published to AI-Server-InfrA/main and independently read back.
+- **LIVE-REPLACEMENT-FINAL-001 — ACTIVE PROMOTION BOUNDARY.** Requires elevated SYSTEM registration, organism readback and rollback readiness.

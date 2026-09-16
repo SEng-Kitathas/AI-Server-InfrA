@@ -4354,3 +4354,7 @@ Exact final candidate entire corpus passed OS-owned in 67.187s while live Receiv
 ---
 # PUBLICATION-TREE WINDOWS ATOMIC REPLACE HARDENING — 2026-09-16
 A clean GitHub publication-tree run surfaced a transient WinError5 in concurrent handoff pointer publication. `atomic_json` was hardened with bounded Windows-only retry for transient sharing/access denials while preserving persistent-failure propagation and temp cleanup. Focused regression passed and the entire current source requalified rc0 with 132/132 Receiver TCP samples up and unchanged live identities. This post-fix source supersedes the earlier final candidate for GitHub publication.
+
+---
+# GITHUB PUBLICATION VERIFIED — 2026-09-16
+Qualified source `29a80d40835025127daf2ea2c6c089f1bec02d58` was merged with historical GitHub main `32328ac65678f1f0df7f04587d27f71dc8c14abb` using qualified product tree as current, preserving old GitHub lineage/history and materializing historical research/tests/docs under `historical/`. Publication merge `ec1aee65b4f78dd1e000720edfa16ea93b070c2d` was pushed to AI-Server-InfrA/main and independently read back. GitHub publication closes; active frontier becomes live replacement.

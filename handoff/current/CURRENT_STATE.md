@@ -804,3 +804,8 @@ Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
 Publication integration exposed and repaired a transient Windows atomic replace race in project handoff. Current qualified source includes that fix; prior qualified commit `4411edf...` is superseded as current source once this fix commit is sealed.
 
 Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## GITHUB CURRENT / LIVE PROMOTION NEXT
+GitHub publication is COMPLETE at merge commit `ec1aee65b4f78dd1e000720edfa16ea93b070c2d`. Current product source lineage is `29a80d40835025127daf2ea2c6c089f1bec02d58`. Project freeze now has one remaining operational boundary: safe-window live replacement with elevated SYSTEM task registration/readback.
+
+Active parent campaign: LIVE REPLACEMENT PROMOTION CAMPAIGN

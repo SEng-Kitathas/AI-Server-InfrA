@@ -1106,3 +1106,10 @@ Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
 - `TRANSIENT WINDOWS SHARING DENIAL != ATOMIC WRITE FAILURE`; bounded retry is allowed only for transient access/sharing errors and must preserve fail-closed behavior for persistent/other errors.
 
 Active parent campaign: FINAL GITHUB PUBLICATION AND LIVE REPLACEMENT CAMPAIGN
+
+## GITHUB PUBLICATION COMPLETE — 2026-09-16
+- `AI-Server-InfrA/main` was updated with the qualified current server and independently read back at `ec1aee65b4f78dd1e000720edfa16ea93b070c2d`.
+- Historical GitHub baseline `32328ac65678f1f0df7f04587d27f71dc8c14abb` remains preserved in merge ancestry and historical record namespaces; it is not current server authority.
+- GitHub publication is complete. Remaining active boundary is live replacement with elevated SYSTEM task registration/readback and rollback readiness.
+
+Active parent campaign: LIVE REPLACEMENT PROMOTION CAMPAIGN

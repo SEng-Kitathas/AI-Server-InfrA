@@ -16,3 +16,6 @@ GitHub `main` before final integration was `32328ac65678f1f0df7f04587d27f71dc8c1
 
 ## Publication-tree qualification
 The exact publication tree passed the active test corpus with rc0 in 67.617s while live Receiver/ngrok/HUD identities remained unchanged and 126/126 Receiver TCP samples stayed up.
+
+## Published GitHub baseline
+The qualified server lineage was integrated and independently read back on GitHub at publication merge commit `ec1aee65b4f78dd1e000720edfa16ea93b070c2d`. Product source lineage remains `29a80d40835025127daf2ea2c6c089f1bec02d58`; the publication commit adds Git ancestry/history records and publication metadata without replacing that qualified product tree.
