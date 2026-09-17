@@ -5,6 +5,7 @@ compatibility; both native and legacy adapters call that one transaction.
 """
 from __future__ import annotations
 from typing import Any, Callable
+from project_mutation_authority import current_project_mutation_authority
 
 
 def register_artifact_commit_tools(register_tool: Callable[..., Any], *, error_cls: type[Exception]) -> None:
@@ -46,7 +47,11 @@ def register_artifact_commit_tools(register_tool: Callable[..., Any], *, error_c
     def tool_project_artifact_commit(payload):
         try:
             from legacy_routes import LegacyIdempotencyError, commit_artifact_transaction
-            return commit_artifact_transaction(payload, acquire_guard=False)
+            body = dict(payload)
+            authority = current_project_mutation_authority()
+            if authority is not None:
+                body["mutation_authority"] = authority
+            return commit_artifact_transaction(body, acquire_guard=False)
         except PermissionError as exc:
             raise error_cls("HASH_MISMATCH", str(exc), 409) from exc
         except ArithmeticError as exc:

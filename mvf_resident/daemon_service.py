@@ -154,6 +154,109 @@ class DaemonService:
         routing=route_scars(index,context,limit=limit)
         return {'schema':'mvf.daemon-scar-route.v1','ok':True,'status':'current','daemon_id':self.daemon_id,'project_id':self.project_id,'routing':routing,'source_deficits':index.get('source_deficits',[]),'mutation_authority':False}
 
+    _DEFAULT_CONTEXT_SURFACES = (
+        {"alias":"live_shadow","path":"continuity/live_shadow/LIVE_SHADOW.md","artifact_class":"continuity.live_shadow","logical_name":"LIVE_SHADOW.md"},
+        {"alias":"design_thread","path":"continuity/design_thread_stream/DESIGN_THREAD_STREAM.md","artifact_class":"continuity.design_thread_stream","logical_name":"DESIGN_THREAD_STREAM.md"},
+    )
+
+    def _receiver_read(self, name: str, payload: dict[str, Any]):
+        try:
+            result = self.dispatch(name, payload)
+            return {"ok": True, "tool": name, "result": self._bounded(result, max_string=8192, max_items=96)}
+        except Exception as exc:
+            return {"ok": False, "tool": name, "error": str(self._bounded(f"{type(exc).__name__}: {exc}"))}
+
+    @classmethod
+    def _surface_specs(cls, surfaces):
+        requested=[str(item or '').strip() for item in (surfaces or []) if str(item or '').strip()]
+        if not requested:
+            return [dict(item) for item in cls._DEFAULT_CONTEXT_SURFACES]
+        known={}
+        for item in cls._DEFAULT_CONTEXT_SURFACES:
+            for key in (item['alias'],item['path'],item['artifact_class']): known[key]=item
+        out=[];seen=set()
+        for raw in requested[:8]:
+            item=known.get(raw)
+            if item is not None:
+                spec=dict(item)
+            else:
+                path=raw.replace(chr(92),'/').lstrip('/')
+                parts=[part for part in path.split('/') if part]
+                if not parts or '..' in parts or ':' in path or len(path)>240:
+                    continue
+                spec={"alias":path,"path":path,"artifact_class":None,"logical_name":None}
+            if spec['path'] not in seen:
+                seen.add(spec['path']);out.append(spec)
+        return out
+
+    def context_capsule(self, *, surfaces=None, context: str=''):
+        specs=self._surface_specs(surfaces)
+        rows=[]
+        for spec in specs:
+            read=self._receiver_read('project.files.read',{'project_id':self.project_id,'path':spec['path'],'max_bytes':8192})
+            convergence=None
+            if spec.get('artifact_class') and spec.get('logical_name'):
+                convergence=self._receiver_read('continuity.convergence.inspect',{'project_id':self.project_id,'artifact':{'artifact_class':spec['artifact_class'],'logical_name':spec['logical_name']}})
+            rows.append({**spec,'read':read,'convergence':convergence})
+        provenance=self._receiver_read('project.provenance.status',{'project_id':self.project_id})
+        root=self._receiver_read('project.provenance.root',{'project_id':self.project_id})
+        scar_context=(str(context or '').strip() or ' '.join(spec['path'] for spec in specs))[:2000]
+        scars=self.scar_route(scar_context,3)
+        return self._bounded({
+            'schema':'mvf.daemon-context-capsule.v1','ok':True,'status':'current','daemon_id':self.daemon_id,'project_id':self.project_id,
+            'surfaces':rows,'provenance':provenance,'project_provenance_root':root,'scar_routing':scars,
+            'selection':{'requested_count':len(list(surfaces or [])) if surfaces else 0,'selected_count':len(specs),'policy':'explicit_or_core_continuity_defaults'},
+            'mutation_authority':False,
+        },max_string=8192,max_items=128)
+
+    def continuity_drift(self, *, surfaces=None):
+        capsule=self.context_capsule(surfaces=surfaces,context='continuity drift')
+        drift=[]
+        for row in capsule.get('surfaces',[]):
+            conv=row.get('convergence') or {}
+            result=conv.get('result') if isinstance(conv,dict) else None
+            if not isinstance(result,dict):
+                drift.append({'surface':row.get('path'),'status':'unknown','reason':'convergence_unavailable'});continue
+            status=str(result.get('status') or 'unknown')
+            if status!='converged': drift.append({'surface':row.get('path'),'status':status,'reason':'continuity_not_converged'})
+        prov=capsule.get('provenance') or {};prov_result=prov.get('result') if isinstance(prov,dict) else None
+        if isinstance(prov_result,dict) and prov_result.get('ok') is not True:
+            drift.append({'surface':'system/provenance/events.jsonl','status':'invalid','reason':'provenance_verification_failed'})
+        return self._bounded({'schema':'mvf.daemon-continuity-drift.v1','ok':True,'status':'current' if not drift else 'attention','daemon_id':self.daemon_id,'project_id':self.project_id,'drift':drift,'capsule_basis':capsule.get('selection'),'mutation_authority':False})
+
+    def semantic_impact(self, *, context: str, surfaces=None, limit: int=3):
+        text=str(context or '').strip()[:4000]
+        lower=text.casefold();planes=[]
+        rules=(
+            ('runtime_recovery',('restart','supervisor','ngrok','receiver','quiescence')),
+            ('continuity',('continuity','shadow','handoff','rollover','checkpoint','provenance')),
+            ('source_control',('git','publish','commit','repository','repo')),
+            ('daemon_mvf',('daemon','mvf','cognitive','resident')),
+            ('browser',('browser','arm','bridge')),
+            ('research',('research','evidence','synthesis')),
+        )
+        for plane,terms in rules:
+            if any(term in lower for term in terms): planes.append(plane)
+        if not planes: planes=['project_state']
+        checks=['hash_currentness','provenance_lineage','exact_consequence_readback']
+        if 'runtime_recovery' in planes: checks += ['process_tree_quiescence','supervisor_identity','fixed_public_url']
+        if 'continuity' in planes: checks += ['surface_convergence','handoff_currentness']
+        if 'source_control' in planes: checks += ['remote_head_readback','qualification_receipt_currentness']
+        capsule=self.context_capsule(surfaces=surfaces,context=text)
+        scars=self.scar_route(text,max(1,min(int(limit),7)))
+        return self._bounded({'schema':'mvf.daemon-semantic-impact.v1','ok':True,'status':'advisory','daemon_id':self.daemon_id,'project_id':self.project_id,'context':text,'affected_planes':planes,'required_checks':list(dict.fromkeys(checks)),'scar_routing':scars,'context_basis':capsule,'advisory_only':True,'mutation_authority':False},max_string=8192,max_items=128)
+
+    def handoff_capsule(self, *, surfaces=None):
+        capsule=self.context_capsule(surfaces=surfaces,context='handoff rollover recovery continuity')
+        status=self._status_snapshot()
+        compact=status.get('compact') if isinstance(status,dict) else None
+        unresolved=[]
+        if isinstance(compact,dict):
+            for key in ('attention','decisions_required','open_seams'):
+                value=compact.get(key)
+                if isinstance(value,list): unresolved.extend(value[:16])
+        return self._bounded({'schema':'mvf.daemon-handoff-capsule.v1','ok':True,'status':'current','daemon_id':self.daemon_id,'project_id':self.project_id,'context_capsule':capsule,'daemon_status':status,'unresolved_attention':unresolved[:32],'handoff_basis':{'source':'authoritative_receiver_reads_plus_resident_state','provenance_required':True},'mutation_authority':False},max_string=8192,max_items=160)
+
     def health(self):
         plane=audit_daemon_plane(self.daemon_root);now_mono=time.monotonic();age=None if self.last_cycle_monotonic is None else max(0.0,now_mono-self.last_cycle_monotonic)
         uptime=max(0.0,now_mono-self.started_monotonic);grace=max(self.interval*3,30.0);initiative_alive=self._thread is not None and self._thread.is_alive();first_cycle_ok=(self.last_cycle_monotonic is not None) or uptime<=grace
@@ -186,12 +289,23 @@ class _Handler(BaseHTTPRequestHandler):
         raw=json.dumps(obj,sort_keys=True,separators=(',',':')).encode('utf-8');self.send_response(code);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(raw)));self.end_headers();self.wfile.write(raw)
     def do_GET(self):
         svc=self.server.daemon_service
-        if self.path=='/health':
+        parsed=urlsplit(self.path); path=parsed.path; q=parse_qs(parsed.query)
+        if path=='/health':
             snapshot=svc.health();self._send(200 if snapshot['ok'] else 503,snapshot);return
-        if self.path=='/status':self._send(200,svc.status());return
-        if self.path=='/events':self._send(200,{'schema':'mvf.daemon-events.v1','ok':True,'daemon_id':svc.daemon_id,'project_id':svc.project_id,'mutation_authority':False,'events':svc.event_rows(limit=50)});return
-        if self.path.startswith('/scars/route'):
-            q=parse_qs(urlsplit(self.path).query);context=str((q.get('context') or [''])[0])
+        if path=='/status':self._send(200,svc.status());return
+        if path=='/events':self._send(200,{'schema':'mvf.daemon-events.v1','ok':True,'daemon_id':svc.daemon_id,'project_id':svc.project_id,'mutation_authority':False,'events':svc.event_rows(limit=50)});return
+        if path=='/context/capsule':
+            body=svc.context_capsule(surfaces=q.get('surface',[]),context=str((q.get('context') or [''])[0]));self._send(200,body);return
+        if path=='/continuity/drift':
+            body=svc.continuity_drift(surfaces=q.get('surface',[]));self._send(200,body);return
+        if path=='/semantic/impact':
+            try: limit=int((q.get('limit') or ['3'])[0])
+            except Exception: limit=3
+            body=svc.semantic_impact(context=str((q.get('context') or [''])[0]),surfaces=q.get('surface',[]),limit=limit);self._send(200,body);return
+        if path=='/handoff/capsule':
+            body=svc.handoff_capsule(surfaces=q.get('surface',[]));self._send(200,body);return
+        if path=='/scars/route':
+            context=str((q.get('context') or [''])[0])
             try:limit=int((q.get('limit') or ['3'])[0])
             except Exception:limit=3
             body=svc.scar_route(context,limit);self._send(200 if body.get('ok') else 503,body);return

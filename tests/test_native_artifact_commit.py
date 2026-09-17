@@ -39,3 +39,18 @@ def test_native_capability_registered_and_legacy_route_delegates():
     tail=src[src.index('@legacy_bp.post("/commit")'):]
     assert "commit_artifact_transaction" in tail
     assert "_finalize_prepared_legacy_commit" not in tail
+
+def test_native_artifact_commit_injects_current_mutation_authority(monkeypatch,tmp_path):
+    monkeypatch.setattr(shared_core,"PROJECTS_ROOT",tmp_path)
+    import lab_tools_artifact_commit as lac
+    handlers={}
+    class E(Exception):
+        def __init__(self,code,message,status,*args,**kwargs): self.code=code;self.message=message;self.status=status
+    def register(name,*args,**kwargs):
+        def deco(fn): handlers[name]=fn; return fn
+        return deco
+    lac.register_artifact_commit_tools(register,error_cls=E)
+    authority={"project_id":"TXTEST","mode":"lease","generation":82,"owner_id":"pcmmad-lab","lease_id":"lease-test"}
+    monkeypatch.setattr(lac,"current_project_mutation_authority",lambda: authority)
+    result=handlers["project.artifact.commit"](payload("authority\n",key="authority",commit="authority"))
+    assert result["provenance"]["mutation_generation"]==82

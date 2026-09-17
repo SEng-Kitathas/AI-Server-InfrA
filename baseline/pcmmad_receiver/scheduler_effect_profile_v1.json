@@ -1,6 +1,6 @@
 {
-  "capability_count": 137,
-  "catalog_digest": "1b86f3b4d334b91689fd988df794e5d99bb39e2abdb44f8296afd8dc85183b78",
+  "capability_count": 141,
+  "catalog_digest": "0581817b10b8b4bd6310dd622372ae2960d8b5e110eb6db19711b966aa2ad42f",
   "cost_semantics": "static admission units; exact/computable but not a wall-time SLA",
   "declared_effect_class_is_effect_truth": false,
   "descriptive_effect_traits_are_scheduler_authority": false,
@@ -547,6 +547,54 @@
       "static_cost_units": 10
     },
     {
+      "contract_digest": "027b0074672b7699f4d4a4ea6ae0a894f5736f1d6d774cd6e3da3ad1ecdfeff2",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "daemon.context.capsule",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "282be5d51d4df57d7847b581322111f98af3be66b13519a1e068ebe6546d4b02",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "daemon.continuity.drift",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
       "contract_digest": "6586eec7f7404288838c603b6a0066c3f641b4a5b8b649857a7c8546e595c631",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
@@ -571,6 +619,30 @@
       "static_cost_units": 10
     },
     {
+      "contract_digest": "7bd24b54ca529262754a84f1990be7be31c6b4a8c47ab93ba243490d2024f31a",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "daemon.handoff.capsule",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
       "contract_digest": "ae9514f2136815b2cd62606c490f920c559bd2b4f3905fe0fc223fc6d51e765e",
       "declared_effect_kind": "READ_LOCAL",
       "effect_kind": "UNVERIFIED",
@@ -587,6 +659,30 @@
       ],
       "mutating": false,
       "name": "daemon.health",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "cba2077aa954b99a2ef6c5bea7f49d5b6778157f32b7cee96f850132c5c012b5",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "daemon.semantic.impact",
       "parallel_witness": null,
       "resume_replay_class": "RECOMPOSE_REQUIRED",
       "resume_replay_witness": null,
@@ -3316,7 +3412,7 @@
     "USER_CONTINUITY"
   ],
   "parallel_default": "SERIAL",
-  "profile_digest": "0b8cea7abd9db43e068f996f1c6d4fc7c57de2b04380bf4663da20f49f4bffb9",
+  "profile_digest": "ea7550034160bc9f3d1005204b42e0ff1ed311ec1eed1cff27480616d73d6cae",
   "resume_replay_classes": [
     "RECOMPOSE_REQUIRED",
     "REEXECUTE_READ_VERIFIED"
