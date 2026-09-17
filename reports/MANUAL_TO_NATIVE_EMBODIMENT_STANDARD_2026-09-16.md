@@ -47,3 +47,7 @@ Embody authoritative semantics once, then expose adapters. New machinery must re
 - mutation hidden behind read/plan labels
 - chat memory used as workflow state
 - weakening gates to make automation green
+## Continuity provenance law
+**PERSISTENT PROJECT STATE WITHOUT PROVENANCE LINEAGE != COMPLETE CONTINUITY.**
+
+Every governed create/update/append must emit an authoritative project provenance event with both project-wide and per-surface predecessor links. Derived Merkle roots/proofs establish recorded lineage and append consistency only; they are not signatures, external trust, or hostile-storage guarantees. Handoff, rollover, context checkpoints, qualification receipts, and other persistent cognition/workflow surfaces must become governed artifact classes or checkpoint members so they cannot bypass lineage.

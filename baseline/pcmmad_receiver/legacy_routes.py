@@ -43,6 +43,7 @@ from shared_core import (
 )
 
 from runtime_axioms import constitutional_seed
+from provenance_store import append_event as append_provenance_event, find_event as find_provenance_event
 
 legacy_bp = Blueprint("legacy", __name__, url_prefix="")
 
@@ -526,10 +527,43 @@ def _legacy_commit_record(
     )
 
 
+def _record_provenance(
+    request_model: LegacyCommitRequest,
+    *,
+    before_sha: str | None,
+    after_sha: str,
+    bytes_before: int | None,
+    bytes_after: int,
+) -> JsonObject:
+    plan_model = request_model.plan
+    generation = None
+    if isinstance(request_model.mutation_authority, dict):
+        try:
+            generation = int(request_model.mutation_authority.get("generation"))
+        except (TypeError, ValueError):
+            generation = None
+    return append_provenance_event(
+        project_id=plan_model.project_id,
+        artifact_class=plan_model.artifact_class,
+        logical_name=plan_model.logical_name,
+        operation=plan_model.operation,
+        before_sha256=before_sha,
+        after_sha256=after_sha,
+        bytes_before=bytes_before,
+        bytes_after=bytes_after,
+        commit_id=request_model.commit_id,
+        idempotency_key=request_model.idempotency_key,
+        session_id=request_model.session_id,
+        mutation_generation=generation,
+        project_root=get_project_root(plan_model.project_id),
+    )
+
+
 def _apply_legacy_commit(
     request_model: LegacyCommitRequest, validation: LegacyValidationResult
 ) -> CommitLedgerRecord:
     plan_model = request_model.plan
+    bytes_before = validation.target.stat().st_size if validation.target.exists() else None
     _write_legacy_content(validation.target, plan_model.operation, plan_model.content)
     final_sha = sha256_file(validation.target)
     size_bytes = validation.target.stat().st_size
@@ -544,6 +578,13 @@ def _apply_legacy_commit(
     )
     record = _legacy_commit_record(request_model, validation.target, final_sha, size_bytes)
     append_jsonl(commits_ledger_path_for(plan_model.project_id), record)
+    _record_provenance(
+        request_model,
+        before_sha=validation.current_sha,
+        after_sha=final_sha,
+        bytes_before=bytes_before,
+        bytes_after=size_bytes,
+    )
     return record
 
 
@@ -576,6 +617,14 @@ def _finalize_prepared_legacy_commit(
         else:
             record = _legacy_commit_record(request_model, target, final_sha, size_bytes)
             append_jsonl(commits_ledger_path_for(plan.project_id), record)
+        if find_provenance_event(plan.project_id, commit_id=request_model.commit_id, project_root=get_project_root(plan.project_id)) is None:
+            _record_provenance(
+                request_model,
+                before_sha=entry.get("before_sha256"),
+                after_sha=final_sha,
+                bytes_before=None,
+                bytes_after=size_bytes,
+            )
     idem = get_idempotency(plan.project_id)
     idem[request_model.idempotency_key] = _committed_idempotency_entry(entry, record)
     save_idempotency(plan.project_id, idem)
@@ -629,13 +678,15 @@ def _commit_artifact_under_guard(request_model: LegacyCommitRequest) -> JsonObje
     existing = idem.get(request_model.idempotency_key)
     if existing is not None:
         record, replayed = _replay_or_resume_legacy_commit(request_model, existing)
-        return {"ok": True, "replayed": replayed, **record.to_dict()}
+        provenance = find_provenance_event(request_model.plan.project_id, commit_id=request_model.commit_id, project_root=get_project_root(request_model.plan.project_id))
+        return {"ok": True, "replayed": replayed, **record.to_dict(), "provenance": provenance}
     validation = _validate_legacy_plan(request_model.plan)
     prepared = _prepared_idempotency_entry(request_model, validation)
     idem[request_model.idempotency_key] = prepared
     save_idempotency(request_model.plan.project_id, idem)
     record = _finalize_prepared_legacy_commit(request_model, prepared, apply_effect=True)
-    return {"ok": True, "replayed": False, **record.to_dict()}
+    provenance = find_provenance_event(request_model.plan.project_id, commit_id=request_model.commit_id, project_root=get_project_root(request_model.plan.project_id))
+    return {"ok": True, "replayed": False, **record.to_dict(), "provenance": provenance}
 
 
 def commit_artifact_transaction(payload: JsonObject, *, acquire_guard: bool = True) -> JsonObject:

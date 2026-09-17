@@ -1,6 +1,6 @@
 {
-  "capability_count": 133,
-  "catalog_digest": "fdf5073ef262d231424713202f78539dabd3a87e9151785ee3e85a118e696ae8",
+  "capability_count": 137,
+  "catalog_digest": "1b86f3b4d334b91689fd988df794e5d99bb39e2abdb44f8296afd8dc85183b78",
   "cost_semantics": "static admission units; exact/computable but not a wall-time SLA",
   "declared_effect_class_is_effect_truth": false,
   "descriptive_effect_traits_are_scheduler_authority": false,
@@ -2227,6 +2227,102 @@
       "static_cost_units": 10
     },
     {
+      "contract_digest": "f7abc4a967234c7fb40d7505b548250addc51a47173ac304d237909967630de4",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "project.provenance.consistency",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "f003b06ebc1cb035678ca1b5d7ff77d45e0887da81e3d1e7476fc3e1ae772d59",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "project.provenance.inclusion",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "06c8fd61213b087958f9f5b3df8a95a6faf654e6e6f81d4b73d64dc8550a89a3",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "project.provenance.root",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
+      "contract_digest": "c12707fabd618b998eaef366f9290c0549eb964ce1056b8d555624764f66b364",
+      "declared_effect_kind": "READ_LOCAL",
+      "effect_kind": "UNVERIFIED",
+      "effect_truth_verified": false,
+      "effect_truth_witness": null,
+      "effective_approval_required": false,
+      "freshness_classes": [
+        "CAPABILITY_CONTRACT",
+        "EXTERNAL_STATE",
+        "PROJECT_STATE",
+        "RESULT_STATE",
+        "RUNTIME_STATE",
+        "USER_CONTINUITY"
+      ],
+      "mutating": false,
+      "name": "project.provenance.status",
+      "parallel_witness": null,
+      "resume_replay_class": "RECOMPOSE_REQUIRED",
+      "resume_replay_witness": null,
+      "retry_class": "SAFE_REPEAT",
+      "schedule_class": "SERIAL",
+      "static_cost_units": 10
+    },
+    {
       "contract_digest": "27103dfc9c0838f929b1a7fcd3e04241a99ebf49a914ca2166db44b8216e44a6",
       "declared_effect_kind": "MUTATION",
       "effect_kind": "UNVERIFIED",
@@ -3220,7 +3316,7 @@
     "USER_CONTINUITY"
   ],
   "parallel_default": "SERIAL",
-  "profile_digest": "1bbb30b4f9e8cc4de19b02fa1e6b7ec760b76190e67ed2700ee9449da952f6b8",
+  "profile_digest": "0b8cea7abd9db43e068f996f1c6d4fc7c57de2b04380bf4663da20f49f4bffb9",
   "resume_replay_classes": [
     "RECOMPOSE_REQUIRED",
     "REEXECUTE_READ_VERIFIED"
