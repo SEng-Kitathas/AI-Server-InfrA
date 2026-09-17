@@ -161,8 +161,33 @@ class DaemonService:
 
     def _receiver_read(self, name: str, payload: dict[str, Any]):
         try:
-            result = self.dispatch(name, payload)
-            return {"ok": True, "tool": name, "result": self._bounded(result, max_string=8192, max_items=96)}
+            dispatched = self.dispatch(name, payload)
+            result = dispatched
+            envelope_meta = None
+            if (
+                isinstance(dispatched, dict)
+                and str(dispatched.get("tool") or "") == name
+                and "result" in dispatched
+                and "ok" in dispatched
+            ):
+                if dispatched.get("ok") is not True:
+                    return {
+                        "ok": False,
+                        "tool": name,
+                        "error": str(dispatched.get("error") or dispatched.get("message") or "RECEIVER_TOOL_NOT_OK"),
+                    }
+                result = dispatched.get("result")
+                envelope_meta = {
+                    key: dispatched.get(key)
+                    for key in ("tool", "danger_tier", "policy_mode", "approved", "time", "warning")
+                    if key in dispatched and dispatched.get(key) is not None
+                }
+            return {
+                "ok": True,
+                "tool": name,
+                "result": self._bounded(result, max_string=8192, max_items=96),
+                "receiver_envelope": self._bounded(envelope_meta, max_string=1024, max_items=16) if envelope_meta else None,
+            }
         except Exception as exc:
             return {"ok": False, "tool": name, "error": str(self._bounded(f"{type(exc).__name__}: {exc}"))}
 

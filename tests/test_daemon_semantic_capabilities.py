@@ -47,3 +47,36 @@ def test_receiver_daemon_adapters_register_semantic_tools():
     with patch.object(ltd,'_get',return_value={'schema':'mvf.daemon-semantic-impact.v1','ok':True,'daemon_id':'pcmmad-daemon','project_id':'RECEIVER-LAB','mutation_authority':False}):
         out=handlers['daemon.semantic.impact']({'context':'restart receiver'})
         assert out['mutation_authority'] is False
+
+class EnvelopeDispatch(FakeDispatch):
+    def __call__(self,name,payload):
+        inner=super().__call__(name,payload)
+        return {
+            'ok':True,
+            'tool':name,
+            'danger_tier':'low',
+            'policy_mode':'strict',
+            'approved':False,
+            'time':'2026-09-17T00:00:00+00:00',
+            'result':inner,
+        }
+
+
+def test_resident_unwraps_receiver_tool_envelope_before_reasoning(tmp_path):
+    svc=DaemonService(
+        daemon_root=tmp_path/'daemon',
+        handoff_dir=tmp_path/'handoff',
+        project_id='RECEIVER-LAB',
+        daemon_id='pcmmad-daemon',
+        dispatch=EnvelopeDispatch(),
+        interval_seconds=999,
+    )
+    capsule=svc.context_capsule(context='continuity drift')
+    convergence=capsule['surfaces'][0]['convergence']
+    assert convergence['result']['status']=='converged'
+    assert convergence['receiver_envelope']['tool']=='continuity.convergence.inspect'
+    provenance=capsule['provenance']
+    assert provenance['result']['ok'] is True
+    drift=svc.continuity_drift()
+    assert drift['status']=='current'
+    assert drift['drift']==[]
